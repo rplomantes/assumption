@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CtrCollgeOtherFee extends Model
+class CtrCollegeOtherFee extends Model
 {
     //
 }

@@ -15,7 +15,7 @@ class CreateCtrCollegeTuitionFeesTable extends Migration
     {
         Schema::create('ctr_college_tuition_fees', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('progran_code');
+            $table->string('program_code');
             $table->string('level');
             $table->string('period');
             $table->decimal('per_unit',10,2)->nullable();

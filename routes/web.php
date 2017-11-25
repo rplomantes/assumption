@@ -17,3 +17,7 @@ Route::get('/', function () {
 */
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
+
+//Registrar College Curriculum Management
+Route::get('/registrar_college/curriculum_management/curriculum', 'RegistrarCollege\CurriculumManagement\CurriculumController@index');
+Route::get('/registrar_college/curriculum_management/view_curricula/{program_code}', 'RegistrarCollege\CurriculumManagement\CurriculumController@viewcurricula');

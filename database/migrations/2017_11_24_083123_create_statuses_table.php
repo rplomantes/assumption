@@ -22,7 +22,7 @@ class CreateStatusesTable extends Migration
             $table->integer('is_new')->default(1);
             $table->integer('status')->default(0);
             $table->string('academic_type');
-            $table->string('deparment');
+            $table->string('department');
             $table->string('program_code')->nullable();
             $table->string('program_name')->nullable();
             $table->string('track')->nullable();

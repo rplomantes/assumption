@@ -86,7 +86,7 @@
                                     <option value="11">MISEL</option>
                                     <option value="12">MSBMW</option>
                                     <option value="20">Registrar College</option>
-                                    <option value="21">Registrar Basic Ed</option>
+                                    <option value="21">Registrar Basic Education</option>
                                     <option value="30">Accounting Head</option>
                                     <option value="31">Accounting Staff</option>
                                     <option value="40">Cashier</option>
