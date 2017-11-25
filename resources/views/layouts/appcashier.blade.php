@@ -186,6 +186,9 @@ desired effect
                        document.getElementById('logout-form').submit();">
                        <span><i class="fa fa-sign-out"></i> Logout</span>
                     </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                   </form>
                 </div>
               </li>
             </ul>
