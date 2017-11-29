@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 */
+
+include_once 'web2.php';
+
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 

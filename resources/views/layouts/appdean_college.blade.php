@@ -14,20 +14,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Assumption College - Cashier</title>
+  <title>Assumption College - Dean College</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap','dist','css','bootstrap.min.css'))}}">
+  <link rel="stylesheet" href="{{url("/bower_components",array("bootstrap","dist","css","bootstrap.min.css"))}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{url("/bower_components",array("font-awesome","css","font-awesome.min.css"))}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{url("/bower_components",array("Ionicons","css","ionicons.min.css"))}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{url("dist",array("css","AdminLTE.min.css"))}}">
+  <link rel="stylesheet" href="{{url("/dist",array("css","AdminLTE.min.css"))}}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="{{url("dist",array("css","skins","skin-blue.min.css"))}}">
+  <link rel="stylesheet" href="{{url("/dist",array("css","skins","skin-blue.min.css"))}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -69,9 +69,9 @@ desired effect
     <!-- Logo -->
     <a href="{{url('/')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>C</b>AS</span>
+      <span class="logo-mini"><b>A</b>CA</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>C</b>ASHIER</span>
+      <span class="logo-lg"><b>Dean</b>COLLEGE</span>
     </a>
 
     <!-- Header Navbar -->
@@ -164,9 +164,9 @@ desired effect
               <!-- The user image in the menu -->
               <li class="user-header">
                @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
+              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
                         @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
+                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
                         @endif
 
                 <p>
@@ -230,17 +230,16 @@ desired effect
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-        <li><a href="{{url("/cashier",array('setreceipt',Auth::user()->idno))}}"><i class="fa fa-link"></i> <span>Set Receipt No</span></a></li>
-        <li><a href="{{url("/cashier",array('otherpayment'))}}"><i class="fa fa-link"></i> <span>Other Payment</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>Student List</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Reports</span>
+          <a href="#"><i class="fa fa-link"></i> <span>Statistics</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Collection Report</a></li>
-            <li><a href="#">Deposit Slips</a></li>
+            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">Link in level 2</a></li>
           </ul>
         </li>
       </ul>

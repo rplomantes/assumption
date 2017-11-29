@@ -1,4 +1,4 @@
-@extends('layouts.appcashier')
+@extends('layouts.appdean_college')
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -37,43 +37,47 @@
 @section('header')
 <section class="content-header">
       <h1>
-        Search Student
-        <small></small>
+        Dashboard
+        <small>Search student</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Here</li>
+        <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Search student</li>
       </ol>
 </section>
 @endsection
 @section('maincontent')
  <!-- search form (Optional) -->
- <div class="col-md-12">
-        
-     <input type="text" id="search" class="form-control" placeholder="Search...">
-        
-     <div id="displaystudent">
-     </div>    
- </div>    
+      
+    
+        <div class="col-md-12">
+          <input type="text" id="search" class="form-control" placeholder="Search...">
+     
+            <div id="studentlist">
+            </div>    
+        </div>    
+      <!-- /.search form -->
+     
 @endsection
 @section('footerscript')
 <script>
     $(document).ready(function(){
-       $("#search").on('keypress',function(e){
-          if(e.keyCode==13){
-              var array={};
-              array['search'] = $("#search").val();
-              $.ajax({
-                  type:"GET",
-                  url:"/cashier/ajax/getstudentlist",
-                  data:array,
-                  success:function(data){
-                   $("#displaystudent").html(data)
-                   $("#search").val("");
-                  }
-              })
-          } 
-       }); 
+
+        $("#search").on('keypress',function(e){
+        if(e.keyCode==13){
+          var array={};  
+          array['search'] = $("#search").val();
+            $.ajax({
+                type:"GET",
+                url:"{{url('/dean',array('ajax','getstudentlist'))}}",
+                data:array,
+                success:function(data){
+                    $("#studentlist").html(data);
+                    $("#search").val("");
+                }
+            })
+        }
+        });
     });
 </script>    
 @endsection
