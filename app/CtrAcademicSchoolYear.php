@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CtrAcademicSY extends Model
+class CtrAcademicSchoolYear extends Model
 {
     //
 }

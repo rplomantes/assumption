@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCtrAcademicSIesTable extends Migration
+class CreateCtrAcademicSchoolYearsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCtrAcademicSIesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ctr_academic_s_ies', function (Blueprint $table) {
+        Schema::create('ctr_academic_school_years', function (Blueprint $table) {
             $table->increments('id');
             $table->string('academic_type');
             $table->string('school_year');
@@ -29,6 +29,6 @@ class CreateCtrAcademicSIesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ctr_academic_s_ies');
+        Schema::dropIfExists('ctr_academic_academic_school_years');
     }
 }

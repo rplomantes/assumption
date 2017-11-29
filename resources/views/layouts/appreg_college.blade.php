@@ -153,9 +153,9 @@ desired effect
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
               @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
                         @else
-                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
+                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
                         @endif
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
@@ -237,8 +237,8 @@ desired effect
           </a>
           <ul class="treeview-menu">
             <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}">Curriculum</a></li>
-            <li><a href="#">Course Offering</a></li>
-            <li><a href="#">Course Schedule</a></li>
+            <li><a href="{{url('/registrar_college', array('curriculum_management','course_offering'))}}">Course Offering</a></li>
+            <li><a href="{{url('/registrar_college', array('curriculum_management','course_schedule'))}}">Course Schedule</a></li>
             <li><a href="#">Assign Instructors</a></li>
           </ul>
         </li>

@@ -20,4 +20,9 @@ class CurriculumController extends Controller
             return view('reg_college.curriculum_management.view_curricula', compact('curricula', 'program_code'));
         }
     }
+    function listcurriculum($program_code, $curriculum_year){
+        if (Auth::user()->accesslevel == "20"){
+            return view('reg_college.curriculum_management.list_curriculum', compact('program_code','curriculum_year'));
+        }
+    }
 }

@@ -37,20 +37,20 @@
 @section('header')
 <section class="content-header">
     <h1>
-        View Curriculum
+        Course Offering
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','curriculum'))}}"></i> Curriculum</a></li>
+        <li><a href="#"></i> Course Offering</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_offering'))}}"></i> Course Offering</a></li>
     </ol>
 </section>
 @endsection
 @section('maincontent')
 
 <?php
-$program = \App\CtrAcademicProgram::where('program_code', $program_code)->first();
+$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(array('program_code', 'program_name'));
 ?>
 
 <section class="content">
@@ -58,7 +58,7 @@ $program = \App\CtrAcademicProgram::where('program_code', $program_code)->first(
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">{{$program->program_name}}</h3>
+                    <h3 class="box-title">Academic Programs</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
@@ -68,15 +68,17 @@ $program = \App\CtrAcademicProgram::where('program_code', $program_code)->first(
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Curriculum Year</th>
-                                <th>View</th>
+                                <th>Program Code</th>
+                                <th>Program Name</th>
+                                <th>View Offerings</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($curricula as $curriculum)
+                            @foreach ($programs as $program)
                             <tr>
-                                <td>{{$curriculum->curriculum_year}}</td>
-                                <td><a href="{{url('/registrar_college', array('curriculum_management','list_curriculum',$program_code,$curriculum->curriculum_year))}}">View</a></td>
+                                <td>{{$program->program_code}}</td>
+                                <td>{{$program->program_name}}</td>
+                                <td><a href="{{url('registrar_college', array('curriculum_management','view_offering', $program->program_code))}}">View Offerings</a></td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -164,9 +164,9 @@ desired effect
               <!-- The user image in the menu -->
               <li class="user-header">
                @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
                         @else
-                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
+                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
                         @endif
 
                 <p>
