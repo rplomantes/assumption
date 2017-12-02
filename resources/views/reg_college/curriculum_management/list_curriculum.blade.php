@@ -62,7 +62,6 @@ $levels = \App\Curriculum::distinct()->where('program_code', $program_code)->whe
                     <h3 class="box-title">{{$program->program_name}} - {{$curriculum_year}}</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
@@ -79,8 +78,8 @@ $levels = \App\Curriculum::distinct()->where('program_code', $program_code)->whe
                         </thead>
                         <tbody>
                             <tr>
-                                <th class='col-sm-2'>Subject Code</th>
-                                <th class='col-sm-7'>Subject Description</th>
+                                <th class='col-sm-2'>Course Code</th>
+                                <th class='col-sm-7'>Course Description</th>
                                 <th class='col-sm-1'>LEC</th>
                                 <th class='col-sm-1'>LAB</th>
                                 <th class='col-sm-1'>UNITS</th>

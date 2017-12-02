@@ -37,7 +37,9 @@
  .header{background-color: #fff;
  padding: 10px;
  }
- #schoolname{font-size: 25pt; 
+ #schoolname{
+     font-family:"Times New Roman";
+     font-size: 25pt; 
              font-weight: bolder; 
              color:#003147
             }
@@ -64,7 +66,7 @@ body{background-color:#003147;}
 <body>
 <div class="container-fluid header">    
     <div class="col-md-1 pull-left"><img class="image img-responsive logo" src="{{url('/images','assumption-logo.png')}}"></div>
-    <div class="col-md-8"><span id="schoolname">Assumption College</span> <br> San Lorenzo Makati</div>
+    <div class="col-md-8"><span id="schoolname">Assumption College</span> <br> San Lorenzo Drive, San Lorenzo Village<br> Makati City</div>
     <div class="col-md-3 sis"><span id="sisname">School Information System</span></div>
 </div>
 <div class="login-box">

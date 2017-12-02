@@ -35,47 +35,48 @@
 </li>
 @endsection
 @section('header')
+<?php
+$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+$faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get();
+?>
 <section class="content-header">
     <h1>
-        View Curriculum
-        <small></small>
+        Faculty Loading
+        <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','curriculum'))}}"></i> Curriculum</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','faculty_loading'))}}"></i> Faculty Loading</a></li>
     </ol>
 </section>
 @endsection
 @section('maincontent')
-
-<?php
-$program = \App\CtrAcademicProgram::where('program_code', $program_code)->first();
-?>
-
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">{{$program->program_name}}</h3>
+                    <h3 class="box-title">List of Faculties</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered">
+                    <table class='table table-hover'>
                         <thead>
                             <tr>
-                                <th>Curriculum Year</th>
-                                <th>View</th>
+                                <th>Faculty Code</th>
+                                <th>Name</th>
+                                <th>Modify</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($curricula as $curriculum)
+                            @foreach($faculties as $faculty)
                             <tr>
-                                <td>{{$curriculum->curriculum_year}}</td>
-                                <td><a href="{{url('/registrar_college', array('curriculum_management','list_curriculum',$program_code,$curriculum->curriculum_year))}}">View</a></td>
+                                <td>{{$faculty->idno}}</td>
+                                <td>{{$faculty->lastname}}, {{$faculty->firstname}}</td>
+                                <td><a href='{{ url ('registrar_college', array('curriculum_management', 'edit_faculty_loading',$faculty->idno))}}'><button class='btn btn-info'><span class='fa fa-pencil'></span></button></a></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -88,5 +89,39 @@ $program = \App\CtrAcademicProgram::where('program_code', $program_code)->first(
 
 @endsection
 @section('footerscript')
+<script>
+    $("#level-form").hide();
+    $("#section-form").hide();
+    $("#courses_offered").hide();
+
+    $("#program-form").change(function () {
+        $("#level-form").fadeIn();
+    });
+    $("#level-form").change(function () {
+        $("#section-form").fadeIn();
+    });
+    $("#section-form").change(function () {
+        $("#courses_offered").fadeIn();
+    });
+</script>
+<script>
+
+    function courses_offered(program_code) {
+        array = {};
+        array['school_year'] = $("#school_year").val();
+        array['period'] = $("#period").val();
+        array['section'] = $("#level").val();
+        array['level'] = $("#section").val();
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/curriculum_management/course_to_schedule/" + program_code,
+            data: array,
+            success: function (data) {
+                $('#courses_offered').fadeIn().html(data);
+            }
+
+        });
+    }
+</script>
 
 @endsection

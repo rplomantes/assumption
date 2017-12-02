@@ -5,7 +5,6 @@ namespace App\Http\Controllers\RegistrarCollege\CurriculumManagement\Ajax;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use DB;
 use App\CourseOffering;
 
 class courseoffering_ajax extends Controller {

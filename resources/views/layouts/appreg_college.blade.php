@@ -239,7 +239,7 @@ desired effect
             <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}">Curriculum</a></li>
             <li><a href="{{url('/registrar_college', array('curriculum_management','course_offering'))}}">Course Offering</a></li>
             <li><a href="{{url('/registrar_college', array('curriculum_management','course_schedule'))}}">Course Schedule</a></li>
-            <li><a href="#">Assign Instructors</a></li>
+            <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}">Faculty Loading</a></li>
           </ul>
         </li>
         <!--<li><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>-->
