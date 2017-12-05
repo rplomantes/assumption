@@ -59,6 +59,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->lab = $course_details->lab;
                 $addsubject->hours = $course_details->hours;
                 $addsubject->level = $level;
+                $addsubject->srf = $course_details->srf;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
                 $addsubject->save();
             } else {
@@ -102,6 +103,7 @@ class courseoffering_ajax extends Controller {
                         $addsubject->lab = $curriculum->lab;
                         $addsubject->hours = $curriculum->hours;
                         $addsubject->level = $level;
+                        $addsubject->srf = $course_details->srf;
                         $addsubject->percent_tuition = $curriculum->percent_tuition;
                         $addsubject->save();
                     }

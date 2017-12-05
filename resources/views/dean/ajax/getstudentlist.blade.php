@@ -1,5 +1,5 @@
 @if(count($lists)>0)
-<table class="table table-responsive table-striped">
+<table class="table table-responsive table-striped table-condensed">
     <tr><th>Student ID</th><th>Student Name</th><th>Assess</th><th>View Record</th></tr>
     @foreach($lists as $list)
     @if($list->accesslevel == '0')

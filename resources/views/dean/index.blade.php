@@ -69,7 +69,7 @@
           array['search'] = $("#search").val();
             $.ajax({
                 type:"GET",
-                url:"{{url('/dean',array('ajax','getstudentlist'))}}",
+                url:"{{url('/ajax',array('dean','getstudentlist'))}}",
                 data:array,
                 success:function(data){
                     $("#studentlist").html(data);

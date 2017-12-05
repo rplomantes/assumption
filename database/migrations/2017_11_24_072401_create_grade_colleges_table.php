@@ -31,6 +31,7 @@ class CreateGradeCollegesTable extends Migration
             $table->string('remarks')->nullable();
             $table->string('school_year');
             $table->string('period');
+            $table->decimal('srf',10,2);
             $table->integer('percent_tuition');
             $table->integer('is_lock')->default(0);
             $table->integer('is_dropped')->default(0);

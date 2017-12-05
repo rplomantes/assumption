@@ -153,9 +153,9 @@ desired effect
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
               @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
                         @else
-                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
+                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
                         @endif
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
@@ -171,7 +171,7 @@ desired effect
 
                 <p>
                   {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                  <small>Cashier</small>
+                  <small>College Dean</small>
                 </p>
               </li>
               
@@ -229,7 +229,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Student List</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Statistics</span>

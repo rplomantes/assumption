@@ -51,11 +51,34 @@
     <input type="text" id="search" class="form-control" placeholder="Search...">
 
     <div id="studentlist">
+        <table class="table table-condensed">
+            
+        </table>
     </div>    
 </div>
 <!-- /.search form -->
 
 @endsection
 @section('footerscript')
-
+<script type="text/javascript">
+   $(document).ready(function(){
+       $("#search").keypress(function(e){
+           var theEvent = e || window.event;
+           var key = theEvent.keyCode || theEvent.which;
+           var array={};
+           array['search']=$("#search").val();
+           if(key==13){
+               $.ajax({
+                   type:"GET",
+                   url:"/ajax/registrar_college/getstudentlist",
+                   data:array,
+                   success:function(data){
+                       $("#studentlist").html(data);
+                       $("#search").val("");
+                   }
+               });
+           }
+       })
+   })
+</script>
 @endsection

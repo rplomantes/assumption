@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Input;
 Use Illuminate\Support\Facades\DB;
 use Request;
 
-class GetStudentList extends Controller
+class GetStudentList_ajax extends Controller
 {
     //
     
-    function index(){
+    function getstudentlist(){
         if(Request::ajax()){
             $search = Input::get('search');
             $lists = \App\User::Where("lastname","like","%$search%")

@@ -21,6 +21,9 @@ include_once 'web2.php';
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
+//Registrar College - MAIN
+Route::get('/ajax/registrar_college/getstudentlist', 'RegistrarCollege\Ajax\GetStudentList_ajax@getstudentlist');
+
 //Registrar College Curriculum Management
 //Curriculum
 Route::get('/registrar_college/curriculum_management/curriculum', 'RegistrarCollege\CurriculumManagement\CurriculumController@index');
@@ -50,3 +53,21 @@ Route::post('/registrar_college/curriculum_management/add_faculty_loading', 'Reg
 Route::get('/registrar_college/curriculum_management/remove_faculty_loading/{id}/{idno}', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@remove_faculty_loading');
 //Ajax Assign Instructor
 Route::get('/ajax/registrar_college/curriculum_management/show_available_loads/','RegistrarCollege\CurriculumManagement\Ajax\facultyloading_ajax@show_available_loads');
+
+//Registrar College Admission
+//New Student
+Route::get('/registrar_college/admission/new_student','RegistrarCollege\Admission\NewStudentController@index');
+Route::post('/registrar_college/admission/add_new_student','RegistrarCollege\Admission\NewStudentController@add_new_student');
+
+//Dean - Main
+Route::get('/dean/viewrecord/{idno}','Dean\Record@view');
+Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
+//Assessment
+Route::get('/dean/assessment/{idno}','Dean\Assessment\Assessment@assess');
+//Ajax Assessment
+Route::get('/ajax/dean/assessment/get_section', 'Dean\Assessment\Ajax\assessment_ajax@get_section');
+Route::get('/ajax/dean/assessment/get_course_offering', 'Dean\Assessment\Ajax\assessment_ajax@get_course_offering');
+Route::get('/ajax/dean/assessment/add_to_course_offered','Dean\Assessment\Ajax\assessment_ajax@add_to_course_offered');
+Route::get('/ajax/dean/assessment/remove_to_course_offered','Dean\Assessment\Ajax\assessment_ajax@remove_to_course_offered');
+Route::get('/ajax/dean/assessment/get_offering_per_search','Dean\Assessment\Ajax\assessment_ajax@get_offering_per_search');
+Route::get('/ajax/dean/assessment/add_all_courses','Dean\Assessment\Ajax\assessment_ajax@add_all_courses');

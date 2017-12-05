@@ -25,6 +25,7 @@ class CreateCurriculaTable extends Migration
             $table->decimal('hours',5,2)->nullable();
             $table->string('level');
             $table->string('period');
+            $table->decimal('srf', 10,2)->default(0.00);
             $table->integer('percent_tuition')->default(100);
             $table->timestamps();
         });

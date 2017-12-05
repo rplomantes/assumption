@@ -229,6 +229,17 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
+        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-id-card-o"></i> <span>Admission</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/registrar_college', array('admission','new_student'))}}">New Student</a></li>
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#"><i class="fa fa-list-alt"></i> <span>Curriculum Management</span>
             <span class="pull-right-container">
