@@ -4,7 +4,7 @@ $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 ?>
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
@@ -19,24 +19,24 @@ $units = 0;
 @extends('layouts.appreg_college')
 @section('messagemenu')
 <li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success"></span>
-            </a>
+    <!-- Menu toggle button -->
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-envelope-o"></i>
+        <span class="label label-success"></span>
+    </a>
 </li>
 <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning"></span>
-            </a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>
+        <span class="label label-warning"></span>
+    </a>
 </li>
-          
+
 <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger"></span>
-            </a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i>
+        <span class="label label-danger"></span>
+    </a>
 </li>
 @endsection
 @section('header')
@@ -101,34 +101,34 @@ $units = 0;
                     </div>
                 </div>
                 <div class='box-body'>
-                        <div class='form-group'>
-                            <div class='col-sm-12' id='type_account-form'>
-                                <label>Type of Account</label>
-                                <select class='form-control' id='type_account' name="type_account">
-                                    <option>Select type of Account</option>
-                                    <option value="Regular">Regular</option>
-                                </select>
-                            </div>
+                    <div class='form-group'>
+                        <div class='col-sm-12' id='type_account-form'>
+                            <label>Type of Account</label>
+                            <select class='form-control' id='type_account' name="type_account">
+                                <option>Select type of Account</option>
+                                <option value="Regular">Regular</option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <div class='col-sm-12' id='plan-form'>
-                                <label>Plan</label>
-                                <select id="plan" name="plan" class='form-control'>
-                                    <option>Select Plan</option>
-                                    <option value='Cash'>Cash</option>
-                                    <option value='Quarterly'>Quarterly</option>
-                                    <option value='Monthly'>Monthly</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class='col-sm-12' id='plan-form'>
+                            <label>Plan</label>
+                            <select id="plan" name="plan" class='form-control'>
+                                <option>Select Plan</option>
+                                <option value='Cash'>Cash</option>
+                                <option value='Quarterly'>Quarterly</option>
+                                <option value='Monthly'>Monthly</option>
+                            </select>
                         </div>
-                        <div class="form-group" id="compute-form">
-                            <div class="col-sm-12">
-                                <button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}')">Compute</button>
-                            </div>
-                            <div class="col-sm-12 box-body" id="display_result">
-                                
-                            </div>
+                    </div>
+                    <div class="form-group" id="compute-form">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}')">Compute</button>
                         </div>
+                    </div>
+                    <div class="col-sm-12 box-body" id="display_result">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,16 +209,14 @@ $units = 0;
 <script>
     $("#plan-form").hide();
     $("#compute-form").hide();
-
     $("#type_account-form").change(function () {
-        $("#plan-form").fadeIn();
+    $("#plan-form").fadeIn();
     });
     $("#plan-form").change(function () {
-        $("#compute-form").fadeIn();
-    });
-</script>
+    $("#compute-form").fadeIn();
+    });</script>
 <script>
-function get_assessed_payment(plan, type_account, idno){
+    function get_assessed_payment(plan, type_account, idno){
     array = {};
     array['plan'] = plan;
     array['type_of_account'] = type_account;
@@ -234,6 +232,6 @@ function get_assessed_payment(plan, type_account, idno){
             }
 
     });
-}
+    }
 </script>
 @endsection

@@ -1,5 +1,5 @@
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 $faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get();
 ?>
 @extends('layouts.appreg_college')

@@ -1,5 +1,5 @@
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 $faculty = \App\User::where('idno', $idno)->first();
 ?>
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">

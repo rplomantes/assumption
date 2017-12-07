@@ -1,6 +1,6 @@
 <?php
         
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
 $totalFee = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->sum('amount');
 //$tuition = \App\Ledger::where('category', 'Tuition Fee')->where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->sum('amount')->get();
 $tuition = \App\Ledger::groupBy(array('category'))->where('category', 'Tuition Fees Receivable')->where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->selectRaw('category, sum(amount) as amount')->get();

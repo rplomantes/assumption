@@ -1,5 +1,5 @@
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 $available_classes = \App\CourseOffering::where('course_code', $course_code)
         ->where('school_year', $school_year->school_year)
         ->where('period', $school_year->period)

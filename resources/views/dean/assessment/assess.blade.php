@@ -3,7 +3,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
 $user = \App\User::where('idno', $idno)->first();
 ?>
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
