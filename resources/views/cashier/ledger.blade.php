@@ -250,7 +250,7 @@
     <div class="col-md-3">
         <div class="form-group">
         <label>Total Due Today:</label>
-        <div class="form form-control" id="due_display">0.00</div>
+        <div class="form form-control" id="due_display">{{number_format($totaldue,2)}}</div>
         </div>
         <div class="form-group">
         <div class="form form-control btn btn-primary">Process Payment</div>

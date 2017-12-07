@@ -22,11 +22,15 @@ class StudentLedger extends Controller
       $totalmainpayment = 0;
       $ledger_main = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$idno)->where('category_switch','<=','6')
               ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->get();
-     // if(count($ledger_main)>0){
-     //    foreach($ledger_main as $payment){
-     //        $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
-     //    } 
-     // }
+      if(count($ledger_main)>0){
+         foreach($ledger_main as $payment){
+             $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
+         } 
+      }
+      
+      $downpayment=  \App\LedgerDueDate::where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
+      $duetoday= \App\LedgerDueDate::where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
+      $totaldue=$downpayment->amount + $duetoday->amount - $totalmainpayment;
       $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch','7')->get();
       
       $previous=  \App\Ledger::where('idno',$idno)->where('category_switch','>',9)->
@@ -39,7 +43,7 @@ class StudentLedger extends Controller
       $debit_memos =  \App\DebitMemo::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
       
       $due_dates = \App\LedgerDueDate::where('idno',$idno)->orderBy('due_switch')->orderBy('due_date')->get();
-      return view("cashier.ledger",compact('user','ledger_main','ledger_others','previous','status','payments',"debit_memos",'due_dates','totalmainpayment'));
+      return view("cashier.ledger",compact('user','ledger_main','ledger_others','previous','status','payments',"debit_memos",'due_dates','totalmainpayment','totaldue'));
      }       
     }
    
