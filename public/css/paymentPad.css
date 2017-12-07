@@ -1,0 +1,41 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 7, 2017, 2:38:49 AM
+    Author     : royplomantes
+*/
+.submit_button{
+        padding-top:10px;
+    }
+    .check_payment{
+        background-color:#70c0b1;
+        padding: 10px;
+        
+    }
+    .credit_card{
+        background-color:#f5e79e;
+        padding: 10px;
+    }
+    .top-payment{
+         background-color: #E9C062;
+        padding: 10px; 
+    }
+    .cash-payment{
+        background-color: #BF79DB;
+        padding: 10px
+    }
+    .bank_deposit{
+        background-color: #ccc;
+        padding: 10px
+    }
+    .number{
+        text-align: right;
+    }
+    .change{
+        text-align:right;
+        color:#f00;
+        font-weight: bold;
+    }

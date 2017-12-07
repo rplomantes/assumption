@@ -28,94 +28,96 @@
 
 <section class="content-header">
       <h1>
-        Student Ledger
+        Other Payment
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"> Student Ledger</a></li>
-        <li class="active">Reservation</li>
+        <li class="active">Other Payment</li>
       </ol>
 </section>
 @endsection
 @section('maincontent')
 <div class="container-fluid">
-    
-    <div class="col-md-6">
-        <table class="table table-bordered">
-            <tr><td>Student ID</td><td>{{$user->idno}}</td></tr>
-            <tr><td>Student Name</td><td><b>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b>
-        </table>
-        <hr/>
-        @if(count($reservations)>0)
-        <label>Reservation</label>
-        <table class="table table-striped">
-            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
-            @foreach($reservations as $reservation)
-            <tr><td>{{$reservation->transaction_date}}</td>
-                <td align="right">{{number_format($reservation->amount,2)}}</td>
-                <td>@if($reservation->is_consumed=="1")
-                    <i class="fa fa-times"></i>
-                    @else
-                    <i class="fa fa-check"></i>
-                    @endif
-                    </td>
-                </tr>
-            @endforeach
-        </table>    
-        @else
-        <h5> No Reservation Has Been Made Yet!!!!!</h5>
-        <hr/>
-        @endif
-        @if(count($deposits)>0)
-        <label>Student Deposit</label>
-        <table class="table table-striped">
-            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
-            @foreach($deposits as $reservation)
-            <tr><td>{{$reservation->transaction_date}}</td>
-                <td align="right">{{number_format($reservation->amount,2)}}</td>
-                <td>@if($reservation->is_consumed=="1")
-                    <i class="fa fa-times"></i>
-                    @else
-                    <i class="fa fa-check"></i>
-                    @endif
-                    </td>
-                </tr>
-            @endforeach
-        </table>    
-        @else
-        <h5> No Student Deposit Has Been Made Yet!!!!!</h5>
-        <hr>
-        @endif
-    </div> 
-    
-    <div class="col-md-6">
-        <form method="post" action="{{url('cashier','reservation')}}" class="form-horizontal">
-    {{csrf_field()}}
-    <input type="hidden" name="idno" value="{{$user->idno}}">
-    
-    <div class="form form-group">
-        
-       <div class="nav navbar pull-right">
-            Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_no}}</span>
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <table class="table table-responsive"><tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>
+                    <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
+                    <tr><td>Studnt Name : </td><td>{{$user->lastname}}, {{$user->firstname}}</td></tr>
+                    </table>
+        </div>>   
+        <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
+    </div>    
+   <hr />  
+  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('otherpayment')}}">
+  {!!csrf_field()!!}
+           <input type="hidden" name="idno" value="{{$user->idno}}">
+           <input type="hidden" name="receipt_no" value="{{$receipt_number}}">
+           
+   <div class="col-md-6">
+     <div id="detailed_form">   
+        <div class="form form-group">    
+            <div class="crcform">
+                <h3>Other Payment Details</h3>
+                <div class="form form-group">
+                        
+                        <div class="col-md-5">   
+                            Particular
+                        </div>
+
+                        <div class="col-md-5">
+                            Amount
+                        </div>
+                        <div class="col-md-2">
+                        
+                        </div>
+                </div> 
+                
+             <div  id="dynamic_field">
+                        <!--div class="top-row"-->
+                        <div class="form form-group">
+                        <div class="col-md-5">
+                            <select name="particular[]" id="particular1" class="form form-control" onkeypress="gotoother_amount(1,event)">
+                            <option>Select Particular</option>
+                            @if(count($particulars)>0)
+                                @foreach($particulars as $particular)
+                                    <option value="{{$particular->subsidiary}}">{{$particular->subsidiary}}</option>
+                                @endforeach
+                            @endif
+                            </select>
+                            
+                        </div>
+
+                        <div class="col-md-5">
+                            <input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup = "toNumeric(this)" name="other_amount[]" id="other_amount1"/>
+                        </div>
+                        <div class="col-md-2">
+                        <button type="button" name="add" id="add" class="btn btn-success"> + </button></td>
+                        </div>
+                        </div>    
             </div>
-    </div>
-  
-   
-    <div class="top-payment">
+                
         <div class="form form-group">
-            <div class="col-md-6">
-            <label>Reservation</label>
-                <input type="text" name="reservation" id="reservation" class="form form-control number" />
-            </div> 
-            <div class="col-md-6">
-            <label>Student Deposit</label>
-                <input type="text" name="deposit" id="deposit" class="form form-control reservation number" />
-            </div> 
-        </div>    
-    </div>
+        <div class="col-md-5 col-md-offset-5">
+           Total : <input disabled="disabled" type="text" class="form form-control number" name="other_total" id="other_total" value="0.00">
+        </div>
+        </div> 
+        <div class="form form-group">
+        <div class="col-md-5 col-md-offset-5">
+            <buton class="btn btn-primary form-control" id="donereg">Next <i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"></i></buton>
+        </div>     
+        </div>   
+            
+            
+      </div>
     
-    <div class="cash-payment">
+     </div>  
+   </div>    
+   </div>
+   <div class="col-md-6">
+      <div id="payment_pad"> 
+        <div class="cash-payment">
         <div class="form form-group">
             <div class="col-md-6"> 
             <label>Cash Receive</label>
@@ -198,10 +200,10 @@
             </div>
         </div>
      </div>    
-    </form>
-    </div>
-  
-</div>    
+   </div>   
+   </form> 
+   </div>
+</div>
 @endsection
 @section('footerscript')
 <style>
@@ -237,10 +239,54 @@
         color:#f00;
         font-weight: bold;
     }
+   
 </style>
+   
 <script>
     $(document).ready(function(){
+        
+         var i = 1;
+         
+         $('#add').click(function(){
+         if($("#explanation"+i).val()=="" || $("#other_amount" + i).val()==""){
+         alert("Please Fill-up Required Fields " + $("#subsidiary" + i).val());
+           } else {   
+        i++;
+        $('#dynamic_field').append('<div id="row'+i+'" class="form form-group">\n\
+        <div class="col-md-5">\n\
+        <select class="form form-control" type="text" onkeypress = "gotoother_amount('+i+',event)" name="particular[]" id="particular'+i+'">'
+         @foreach($particulars as $particular) + '<option>{{$particular->subsidiary}}</option>'  @endforeach 
+         + '</select></div>\n\
+        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup = "toNumeric(this)" onkeypress = "totalOther(event)" name="other_amount[]" id="other_amount'+i+'"/></div>\n\
+        <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
+        $("#explanation"+i).focus();
+        $("#donereg").fadeOut();
+        updatefunction();
+        }});
+            
+            $('#dynamic_field').on('click','.btn_remove', function(){
+                //alert($(this).attr("id"))
+                var button_id = $(this).attr("id");
+                $("#row"+button_id+"").remove();
+                i--;
+                totalamount =0;
+                other_amount = document.getElementsByName('other_amount[]');
+                for(var i = 0; i < other_amount.length; i++){
+                if(other_amount[i].value != ""){    
+                totalamount = totalamount+parseFloat(other_amount[i].value)
+                }
+                }
+                $("#other_total").val(totalamount.toFixed(2))
+                $("#donereg").fadeIn();
+            }); 
+            
         $("#submit_button").fadeOut(300);
+        $("#donereg").fadeOut(300);
+        $("#payment_pad").fadeOut(300);
+        
+        $("#donereg").on('click',function(e){
+            $("#payment_pad").fadeIn();
+        })
         
         $(".number").on('keypress',function(e){
         var theEvent = e || window.event;
@@ -362,7 +408,19 @@
                e.preventDefault();
            }
        })
+    
+    
     })
+    
+    function updatefunction(){
+    $(".number").on('keypress',function(e){
+        var theEvent = e || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        if ((key < 48 || key > 57) && !(key == 8 || key == 9 || key == 13 || key == 37 || key == 39 || key == 46) ){ 
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+        }});
+    }
     
     function computechange(){
          totalamount = 0;
@@ -400,6 +458,28 @@
                return amountreceive+noncash-totalamount;
          }
     }
+    function gotoother_amount(i,evt){
+        if(evt.keyCode==13){
+            $("#other_amount" + i).focus()
+            evt.preventDefault()
+            return false;
+        }
+    }
+    
+   function totalOther(e){
+           if(e.keyCode == 13){
+                        totalamount =0;
+                        other_amount = document.getElementsByName('other_amount[]');
+                        for(var i = 0; i < other_amount.length; i++){
+                        totalamount = totalamount+parseFloat(other_amount[i].value)
+                        }
+                        $("#other_total").val(totalamount.toFixed(2))
+                        $("#add").focus();
+                        $("#donereg").fadeIn(300)
+                         e.preventDefault();
+                         return false;
+                 }
+        }
 </script>    
 @endsection
 

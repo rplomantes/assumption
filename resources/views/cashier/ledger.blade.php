@@ -39,24 +39,21 @@
 @endsection
 @section('maincontent')
 <div class="container-fluid">
-    <div class="col-md-3 pull-right form-horizontal">
-        <div class="form-group">
-        <label>Total Due Today:</label>
-        <div class="form form-control" id="due_display">146,500.00</div>
-        </div>
-        <div class="form-group">
-        <div class="form form-control btn btn-primary">Process Payment</div>
-        </div>
-        <div class="form-group">
-        <div class="form form-control btn btn-success">Other Payment</div>
-        </div>
-         <div class="form-group">
-        <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation</a>
-        </div>
+    <div class="col-md-3 form-horizontal">
+        
     </div>    
     <div class="col-md-9">
         <div class="col-md-6">
-        <table class="table table-responsive">
+       
+            </div>
+        <div class="col-md-6">
+        
+        </div>    
+    </div> 
+    <div class="clearfix"></div>
+    <div class="col-md-9">
+        <div class="col-md-6"> 
+             <table class="table table-responsive">
             <tr><td>Student Number : </td><td align="left">{{$user->idno}}</td></tr>
             <tr><td>Student Name : </td><td align="left"><b>{{$user->lastname}}, {{$user->firstname}}</b></td></tr>   
             @if(count($status)>0)
@@ -90,10 +87,8 @@
             <tr><td>Status : </td><td align="left"><span style="color:#f00">Not Enrolled</span></td></tr>
             @endif
         </table> 
-            </div>
-    </div> 
-    <div class="clearfix"></div>
-    <div class="col-md-9">
+        </div>  
+    <div class="col-md-12">    
     <div class="accordion">
     <div class="accordion-section">
         <a class="accordion-section-title active" href="#accordion-1">Main Ledger</a>
@@ -251,20 +246,48 @@
          @endif
      </div>  
     </div>  
+    </div>    
     <div class="col-md-3">
+        <div class="form-group">
+        <label>Total Due Today:</label>
+        <div class="form form-control" id="due_display">0.00</div>
+        </div>
+        <div class="form-group">
+        <div class="form form-control btn btn-primary">Process Payment</div>
+        </div>
+        <div class="form-group">
+        <a href="{{url('/cashier',array('other_payment',$user->idno))}}" class="form form-control btn btn-success">Other Payment</a>
+        </div>
+         <div class="form-group">
+        <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation</a>
+        </div>
+        @if(count($due_dates)>0)
         <label>Schedule of Payment</label>
         <div class="form-group">
+            <?php $totalpay = $totalmainpayment; $display="";?>
             <table class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td></tr>
+            @foreach($due_dates as $due_date)
+            <?php 
+            if($totalpay >= $due_date->due_amount){
+                $display = "<span class=\"text_through\">".number_format($due_date->due_amount,2)."<span>";  
+                $totalpay = $totalpay - $due_date->due_amount;
+            } else {
+                $display = $due_date->due_amount;
+                $totalpay=0;
+            }
+            ?>
+            @if($due_date->due_switch=="0")
+            <?php $duedate = "Downpayment";?>
+            @else
+            <?php $duedate = $due_date->due_date;?>
+            @endif
+            <tr><td>{{$duedate}}</td><td align="right"></td></tr>
+            @endforeach
             </table>    
-        </div>    
+        </div>
+        @endif
     </div>
-<div class="col-md-3">
-        <label>Reservation</label>
-        <div class="form-group">
-            <table class="table table-striped"><tr><td>Date</td><td align="right">Amount</td><td>Is Consumed</td></tr>
-            </table>    
-        </div>    
-    </div>     
+     
 </div>    
 @endsection
 @section('footerscript')
@@ -328,6 +351,11 @@
 .accordion-section-content {
     padding:15px;
     display:none;
+}
+
+.text_through{
+    text-decoration: line-through;
+    color: #ccc;
 }
 </style>
 <script>
