@@ -1,6 +1,6 @@
 @extends('layouts.appcashier')
 @section('messagemenu')
- <li class="dropdown messages-menu">
+<li class="dropdown messages-menu">
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>

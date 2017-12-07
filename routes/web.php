@@ -24,6 +24,11 @@ Route::get('/', 'HomeController@index')->name('home');
 //Registrar College - MAIN
 Route::get('/ajax/registrar_college/getstudentlist', 'RegistrarCollege\Ajax\GetStudentList_ajax@getstudentlist');
 
+//Registrar College Assessment
+Route::get('registrar_college/assessment/{idno}','RegistrarCollege\Assessment\AssessmentController@index');
+//Ajax College Asssessment
+Route::get('/ajax/registrar_college/assessment/get_assessed_payment', 'RegistrarCollege\Assessment\Ajax\assessment_ajax@get_assessed_payment');
+
 //Registrar College Curriculum Management
 //Curriculum
 Route::get('/registrar_college/curriculum_management/curriculum', 'RegistrarCollege\CurriculumManagement\CurriculumController@index');
@@ -59,11 +64,17 @@ Route::get('/ajax/registrar_college/curriculum_management/show_available_loads/'
 Route::get('/registrar_college/admission/new_student','RegistrarCollege\Admission\NewStudentController@index');
 Route::post('/registrar_college/admission/add_new_student','RegistrarCollege\Admission\NewStudentController@add_new_student');
 
-//Dean - Main
+
+
+
+
+//Dean - MAIN
 Route::get('/dean/viewrecord/{idno}','Dean\Record@view');
 Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
 //Assessment
 Route::get('/dean/assessment/{idno}','Dean\Assessment\Assessment@assess');
+Route::get('/dean/assessment/confirm_advised/{idno}/{program_code}/{level}','Dean\Assessment\Assessment@confirm_advised');
+Route::get('/dean/assessment/print_advising_slip/{idno}','Dean\Assessment\Assessment@print_advising_slip');
 //Ajax Assessment
 Route::get('/ajax/dean/assessment/get_section', 'Dean\Assessment\Ajax\assessment_ajax@get_section');
 Route::get('/ajax/dean/assessment/get_course_offering', 'Dean\Assessment\Ajax\assessment_ajax@get_course_offering');

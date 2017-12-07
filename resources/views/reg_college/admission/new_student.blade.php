@@ -1,44 +1,32 @@
-@extends('layouts.appreg_college')
-@section('messagemenu')
-<link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 <?php
 $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
 ?>
+@extends('layouts.appreg_college')
+@section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-envelope-o"></i>
-        <span class="label label-success">4</span>
+        <span class="label label-success"></span>
     </a>
-    <ul class="dropdown-menu">
-        <li class="header">You have 4 messages</li>
-        <li>
-            <!-- inner menu: contains the messages -->
-            <ul class="menu">
-                <li><!-- start message -->
-                    <a href="#">
-                        <div class="pull-left">
-                            <!-- User Image -->
+</li>
+<li class="dropdown notifications-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>
+        <span class="label label-warning"></span>
+    </a>
+</li>
 
-                        </div>
-                        <!-- Message title and timestamp -->
-                        <h4>
-                            Support Team
-                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                        </h4>
-                        <!-- The message -->
-                        <p>Why not buy a new awesome theme?</p>
-                    </a>
-                </li>
-                <!-- end message -->
-            </ul>
-            <!-- /.menu -->
-        </li>
-        <li class="footer"><a href="#">See All Messages</a></li>
-    </ul>
+<li class="dropdown tasks-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i>
+        <span class="label label-danger"></span>
+    </a>
 </li>
 @endsection
 @section('header')
+
+<link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 <section class="content-header">
     <h1>
         Admission
@@ -61,7 +49,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
-                    
+
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
@@ -117,7 +105,12 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <label>Birthday</label>
-                                <input class="form form-control" name='birthdate' value="{{old('birthdate')}}" type="date">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-birthday-cake"></i>
+                                    </div>
+                                    <input class="form form-control" name='birthdate' value="{{old('birthdate')}}" type="date">
+                                </div>
                             </div>
                             <div class="col-sm-4">
                                 <label>Birth Place</label>

@@ -41,7 +41,7 @@ class assessment_ajax extends Controller {
 
             $courses_offering = \App\CourseOffering::distinct()->where('school_year', $school_year)->where('period', $period)->where('level', $level)->where('program_code', $program_code)->where('section', $section)->get();
 
-            return view('dean.assessment.ajax.get_course_offering', compact('courses_offering', 'level', 'section'));
+            return view('dean.assessment.ajax.get_course_offering', compact('courses_offering', 'level', 'section', 'program_code'));
         }
     }
 
@@ -166,13 +166,11 @@ class assessment_ajax extends Controller {
 
     function get_offering_per_search() {
         if (Request::ajax()) {
-            $idno = Input::get("idno");
             $school_year = Input::get("school_year");
             $period = Input::get("period");
-            $program_code = Input::get("program_code");
             $search = Input::get("search");
 
-            $courses_offering = \App\CourseOffering::where("school_year", $school_year)
+            $courses_offering = \App\CourseOffering::where("school_year", $school_year)->where("period", $period)
                             ->where("course_code", "like", $search . "%")
                             ->orWhere("course_name", "like", $search . "%")->get();
 

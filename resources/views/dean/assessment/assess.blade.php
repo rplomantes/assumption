@@ -80,18 +80,18 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
                     @if(count($status)>0)
-                    @if($status->status == "0")
-                    <li><a href="#">Status <span class="pull-right">Old Student</span></a></li>
+                    @if($status->is_new == "0")
+                    <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
                     <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                     <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
                     <li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>
                     @else
-                    <li><a href="#">Status <span class="pull-right">Assessed</span></a></li>
+                    <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                     <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                    <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
                     @endif
                     @else    
                     <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
+                    <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                     @endif
                 </ul>
             </div>
@@ -224,16 +224,17 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             </div>
         </div>
     </div>
-    
-            <div class="col-sm-12">
-                    <button class=" col-sm-12 btn btn-success">SAVE ADVISED</button>
-                </div>
+    <div class="col-sm-12 save">
+        <!--href="{{url('dean', array('assessment','confirm_advised',$user->idno))}}"-->
+        <a><button onclick="confirm_advised('{{$user->idno}}', program_code.value, level.value)" class="col-sm-12 btn btn-warning">CONFIRM ASSESSMENT</button></a>
+    </div>
 </div>
 @endsection
 @section("footerscript")
 <script>
     $(".level").hide();
     $(".section").hide();
+    $(".save").hide();
     $(document).ready(function () {
     $("#program_code").on("change", function (e) {
     $(".level").fadeIn();
@@ -245,10 +246,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             $("#search").keypress(function(e){
     if (e.keyCode == 13){
     array = {}
-    array['idno'] = "{{$idno}}";
     array['school_year'] = {{$school_year->school_year}};
     array['period'] = "{{$school_year->period}}";
-    array['program_code'] = "{{$status->program_code}}";
     array['search'] = $("#search").val();
     $.ajax({
     type:"GET",
@@ -309,6 +308,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             data: array,
             success: function (data) {
             $('.tablecourse_offered').html(data);
+            $(".save").fadeIn();
             }
 
     });
@@ -326,17 +326,18 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             data:array,
             success:function(data){
             $(".tablecourse_offered").html(data);
+            $(".save").fadeIn();
             }
     });
     }
     }
 
-    function addallcourses(level, section){
+    function addallcourses(level, section, program_code){
     array = {};
     array['idno'] = "{{$user->idno}}";
     array['school_year'] = {{$school_year->school_year}};
     array['period'] = "{{$school_year->period}}";
-    array['program_code'] = "{{$status->program_code}}";
+    array['program_code'] = program_code;
     array['level'] = level;
     array['section'] = section;
     //if( confirm("Are You Sure To Add All Courses?"){
@@ -346,9 +347,13 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             data:array,
             success:function(data){
             $(".tablecourse_offered").html(data);
+            $(".save").fadeIn();
             }
     })
             //}
+    }
+    function confirm_advised(idno, program_code, level){
+        window.location = "/dean/assessment/confirm_advised/" + idno + "/" + program_code + "/" + level; 
     }
 </script>
 @endsection

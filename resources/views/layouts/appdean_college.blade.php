@@ -28,6 +28,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="{{url("/dist",array("css","skins","skin-blue.min.css"))}}">
+  <link rel="stylesheet" href="{{ asset ('plugins/pace/pace.min.css')}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -363,6 +364,12 @@ desired effect
 <script src="{{url("/bower_components",array("bootstrap","dist","js","bootstrap.min.js"))}}"></script>
 <!-- AdminLTE App -->
 <script src="{{url("/dist",array("js","adminlte.min.js"))}}"></script>
+<script src="{{ asset('bower_components/PACE/pace.min.js')}}"></script>
+<script>
+    $(document).ajaxStart(function () {
+    Pace.restart()
+  })
+</script>
 @yield('footerscript')
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

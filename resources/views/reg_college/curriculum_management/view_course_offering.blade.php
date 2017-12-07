@@ -1,46 +1,37 @@
-@extends('layouts.appreg_college')
-@section('messagemenu')
-
-<link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
-
-<li class="dropdown messages-menu">
-    <!-- Menu toggle button -->
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-envelope-o"></i>
-        <span class="label label-success">4</span>
-    </a>
-    <ul class="dropdown-menu">
-        <li class="header">You have 4 messages</li>
-        <li>
-            <!-- inner menu: contains the messages -->
-            <ul class="menu">
-                <li><!-- start message -->
-                    <a href="#">
-                        <div class="pull-left">
-                            <!-- User Image -->
-
-                        </div>
-                        <!-- Message title and timestamp -->
-                        <h4>
-                            Support Team
-                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                        </h4>
-                        <!-- The message -->
-                        <p>Why not buy a new awesome theme?</p>
-                    </a>
-                </li>
-                <!-- end message -->
-            </ul>
-            <!-- /.menu -->
-        </li>
-        <li class="footer"><a href="#">See All Messages</a></li>
-    </ul>
-</li>
-@endsection
-@section('header')
 <?php
 $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
 ?>
+<?php
+$curriculum_years = \App\Curriculum::distinct()->where('program_code', $program_code)->get(['curriculum_year']);
+$levels = \App\Curriculum::distinct()->where('program_code', $program_code)->orderBy('level')->get(['level']);
+$periods = \App\Curriculum::distinct()->where('program_code', $program_code)->orderBy('period')->get(['period']);
+$program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first(['program_name']);
+?>
+<link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
+@extends('layouts.appreg_college')
+@section('messagemenu')
+<li class="dropdown messages-menu">
+            <!-- Menu toggle button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success"></span>
+            </a>
+</li>
+<li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning"></span>
+            </a>
+</li>
+          
+<li class="dropdown tasks-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-flag-o"></i>
+              <span class="label label-danger"></span>
+            </a>
+</li>
+@endsection
+@section('header')
 <section class="content-header">
     <h1>
         Course Offering
@@ -54,12 +45,6 @@ $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->fi
 </section>
 @endsection
 @section('maincontent')
-<?php
-$curriculum_years = \App\Curriculum::distinct()->where('program_code', $program_code)->get(['curriculum_year']);
-$levels = \App\Curriculum::distinct()->where('program_code', $program_code)->orderBy('level')->get(['level']);
-$periods = \App\Curriculum::distinct()->where('program_code', $program_code)->orderBy('period')->get(['period']);
-$program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first(['program_name']);
-?>
 <section class="content">
     <div class="row">
         <div class="col-sm-12">

@@ -20,6 +20,7 @@ class CreateLedgersTable extends Migration
             $table->string('program_code')->nullable();
             $table->string('track')->nullable();
             $table->string('level');
+            $table->string('school_year');
             $table->string('period');
             $table->string('category');
             $table->string('subsidiary');
@@ -31,7 +32,7 @@ class CreateLedgersTable extends Migration
             $table->decimal('discount',10,2)->default(0.00);
             $table->decimal('esc',10,2)->default(0.00);
             $table->decimal('debit_memo',10,2)->default(0.00);
-            $table->integer('discount_code');
+            $table->integer('discount_code')->nullable();
             $table->foreign('idno')
                     ->references('idno')->on('users')
                     ->onUpdate('cascade');

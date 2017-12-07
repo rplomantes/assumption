@@ -17,7 +17,7 @@ class StudentLedger extends Controller
     }
     
     function view($idno){
-     if(Auth::user()->accesslevel==env("CASHIER")){
+     if(Auth::user()->accesslevel==40){
       $user = \App\User::where('idno',$idno)->first();
       $ledger_main = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$idno)->where('category_switch','<=','6')
               ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->get();

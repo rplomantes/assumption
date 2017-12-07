@@ -50,4 +50,4 @@
         @endforeach
     </tbody>
 </table>
-<button class='btn btn-success col-sm-12' onclick="addallcourses('{{$level}}', '{{$section}}')">ADD ALL COURSES</button>
+<button class='btn btn-success col-sm-12' onclick="addallcourses('{{$level}}', '{{$section}}', '{{$program_code}}')">ADD ALL COURSES</button>
