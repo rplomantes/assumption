@@ -268,11 +268,11 @@
             <table class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td></tr>
             @foreach($due_dates as $due_date)
             <?php 
-            if($totalpay >= $due_date->due_amount){
-                $display = "<span class=\"text_through\">".number_format($due_date->due_amount,2)."<span>";  
-                $totalpay = $totalpay - $due_date->due_amount;
+            if($totalpay >= $due_date->amount){
+                $display = "<span class=\"text_through\">".number_format($due_date->amount,2)."<span>";  
+                $totalpay = $totalpay - $due_date->amount;
             } else {
-                $display = $due_date->due_amount;
+                $display = number_format($due_date->amount,2);
                 $totalpay=0;
             }
             ?>
@@ -281,7 +281,7 @@
             @else
             <?php $duedate = $due_date->due_date;?>
             @endif
-            <tr><td>{{$duedate}}</td><td align="right"></td></tr>
+            <tr><td>{{$duedate}}</td><td align="right">{{$display}}</td></tr>
             @endforeach
             </table>    
         </div>
