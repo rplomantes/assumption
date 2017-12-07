@@ -38,7 +38,7 @@ class StudentLedger extends Controller
       
       $debit_memos =  \App\DebitMemo::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
       
-      $due_dates = \App\LedgerDueDate::where('idno',$idno)->orderBy('due_switch','due_date')->get();
+      $due_dates = \App\LedgerDueDate::where('idno',$idno)->orderBy('due_switch')->orderBy('due_date')->get();
       return view("cashier.ledger",compact('user','ledger_main','ledger_others','previous','status','payments',"debit_memos",'due_dates','totalmainpayment'));
      }       
     }
