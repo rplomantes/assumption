@@ -18,6 +18,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <link rel="stylesheet" href="{{ asset ('dist/css/AdminLTE.min.css')}}">
         <link rel="stylesheet" href="{{ asset ('dist/css/skins/skin-blue.min.css')}}">
         <link rel="stylesheet" href="{{ asset ('plugins/pace/pace.min.css')}}">
+        <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
@@ -128,14 +129,21 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </ul>
                         </li>
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-bar-chart"></i> <span>Reports</span>
+                            <a href="#">
+                                <i class="fa fa-bar-chart"></i> <span>Reports</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('#')}}">Student List</a></li>
-                                <li><a href="{{url('#')}}">Statistics</a></li>
+                                <li class="treeview">
+                                    <a href="#">Student List<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}">Search</a></li>
+                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'per_course'))}}">Per Course</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Statistics</a></li>
                             </ul>
                         </li>
                 </section>
@@ -219,9 +227,15 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <script src="{{ asset ('dist/js/adminlte.min.js')}}"></script>
         <script src="{{ asset ('bower_components/PACE/pace.min.js')}}"></script>
         <script>
-           $(document).ajaxStart(function () {
-               Pace.restart()
-           })
+                                                   $(document).ajaxStart(function () {
+                                                       Pace.restart()
+                                                   })
+        </script>
+        <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+        <script>
+                                                   $(function () {
+                                                       $('.select2').select2();
+                                                   });
         </script>
         @yield('footerscript')
     </body>

@@ -64,7 +64,7 @@ $status = \App\Status::where('idno', $idno)->first();
         </tr>
         <tr>
             <td class='no-border td'>Level:</td>
-            <td class='underline td' width='40%'>{{$status->Level}}</td>
+            <td class='underline td' width='40%'>{{$status->level}}</td>
             <td class='no-border td' width='5%'>Section:</td>
             <td class='underline td'>{{$status->section}}</td>
         </tr>

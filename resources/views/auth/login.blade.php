@@ -27,6 +27,10 @@
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <style>
+            @font-face {
+    font-family: myFirstFont;
+    src: url("../../fonts/OLD.ttf");
+}
             img {
                 display: block;
                 max-width:230px;
@@ -40,13 +44,11 @@
             .schoolname{
                 font-family:"Old English Text MT";
                 font-size: 25pt; 
-                font-weight: bolder; 
                 color:#003147
             }
             .schoolname2{
-                font-family:"Times New Roman";
-                font-size: 25pt; 
-                font-weight: bolder; 
+                font-family:"Old English Text MT";
+                font-size: 25pt;  
                 color:#003147
             }
             .footer {
@@ -72,7 +74,7 @@
     <body>
         <div class="container-fluid header">    
             <div class="col-md-1 pull-left"><img class="image img-responsive logo" src="{{url('/images','assumption-logo.png')}}"></div>
-            <div class="col-md-8"><span class="schoolname">A</span><span class='schoolname2'>ssumption</span> <span class='schoolname'>C</span><span class='schoolname2'>ollege</span> <br> San Lorenzo Drive, San Lorenzo Village<br> Makati City</div>
+            <div class="col-md-8"><span class="schoolname">A</span><span class='schoolname2'>ssumption</span> <span class='schoolname'>C</span><span class='schoolname2'>ollege</span> <br> San Lorenzo Drive, San Lorenzo Village<br> Makati City, 1223</div>
             <div class="col-md-3 sis"><span id="sisname">School Information System</span></div>
         </div>
         <div class="login-box">

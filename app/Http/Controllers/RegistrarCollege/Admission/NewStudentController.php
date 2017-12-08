@@ -15,7 +15,8 @@ class NewStudentController extends Controller {
 
     function index() {
         if (Auth::user()->accesslevel == '20') {
-            return view('reg_college.admission.new_student');
+            $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
+            return view('reg_college.admission.new_student', compact('programs'));
         }
     }
 

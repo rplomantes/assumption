@@ -1,15 +1,20 @@
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
-$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+?>
+<?php
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
 if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
+?>
+<?php
+$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+$units = 0;
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -88,46 +93,6 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </ul>
                 </div>
             </div>
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Tuition Fee Quotations</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    </div>
-                </div>
-                <div class='box-body'>
-                    <div class="form-horizontal">
-                    <div class='form-group'>
-                        <div class='col-sm-12' id='type_account-form'>
-                            <label>Type of Account</label>
-                            <select class='form-control' id='type_account' name="type_account">
-                                <option>Select type of Account</option>
-                                <option value="Regular">Regular</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class='col-sm-12' id='plan-form'>
-                            <label>Plan</label>
-                            <select id="plan" name="plan" class='form-control'>
-                                <option>Select Plan</option>
-                                <option value='Cash'>Cash</option>
-                                <option value='Quarterly'>Quarterly</option>
-                                <option value='Monthly'>Monthly</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="compute-form">
-                        <div class="col-sm-12">
-                            <button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}')">Compute</button>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 box-body" id="display_result">
-
-                    </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="col-md-8">
             <div class="box">
@@ -149,7 +114,6 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $units = 0; ?>
                             @foreach($grade_colleges as $grade_college)
                             <?php
                             $units = $units + $grade_college->lec + $grade_college->lab;
@@ -198,38 +162,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </table>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <a href="{{url('registrar_college', array('reassess',$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
+            </div>
+            <div class="col-sm-6">
+                <a href='{{url('/')}}'><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
+            </div>
         </div>
     </div>
 </section>
 
 @endsection
 @section('footerscript')
-<script>
-    $("#plan-form").hide();
-    $("#compute-form").hide();
-    $("#type_account-form").change(function () {
-    $("#plan-form").fadeIn();
-    });
-    $("#plan-form").change(function () {
-    $("#compute-form").fadeIn();
-    });</script>
-<script>
-    function get_assessed_payment(plan, type_account, idno){
-    array = {};
-    array['plan'] = plan;
-    array['type_of_account'] = type_account;
-    array['program_code'] = "{{$status->program_code}}";
-    array['level'] = "{{$status->level}}";
-    array['idno'] = idno;
-    $.ajax({
-    type: "GET",
-            url: "/ajax/registrar_college/assessment/get_assessed_payment",
-            data: array,
-            success: function (data) {
-            $('#display_result').html(data);
-            }
-
-    });
-    }
-</script>
 @endsection

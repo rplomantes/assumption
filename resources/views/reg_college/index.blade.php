@@ -24,8 +24,8 @@
 @section('header')
 <section class="content-header">
     <h1>
-        Search Students
-        <small></small>
+        Dashboard
+        <small>Search Students</small>
     </h1>
     <ol class="breadcrumb">
         <li class="active"><a href="/"><i class="fa fa-home"></i> Home</a></li>

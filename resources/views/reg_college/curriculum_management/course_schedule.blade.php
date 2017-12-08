@@ -59,7 +59,7 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section']
                         <div class="col-md-4">
                             <div class="form-group" id="program-form">
                                 <label>Program</label>
-                                <select id="program_code" class="form-control select2" style="width: 100%;" onchange="selectLevel()">
+                                <select id="program_code" class="form-control select2" style="width: 100%;">
                                     <option value=" ">Select Program</option>
                                     @foreach ($program_codes as $program_code)
                                     <option value="{{$program_code->program_code}}">{{$program_code->program_code}}</option>

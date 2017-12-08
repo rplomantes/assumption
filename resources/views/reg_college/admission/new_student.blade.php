@@ -1,6 +1,3 @@
-<?php
-$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
-?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
 <li class="dropdown messages-menu">

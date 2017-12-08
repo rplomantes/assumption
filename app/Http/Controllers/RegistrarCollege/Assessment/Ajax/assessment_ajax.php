@@ -44,7 +44,14 @@ class assessment_ajax extends Controller {
 
                 $this->changeStatus($school_year, $period, $plan, $type_of_account, $idno);
 
-                return view('reg_college.assessment.ajax.display_result', compact('idno'));
+                $totalFee = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('amount');
+                $tuition = \App\Ledger::groupBy(array('category'))->where('category', 'Tuition Fees Receivable')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
+                $misc = \App\Ledger::groupBy(array('category'))->where('category', 'Miscellaneous Fees')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
+                $other = \App\Ledger::groupBy(array('category'))->where('category', 'Other Fees')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
+                $depo = \App\Ledger::groupBy(array('category'))->where('category', 'Depository Fees')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
+                $srf = \App\Ledger::groupBy(array('category'))->where('category', 'Subject Related Fee')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
+
+                return view('reg_college.assessment.ajax.display_result', compact('idno','totalFee', 'tuition', 'misc', 'other', 'depo', 'srf'));
             }
         }
     }
@@ -106,7 +113,7 @@ class assessment_ajax extends Controller {
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
         $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 5)->sum('amount');
         $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 5)->sum('amount');
-        $totalFees = $totalTuition+$totalOtherFees;
+        $totalFees = $totalTuition + $totalOtherFees;
         $downpaymentamount = ($totalTuition / 2) + $totalOtherFees;
 
         if ($plan == 'Cash') {
@@ -116,7 +123,7 @@ class assessment_ajax extends Controller {
             $addledgerduedates->period = $period;
             $addledgerduedates->due_switch = 0;
             $addledgerduedates->due_date = date('Y-m-d');
-            $addledgerduedates->amount = $totalTuition;
+            $addledgerduedates->amount = $totalFees;
             $addledgerduedates->save();
         } else {
             $addledgerduedates = new \App\LedgerDueDate;

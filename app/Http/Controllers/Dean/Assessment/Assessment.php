@@ -40,7 +40,7 @@ class Assessment extends Controller {
             $updatestatus->status = 1;
             $updatestatus->program_code = "$program_code";
             $updatestatus->program_name = "$program_name";
-            $updatestatus->program_name = "$level";
+            $updatestatus->level = "$level";
             $updatestatus->save();
 
             return view('dean.assessment.confirmed_advised', compact('idno'));
