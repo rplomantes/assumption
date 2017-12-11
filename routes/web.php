@@ -70,6 +70,7 @@ Route::post('/registrar_college/admission/add_new_student','RegistrarCollege\Adm
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
 Route::get('/registrar_college/reports/student_list/search','RegistrarCollege\Reports\StudentListController@search');
+Route::get('/registrar_college/reports/student_list/print_search/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_search');
 //Ajax Student List
 Route::get('/ajax/registrar_college/reports/student_list/search','RegistrarCollege\Reports\Ajax\StudentList_ajax@search');
 

@@ -123,5 +123,15 @@
 
         });
     }
+    
+    function print_search(school_year, period, level, program_code) {
+        array = {};
+        array['school_year'] = school_year;
+        array['period'] = period;
+        array['level'] = level;
+        array['program_code'] = program_code;
+        
+        window.open('/registrar_college/reports/student_list/print_search/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
+    }
 </script>
 @endsection

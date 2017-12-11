@@ -51,7 +51,7 @@ class assessment_ajax extends Controller {
                 $depo = \App\Ledger::groupBy(array('category'))->where('category', 'Depository Fees')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
                 $srf = \App\Ledger::groupBy(array('category'))->where('category', 'Subject Related Fee')->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->selectRaw('category, sum(amount) as amount')->get();
 
-                return view('reg_college.assessment.ajax.display_result', compact('idno','totalFee', 'tuition', 'misc', 'other', 'depo', 'srf'));
+                return view('reg_college.assessment.ajax.display_result', compact('idno', 'totalFee', 'tuition', 'misc', 'other', 'depo', 'srf'));
             }
         }
     }
@@ -67,23 +67,24 @@ class assessment_ajax extends Controller {
             $interest = 1.03;
         }
 
+        $tuitionfee = 0;
         foreach ($grades as $grade) {
-            $tuitionfee = ((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100));
-            $addledger = new \App\ledger;
-            $addledger->idno = $idno;
-            $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-            $addledger->program_code = $program_code;
-            $addledger->level = $level;
-            $addledger->school_year = $school_year;
-            $addledger->period = $period;
-            $addledger->category = "Tuition Fees Receivable";
-            $addledger->subsidiary = $grade->course_code;
-            $addledger->receipt_details = "Tuition Fees Receivable";
-            $addledger->accounting_code = 120100;
-            $addledger->category_switch = "5";
-            $addledger->amount = $tuitionfee * $interest;
-            $addledger->save();
+            $tuitionfee = $tuitionfee + (((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100)) * $interest);
         }
+        $addledger = new \App\ledger;
+        $addledger->idno = $idno;
+        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+        $addledger->program_code = $program_code;
+        $addledger->level = $level;
+        $addledger->school_year = $school_year;
+        $addledger->period = $period;
+        $addledger->category = "Tuition Fees Receivable";
+        $addledger->subsidiary = "Tuition Fees Receivable";
+        $addledger->receipt_details = "Tuition Fees Receivable";
+        $addledger->accounting_code = 120100;
+        $addledger->category_switch = "5";
+        $addledger->amount = $tuitionfee;
+        $addledger->save();
     }
 
     function getOtherFee($idno, $school_year, $period, $level, $program_code) {

@@ -74,7 +74,7 @@ $status = \App\Status::where('idno', $idno)->first();
     $units = 0;
     ?>
     @if(count($grade_colleges)>0)
-    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 12px;'>
+    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='3px' style='margin-top: 12px;'>
         <thead>
             <tr style='background: #a0a0a0'>
                 <th class='td'><b>Code</b></th>
@@ -92,7 +92,7 @@ $status = \App\Status::where('idno', $idno)->first();
             <tr>
                 <td class='td'>{{$grade_college->course_code}}</td>
                 <td class='td'>{{$grade_college->course_name}}</td>
-                <td class='td'>{{$grade_college->lec+$grade_college->lab}}</td>
+                <td class='td' align='center'>{{$grade_college->lec+$grade_college->lab}}</td>
                 <td class='td'>
                     <?php
                     $schedule3s = \App\ScheduleCollege::distinct()->where('course_offering_id', $grade_college->course_offering_id)->get(['time_start', 'time_end', 'room']);
@@ -126,7 +126,7 @@ $status = \App\Status::where('idno', $idno)->first();
             @endforeach
             <tr style="background: #a0a0a0">
                 <td class='td' colspan="2"><strong>Total Units</strong></td>
-                <td class='td'><strong>{{$units}}</strong></td>
+                <td class='td' align='center'><strong>{{$units}}</strong></td>
                 <td class='td' colspan="2"></td>
             </tr>
         </tbody>
