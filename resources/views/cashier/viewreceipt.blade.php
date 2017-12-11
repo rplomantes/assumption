@@ -40,13 +40,32 @@
 @endsection
 @section('maincontent')
 <div class="container-fluid">
-    <div class="col-md-6">
-        <div class="box-body">
-        <div>Assumption College</div>
-        <div>San Lorenzo, Makati</div>
-        <div>Name: {{$payment->paid_by}}</div>
+    
+    <div class="col-md-6 official_receipt">
+        
+        <div class="col-md-2 image img-responsive"> <img width="86"src="{{url('/images','assumption-logo.png')}}" ></div>
+        <div class="col-md-10"><div class="logo">Assumption College</div>
+        San Lorenzo,<br> Makati City</div>
+        <div class="col-md-4 pull-right">
+            <div class="orno">OR No. : {{$payment->receipt_no}}</div>
+        </div>
+        <div class="col-md-12 orheader">OFFICIAL RECEIPT</div>
+        <div class="col-md-12">
+        <table class="table">
+        <tr><th>Name:</th><td><b> {{$payment->paid_by}}</b></td><td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td><tr>
+        @if($status->status==3)
+            @if($status->department=="College")
+            <tr><th>Course / Level</th><td>{{$status->program_code}} / {{$tatus->level}}</td><td></td></tr>
+            @else
+            <tr><th>Level / Section</th><td>{{$status->level}}</td><td></td></tr>
+            @endif
+        @endif    
+        <tr><th></th><td align="right"></td></tr>
+        </table>
+       
+        
         <?php $totalreceipt=0;?>
-        <table class="table table-bordered table-hover"><tr><td>Particular</td><td align="right">Amount</td></tr>
+        <table class="table table-striped table-hover"><thead><tr><th>Particular</th><th>Amount</th></tr></thead>
         @if(count($receipt_details)>0)
             @foreach($receipt_details as $receipt_detail)
             <?php $totalreceipt=$totalreceipt+$receipt_detail->credit;?>
@@ -62,30 +81,37 @@
                 <td>({{number_format($less->debit,2)}})</td></tr>
             @endforeach
         @endif
-        <tr><td>Total</td><td align="right">{{number_format($totalreceipt,2)}}</td><tr>
+        <tr><td>Total</td><td align="right"><span class="totalreceipt">{{number_format($totalreceipt,2)}}</span></td><tr>
         </table>
-        <h5>Details</h5>
-        <div>{{$payment->remarks}}</div>
-        @if($payment->cash_amount>0)
-        <div>Cash Received : {{number_format($payment->amount_received,2)}}</div>
-        <div>Change : {{number_format($payment->amount_received-$payment->cash_amount,2)}}</div>
+        
+        <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+        <b>Explanation:</b><br>{{$payment->remarks}}
+        </p>
+        <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+        <b>Payment Details:</b><br>  
+        @if($payment->cash_amount>0) 
+        Cash Received : {{number_format($payment->amount_received,2)}}<br>
+        Change : {{number_format($payment->amount_received-$payment->cash_amount,2)}}<br>
         @endif
         @if($payment->check_amount>0)
-        <div>Bank : {{$payment->bank_name}}</div>
-        <div>Check No : {{$payment->check_number}}</div>
-        <div>Check Amount : {{number_format($payment->check_amount)}}</div>
+        Bank : {{$payment->bank_name}}<br>
+        Check No : {{$payment->check_number}}<br>
+        Check Amount : {{number_format($payment->check_amount)}}<br>
         @endif
         @if($payment->credit_card_amount>0)
-        <div>Credit Card : {{$payment->credit_card_bank}} {{$payment->credit_card_type}}</div>
-        <div>Credit Card No : {{substr_replace($payment->credit_card_number,"***********",0,12)}}</div>
-        <div>Approval No : {{$payment->approval_number}}</div>
-        <div>Amount : {{number_format($payment->credit_card_amount,2)}}</div>
+        Credit Card : {{$payment->credit_card_bank}} {{$payment->credit_card_type}}<br>
+        Credit Card No : {{substr_replace($payment->credit_card_number,"***********",0,12)}}<br>
+        Approval No : {{$payment->approval_number}}<br>
+        Amount : {{number_format($payment->credit_card_amount,2)}}<br>
         @endif
         @if($payment->deposit_amount>0)
-        <div>Deposit Ref : {{$payment->deposit_reference}}</div>
-        <div>Deposit Amount : {{number_format($payment->deposit_amount,2)}}</div>
+        Deposit Ref : {{$payment->deposit_reference}}<br>
+        Deposit Amount : {{number_format($payment->deposit_amount,2)}}<br>
         @endif
-        </div> 
+        </p>
+        <p class="" style="margin-top: 10px;">
+            Posted by: <b>{{\App\User::where('idno',$payment->posted_by)->first()->firstname}} {{\App\User::where('idno',$payment->posted_by)->first()->lastname}}</b>
+        </p>
         <div class="col-md-12">
             <div class="form form-group">
             <a class="btn btn-danger pull-right" target="_blank" href="{{url("/cashier",array("printreceipt",$payment->reference_id))}}">Print Receipt</a>
@@ -105,13 +131,15 @@
             
             </div>  
     </div>
+        
+    </div>    
     <div class="col-md-6">
         <div class="box-body">
-        <h5>Accounting Entry Details</h5>
+        <label>Accounting Entry Details</label>
         @if(count($accountings)>0)
         <?php $totaldebit=0; $totalcredit=0;?>
             <table class="table table-striped table-responsive">
-                <tr><td>Entry Date</td><td>Accounting Code</td><td>Accounting Name</td><td align="center">Debit</td><td align="center">Credit</td><td>Status</td></tr>
+                <tr><th>Entry Date</th><th>Acctg Code</td><th>Accounting Name</th><th align="center">Debit</th><th align="center">Credit</th><th>Status</td></tr>
                 @foreach($accountings as $accounting)
                 <?php $totalcredit=$totalcredit+$accounting->credit;
                       $totaldebit=$totaldebit+$accounting->debit;  
@@ -136,6 +164,31 @@
 @section('footerscript')
 <style>
  .table{border-color: #000;}
+ .orno{text-align: right;
+        color:#f00;
+        font-size: 15pt;
+ }
+ .orheader{
+     text-align: center;
+     font-size: 18pt;
+     font-weight: bold;
+     text-decoration: underline;
+ }
+ .totalreceipt{
+     color:darkblue;
+     font-weight: bold;
+     font-size: 12pt;
+ }
+ .official_receipt{
+     padding: 10px;
+     background-color: #fff;
+     
+ }
+ .logo{
+     font-size: 20pt;
+     font-weight: bold;
+     color: darkblue;
+ }
 </style>
 <script>
   $(document).ready(function(){

@@ -27,15 +27,18 @@ class StudentReservation extends Controller
     }
     
      function postreservation(Request $request){
+        if(Auth::user()->accesslevel==env("CASHIER")){ 
         DB::beginTransaction();
         $reference_id = uniqid();
         $this->postPayment($request,$reference_id);
         $this->postDeposit($request, $reference_id);
         $this->postAccounting($request, $reference_id);
+        $this->postCashDebit($request, $reference_id);
         StudentLedger::updatereceipt();
         DB::commit();
-        
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
+        
+        }  
     }
     
     function postAccounting($request, $reference_id){
@@ -74,33 +77,7 @@ class StudentReservation extends Controller
         $addaccounting->save();
         }
         
-        $addaccounting = new \App\Accounting;
-        $totalamount=0;
-        if($request->cash_receive != ""){
-            $totalamount=$totalamount+$request->cash_receive-$request->change;
-        }
-        if($request->check_amount != ""){
-            $totalamount=$totalamount+$request->check_amount;
-        }
-        if($request->credit_card_amount != ""){
-            $totalamount=$totalamount+$request->credit_card_amount;
-        }
-        if($request->deposit_amount != ""){
-            $totalamount=$totalamount+$request->deposit_amount;
-        }
-        $addaccounting->transaction_date=date('Y-m-d');
-        $addaccounting->reference_id=$reference_id;
-        $addaccounting->accounting_type=1;
-        $addaccounting->category="Cash";
-        $addaccounting->subsidiary="None";
-        $addaccounting->receipt_details="Cash";
-        $addaccounting->particular="Cash";
-        $addaccounting->accounting_code="110011";
-        $addaccounting->accounting_name="BPI ACCT";
-        $addaccounting->fiscal_year=$fiscal_year;
-        $addaccounting->debit=$totalamount;
-        $addaccounting->posted_by=Auth::user()->idno;
-        $addaccounting->save();
+        
     }
     
     function postDeposit($request,$reference_id){
@@ -125,7 +102,7 @@ class StudentReservation extends Controller
         $addreservation->save();
         }
     }
-    function postPayment($request,$reference_id){
+    public static function postPayment($request,$reference_id){
         $remarks="";
         $paidby = \App\User::where('idno',$request->idno)->first();
         $adddpayment = new \App\Payment;
@@ -154,15 +131,53 @@ class StudentReservation extends Controller
             $adddpayment->deposit_reference=$request->deposit_reference;
             $adddpayment->deposit_amount=$request->deposit_amount;
         }
+        if(isset($request->reservation)){
         if($request->reservation > 0){
-            $remarks = $remarks." Reservation";
-        }
+            $remarks = $remarks."Reservation - ";
+        }}
+        if(isset($request->deposit)){
         if($request->deposit > 0 ){
-            $remarks= $remarks . " Student Deposit";
+            $remarks= $remarks . "Student Deposit - ";
+        }}
+        
+        if(isset($request->remark)){
+            $remarks=$remarks . $request->remark;
         }
+        
         $adddpayment->remarks=$remarks; 
         $adddpayment->posted_by=Auth::user()->idno;
         $adddpayment->save();
     }
     
+    public static function postCashDebit($request,$reference_id){
+        $addaccounting = new \App\Accounting;
+        $fiscal_year= \App\CtrFiscalYear::first()->fiscal_year;
+        $totalamount=0;
+        if($request->cash_receive != ""){
+            $totalamount=$totalamount+$request->cash_receive-$request->change;
+        }
+        if($request->check_amount != ""){
+            $totalamount=$totalamount+$request->check_amount;
+        }
+        if($request->credit_card_amount != ""){
+            $totalamount=$totalamount+$request->credit_card_amount;
+        }
+        if($request->deposit_amount != ""){
+            $totalamount=$totalamount+$request->deposit_amount;
+        }
+        $addaccounting->transaction_date=date('Y-m-d');
+        $addaccounting->reference_id=$reference_id;
+        $addaccounting->accounting_type=1;
+        $addaccounting->category="Cash";
+        $addaccounting->subsidiary="None";
+        $addaccounting->receipt_details="Cash";
+        $addaccounting->particular="Cash";
+        $addaccounting->accounting_code="110011";
+        $addaccounting->accounting_name="BPI ACCT";
+        $addaccounting->fiscal_year=$fiscal_year;
+        $addaccounting->debit=$totalamount;
+        $addaccounting->posted_by=Auth::user()->idno;
+        $addaccounting->save();
+        
+    }
 }

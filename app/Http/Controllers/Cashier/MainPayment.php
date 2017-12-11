@@ -17,4 +17,77 @@ class MainPayment extends Controller
         $this->middleware('auth');
     }
     
-}
+    function main_payment($idno){
+        if(Auth::user()->accesslevel==env("CASHIER")){
+        $user = \App\User::where('idno',$idno)->first();
+        $receipt_number=  StudentLedger::getreceipt();
+        $total_other=0.00;
+        
+        //Other Fee Total
+        $other_fee_total =  \App\Ledger::where('idno',$idno)->where('category_switch',env("OTHER_FEE"))
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
+        //Miscellaneous Fee Total
+        $miscellaneous_fee_total =  \App\Ledger::where('idno',$idno)->where('category_switch',env("MISC_FEE"))
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
+        ///Depository Fee Total
+        $depository_fee_total =  \App\Ledger::where('idno',$idno)->where('category_switch',env("DEPOSITORY_FEE"))
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
+        //Subject Related Fee Total
+        $srf_total =  \App\Ledger::where('idno',$idno)->where('category_switch',env("SRF_FEE"))
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
+         
+        //Tuion Fee Total
+        $tuition_fee_total =  \App\Ledger::where('idno',$idno)->where('category_switch',env("TUITION_FEE"))
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
+       //Previous Balances
+        $previous_total =  \App\Ledger::where('idno',$idno)->where('category_switch','>=','10')
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
+        //Other Fee
+        $other_misc=  \App\Ledger::where('idno',$idno)->whereRaw('amount-discount-debit_memo-payment > 0 And category_switch=7')->get();
+        
+        if(count($other_misc)>0){
+            foreach($other_misc as $om){
+            $total_other=$total_other+$om->amount-$om->discount-$om->debit_memo-$om->payment;
+            }        
+        }
+//      // Total Due Main
+        $downpayment=  \App\LedgerDueDate::where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
+        $duetoday= \App\LedgerDueDate::where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
+        //Total Payment Main
+        $payment = \App\Ledger::where('idno',$idno)->where('category_switch','<=','5')
+                ->selectRaw('sum(debit_memo)+sum(payment)+sum(discount) as payment')->first();
+        //
+        $due_total = $downpayment->amount + $duetoday->amount -$payment->payment;
+        
+        //reservation
+        $reservation=  \App\Reservation::where('idno',$idno)->where('reservation_type','1')
+                ->where('is_consumed','0')->selectRaw('sum(amount) as amount')->first();
+        //Srudent Deposit
+        $deposit =  \App\Reservation::where('idno',$idno)->where('reservation_type','2')
+                ->where('is_consumed','0')->selectRaw('sum(amount) as amount')->first();
+        
+        return view('cashier.main_payment',compact('user','other_fee_total','miscellaneous_fee_total','depository_fee_total','srf_total','tuition_fee_total','previous_total','other_misc','reservation','deposit','receipt_number','due_total'));
+    
+        }
+    }
+    function post_main_payment(Request $request){
+       /* if(Auth::user()->accesslevel==env("CASHIER")){    
+        DB::beginTransaction();
+        $reference_id = uniqid();
+        StudentReservation::postPayment($request,$reference_id);
+        $this->postAccounting($request, $reference_id);
+        StudentReservation::postCashDebit($request, $reference_id);
+        StudentLedger::updatereceipt();
+        DB::commit();
+        return redirect(url('/cashier',array('viewreceipt',$reference_id)));
+        }*/
+        return $request;
+    }
+  }
+

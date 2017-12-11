@@ -9,4 +9,7 @@ Route::post('/cashier/reservation','Cashier\StudentReservation@postreservation')
 
 Route::get('/cashier/viewreceipt/{reference_id}','Cashier\StudentLedger@viewreceipt');
 Route::get('/cashier/other_payment/{idno}','Cashier\OtherPayment@other_payment');
+Route::post('/cashier/other_payment','Cashier\OtherPayment@post_other_payment');
+Route::get('/cashier/main_payment/{idno}','Cashier\MainPayment@main_payment');
+Route::post('/cashier/main_payment','Cashier\MainPayment@post_main_payment');
 ?>

@@ -1,3 +1,27 @@
+<?php
+$other=0;
+$miscellaneous=0;
+$depository=0;
+$srf=0;
+$tuition=0;
+
+if($other_fee_total->balance>0)
+    $other = $other_fee_total->balance;
+
+if($miscellaneous_fee_total->balance>0)
+    $miscellaneous=$miscellaneous_fee_total->balance;
+
+if($depository_fee_total->balance>0)
+    $depository=$depository_fee_total->balance;
+
+if($srf_total->balance>0)
+    $srf=$srf_total->balance;
+
+if($tuition_fee_total->balance>0)
+    $tuition=$tuition_fee_total->balance;
+
+$total_max = $other+$miscellaneous+$depository+$srf+$tuition;
+?>
 @extends('layouts.appcashier')
 @section('messagemenu')
  <li class="dropdown messages-menu">
@@ -28,13 +52,13 @@
 
 <section class="content-header">
       <h1>
-        Other Payment
+        Main Payment
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"> Student Ledger</a></li>
-        <li class="active">Other Payment</li>
+        <li class="active">Main Payment</li>
       </ol>
 </section>
 @endsection
@@ -46,79 +70,135 @@
                     <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
                     <tr><td>Studnt Name : </td><td>{{$user->lastname}}, {{$user->firstname}}</td></tr>
                     </table>
-        </div>>   
+        </div>  
         <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
     </div>    
    <hr />  
-  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/cashier','other_payment')}}">
+  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/cashier','main_payment')}}">
   
       {{csrf_field()}}
            <input type="hidden" name="idno" value="{{$user->idno}}">
            <input type="hidden" name="receipt_no" value="{{$receipt_number}}">
            
-   <div class="col-md-6">
-     <div id="detailed_form">   
-        <div class="form form-group">    
-            <div class="crcform">
-                <h3>Other Payment Details</h3>
-                <div class="form form-group">
+    <div class="col-md-6">
+        <div id="detailed_form">   
+            <div class="form form-group">    
+                <div class="crcform">
+                    @if(count($previous_total)>0)
+                    @if($previous_total->balance > 0)
+                    <div class="form form-group">
+                    <div class="col-md-6">
+                        <span class="label_collected">Previous Balance :</span>
+                    </div> 
+                     <div class="col-md-6">
+                         <input type="hidden" id="previous_balance" name="previous_balance" value="{{$previous_total->balance}}">
+                         <div class="form form-control number">{{number_format($previous_total->balance,2)}}</div>
+                     </div>
+                     </div>   
+                    @else
+                        <input type="hidden" id="previous_balance" name="previous_balance" value="0.00">
+                    @endif
+                    @else
+                        <input type="hidden" id="previous_balance" name="previous_balance" value="0.00">
+                    @endif
+                    <div class="form form-group">
+                    <div class="col-md-6">
+                        <span class="label_collected">Main Account :</span>
+                    </div> 
+                    <div class="col-md-6">
+                        <input type="text" class="form form-control number" name="main_due" id="main_due" value="{{$due_total}}" >
+                    </div> 
+                    </div>
+                    
+                    <div class="col-md-12">
                         
-                        <div class="col-md-5">   
-                            Particular
+                        <table class="table table-bordered fees">
+                            <tr><td width="33%" align="right">Fees</td><td width="33%" align="right">Balance</td><td align="right">Amount</td></tr>
+                            <tr><td align="right">Other Fee</td><td align="right">{{number_format($other_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$other_fee_total->balance}},this.value,this)" type="text" name="other_fee" id="other_fee" class="form form-control number"></tr>
+                            <tr><td align="right">Miscellaneous Fee</td><td align="right">{{number_format($miscellaneous_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$miscellaneous_fee_total->balance}},this.value,this)" type="text" name="miscellaneous" id="miscellaneous" class="form form-control number"></tr>
+                            <tr><td align="right">Depository Fee</td><td align="right">{{number_format($depository_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$depository_fee_total->balance}},this.value,this)" type="text" name="depository" id="depository" class="form form-control number"></tr>
+                            <tr><td align="right">Subject Related Fee</td><td align="right">{{number_format($srf_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$srf_total->balance}},this.value,this)" type="text" name="srf" id="srf" class="form form-control number"></tr>
+                            <tr><td align="right">Tuition Fee</td><td align="right">{{number_format($tuition_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$tuition_fee_total->balance}},this.value,this)" type="text" name="tuition" id="tuition" class="form form-control number"></tr>
+                        </table>        
+                    </div>  
+                    
+                    @if(count($other_misc)>0)
+                    
+                    <div class="form form-group">
+                    <div class="col-md-12">
+                        <span class="label_collected">Other Payment :</span>
+                    </div> 
+                    </div>    
+                   <div class="col-md-12">    
+                        <table class="table table-bordered fees"><tr><td align="right">Particular</td><td></td><td align="right">Amount</td></tr>
+                           @foreach($other_misc as $om)
+                           <tr><td  width="33%" align="right">{{$om->receipt_details}}</td><td width="33%"></td><td><input class="form form-control number other_misc" type="text"  id="other_misc[]" name="other_misc[{{$om->id}}]" onkeypress="do_other(event,{{$om->amount-$om->discount-$om->debit_memo-$om->payment}},this.value,this)" value="{{$om->amount-$om->discount-$om->debit_memo-$om->payment}}"></td></tr>
+                             @endforeach
+                        </table>     
+                    </div> 
+  
+                     
+                   
+                   
+                    @endif
+                    <?php /*
+                    @if(count($reservation)>0)
+                    @if($reservation->amount>0)
+                    <div class="form form-group">
+                    <div class="col-md-6">
+                        <span class="label_collected">Reservation :</span>
+                    </div> 
+                     <div class="col-md-6">
+                         <input type="hidden"  name="reservation" value="{{$reservation->amount}}">
+                         <div class="form form-control number">{{number_format($reservation->amount,2)}}</div>
+                     </div>
+                     </div>   
+                    @else
+                        <input type="hidden"  name="reservation" value="0.00">
+                    @endif
+                    @else
+                        <input type="hidden"  name="reservation" value="0.00">
+                    @endif
+                    
+                    @if(count($deposit)>0)
+                    @if($deposit->amount>0)
+                    <div class="form form-group">
+                    <div class="col-md-6">
+                        <span class="label_collected">Student Deposit :</span>
+                    </div> 
+                     <div class="col-md-6">
+                         <input type="hidden"  name="deposit" value="{{$deposit->amount}}">
+                         <div class="form form-control number">{{number_format($deposit->amount,2)}}</div>
+                     </div>
+                     </div>   
+                    @else
+                    <input type="hidden"  name="deposit" value="0.00">
+                    @endif
+                    @else
+                        <input type="hidden"  name="deposit" value="0.00">
+                    @endif*/?>
+                    <div class="form form-group">
+                    <div class="col-md-6">
+                        <span class="label_collected">Amount To Be Paid :</span>
+                    </div> 
+                    <div class="col-md-6">
+                        <input type="text" class="form form-control number" id="collected_amount" name="collected_amount" disabled="disabled">
+                    </div> 
+                    </div> 
+                    <div id="donereg">
+                    <div class="form form-group">
+                        <div class="col-md-6">
+                            <span class="label_collected">Explanation :</span>
                         </div>
-
-                        <div class="col-md-5">
-                            Amount
+                        <div class="col-md-6">
+                            <input type="text" class="form form-control" name="remark" id="explanation">
                         </div>
-                        <div class="col-md-2">
-                        
-                        </div>
-                </div> 
-                
-             <div  id="dynamic_field">
-                        <!--div class="top-row"-->
-                        <div class="form form-group">
-                        <div class="col-md-5">
-                            <select name="particular[]" id="particular1" class="form form-control select2" onkeypress="gotoother_amount(1,event)">
-                            <option>Select Particular</option>
-                            @if(count($particulars)>0)
-                                @foreach($particulars as $particular)
-                                    <option value="{{$particular->subsidiary}}">{{$particular->subsidiary}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                            
-                        </div>
-
-                        <div class="col-md-5">
-                            <input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup = "toNumeric(this)" name="other_amount[]" id="other_amount1"/>
-                        </div>
-                        <div class="col-md-2">
-                        <button type="button" name="add" id="add" class="btn btn-success"> + </button></td>
-                        </div>
-                        </div>    
-            </div>
-                
-        <div class="form form-group">
-        <div class="col-md-5 col-md-offset-5">
-           Total : <input disabled="disabled" type="text" class="form form-control number" name="other_total" id="other_total" value="0.00">
-        </div>
-        </div> 
-        <div class="form form-group">
-        <div class="col-md-10">
-            <div id="donereg">
-            <label>Details:</label>
-            <input type="text" name="remark" id="remark" class="form form-control">
-           <!-- <buton class="btn btn-primary form-control" id="donereg">Next <i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"></i></buton>-->
-            </div>
-            </div>     
-        </div>   
-            
-            
-      </div>
-    
-     </div>  
-   </div>    
+                    
+                    </div>
+                    </div>        
+                </div>
+            </div>  
+        </div>    
    </div>
    <div class="col-md-6">
       <div id="payment_pad"> 
@@ -215,6 +295,13 @@
 @section('footerscript')
 <link rel="stylesheet" href="{{url('/',array('bower_components','select2','dist','css','select2.min.css'))}}">
 <style>
+    .fees td input{
+        background-color: #ccc;
+    }
+    .label_collected{
+        font-size:15pt;
+        font-weight: bold;
+    }
     .submit_button{
         padding-top:10px;
     }
@@ -247,59 +334,51 @@
         color:#f00;
         font-weight: bold;
     }
-   
+    #collected_amount{
+        color:#f00;
+        font-weight: bold;
+        font-size: 12pt;
+    }
 </style>
 
 <script src="{{url('/',array('bower_components','select2','dist','js','select2.full.min.js'))}}"></script>
 
 <script>
-    $(document).ready(function(){
-        
-         var i = 1;
-         $('.select2').select2();
-         $('#add').click(function(){
-         if($("#explanation"+i).val()=="" || $("#other_amount" + i).val()==""){
-         alert("Please Fill-up Required Fields " + $("#subsidiary" + i).val());
-           } else {   
-        i++;
-        $('#dynamic_field').append('<div id="row'+i+'" class="form form-group">\n\
-        <div class="col-md-5">\n\
-        <select class="form form-control select2" type="text" onkeypress = "gotoother_amount('+i+',event)" name="particular[]" id="particular'+i+'">'
-         @foreach($particulars as $particular) + '<option>{{$particular->subsidiary}}</option>'  @endforeach 
-         + '</select></div>\n\
-        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup = "toNumeric(this)" onkeypress = "totalOther(event)" name="other_amount[]" id="other_amount'+i+'"/></div>\n\
-        <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
-        $("#particular"+i).focus();
-        $("#donereg").fadeOut();
-        $("#payment_pad").fadeOut();
-        updatefunction();
-        }});
-            
-            $('#dynamic_field').on('click','.btn_remove', function(){
-                //alert($(this).attr("id"))
-                var button_id = $(this).attr("id");
-                $("#row"+button_id+"").remove();
-                i--;
-                totalamount =0;
-                other_amount = document.getElementsByName('other_amount[]');
-                for(var i = 0; i < other_amount.length; i++){
-                if(other_amount[i].value != ""){    
-                totalamount = totalamount+parseFloat(other_amount[i].value)
-                }
-                }
-                $("#other_total").val(totalamount.toFixed(2))
-                $("#donereg").fadeIn(300);
-            }); 
-            
+    var i = 1;
+    var main_total_max={{$total_max}};
+    var other_total_max={{$other}};
+    var misc_total_max={{$miscellaneous}};
+    var depository_total_max={{$depository}};
+    var srf_total_max={{$srf}};
+    var tuition_total_max={{$tuition}};
+    
+    $(document).ready(function(){ 
         $("#submit_button").fadeOut(300);
         $("#donereg").fadeOut(300);
         $("#payment_pad").fadeOut(300);
-        
-        $("#remark").on('keypress',function(e){
+        $("#main_due").focus();
+        computeSubaccount();
+        $("#main_due").on('keypress',function(e){
             if(e.keyCode==13){
-                if($("#remark").val() == ""){
+                if($("#main_due").val()==""){
+                    $("#main_due").val("0.00");
+                }
+                if($("#main_due").val() > main_total_max){
+                    alert("Amount Should Not Be Greater Than " + "{{number_format($total_max,2)}}" )
+                } else {
+                    computeSubaccount();
+                    computeToBePaid()
+                }
+                
+                e.preventDefault();
+            }
+        });
+        $("#explanation").on('keypress',function(e){
+            if(e.keyCode==13){
+                if($("#explanation").val() == ""){
                     alert("Please Fillup Details");
                 }else{
+                    computeToBePaid()
                     $("#payment_pad").fadeIn();
                     $("#cash_receive").focus();
                 }
@@ -427,10 +506,54 @@
                e.preventDefault();
            }
        })
-    
+       
     
     })
-    
+    function computeSubaccount(){
+        var total = $("#main_due").val();
+        
+        if(total >= other_total_max){
+        $("#other_fee").val(other_total_max)
+        total = total - other_total_max
+        } else {
+         $("#other_fee").val(total)
+         total=0;
+        }
+        
+        if(total >= misc_total_max){
+        $("#miscellaneous").val(misc_total_max)
+        total = total - misc_total_max
+        } else {
+         $("#miscellaneous").val(total)
+         total=0;
+        }
+        
+        if(total >= depository_total_max){
+        $("#depository").val(depository_total_max)
+        total = total - depository_total_max
+        } else {
+         $("#depository").val(total)
+         total=0;
+        }
+        
+        if(total >= srf_total_max){
+        $("#srf").val(srf_total_max)
+        total = total - srf_total_max
+        } else {
+         $("#srf").val(total)
+         total=0;
+        }
+        
+        if(total >= tuition_total_max){
+        $("#tuition").val(tuition_total_max)
+        total = total - tuition_total_max
+        } else {
+         $("#tuition").val(total)
+         total=0;
+        }
+        
+        
+    }
     function updatefunction(){
     $('.select2').select2();
     $(".number").on('keypress',function(e){
@@ -442,12 +565,13 @@
         }});
     }
     
+    
     function computechange(){
          totalamount = 0;
          amountreceive= 0;
          noncash=0;
-         if($("#other_total").val()!=""){
-            totalamount = totalamount + eval($("#other_total").val())
+         if($("#collected_amount").val()!=""){
+            totalamount = totalamount + eval($("#collected_amount").val())
         }
          
          if($("#check_amount").val()!=""){
@@ -472,10 +596,25 @@
               }else{
                   $("#submit_button").fadeOut(300)
               }
-               totalchange=amountreceive+noncash-totalamount;
+              totalchange = amountreceive+noncash-totalamount
                $("#change").val(totalchange.toFixed(2));
                return totalchange.toFixed(2);
          }
+    }
+    
+    function computeToBePaid(){
+        total_payment=0;
+        if($('input.other_misc')){
+        $('input.other_misc').each(function(){
+            total_payment=parseFloat(total_payment) + parseFloat(this.value)
+        })
+        total_payment = parseFloat(total_payment) + parseFloat($("#main_due").val()) + parseFloat($("#previous_balance").val())
+        $("#collected_amount").val(total_payment.toFixed(2));
+        $("#explanation").focus()
+        $("#donereg").fadeIn(300)
+        
+        }
+       
     }
     function gotoother_amount(i,evt){
         if(evt.keyCode==13){
@@ -500,6 +639,32 @@
                          return false;
                  }
         }
+        
+   function do_other(event,amount,value,obj){
+       if(event.keyCode==13 || event.keyCode==9){
+           if(parseFloat(value)>parseFloat(amount)){
+               alert("Invalid amount")
+               obj.value=amount;
+           }else{
+               computeToBePaid();
+           }
+           event.preventDefault();
+       }
+   }   
+   function do_main(event,amount,value,obj){
+       if(event.keyCode==13 || event.keyCode==9){
+           if(parseFloat(value)>parseFloat(amount)){
+               alert("Invalid amount")
+               obj.value=amount;
+           }else{
+               totalmain = parseFloat($("#other_fee").val()) + parseFloat($("#miscellaneous").val())
+               + parseFloat($("#depository").val()) + parseFloat($("#srf").val()) + parseFloat($("#tuition").val());
+               $("#main_due").val(totalmain)
+               computeToBePaid();
+           }
+           event.preventDefault();
+       }     
+   }     
 </script>    
 @endsection
 

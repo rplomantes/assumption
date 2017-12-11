@@ -40,13 +40,36 @@
 @endsection
 @section('maincontent')
 <div class="container-fluid">
-    
-    <div class="col-md-6">
+   <form method="post" action="{{url('cashier','reservation')}}" class="form-horizontal">
+    {{csrf_field()}}
+    <input type="hidden" name="idno" value="{{$user->idno}}">
+    <div class="col-md-12">
+    <div class="form form-group">  
         <table class="table table-bordered">
-            <tr><td>Student ID</td><td>{{$user->idno}}</td></tr>
-            <tr><td>Student Name</td><td><b>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b>
+            <tr><td>Student ID</td><td>{{$user->idno}}</td><td align="right"> Receipt No: <span style="font-size:14pt;font-weight:bold;color:red">{{$receipt_no}}</span></td></tr>
+            <tr><td>Student Name</td><td><b>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></td><td></td></tr>
         </table>
         <hr/>
+    </div>
+    </div>    
+    <div class="col-md-6">
+       <div class="top-payment">
+        <div class="form form-group">
+            <div class="col-md-6">
+            <label>Reservation</label>
+                <input type="text" name="reservation" id="reservation" class="form form-control number" />
+            </div> 
+            <div class="col-md-6">
+            <label>Student Deposit</label>
+                <input type="text" name="deposit" id="deposit" class="form form-control reservation number" />
+            </div> 
+            <div class="col-md-12">
+            <label>Explanation</label>
+                <input type="text" name="remark" id="explanation" class="form form-control reservation" />
+            </div> 
+        </div>    
+    </div> 
+        
         @if(count($reservations)>0)
         <label>Reservation</label>
         <table class="table table-striped">
@@ -89,32 +112,8 @@
         @endif
     </div> 
     
-    <div class="col-md-6">
-        <form method="post" action="{{url('cashier','reservation')}}" class="form-horizontal">
-    {{csrf_field()}}
-    <input type="hidden" name="idno" value="{{$user->idno}}">
-    
-    <div class="form form-group">
-        
-       <div class="nav navbar pull-right">
-            Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_no}}</span>
-            </div>
-    </div>
-  
-   
-    <div class="top-payment">
-        <div class="form form-group">
-            <div class="col-md-6">
-            <label>Reservation</label>
-                <input type="text" name="reservation" id="reservation" class="form form-control number" />
-            </div> 
-            <div class="col-md-6">
-            <label>Student Deposit</label>
-                <input type="text" name="deposit" id="deposit" class="form form-control reservation number" />
-            </div> 
-        </div>    
-    </div>
-    
+ <div class="col-md-6">
+   <div id="payment_pad">  
     <div class="cash-payment">
         <div class="form form-group">
             <div class="col-md-6"> 
@@ -198,9 +197,9 @@
             </div>
         </div>
      </div>    
-    </form>
     </div>
-  
+    </div> 
+      </form>
 </div>    
 @endsection
 @section('footerscript')
@@ -241,7 +240,7 @@
 <script>
     $(document).ready(function(){
         $("#submit_button").fadeOut(300);
-        
+        $("#payment_pad").fadeOut(300)
         $(".number").on('keypress',function(e){
         var theEvent = e || window.event;
         var key = theEvent.keyCode || theEvent.which;
@@ -249,15 +248,38 @@
         theEvent.returnValue = false;
         if (theEvent.preventDefault) theEvent.preventDefault();
         }
-    })
+        });
+        $("#explanation").on("focusin",function(e){
+            $("#payment_pad").fadeOut(300)
+        })
+        $("#reservation").on("focusin",function(e){
+            $("#payment_pad").fadeOut(300)
+        })
+        $("#deposit").on("focusin",function(e){
+            $("#payment_pad").fadeOut(300)
+        })
+        
+        $("#explanation").on("keypress",function(e){
+           if(e.keyCode==13){
+               if($("#explanation").val()==""){
+                   alert("Please enter explanation!!!")
+                   $("#explanation").focus();
+               }else{
+               if($("#reservation").val()=="" && $("#deposit").val()==""){
+                   alert("Please Enter Amount on Reservation or Student Deposit")
+               }else{
+                   $("#payment_pad").fadeIn(300);
+                   $("#cash_receive").focus();
+               }}
+              e.preventDefault(); 
+           } 
+        });
         $("#reservation").on("keypress",function(e){
             if(e.keyCode==13){
-               if($("#reservation").val()=="" && $("#deposit").val()==""){
-                    alert("Please put amount to Reservation or Student Deposit")
-                    $("#reservation").focus();
-                }else{
-                computechange();    
-                $("#cash_receive").focus();
+               if($("#reservation").val()==""){
+                    $("#deposit").focus();
+                }else{   
+                $("#explanation").focus();
                 }
                 e.preventDefault();
             }
@@ -265,11 +287,11 @@
         
         $("#deposit").on("keypress",function(e){
             if(e.keyCode==13){
-                if($("#reservation").val()=="" && $("#deposit").val()==""){
+                if($("#deposit").val()==""){
                     alert("Please put amount to Reservation or Student Deposit")
                     $("#deposit").focus();
                 }else{
-                $("#cash_receive").focus();
+                $("explanation").focus();
                 }
                 e.preventDefault();
             }
@@ -396,8 +418,9 @@
               }else{
                   $("#submit_button").fadeOut(300)
               }
-               $("#change").val(amountreceive+noncash-totalamount);
-               return amountreceive+noncash-totalamount;
+              totalchange=amountreceive+noncash-totalamount
+               $("#change").val(totalchange.toFixed(2));
+               return totalchange.toFixed(2);
          }
     }
 </script>    

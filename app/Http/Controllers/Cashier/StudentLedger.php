@@ -18,24 +18,40 @@ class StudentLedger extends Controller
     
     function view($idno){
      if(Auth::user()->accesslevel==40){
+      $due_others=0.00;
+      $due_previous=0.00;
+      $totalmainpayment = 0.00;
       $user = \App\User::where('idno',$idno)->first();
-      $totalmainpayment = 0;
+      
       $ledger_main = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$idno)->where('category_switch','<=','6')
               ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->get();
+      
       if(count($ledger_main)>0){
          foreach($ledger_main as $payment){
-             $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
+             $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment +$payment->discount;
          } 
       }
       
       $downpayment=  \App\LedgerDueDate::where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
       $duetoday= \App\LedgerDueDate::where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
-      $totaldue=$downpayment->amount + $duetoday->amount - $totalmainpayment;
-      $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch','7')->get();
       
-      $previous=  \App\Ledger::where('idno',$idno)->where('category_switch','>',9)->
+      $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch','7')->get();
+      if(count($ledger_others)>0){
+          foreach($ledger_others as $ledger_other){
+              $due_others=$due_others + $ledger_other->amount - $ledger_other->discount - $ledger_other->debit_memo -$ledger_other->payment;
+          }
+      }
+      
+      $previous=  \App\Ledger::where('idno',$idno)->where('category_switch','>','9')->
               whereRaw("amount-payment-debit_memo-discount > 0")->get();
       
+      if(count($previous)>0){
+          foreach($previous as $prev){
+              $due_previous = $due_previous + $prev->amount - $prev->discount -$prev->debit_memo - $prev->payment;
+          }
+      }
+      
+      $totaldue=$downpayment->amount + $duetoday->amount - $totalmainpayment +$due_others + $due_previous;
       $status = \App\Status::where('idno',$idno)->first();
       
       $payments =  \App\Payment::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();

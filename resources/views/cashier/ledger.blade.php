@@ -51,7 +51,7 @@
         </div>    
     </div> 
     <div class="clearfix"></div>
-    <div class="col-md-9">
+    <div class="col-md-8">
         <div class="col-md-6"> 
              <table class="table table-responsive">
             <tr><td>Student Number : </td><td align="left">{{$user->idno}}</td></tr>
@@ -146,7 +146,7 @@
                $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
                $totalbalance=$totalbalance+$balance;
                ?>
-               <tr><td>{{$main->category}}</td>
+               <tr><td>{{$main->receipt_details}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
@@ -215,7 +215,7 @@
               <td>{{$payment->remarks}}</td>
               <td align='right'>{{number_format($payment->cash_amount+$payment->check_amount+$payment->credit_card_amount+$payment->deposit_amount,2)}}</td>
               <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
-              <td><a class="btn btn-success" href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View receipt</a></td>
+              <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View receipt</a></td>
               </tr>
           @endforeach
          </table>    
@@ -236,7 +236,7 @@
               <td>{{$payment->explanation}}</td>
               <td align='right'>{{number_format($payment->amount,2)}}</td>
               <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
-              <td><a class="btn btn-success" href="{{url('/cashier',array('viewdebitmemo',$payment->reference_id))}}">View DM</a></td>
+              <td><a  href="{{url('/cashier',array('viewdebitmemo',$payment->reference_id))}}">View DM</a></td>
               </tr>
           @endforeach
          </table>    
@@ -247,13 +247,19 @@
      </div>  
     </div>  
     </div>    
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
         <label>Total Due Today:</label>
-        <div class="form form-control" id="due_display">{{number_format($totaldue,2)}}</div>
+        <div class="form form-control" id="due_display">
+            @if($totaldue>0)
+            {{number_format($totaldue,2)}}
+            @else
+            0.00
+            @endif
+        </div>
         </div>
         <div class="form-group">
-        <div class="form form-control btn btn-primary">Process Payment</div>
+        <a href="{{url('/cashier',array('main_payment',$user->idno))}}" class="form form-control btn btn-primary">Process Payment</a>
         </div>
         <div class="form-group">
         <a href="{{url('/cashier',array('other_payment',$user->idno))}}" class="form form-control btn btn-success">Other Payment</a>
@@ -264,24 +270,25 @@
         @if(count($due_dates)>0)
         <label>Schedule of Payment</label>
         <div class="form-group">
-            <?php $totalpay = $totalmainpayment; $display="";?>
-            <table class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td></tr>
+            <?php $totalpay = $totalmainpayment; $display=""; $remark="";?>
+            <table class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td><td>Remarks</td></tr>
             @foreach($due_dates as $due_date)
             <?php 
             if($totalpay >= $due_date->amount){
                 $display = "<span class=\"text_through\">".number_format($due_date->amount,2)."<span>";  
                 $totalpay = $totalpay - $due_date->amount;
+                $remark = "<span style=\"font-style:italic;color:#f00\">paid</span>";
             } else {
-                $display = number_format($due_date->amount,2);
+                $display = number_format($due_date->amount-$totalpay,2);
                 $totalpay=0;
             }
             ?>
             @if($due_date->due_switch=="0")
-            <?php $duedate = "Downpayment";?>
+            <?php $duedate = "Upon Enrollment";?>
             @else
             <?php $duedate = $due_date->due_date;?>
             @endif
-            <tr><td>{{$duedate}}</td><td align="right">{{$display}}</td></tr>
+            <tr><td>{{$duedate}}</td><td align="right">{!!$display!!}</td><td align="center">{!!$remark!!}</td></tr>
             @endforeach
             </table>    
         </div>
@@ -355,7 +362,7 @@
 
 .text_through{
     text-decoration: line-through;
-    color: #ccc;
+    color: #aaa;
 }
 </style>
 <script>
