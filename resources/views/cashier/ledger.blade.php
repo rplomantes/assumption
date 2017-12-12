@@ -61,9 +61,12 @@
             <?php
             switch($status->status){
             case 0:
-                echo "<tr><td>Status : </td><td>Not Registered For This School Year</td><tr>";
+                echo "<tr><td>Status : </td><td>Not Yet Advised or Assessed For This School Year</td><tr>";
                 break;
-            case 1:
+            case env("ADVISING"):
+                echo "<tr><td>Status : </td><td>Alreary Advised but Not Assessed Yet</td><tr>";
+                break;
+            case env("ASSESSED"):
                 if($status->academic_type=="College"){
                  echo "<tr><td>Ptrogram/Level : </td><td>".$status->program_code ." - ".$status->level."</td><tr>";    
                 } else {
@@ -74,7 +77,7 @@
                 echo "<tr><td>Level/Section : </td><td>".$status->level ." - ".$status->section."</td><tr>";
                 }
                 break;
-            case 2:
+            case env("ENROLLED"):
                  echo "<tr><td>Status : </td><td>Enrolled</td><tr>";
                  echo "<tr><td>Level/Section : </td><td>".$status->level ." - ".$status->section."</td><tr>";
                 break;

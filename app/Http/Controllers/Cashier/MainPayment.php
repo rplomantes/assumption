@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 use App\Http\Controllers\Cashier\StudentLedger;
+use App\Http\Controllers\Cashier\StudentReservation;
 
 class MainPayment extends Controller
 {
@@ -57,8 +58,8 @@ class MainPayment extends Controller
             }        
         }
 //      // Total Due Main
-        $downpayment=  \App\LedgerDueDate::where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
-        $duetoday= \App\LedgerDueDate::where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
+        $downpayment=  \App\LedgerDueDate::where('idno',$idno)->where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
+        $duetoday= \App\LedgerDueDate::where('idno',$idno)->where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
         //Total Payment Main
         $payment = \App\Ledger::where('idno',$idno)->where('category_switch','<=','5')
                 ->selectRaw('sum(debit_memo)+sum(payment)+sum(discount) as payment')->first();
@@ -76,18 +77,50 @@ class MainPayment extends Controller
     
         }
     }
+    
     function post_main_payment(Request $request){
-       /* if(Auth::user()->accesslevel==env("CASHIER")){    
+        if(Auth::user()->accesslevel==env("CASHIER")){    
         DB::beginTransaction();
         $reference_id = uniqid();
+        $this->checkStatus($request);
         StudentReservation::postPayment($request,$reference_id);
         $this->postAccounting($request, $reference_id);
         StudentReservation::postCashDebit($request, $reference_id);
         StudentLedger::updatereceipt();
         DB::commit();
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
-        }*/
-        return $request;
+        }
+        //return $request;
     }
+    
+     function checkStatus($request,$reference_id){
+         if($request->main_due > "0"){
+            $status = \App\Status::where('idno',$request->idno)->first();
+                if($status->status==env("ASSESSED")){
+                    $this->addUnrealizedEntry($request,$reference_id)
+                    ->changeStatus($request->idno)
+                    ->notifyStudent($request->idno);
+                }
+         }
+     }
+     
+     function addUnrealizedEntry($request,$reference_id){
+         $totaltuition=  \App\Ledger::where('idno',$request->idno)->where('category_switch',env("TUITION_FEE"))
+                 ->selectRaw("sum(amount) as amount")->first();
+         //add debit unearned
+         $addacctg = new \App\Accounting;
+         $addacct->transaction_date = date('Y-m-d');
+         $addacct->reference_id=$reference_id;
+         $addacct->accounting_type = env("COMPUTER");
+     }
+     function changeStatus($idno){
+         
+     }
+     function notifyStudent($idno){
+         
+     }
+     function postAccounting($request, $reference_id){
+         
+     }
   }
 

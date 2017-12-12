@@ -172,8 +172,8 @@ class StudentReservation extends Controller
         $addaccounting->subsidiary="None";
         $addaccounting->receipt_details="Cash";
         $addaccounting->particular="Cash";
-        $addaccounting->accounting_code="110011";
-        $addaccounting->accounting_name="BPI ACCT";
+        $addaccounting->accounting_code=env("CASH_CODE");
+        $addaccounting->accounting_name=env("CASH_NAME");
         $addaccounting->fiscal_year=$fiscal_year;
         $addaccounting->debit=$totalamount;
         $addaccounting->posted_by=Auth::user()->idno;
