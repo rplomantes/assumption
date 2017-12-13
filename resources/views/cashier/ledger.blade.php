@@ -284,6 +284,7 @@
             } else {
                 $display = number_format($due_date->amount-$totalpay,2);
                 $totalpay=0;
+                $remark="";
             }
             ?>
             @if($due_date->due_switch=="0")
