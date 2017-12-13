@@ -123,7 +123,8 @@ class assessment_ajax extends Controller {
         $addledger->category = "Tuition Fees Receivable";
         $addledger->subsidiary = "Tuition Fees Receivable";
         $addledger->receipt_details = "Tuition Fees Receivable";
-        $addledger->accounting_code = 120100;
+        $addledger->accounting_code = env("AR_TUITION_CODE");
+        $addledger->accounting_name = env("AR_TUITION_NAME");
         $addledger->category_switch = "5";
         $addledger->amount = $tuitionfee;
         $addledger->discount = $tobediscount;
@@ -157,6 +158,7 @@ class assessment_ajax extends Controller {
                 $addledger->subsidiary = $otherfee->subsidiary;
                 $addledger->receipt_details = $otherfee->receipt_details;
                 $addledger->accounting_code = $otherfee->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
                 $addledger->category_switch = $otherfee->category_switch;
                 $addledger->amount = $otherfee->amount;
                 $addledger->discount = $otherfee->amount * ($discountof / 100);
@@ -269,7 +271,7 @@ class assessment_ajax extends Controller {
                     $addaccounting->subsidiary = $ledger->subsidiary;
                     $addaccounting->receipt_details = $ledger->receipt_details;
                     $addaccounting->accounting_code = $ledger->accounting_code;
-                    $addaccounting->accounting_name = \App\ChartOfAccount::where('accounting_code', $ledger->accounting_code)->first()->accounting_name;
+                    $addaccounting->accounting_name = $ledger->accounting_name;
                     $addaccounting->fiscal_year = $fiscal_year;
                     $addaccounting->posted_by = Auth::user()->idno;
                     $addaccounting->save();
@@ -352,6 +354,11 @@ class assessment_ajax extends Controller {
         $updateStatus = \App\Status::where('idno', $idno)->first();
         $updateStatus->status = 3;
         $updateStatus->save();
+    }
+    
+    function getAccountingName($accounting_code){
+        $accounting_name = \App\ChartOfAccount::where('accounting_code', $accounting_code)->first()->accounting_name;
+        return $accounting_name;
     }
 
 }
