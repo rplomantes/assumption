@@ -73,4 +73,16 @@ class StudentListController extends Controller {
         }
     }
 
+    function print_per_course($course_id, $section,$school_years, $periods, $levels, $program_codes) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->get();
+            $course_code = \App\CourseOffering::where('id', $course_id)->first()->course_code;
+            $course_name = \App\CourseOffering::where('id', $course_id)->first()->course_name;
+
+            $pdf = PDF::loadView('reg_college.reports.student_list.print_per_course', compact('course_code','course_name','list_per_courses', 'section','school_years', 'periods', 'levels', 'program_codes'));
+            $pdf->setPaper(array(0, 0, 612.00, 792.0));
+            return $pdf->stream("student_list_.pdf");
+        }
+    }
+
 }

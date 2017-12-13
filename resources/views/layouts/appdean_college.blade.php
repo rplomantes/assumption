@@ -4,6 +4,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
+
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -18,12 +20,11 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <link rel="stylesheet" href="{{ asset ('plugins/pace/pace.min.css')}}">
         <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
-
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
             <header class="main-header">
                 <a href="{{url('/')}}" class="logo">
-                    <span class="logo-mini"><b>A</b>CA</span>
+                    <span class="logo-mini"><b>A</b>CS</span>
                     <span class="logo-lg"><b>Dean</b>COLLEGE</span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
@@ -32,7 +33,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
+                            
                             @yield('messagemenu')
+                            
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     @if($file_exist==1)
@@ -49,11 +52,13 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                         @else
                                         <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
                                         @endif
+
                                         <p>
                                             {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                                            <small>College Dean</small>
+                                            <small>Dean - College</small>
                                         </p>
                                     </li>
+
                                     <li class="user-footer">
                                         <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>

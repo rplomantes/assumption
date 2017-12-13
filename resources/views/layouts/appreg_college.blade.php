@@ -25,8 +25,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <div class="wrapper">
             <header class="main-header">
                 <a href="{{url('/')}}" class="logo">
-                    <span class="logo-mini"><b>A</b>RE</span>
-                    <span class="logo-lg"><b>Assumption</b>REG</span>
+                    <span class="logo-mini"><b>A</b>CS</span>
+                    <span class="logo-lg"><b>Registrar</b>COLLEGE</span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

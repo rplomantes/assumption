@@ -31,7 +31,7 @@
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="#"></i> Reports</a></li>
         <li><a href="#"></i> Student List</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('reports','student_list','per_program'))}}"></i> Per Program</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('reports','student_list','search'))}}"></i> Search</a></li>
     </ol>
 </section>
 @endsection

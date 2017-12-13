@@ -5,7 +5,6 @@
                 <span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Select Section and Course</h4>
         </div>
-        <form method="post" action="{{url ('#')}}">
             {{ csrf_field() }}
             <div class="modal-body">
                 <div class='form-group'>
@@ -19,21 +18,12 @@
                     </select>
                 </div>
                 <div class="form-group" id="show_courses">
-                    <label>Select Course</label>
-                    <select name="course" id="course" class="form-control select2" style="width: 100%;" required="required">
-                        <option value=" ">Select Course</option>
-                        @foreach ($lists as $list)
-                        <option value="{{$list->section}}">{{$list->section}}</option>
-                        @endforeach
-                    </select>
-                    
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-primary" value="View List"></input>
+                <button type="submit" class="btn btn-primary" value="View List" data-dismiss="modal" onclick="get_student_list(course.value)">View List</button>
             </div>
-        </form>
     </div>
 </div>
 <script>

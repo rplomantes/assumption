@@ -120,9 +120,9 @@ class assessment_ajax extends Controller {
         $addledger->level = $level;
         $addledger->school_year = $school_year;
         $addledger->period = $period;
-        $addledger->category = "Tuition Fees Receivable";
-        $addledger->subsidiary = "Tuition Fees Receivable";
-        $addledger->receipt_details = "Tuition Fees Receivable";
+        $addledger->category = env("AR_TUITION_NAME");
+        $addledger->subsidiary = env("AR_TUITION_NAME");
+        $addledger->receipt_details = env("AR_TUITION_NAME");
         $addledger->accounting_code = env("AR_TUITION_CODE");
         $addledger->accounting_name = env("AR_TUITION_NAME");
         $addledger->category_switch = "5";

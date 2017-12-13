@@ -51,6 +51,12 @@
             <td class='no-border td' width='12%'>Year & Program:</td>
             <td class='underline td'>@if($levels == "all") All Levels @else{{$levels}}@endif - @if($program_codes == "all") All Programs @else <?php $program_name = \App\CtrAcademicProgram::where('program_code', $program_codes)->first()->program_name; ?> {{$program_name}}@endif</td>
         </tr>
+        <tr>
+            <td class='no-border td'>Section:</td>
+            <td class='underline td'> {{$section}} </td>
+            <td class='no-border td'>Course:</td>
+            <td class='underline td'> {{$course_code}} - {{$course_name}}</td>
+        </tr>
     </table>
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='3px' style='margin-top: 50px;'>
         <thead>
@@ -80,11 +86,12 @@
         </thead>
         <tbody>
             <?php $counter = 0; ?>
-            @foreach ($lists as $list)
+            @foreach ($list_per_courses as $list)
+            <?php $status = \App\Status::where('idno', $list->idno)->where('status',3)->first(); ?>
+            @if (count($status)>0)
             <?php $counter = $counter + 1; ?>
             <?php $user = \App\User::where('idno', $list->idno)->first(); ?>
             <?php $student_info = \App\StudentInfo::where('idno', $list->idno)->first(); ?>
-            <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
             <tr>
                 <td align='center'>{{$counter}}</td>
                 <td>{{$list->idno}}</td>
@@ -108,6 +115,7 @@
                 <td></td>
                 <td></td>
             </tr>
+            @endif
             @endforeach
         </tbody>
     </table>
