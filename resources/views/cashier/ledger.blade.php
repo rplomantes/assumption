@@ -68,7 +68,7 @@
                 break;
             case env("ASSESSED"):
                 if($status->academic_type=="College"){
-                 echo "<tr><td>Ptrogram/Level : </td><td>".$status->program_code ." - ".$status->level."</td><tr>";    
+                 echo "<tr><td>Program/Level : </td><td>".$status->program_code ." - ".$status->level."</td><tr>";    
                 } else {
                 echo "<tr><td>Status : </td><td>Assessed</td><tr>";
                 if($status->department=="Senior High School"){
@@ -81,7 +81,7 @@
                  echo "<tr><td>Status : </td><td>Enrolled</td><tr>";
                  echo "<tr><td>Level/Section : </td><td>".$status->level ." - ".$status->section."</td><tr>";
                 break;
-            case 3:
+            case 4:
                  echo "<tr><td>Status : </td><td>Dropped</td><tr>";
             }
             ?></b>

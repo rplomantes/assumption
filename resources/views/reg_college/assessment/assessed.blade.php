@@ -103,6 +103,7 @@ $units = 0;
                     </div>
                 </div>
                 <div class='box-body'>
+                    <div class='table-responsive'>
                     <table class='table table-striped'>
                         <thead>
                             <tr>
@@ -160,6 +161,7 @@ $units = 0;
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-6">

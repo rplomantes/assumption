@@ -6,6 +6,7 @@ $coursesoffered = \App\CourseOffering::where('program_code', $program_code)->whe
         <h3 class="box-title">Courses Offered</h3>
     </div>
     <div class="box-body">
+        <div class='table-responsive'>
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -22,5 +23,6 @@ $coursesoffered = \App\CourseOffering::where('program_code', $program_code)->whe
                 @endforeach
             </thead>
         </table>
+        </div>
     </div>
 </div>

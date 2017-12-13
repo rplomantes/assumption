@@ -61,6 +61,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                     $courses = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['course_name', 'course_code']);
                     ?>
                     @if (count($loads)>0)
+                    <div class='table-responsive'>
                     <table class="table table-striped">
                         <thead>
                         <th class="col-sm-2">Course Code</th>
@@ -106,6 +107,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                     @else
                     <div class="alert alert-danger">No Courses Loaded!!</div>
                     @endif

@@ -50,6 +50,7 @@ $faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get
                     </div>
                 </div>
                 <div class="box-body">
+                    <div class='table-responsive'>
                     <table class='table table-hover'>
                         <thead>
                             <tr>
@@ -68,6 +69,7 @@ $faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

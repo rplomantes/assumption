@@ -14,13 +14,13 @@ class CourseOfferingController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             return view('reg_college.curriculum_management.course_offering');
         }
     }
 
     function viewofferings($program_code) {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             return view('reg_college.curriculum_management.view_course_offering', compact('program_code'));
         }
     }

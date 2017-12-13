@@ -51,6 +51,7 @@ $levels = \App\Curriculum::distinct()->where('program_code', $program_code)->whe
                 </div>
                 <div class="box-body">
                     <?php $totalUnits = 0; ?>
+                    <div class='table-responsive'>
                     @foreach ($levels as $level)
                     <table class="table table-condensed">
                         <thead>
@@ -95,6 +96,7 @@ $levels = \App\Curriculum::distinct()->where('program_code', $program_code)->whe
                         </tbody>
                     </table>
                     @endforeach
+                    </div>
                     <table class="table table-condensed">
                         <tr>
                             <th>Total Units: {!! $totalUnits !!}</th>

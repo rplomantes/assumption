@@ -17,7 +17,7 @@ class Assessment extends Controller {
     }
 
     function assess($idno) {
-        if (Auth::user()->accesslevel == 10) {
+        if (Auth::user()->accesslevel == env('DEAN')) {
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == 0) {
                 return view('dean.assessment.assess', compact('status', 'idno'));
@@ -32,7 +32,7 @@ class Assessment extends Controller {
     }
 
     function confirm_advised($idno, $program_code, $level) {
-        if (Auth::user()->accesslevel == 10) {
+        if (Auth::user()->accesslevel == env('DEAN')) {
             
             $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->program_name;
             
@@ -48,7 +48,7 @@ class Assessment extends Controller {
     }
 
     function print_advising_slip($idno) {
-        if (Auth::user()->accesslevel == 10) {
+        if (Auth::user()->accesslevel == env('DEAN')) {
 
             $pdf = PDF::loadView('dean.assessment.advising_slip', compact('idno'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));

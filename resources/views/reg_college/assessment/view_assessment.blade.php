@@ -4,6 +4,7 @@ $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+$discounts = \App\CtrDiscount::all();
 ?>
 <?php
 $file_exist = 0;
@@ -97,15 +98,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
                 <div class='box-body'>
                     <div class="form-horizontal">
-                    <div class='form-group'>
-                        <div class='col-sm-12' id='type_account-form'>
-                            <label>Type of Account</label>
-                            <select class='form-control' id='type_account' name="type_account">
-                                <option>Select type of Account</option>
-                                <option value="Regular">Regular</option>
-                            </select>
-                        </div>
-                    </div>
+                    <input type="hidden" name="type_account" id="type_account" value="Regular">
                     <div class="form-group">
                         <div class='col-sm-12' id='plan-form'>
                             <label>Plan</label>
@@ -117,9 +110,21 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class='col-sm-12' id='discount-form'>
+                            <label>Discount</label>
+                            <select id="discount" name="discount" class='form-control'>
+                                <option value="">Select Discount</option>
+                                <option value="">None</option>
+                                @foreach ($discounts as $discount)
+                                <option value="{{$discount->discount_code}}">{{$discount->discount_code}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group" id="compute-form">
                         <div class="col-sm-12">
-                            <button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}')">Compute</button>
+                            <button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}',discount.value)">Compute</button>
                         </div>
                     </div>
                     <div class="col-sm-12 box-body" id="display_result">
@@ -138,6 +143,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </div>
                 </div>
                 <div class='box-body'>
+                    <div class='table-responsive'>
                     <table class='table table-striped'>
                         <thead>
                             <tr>
@@ -196,6 +202,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -205,18 +212,20 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 @endsection
 @section('footerscript')
 <script>
-    $("#plan-form").hide();
     $("#compute-form").hide();
-    $("#type_account-form").change(function () {
-    $("#plan-form").fadeIn();
-    });
+    $("#discount-form").hide();
     $("#plan-form").change(function () {
-    $("#compute-form").fadeIn();
-    });</script>
+        $("#discount-form").fadeIn();
+    });
+    $("#discount-form").change(function () {
+        $("#compute-form").fadeIn();
+    });
+</script>
 <script>
-    function get_assessed_payment(plan, type_account, idno){
+    function get_assessed_payment(plan, type_account, idno, discount){
     array = {};
     array['plan'] = plan;
+    array['discount'] = discount;
     array['type_of_account'] = type_account;
     array['program_code'] = "{{$status->program_code}}";
     array['level'] = "{{$status->level}}";

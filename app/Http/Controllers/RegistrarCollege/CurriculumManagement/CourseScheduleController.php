@@ -14,14 +14,14 @@ class CourseScheduleController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             return view('reg_college.curriculum_management.course_schedule');
         }
     }
     
     function edit_course_schedule($id) {
 
-        if (Auth::user()->accesslevel == "20") {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $schedules = \App\ScheduleCollege::where('course_offering_id', $id)->get();
             $course_offering = \App\CourseOffering::where('id', $id)->first();
@@ -32,7 +32,7 @@ class CourseScheduleController extends Controller {
     
     function add_course_schedule(Request $request) {
 
-        if (Auth::user()->accesslevel == "20") {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             
             $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
             $day = $request->day;
@@ -61,7 +61,7 @@ class CourseScheduleController extends Controller {
     
     function delete_course_schedule($course_offering_id, $schedule_id) {
 
-        if (Auth::user()->accesslevel == "20") {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             
             $deleteSchedule = \App\ScheduleCollege::where('id', $schedule_id)->first();
             $deleteSchedule->delete();

@@ -71,6 +71,7 @@ $user = \App\User::where('idno', $idno)->first();
                 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
                 $units = 0;
                 ?>
+                    <div class='table-responsive'>
                 @if(count($grade_colleges)>0)
                 <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course</th><th>Units</th><th>Schedule/Room</th><th>Instructor</th></tr></thead><tbody>
                         @foreach($grade_colleges as $grade_college)
@@ -117,6 +118,7 @@ $user = \App\User::where('idno', $idno)->first();
                 @else
                 <div class="alert alert-danger">No Course Selected Yet!!</div>
                 @endif
+                    </div>
             </div>
         </div>
         <div class='col-sm-6'>

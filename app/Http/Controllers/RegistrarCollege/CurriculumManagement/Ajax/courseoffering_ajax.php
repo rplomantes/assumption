@@ -78,7 +78,6 @@ class courseoffering_ajax extends Controller {
             $section = Input::get("section");
             $level = Input::get("level");
             $period = Input::get("period");
-            $course_code = Input::get("course_code");
 
             $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
 

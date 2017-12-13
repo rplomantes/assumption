@@ -1,6 +1,7 @@
 <?php
-$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
 $user = \App\User::where('idno', $idno)->first();
+$status = \App\Status::where('idno', $idno)->first();
+$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->where('department', $status->department)->get(['program_code', 'program_name']);
 ?>
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
@@ -176,6 +177,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
                 $units = 0;
                 ?>
+                    <div class='table-responsive'>
                 @if(count($grade_colleges)>0)
                 <table class="table table-striped"><thead><tr><th>Course</th><th>Units</th><th>Schedule/Room</th><th>Instructor</th></tr></thead><tbody>
                         @foreach($grade_colleges as $grade_college)
@@ -221,6 +223,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 @else
                 <div class="alert alert-danger">No Course Selected Yet!!</div>
                 @endif
+                    </div>
             </div>
         </div>
     </div>

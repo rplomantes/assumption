@@ -53,6 +53,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
                     </div>
                 </div>
                 <div class="box-body">
+                    <div class='table-responsive'>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -88,6 +89,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

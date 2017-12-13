@@ -12,26 +12,28 @@ $courses = \App\Curriculum::where('program_code', $program_code)->where('curricu
         <h3 class="box-title">Course to Offer</h3>
     </div>
     <div class="box-body">
-        <table class="table table-hover table-striped">
-            <thead>
+        <div class='table-responsive'>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($courses as $course)
+                <input type="hidden" id="course_code" value="{{$course->course_code}}">
+                <input type="hidden" id="course_name" value="{{$course->course_name}}">
                 <tr>
-                    <th>Course Code</th>
-                    <th>Description</th>
-                    <th>Action</th>
+                    <td>{{$course->course_code}}</td>
+                    <td>{{$course->course_name}}</td>
+                    <td><button class="btn btn-success" onclick="addtocourseoffering('{{$course->course_code}}')"><span class="fa fa-plus-circle"></span></button></td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($courses as $course)
-            <input type="hidden" id="course_code" value="{{$course->course_code}}">
-            <input type="hidden" id="course_name" value="{{$course->course_name}}">
-            <tr>
-                <td>{{$course->course_code}}</td>
-                <td>{{$course->course_name}}</td>
-                <td><button class="btn btn-success" onclick="addtocourseoffering('{{$course->course_code}}')"><span class="fa fa-plus-circle"></span></button></td>
-            </tr>
-            @endforeach
-            </tbody>
-        </table>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
         <button class="btn btn-info col-sm-12" onclick="addAllSubjects()">Add All</button>
     </div>
 </div>

@@ -49,6 +49,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                     </div>
                 </div>
                 <div class="box-body">
+                    <div class='table-responsive'>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -67,6 +68,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

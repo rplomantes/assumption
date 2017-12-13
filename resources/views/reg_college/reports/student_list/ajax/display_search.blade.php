@@ -6,6 +6,7 @@
             <a onclick='print_search(school_year.value, period.value, level.value, academic_program.value)'><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
         </div>
         <div class="box-body">
+                    <div class='table-responsive'>
             <table class='table table-hover table-striped table-condensed'>
                 <thead>
                     <tr>
@@ -35,6 +36,7 @@
                     @endforeach
                 </tbody>
             </table>
+                    </div>
             @else
             <div class='box-header'>
             <h3 class="box-title">No Result!!!</h3>

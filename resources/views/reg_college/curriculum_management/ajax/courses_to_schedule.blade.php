@@ -7,6 +7,7 @@
 </div>
 <div class="box-body">
     @if (count($courses)>0)
+                    <div class='table-responsive'>
     <table class="table table-striped">
         <thead>
         <th>Course Code</th>
@@ -51,6 +52,7 @@
             @endforeach
         </tbody>
     </table>
+                    </div>
     @else
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

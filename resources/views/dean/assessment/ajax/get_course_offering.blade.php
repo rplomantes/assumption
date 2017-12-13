@@ -1,3 +1,5 @@
+
+                    <div class='table-responsive'>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -50,4 +52,5 @@
         @endforeach
     </tbody>
 </table>
+                    </div>
 <button class='btn btn-success col-sm-12' onclick="addallcourses('{{$level}}', '{{$section}}', '{{$program_code}}')">ADD ALL COURSES</button>

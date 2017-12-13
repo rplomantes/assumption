@@ -14,19 +14,19 @@ class FacultyLoadingController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             return view('reg_college.curriculum_management.faculty_loading');
         }
     }
 
     function edit_faculty_loading($idno) {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             return view('reg_college.curriculum_management.edit_faculty_loading', compact('idno'));
         }
     }
     
     function add_faculty_loading(Request $request) {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $instructor_id = $request->instructor_id;
             $course_offering_id = $request->course_offering_id;
             
@@ -38,7 +38,7 @@ class FacultyLoadingController extends Controller {
     }
     
     function remove_faculty_loading($id, $idno) {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $updatecourse_offering = \App\CourseOffering::where('id', $id)->first();
             $updatecourse_offering->instructor_id = NULL;
             $updatecourse_offering->save();

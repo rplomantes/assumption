@@ -14,7 +14,7 @@ class AssessmentController extends Controller
     }
 
     function index($idno) {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == 0) {
@@ -33,9 +33,9 @@ class AssessmentController extends Controller
     }
     
     function save_assessment($idno){
-        $updatestatus = \App\Status::where('idno', $idno)->first();
-        $updatestatus->status = 2;
-        $updatestatus->save();
+//        $updatestatus = \App\Status::where('idno', $idno)->first();
+//        $updatestatus->status = 2;
+//        $updatestatus->save();
         
         return redirect ("/registrar_college/assessment/$idno");
         

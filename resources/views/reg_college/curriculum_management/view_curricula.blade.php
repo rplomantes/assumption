@@ -49,6 +49,7 @@ $program = \App\CtrAcademicProgram::where('program_code', $program_code)->first(
                     </div>
                 </div>
                 <div class="box-body">
+                    <div class='table-responsive'>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -65,6 +66,7 @@ $program = \App\CtrAcademicProgram::where('program_code', $program_code)->first(
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

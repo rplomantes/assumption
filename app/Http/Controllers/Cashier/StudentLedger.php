@@ -32,8 +32,8 @@ class StudentLedger extends Controller
          } 
       }
       
-      $downpayment=  \App\LedgerDueDate::where('idno',$idno)->where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
-      $duetoday= \App\LedgerDueDate::where('idno',$idno)->where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
+      $downpayment=  \App\LedgerDueDate::where('idno', $idno)->where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
+      $duetoday= \App\LedgerDueDate::where('idno', $idno)->where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
       
       $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch','7')->get();
       if(count($ledger_others)>0){
