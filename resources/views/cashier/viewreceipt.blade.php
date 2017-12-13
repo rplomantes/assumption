@@ -45,7 +45,7 @@
         
         <div class="col-md-2 image img-responsive"> <img width="86"src="{{url('/images','assumption-logo.png')}}" ></div>
         <div class="col-md-10"><div class="logo">Assumption College</div>
-        San Lorenzo,<br> Makati City</div>
+        San Lorenzo Drive, San Lorenzo Village<br> Makati City<br> NON VAT REG. TIN 000-662-720-000</div>
         <div class="col-md-4 pull-right">
             <div class="orno">OR No. : {{$payment->receipt_no}}</div>
         </div>
@@ -153,7 +153,7 @@
                     <td>@if($accounting->is_reverse==0)OK @else Canceled @endif</td>
                     </tr>
                 @endforeach
-                <tr><td colspan="3">Total</td><td align="right">{{number_format($totaldebit,2)}}</td>
+                <tr><td colspan="4">Total</td><td align="right">{{number_format($totaldebit,2)}}</td>
                     <td>{{number_format($totalcredit,2)}}</td><td></td></tr>
             </table> 
         @endif

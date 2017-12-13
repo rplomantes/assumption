@@ -92,4 +92,57 @@ class StudentLedger extends Controller
            $update->update();
         }
     }
-}
+    function reverserestore($reference_id){
+        if(Auth::user()->accesslevel==env("CASHIER")){
+            DB::beginTransaction();
+            $this->reverserestore_ledger($reference_id, env("CASH"));
+            $this->reverserestore_entries(\App\Payment::where('reference_id',$reference_id)->get(), $reference_id);
+            $this->reverserestore_entries(\App\Accounting::where('reference_id',$reference_id)->get(), $reference_id);
+            //$this->reverserestore_entries(\App\Ledger::where('reference_id',$reference_id)->get(), $reference_id);
+            DB::commit();
+            return redirect(url('/cashier',array('viewreceipt',$reference_id)));
+        }
+    }
+    
+    function reverserestore_ledger($reference_id,$entry_type) {
+        $accountings = \App\Accounting::where('reference_id',$reference_id)->where('credit','>','0')->where('accounting_type',$entry_type)->get();
+           if(count($accountings)>0){
+               foreach($accountings as $accounting){
+                   $ledger=  \App\Ledger::find($accounting->reference_number);
+                   if($accounting->is_reverse==0){
+                   $ledger->payment = $ledger->payment - $accounting->credit;
+                   }else{
+                   $ledger->payment = $ledger->payment + $accounting->credit;          
+                   }
+                   $ledger->update(); 
+               }
+           }
+        } 
+     function reverserestore_entries($obj,$reference_id){
+         if(count($obj)>0){
+             foreach ($obj as $ob){
+                 if($ob->is_reverse=="0"){
+                     $ob->is_reverse="1";
+                 }else{
+                     $ob->is_reverse="0";
+                 }
+                 $ob->update();
+             }
+         }
+             
+     }
+     function checkifreservation($reference_id){
+         $reservation = \App\Reservation::where('reference_id',$reference_id)->get();
+         if(count($reservation) > 0 ){
+             foreach($reservation as $reserve){
+                 if($reserve->is_reverse=='0'){
+                     $reserve->is_reverse =="1";
+                 }else{
+                     $reserve->is_reverse=="0";
+                 }
+             }
+         }
+     }
+     
+    }
+
