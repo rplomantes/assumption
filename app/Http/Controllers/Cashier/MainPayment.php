@@ -108,6 +108,7 @@ class MainPayment extends Controller
          $totaltuition=  \App\Ledger::where('idno',$request->idno)->where('category_switch',env("TUITION_FEE"))
                  ->selectRaw("sum(amount) as amount")->first();
          $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
+         $department=  \App\Status::where('idno',$request->idno)->first()->department;
         //add debit tuition fee ar
          $addacct = new \App\Accounting;
          $addacct->transaction_date = date('Y-m-d');
@@ -118,6 +119,7 @@ class MainPayment extends Controller
          $addacct->receipt_details=env("AR_TUITION_NAME");
          $addacct->particular="Unrealized Tiution Fee For " . $request->idno;
          $addacct->accounting_code=env("AR_TUITION_CODE");
+         $addacct->department = $department;
          $addacct->accounting_name=env("AR_TUITION_NAME");
          $addacct->fiscal_year=$fiscal_year;
          $addacct->debit=$totaltuition->amount; 
@@ -135,6 +137,7 @@ class MainPayment extends Controller
          $addacct->particular="Unrealized Tiution Fee For " . $request->idno;
          $addacct->accounting_code=env("UNEARNED_CODE");
          $addacct->accounting_name=env("UNEARNED_NAME");
+         $addacct->department = $department;
          $addacct->fiscal_year=$fiscal_year;
          $addacct->credit=$totaltuition->amount;
          $addacct->posted_by = Auth()->user()->idno;
@@ -176,6 +179,7 @@ class MainPayment extends Controller
   
     function processDiscount($request,$reference_id,$discount,$discount_code){
         $discount_ref = \App\CtrDiscount::where('discount_code',$discount_code)->first();
+        $department=  \App\Status::where('idno',$request->idno)->first()->department;
         $addacct = new \App\Accounting;
                     $addacct->transaction_date = date('Y-m-d');
                     $addacct->reference_id=$reference_id;
@@ -185,6 +189,7 @@ class MainPayment extends Controller
                     $addacct->receipt_details=$discount_ref->discount_description;
                     $addacct->particular=$discount_ref->discount_description;
                     $addacct->accounting_code=$discount_ref->accounting_code;
+                    $addacct->department=$department;
                     $addacct->accounting_name=$discount_ref->sccounting_name;
                     $addacct->fiscal_year=$fiscal_year;
                     $addacct->debit=$discount;
@@ -212,6 +217,7 @@ class MainPayment extends Controller
                             $addacct->particular=$ledger->receipt_details;
                             $addacct->accounting_code=$ledger->accounting_code;
                             $addacct->accounting_name=$ledger->accounting_name;
+                            $addacct->department=$ledger->department;
                             $addacct->fiscal_year=$fiscal_year;
                             $addacct->credit=$ledger->discount;
                             $addacct->posted_by=Auth::user()->idno;
@@ -236,6 +242,7 @@ class MainPayment extends Controller
                     $addacct->particular=$ledger->receipt_details;
                     $addacct->accounting_code=$ledger->accounting_code;
                     $addacct->accounting_name=$ledger->accounting_name;
+                    $addacct->department=$ledger->department;
                     $addacct->fiscal_year=$fiscal_year;
                     $addacct->credit=$amount;
                     $addacct->posted_by=Auth::user()->idno;
@@ -243,7 +250,9 @@ class MainPayment extends Controller
                     $totalpayment=$totalpayment-$amount;
                     
                     } else {
-                     if($totalpayment>0){
+                    if($totalpayment>0){
+                    $ledger->payment=$ledger->payment + $totalpayment;
+                    $ledger->update();
                     $addacct = new \App\Accounting;
                     $addacct->transaction_date = date('Y-m-d');
                     $addacct->reference_id=$reference_id;

@@ -42,6 +42,7 @@ class OtherPayment extends Controller
     
     function postAccounting($request,$reference_id){
         $fiscal_year= \App\CtrFiscalYear::first()->fiscal_year;
+        $department = \App\Status::where('idno',$request->idno)->first()->department;
         if(count($request->particular)>0){
             for($i=0;$i<count($request->particular);$i++){
                 $addaccounting = new \App\Accounting;
@@ -54,6 +55,7 @@ class OtherPayment extends Controller
                 $addaccounting->particular=$request->particular[$i];
                 $addaccounting->accounting_code=$this->getParticularAccounting($request->particular[$i])->accounting_code;
                 $addaccounting->accounting_name=$this->getParticularAccounting($request->particular[$i])->accounting_name;
+                $addaccounting->department = $department;
                 $addaccounting->fiscal_year=$fiscal_year;
                 $addaccounting->credit=$request->other_amount[$i];
                 $addaccounting->posted_by=Auth::user()->idno;
