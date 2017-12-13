@@ -16,7 +16,7 @@ class CreateAccountingsTable extends Migration
         Schema::create('accountings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('reference_id');
-            $table->string('reference_number')->nullable();
+            $table->integer('reference_number')->nullable();
             $table->date('transaction_date');
             $table->integer('accounting_type');
             $table->string('category')->nullable();

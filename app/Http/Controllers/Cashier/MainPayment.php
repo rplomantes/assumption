@@ -82,7 +82,7 @@ class MainPayment extends Controller
         if(Auth::user()->accesslevel==env("CASHIER")){    
         DB::beginTransaction();
         $reference_id = uniqid();
-        $this->checkStatus($request);
+        $this->checkStatus($request,$reference_id);
         StudentReservation::postPayment($request,$reference_id);
         $this->postAccounting($request, $reference_id);
         StudentReservation::postCashDebit($request, $reference_id);
@@ -90,16 +90,16 @@ class MainPayment extends Controller
         DB::commit();
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }
-        //return $request;
+        return $request;
     }
     
      function checkStatus($request,$reference_id){
          if($request->main_due > "0"){
             $status = \App\Status::where('idno',$request->idno)->first();
                 if($status->status==env("ASSESSED")){
-                    $this->addUnrealizedEntry($request,$reference_id)
-                    ->changeStatus($request->idno)
-                    ->notifyStudent($request->idno);
+                    $this->addUnrealizedEntry($request,$reference_id);
+                    $this->changeStatus($request->idno);
+                    //$this->notifyStudent($request, $reference_id);
                 }
          }
      }
@@ -107,20 +107,164 @@ class MainPayment extends Controller
      function addUnrealizedEntry($request,$reference_id){
          $totaltuition=  \App\Ledger::where('idno',$request->idno)->where('category_switch',env("TUITION_FEE"))
                  ->selectRaw("sum(amount) as amount")->first();
-         //add debit unearned
-         $addacctg = new \App\Accounting;
+         $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
+        //add debit tuition fee ar
+         $addacct = new \App\Accounting;
          $addacct->transaction_date = date('Y-m-d');
          $addacct->reference_id=$reference_id;
          $addacct->accounting_type = env("COMPUTER");
+         $addacct->category=env("AR_TUITION_NAME");
+         $addacct->subsidiary=env("AR_TUITION_NAME");
+         $addacct->receipt_details=env("AR_TUITION_NAME");
+         $addacct->particular="Unrealized Tiution Fee For " . $request->idno;
+         $addacct->accounting_code=env("AR_TUITION_CODE");
+         $addacct->accounting_name=env("AR_TUITION_NAME");
+         $addacct->fiscal_year=$fiscal_year;
+         $addacct->debit=$totaltuition->amount; 
+         $addacct->posted_by = Auth()->user()->idno;
+         $addacct->save();
+        
+        //add credit unearned
+         $addacct = new \App\Accounting;
+         $addacct->transaction_date = date('Y-m-d');
+         $addacct->reference_id=$reference_id;
+         $addacct->accounting_type = env("COMPUTER");
+         $addacct->category=env("UNEARNED_NAME");
+         $addacct->subsidiary=env("UNEARNED_NAME");
+         $addacct->receipt_details=env("UNEARNED_NAME");
+         $addacct->particular="Unrealized Tiution Fee For " . $request->idno;
+         $addacct->accounting_code=env("UNEARNED_CODE");
+         $addacct->accounting_name=env("UNEARNED_NAME");
+         $addacct->fiscal_year=$fiscal_year;
+         $addacct->credit=$totaltuition->amount;
+         $addacct->posted_by = Auth()->user()->idno;
+         $addacct->save();
+         
      }
      function changeStatus($idno){
+         $change = \App\Status::where('idno',$idno)->first();
+         $change->status=env("ENROLLED");
+         $change->update();
+     }
+     
+     function notifyStudent($request, $reference_id){
          
      }
-     function notifyStudent($idno){
-         
-     }
-     function postAccounting($request, $reference_id){
-         
-     }
-  }
+     
+    function postAccounting($request, $reference_id){
+        
+        if($request->main_due > 0 ){
+           $totalpayment = $request->main_due;
+           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','5')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
+           $this->processAccounting($request, $reference_id,$totalpayment,$ledgers);
+        }
+        
+        if($request->previous_balance > 0){
+           $totalpayment = $request->previous_balance;
+           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'>=','10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
+           $this->processAccounting($request, $reference_id,$totalpayment,$ledgers);
+        }
+        
+       if(count($request->other_misc)>0){
+           foreach($request->other_misc as $key => $totalpayment){
+               $ledgers =  \App\Ledger::where('id',$key)->get();
+               $this->processAccounting($request, $reference_id,$totalpayment,$ledgers);
+           }
+       }
+        
+    }
+  
+    function processDiscount($request,$reference_id,$discount,$discount_code){
+        $discount_ref = \App\CtrDiscount::where('discount_code',$discount_code)->first();
+        $addacct = new \App\Accounting;
+                    $addacct->transaction_date = date('Y-m-d');
+                    $addacct->reference_id=$reference_id;
+                    $addacct->accounting_type = env("CASH");
+                    $addacct->category=$discount_ref->discount_description;
+                    $addacct->subsidiary=$discount_ref->discount_description;
+                    $addacct->receipt_details=$discount_ref->discount_description;
+                    $addacct->particular=$discount_ref->discount_description;
+                    $addacct->accounting_code=$discount_ref->accounting_code;
+                    $addacct->accounting_name=$discount_ref->sccounting_name;
+                    $addacct->fiscal_year=$fiscal_year;
+                    $addacct->debit=$discount;
+                    $addacct->posted_by=Auth::user()->idno;
+                    $addacct->save();        
+        
+    }
 
+    function processAccounting($request, $reference_id,$totalpayment,$ledgers){
+        $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
+            if(count($ledgers)>0){
+                foreach($ledgers as $ledger){
+                    if($totalpayment>0){
+                        //process if there is discount
+                        if($ledger->debit_memo==0 && $ledger->payment==0){
+                            if($ledger->discount>0){
+                            $this->processDiscount($request, $reference_id, $ledger->discount, $ledger->discount_code);
+                            $addacct = new \App\Accounting;
+                            $addacct->transaction_date = date('Y-m-d');
+                            $addacct->reference_id=$reference_id;
+                            $addacct->accounting_type = env("CASH");
+                            $addacct->category=$ledger->category;
+                            $addacct->subsidiary=$ledger->subsidiary;
+                            $addacct->receipt_details=$ledger->receipt_details;
+                            $addacct->particular=$ledger->receipt_details;
+                            $addacct->accounting_code=$ledger->accounting_code;
+                            $addacct->accounting_name=$ledger->accounting_name;
+                            $addacct->fiscal_year=$fiscal_year;
+                            $addacct->credit=$ledger->discount;
+                            $addacct->posted_by=Auth::user()->idno;
+                            $addacct->save();
+                            
+                            }
+                            
+                        } 
+                    if($totalpayment >= $ledger->amount-$ledger->discount-$ledger->debit_memo-$ledger->payment){
+                    $amount = $ledger->amount-$ledger->discount-$ledger->debit_memo-$ledger->payment;
+                    $ledger->payment=$ledger->payment+$amount;
+                    $ledger->update();
+                    
+                    $addacct = new \App\Accounting;
+                    $addacct->transaction_date = date('Y-m-d');
+                    $addacct->reference_id=$reference_id;
+                    $addacct->reference_number=$ledger->id;
+                    $addacct->accounting_type = env("CASH");
+                    $addacct->category=$ledger->category;
+                    $addacct->subsidiary=$ledger->subsidiary;
+                    $addacct->receipt_details=$ledger->receipt_details;
+                    $addacct->particular=$ledger->receipt_details;
+                    $addacct->accounting_code=$ledger->accounting_code;
+                    $addacct->accounting_name=$ledger->accounting_name;
+                    $addacct->fiscal_year=$fiscal_year;
+                    $addacct->credit=$amount;
+                    $addacct->posted_by=Auth::user()->idno;
+                    $addacct->save();
+                    $totalpayment=$totalpayment-$amount;
+                    
+                    } else {
+                     if($totalpayment>0){
+                    $addacct = new \App\Accounting;
+                    $addacct->transaction_date = date('Y-m-d');
+                    $addacct->reference_id=$reference_id;
+                    $addacct->reference_number=$ledger->id;
+                    $addacct->accounting_type = env("CASH");
+                    $addacct->category=$ledger->category;
+                    $addacct->subsidiary=$ledger->subsidiary;
+                    $addacct->receipt_details=$ledger->receipt_details;
+                    $addacct->particular=$ledger->receipt_details;
+                    $addacct->accounting_code=$ledger->accounting_code;
+                    $addacct->accounting_name=$ledger->accounting_name;
+                    $addacct->fiscal_year=$fiscal_year;
+                    $addacct->credit=$totalpayment;
+                    $addacct->posted_by=Auth::user()->idno;
+                    $addacct->save();
+                    $totalpayment=0;
+                     }    
+                    }  
+                    }
+                }   
+            }
+    }
+    
+}
