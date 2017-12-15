@@ -18,6 +18,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
   <link rel="stylesheet" href="{{url("dist",array("css","AdminLTE.min.css"))}}">
   <link rel="stylesheet" href="{{url("dist",array("css","skins","skin-blue.min.css"))}}">
   <link rel="stylesheet" href="{{url("/bower_components", array("datatables.net-bs","css","dataTables.bootstrap.min.css"))}}">
+  <link rel="stylesheet" href="{{url('/dist',array('css','skins','_all-skins.min.css'))}}">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -125,14 +126,16 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li><a href="{{url("/cashier",array('setreceipt',Auth::user()->idno))}}"><i class="fa fa-link"></i> <span>Set Receipt No</span></a></li>
         <li><a href="{{url("/cashier",array('otherpayment'))}}"><i class="fa fa-link"></i> <span>Non Student Payment</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Reports</span>
+          <a href="#"><i class="fa fa-link"></i> <span>Collection Reports</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Collection Report</a></li>
-            <li><a href="#">Deposit Slips</a></li>
+            <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d')))}}">Collection Report Summary</a></li>
+            <li><a href="#">List OF Checks</a></li>
+            <li><a href="#"></a>Credit Card Summary</li>
+            <li><a href="#">Bank Deposit Summary</a></li>
           </ul>
         </li>
       </ul>

@@ -77,10 +77,14 @@
             @foreach($reservations as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
-                <td>@if($reservation->is_consumed=="1")
+                <td>@if($reservation->is_reverse=="1")
+                    <i class="fa fa-close"></i> Canceled
+                    @else
+                    @if($reservation->is_consumed=="1")
                     <i class="fa fa-times"></i>
                     @else
                     <i class="fa fa-check"></i>
+                    @endif
                     @endif
                     </td>
                 </tr>

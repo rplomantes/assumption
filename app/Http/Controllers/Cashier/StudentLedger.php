@@ -95,10 +95,12 @@ class StudentLedger extends Controller
     function reverserestore($reference_id){
         if(Auth::user()->accesslevel==env("CASHIER")){
             DB::beginTransaction();
+            //$this->checkifreservation($reference_id);
             $this->reverserestore_ledger($reference_id, env("CASH"));
             $this->reverserestore_entries(\App\Payment::where('reference_id',$reference_id)->get(), $reference_id);
             $this->reverserestore_entries(\App\Accounting::where('reference_id',$reference_id)->get(), $reference_id);
-            //$this->reverserestore_entries(\App\Ledger::where('reference_id',$reference_id)->get(), $reference_id);
+            $this->reverserestore_entries(\App\Reservation::where('reference_id',$reference_id)->get(), $reference_id);
+            
             DB::commit();
             return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }
@@ -116,6 +118,7 @@ class StudentLedger extends Controller
                    $ledger->payment = $ledger->payment + $accounting->credit;          
                    }
                    $ledger->update(); 
+                   }
                }
                }
            }
@@ -133,18 +136,7 @@ class StudentLedger extends Controller
          }
              
      }
-     function checkifreservation($reference_id){
-         $reservation = \App\Reservation::where('reference_id',$reference_id)->get();
-         if(count($reservation) > 0 ){
-             foreach($reservation as $reserve){
-                 if($reserve->is_reverse=='0'){
-                     $reserve->is_reverse =="1";
-                 }else{
-                     $reserve->is_reverse=="0";
-                 }
-             }
-         }
-     }
+     
      
     }
 
