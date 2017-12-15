@@ -96,79 +96,9 @@ $units = 0;
         </div>
         <div class="col-md-8">
             <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Courses Assessed</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    </div>
-                </div>
                 <div class='box-body'>
-                    <div class='table-responsive'>
-                    <table class='table table-striped'>
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Course Name</th>
-                                <th>Units</th>
-                                <th>Schedule</th>
-                                <th>Instructor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($grade_colleges as $grade_college)
-                            <?php
-                            $units = $units + $grade_college->lec + $grade_college->lab;
-                            ?>
-                            <tr>
-                                <td>{{$grade_college->course_code}}</td>
-                                <td>{{$grade_college->course_name}}</td>
-                                <td>{{$grade_college->lec+$grade_college->lab}}</td>
-                                <td>
-                                    <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('course_offering_id', $grade_college->course_offering_id)->get(['time_start', 'time_end', 'room']);
-                                    ?>   
-                                    @foreach ($schedule3s as $schedule3)
-                                    {{$schedule3->room}}
-                                    @endforeach
-                                    <?php
-                                    $schedule2s = \App\ScheduleCollege::distinct()->where('course_offering_id', $grade_college->course_offering_id)->get(['time_start', 'time_end', 'room']);
-                                    ?>
-                                    @foreach ($schedule2s as $schedule2)
-                                    <?php
-                                    $days = \App\ScheduleCollege::where('course_offering_id', $grade_college->course_offering_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
-                                    ?>
-                                    <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
-                                    @endforeach
-                                </td>
-                                <?php
-                                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
-                                $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
-
-                                if (count($instructor) > 0) {
-                                    $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
-                                } else {
-                                    $data = "";
-                                }
-                                ?>
-                                <td >{{$data}}</td>
-                            </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="2"><strong>Total Units</strong></td>
-                                <td><strong>{{$units}}</strong></td>
-                                <td colspan="2"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </div>
+                    <h3>Student Not Yet Advised!!!</h3>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <a href="{{url('registrar_college', array('reassess',$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
-            </div>
-            <div class="col-sm-6">
-                <a href='{{url('registrar_college', array('print_registration_form', $user->idno))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
             </div>
         </div>
     </div>

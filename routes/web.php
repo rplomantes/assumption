@@ -24,13 +24,14 @@ Route::get('/', 'HomeController@index')->name('home');
 //Registrar College - MAIN//////////////////////////////////////////////////////
 Route::get('/ajax/registrar_college/getstudentlist', 'RegistrarCollege\Ajax\GetStudentList_ajax@getstudentlist');
 
-//Registrar College Assessment//////////////////////////////////////////////////
-//Assessment
-Route::get('/registrar_college/assessment/{idno}','RegistrarCollege\Assessment\AssessmentController@index');
-Route::get('/registrar_college/assessment/save_assessment/{idno}','RegistrarCollege\Assessment\AssessmentController@save_assessment');
-Route::get('/registrar_college/reassess/{idno}','RegistrarCollege\Assessment\AssessmentController@reassess');
-//Ajax College Asssessment
-Route::get('/ajax/registrar_college/assessment/get_assessed_payment', 'RegistrarCollege\Assessment\Ajax\assessment_ajax@get_assessed_payment');
+////Registrar College Assessment//////////////////////////////////////////////////
+////Assessment
+//Route::get('/registrar_college/assessment/{idno}','RegistrarCollege\Assessment\AssessmentController@index');
+//Route::get('/registrar_college/assessment/save_assessment/{idno}','RegistrarCollege\Assessment\AssessmentController@save_assessment');
+//Route::get('/registrar_college/reassess/{idno}','RegistrarCollege\Assessment\AssessmentController@reassess');
+//Route::get('/registrar_college/print_registration_form/{idno}','RegistrarCollege\Assessment\AssessmentController@print_registration_form');
+////Ajax College Asssessment
+//Route::get('/ajax/registrar_college/assessment/get_assessed_payment', 'RegistrarCollege\Assessment\Ajax\assessment_ajax@get_assessed_payment');
 
 //Registrar College Curriculum Management///////////////////////////////////////
 //Curriculum
@@ -78,13 +79,13 @@ Route::get('/ajax/registrar_college/reports/student_list/search','RegistrarColle
 Route::get('/ajax/registrar_college/reports/student_list/select_section','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_section');
 Route::get('/ajax/registrar_college/reports/student_list/select_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_course');
 Route::get('/ajax/registrar_college/reports/student_list/list_per_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@list_per_course');
-
+//Enrollment Statistics
+Route::get('/registrar_college/reports/enrollment_statistics','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
 
 
 //Dean - MAIN///////////////////////////////////////////////////////////////////
 Route::get('/dean/viewrecord/{idno}','Dean\Record@view');
 Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
-
 //Assessment////////////////////////////////////////////////////////////////////
 Route::get('/dean/assessment/{idno}','Dean\Assessment\Assessment@assess');
 Route::get('/dean/assessment/confirm_advised/{idno}/{program_code}/{level}','Dean\Assessment\Assessment@confirm_advised');

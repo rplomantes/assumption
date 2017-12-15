@@ -1,0 +1,155 @@
+@extends('layouts.appreg_college')
+@section('messagemenu')
+<li class="dropdown messages-menu">
+    <!-- Menu toggle button -->
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-envelope-o"></i>
+        <span class="label label-success"></span>
+    </a>
+</li>
+<li class="dropdown notifications-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>
+        <span class="label label-warning"></span>
+    </a>
+</li>
+
+<li class="dropdown tasks-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i>
+        <span class="label label-danger"></span>
+    </a>
+</li>
+@endsection
+@section('header')
+<section class="content-header">
+    <h1>
+        Enrollment Statistics
+        <small>{{$school_year}}-{{$school_year+1}} - {{$period}}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="#"></i> Reports</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('reports','enrollment_statistics'))}}"></i> Enrollment Statistics</a></li>
+    </ol>
+</section>
+@endsection
+@section('maincontent')
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Program</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style='width: 80px'>Level</th>
+                            <th>Program</th>
+                            <th>Assessed</th>
+                            <th>Enrolled</th>
+                        </tr>
+                        @foreach ($academic_programs as $academic_program)
+                        <?php
+                        $enrollees = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
+                        $assessed  = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
+                        ?>
+                        <tr>
+                            <td>{{$academic_program->level}}</td>
+                            <td>{{$academic_program->program_code}}</td>
+                            <td>{{count($assessed)}}</td>
+                            <td>{{count($enrollees)}}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Department</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Department</th>
+                            <th>Assessed</th>
+                            <th>Enrolled</th>
+                        </tr>
+                        <?php
+                        $totalassessed = 0;
+                        $totalenrollees = 0;
+                        ?>
+                        @foreach ($departments as $department)
+                        <?php
+                        $enrollees = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('department', $department->department)->get();
+                        $assessed  = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('department', $department->department)->get();
+                        ?>
+                        <tr>
+                            <td>{{$department->department}}</td>
+                            <td>{{count($assessed)}}</td>
+                            <td>{{count($enrollees)}}</td>
+                        </tr>
+                        <?php
+                        $totalassessed = $totalassessed + count($assessed);
+                        $totalenrollees = $totalenrollees + count($enrollees);
+                        ?>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Total</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Assessed</th>
+                            <th>{{$totalassessed}}</th>
+                        </tr>
+                        <tr>
+                            <th>Enrollees</th>
+                            <th>{{$totalenrollees}}</th>
+                        </tr>
+                        <tr>
+                            <th style="color:red">Total</th>
+                            <th style="color:red">{{$totalenrollees + $totalassessed}}</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+@section('footerscript')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#search").keypress(function (e) {
+            var theEvent = e || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            var array = {};
+            array['search'] = $("#search").val();
+            if (key == 13) {
+                $.ajax({
+                    type: "GET",
+                    url: "/ajax/registrar_college/getstudentlist",
+                    data: array,
+                    success: function (data) {
+                        $("#studentlist").html(data);
+                        $("#search").val("");
+                    }
+                });
+            }
+        })
+    })
+</script>
+@endsection

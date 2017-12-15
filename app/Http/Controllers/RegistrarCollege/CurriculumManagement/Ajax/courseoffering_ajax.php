@@ -89,6 +89,7 @@ class courseoffering_ajax extends Controller {
 
             if (count($curriculums) > 0) {
                 foreach ($curriculums as $curriculum) {
+        $course_details = \App\Curriculum::where('course_code', $curriculum->course_code)->where('program_code', $program_code)->first();
                     $counter = \App\CourseOffering::where('course_code', $curriculum->course_code)->where('school_year', $school_year->school_year)->where('program_code', $curriculum->program_code)->where('period', $school_year->period)->where('level', $curriculum->level)->where('section', $section)->first();
                     if (count($counter) == 0) {
                         $addsubject = new CourseOffering;

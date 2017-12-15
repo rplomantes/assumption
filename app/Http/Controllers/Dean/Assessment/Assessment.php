@@ -21,12 +21,12 @@ class Assessment extends Controller {
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == 0) {
                 return view('dean.assessment.assess', compact('status', 'idno'));
-            } else if ($status->status == 1) {
-                return redirect(url('dean', array('assessment', 'confirm_advised', $idno)));
-            } else if ($status >= 2) {
+            } else if ($status->status == 1 || $status->status == 2) {
+                return redirect(url('dean', array('assessment', 'confirm_advised', $idno, $status->program_code, $status->level)));
+            } else if ($status->status == 3) {
                 return view('dean.assessment.enrolled', compact('status', 'idno'));
             } else {
-                return view('dean.assessment.assess', compact('status', 'idno'));
+                return view('dean.assessment.enrolled', compact('status', 'idno'));
             }
         }
     }

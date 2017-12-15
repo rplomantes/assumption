@@ -25,7 +25,7 @@
 <section class="content-header">
     <h1>
         Student List
-        <small></small>
+        <small>Per Course</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>

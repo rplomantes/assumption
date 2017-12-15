@@ -164,10 +164,7 @@ $units = 0;
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <a href="{{url('registrar_college', array('reassess',$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
-            </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <a href='{{url('registrar_college', array('print_registration_form', $user->idno))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
             </div>
         </div>

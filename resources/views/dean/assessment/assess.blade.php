@@ -1,7 +1,8 @@
 <?php
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
-$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->where('department', $status->department)->get(['program_code', 'program_name']);
+//$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->where('department', $status->department)->get(['program_code', 'program_name']);
+$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
 ?>
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();

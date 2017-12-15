@@ -143,7 +143,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                         <li><a href="{{url('registrar_college', array('reports','student_list', 'per_course'))}}">Per Course</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Statistics</a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics'))}}">Enrollment Statistics</a></li>
                             </ul>
                         </li>
                 </section>

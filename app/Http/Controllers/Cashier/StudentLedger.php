@@ -109,12 +109,14 @@ class StudentLedger extends Controller
            if(count($accountings)>0){
                foreach($accountings as $accounting){
                    $ledger=  \App\Ledger::find($accounting->reference_number);
+                   if (count($ledger)>0){
                    if($accounting->is_reverse==0){
                    $ledger->payment = $ledger->payment - $accounting->credit;
                    }else{
                    $ledger->payment = $ledger->payment + $accounting->credit;          
                    }
                    $ledger->update(); 
+               }
                }
            }
         } 
