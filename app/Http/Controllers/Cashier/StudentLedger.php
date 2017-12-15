@@ -122,7 +122,7 @@ class StudentLedger extends Controller
                }
                }
            }
-        } 
+         
      function reverserestore_entries($obj,$reference_id){
          if(count($obj)>0){
              foreach ($obj as $ob){
@@ -138,5 +138,5 @@ class StudentLedger extends Controller
      }
      
      
-    }
-
+    
+}

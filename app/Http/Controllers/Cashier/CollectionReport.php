@@ -16,7 +16,7 @@ class CollectionReport extends Controller
         $this->middleware('auth');
     }
     
-    function cashier_collection($date_from, $date_to){
+    function collection($date_from, $date_to){
         if(Auth::user()->accesslevel==env("CASHIER")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('posted_by',Auth::user()->idno)->get();
