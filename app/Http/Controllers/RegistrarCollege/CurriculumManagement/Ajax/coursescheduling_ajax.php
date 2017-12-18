@@ -35,13 +35,13 @@ class coursescheduling_ajax extends Controller {
             $time_start = Input::get("time_start");
             $time_end = Input::get("time_end");
             $course_offering_id = Input::get("course_offering_id");
-            
+
             $info_course_offering = \App\CourseOffering::where('id', $course_offering_id)->first();
 
 
             $school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
             $is_conflict = \App\ScheduleCollege::
-                    join('course_offerings', 'schedule_colleges.course_offering_id', '=', 'course_offerings.id' )
+                    join('course_offerings', 'schedule_colleges.course_offering_id', '=', 'course_offerings.id')
                     ->where('course_offerings.program_code', $info_course_offering->program_code)
                     ->where('course_offerings.level', $info_course_offering->level)
                     ->where('course_offerings.section', $info_course_offering->section)
@@ -53,7 +53,7 @@ class coursescheduling_ajax extends Controller {
                         ->orwhereBetween('time_end', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))));
                     })
                     ->get(['schedule_colleges.school_year']);
-                    
+
             $rooms = \App\ScheduleCollege::distinct()
                     ->where('school_year', $school_year->school_year)
                     ->where('period', $school_year->period)

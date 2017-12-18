@@ -1,5 +1,7 @@
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+$schedules = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->get();
+$merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->schedule_id)->where('schedule_id', '!=',NULL)->get();
 ?>
 <link rel="stylesheet" href="{{ asset ('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
@@ -63,16 +65,13 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
                         </thead>
                         <tbody>
                             <tr>
-                                <?php
-                                $schedules = \App\ScheduleCollege::where('course_offering_id', $course_offering->id)->get();
-                                ?>
                                 <td>
                                     <?php
-                                    $schedule2s = \App\ScheduleCollege::distinct()->where('course_offering_id', $course_offering->id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
                                     ?>
                                     @foreach ($schedule2s as $schedule2)
                                     <?php
-                                    $days = \App\ScheduleCollege::where('course_offering_id', $course_offering->id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                    $days = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
                                     @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
@@ -80,7 +79,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
                                 </td>
                                 <td>
                                     <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('course_offering_id', $course_offering->id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
                                     ?>
                                     @foreach ($schedule3s as $schedule3)
                                     {{$schedule3->room}}<br>
@@ -152,6 +151,106 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
                                 Room
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Merge Schedule</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-sm-6">
+                    <table class="table table-striped">
+                        <h4>Available Schedules</h4>
+                        <thead>
+                            <tr>
+                                <th>Schedule</th>
+                                <th>Room</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $distincts = \App\ScheduleCollege::distinct()->where('course_code', $course_offering->course_code)->where('schedule_id', '!=', $course_offering->schedule_id)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['schedule_id']);
+                            ?>
+                            @foreach($distincts as $distinct)
+                            <tr>
+                                <td>
+                                    <?php
+                                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $distinct->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                    ?>
+                                    @foreach ($schedule2s as $schedule2)
+                                    <?php
+                                    $days = \App\ScheduleCollege::where('schedule_id', $distinct->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                    ?>
+                                    <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                                    @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <?php
+                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $distinct->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                    ?>
+                                    @foreach ($schedule3s as $schedule3)
+                                    {{$schedule3->room}}<br>
+                                    @endforeach
+                                </td>
+                                <td><a href="{{url('registrar_college',array('curriculum_management','merge_schedule',$distinct->schedule_id,$course_offering->id))}}"><button class="btn btn-success"><span class="fa fa-compress"></span></button></a></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                        
+                    </div>
+                    <div class="col-sm-6 ss">
+                        <table class='table table-striped'>
+                            <h4>Merged Schedule</h4>
+                            <thead>
+                                <tr>
+                                    <th>Schedule</th>
+                                    <th>Room</th>
+                                    <th>Merged to</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if(count($merged_schedules)>1)
+                                    <td>
+                                        <?php
+                                        $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                        ?>
+                                        @foreach ($schedule2s as $schedule2)
+                                        <?php
+                                        $days = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                        ?>
+                                        <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                                        @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                        ?>
+                                        @foreach ($schedule3s as $schedule3)
+                                        {{$schedule3->room}}<br>
+                                        @endforeach
+                                    </td>
+                                    <td>Sections: 
+                                        @foreach ($merged_schedules as $merged_schedule)
+                                        {{$merged_schedule->section}},
+                                        @endforeach
+                                    </td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -233,5 +332,6 @@ function show_available_rooms(day, time_start, time_end) {
 
     });
 }
+
 </script>
 @endsection

@@ -56,7 +56,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                     <?php
                     $user = \App\User::where('id', $idno)->first();
                     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
-                    $loads = \App\CourseOffering::where('instructor_id', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+                    $loads = \App\ScheduleCollege::where('instructor_id', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
 
                     $courses = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['course_name', 'course_code']);
                     ?>
@@ -65,7 +65,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                     <table class="table table-striped">
                         <thead>
                         <th class="col-sm-2">Course Code</th>
-                        <th class="col-sm-4">Section</th>
+                        <th class="col-sm-4">Sections</th>
                         <th class="col-sm-3">Schedule</th>
                         <th class="col-sm-2">Room</th>
                         <th class="col-sm-1"></th>
@@ -75,20 +75,23 @@ $faculty = \App\User::where('idno', $idno)->first();
                             <tr>
                                 <td>
                                     <?php
-                                    $schedules = \App\ScheduleCollege::where('course_offering_id', $load->id)->get();
+                                    $schedules = \App\ScheduleCollege::where('schedule_id', $load->schedule_id)->get();
+                                    $details = \App\CourseOffering::where('schedule_id', $load->schedule_id)->get();
                                     ?>
                                     {{$load->course_code}}
                                 </td>
                                 <td>
-                                    {{$load->program_code}} - {{$load->level}}  - {{$load->section}}
+                                    @foreach ($details as $detail)
+                                    {{$detail->program_code}} - {{$detail->level}}  - {{$detail->section}}<br>
+                                    @endforeach
                                 </td>
                                 <td>
                                     <?php
-                                    $schedule2s = \App\ScheduleCollege::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('course_offering_id', $load->id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule2s = \App\ScheduleCollege::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('schedule_id', $load->schedule_id)->get(['time_start', 'time_end', 'room']);
                                     ?>
                                     @foreach ($schedule2s as $schedule2)
                                     <?php
-                                    $days = \App\ScheduleCollege::where('course_offering_id', $load->id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                    $days = \App\ScheduleCollege::where('schedule_id', $load->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}} <br>
                                     <!--{{$schedule2->day}} {{$schedule2->time_start}} - {{$schedule2->time_end}}<br>-->
@@ -96,13 +99,13 @@ $faculty = \App\User::where('idno', $idno)->first();
                                 </td>
                                 <td>
                                     <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('course_offering_id', $load->id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $load->schedule_id)->get(['time_start', 'time_end', 'room']);
                                     ?>
                                     @foreach ($schedule3s as $schedule3)
                                     {{$schedule3->room}}<br>
                                     @endforeach
                                 </td>
-                                <td><a href="{{url ('registrar_college',array('curriculum_management','remove_faculty_loading',$load->id, $idno))}}"><button class="btn btn-danger"><span class="fa fa-minus"></span></button></td>
+                                <td><a href="{{url ('registrar_college',array('curriculum_management','remove_faculty_loading',$load->schedule_id, $idno))}}"><button class="btn btn-danger"><span class="fa fa-minus"></span></button></td>
                             </tr>
                             @endforeach
                         </tbody>

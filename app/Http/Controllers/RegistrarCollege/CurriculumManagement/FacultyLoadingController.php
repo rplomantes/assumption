@@ -28,20 +28,24 @@ class FacultyLoadingController extends Controller {
     function add_faculty_loading(Request $request) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $instructor_id = $request->instructor_id;
-            $course_offering_id = $request->course_offering_id;
+            $schedule_id = $request->schedule_id;
             
-            $updatecourse_offering = \App\CourseOffering::where('id', $course_offering_id)->first();
-            $updatecourse_offering->instructor_id = $instructor_id;
-            $updatecourse_offering->save();
+            $updatecourse_offering = \App\ScheduleCollege::where('schedule_id', $schedule_id)->get();
+            foreach($updatecourse_offering as $updatesched){
+            $updatesched->instructor_id = "$instructor_id";
+            $updatesched->save();
+            }
             return redirect("/registrar_college/curriculum_management/edit_faculty_loading/$instructor_id");
         }
     }
     
-    function remove_faculty_loading($id, $idno) {
+    function remove_faculty_loading($schedule_id, $idno) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $updatecourse_offering = \App\CourseOffering::where('id', $id)->first();
-            $updatecourse_offering->instructor_id = NULL;
-            $updatecourse_offering->save();
+            $updatecourse_offering = \App\ScheduleCollege::where('schedule_id', $schedule_id)->get();
+            foreach($updatecourse_offering as $updatesched){
+            $updatesched->instructor_id = NULL;
+            $updatesched->save();
+            }
             
             return redirect("/registrar_college/curriculum_management/edit_faculty_loading/$idno");
         }

@@ -28,7 +28,7 @@ class CreateCourseOfferingsTable extends Migration
             $table->decimal('srf',10,2);
             $table->integer('percent_tuition');
             $table->integer('number_of_students')->default(35);
-            $table->string('instructor_id')->nullable();
+            $table->string('schedule_id')->nullable();
             $table->timestamps();
         });
     }

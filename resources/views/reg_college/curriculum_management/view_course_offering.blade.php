@@ -50,7 +50,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Curriculum</h3>
+                    <h3 class="box-title">{{$program_code}} - {{$program_name->program_name}}</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
