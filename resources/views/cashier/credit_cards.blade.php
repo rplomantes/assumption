@@ -1,13 +1,6 @@
 <?php
-$totalcash=0;
-$totalcheck=0;
 $totalcreditcard=0;
-$totalbankdeposit=0;
-$total=0;
-$ntotal=0;
-$grandtotal=0;
 
-$totalcanceled=0;
 ?>
 @extends('layouts.appcashier')
 @section('messagemenu')
@@ -35,7 +28,7 @@ $totalcanceled=0;
 @section('header')
 <section class="content-header">
       <h1>
-        Collection Report
+        Credit Card
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -64,52 +57,39 @@ $totalcanceled=0;
                     <input id="date_from" class="form-control" type="hidden" value="{{$date_from}}">
                 </div>
       </div>
- 
+     
      <div class="box">    
      <div class="box-body">
-             
-     <table id="example1" class="table table-responsive table-striped">
+     <table id="example1" class="table table-responsive table-hover">
          <thead>
-             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check</th><th>Credit Card</th><th>Bank Deposit</th><th>Total</th><th>Status</th><th>View</th></tr>
+             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Credit Card</th><th>Card Number</th><th>Approval Number</th><th>Amount</th><th>Status</th><th>View</th></tr>
          </thead>
          <tbody>
              @if(count($payments)>0)
                 @foreach($payments as $payment)
                     <?php
                     if($payment->is_reverse==0){
-                    $totalcash=$totalcash+$payment->cash_amount;
-                    $totalcheck=$totalcheck+$payment->check_amount;
                     $totalcreditcard=$totalcreditcard+$payment->credit_card_amount;
-                    $totalbankdeposit=$totalbankdeposit+$payment->deposit_amount;
-                    $total=$payment->cash_amount+$payment->check_amount+$payment->credit_card_amount+$payment->deposit_amount;
-                    $ntotal=$totalcash+$totalcheck+$totalcreditcard+$totalbankdeposit;
-                    $grandtotal=$grandtotal+$total;
                     }
                     ?>
                     <tr><td>{{$payment->transaction_date}}</td>
                     <td>{{$payment->receipt_no}}</td>
                     <td>{{$payment->paid_by}}</td>
+                    
+                    <td>{{$payment->credit_card_bank}} - {{$payment->credit_card_type}}</td>
+                    <td>{{$payment->credit_card_number}}</td>
+                    <td>{{$payment->approval_number}}</td>
+                    
                     @if($payment->is_reverse=="0")
-                    <td>{{number_format($payment->cash_amount,2)}}</td>
-                    <td>{{number_format($payment->check_amount,2)}}</td>
-                    <td>{{number_format($payment->credit_card_amount,2)}}</td>
-                    <td>{{number_format($payment->deposit_amount,2)}}</td>
-                    <td><b>{{number_format($total,2)}}</b></td>
+                    <td><b>{{number_format($payment->credit_card_amount,2)}}</b></td>
                     <td>Ok</td>
                     @else
                     <?php
                     $totalcanceled=$payment->cash_amount+$payment->check_amount + $payment->credit_card_amount +$payment->deposit_amount;
                     ?>
-                    <td><span style='color:red;text-decoration:line-through'>
-  <span style='color:black'>{{number_format($payment->cash_amount,2)}}</span></span></td>
-                    <td><span style='color:red;text-decoration:line-through'>
-  <span style='color:black'>{{number_format($payment->check_amount,2)}}</span></span></td>
-                    <td><span style='color:red;text-decoration:line-through'>
-  <span style='color:black'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
-                    <td><span style='color:red;text-decoration:line-through'>
-  <span style='color:black'>{{number_format($payment->deposit_amount,2)}}</span></span></td>
+                   
   <td><span style='color:red;text-decoration:line-through;'>
-  <span style='color:#999'>{{number_format($totalcanceled,2)}}</span></span></td>
+  <span style='color:#999'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
                     <td>Canceled</td>
                     @endif
                     <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View</a></td></tr>
@@ -118,26 +98,24 @@ $totalcanceled=0;
              @endif
          </tbody>
           <tfoot>
-                    <tr><th colspan="3">Total</th>
-                    <th>{{number_format($totalcash,2)}}</th>
-                    <th>{{number_format($totalcheck,2)}}</th>
-                    <th>{{number_format($totalcreditcard,2)}}</th>
-                    <th>{{number_format($totalbankdeposit,2)}}</th>
-                    <th><b>{{number_format($grandtotal,2)}}</b></th>
+                    <tr><th colspan="6">Total</th>
+                    
+                    <th><b>{{number_format($totalcreditcard,2)}}</b></th>
                     <th></th></tr>
         
          </tfoot>    
      </table> 
      </div>    
-     </div> 
-     <div class="col-md-3 pull-left">
-         <a href="{{url('/cashier',array('print','collection_report',$date_from,$date_to))}}" class="btn btn-primary" target="_blank">Print</a>
-     </div>    
-   </div>
- 
+     </div>  
+    <div class="col-md-3 pull-left">
+         <a href="{{url('/cashier',array('print','credit_cards',$date_from,$date_to))}}" class="btn btn-primary" target="_blank">Print</a>
+     </div>   
+ </div>   
 @endsection
 @section('footerscript')
-       <!-- daterange picker -->
+
+   
+     <!-- daterange picker -->
 <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap-daterangepicker','daterangepicker.css'))}}">
 <script src="{{url('/bower_components',array('datatables.net','js','jquery.dataTables.min.js'))}}"></script>
 <script src="{{url('/bower_components',array('datatables.net-bs','js','dataTables.bootstrap.min.js'))}}"></script>
@@ -173,7 +151,7 @@ $totalcanceled=0;
         $('#date_from').val(from);
       });
       $("#view-button").on('click',function(e){
-        document.location="{{url('/cashier',array('collection_report'))}}" + "/" + $("#date_from").val() + "/" + $("#date_to").val();
+        document.location="{{url('/cashier',array('credit_cards'))}}" + "/" + $("#date_from").val() + "/" + $("#date_to").val();
     });
       
     });

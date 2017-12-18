@@ -97,9 +97,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </div>
                 </div>
                 <div class='box-body'>
+                    <form method="POST" action="{{url('/registrar_college',array('assessment','save_assessment'))}}">    
+                            {!! csrf_field() !!}
+                            
                     <div class="form-horizontal">
-                    <input type="hidden" name="type_account" id="type_account" value="Regular">
-                    <div class="form-group">
+                        <input type="hidden" name="idno" value="{{$user->idno}}">  
+                        <input type="hidden" name="program_code" value="{{$status->program_code}}">
+                        <input type="hidden" name="level" value="{{$status->level}}">
+                        <input type="hidden" name="type_account" id="type_account" value="Regular">
+                        <div class="form-group">
                         <div class='col-sm-12' id='plan-form'>
                             <label>Plan</label>
                             <select id="plan" name="plan" class='form-control'>
@@ -109,8 +115,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option value='Monthly'>Monthly</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group">
+                        </div>
+                        <div class="form-group">
                         <div class='col-sm-12' id='discount-form'>
                             <label>Discount</label>
                             <select id="discount" name="discount" class='form-control'>
@@ -124,13 +130,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </div>
                     <div class="form-group" id="compute-form">
                         <div class="col-sm-12">
-                            <button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}',discount.value)">Compute</button>
+                            <input type="submit" class="form-control btn-primary" value="Process Assessment" name="submit">
+                            <!--<button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}',discount.value)">Compute</button>-->
                         </div>
                     </div>
                     <div class="col-sm-12 box-body" id="display_result">
 
                     </div>
                     </div>
+                    </form>        
                 </div>
             </div>
         </div>

@@ -53,13 +53,15 @@
         <div class="col-md-12">
         <table class="table">
         <tr><th>Name:</th><td><b> {{$payment->paid_by}}</b></td><td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td><tr>
+        @if(count($status)>0)
         @if($status->status==3)
             @if($status->department=="College")
             <tr><th>Course / Level</th><td>{{$status->program_code}} / {{$tatus->level}}</td><td></td></tr>
             @else
             <tr><th>Level / Section</th><td>{{$status->level}}</td><td></td></tr>
             @endif
-        @endif    
+        @endif 
+        @endif
         <tr><th></th><td align="right"></td></tr>
         </table>
        

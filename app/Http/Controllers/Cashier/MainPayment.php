@@ -64,8 +64,11 @@ class MainPayment extends Controller
         $payment = \App\Ledger::where('idno',$idno)->where('category_switch','<=','5')
                 ->selectRaw('sum(debit_memo)+sum(payment)+sum(discount) as payment')->first();
         //
+        if($downpayment->amount + $duetoday->amount -$payment->payment > 0){
         $due_total = $downpayment->amount + $duetoday->amount -$payment->payment;
-        
+        } else {
+        $due_total=0;    
+        }
         //reservation
         $reservation=  \App\Reservation::where('idno',$idno)->where('reservation_type','1')
                 ->where('is_consumed','0')->selectRaw('sum(amount) as amount')->first();
@@ -104,7 +107,7 @@ class MainPayment extends Controller
          }
      }
      
-     function addUnrealizedEntry($request,$reference_id){
+     public static function addUnrealizedEntry($request,$reference_id){
          $totaltuition=  \App\Ledger::where('idno',$request->idno)->where('category_switch',env("TUITION_FEE"))
                  ->selectRaw("sum(amount) as amount")->first();
          $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
@@ -159,31 +162,31 @@ class MainPayment extends Controller
         if($request->main_due > 0 ){
            $totalpayment = $request->main_due;
            $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','5')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
-           $this->processAccounting($request, $reference_id,$totalpayment,$ledgers);
+           $this->processAccounting($request, $reference_id,$totalpayment,$ledgers,env("CASH"));
         }
         
         if($request->previous_balance > 0){
            $totalpayment = $request->previous_balance;
            $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'>=','10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
-           $this->processAccounting($request, $reference_id,$totalpayment,$ledgers);
+           $this->processAccounting($request, $reference_id,$totalpayment,$ledgers,env("CASH"));
         }
         
        if(count($request->other_misc)>0){
            foreach($request->other_misc as $key => $totalpayment){
                $ledgers =  \App\Ledger::where('id',$key)->get();
-               $this->processAccounting($request, $reference_id,$totalpayment,$ledgers);
+               $this->processAccounting($request, $reference_id,$totalpayment,$ledgers,env("CASH"));
            }
        }
         
     }
   
-    function processDiscount($request,$reference_id,$discount,$discount_code){
+    function processDiscount($request,$reference_id,$discount,$discount_code,$accounting_type){
         $discount_ref = \App\CtrDiscount::where('discount_code',$discount_code)->first();
         $department=  \App\Status::where('idno',$request->idno)->first()->department;
         $addacct = new \App\Accounting;
                     $addacct->transaction_date = date('Y-m-d');
                     $addacct->reference_id=$reference_id;
-                    $addacct->accounting_type = env("CASH");
+                    $addacct->accounting_type = $accounting_type;
                     $addacct->category=$discount_ref->discount_description;
                     $addacct->subsidiary=$discount_ref->discount_description;
                     $addacct->receipt_details=$discount_ref->discount_description;
@@ -198,7 +201,7 @@ class MainPayment extends Controller
         
     }
 
-    function processAccounting($request, $reference_id,$totalpayment,$ledgers){
+    public static function processAccounting($request, $reference_id,$totalpayment,$ledgers,$accounting_type){
         $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
             if(count($ledgers)>0){
                 foreach($ledgers as $ledger){
@@ -210,7 +213,7 @@ class MainPayment extends Controller
                             $addacct = new \App\Accounting;
                             $addacct->transaction_date = date('Y-m-d');
                             $addacct->reference_id=$reference_id;
-                            $addacct->accounting_type = env("CASH");
+                            $addacct->accounting_type = $accounting_type;
                             $addacct->category=$ledger->category;
                             $addacct->subsidiary=$ledger->subsidiary;
                             $addacct->receipt_details=$ledger->receipt_details;
@@ -228,14 +231,18 @@ class MainPayment extends Controller
                         } 
                     if($totalpayment >= $ledger->amount-$ledger->discount-$ledger->debit_memo-$ledger->payment){
                     $amount = $ledger->amount-$ledger->discount-$ledger->debit_memo-$ledger->payment;
+                    if($accounting_type==env("DEBIT_MEMO")){
+                    $ledger->debit_memo=$ledger->debit_memo+$amount; 
+                    }else{
                     $ledger->payment=$ledger->payment+$amount;
+                    }
                     $ledger->update();
                     
                     $addacct = new \App\Accounting;
                     $addacct->transaction_date = date('Y-m-d');
                     $addacct->reference_id=$reference_id;
                     $addacct->reference_number=$ledger->id;
-                    $addacct->accounting_type = env("CASH");
+                    $addacct->accounting_type = $accounting_type;
                     $addacct->category=$ledger->category;
                     $addacct->subsidiary=$ledger->subsidiary;
                     $addacct->receipt_details=$ledger->receipt_details;
@@ -251,13 +258,17 @@ class MainPayment extends Controller
                     
                     } else {
                     if($totalpayment>0){
+                    if($accounting_type==env("DEBIT_MEMO")){
+                    $ledger->debit_memo=$ledger->debit_memo + $totalpayment;    
+                    }else{    
                     $ledger->payment=$ledger->payment + $totalpayment;
+                    }
                     $ledger->update();
                     $addacct = new \App\Accounting;
                     $addacct->transaction_date = date('Y-m-d');
                     $addacct->reference_id=$reference_id;
                     $addacct->reference_number=$ledger->id;
-                    $addacct->accounting_type = env("CASH");
+                    $addacct->accounting_type = $accounting_type;
                     $addacct->category=$ledger->category;
                     $addacct->subsidiary=$ledger->subsidiary;
                     $addacct->receipt_details=$ledger->receipt_details;

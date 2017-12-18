@@ -65,7 +65,7 @@ class assessment_ajax extends Controller {
             }
         }
     }
-
+/*
     function deletecurrentledgers($idno, $school_year, $period) {
         $currentledgers = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
         if (count($currentledgers) > 0) {
@@ -83,7 +83,7 @@ class assessment_ajax extends Controller {
             }
         }
     }
-
+*/
     function getdiscountrate($type, $discount_code) {
         if ($type == 'tf') {
             return \App\CtrDiscount::where('discount_code', $discount_code)->first()->tuition_fee;
@@ -92,12 +92,14 @@ class assessment_ajax extends Controller {
         }
     }
 
+  /*  
     function getdiscount($type, $discount_code) {
         if ($type == 'tf') {
             return \App\CtrDiscount::where('discount_code', $discount_code)->first()->amount;
         }
     }
-
+*/
+/*
     function getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype) {
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 
@@ -131,7 +133,8 @@ class assessment_ajax extends Controller {
         $addledger->discount_code = $discount_code;
         $addledger->save();
     }
-
+*/
+/*    
     function getInterest($plan) {
         if ($plan == "Cash") {
             $interest = 1;
@@ -142,7 +145,8 @@ class assessment_ajax extends Controller {
         }
         return $interest;
     }
-
+*/
+    /*
     function getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code) {
         $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
         if (count($otherfees) > 0) {
@@ -167,7 +171,8 @@ class assessment_ajax extends Controller {
             }
         }
     }
-
+*/
+ /*   
     function computeLedgerDueDate($idno, $school_year, $period, $plan) {
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
@@ -207,12 +212,14 @@ class assessment_ajax extends Controller {
             }
         }
     }
-
+*/
+ /*   
     function computeplan($downpaymentamount, $totalFees, $due_dates) {
         $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
         return $planpayment;
     }
-
+*/
+/*    
     function changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
         $changestatus = \App\Status::where('idno', $idno)->first();
         $changestatus->status = 2;
@@ -223,12 +230,12 @@ class assessment_ajax extends Controller {
         $changestatus->type_of_discount = $discount_code;
         $changestatus->save();
     }
-
+*/
     function checkReservations($idno, $school_year, $period) {
-        $checkreservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->first();
+        $checkreservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->selectRaw('sum(amount) as amount')->first();
         if (count($checkreservations) > 0) {
             DB::beginTransaction();
-            $reservation_id = $checkreservations->id;
+            //$reservation_id = $checkreservations->id;
             $reference_id = uniqid();
             $reservationAmount = $checkreservations->amount;
             $this->postCredit($idno, $reference_id, $reservationAmount, $school_year, $period);
@@ -355,10 +362,11 @@ class assessment_ajax extends Controller {
         $updateStatus->status = 3;
         $updateStatus->save();
     }
-    
+  /*  
     function getAccountingName($accounting_code){
         $accounting_name = \App\ChartOfAccount::where('accounting_code', $accounting_code)->first()->accounting_name;
         return $accounting_name;
     }
-
+*/
+    
 }

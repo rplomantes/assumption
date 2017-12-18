@@ -43,7 +43,12 @@ class StudentReservation extends Controller
     
     function postAccounting($request, $reference_id){
         $fiscal_year= \App\CtrFiscalYear::first()->fiscal_year;
-        $department = \App\Status::where('idno',$request->idno)->first()->department;
+        $dept=\App\Status::where('idno',$request->idno)->first();
+        if(count($dept)>0){
+        $department = $dept->department;
+        } else {
+        $department="None";    
+        }
         if($request->reservation != ""){
         $addaccounting = new \App\Accounting;
         $addaccounting->transaction_date=date('Y-m-d');
@@ -53,8 +58,8 @@ class StudentReservation extends Controller
         $addaccounting->subsidiary=$request->idno;
         $addaccounting->receipt_details="Reservation";
         $addaccounting->particular="Reservation";
-        $addaccounting->accounting_code="210400";
-        $addaccounting->accounting_name="Student Reservation";
+        $addaccounting->accounting_code=env("RESERVATION_CODE");
+        $addaccounting->accounting_name=env("RESERVATION_NAME");
         $addaccounting->department=$department;
         $addaccounting->fiscal_year=$fiscal_year;
         $addaccounting->credit=$request->reservation;
@@ -72,8 +77,8 @@ class StudentReservation extends Controller
         $addaccounting->receipt_details="Student Deposit";
         $addaccounting->particular="Student Deposit";
         $addaccounting->department=$department;
-        $addaccounting->accounting_code="210103";
-        $addaccounting->accounting_name="OCL-Student Deposit";
+        $addaccounting->accounting_code=env("STUDENT_DEPOSIT_CODE");
+        $addaccounting->accounting_name=env("STUDENT_DEPOSIT_NAME");
         $addaccounting->fiscal_year=$fiscal_year;
         $addaccounting->credit=$request->deposit;
         $addaccounting->posted_by=Auth::user()->idno;
@@ -155,7 +160,12 @@ class StudentReservation extends Controller
     public static function postCashDebit($request,$reference_id){
         $addaccounting = new \App\Accounting;
         $fiscal_year= \App\CtrFiscalYear::first()->fiscal_year;
-        $department=  \App\Status::where('idno',$request->idno)->first()->department;
+        $dept=\App\Status::where('idno',$request->idno)->first();
+        if(count($dept)>0){
+        $department = $dept->department;
+        } else {
+        $department="None";    
+        }
         $totalamount=0;
         if($request->cash_receive != ""){
             $totalamount=$totalamount+$request->cash_receive-$request->change;

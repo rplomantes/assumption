@@ -124,7 +124,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
         <li><a href="{{url("/cashier",array('setreceipt',Auth::user()->idno))}}"><i class="fa fa-link"></i> <span>Set Receipt No</span></a></li>
-        <li><a href="{{url("/cashier",array('otherpayment'))}}"><i class="fa fa-link"></i> <span>Non Student Payment</span></a></li>
+        <li><a href="{{url("/cashier",array('non_student_payment'))}}"><i class="fa fa-link"></i> <span>Non Student Payment</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Collection Reports</span>
             <span class="pull-right-container">
@@ -133,9 +133,9 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
           </a>
           <ul class="treeview-menu">
             <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d')))}}">Collection Report Summary</a></li>
-            <li><a href="#">List OF Checks</a></li>
-            <li><a href="#"></a>Credit Card Summary</li>
-            <li><a href="#">Bank Deposit Summary</a></li>
+            <li><a href="{{url('cashier',array('list_of_checks',date('Y-m-d'),date('Y-m-d')))}}">Check </a></li>
+            <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">Credit Card </a></li>
+            <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
           </ul>
         </li>
       </ul>
