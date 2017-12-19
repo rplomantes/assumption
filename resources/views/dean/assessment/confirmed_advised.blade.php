@@ -100,17 +100,21 @@ $user = \App\User::where('idno', $idno)->first();
                                 [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}]<br>
                                 @endforeach
                             </td>
+                            <td>
                             <?php
                             $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
-                            $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
-
-                            if (count($instructor) > 0) {
-                                $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
-                            } else {
-                                $data = "";
-                            }
+                                $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
+                            
+                                foreach($schedule_instructor as $get){
+                                    if ($get->instructor_id != NULL){
+                                        $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                                        echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                                    } else {
+                                    echo "";
+                                    }
+                                }
                             ?>
-                            <td>{{$data}}</td>
+                            </td>
                         </tr>
                         @endforeach
                         <tr><td colspan="2"><strong>Total Units</strong></td><td><strong>{{$units}}</strong></td></tr>

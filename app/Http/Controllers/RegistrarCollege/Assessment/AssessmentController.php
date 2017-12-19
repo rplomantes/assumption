@@ -77,10 +77,10 @@ class AssessmentController extends Controller {
                 $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
                 //populate tuition fee with discount///
                 $this->getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype);
-                //populate due dates//
-                $this->computeLedgerDueDate($idno, $school_year, $period, $plan);
                 //populate srf//
                 $this->getSRF($idno, $program_code, $school_year, $period, $level);
+                //populate due dates//
+                $this->computeLedgerDueDate($idno, $school_year, $period, $plan);
                 //change status///
                 $this->changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code);
                 //check reservation//

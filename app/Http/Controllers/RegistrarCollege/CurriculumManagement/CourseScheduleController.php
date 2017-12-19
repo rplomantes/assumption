@@ -70,7 +70,7 @@ class CourseScheduleController extends Controller {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $deleteSchedule = \App\CourseOffering::where('id', $course_offering_id)->first();
-            $deleteSchedule->schedule_id=NULL;
+            $deleteSchedule->schedule_id = NULL;
             $deleteSchedule->save();
 
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
@@ -80,9 +80,8 @@ class CourseScheduleController extends Controller {
     function merge_schedule($schedule_id, $course_id) {
 
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $course = \App\CourseOffering::where('id', $course_id)->first();
-            $course->schedule_id = "$schedule_id";
-            $course->save();
+            $deleteSchedule = \App\ScheduleCollege::where('id', $schedule_id)->first();
+            $deleteSchedule->delete();
 
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_id");
         }
