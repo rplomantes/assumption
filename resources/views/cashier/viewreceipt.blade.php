@@ -1,4 +1,12 @@
-@extends('layouts.appcashier')
+<?php
+$layout="";
+if(Auth::user()->accesslevel==env("CASHIER")){
+    $layout="layouts.appcashier";
+} else if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+    $layout="layouts.appaccountingstaff";
+}
+?>
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -90,7 +98,7 @@
         <b>Explanation:</b><br>{{$payment->remarks}}
         </p>
         <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-        <b>Payment Details:</b><br>  
+        <b>Payment Rendered:</b><br>  
         @if($payment->cash_amount>0) 
         Cash Received : {{number_format($payment->amount_received,2)}}<br>
         Change : {{number_format($payment->amount_received-$payment->cash_amount,2)}}<br>

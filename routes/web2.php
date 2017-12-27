@@ -2,6 +2,8 @@
 
 //ajax route
 Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
+Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
+Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 
@@ -20,7 +22,10 @@ Route::get('/cashier/credit_cards/{date_from}/{date_to}','Cashier\CollectionRepo
 Route::get('/cashier/bank_deposits/{date_from}/{date_to}','Cashier\CollectionReport@bank_deposits');
 Route::get('/cashier/non_student_payment','Cashier\OtherPayment@non_student_payment');
 Route::post('/cashier/non_student_payment','Cashier\OtherPayment@post_non_student_payment');
-
+Route::get('/cashier/set_receiptd','Cashier\ColllectioReport@set_receipt');
+Route::get('/cashier/deposit_slip/{transaction_date}','Cashier\CollectionReport@deposit_slip');
+Route::post('/cashier/deposit_slip','Cashier\CollectionReport@post_deposit_slip');
+Route::get('/cashier/remove_deposit/{id}','Cashier\CollectionReport@remove_deposit');
 //Registrar College Assessment//////////////////////////////////////////////////
 //Assessment/////
 
@@ -30,5 +35,9 @@ Route::get('/registrar_college/reassess/{idno}', 'RegistrarCollege\Assessment\As
 Route::get('/registrar_college/print_registration_form/{idno}', 'RegistrarCollege\Assessment\AssessmentController@print_registration_form');
 Route::Post('/registrar_college/assessment/save_assessment','RegistrarCollege\Assessment\AssessmentController@save_assessment');
 //Ajax College Asssessment
+
+
 Route::get('/ajax/registrar_college/assessment/get_assessed_payment', 'RegistrarCollege\Assessment\Ajax\assessment_ajax@get_assessed_payment');
+
+Route::get('/accounting/debit_memo/{idno}','Accounting\DebitMemo@index');
 ?>

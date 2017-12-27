@@ -21,8 +21,9 @@ if($tuition_fee_total->balance>0)
     $tuition=$tuition_fee_total->balance;
 
 $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
+$accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
 ?>
-@extends('layouts.appcashier')
+@extends('layouts.appaccountingstaff')
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -52,12 +53,12 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
 
 <section class="content-header">
       <h1>
-        Main Payment
+        Debit Memo
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"> Student Ledger</a></li>
+        <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"> Debit Memo</a></li>
         <li class="active">Main Payment</li>
       </ol>
 </section>
@@ -201,90 +202,30 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
         </div>    
    </div>
    <div class="col-md-6">
-      <div id="payment_pad"> 
-        <div class="cash-payment">
-        <div class="form form-group">
-            <div class="col-md-6"> 
-            <label>Cash Receive</label>
-                <input type="text" name="cash_receive" id="cash_receive" class="form form-control number" />
+   <div id="payment_pad"> 
+       <div  id="dynamic_field">
+                        <!--div class="top-row"-->
+                        <div class="form form-group">
+                        <div class="col-md-5">
+                            <select name="accounting[]" id="accounting1" class="form form-control select2" onkeypress="gotoother_amount(1,event)">
+                            <option>Select Accounting Name</option>
+                            @if(count($accountings)>0)
+                                @foreach($accountings as $accounting)
+                                    <option value="{{$accounting->accounting_code}}">{{$accounting->accounting_name}}</option>
+                                @endforeach
+                            @endif
+                            </select>
+                            
+                        </div>
+
+                        <div class="col-md-5">
+                            <input class="form form-control number" type="text" onkeypress="totalOther(event)" name="debit_amount[]" id="debit_amount1"/>
+                        </div>
+                        <div class="col-md-2">
+                        <button type="button" name="add" id="add" class="btn btn-success"> + </button></td>
+                        </div>
+                        </div>    
             </div>
-            <div class="col-md-6"> 
-            <label>Change</label>
-            <input type="text" name="change" id="change" class="form form-control change" readonly="readonly" />
-            </div>
-        </div> 
-   </div>
-    
-    
-   <div class="check_payment">
-       <label>Check Payment</label>
-        <div class="form form-group">
-            <div class="col-md-6">
-                <label>Bank</label>
-                <input type="text" name="bank" id="bank" class="form form-control" />
-            </div>
-            
-            <div class="col-md-6">
-                <label>Check Number</label>
-                <input type="text" name="check_number" id="check_number" class="form form-control" />
-            </div>
-            
-            <div class="col-md-12">
-                <label>Check Amount</label>
-                <input type="text" name="check_amount" id="check_amount" class="form form-control number" />
-            </div>
-        </div>    
-   </div>
-    
-    <div class="credit_card">
-        <label>Credit Card Payment</label> 
-        <div class="form form-group">
-            <div class="col-md-2">
-               <label>Bank</label>
-               <input type="text" name="credit_card_bank" id="credit_card_bank" class="form form-control" />
-            </div>
-            <div class="col-md-3">
-                <label>Type</label>
-               <select class="form-control" name="credit_card_type" id="credit_card_type">
-                   <option>Visa</option>
-                   <option>Mastercard</option>
-                   <option>AMEX</option>
-               </select>    
-            </div>    
-            <div class="col-md-4">    
-            <label>Card Number</label>
-            <input type="text" name="card_number" id="card_number" class="form form-control" />
-            </div>
-            <div class="col-md-3">
-            <label>Approval No</label>
-            <input type="text" name="approval_number" id="approval_number" class="form form-control" />
-            </div>
-            <div class="col-md-12">
-            <label>Credit Card Amount</label>
-            <input type="text" name="credit_card_amount" id="credit_card_amount" class="form form-control number" />
-            </div>
-            </div>
-     </div> 
-    <div class="bank_deposit">
-        <label>Bank Deposit</label>
-        <div class="form form-group">
-            <div class="col-md-6">
-               <label>Deposit Reference No</label>
-               <input type="text" name="deposit_reference" id="deposit_reference" class="form form-control" />
-            </div>
-            <div class="col-md-6">
-            <label>Deposit Amount</label>
-            <input type="text" name="deposit_amount" id="deposit_amount" class="form form-control number" />
-            </div>
-        </div>    
-    </div>    
-     <div class="submit_button">
-        <div class="form form-group">
-            <div class="col-md-12"> 
-                <input type="submit" name="submit" id="submit_button" value="Process Payment" class="btn btn-warning form form-control">
-            </div>
-        </div>
-     </div>    
    </div>   
    </div>
 </form>
@@ -344,7 +285,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
 <script src="{{url('/',array('bower_components','select2','dist','js','select2.full.min.js'))}}"></script>
 
 <script>
-    var i = 1;
+    var i=1;
     var main_total_max={{$total_max}};
     var other_total_max={{$other}};
     var misc_total_max={{$miscellaneous}};
@@ -358,6 +299,44 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
         $("#payment_pad").fadeOut(300);
         $("#main_due").focus();
         computeSubaccount();
+        
+        //var i = 1;
+        $('.select2').select2();
+        $('#add').click(function(){
+         if($("#explanation"+i).val()=="" || $("#debit_amount" + i).val()==""){
+         alert("Please Fill-up Required Fields "+ $("#accounting"+i).val());
+           } else { 
+               
+        i++;
+        $('#dynamic_field').append('<div id="row'+i+'" class="form form-group">\n\
+        <div class="col-md-5">\n\
+        <select class="form form-control select2" onkeypress = "gotoother_amount('+i+',event)" name="accounting[]" id="accounting'+i+'">'
+         @foreach($accountings as $accounting) + '<option value="{{$accounting->acounting_code}}">{{$accounting->accounting_name}}</option>'  @endforeach 
+         + '</select></div>\n\
+        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeypress = "totalOther(event)" name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
+        <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
+        $("#accounting"+i).focus();
+        //$("#donereg").fadeOut();
+        updatefunction();
+        }});
+        
+        $('#dynamic_field').on('click','.btn_remove', function(){
+                //alert($(this).attr("id"))
+                var button_id = $(this).attr("id");
+                $("#row"+button_id+"").remove();
+                i--;
+                totalamount =0;
+                other_amount = document.getElementsByName('other_amount[]');
+                for(var i = 0; i < other_amount.length; i++){
+                if(other_amount[i].value != ""){    
+                totalamount = totalamount+parseFloat(other_amount[i].value)
+                }
+                }
+                //$("#other_total").val(totalamount.toFixed(2))
+                //$("#donereg").fadeIn(300);
+            }); 
+        
+        
         $("#main_due").on('keypress',function(e){
             if(e.keyCode==13){
                 if($("#main_due").val()==""){
@@ -373,6 +352,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
                 e.preventDefault();
             }
         });
+        
         $("#explanation").on('keypress',function(e){
             if(e.keyCode==13){
                 if($("#explanation").val() == ""){
@@ -380,7 +360,6 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
                 }else{
                     computeToBePaid()
                     $("#payment_pad").fadeIn();
-                    $("#cash_receive").focus();
                 }
                 e.preventDefault();
             }
@@ -394,120 +373,6 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
         if (theEvent.preventDefault) theEvent.preventDefault();
         }
     })
-        $("#reservation").on("keypress",function(e){
-            if(e.keyCode==13){
-               if($("#reservation").val()=="" && $("#deposit").val()==""){
-                    alert("Please put amount to Reservation or Student Deposit")
-                    $("#reservation").focus();
-                }else{
-                computechange();    
-                $("#cash_receive").focus();
-                }
-                e.preventDefault();
-            }
-        })
-        
-        $("#deposit").on("keypress",function(e){
-            if(e.keyCode==13){
-                if($("#reservation").val()=="" && $("#deposit").val()==""){
-                    alert("Please put amount to Reservation or Student Deposit")
-                    $("#deposit").focus();
-                }else{
-                $("#cash_receive").focus();
-                }
-                e.preventDefault();
-            }
-        })
-        
-       $("#cash_receive").on("keypress",function(e){
-           if(e.keyCode==13){
-               if(computechange() < 0){
-                    $("#bank").focus();
-               }
-               e.preventDefault();
-            }
-           
-       }) 
-       $("#bank").on("keypress",function(e){
-           if(e.keyCode==13){
-               $("#check_number").focus()
-               e.preventDefault();
-           }
-       })
-       
-       $("#check_number").on("keypress",function(e){
-           if(e.keyCode==13){
-               $("#check_amount").focus()
-               e.preventDefault();
-           }
-       })
-       $("#check_amount").on("keypress",function(e){
-           if(e.keyCode==13){
-               if($("#check_amount").val()==""){
-                   alert("Inavlid amount")
-               }else{
-                   if(computechange()<0){
-                     $("#credit_card_bank").focus();  
-                   }
-               }
-               e.preventDefault();
-           }
-       })
-       
-       $("#credit_card_bank").on('keypress',function(e){
-           if(e.keyCode==13){
-           $("#credit_card_type").focus();
-            e.preventDefault();
-           }
-       })
-       $("#credit_card_type").on('keypress',function(e){
-           if(e.keyCode==13){
-           $("#card_number").focus();
-            e.preventDefault();
-           }
-       })
-       $("#card_number").on('keypress',function(e){
-           if(e.keyCode==13){
-           $("#approval_number").focus();
-            e.preventDefault();
-           }
-       })
-       $("#approval_number").on('keypress',function(e){
-           if(e.keyCode==13){
-           $("#credit_card_amount").focus();
-            e.preventDefault();
-           }
-       })
-       
-       $("#credit_card_amount").on("keypress",function(e){
-           if(e.keyCode==13){
-               if($("#credit_card_amount").val()==""){
-                   alert("Invalid Amount")
-               }else{
-                   if(computechange()<0){
-                     $("#deposit_reference").focus();  
-                   }
-               }
-               e.preventDefault();
-           }
-       })
-       
-       $("#deposit_reference").on('keypress',function(e){
-           if(e.keyCode==13){
-           $("#deposit_amount").focus();
-            e.preventDefault();
-           }
-       })
-       $("#deposit_amount").on("keypress",function(e){
-           if(e.keyCode==13){
-              if(computechange()<0){
-                   alert("Invalid Amount");  
-                   }
-               e.preventDefault();
-           }
-       })
-       
-    
     })
     function computeSubaccount(){
         var total = $("#main_due").val();
@@ -554,6 +419,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
         
         
     }
+    
     function updatefunction(){
     $('.select2').select2();
     $(".number").on('keypress',function(e){
@@ -566,41 +432,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
     }
     
     
-    function computechange(){
-         totalamount = 0;
-         amountreceive= 0;
-         noncash=0;
-         if($("#collected_amount").val()!=""){
-            totalamount = totalamount + eval($("#collected_amount").val())
-        }
-         
-         if($("#check_amount").val()!=""){
-            noncash = noncash + eval($("#check_amount").val())
-        }
-         if($("#credit_card_amount").val()!=""){
-            noncash = noncash + eval($("#credit_card_amount").val())
-        }
-        if($("#deposit_amount").val()!=""){
-            noncash = noncash + eval($("#deposit_amount").val())
-        }
-         
-        if(noncash > totalamount){
-             alert("Invalid Amount !!!!!")     
-         } else {
-             if($("#cash_receive").val()!=""){
-                   amountreceive = eval($("#cash_receive").val());
-               } 
-              if(amountreceive+noncash-totalamount >= 0){
-                  $("#submit_button").fadeIn(300)
-                  $("#submit_button").focus();
-              }else{
-                  $("#submit_button").fadeOut(300)
-              }
-              totalchange = amountreceive+noncash-totalamount
-               $("#change").val(totalchange.toFixed(2));
-               return totalchange.toFixed(2);
-         }
-    }
+    
     
     function computeToBePaid(){
         total_payment=0;
@@ -618,7 +450,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
     }
     function gotoother_amount(i,evt){
         if(evt.keyCode==13){
-            $("#other_amount" + i).focus()
+            $("#debit_amount" + i).focus()
             evt.preventDefault()
             return false;
         }
@@ -664,7 +496,19 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
            }
            event.preventDefault();
        }     
-   }     
+   }
+    function updatefunction(){
+    $('.select2').select2();
+    $(".number").on('keypress',function(e){
+        var theEvent = e || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        if ((key < 48 || key > 57) && !(key == 8 || key == 9 || key == 13 || key == 37 || key == 39 || key == 46) ){ 
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+        }});
+    }
 </script>    
 @endsection
+
+
 

@@ -19,4 +19,20 @@ class GetStudentList extends Controller
             return view('cashier.ajax.getstudentlist',compact('lists'));
         }
     }
+    function getreceipt(){
+        if(Request::ajax()){
+            $idno = Input::get('idno');
+            $receipt_no =  \App\ReferenceId::where('idno',$idno)->first()->receipt_no;
+            return $receipt_no;
+        }
+    }
+    function setreceipt(){
+        if(Request::ajax()){
+            $idno = Input::get('idno');
+            $receipt_no =  \App\ReferenceId::where('idno',$idno)->first();
+            $receipt_no->receipt_no =  Input::get('new_no');
+            $receipt_no->update();
+            return true;
+        }
+    }
 }

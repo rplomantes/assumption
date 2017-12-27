@@ -43,10 +43,10 @@ class HomeController extends Controller
             case 21:
                 return view('reg_be.index');
             case 30:
-                return view('acctng_head.index');
+                return view('accounting.index');
                 break;
             case 31:
-                return view('acctng_staff.index');
+                return view('accounting.index');
                 break;
             case 40:
                 return view('cashier.index');

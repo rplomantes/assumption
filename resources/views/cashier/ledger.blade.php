@@ -1,4 +1,12 @@
-@extends('layouts.appcashier')
+<?php
+$layout="";
+if(Auth::user()->accesslevel == env("CASHIER")){
+    $layout = "layouts.appcashier";
+} else if(Auth::user()->accesslevel == env("ACCTNG_STAFF")){
+    $layout="layouts.appaccountingstaff";
+}
+?>
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -261,6 +269,7 @@
             @endif
         </div>
         </div>
+        @if(Auth::user()->accesslevel==env("CASHIER"))
         <div class="form-group">
         <a href="{{url('/cashier',array('main_payment',$user->idno))}}" class="form form-control btn btn-primary">Process Payment</a>
         </div>
@@ -270,6 +279,14 @@
          <div class="form-group">
         <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation</a>
         </div>
+        @elseif(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
+        <div class="form-group">
+        <a href="{{url('/accounting',array('debit_memo',$user->idno))}}" class="form form-control btn btn-primary">DEBIT MEMO</a>
+        </div>
+        <div class="form-group">
+        <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">ADD TO ACCOUNT</a>
+        </div>
+        @endif
         @if(count($due_dates)>0)
         <label>Schedule of Payment</label>
         <div class="form-group">

@@ -26,9 +26,8 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 <div class="wrapper">
   <header class="main-header">
     <a href="{{url('/')}}" class="logo">
-      <span class="logo-mini"><b>C</b>AS</span>
-      <span class="logo-lg"><b>C</b>ASHIER</span>
-      <input type="hidden" id="idno" value="{{Auth::user()->idno}}">
+      <span class="logo-mini"><b>A</b>CT</span>
+      <span class="logo-lg"><b>A</b>CCOUNTING</span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -65,7 +64,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 
                 <p>
                   {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                  <small>Cashier</small>
+                  <small>Accounting</small>
                 </p>
               </li>
               
@@ -123,12 +122,38 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li><a href="{{url("/cashier",array('non_student_payment'))}}"><i class="fa fa-credit-card"></i> <span> Non Student Payment</span></a></li>
-        <li><a href="{{url("/cashier",array('deposit_slip',date('Y-m-d')))}}"><i class="fa fa-paper-plane"></i> <span> Deposit Slip</span></a></li>
-        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" onclick="getReceipt()"><i class="fa fa-columns"></i> <span> Set Receipt Number</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Disbursement</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Journal Entry</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-book"></i> <span>Collection Reports</span>
+          <a href="#"><i class="fa fa-link"></i> <span>Book of Accounts</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
+            <li><a href="{{url('cashier',array('list_of_checks',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
+            <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
+            <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Debit/Credit Summary</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
+            <li><a href="{{url('cashier',array('list_of_checks',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
+            <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
+            <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>
+          </ul>
+        </li>
+        
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Collection Report</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -213,75 +238,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 <!-- AdminLTE App -->
 <script src="{{url("/dist",array("js","adminlte.min.js"))}}"></script>
 @yield('footerscript')
-<div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Set Receipt</h4>
-              </div>
-              <div class="modal-body">
-                  <input type="text" class="form-control number" id="set_receipt_no" onkeypress="numberkey(event)">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setReceipt()">Save changes</button>
-              </div>
-            </div>
-  </div>            
-   <style>
-    .example-modal .modal {
-      position: relative;
-      top: auto;
-      bottom: auto;
-      right: auto;
-      left: auto;
-      display: block;
-      z-index: 1;
-    }
 
-    .example-modal .modal {
-      background: transparent !important;
-    }
-  </style>  
-  <script>
-  function getReceipt(){
-      // alert($("#idno").val())
-      var array={};
-      array['idno']= $("#idno").val();
-      $.ajax({
-          type:"get",
-          url:"/cashier/ajax/getreceipt",
-          data:array,
-          success:function(data){
-              $("#set_receipt_no").val(data);
-          }
-      })
-  }
-  function setReceipt(){
-      var array={};
-      array['idno']= $("#idno").val();
-      array['new_no']=$("#set_receipt_no").val();
-      $.ajax({
-          type:"get",
-          url:"/cashier/ajax/setreceipt",
-          data:array,
-          success:function(data){
-              if(data){
-              alert("Successfully Changed!!")
-          }
-          }
-      })
-  }
-  
-  function numberkey(e){
-      var theEvent = e || window.event;
-        var key = theEvent.keyCode || theEvent.which;
-        if ((key < 48 || key > 57) && !(key == 8 || key == 9 || key == 13 || key == 37 || key == 39 || key == 46) ){ 
-        theEvent.returnValue = false;
-        if (theEvent.preventDefault) theEvent.preventDefault();
-  }}
-  </script>
 </body>
 </html>
+
