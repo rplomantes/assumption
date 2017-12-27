@@ -34,10 +34,10 @@ $faculty = \App\User::where('idno', $idno)->first();
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','faculty_loading'))}}"></i> Faculty Loading</a></li>
-        <li><a href="#"></i> Faculty Loading Editor</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','edit_faculty_loading', $idno))}}"></i> {{$idno}}</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','faculty_loading'))}}"> Faculty Loading</a></li>
+        <li><a href="#"> Faculty Loading Editor</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','edit_faculty_loading', $idno))}}"> {{$idno}}</a></li>
     </ol>
 </section>
 @endsection
@@ -56,7 +56,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                     <?php
                     $user = \App\User::where('id', $idno)->first();
                     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
-                    $loads = \App\ScheduleCollege::where('instructor_id', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+                    $loads = \App\ScheduleCollege::distinct()->where('instructor_id', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['schedule_id', 'course_code']);
 
                     $courses = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['course_name', 'course_code']);
                     ?>

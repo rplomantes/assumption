@@ -29,8 +29,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Reports</a></li>
-        <li><a href="#"></i> Student List</a></li>
+        <li><a href="#"> Reports</a></li>
+        <li><a href="#"> Student List</a></li>
         <li class="active"><a href="{{ url ('/registrar_college', array('reports','student_list','search'))}}"></i> Search</a></li>
     </ol>
 </section>

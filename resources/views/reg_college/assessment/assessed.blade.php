@@ -47,8 +47,8 @@ $units = 0;
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Assessment</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('assessment',$idno))}}"></i> {{$idno}}</a></li>
+        <li><a href="#"> Assessment</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('assessment',$idno))}}"> {{$idno}}</a></li>
     </ol>
 </section>
 @endsection
@@ -77,18 +77,18 @@ $units = 0;
                         <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
                         <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>
+                        <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @else
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                         <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>
+                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                         @else    
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                         <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>
+                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                     </ul>
                 </div>
@@ -141,17 +141,21 @@ $units = 0;
                                     [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
                                     @endforeach
                                 </td>
-                                <?php
-                                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
-                                $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
+                <td>
+                <?php
+                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
+                    $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
 
-                                if (count($instructor) > 0) {
-                                    $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
-                                } else {
-                                    $data = "";
-                                }
-                                ?>
-                                <td >{{$data}}</td>
+                    foreach($schedule_instructor as $get){
+                        if ($get->instructor_id != NULL){
+                            $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                            echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                        } else {
+                        echo "";
+                        }
+                    }
+                ?>
+                </td>
                             </tr>
                             @endforeach
                             <tr>

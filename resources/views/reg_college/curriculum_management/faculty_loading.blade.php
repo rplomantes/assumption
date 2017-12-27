@@ -33,8 +33,8 @@ $faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','faculty_loading'))}}"></i> Faculty Loading</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','faculty_loading'))}}"> Faculty Loading</a></li>
     </ol>
 </section>
 @endsection

@@ -1,12 +1,12 @@
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
-$available_classes = \App\ScheduleCollege::where('course_code', $course_code)
+$available_classes = \App\ScheduleCollege::distinct()->where('course_code', $course_code)
         ->where('school_year', $school_year->school_year)
         ->where('period', $school_year->period)
         ->where(function($q) use ($instructor_id) {
             $q->where('instructor_id', NULL)
             ->orWhere('instructor_id', "NOT LIKE", $instructor_id);
-        })->get();
+        })->get(['schedule_id']);
 ?>
 
 <div class="modal-dialog">

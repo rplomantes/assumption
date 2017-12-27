@@ -36,8 +36,8 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section']
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_schedule'))}}"></i> Course Schedule</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_schedule'))}}"> Course Schedule</a></li>
     </ol>
 </section>
 @endsection

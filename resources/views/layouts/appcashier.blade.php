@@ -43,50 +43,46 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
           
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
-                        @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
-                        @endif
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-               @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
-                        @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
-                        @endif
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    @if($file_exist==1)
+                                    <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
+                                    @else
+                                    <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
+                                    @endif
+                                    <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        @if($file_exist==1)
+                                        <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+                                        @else
+                                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
+                                        @endif
 
-                <p>
-                  {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                  <small>Cashier</small>
-                </p>
-              </li>
-              
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                    
-                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
-                       onclick="event.preventDefault();
-                       document.getElementById('logout-form').submit();">
-                       <span><i class="fa fa-sign-out"></i> Logout</span>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                   </form>
-                </div>
-              </li>
-            </ul>
-          </li>
+                                        <p>
+                                            {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
+                                            <small>Cashier</small>
+                                        </p>
+                                    </li>
+
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+
+                                            <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
+                                               onclick="event.preventDefault();
+                                                       document.getElementById('logout-form').submit();">
+                                                <span><i class="fa fa-sign-out"></i> Logout</span>
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="javascript:void(0)" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>

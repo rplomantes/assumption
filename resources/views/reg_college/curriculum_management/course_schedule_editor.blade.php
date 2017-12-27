@@ -36,10 +36,10 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_schedule'))}}"></i> Course Schedule</a></li>
-        <li><a href="#"></i> Course Schedule Editor</a></li>
-        <li><a href="{{ url ('/registrar_college', array('curriculum_management','edit_course_schedule',$course_offering->id))}}"></i> {{$course_offering->course_code}}</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_schedule'))}}"> Course Schedule</a></li>
+        <li><a href="#"> Course Schedule Editor</a></li>
+        <li><a href="{{ url ('/registrar_college', array('curriculum_management','edit_course_schedule',$course_offering->id))}}"> {{$course_offering->course_code}}</a></li>
     </ol>
 </section>
 @endsection
@@ -217,11 +217,12 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     <th>Schedule</th>
                                     <th>Room</th>
                                     <th>Merged to</th>
+                                    <th>Unmerged</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    @if(count($merged_schedules)>1)
+                                    @if(count($merged_schedules)>0)
                                     <td>
                                         <?php
                                         $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -242,49 +243,19 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                         {{$schedule3->room}}<br>
                                         @endforeach
                                     </td>
-                                    <td>Sections: 
+                                    <td>
                                         @foreach ($merged_schedules as $merged_schedule)
-                                        {{$merged_schedule->section}},
+                                        {{$merged_schedule->program_code}} {{$merged_schedule->level}}-{{$merged_schedule->section}}<br>
                                         @endforeach
+                                    </td>
+                                    <td>
+                                        <a href="{{ url ('registrar_college', array('curriculum_management','unmerged_schedule',$course_offering->id))}}"><button class="btn btn-danger"><span class="fa fa-minus"></span></button></a>
                                     </td>
                                     @endif
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Delete Schedule</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Day</th>
-                                <th>Schedule</th>
-                                <th>Room</th>
-                                <th>Delete</th>
-                        </thead>
-                        <tbody>
-                            @foreach($schedules as $schedule)
-                                <tr>
-                                    <td>{{$schedule->day}}</td>
-                                    <td>{{date("g:i A", strtotime($schedule->time_start))}} - {{date("g:i A", strtotime($schedule->time_end))}}</td>
-                                    <td>{{$schedule->room}}</td>
-                                    <td><a href="{{ url ('registrar_college', array('curriculum_management','delete_course_schedule',$course_offering->id,$schedule->id))}}"><button class="btn btn-danger"><span class="fa fa-minus"></span></button></a></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

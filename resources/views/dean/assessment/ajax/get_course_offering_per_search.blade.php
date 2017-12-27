@@ -44,8 +44,10 @@
                 $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['instructor_id']);
                 ?>
                 @foreach($schedule_instructor as $get)
-                <?php $instructor = \App\User::where('idno', $get->instructor_id)->first(); ?>
-                {{$instructor->firstname}} {{$instructor->lastname}} {{$instructor->extensionname}}
+                    @if ($get->instructor_id != NULL)
+                    <?php $instructor = \App\User::where('idno', $get->instructor_id)->first(); ?>
+                    {{$instructor->firstname}} {{$instructor->lastname}} {{$instructor->extensionname}}
+                    @endif
                 @endforeach
             </td>
             <td><button class="btn btn-primary" onclick="add_to_course_offered('{{$course_offering->id}}')"><span class="fa fa-plus-circle"></span></button></td>

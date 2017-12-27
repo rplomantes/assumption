@@ -38,6 +38,7 @@ class Assessment extends Controller {
             
             $updatestatus = \App\Status::where('idno', $idno)->first();
             $updatestatus->status = 1;
+            $updatestatus->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
             $updatestatus->program_code = "$program_code";
             $updatestatus->program_name = "$program_name";
             $updatestatus->level = "$level";

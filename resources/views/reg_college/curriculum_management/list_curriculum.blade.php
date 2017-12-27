@@ -33,8 +33,8 @@ $levels = \App\Curriculum::distinct()->where('program_code', $program_code)->whe
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','curriculum'))}}"></i> Curriculum</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','curriculum'))}}"> Curriculum</a></li>
     </ol>
 </section>
 @endsection

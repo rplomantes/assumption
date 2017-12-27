@@ -9,7 +9,7 @@
     #schoolname{
         font-size: 18pt; 
         font-weight: bolder;
-
+    }
 </style>
 <style>    
     .thd, .tdd {
@@ -25,28 +25,10 @@
     .page_break { 
         page-break-before: always;
     }
-    .watermark 
-    {
-        opacity: 0.2;
-        color: BLACK;
-        position: absolute;
-        bottom: 239px;
-        right: 112px;
-        z-index: -1;
-    }
-</style><style>
-    .header_image 
-    {
-        position: absolute;
-        bottom: 1090px;
-        right: 0;
-        left: -350;
-        z-index: -1;
-    }
 </style>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{url('/images','assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>ADVISING SLIP</b><br><small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>REGISTRATION FORM</b><br><small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small></div>
 </div>
 <br>
 <table class='table' width="100%"style='margin-top: 145px;'>
@@ -58,28 +40,19 @@
     </tr>
     <tr>
         <td>Name:</td>
-        <td width="55%" style="border-bottom: 1pt solid black;">{{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}} {{strtoupper($user->lastname)}} {{strtoupper($user->extensionname)}}</td>
+        <td width="55%" style="border-bottom: 1pt solid black;">{{mb_strtoupper($user->firstname, 'UTF-8')}} {{mb_strtoupper($user->middlename, 'UTF-8')}} {{mb_strtoupper($user->lastname, 'UTF-8')}} {{mb_strtoupper($user->extensionname, 'UTF-8')}}</td>
         <td><div align='left'>Status:</div></td>
         <td colspan="2" style="border-bottom: 1pt solid black;">@if ($status->status == 4) Enrolled @endif</td>
     </tr>
-    @if($status->academic_type!='Senior High School')
     <tr>
         <td>Course/Level:</td>
-        <td colspan="4" style="border-bottom: 1pt solid black;">{{$status->program_code}} - {{$status->level}} Year</td>
+        <td colspan="4" style="border-bottom: 1pt solid black;">{{$status->program_code}} - {{$status->level}}</td>
     </tr>
-    @else
-    <tr>
-        <td>Strand:</td>
-        <td width='55%' style="border-bottom: 1pt solid black;">{{$status->track}} - {{$status->level}}</td>
-        <td><div align='left'>Section:</div></td>
-        <td colspan="2" style="border-bottom: 1pt solid black;">{{$status->section}}</td>
-    </tr>
-    @endif
 </table>
 <br><b>REGISTRATION</b><br>
 <table class="tables"width="100%">
     <tr>
-        <th class='ths' width="40%">Subject</th>
+        <th class='ths' width="40%">Course</th>
         <th class='ths' width="30%">Schedule/Room</th>
         <th class='ths' width="20%">Instructor</th>
         <th class='ths' width="10%">Units/Hrs</th>
@@ -106,18 +79,22 @@
         </td>
         <td class='tds' style='font-size:12px'>
             <?php
-            $offering_id = \App\CourseOffering::find($grade->course_offering_id);
-            $instructor = \App\User::where('id', $offering_id->instructor_id)->first();
-            ?>
-            @if (count($instructor)>0)
-            {{$instructor->firstname}} {{$instructor->lastname}}
-            @endif
+                $offering_id = \App\CourseOffering::find($grade->course_offering_id);
+                    $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
+
+                    foreach($schedule_instructor as $get){
+                        if ($get->instructor_id != NULL){
+                            $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                            echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                        } else {
+                        echo "";
+                        }
+                    }
+                ?>
         </td>
         @else
         <td class='tds' style='font-size:12px'></td>
         <td class='tds' style='font-size:12px'></td>
-        
-
         @endif
 
         <td class='tds' align='center'>
@@ -139,15 +116,20 @@
 $tfee = 0;
 $ofee = 0;
 $dfee = 0;
+$srffee = 0;
 $esc = 0;
-$oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 5)->get();
-$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 3)->get();
+$oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 7)->get();
+$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 5)->get();
 foreach ($tfs as $tf) {
     $tfee = $tfee + $tf->amount;
 }
-$ofs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 1)->get();
+$ofs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', '>=',1)->where('category_switch', '<=',3)->get();
 foreach ($ofs as $of) {
     $ofee = $ofee + $of->amount;
+}
+$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 4)->get();
+foreach ($srfs as $srf) {
+    $srffee = $srffee + $srf->amount;
 }
 $discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->get();
 foreach ($discounts as $discount) {
@@ -156,7 +138,7 @@ foreach ($discounts as $discount) {
 }
 ?>
 <div>
-    <table width = "50%" style="float:left">
+    <table width = "100%" style="float:left">
         <tr>
             <td colspan="3"><b>TUITION FEE</b></td>
         </tr>
@@ -166,9 +148,14 @@ foreach ($discounts as $discount) {
             <td style="border-bottom: 1pt solid black;">Php {{number_format($tfee,2)}}</td>
         </tr>
         <tr>
-            <td>Other Fee</td>
+            <td>Other Fee (Other Fees, Miscellaneous Fees, Depository Fees )</td>
             <td>:</td>
             <td style="border-bottom: 1pt solid black;">Php {{number_format($ofee,2)}}</td>
+        </tr>
+        <tr>
+            <td>Subject Related Fee</td>
+            <td>:</td>
+            <td style="border-bottom: 1pt solid black;">Php {{number_format($srffee,2)}}</td>
         </tr>
         <tr>
             <td>Discounts</td>
@@ -185,7 +172,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td>Total Tuition Fee</td>
             <td>:</td>
-            <td style="border-bottom: 1pt solid black;">Php {{number_format((($tfee+$ofee)-$dfee)-$esc,2)}}</td>
+            <td style="border-bottom: 1pt solid black;">Php {{number_format((($srffee+$tfee+$ofee)-$dfee)-$esc,2)}}</td>
         </tr>
         @if (count($ledger_due_dates)>0)
         <tr>
@@ -196,6 +183,7 @@ foreach ($discounts as $discount) {
         @endif
     </table>
     
+        @if(count($oaccounts)>0)
     <table width="50%" style="float:left">
         <tr>
             <td colspan="3"><b>OTHER PAYMENTS</b></td>
@@ -211,6 +199,7 @@ foreach ($discounts as $discount) {
         @endforeach
         <tr><td><strong>Total Other Payments</strong></td><td><strong>:</strong></td><td style="border-bottom: 1pt solid black;"><strong>Php {{number_format($totalotherpayments,2)}}</strong></td></tr>
     </table>
+        @endif
 </div>
 
 @if (count($ledger_due_dates)>0)
@@ -268,11 +257,11 @@ foreach ($discounts as $discount) {
     <div style="text-align: justify">
         <div align="center"><strong>STUDENT'S PLEDGE AND DECLARATION</strong></div>
         <ol>
-            <li>In consideration of my admission to the DMMC Institute of Health Sciences, I hereby promise and pledge to abide by and comply with all the rules and regulations laid down by competent authority in the School in which I am enrolled.</li>
-            <li>I am fully aware of the School policy to expel, exclude or suspend indefinitely, after summary investigation, any student found to have committed major offenses as specified in the DMMC Institute of Health Sciences Student Handbook as well as those issued from time to time by the competent authority in this School.</li>
+            <li>In consideration of my admission to the Assumption College, I hereby promise and pledge to abide by and comply with all the rules and regulations laid down by competent authority in the School in which I am enrolled.</li>
+            <li>I am fully aware of the School policy to expel, exclude or suspend indefinitely, after summary investigation, any student found to have committed major offenses as specified in the Assumption College Student Handbook as well as those issued from time to time by the competent authority in this School.</li>
             <li>I am fully aware that the assessment of fees stated in this registration form are still subject to audit and will be adjusted accordingly.</li>
-            <li>I am fully aware that in order to avail cash basis of my tuition fees, total amount for the year must be already paid in advance. (Due date stipulatedin the front page)</li>
-            <li>I am fully aware that my enrollment is on a semestral basis only. And when this enrollment application is withdrawn before the start of classess, a 5% of the total amount due for the school terms is to be charged. Moreover, for a student who withdrawns or transfers after enrollment period the following refund and charges shall apply:</li>
+            <li>I am fully aware that in order to avail cash basis of my tuition fees, total amount for the year must be already paid in advance. (Due date stipulated in the front page)</li>
+            <li>I am fully aware that my enrollment is on a semestral basis only. And when this enrollment application is withdrawn before the start of classes, a 5% of the total amount due for the school terms is to be charged. Moreover, for a student who withdrawn or transfers after enrollment period the following refund and charges shall apply:</li>
         </ol>
 
         <div align='center'><i>For Higher Education Programs</i></div>

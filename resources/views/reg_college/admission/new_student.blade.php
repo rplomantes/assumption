@@ -31,8 +31,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('admission','new_student'))}}"></i> New Student</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('admission','new_student'))}}"> New Student</a></li>
     </ol>
 </section>
 @endsection

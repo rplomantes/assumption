@@ -29,8 +29,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Reports</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('reports','enrollment_statistics'))}}"></i> Enrollment Statistics</a></li>
+        <li><a href="#"> Reports</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('reports','enrollment_statistics'))}}"> Enrollment Statistics</a></li>
     </ol>
 </section>
 @endsection
@@ -112,16 +112,16 @@
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>Assessed</th>
-                            <th>{{$totalassessed}}</th>
+                            <th style="color:blue">Assessed</th>
+                            <th style="color:blue">{{$totalassessed}}</th>
                         </tr>
                         <tr>
-                            <th>Enrollees</th>
-                            <th>{{$totalenrollees}}</th>
+                            <th style="color:red">Enrollees</th>
+                            <th style="color:red">{{$totalenrollees}}</th>
                         </tr>
                         <tr>
-                            <th style="color:red">Total</th>
-                            <th style="color:red">{{$totalenrollees + $totalassessed}}</th>
+                            <th style="color: mediumvioletred">Total</th>
+                            <th style="color: mediumvioletred">{{$totalenrollees + $totalassessed}}</th>
                         </tr>
                     </table>
                 </div>

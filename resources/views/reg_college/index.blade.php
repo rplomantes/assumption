@@ -29,6 +29,7 @@
     </h1>
     <ol class="breadcrumb">
         <li class="active"><a href="/"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active"><a href="/">Search Student</a></li>
     </ol>
 </section>
 @endsection

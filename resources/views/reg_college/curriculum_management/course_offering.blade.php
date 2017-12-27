@@ -32,8 +32,8 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"></i> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_offering'))}}"></i> Course Offering</a></li>
+        <li><a href="#"> Curriculum Management</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('curriculum_management','course_offering'))}}"> Course Offering</a></li>
     </ol>
 </section>
 @endsection

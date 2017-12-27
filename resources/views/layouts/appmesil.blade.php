@@ -10,23 +10,22 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Assumption College - Registrar</title>
+        <title>Assumption College - MESIL</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <link rel="stylesheet" href="{{ asset ('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{ asset ('bower_components/font-awesome/css/font-awesome.min.css')}}">
-        <link rel="stylesheet" href="{{ asset ('bower_components/Ionicons/css/ionicons.min.css')}}">
-        <link rel="stylesheet" href="{{ asset ('dist/css/AdminLTE.min.css')}}">
-        <link rel="stylesheet" href="{{ asset ('dist/css/skins/skin-blue.min.css')}}">
+        <link rel="stylesheet" href="{{url("/bower_components",array("bootstrap","dist","css","bootstrap.min.css"))}}">
+        <link rel="stylesheet" href="{{url("/bower_components",array("font-awesome","css","font-awesome.min.css"))}}">
+        <link rel="stylesheet" href="{{url("/bower_components",array("Ionicons","css","ionicons.min.css"))}}">
+        <link rel="stylesheet" href="{{url("/dist",array("css","AdminLTE.min.css"))}}">
+        <link rel="stylesheet" href="{{url("/dist",array("css","skins","skin-blue.min.css"))}}">
         <link rel="stylesheet" href="{{ asset ('plugins/pace/pace.min.css')}}">
-        <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
             <header class="main-header">
                 <a href="{{url('/')}}" class="logo">
                     <span class="logo-mini"><b>A</b>CS</span>
-                    <span class="logo-lg"><b>Registrar</b>COLLEGE</span>
+                    <span class="logo-lg"><b>Dean</b>MESIL</span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -34,9 +33,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-
+                            
                             @yield('messagemenu')
-
+                            
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     @if($file_exist==1)
@@ -56,7 +55,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
                                         <p>
                                             {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                                            <small>Registrar - College</small>
+                                            <small>Dean - College</small>
                                         </p>
                                     </li>
 
@@ -86,9 +85,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                 </nav>
             </header>
             <aside class="main-sidebar">
-
                 <section class="sidebar">
-
                     <div class="user-panel">
                         <div class="pull-left image">
                             @if($file_exist==1)
@@ -105,48 +102,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                        <li class="treeview">
-                            <a href="#"><i class="fa fa-id-card-o"></i> <span>Admission</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{url('/registrar_college', array('admission','new_student'))}}"><i class="fa fa-circle-o"></i> <span>New Student</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#"><i class="fa fa-list-alt"></i> <span>Curriculum Management</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}"><i class="fa fa-circle-o"></i> <span>Curriculum</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','course_offering'))}}"><i class="fa fa-circle-o"></i> <span>Course Offering</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','course_schedule'))}}"><i class="fa fa-circle-o"></i> <span>Course Schedule</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}"><i class="fa fa-circle-o"></i> <span>Faculty Loading</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','edit_schedule'))}}"><i class="fa fa-circle-o"></i> <span>*Edit Schedule</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-bar-chart"></i> <span>Reports</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li class="treeview">
-                                    <a href="#"><i class="fa fa-circle-o"></i> Student List<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-circle-o"></i> <span>Search</span></a></li>
-                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'per_course'))}}"><i class="fa fa-circle-o"></i> <span>Per Course</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics'))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
-                            </ul>
-                        </li>
+                    </ul>
                 </section>
             </aside>
             <div class="content-wrapper">
@@ -161,7 +117,6 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                 </div>
                 <strong>Copyright &copy; 2018 <a href="http://assumption.edu.ph">Assumption College - San Lorenzo</a>.</strong> All rights reserved.
             </footer>
-
             <aside class="control-sidebar control-sidebar-dark">
                 <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
                     <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
@@ -174,16 +129,13 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <li>
                                 <a href="javascript:;">
                                     <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
                                     <div class="menu-info">
                                         <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
                                         <p>Will be 23 on April 24th</p>
                                     </div>
                                 </a>
                             </li>
                         </ul>
-
                         <h3 class="control-sidebar-heading">Tasks Progress</h3>
                         <ul class="control-sidebar-menu">
                             <li>
@@ -194,20 +146,17 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                             <span class="label label-danger pull-right">70%</span>
                                         </span>
                                     </h4>
-
                                     <div class="progress progress-xxs">
                                         <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
                                     </div>
                                 </a>
                             </li>
                         </ul>
-
                     </div>
                     <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
                     <div class="tab-pane" id="control-sidebar-settings-tab">
                         <form method="post">
                             <h3 class="control-sidebar-heading">General Settings</h3>
-
                             <div class="form-group">
                                 <label class="control-sidebar-subheading">
                                     Report panel usage
@@ -223,22 +172,15 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
             </aside>
             <div class="control-sidebar-bg"></div>
         </div>
-        <script src="{{ asset ('bower_components/jquery/dist/jquery.min.js')}}"></script>
-        <script src="{{ asset ('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-        <script src="{{ asset ('dist/js/adminlte.min.js')}}"></script>
-        <script src="{{ asset ('bower_components/PACE/pace.min.js')}}"></script>
+        <script src="{{url("/bower_components",array("jquery","dist","jquery.min.js"))}}"></script>
+        <script src="{{url("/bower_components",array("bootstrap","dist","js","bootstrap.min.js"))}}"></script>
+        <script src="{{url("/dist",array("js","adminlte.min.js"))}}"></script>
+        <script src="{{ asset('bower_components/PACE/pace.min.js')}}"></script>
         <script>
-           $(document).ajaxStart(function () {
-               Pace.restart()
-           })
+            $(document).ajaxStart(function () {
+                Pace.restart()
+            });
         </script>
-        <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-        <script>
-           $(function () {
-               $('.select2').select2();
-           });
-        </script>
-        <script src="{{asset('bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
         @yield('footerscript')
     </body>
 </html>

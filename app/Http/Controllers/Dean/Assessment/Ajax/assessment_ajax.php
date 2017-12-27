@@ -93,14 +93,18 @@ class assessment_ajax extends Controller {
 
     public function getInstructorId($offeringid) {
         $offering_id = \App\CourseOffering::find($offeringid);
-        $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
-
-        if (count($instructor) > 0) {
-            $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
+        $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
+        $data="";
+        
+        foreach ($schedule_instructor as $get){
+            if ($get->instructor_id != NULL){
+            $instructor = \App\User::where('idno', $get->instructor_id)->first();
+            $data = $instructor->firstname." ".$instructor->lastname." ".$instructor->extensionname;
             return $data;
-        } else {
-            return "";
+            
+            }
         }
+        return $data;
     }
 
     public function getSchedule($course_offering_id) {
