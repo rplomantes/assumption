@@ -94,7 +94,7 @@ class DebitMemo extends Controller
     }
     
     function post_debit_memo(Request $request){
-        if(Auth::user()->accesslevel==env("ACCTBG_STAFF")){    
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){    
         DB::beginTransaction();
         $reference_id = uniqid();
         MainPayment::checkStatus($request,$reference_id);
@@ -124,7 +124,7 @@ class DebitMemo extends Controller
     if($request->main_due > 0 ){
            $totalpayment = $request->main_due;
            $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','5')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
-           MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMP"));
+           MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMO"));
         }
         
         if($request->previous_balance > 0){
@@ -144,7 +144,7 @@ class DebitMemo extends Controller
     function postDebitEntry($request, $reference_id){
         $accounting = $request->accounting;
         $debit_amount = $request->debit_amount;
-        $deparment=  \App\Status::where('idno',$request->idno)->first()->department;
+        $department=  \App\Status::where('idno',$request->idno)->first()->department;
         $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
         for($i=0;$i<count($accounting);$i++){
             $addacct= new \App\Accounting;
