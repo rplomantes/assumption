@@ -367,7 +367,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
                     alert("Amount Should Not Be Greater Than " + "{{number_format($total_max,2)}}" )
                 } else {
                     computeSubaccount();
-                    computeToBePaid()
+                    computeToBePaid();
                 }
                 
                 e.preventDefault();
@@ -510,7 +510,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
     
     })
     function computeSubaccount(){
-        var total = $("#main_due").val();
+        var total = parseFloat($("#main_due").val());
         
         if(total >= other_total_max){
         $("#other_fee").val(other_total_max)
