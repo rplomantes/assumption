@@ -17,8 +17,8 @@ class CreateChartOfAccountsTable extends Migration
             $table->increments('id');
             $table->string('accounting_code')->unique();
             $table->string('accounting_name')->unique();
-            $table->string('category');
-            $table->string('sub_category');
+            $table->string('category')->nullable();
+            $table->string('sub_category')->nullable();
             $table->timestamps();
         });
     }

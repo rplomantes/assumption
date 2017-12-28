@@ -89,6 +89,12 @@
        <p class="" style="margin-top: 10px;">
             Posted by: <b>{{\App\User::where('idno',$debit_memo->posted_by)->first()->firstname}} {{\App\User::where('idno',$debit_memo->posted_by)->first()->lastname}}</b>
         </p>  
+  <div class="form form-group">
+      <div class="col-md-10">
+          <a href="{{url('/accounting', array(''))}}">
+      </div>    
+  </div>    
+        
  </div> 
    </div>
 </div>   
