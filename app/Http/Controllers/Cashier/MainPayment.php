@@ -93,10 +93,10 @@ class MainPayment extends Controller
         DB::commit();
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }
-        return $request;
+        //return $request;
     }
     
-     function checkStatus($request,$reference_id){
+    public static function checkStatus($request,$reference_id){
          if($request->main_due > "0"){
             $status = \App\Status::where('idno',$request->idno)->first();
                 if($status->status==env("ASSESSED")){
@@ -118,7 +118,7 @@ class MainPayment extends Controller
          $addacct->reference_id=$reference_id;
          $addacct->accounting_type = env("COMPUTER");
          $addacct->category=env("AR_TUITION_NAME");
-         $addacct->subsidiary=env("AR_TUITION_NAME");
+         $addacct->subsidiary=$request->idno;;
          $addacct->receipt_details=env("AR_TUITION_NAME");
          $addacct->particular="Unrealized Tiution Fee For " . $request->idno;
          $addacct->accounting_code=env("AR_TUITION_CODE");
@@ -135,7 +135,7 @@ class MainPayment extends Controller
          $addacct->reference_id=$reference_id;
          $addacct->accounting_type = env("COMPUTER");
          $addacct->category=env("UNEARNED_NAME");
-         $addacct->subsidiary=env("UNEARNED_NAME");
+         $addacct->subsidiary=$request->idno;
          $addacct->receipt_details=env("UNEARNED_NAME");
          $addacct->particular="Unrealized Tiution Fee For " . $request->idno;
          $addacct->accounting_code=env("UNEARNED_CODE");

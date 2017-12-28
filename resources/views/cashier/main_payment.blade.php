@@ -610,9 +610,8 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
         })
         total_payment = parseFloat(total_payment) + parseFloat($("#main_due").val()) + parseFloat($("#previous_balance").val())
         $("#collected_amount").val(total_payment.toFixed(2));
-        $("#explanation").focus()
         $("#donereg").fadeIn(300)
-        
+        $("#explanation").focus()
         }
        
     }

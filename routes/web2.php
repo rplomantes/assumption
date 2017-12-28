@@ -40,4 +40,6 @@ Route::Post('/registrar_college/assessment/save_assessment','RegistrarCollege\As
 Route::get('/ajax/registrar_college/assessment/get_assessed_payment', 'RegistrarCollege\Assessment\Ajax\assessment_ajax@get_assessed_payment');
 
 Route::get('/accounting/debit_memo/{idno}','Accounting\DebitMemo@index');
+Route::post('/accounting/debit_memo','Accounting\DebitMemo@post_debit_memo');
+Route::get('/accounting/view_debit_memo/{reference_id}','Accounting\DebitMemo@view_debit_memo');
 ?>

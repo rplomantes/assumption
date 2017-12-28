@@ -247,7 +247,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
               <td>{{$payment->explanation}}</td>
               <td align='right'>{{number_format($payment->amount,2)}}</td>
               <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
-              <td><a  href="{{url('/cashier',array('viewdebitmemo',$payment->reference_id))}}">View DM</a></td>
+              <td><a  href="{{url('/accounting',array('view_debit_memo',$payment->reference_id))}}">View DM</a></td>
               </tr>
           @endforeach
          </table>    

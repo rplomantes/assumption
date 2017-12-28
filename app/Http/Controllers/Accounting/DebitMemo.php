@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
+use  \App\Http\Controllers\Cashier\MainPayment;
 
 class DebitMemo extends Controller
 {
@@ -91,4 +92,96 @@ class DebitMemo extends Controller
         }
         
     }
+    
+    function post_debit_memo(Request $request){
+        if(Auth::user()->accesslevel==env("ACCTBG_STAFF")){    
+        DB::beginTransaction();
+        $reference_id = uniqid();
+        MainPayment::checkStatus($request,$reference_id);
+        $this->postDM($request,$reference_id);
+        $this->postAccounting($request, $reference_id);
+        $this->postDebitEntry($request, $reference_id);
+        $this->updateDM($request);
+        DB::commit();
+        return redirect(url('/accounting',array('view_debit_memo',$reference_id)));
+        }
+        //return $request;
+    }
+    function postDM($request,$reference_id){
+        $adddm = new \App\DebitMemo;
+        $adddm->idno=$request->idno;
+        $adddm->transaction_date=date('Y-m-d');
+        $adddm->reference_id=$reference_id;
+        $adddm->dm_no=$this->getReceipt();
+        $adddm->explanation=$request->remark;
+        $adddm->amount=$request->collected_amount;
+        $adddm->posted_by=Auth::user()->idno;
+        $adddm->save();
+                
+    }
+    function postAccounting($request,$reference_id){
+        
+    if($request->main_due > 0 ){
+           $totalpayment = $request->main_due;
+           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','5')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
+           MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMP"));
+        }
+        
+        if($request->previous_balance > 0){
+           $totalpayment = $request->previous_balance;
+           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'>=','10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
+           MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMO"));
+        }
+        
+       if(count($request->other_misc)>0){
+           foreach($request->other_misc as $key => $totalpayment){
+               $ledgers =  \App\Ledger::where('id',$key)->get();
+               MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMO"));
+           }
+       }
+    }
+    
+    function postDebitEntry($request, $reference_id){
+        $accounting = $request->accounting;
+        $debit_amount = $request->debit_amount;
+        $deparment=  \App\Status::where('idno',$request->idno)->first()->department;
+        $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
+        for($i=0;$i<count($accounting);$i++){
+            $addacct= new \App\Accounting;
+            $addacct->transaction_date = date('Y-m-d');
+            $addacct->reference_id=$reference_id;
+            $addacct->accounting_type = env("DEBIT_MEMO");
+            $addacct->category=$this->getAccounitngName($accounting[$i]);
+            $addacct->subsidiary=$request->idno;
+            $addacct->receipt_details=$this->getAccounitngName($accounting[$i]);
+            $addacct->particular=$request->remark;
+            $addacct->accounting_code=$accounting[$i];
+            $addacct->department=$department;
+            $addacct->accounting_name=$this->getAccounitngName($accounting[$i]);
+            $addacct->fiscal_year=$fiscal_year;
+            $addacct->debit=$debit_amount[$i];
+            $addacct->posted_by=Auth::user()->idno;
+            $addacct->save();
+        }
+    }
+    
+     function getAccounitngName($accounting_code){
+         $acctname = \App\ChartOfAccount::where('accounting_code',$accounting_code)->first();
+         return $acctname->accounting_name;
+     }
+     
+     function updateDM($request){
+         $dm=  \App\ReferenceId::where('idno',Auth::user()->idno)->first();
+         $dm->dm_no = $dm->dm_no + 1;
+         $dm->update();
+     }
+     
+     function view_debit_memo($reference_id){
+         $debit_memo = \App\DebitMemo::where('reference_id',$reference_id)->first();
+         $accountings =  \App\Accounting::selectRaw("accounting_code, accounting_name, sum(debit) as debit, sum(credit) as credit")
+                 ->where('reference_id',$reference_id)->groupBy('accounting_name','accounting_code')->get();
+         $user = \App\User::where('idno',$debit_memo->idno)->first();
+         $status=  \App\Status::where('idno',$debit_memo->idno)->first();
+         return view('accounting.view_debit_memo',compact('debit_memo','accountings','user','status'));
+     }
 }

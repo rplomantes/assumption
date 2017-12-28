@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="col-md-5">
-                            <input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup = "toNumeric(this)" name="other_amount[]" id="other_amount1"/>
+                            <input class="form form-control number" type="text" onkeypress="totalOther(event)"  name="other_amount[]" id="other_amount1"/>
                         </div>
                         <div class="col-md-2">
                         <button type="button" name="add" id="add" class="btn btn-success"> + </button></td>
@@ -254,9 +254,10 @@
 
 <script>
     $(document).ready(function(){
-        
+       
          var i = 1;
          $('.select2').select2();
+         $("#particular1").focus();
          $('#add').click(function(){
          if($("#explanation"+i).val()=="" || $("#other_amount" + i).val()==""){
          alert("Please Fill-up Required Fields " + $("#subsidiary" + i).val());
@@ -267,12 +268,13 @@
         <select class="form form-control select2" type="text" onkeypress = "gotoother_amount('+i+',event)" name="particular[]" id="particular'+i+'">'
          @foreach($particulars as $particular) + '<option>{{$particular->subsidiary}}</option>'  @endforeach 
          + '</select></div>\n\
-        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup = "toNumeric(this)" onkeypress = "totalOther(event)" name="other_amount[]" id="other_amount'+i+'"/></div>\n\
+        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeyup name="other_amount[]" id="other_amount'+i+'"/></div>\n\
         <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
-        $("#particular"+i).focus();
+        
         $("#donereg").fadeOut();
         $("#payment_pad").fadeOut();
         updatefunction();
+        $("#particular"+i).focus();
         }});
             
             $('#dynamic_field').on('click','.btn_remove', function(){

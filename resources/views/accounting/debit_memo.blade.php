@@ -75,7 +75,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
     </div>    
    <hr />  
-  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/cashier','main_payment')}}">
+  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/accounting','debit_memo')}}">
   
       {{csrf_field()}}
            <input type="hidden" name="idno" value="{{$user->idno}}">
@@ -142,48 +142,13 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                    
                    
                     @endif
-                    <?php /*
-                    @if(count($reservation)>0)
-                    @if($reservation->amount>0)
-                    <div class="form form-group">
-                    <div class="col-md-6">
-                        <span class="label_collected">Reservation :</span>
-                    </div> 
-                     <div class="col-md-6">
-                         <input type="hidden"  name="reservation" value="{{$reservation->amount}}">
-                         <div class="form form-control number">{{number_format($reservation->amount,2)}}</div>
-                     </div>
-                     </div>   
-                    @else
-                        <input type="hidden"  name="reservation" value="0.00">
-                    @endif
-                    @else
-                        <input type="hidden"  name="reservation" value="0.00">
-                    @endif
-                    
-                    @if(count($deposit)>0)
-                    @if($deposit->amount>0)
-                    <div class="form form-group">
-                    <div class="col-md-6">
-                        <span class="label_collected">Student Deposit :</span>
-                    </div> 
-                     <div class="col-md-6">
-                         <input type="hidden"  name="deposit" value="{{$deposit->amount}}">
-                         <div class="form form-control number">{{number_format($deposit->amount,2)}}</div>
-                     </div>
-                     </div>   
-                    @else
-                    <input type="hidden"  name="deposit" value="0.00">
-                    @endif
-                    @else
-                        <input type="hidden"  name="deposit" value="0.00">
-                    @endif*/?>
+                   
                     <div class="form form-group">
                     <div class="col-md-6">
                         <span class="label_collected">Amount To Be Paid :</span>
                     </div> 
                     <div class="col-md-6">
-                        <input type="text" class="form form-control number" id="collected_amount" name="collected_amount" disabled="disabled">
+                        <input type="text" class="form form-control number" id="collected_amount" name="collected_amount" readonly="readonly">
                     </div> 
                     </div> 
                     <div id="donereg">
@@ -194,7 +159,6 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                         <div class="col-md-6">
                             <input type="text" class="form form-control" name="remark" id="explanation">
                         </div>
-                    
                     </div>
                     </div>        
                 </div>
@@ -226,6 +190,9 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                         </div>
                         </div>    
             </div>
+       <div class="form-group">
+           <input type="submit" name="submit" id="submit" class="form form-control btn btn-warning" value="Process Debit Memo">
+       </div>    
    </div>   
    </div>
 </form>
@@ -298,26 +265,28 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         $("#donereg").fadeOut(300);
         $("#payment_pad").fadeOut(300);
         $("#main_due").focus();
+        $("#submit").fadeOut(300);
         computeSubaccount();
         
         //var i = 1;
         $('.select2').select2();
         $('#add').click(function(){
-         if($("#explanation"+i).val()=="" || $("#debit_amount" + i).val()==""){
-         alert("Please Fill-up Required Fields "+ $("#accounting"+i).val());
+         if($("#accounting" + i +" option:selected").val()=="" || $("#debit_amount" + i).val()==""){
+         alert("Please Fill-up Required Fields ");
            } else { 
                
         i++;
         $('#dynamic_field').append('<div id="row'+i+'" class="form form-group">\n\
         <div class="col-md-5">\n\
         <select class="form form-control select2" onkeypress = "gotoother_amount('+i+',event)" name="accounting[]" id="accounting'+i+'">'
-         @foreach($accountings as $accounting) + '<option value="{{$accounting->acounting_code}}">{{$accounting->accounting_name}}</option>'  @endforeach 
+         @foreach($accountings as $accounting) + '<option value="{{$accounting->accounting_code}}">{{$accounting->accounting_name}}</option>'  @endforeach 
          + '</select></div>\n\
-        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)" onkeypress = "totalOther(event)" name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
+        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)"  name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
         <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
-        $("#accounting"+i).focus();
+        
         //$("#donereg").fadeOut();
         updatefunction();
+        $("#accounting"+i).focus();
         }});
         
         $('#dynamic_field').on('click','.btn_remove', function(){
@@ -326,14 +295,14 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                 $("#row"+button_id+"").remove();
                 i--;
                 totalamount =0;
-                other_amount = document.getElementsByName('other_amount[]');
-                for(var i = 0; i < other_amount.length; i++){
-                if(other_amount[i].value != ""){    
-                totalamount = totalamount+parseFloat(other_amount[i].value)
+                other_amount = document.getElementsByName('debit_amount[]');
+                for(var i = 0; i < debit_amount.length; i++){
+                if(debit_amount[i].value != ""){    
+                totalamount = totalamount+parseFloat(debit_amount[i].value)
                 }
                 }
-                //$("#other_total").val(totalamount.toFixed(2))
-                //$("#donereg").fadeIn(300);
+                $("#other_total").val(totalamount.toFixed(2))
+                $("#donereg").fadeIn(300);
             }); 
         
         
@@ -360,6 +329,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                 }else{
                     computeToBePaid()
                     $("#payment_pad").fadeIn();
+                    $("#accounting"+i).focus();
                 }
                 e.preventDefault();
             }
@@ -442,9 +412,9 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         })
         total_payment = parseFloat(total_payment) + parseFloat($("#main_due").val()) + parseFloat($("#previous_balance").val())
         $("#collected_amount").val(total_payment.toFixed(2));
-        $("#explanation").focus()
+        $("#payment_pad").fadeOut(300);
         $("#donereg").fadeIn(300)
-        
+        $("#explanation").focus()
         }
        
     }
@@ -459,14 +429,24 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
    function totalOther(e){
            if(e.keyCode == 13){
                         totalamount =0;
-                        other_amount = document.getElementsByName('other_amount[]');
-                        for(var i = 0; i < other_amount.length; i++){
-                        totalamount = totalamount+parseFloat(other_amount[i].value)
+                        debit_amount = document.getElementsByName('debit_amount[]');
+                        for(var i = 0; i < debit_amount.length; i++){
+                        totalamount = totalamount+parseFloat(debit_amount[i].value)
                         }
-                        $("#other_total").val(totalamount.toFixed(2))
-                        //$("#add").focus();
-                        $("#donereg").fadeIn(300)
-                        $("#remark").focus()
+                        if(totalamount==$("#collected_amount").val()){
+                            $("#submit").fadeIn(300);
+                            $("#submit").focus();
+                        } else {
+                            if(totalamount > $("#collected_amount").val()){
+                              alert("Debit Entry Invalid")  
+                            }
+                            $("#submit").fadeOut(300);
+                             $("#add").focus();
+                        }
+                        //$("#other_total").val(totalamount.toFixed(2))
+                       
+                        //$("#donereg").fadeIn(300)
+                        //$("#remark").focus()
                          e.preventDefault();
                          return false;
                  }
