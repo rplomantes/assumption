@@ -22,11 +22,11 @@ class AssessmentController extends Controller {
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == 0) {
                 return view('reg_college.assessment.not_advised', compact('status', 'idno'));
-            } else if ($status->status == 1) {
+            } else if ($status->status == env('ADVISING')) {
                 return view('reg_college.assessment.view_assessment', compact('idno'));
-            } else if ($status->status == 2) {
+            } else if ($status->status == env('ASSESSED')) {
                 return view('reg_college.assessment.assessed', compact('status', 'idno'));
-            } else if ($status->status >= 3) {
+            } else if ($status->status >= env('ENROLLED')) {
                 return view('reg_college.assessment.enrolled', compact('status', 'idno'));
             } else {
                 return view('reg_college.assessment.enrolled', compact('status', 'idno'));

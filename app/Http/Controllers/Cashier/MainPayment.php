@@ -96,11 +96,11 @@ class MainPayment extends Controller
         //return $request;
     }
     
-    public static function checkStatus($request,$reference_id){
+    function checkStatus($request,$reference_id){
          if($request->main_due > "0"){
             $status = \App\Status::where('idno',$request->idno)->first();
                 if($status->status==env("ASSESSED")){
-                    $this->addUnrealizedEntry($request,$reference_id);
+                    self::addUnrealizedEntry($request,$reference_id);
                     $this->changeStatus($request->idno);
                     //$this->notifyStudent($request, $reference_id);
                 }
