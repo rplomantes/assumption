@@ -42,6 +42,7 @@ class HomeController extends Controller
                 break;
             case 21:
                 return view('reg_be.index');
+                break;
             case 30:
                 return view('accounting.index');
                 break;
