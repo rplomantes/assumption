@@ -51,9 +51,11 @@ class Assessment extends Controller {
             return view('dean.assessment.confirmed_advised', compact('idno'));
             
             } else if ($status == 2){
-                return "ERROR! Student already assessed cannot advised";
-            } else { 
-                return "ERROR! Student already enrolled cannot advised";
+                $error = "Student already assessed.";
+                return view('dean.assessment.error', compact('error'));
+            } else {
+                $error = "Student already enrolled.";
+                return view('dean.assessment.error', compact('error'));
             }
         }
     }

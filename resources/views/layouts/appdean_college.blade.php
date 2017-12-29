@@ -102,6 +102,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+                        <li><a href="{{url('dean', array('srf'))}}"><i class="fa fa-money" aria-hidden="true"></i> <span>Subject Related Fee</span></a></li>
                     </ul>
                 </section>
             </aside>
