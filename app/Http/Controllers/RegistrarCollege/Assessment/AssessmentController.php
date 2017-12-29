@@ -302,6 +302,7 @@ class AssessmentController extends Controller {
     }
      function changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
         $changestatus = \App\Status::where('idno', $idno)->first();
+        $changestatus->date_registered = date('Y-m-d');
         $changestatus->status = 2;
         $changestatus->type_of_account = $type_of_account;
         $changestatus->type_of_plan = $plan;
