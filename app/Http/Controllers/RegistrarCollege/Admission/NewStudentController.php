@@ -49,7 +49,7 @@ class NewStudentController extends Controller {
             $this->addregistration($request, $reference_no);
             DB::commit();
 
-            return $this->index();
+            return redirect(url('/'));
         }
     }
 
