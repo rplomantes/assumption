@@ -100,7 +100,7 @@ class MainPayment extends Controller
          if($request->main_due > "0"){
             $status = \App\Status::where('idno',$request->idno)->first();
                 if($status->status==env("ASSESSED")){
-                    self::addUnrealizedEntry($request,$reference_id);
+                    $this->addUnrealizedEntry($request,$reference_id);
                     $this->changeStatus($request->idno);
                     //$this->notifyStudent($request, $reference_id);
                 }
@@ -145,11 +145,13 @@ class MainPayment extends Controller
          $addacct->credit=$totaltuition->amount;
          $addacct->posted_by = Auth()->user()->idno;
          $addacct->save();
+        
          
      }
-     function changeStatus($idno){
+     public static function changeStatus($idno){
          $change = \App\Status::where('idno',$idno)->first();
          $change->status=env("ENROLLED");
+         $change->date_enrolled=date('Y-m-d');
          $change->update();
      }
      

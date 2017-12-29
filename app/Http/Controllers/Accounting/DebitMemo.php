@@ -97,7 +97,7 @@ class DebitMemo extends Controller
         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){    
         DB::beginTransaction();
         $reference_id = uniqid();
-        MainPayment::checkStatus($request,$reference_id);
+        $this->checkStatus($request,$reference_id);
         $this->postDM($request,$reference_id);
         $this->postAccounting($request, $reference_id);
         $this->postDebitEntry($request, $reference_id);
@@ -183,5 +183,15 @@ class DebitMemo extends Controller
          $user = \App\User::where('idno',$debit_memo->idno)->first();
          $status=  \App\Status::where('idno',$debit_memo->idno)->first();
          return view('accounting.view_debit_memo',compact('debit_memo','accountings','user','status'));
+     }
+     function checkStatus($request,$reference_id){
+         if($request->main_due > "0"){
+            $status = \App\Status::where('idno',$request->idno)->first();
+                if($status->status==env("ASSESSED")){
+                    MainPayment::addUnrealizedEntry($request,$reference_id);
+                    MainPayment::changeStatus($request->idno);
+                    //$this->notifyStudent($request, $reference_id);
+                }
+         }
      }
 }

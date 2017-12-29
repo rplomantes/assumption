@@ -115,8 +115,8 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                         
                         <table class="table table-bordered fees">
                             <tr><td width="33%" align="right">Fees</td><td width="33%" align="right">Balance</td><td align="right">Amount</td></tr>
-                            <tr><td align="right">Other Fee</td><td align="right">{{number_format($other_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$other_fee_total->balance}},this.value,this)" type="text" name="other_fee" id="other_fee" class="form form-control number"></tr>
                             <tr><td align="right">Miscellaneous Fee</td><td align="right">{{number_format($miscellaneous_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$miscellaneous_fee_total->balance}},this.value,this)" type="text" name="miscellaneous" id="miscellaneous" class="form form-control number"></tr>
+                            <tr><td align="right">Other Fee</td><td align="right">{{number_format($other_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$other_fee_total->balance}},this.value,this)" type="text" name="other_fee" id="other_fee" class="form form-control number"></tr>
                             <tr><td align="right">Depository Fee</td><td align="right">{{number_format($depository_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$depository_fee_total->balance}},this.value,this)" type="text" name="depository" id="depository" class="form form-control number"></tr>
                             <tr><td align="right">Subject Related Fee</td><td align="right">{{number_format($srf_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$srf_total->balance}},this.value,this)" type="text" name="srf" id="srf" class="form form-control number"></tr>
                             <tr><td align="right">Tuition Fee</td><td align="right">{{number_format($tuition_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$tuition_fee_total->balance}},this.value,this)" type="text" name="tuition" id="tuition" class="form form-control number"></tr>
@@ -345,7 +345,14 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
     })
     })
     function computeSubaccount(){
-        var total = $("#main_due").val();
+        var total = parseFloat($("#main_due").val());
+        if(total >= misc_total_max){
+        $("#miscellaneous").val(misc_total_max)
+        total = total - misc_total_max
+        } else {
+         $("#miscellaneous").val(total.toFixed(2))
+         total=0;
+        }
         
         if(total >= other_total_max){
         $("#other_fee").val(other_total_max)
@@ -355,13 +362,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
          total=0;
         }
         
-        if(total >= misc_total_max){
-        $("#miscellaneous").val(misc_total_max)
-        total = total - misc_total_max
-        } else {
-         $("#miscellaneous").val(total.toFixed(2))
-         total=0;
-        }
+        
         
         if(total >= depository_total_max){
         $("#depository").val(depository_total_max)
