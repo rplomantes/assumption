@@ -89,7 +89,44 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     <div class="col-sm-8">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Assessment</h3>
+                <h3 class="box-title">Student Data</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">   
+                            <label>Program</label>     
+                            <select name="program_code" id="select_program" class="form-control select2" required="">
+                                <option value="">Select Program</option>
+                                @foreach($programs as $program)
+                                <option value="{{$program->program_code}}">{{$program->program_code}}-{{$program->program_name}}</option>
+                                @endforeach
+                            </select>     
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">     
+                            <label>Level</label>     
+                            <select name="level" id="select_level" class="form-control select2" required="">
+                                <option value="">Select Level</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                            </select>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Search Courses</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -103,20 +140,18 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-12">   
+                        <div class="col-md-4">   
                             <label>Program</label>     
-                            <select id="program_code" name="program_code" class="form-control select2">
+                            <select id="program_code" class="form-control select2">
                                 <option value="">Select Program</option>
                                 @foreach($programs as $program)
                                 <option value="{{$program->program_code}}">{{$program->program_name}}</option>
                                 @endforeach
                             </select>     
                         </div>
-                    </div>
-                    <div class="form form-group">
-                        <div class="col-md-12 level">     
+                        <div class="col-md-4 level">     
                             <label>Level</label>     
-                            <select id="level" name="level" class="form-control select2" onchange="get_section(this.value, program_code.value)">
+                            <select id="level" class="form-control select2" onchange="get_section(this.value, program_code.value)">
                                 <option value="">Select Level</option>
                                 <option value="1st Year">1st Year</option>
                                 <option value="2nd Year">2nd Year</option>
@@ -124,9 +159,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option value="4th Year">4th Year</option>
                             </select>     
                         </div>
-                    </div>
-                    <div class="form form-group">
-                        <div class="col-md-12 section">     
+                        <div class="col-md-4 section">     
                             <label>Section</label>     
                             <select id="section" name="section" class="form-control select2">
 
@@ -218,7 +251,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     </div>
     <div class="col-sm-12 save">
         <!--href="{{url('dean', array('assessment','confirm_advised',$user->idno))}}"-->
-        <a><button onclick="confirm_advised('{{$user->idno}}', program_code.value, level.value)" class="col-sm-12 btn btn-warning">CONFIRM ASSESSMENT</button></a>
+        <a><button onclick="confirm_advised('{{$user->idno}}', select_program.value, select_level.value)" class="col-sm-12 btn btn-warning">CONFIRM ASSESSMENT</button></a>
     </div>
 </div>
 @endsection

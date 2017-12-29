@@ -21,8 +21,10 @@ class Assessment extends Controller {
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == 0) {
                 return view('dean.assessment.assess', compact('status', 'idno'));
-            } else if ($status->status == 1 || $status->status == 2) {
+            } else if ($status->status == 1) {
                 return redirect(url('dean', array('assessment', 'confirm_advised', $idno, $status->program_code, $status->level)));
+            } else if ($status->status == 2) {
+                return view('dean.assessment.already_assessed', compact('idno'));
             } else if ($status->status == 3) {
                 return view('dean.assessment.enrolled', compact('status', 'idno'));
             } else {
@@ -33,6 +35,8 @@ class Assessment extends Controller {
 
     function confirm_advised($idno, $program_code, $level) {
         if (Auth::user()->accesslevel == env('DEAN')) {
+            $status = \App\Status::where('idno', $idno)->first()->status;
+            if ($status == 0 || $status == 1){
             
             $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->program_name;
             
@@ -45,6 +49,12 @@ class Assessment extends Controller {
             $updatestatus->save();
 
             return view('dean.assessment.confirmed_advised', compact('idno'));
+            
+            } else if ($status == 2){
+                return "ERROR! Student already assessed cannot advised";
+            } else { 
+                return "ERROR! Student already enrolled cannot advised";
+            }
         }
     }
 

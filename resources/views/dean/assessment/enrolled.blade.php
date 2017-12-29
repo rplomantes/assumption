@@ -73,22 +73,23 @@ $units = 0;
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         @if(count($status)>0)
-                        @if($status->is_new == "0")
-                        <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
-                        <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>
+                        @if($status->is_new == "0" and $status->status=="3")
+                        <li><a href="#">Enrollment Status <span class="pull-right">Enrolled</span></a></li>
+                        <li><a href="#">Status <span class="pull-right">Old Student</span></a></li>
+                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @else
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                         <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>
+                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                         @else    
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                         <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>
+                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                     </ul>
                 </div>
@@ -97,7 +98,7 @@ $units = 0;
         <div class="col-md-8">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Courses Assessed</h3>
+                    <h3 class="box-title">Courses Enrolled</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
