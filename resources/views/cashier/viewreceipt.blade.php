@@ -149,7 +149,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
         @if(count($accountings)>0)
         <?php $totaldebit=0; $totalcredit=0;?>
             <table class="table table-striped table-responsive">
-                <tr><th>Entry Date</th><th>Acctg Code</td><th>Accounting Name</th><th>Particukar</th><th align="center">Debit</th><th align="center">Credit</th><th>Status</td></tr>
+                <tr><th>Entry Date</th><th>Acctg Code</td><th>Accounting Name</th><th>Particular</th><th align="center">Debit</th><th align="center">Credit</th><th>Status</td></tr>
                 @foreach($accountings as $accounting)
                 <?php $totalcredit=$totalcredit+$accounting->credit;
                       $totaldebit=$totaldebit+$accounting->debit;  
