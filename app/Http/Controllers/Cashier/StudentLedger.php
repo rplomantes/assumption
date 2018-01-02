@@ -21,6 +21,7 @@ class StudentLedger extends Controller
       $due_others=0.00;
       $due_previous=0.00;
       $totalmainpayment = 0.00;
+      $totalmaindue =0;
       $user = \App\User::where('idno',$idno)->first();
       
       $ledger_main = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$idno)->where('category_switch','<=','6')
@@ -36,6 +37,7 @@ class StudentLedger extends Controller
       $duetoday= \App\LedgerDueDate::where('idno', $idno)->where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
       
       $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch','7')->get();
+      
       if(count($ledger_others)>0){
           foreach($ledger_others as $ledger_other){
               $due_others=$due_others + $ledger_other->amount - $ledger_other->discount - $ledger_other->debit_memo -$ledger_other->payment;
@@ -50,8 +52,11 @@ class StudentLedger extends Controller
               $due_previous = $due_previous + $prev->amount - $prev->discount -$prev->debit_memo - $prev->payment;
           }
       }
-      
-      $totaldue=$downpayment->amount + $duetoday->amount - $totalmainpayment +$due_others + $due_previous;
+      $totalmaindue=$downpayment->amount + $duetoday->amount - $totalmainpayment;
+      if($totalmaindue<0){
+          $totalmaindue=0;
+      }
+      $totaldue=  $totalmaindue+$due_others + $due_previous;
       $status = \App\Status::where('idno',$idno)->first();
       
       $payments =  \App\Payment::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
@@ -60,7 +65,8 @@ class StudentLedger extends Controller
       
       $due_dates = \App\LedgerDueDate::where('idno',$idno)->orderBy('due_switch')->orderBy('due_date')->get();
       return view("cashier.ledger",compact('user','ledger_main','ledger_others','previous','status','payments',"debit_memos",'due_dates','totalmainpayment','totaldue'));
-     }       
+      
+      }       
     }
    
     function viewreceipt($reference_id){

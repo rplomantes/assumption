@@ -8,8 +8,14 @@ $ntotal=0;
 $grandtotal=0;
 
 $totalcanceled=0;
+$layout="";
+if(Auth::user()->accesslevel==env("CASHIER")){
+ $layout = "layouts.appcashier";   
+} else if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+  $layout="layouts.appaccountingstaff";  
+}       
 ?>
-@extends('layouts.appcashier')
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -70,7 +76,11 @@ $totalcanceled=0;
              
      <table id="example1" class="table table-responsive table-striped">
          <thead>
-             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check</th><th>Credit Card</th><th>Bank Deposit</th><th>Total</th><th>Status</th><th>View</th></tr>
+             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check</th><th>Credit Card</th><th>Bank Deposit</th><th>Total</th><th>Status</th>
+                 @if(Auth::user()->accesslevel == env("ACCTNG_STAFF"))
+                 <th>Posted By</th>
+                 @endif
+                 <th>View</th></tr>
          </thead>
          <tbody>
              @if(count($payments)>0)
@@ -86,31 +96,34 @@ $totalcanceled=0;
                     $grandtotal=$grandtotal+$total;
                     }
                     ?>
-                    <tr><td>{{$payment->transaction_date}}</td>
+                <tr><td>{{$payment->transaction_date}}</td>
                     <td>{{$payment->receipt_no}}</td>
                     <td>{{$payment->paid_by}}</td>
                     @if($payment->is_reverse=="0")
-                    <td>{{number_format($payment->cash_amount,2)}}</td>
-                    <td>{{number_format($payment->check_amount,2)}}</td>
-                    <td>{{number_format($payment->credit_card_amount,2)}}</td>
-                    <td>{{number_format($payment->deposit_amount,2)}}</td>
-                    <td><b>{{number_format($total,2)}}</b></td>
+                    <td class="decimal">{{number_format($payment->cash_amount,2)}}</td>
+                    <td class="decimal">{{number_format($payment->check_amount,2)}}</td>
+                    <td class="decimal">{{number_format($payment->credit_card_amount,2)}}</td>
+                    <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>
+                    <td class="decimal"><b>{{number_format($total,2)}}</b></td>
                     <td>Ok</td>
                     @else
                     <?php
                     $totalcanceled=$payment->cash_amount+$payment->check_amount + $payment->credit_card_amount +$payment->deposit_amount;
                     ?>
-                    <td><span style='color:red;text-decoration:line-through'>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->cash_amount,2)}}</span></span></td>
-                    <td><span style='color:red;text-decoration:line-through'>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->check_amount,2)}}</span></span></td>
-                    <td><span style='color:red;text-decoration:line-through'>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
-                    <td><span style='color:red;text-decoration:line-through'>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->deposit_amount,2)}}</span></span></td>
-  <td><span style='color:red;text-decoration:line-through;'>
+  <td class="decimal"><span style='color:red;text-decoration:line-through;'>
   <span style='color:#999'>{{number_format($totalcanceled,2)}}</span></span></td>
                     <td>Canceled</td>
+                    @endif
+                    @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
+                    <td>{{$payment->posted_by}}</td>
                     @endif
                     <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View</a></td></tr>
                 @endforeach
@@ -119,11 +132,11 @@ $totalcanceled=0;
          </tbody>
           <tfoot>
                     <tr><th colspan="3">Total</th>
-                    <th>{{number_format($totalcash,2)}}</th>
-                    <th>{{number_format($totalcheck,2)}}</th>
-                    <th>{{number_format($totalcreditcard,2)}}</th>
-                    <th>{{number_format($totalbankdeposit,2)}}</th>
-                    <th><b>{{number_format($grandtotal,2)}}</b></th>
+                        <th class="decimal">{{number_format($totalcash,2)}}</th>
+                    <th class="decimal">{{number_format($totalcheck,2)}}</th>
+                    <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
+                    <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>
+                    <th class="decimal">{{number_format($grandtotal,2)}}</th>
                     <th></th></tr>
         
          </tfoot>    
@@ -137,6 +150,12 @@ $totalcanceled=0;
  
 @endsection
 @section('footerscript')
+<style>
+  table  .decimal{
+        text-align: right;
+        padding-right: 10px;
+    }
+</style>    
        <!-- daterange picker -->
 <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap-daterangepicker','daterangepicker.css'))}}">
 <script src="{{url('/bower_components',array('datatables.net','js','jquery.dataTables.min.js'))}}"></script>

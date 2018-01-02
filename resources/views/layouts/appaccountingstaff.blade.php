@@ -123,6 +123,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+        <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-link"></i> <span>Set Other Payment</span></a></li>
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Disbursement</span></a></li>
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Journal Entry</span></a></li>
         <li class="treeview">

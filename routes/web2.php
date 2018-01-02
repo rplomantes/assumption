@@ -4,6 +4,7 @@
 Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
 Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
 Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
+Route::get('/accounting/ajax/getotherpayment','Accounting\Ajax\GetOtherPayment@getotherpayment');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 
@@ -42,4 +43,11 @@ Route::get('/ajax/registrar_college/assessment/get_assessed_payment', 'Registrar
 Route::get('/accounting/debit_memo/{idno}','Accounting\DebitMemo@index');
 Route::post('/accounting/debit_memo','Accounting\DebitMemo@post_debit_memo');
 Route::get('/accounting/view_debit_memo/{reference_id}','Accounting\DebitMemo@view_debit_memo');
+Route::get('/accounting/add_to_account/{idno}','Accounting\AddAccount@add_to_account');
+Route::get('/accounting/set_other_payment','Accounting\AddAccount@set_other_payment');
+Route::post('/accounting/add_to_account','Accounting\AddAccount@post_add_to_account');
+Route::get('/accounting/remove_other_payment/{id}','Accounting\AddAccount@remove_other_payment');
+Route::get('/accounting/set_other_payment','Accounting\AddAccount@set_other_payment');
+Route::post('/accounting/set_other_payment','Accounting\AddAccount@post_set_other_payment');
+Route::get('/accounting/remove_set_other_payment/{id}','Accounting\AddAccount@remove_set_other_payment');
 ?>

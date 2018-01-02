@@ -142,7 +142,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     <div class="accordion-section">
         <a class="accordion-section-title" href="#accordion-2">Other Payment</a>
          
-        <div id="accordion-2" class="accordion-section-content">
+        <div id="accordion-2" class="accordion-section-content open">
             @if(count($ledger_others)>0)
             <table class="table table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
@@ -284,7 +284,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <a href="{{url('/accounting',array('debit_memo',$user->idno))}}" class="form form-control btn btn-primary">DEBIT MEMO</a>
         </div>
         <div class="form-group">
-        <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">ADD TO ACCOUNT</a>
+        <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">OTHER PAYMENT</a>
         </div>
         @endif
         @if(count($due_dates)>0)
@@ -392,7 +392,8 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         $('.accordion .accordion-section-title').removeClass('active');
         $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
     }
-    $('#accordion-1').slideDown(300).addClass('open'); 
+    $('#accordion-1').slideDown(300).addClass('open');
+    $('#accordion-2').slideDown(300).addClass('open'); 
     $('.accordion-section-title').click(function(e) {
         // Grab current anchor value
         var currentAttrValue = $(this).attr('href');

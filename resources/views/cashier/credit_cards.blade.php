@@ -1,8 +1,14 @@
 <?php
 $totalcreditcard=0;
 
+$layout="";
+if(Auth::user()->accesslevel==env("CASHIER")){
+ $layout = "layouts.appcashier";   
+} else if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+  $layout="layouts.appaccountingstaff";  
+}       
 ?>
-@extends('layouts.appcashier')
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
