@@ -53,11 +53,12 @@ $list_schedules = \App\ScheduleCollege::distinct()->where('school_year', $school
                     <table id="list_schedules" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                              <th>Course</th>
-                              <th>Schedule</th>
-                              <th>Room</th>
-                              <th>Instructor</th>
-                              <th></th>
+                                <th>Schedule ID</th>  
+                                <th>Course</th>
+                                <th>Schedule</th>
+                                <th>Room</th>
+                                <th>Instructor</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,6 +70,7 @@ $list_schedules = \App\ScheduleCollege::distinct()->where('school_year', $school
                         }
                         ?>
                             <tr>
+                                <td>{{$list_schedule->schedule_id}}</td>
                                 <td>{{$course_code->course_code}}</td>
                                 <td>
                                     <?php
