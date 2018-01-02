@@ -57,6 +57,7 @@ $list_schedules = \App\ScheduleCollege::distinct()->where('school_year', $school
                               <th>Schedule</th>
                               <th>Room</th>
                               <th>Instructor</th>
+                              <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,6 +95,7 @@ $list_schedules = \App\ScheduleCollege::distinct()->where('school_year', $school
                                 @else
                                 <td></td>
                                 @endif
+                                <td><button class="btn btn-primary"><span class="fa fa-pencil"></span></button></td>
                             </tr>
                         @endforeach
                         </tbody>
