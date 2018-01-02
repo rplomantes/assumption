@@ -84,5 +84,5 @@ class StudentListController extends Controller {
             return $pdf->stream("student_list_.pdf");
         }
     }
-
+    
 }

@@ -137,5 +137,5 @@ class StudentList_ajax extends Controller {
             return view('reg_college.reports.student_list.ajax.display_per_course', compact('list_per_courses'));
         }
     }
-
+    
 }
