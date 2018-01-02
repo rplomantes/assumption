@@ -142,6 +142,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                     <ul class="treeview-menu">
                                         <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-circle-o"></i> <span>Search</span></a></li>
                                         <li><a href="{{url('registrar_college', array('reports','student_list', 'per_course'))}}"><i class="fa fa-circle-o"></i> <span>Per Course</span></a></li>
+                                        <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics'))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
