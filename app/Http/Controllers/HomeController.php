@@ -51,6 +51,10 @@ class HomeController extends Controller
                 break;
             case 40:
                 return view('cashier.index');
+                break;
+            case 100:
+                return redirect('/register');
+                break;
         }
     }
 }

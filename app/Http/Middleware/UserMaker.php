@@ -16,7 +16,7 @@ class UserMaker
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->idno == 'sronquillo'){
+        if((!Auth::guest()) && Auth::user()->idno == 'admin'){
           
          return $next($request);
         }
