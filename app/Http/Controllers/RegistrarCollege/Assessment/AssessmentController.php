@@ -320,8 +320,13 @@ class AssessmentController extends Controller {
             $changestatus=  \App\Status::where('idno',$idno)->first();
             $changestatus->status=env("ENROLLED");
             $changestatus->update();
-            $checkreservations->is_consumed = '1';
-            $checkreservations->update();
+            $changereservation = \App\Reservation::where('idno',$idno)->get();
+            if(count($changereservation)>0){
+                foreach($changereservation as $change){
+            $change->is_consumed = '1';
+            $change->update();
+                }
+            }
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers,env("DEBIT_MEMO"));
             $this->postDebit($idno, $reference_id, $totalpayment);
