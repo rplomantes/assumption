@@ -5,6 +5,7 @@
         <tr>
             <th>Code</th>
             <th>Course Name</th>
+            <th>Program</th>
             <th>Schedule</th>
             <th>Room</th>
             <th>Instructor</th>
@@ -16,6 +17,7 @@
         <tr>
             <td>{{$course_offering->course_code}}</td>
             <td>{{$course_offering->course_name}}</td>
+            <td>{{$course_offering->program_code}}</td>
             <?php
             $schedules = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->get();
             ?>

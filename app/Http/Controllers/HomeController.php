@@ -53,7 +53,7 @@ class HomeController extends Controller
                 return view('cashier.index');
                 break;
             case 100:
-                return redirect('/register');
+                return view('admin.index');
                 break;
         }
     }
