@@ -101,6 +101,9 @@ class NewStudentController extends Controller {
         $birthdate = $request->birthdate;
         $place_of_birth = $request->place_of_birth;
         $gender = $request->gender;
+        $civil_status = $request->civil_status;
+        $nationality = $request->nationality;
+        $religion = $request->religion;
         $tel_no = $request->tel_no;
         $cell_no = $request->cell_no;
         $last_school_attended = $request->last_school_attended;

@@ -22,31 +22,27 @@
 </li>
 @endsection
 @section('header')
-
-<link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 <section class="content-header">
     <h1>
-        Admission
+        Add New Instructor
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('admission','new_student'))}}"> New Student</a></li>
+        <li><a href="#"> Instructor</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('instructor','add_instructor'))}}"> Add Instructor</a></li>
     </ol>
 </section>
 @endsection
 @section('maincontent')
 <section class="content">
     <div class="row">
-        <div class="col-sm-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title"><span class='fa fa-edit'></span> Personal Information</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <form class="form-horizontal" method='post' action='{{url('/registrar_college', array('instructor', 'add_new_instructor'))}}'>
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Personal Information</h3>
                     </div>
-
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
@@ -56,10 +52,14 @@
                         </ul>
                     </div>
                     @endif
-                </div>
-                <div class="box-body">
-                    <form class="form-horizontal" method='post' action='{{url('/registrar_college', array('admission', 'add_new_student'))}}'>
+                    <div class="box-body">
                         {{ csrf_field() }}
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>ID Number</label>
+                                <input class="form form-control" name="idno" placeholder="ID Number*" value="{{old('idno')}}" type="text">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Name</label>
@@ -156,41 +156,68 @@
                                 <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion')}}" type="text">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <label>Last School Attended</label>
-                                <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' value="{{old('last_school_attended')}}" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <label>Program to enroll*</label>
-                                <select class="form form-control select2" name='program_to_enroll' type="text">
-                                    <option value="">Select a Program</option>
-                                    @foreach ($programs as $program)
-                                    <option value="{{$program->program_code}}">{{$program->program_name}}</option>
-                                    @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Other Information</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form form-group">
+                            <div class="col-sm-4">
+                                <label>Employment Status</label>
+                                <select name="employment_status" class="form form-control">
+                                    <option value="">Select employment status*</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Part Time">Part Time</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <input class="form form-control btn btn-success" type="submit" value='REGISTER NEW STUDENT'>
+                        <div class="form form-group">
+                            <div class="col-sm-4">
+                                <label>Academic Type </label>
+                                <select name="academic_type" class="form form-control">
+                                    <option value="College">College</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Department </label>
+                                <select name="department" class="form form-control">
+                                    <option value="">Select Department</option>
+                                    <option value="Psychology Department">Psychology Department</option>
+                                    <option value="Education Department">Education Department</option>
+                                    <option value="Business Department">Business Department</option>
+                                </select>
                             </div>
                         </div>
-                    </form>
+                        <div class="form form-group">
+                            <div class="col-sm-4">
+                                <label>Educational Degree </label>
+                                <select name="degree_status" class="form form-control">
+                                    <option value="">Select Educational Degree</option>
+                                    <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                    <option value="Master's Degree">Master's Degree</option>
+                                    <option value="Doctor's Degree">Doctor's Degree</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>Program Graduated </label>
+                                <input class="form form-control" name='program_graduated' placeholder='Program Name' value="{{old('program_graduated')}}" type="text">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+                    <div class='form form-group'>
+                        <div class='col-sm-12'>
+                        <input type='submit' class='col-sm-12 btn btn-primary' value='SAVE'>
+                        </div>
+                    </div>
+        </form>
     </div>
 </section>
-
 @endsection
 @section('footerscript')
-<script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-<script>
-$(function () {
-    $('.select2').select2();
-});
-</script>
 @endsection

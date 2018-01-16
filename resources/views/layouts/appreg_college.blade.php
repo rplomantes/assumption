@@ -20,6 +20,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <link rel="stylesheet" href="{{ asset ('plugins/pace/pace.min.css')}}">
         <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -114,6 +115,15 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('admission','new_student'))}}"><i class="fa fa-circle-o"></i> <span>New Student</span></a></li>
                             </ul>
+                        </li><li class="treeview">
+                            <a href="#"><i class="fa fa-gavel"></i> <span>Advising</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/registrar_college', array('advising','set_up'))}}"><i class="fa fa-circle-o"></i> <span>Set Up</span></a></li>
+                            </ul>
                         </li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-list-alt"></i> <span>Curriculum Management</span>
@@ -123,10 +133,18 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}"><i class="fa fa-circle-o"></i> <span>Curriculum</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','course_offering'))}}"><i class="fa fa-circle-o"></i> <span>Course Offering</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','course_schedule'))}}"><i class="fa fa-circle-o"></i> <span>Course Schedule</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}"><i class="fa fa-circle-o"></i> <span>Faculty Loading</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','edit_schedule'))}}"><i class="fa fa-circle-o"></i> <span>*Edit Schedule</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','upload_curriculum'))}}"><i class="fa fa-circle-o"></i> <span>*Upload Curriculum</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-male"></i> <span>Instructor</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/registrar_college', array('instructor','view_instructor'))}}"><i class="fa fa-circle-o"></i> <span>View Instructors</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('instructor','add_instructor'))}}"><i class="fa fa-circle-o"></i> <span>Add Instructor</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -169,57 +187,6 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="control-sidebar-home-tab">
-                        <h3 class="control-sidebar-heading">Recent Activity</h3>
-                        <ul class="control-sidebar-menu">
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                                    <div class="menu-info">
-                                        <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                        <p>Will be 23 on April 24th</p>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-
-                        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                        <ul class="control-sidebar-menu">
-                            <li>
-                                <a href="javascript:;">
-                                    <h4 class="control-sidebar-subheading">
-                                        Custom Template Design
-                                        <span class="pull-right-container">
-                                            <span class="label label-danger pull-right">70%</span>
-                                        </span>
-                                    </h4>
-
-                                    <div class="progress progress-xxs">
-                                        <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </div>
-                    <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-                    <div class="tab-pane" id="control-sidebar-settings-tab">
-                        <form method="post">
-                            <h3 class="control-sidebar-heading">General Settings</h3>
-
-                            <div class="form-group">
-                                <label class="control-sidebar-subheading">
-                                    Report panel usage
-                                    <input type="checkbox" class="pull-right" checked>
-                                </label>
-                                <p>
-                                    Some information about this general settings option
-                                </p>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </aside>
             <div class="control-sidebar-bg"></div>

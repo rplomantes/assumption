@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCourseOfferingsTable extends Migration
+class CreateAdvisingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,21 @@ class CreateCourseOfferingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('course_offerings', function (Blueprint $table) {
+        Schema::create('advisings', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('idno');
+            $table->string('school_year');
+            $table->string('period');
             $table->string('program_code');
             $table->string('course_code');
             $table->string('course_name');
-            $table->string('section')->default(1);
-            $table->string('section_name');
-            $table->string('school_year');
-            $table->string('period');
+            $table->string('course_level');
+            $table->string('course_period');
             $table->integer('lec')->nullable();
             $table->integer('lab')->nullable();
-            $table->decimal('hours',5,2)->nullable();
-            $table->string('level');
-            $table->decimal('srf',10,2);
-            $table->integer('percent_tuition');
-            $table->integer('number_of_students')->default(35);
-            $table->string('schedule_id')->nullable();
+            $table->decimal('hours',10,2)->nullable();
+            $table->foreign('idno')->references('idno')
+                    ->on('users')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -41,6 +39,6 @@ class CreateCourseOfferingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_offerings');
+        Schema::dropIfExists('advisings');
     }
 }

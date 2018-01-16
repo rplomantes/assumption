@@ -4,7 +4,7 @@
     <tr><th>Student ID</th><th>Student Name</th><th>Advise</th><th>View Record</th></tr>
     @foreach($lists as $list)
     @if($list->accesslevel == '0')
-    <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td><td><a href="{{url('/dean',array('assessment',$list->idno))}}">Advising</a></td>
+    <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td><td><a href="{{url('/dean',array('advising',$list->idno))}}">Advising</a></td>
     <td><a href="{{url('/dean',array('viewrecord',$list->idno))}}">View Record</a></td></tr>
     @endif
     @endforeach
