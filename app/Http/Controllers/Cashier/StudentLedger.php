@@ -24,7 +24,7 @@ class StudentLedger extends Controller
       $totalmaindue =0;
       $user = \App\User::where('idno',$idno)->first();
       
-      $ledger_main = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$idno)->where('category_switch','<=','6')
+      $ledger_main = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$idno)->where('category_switch','<=','5')
               ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
       
       if(count($ledger_main)>0){
@@ -36,7 +36,7 @@ class StudentLedger extends Controller
       $downpayment=  \App\LedgerDueDate::where('idno', $idno)->where('due_switch','0')->selectRaw('sum(amount) as amount')->first();
       $duetoday= \App\LedgerDueDate::where('idno', $idno)->where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
       
-      $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch','7')->get();
+      $ledger_others = \App\Ledger::where('idno',$idno)->where('category_switch',env("OTHER_MISC"))->orWhere('category_switch',env("OPTIONAL_FEE"))->get();
       
       if(count($ledger_others)>0){
           foreach($ledger_others as $ledger_other){
@@ -58,6 +58,11 @@ class StudentLedger extends Controller
       }
       $totaldue=  $totalmaindue+$due_others + $due_previous;
       $status = \App\Status::where('idno',$idno)->first();
+      if($status->academic_type=="BED"){
+      $levels = \App\BedLevel::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();   
+      } else if($status->academic_type=="College"){
+      $levels=  \App\CollegeLevel::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();    
+      }
       
       $payments =  \App\Payment::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
       

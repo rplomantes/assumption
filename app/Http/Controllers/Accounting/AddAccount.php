@@ -51,14 +51,36 @@ class AddAccount extends Controller
          $addledger = new \App\Ledger;
          $addledger->idno = $request->idno;
          $status = \App\Status::where('idno',$request->idno)->first();
-            if(count($status)>0){
-                $addledger->department = $status->department;
-                $addledger->program_code = $status->program_code;
-                $addledger->track = $status->track;
-                $addledger->level = $status->level;
-                $addledger->school_year = $status->school_year;
-                $addledger->period = $status->period;
+         if(count($status)>0){
+             if($status->academic_type == "BED" && $status->status > "0"){
+               $level=  \App\BedLevel::where('idno',$request->idno)
+                       ->where('school_year',$status->school_year)
+                       ->where('period',$status->period)->first();
+             } else if($status->academic_type=="College"){
+                if($status->academic_type == "BED" && $status->status > "0"){
+               $level=  \App\BedLevel::where('idno',$request->idno)
+                       ->where('school_year',$status->school_year)
+                       ->where('period',$status->period)->first(); 
+             }
             }
+         }
+         if(isset($level)){
+         if(count($level)>0){
+                if($status->academic_type=="BED")
+                $addledger->department = $level->department;
+                $addledger->track = $level->track;
+                $addledger->strand = $level->strand;
+                $addledger->level = $level->level;
+                $addledger->school_year = $level->school_year;
+                $addledger->period = $status->period;
+                }
+                else if($status->academic_type=="College"){
+                    $addledger->program_code = $level->program_code;
+                    $addledger->level = $level->level;
+                    $addledger->school_year = $level->school_year;
+                    $addledger->period = $status->period;
+                }
+         }
          $addledger->category = "Other Miscellaneous";
          $addledger->subsidiary = $request->particular;
          $addledger->receipt_details = $request->particular;

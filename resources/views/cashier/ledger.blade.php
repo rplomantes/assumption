@@ -102,7 +102,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     <div class="col-md-12">    
     <div class="accordion">
     <div class="accordion-section">
-        <a class="accordion-section-title active" href="#accordion-1">Main Ledger</a>
+        <a class="accordion-section-title active" href="#accordion-1">Main Fees</a>
          
         <div id="accordion-1" class="accordion-section-content open">
             @if(count($ledger_main)>0)
@@ -140,7 +140,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     </div><!--end .accordion-section-->
     
     <div class="accordion-section">
-        <a class="accordion-section-title" href="#accordion-2">Other Payment</a>
+        <a class="accordion-section-title active" href="#accordion-2">Other Fees</a>
          
         <div id="accordion-2" class="accordion-section-content open">
             @if(count($ledger_others)>0)
@@ -176,9 +176,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             @endif 
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
+    
+    
     <div class="accordion-section">
-        <a class="accordion-section-title" href="#accordion-3">Previous Balance</a>
-    <div id="accordion-3" class="accordion-section-content">
+        <a class="accordion-section-title active" href="#accordion-4">Previous Balance</a>
+    <div id="accordion-4" class="accordion-section-content">
             @if(count($previous)>0)
             <table class="table table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
@@ -392,8 +394,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         $('.accordion .accordion-section-title').removeClass('active');
         $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
     }
+    
     $('#accordion-1').slideDown(300).addClass('open');
     $('#accordion-2').slideDown(300).addClass('open'); 
+    $('#accordion-4').slideDown(300).addClass('open'); 
+    
     $('.accordion-section-title').click(function(e) {
         // Grab current anchor value
         var currentAttrValue = $(this).attr('href');

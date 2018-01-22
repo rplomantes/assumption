@@ -20,6 +20,11 @@ class CreatePaymentsTable extends Migration
             $table->string('reference_id');
             $table->string('idno');
             $table->string('paid_by');
+            $table->string('program_code')->nullable();
+            $table->string('tracks')->nullable();
+            $table->string('strand')->nullable();
+            $table->string('level')->nullable();
+            $table->string('section')->nullable();
             $table->integer('payment_type')->default(0);
             $table->string('check_number')->nullable();
             $table->string('bank_name')->nullable();

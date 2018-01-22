@@ -16,10 +16,8 @@ class CreateGradeBasicEdsTable extends Migration
         Schema::create('grade_basic_eds', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idno');
-            $table->string('department');
-            $table->string('level');
-            $table->string('section')->nullable();
             $table->string('track')->nullable();
+            $table->string('strand')->nullable();
             $table->integer("subject_type")->default(0);
             $table->string("subject_code");
             $table->string("subject_name");
@@ -32,10 +30,16 @@ class CreateGradeBasicEdsTable extends Migration
             $table->decimal("third_grading",7,2)->nullable();
             $table->decimal("fourth_grading",7,2)->nullable();
             $table->decimal("final_grade",7,2)->nullable();
+            $table->string("first_grading_letter")->nullable();
+            $table->string("second_grading_letter")->nullable();
+            $table->string("third_grading_letter")->nullable();
+            $table->string("fourth_grading_letter")->nullable();
+            $table->string("final_grade")->nullable();
             $table->string("first_remarks")->null();
             $table->string("second_remarks")->null();
             $table->string("third_remarks")->null();
             $table->string("fourth_remarks")->null();
+            $table->string("final_remarks")->null();
             $table->integer("ranking")->nullable();
             $table->integer("status")->default(0);
             $table->string("school_year");

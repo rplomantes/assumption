@@ -52,7 +52,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
 
 <section class="content-header">
       <h1>
-        Main Payment
+        Payment
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -103,7 +103,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
                     @endif
                     <div class="form form-group">
                     <div class="col-md-6">
-                        <span class="label_collected">Main Account :</span>
+                        <span class="label_collected">Main Fees :</span>
                     </div> 
                     <div class="col-md-6">
                         <input type="text" class="form form-control number" name="main_due" id="main_due" value="{{$due_total}}" >
@@ -126,7 +126,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition;
                     
                     <div class="form form-group">
                     <div class="col-md-12">
-                        <span class="label_collected">Other Payment :</span>
+                        <span class="label_collected">Other Fees :</span>
                     </div> 
                     </div>    
                    <div class="col-md-12">    

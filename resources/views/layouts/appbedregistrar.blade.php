@@ -3,6 +3,7 @@ $file_exist=0;
 if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
     $file_exist=1;
 }
+$school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first();
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +27,8 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 <div class="wrapper">
   <header class="main-header">
     <a href="{{url('/')}}" class="logo">
-      <span class="logo-mini"><b>A</b>CT</span>
-      <span class="logo-lg"><b>A</b>CCOUNTING</span>
+      <span class="logo-mini"><b>R</b>EG</span>
+      <span class="logo-lg"><b>BED-R</b>EGISTRAR</span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -123,49 +124,22 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-        <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-link"></i> <span>Set Other Payment</span></a></li>
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Disbursement</span></a></li>
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Journal Entry</span></a></li>
+        <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$school_year->school_year))}}"><i class="fa fa-link"></i> <span>Enrollment Statistics</span></a></li>
+    
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Book of Accounts</span>
+          <a href="#"><i class="fa fa-link"></i> <span>Student List</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/accounting',array('cash_receipt',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
-            <li><a href="{{url('/accounting',array('cash_disbursement',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
-            <li><a href="{{url('/accounting',array('general_journal',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
-            <li><a href="{{url('/accounting',array('debit_memo',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Debit/Credit Summary</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{url('/accounting',array('cash_receipt_dr_cr',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
-            <li><a href="{{url('/accounting',array('disburesement_drcr',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
-            <li><a href="{{url('/accounting',array('general_journal_drcr',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
-            <li><a href="{{url('/accounting',array('debit_memo_journal_drcr',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>
+            <li><a href="{{url('/accounting',array('cash_receipt',date('Y-m-d'),date('Y-m-d')))}}">Per Grade Level and Section </a></li>
+            <li><a href="{{url('/accounting',array('cash_disbursement',date('Y-m-d'),date('Y-m-d')))}}">Per Class </a></li>
           </ul>
         </li>
         
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Collection Report</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d')))}}">Collection Report Summary</a></li>
-            <li><a href="{{url('cashier',array('list_of_checks',date('Y-m-d'),date('Y-m-d')))}}">Check </a></li>
-            <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">Credit Card </a></li>
-            <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
-          </ul>
-        </li>
+     
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>

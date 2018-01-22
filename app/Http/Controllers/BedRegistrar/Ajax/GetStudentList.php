@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Controllers\BedRegistrar\Ajax;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
+Use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Request;
+
+class GetStudentList extends Controller
+{
+    //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+ function index(){
+        if(Request::ajax()){
+            if(Auth::user()->accesslevel==env("REG_BE")){
+            $search = Input::get('search');
+            $lists = \App\User::Where("lastname","like","%$search%")
+                    ->orWhere("firstname","like","%$search%")->orWhere("idno",$search)->get();
+            return view('reg_be.ajax.getstudentlist',compact('lists'));
+        }
+    }   
+ }  
+}

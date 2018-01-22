@@ -50,7 +50,7 @@ class MainPayment extends Controller
                 ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
                 ->first();
         //Other Fee
-        $other_misc=  \App\Ledger::where('idno',$idno)->whereRaw('amount-discount-debit_memo-payment > 0 And category_switch=7')->get();
+        $other_misc=  \App\Ledger::where('idno',$idno)->whereRaw('amount-discount-debit_memo-payment > 0 And (category_switch=7 OR category_switch=6)')->get();
         
         if(count($other_misc)>0){
             foreach($other_misc as $om){
