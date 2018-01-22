@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('accesslevel')->default(0);
             $table->integer('status')->default(1);
             $table->string('email')->unique();
-            $table->string('acafemic_type')->nullable();
+            $table->string('academic_type')->nullable();
             $table->string('lrn')->nullable();
             $table->string('password');
             $table->rememberToken();

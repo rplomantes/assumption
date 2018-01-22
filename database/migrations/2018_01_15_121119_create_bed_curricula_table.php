@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBedCirriculumsTable extends Migration
+class CreateBedCurriculaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,18 @@ class CreateBedCirriculumsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bed_cirriculums', function (Blueprint $table) {
+        Schema::create('bed_curricula', function (Blueprint $table) {
             $table->increments('id');
             $table->string('department');
             $table->string('level');
+            $table->string('period')->nullable();
             $table->string('track')->nullable();
             $table->integer("subject_type")->default(0);
+            $table->string("display_subject_code");
             $table->string("subject_code");
             $table->string("subject_name");
+            $table->string("group_name")->nullable();
+            $table->string("units")->nullable();
             $table->integer("points")->nullable();
             $table->integer("weighted")->nullable();
             $table->integer("sort_to")->default(0);
@@ -36,6 +40,6 @@ class CreateBedCirriculumsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bed_cirriculums');
+        Schema::dropIfExists('bed_curricula');
     }
 }
