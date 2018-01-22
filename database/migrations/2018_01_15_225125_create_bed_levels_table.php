@@ -24,6 +24,7 @@ class CreateBedLevelsTable extends Migration
             $table->string('strand')->nullable();
             $table->string('level')->nullable();
             $table->string('section')->nullable();
+            $table-integer('status')->default(0);
             $table->string('school_year')->nullable();
             $table->string('period')->nullable();
             $table->string('type_of_plan')->nullable();
