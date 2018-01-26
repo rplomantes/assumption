@@ -17,10 +17,10 @@ class CreateRegistrationsTable extends Migration
             $table->increments('id');
             $table->string('idno');
             $table->date('registration_date');
-            $table->string('department');
+            $table->string('department')->nullable();
             $table->string('program_code')->nullable();
             $table->string('track')->nullable();
-            $table->string('level');
+            $table->string('level')->nullable();
             $table->string('school_year');
             $table->string('period');
             $table->foreign('idno')

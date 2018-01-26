@@ -40,9 +40,10 @@
 
 </style>
 <?php
-$school_year = \App\CtrAdvisingSchoolYear::where('academic_type', "College")->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
 $user = \App\User::where('idno', $idno)->first();
-$status = \App\Status::where('idno', $idno)->first();
+$status_level = \App\Status::where('idno', $idno)->first();
+$status = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status_level->school_year)->where('period', $status_level->period)->first();
 ?>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{url('/images','assumption-logo.png')}}"></div>
@@ -66,7 +67,7 @@ $status = \App\Status::where('idno', $idno)->first();
         </tr>
     </table>
     <?php
-    $grade_colleges = \App\Advising::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+    $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
     $units = 0;
     ?>
     @if(count($grade_colleges)>0)

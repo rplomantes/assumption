@@ -39,6 +39,7 @@ class courseoffering_ajax extends Controller {
         $level = Input::get("level");
         $period = Input::get("period");
         $section = Input::get("section");
+        $section_name = Input::get("section_name");
         $program_code = Input::get("program_code");
 
         $course_name = \App\Curriculum::distinct()->where('course_code', $course_code)->get(['course_name', 'course_code'])->first();
@@ -53,6 +54,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->course_code = $course_code;
                 $addsubject->course_name = $course_name->course_name;
                 $addsubject->section = $section;
+                $addsubject->section_name = $section_name;
                 $addsubject->school_year = $school_year->school_year;
                 $addsubject->period = $school_year->period;
                 $addsubject->lec = $course_details->lec;
@@ -76,6 +78,7 @@ class courseoffering_ajax extends Controller {
             $program_code = Input::get("program_code");
             $curriculum_year = Input::get("curriculum_year");
             $section = Input::get("section");
+            $section_name = Input::get("section_name");
             $level = Input::get("level");
             $period = Input::get("period");
 
@@ -97,6 +100,7 @@ class courseoffering_ajax extends Controller {
                         $addsubject->course_code = $curriculum->course_code;
                         $addsubject->course_name = $curriculum->course_name;
                         $addsubject->section = $section;
+                        $addsubject->section_name = $section_name;
                         $addsubject->school_year = $school_year->school_year;
                         $addsubject->period = $school_year->period;
                         $addsubject->lec = $curriculum->lec;

@@ -57,7 +57,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group" id="curriculum_year-form">
                                 <label>Curriculum Year</label>
                                 <select id="curriculum_year" class="form-control select2" style="width: 100%;">
@@ -68,7 +68,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group" id="level-form">
                                 <label>Level</label>
                                 <select id="level" class="form-control select2" style="width: 100%;">
@@ -79,7 +79,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3" id="period-form">
+                        <div class="col-md-2" id="period-form">
                             <div class="form-group">
                                 <label>Period</label>
                                 <select id="period" class="form-control select2" style="width: 100%;">
@@ -90,7 +90,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group" id="section-form">
                                 <label>Section</label>
                                 <select id="section" class="form-control select2" style="width: 100%;" onchange="getList('{{$program_code}}')">
@@ -100,6 +100,12 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                                     <option value="3">Section 3</option>
                                     <option value="4">Section 4</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" id="section_name-form">
+                                <label>Section Name</label>
+                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name" onchange="getList('{{$program_code}}')">
                             </div>
                         </div>
                     </div>
@@ -123,6 +129,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     $("#level-form").hide();
     $("#period-form").hide();
     $("#section-form").hide();
+    $("#section_name-form").hide();
     
     $("#curriculum_year-form").change(function(){
         $("#level-form").fadeIn();
@@ -132,6 +139,9 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     });
     $("#period-form").change(function(){
         $("#section-form").fadeIn();
+    });
+    $("#section-form").change(function(){
+        $("#section_name-form").fadeIn();
     });
 </script>
 <script>
@@ -174,6 +184,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     array['level'] = $("#level").val();
     array['period'] = $("#period").val();
     array['section'] = $("#section").val();
+    array['section_name'] = $("#section_name").val();
     array['program_code'] = $("#program_code").val();
     $.ajax({
     type: "GET",
@@ -191,6 +202,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     array['program_code'] = $("#program_code").val();
     array['curriculum_year'] = $("#curriculum_year").val();
     array['section'] = $("#section").val();
+    array['section_name'] = $("#section_name").val();
     array['level'] = $("#level").val();
     array['period'] = $("#period").val();
     array['course_code'] = $("#course_code").val();

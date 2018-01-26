@@ -3,7 +3,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
 $program_codes = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['program_code']);
 
 $levels = \App\CourseOffering::distinct()->orderBy('level')->get(['level']);
-$sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section']);
+$sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section', 'section_name']);
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -84,7 +84,7 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section']
                                 <select id="section" class="form-control select2" style="width: 100%;" onchange="courses_offered(program_code.value)">
                                     <option value=" ">Select Section</option>
                                     @foreach ($sections as $section)
-                                    <option value="{{$section->section}}">{{$section->section}}</option>
+                                    <option value="{{$section->section}}">{{$section->section_name}}</option>
                                     @endforeach
                                 </select>
                             </div>

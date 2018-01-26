@@ -2,7 +2,7 @@
 $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
-$courses = \App\Advising::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+$courses = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
 ?>
 @extends("layouts.appdean_college")
 @section('messagemenu')
@@ -55,7 +55,7 @@ $user = \App\User::where('idno', $idno)->first();
             </div>
             <div class='box-body'>
                 <?php
-                $grade_colleges = \App\Advising::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+                $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
                 $units = 0;
                 ?>
                     <div class='table-responsive'>

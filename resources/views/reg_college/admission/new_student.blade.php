@@ -162,7 +162,7 @@
                                 <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' value="{{old('last_school_attended')}}" type="text">
                             </div>
                         </div>
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <div class="col-sm-12">
                                 <label>Program to enroll*</label>
                                 <select class="form form-control select2" name='program_to_enroll' type="text">
@@ -172,7 +172,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <input class="form form-control btn btn-success" type="submit" value='REGISTER NEW STUDENT'>

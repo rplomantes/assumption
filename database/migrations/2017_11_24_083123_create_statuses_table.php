@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->increments('id');
             $table->string('idno');
             $table->string('academic_type');
+            $table->string('status')->default(0);
             $table->string('school_year')->nullable();
             $table->string('period')->nullable();
             $table->foreign('idno')

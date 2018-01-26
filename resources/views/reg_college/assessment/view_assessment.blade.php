@@ -2,6 +2,7 @@
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
+$status_level = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
 $discounts = \App\CtrDiscount::all();
@@ -69,21 +70,21 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         @if(count($status)>0)
-                        @if($status->is_new == "0")
+                        @if($status_level->is_new == "0")
                         <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
-                        <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Previous Program <span class="pull-right">{{$status_level->program_code}}</span></a></li>
+                        <li><a href="#">Previous Level <span class="pull-right">{{$status_level->level}}</span></a></li>
                         <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @else
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
-                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Program <span class="pull-right">{{$status_level->program_code}}</span></a></li>
+                        <li><a href="#">Level <span class="pull-right">{{$status_level->level}}</span></a></li>
                         <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                         @else    
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
-                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Program <span class="pull-right">{{$status_level->program_code}}</span></a></li>
+                        <li><a href="#">Level <span class="pull-right">{{$status_level->level}}</span></a></li>
                         <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                     </ul>
@@ -98,12 +99,12 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
                 <div class='box-body'>
                     <form method="POST" action="{{url('/registrar_college',array('assessment','save_assessment'))}}">    
-                            {!! csrf_field() !!}
+                            {{ csrf_field() }}
                             
                     <div class="form-horizontal">
                         <input type="hidden" name="idno" value="{{$user->idno}}">  
-                        <input type="hidden" name="program_code" value="{{$status->program_code}}">
-                        <input type="hidden" name="level" value="{{$status->level}}">
+                        <input type="hidden" name="program_code" value="{{$status_level->program_code}}">
+                        <input type="hidden" name="level" value="{{$status_level->level}}">
                         <input type="hidden" name="type_account" id="type_account" value="Regular">
                         <div class="form-group">
                         <div class='col-sm-12' id='plan-form'>
@@ -235,8 +236,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     array['plan'] = plan;
     array['discount'] = discount;
     array['type_of_account'] = type_account;
-    array['program_code'] = "{{$status->program_code}}";
-    array['level'] = "{{$status->level}}";
+    array['program_code'] = "{{$status_level->program_code}}";
+    array['level'] = "{{$status_level->level}}";
     array['idno'] = idno;
     $.ajax({
     type: "GET",

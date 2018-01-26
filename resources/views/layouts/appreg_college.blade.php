@@ -115,7 +115,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('admission','new_student'))}}"><i class="fa fa-circle-o"></i> <span>New Student</span></a></li>
                             </ul>
-                        </li><li class="treeview">
+                        </li>
+<!--                        <li class="treeview">
                             <a href="#"><i class="fa fa-gavel"></i> <span>Advising</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -124,7 +125,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('advising','set_up'))}}"><i class="fa fa-circle-o"></i> <span>Set Up</span></a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li class="treeview">
                             <a href="#"><i class="fa fa-list-alt"></i> <span>Curriculum Management</span>
                                 <span class="pull-right-container">

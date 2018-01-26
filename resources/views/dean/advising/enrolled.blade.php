@@ -42,13 +42,13 @@ $units = 0;
 @section('header')
 <section class="content-header">
     <h1>
-        Assessment
+        Advising
         <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="#"></i> Advising</a></li>
-        <li class="active"><a href="{{ url ('/dean', array('assessment',$idno))}}"></i> {{$idno}}</a></li>
+        <li class="active"><a href="{{ url ('/dean', array('advising',$idno))}}"></i> {{$idno}}</a></li>
     </ol>
 </section>
 @endsection

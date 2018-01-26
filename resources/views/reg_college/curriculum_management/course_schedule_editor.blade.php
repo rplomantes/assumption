@@ -245,7 +245,7 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     </td>
                                     <td>
                                         @foreach ($merged_schedules as $merged_schedule)
-                                        {{$merged_schedule->program_code}} {{$merged_schedule->level}}-{{$merged_schedule->section}}<br>
+                                        {{$merged_schedule->section_name}}<br>
                                         @endforeach
                                     </td>
                                     <td>

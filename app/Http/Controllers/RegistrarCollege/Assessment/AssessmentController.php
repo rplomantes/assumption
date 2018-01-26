@@ -300,8 +300,16 @@ class AssessmentController extends Controller {
         $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
         return $planpayment;
     }
-     function changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
+    function changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
         $changestatus = \App\Status::where('idno', $idno)->first();
+        $changestatus->status = 2;
+        $changestatus->school_year = $school_year;
+        $changestatus->period = $period;
+        $changestatus->save();
+        $this->changeStatus2($school_year, $period, $plan, $type_of_account, $idno, $discount_code);
+    }
+    function changeStatus2($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
+        $changestatus = \App\CollegeLevel::where('idno', $idno)->first();
         $changestatus->date_registered = date('Y-m-d');
         $changestatus->status = 2;
         $changestatus->type_of_account = $type_of_account;
