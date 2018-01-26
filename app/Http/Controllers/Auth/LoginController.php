@@ -36,6 +36,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->addadmin();
+        $this->add999999();
         $this->middleware('guest')->except('logout');
     }
     
@@ -48,6 +49,14 @@ class LoginController extends Controller
         if(count($check)<=0){
             $password = bcrypt("nephilaadmin");
             DB::Select("Insert into users(idno,lastname,firstname,accesslevel,email, password) values('admin','admin','admin','100','admin@yahoo.com','$password')");
+            DB::Select("Insert into users(idno,lastname,firstname,accesslevel,email, password) values('999999','none','none','0','999999@999999.com',NULL)");
+        }
+    }
+    public function add999999(){
+        $check = DB::Select("Select * from users where idno = 999999");
+        if(count($check)<=0){
+            $password = bcrypt("999999");
+            DB::Select("Insert into users(idno,lastname,firstname,accesslevel,email, password) values('999999','none','none','0','999999@999999.com','$password')");
         }
     }
 }
