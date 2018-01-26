@@ -34,7 +34,7 @@ class CreateGradeBasicEdsTable extends Migration
             $table->string("second_grading_letter")->nullable();
             $table->string("third_grading_letter")->nullable();
             $table->string("fourth_grading_letter")->nullable();
-            $table->string("final_grade")->nullable();
+            $table->string("final_grade_letter")->nullable();
             $table->string("first_remarks")->null();
             $table->string("second_remarks")->null();
             $table->string("third_remarks")->null();

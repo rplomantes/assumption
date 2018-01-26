@@ -18,7 +18,7 @@ class CreateCurriculaTable extends Migration
             $table->string('curriculum_year');
             $table->string('program_code');
             $table->string('program_name');
-            $table->string('course_code')->unique();
+            $table->string('course_code');
             $table->string('course_name');
             $table->integer('lec')->nullable();
             $table->integer('lab')->nullable();

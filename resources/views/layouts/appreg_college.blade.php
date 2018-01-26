@@ -134,6 +134,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}"><i class="fa fa-circle-o"></i> <span>Curriculum</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','upload_curriculum'))}}"><i class="fa fa-circle-o"></i> <span>*Upload Curriculum</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','course_offering'))}}"><i class="fa fa-circle-o"></i> <span>Course Offering</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','course_schedule'))}}"><i class="fa fa-circle-o"></i> <span>Course Schedule</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}"><i class="fa fa-circle-o"></i> <span>Faculty Loading</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','edit_schedule'))}}"><i class="fa fa-circle-o"></i> <span>*Edit Schedule</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">
