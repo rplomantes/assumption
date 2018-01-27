@@ -86,7 +86,7 @@ Route::post('/registrar_college/instructor/modify_old_instructor', 'RegistrarCol
 Route::get('/registrar_college/reports/student_list/search','RegistrarCollege\Reports\StudentListController@search');
 Route::get('/registrar_college/reports/student_list/print_search/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_search');
 Route::get('/registrar_college/reports/student_list/per_course','RegistrarCollege\Reports\StudentListController@per_course');
-Route::get('/registrar_college/reports/student_list/print_per_course/{course_id}/{section}/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_per_course');
+Route::get('/registrar_college/reports/student_list/print_per_course/{course_id}/{section}/{section_name}/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_per_course');
 //Ajax Student List
 Route::get('/ajax/registrar_college/reports/student_list/search','RegistrarCollege\Reports\Ajax\StudentList_ajax@search');
 Route::get('/ajax/registrar_college/reports/student_list/select_section','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_section');

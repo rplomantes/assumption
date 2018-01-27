@@ -128,13 +128,15 @@
         });
     }
     
-    function select_course(school_year, period, level, program_code, section) {
+    function select_course(school_year, period, level, program_code, section, section_name) {
         array = {};
         array['school_year'] = school_year;
         array['period'] = period;
         array['level'] = level;
         array['program_code'] = program_code;
         array['section'] = section;
+        array['section_name'] = section_name;
+        
         $.ajax({
             type: "GET",
             url: "/ajax/registrar_college/reports/student_list/select_course",
@@ -160,16 +162,17 @@
         });
     }
     
-    function print_per_course(course_id, section,school_year, period, level, program_code) {
+    function print_per_course(course_id, section, section_name,school_year, period, level, program_code) {
         array = {};
         array['course_id'] = course_id;
         array['section'] = section;
+        array['section_name'] = section_name;
         array['school_year'] = school_year;
         array['period'] = period;
         array['level'] = level;
         array['program_code'] = program_code;
         
-        window.open('/registrar_college/reports/student_list/print_per_course/' + array['course_id'] + '/' + array['section'] + '/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
+        window.open('/registrar_college/reports/student_list/print_per_course/' + array['course_id'] + '/' + array['section'] + '/' + array['section_name'] + '/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
     }
 </script>
 @endsection

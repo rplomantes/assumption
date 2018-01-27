@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td class='no-border td'>Section:</td>
-            <td class='underline td'> {{$section}} </td>
+            <td class='underline td'> {{$section_name}} </td>
             <td class='no-border td'>Course:</td>
             <td class='underline td'> {{$course_code}} - {{$course_name}}</td>
         </tr>

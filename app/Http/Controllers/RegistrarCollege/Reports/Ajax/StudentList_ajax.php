@@ -41,7 +41,7 @@ class StudentList_ajax extends Controller {
                 $program_code = "and program_code = '" . $program_code . "'";
             }
 
-            $lists = DB::Select("Select * from statuses where status=3 $school_year $period $level $program_code");
+            $lists = DB::Select("Select * from college_levels where status=3 $school_year $period $level $program_code");
 
             return view('reg_college.reports.student_list.ajax.display_search', compact('lists'));
         }
@@ -78,7 +78,7 @@ class StudentList_ajax extends Controller {
                 $program_code = "and program_code = '" . $program_code . "'";
             }
 
-            $lists = DB::Select("Select distinct section from course_offerings where id is not null $school_year $period $level $program_code");
+            $lists = DB::Select("Select distinct section, section_name from course_offerings where id is not null $school_year $period $level $program_code");
 
             return view('reg_college.reports.student_list.ajax.display_section', compact('lists'));
         }
@@ -91,6 +91,7 @@ class StudentList_ajax extends Controller {
             $level = Input::get("level");
             $program_code = Input::get("program_code");
             $section = Input::get("section");
+            $section_name = Input::get("section_name");
 
             if ($school_year == "all") {
                 $school_year = "";

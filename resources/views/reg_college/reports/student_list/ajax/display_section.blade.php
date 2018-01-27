@@ -10,10 +10,10 @@
                 <div class='form-group'>
                     
                     <label>Select Section</label>
-                    <select name='section' id='section' class='form-control select2' style='width: 100%;' required="required" onchange="select_course(school_year.value, period.value, level.value, academic_program.value, this.value)">
+                    <select name='section' id='section' class='form-control select2' style='width: 100%;' required="required" onchange="select_course(school_year.value, period.value, level.value, academic_program.value, this.value, $(this).find(':selected').data('name'))">
                         <option value="all">All</option>
                         @foreach ($lists as $list)
-                        <option value="{{$list->section}}">{{$list->section}}</option>
+                        <option value='{{$list->section}}' data-name='{{$list->section_name}}'>{{$list->section_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -26,7 +26,7 @@
             </div>
     </div>
 </div>
-<script>
+<script>    
     $(function () {
         $('.select2').select2();
     });
