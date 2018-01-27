@@ -13,7 +13,6 @@
                         <th>#</th>
                         <th>Student ID</th>
                         <th>Student Name</th>
-                        <th>Section</th>
                         <th>Level</th>
                         <th>Program</th>
                     </tr>
@@ -30,7 +29,6 @@
                         <td>{{$counter}}</td>
                         <td>{{$list->idno}}</td>
                         <td>{{$user->firstname}} {{$user->lastname}}</td>
-                        <td>{{$status->section}}</td>
                         <td>{{$status->level}}</td>
                         <td>{{$status->program_code}}</td>
                     </tr>
