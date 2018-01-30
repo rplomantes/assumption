@@ -35,6 +35,10 @@ class CreateCollegeLevelsTable extends Migration
             $table->string('remarks')->nullable();
             $table->integer('is_new')->default(0);
             $table->timestamps();
+            $table->foreign('idno')
+                    ->references('idno')->on('users')
+                    ->onUpdate('cascade');
+            $table->timestamps();
         });
     }
 

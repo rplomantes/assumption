@@ -15,14 +15,14 @@ class NewStudentController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             return view('reg_college.admission.new_student', compact('programs'));
         }
     }
 
     function add_new_student(Request $request) {
-        if (Auth::user()->accesslevel == '20') {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $this->validate($request, [
                 'firstname' => 'required',
                 'lastname' => 'required',
