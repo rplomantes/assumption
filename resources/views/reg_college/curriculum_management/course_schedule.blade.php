@@ -3,7 +3,6 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
 $program_codes = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['program_code']);
 
 $levels = \App\CourseOffering::distinct()->orderBy('level')->get(['level']);
-$sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section', 'section_name']);
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -70,7 +69,7 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section',
                         <div class="col-md-4">
                             <div class="form-group" id="level-form">
                                 <label>Level</label>
-                                <select id="level" class="form-control select2" style="width: 100%;">
+                                <select id="level" class="form-control select2" style="width: 100%;" onchange="getsection(this.value, program_code.value)">
                                     <option value=" ">Select Level</option>
                                     @foreach ($levels as $level)
                                     <option value="{{$level->level}}">{{$level->level}}</option>
@@ -79,14 +78,8 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section',
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group" id="section-form">
-                                <label>Section</label>
-                                <select id="section" class="form-control select2" style="width: 100%;" onchange="courses_offered(program_code.value)">
-                                    <option value=" ">Select Section</option>
-                                    @foreach ($sections as $section)
-                                    <option value="{{$section->section}}">{{$section->section_name}}</option>
-                                    @endforeach
-                                </select>
+                            <div id="section-form">
+                                
                             </div>
                         </div>
                     </div>                    
@@ -106,10 +99,10 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section',
     $("#courses_offered").hide();
 
     $("#program-form").change(function () {
+        $("#courses_offered").hide();
+        $("#level-form").hide();
+        $("#section-form").hide();
         $("#level-form").fadeIn();
-    });
-    $("#level-form").change(function () {
-        $("#section-form").fadeIn();
     });
     $("#section-form").change(function () {
         $("#courses_offered").fadeIn();
@@ -129,6 +122,24 @@ $sections = \App\CourseOffering::distinct()->orderBy('section')->get(['section',
             data: array,
             success: function (data) {
                 $('#courses_offered').fadeIn().html(data);
+            }
+
+        });
+    }
+    
+    function getsection(level, program_code) {
+        $("#courses_offered").hide();
+        array = {}
+        array['level'] = level;
+        array['program_code'] = program_code;
+        array['school_year'] = $("#school_year").val();
+        array['period'] = $("#period").val();
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/curriculum_management/get_section/",
+            data: array,
+            success: function (data) {
+                $('#section-form').fadeIn().html(data);
             }
 
         });

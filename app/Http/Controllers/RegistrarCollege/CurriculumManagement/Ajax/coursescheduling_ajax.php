@@ -77,5 +77,26 @@ class coursescheduling_ajax extends Controller {
             return view('reg_college.curriculum_management.ajax.show_available_rooms', compact('day', 'time_start', 'time_end', 'course_offering_id', 'school_year', 'rooms', 'available_rooms', 'is_conflict'));
         }
     }
+    
+    function get_section() {
+        if (Request::ajax()) {
+            $level = Input::get("level");
+            $program_code = Input::get("program_code");
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            
+            $sections = \App\CourseOffering::distinct()->where('level', $level)->where('program_code', $program_code)->where('school_year', $school_year)->where('period', $period)->orderBy('section')->get(['section', 'section_name']);
+            
+            $data = "<div class='form-group'><label>Section</level>"
+                    . "<select id='section' class='form-control select2' style='width: 100%;' onchange='courses_offered(program_code.value)'>"
+                    . "<option value=''>Select Section</option>";
+            foreach($sections as $section){
+                $data = $data."<option value=".$section->section.">".$section->section_name."</option>";
+            }
+            $data = $data."</select></div>";
+            
+            return $data;
+        }
+    }
 
 }

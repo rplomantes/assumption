@@ -57,6 +57,7 @@ Route::get('/registrar_college/curriculum_management/unmerged_schedule/{course_o
 //Ajax Course Schedule
 Route::get('/ajax/registrar_college/curriculum_management/course_to_schedule/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@listcourse_to_schedule');
 Route::get('/ajax/registrar_college/curriculum_management/show_available_rooms/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@show_available_rooms');
+Route::get('/ajax/registrar_college/curriculum_management/get_section/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@get_section');
 //Assign Instructor
 Route::get('/registrar_college/curriculum_management/faculty_loading', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@index');
 Route::get('/registrar_college/curriculum_management/edit_faculty_loading/{idno}', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@edit_faculty_loading');
@@ -101,7 +102,7 @@ Route::get('/dean/viewrecord/{idno}','Dean\Record@view');
 Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
 //Assessment////////////////////////////////////////////////////////////////////
 Route::get('/dean/advising/{idno}','Dean\Advising\Advising@advising');
-Route::get('/dean/advising/confirm_advised/{idno}/{program_code}/{level}/{curriculum_year}','Dean\Advising\Advising@confirm_advised');
+Route::get('/dean/advising/confirm_advised/{idno}/{program_code}/{level}/{curriculum_year}/{section}','Dean\Advising\Advising@confirm_advised');
 Route::get('/dean/advising/print_advising_slip/{idno}','Dean\Advising\Advising@print_advising_slip');
 //Ajax Assessment
 Route::get('/ajax/dean/advising/get_section', 'Dean\Advising\Ajax\advising_ajax@get_section');
@@ -110,5 +111,14 @@ Route::get('/ajax/dean/advising/add_to_course_offered','Dean\Advising\Ajax\advis
 Route::get('/ajax/dean/advising/remove_to_course_offered','Dean\Advising\Ajax\advising_ajax@remove_to_course_offered');
 Route::get('/ajax/dean/advising/get_offering_per_search','Dean\Advising\Ajax\advising_ajax@get_offering_per_search');
 Route::get('/ajax/dean/advising/add_all_courses','Dean\Advising\Ajax\advising_ajax@add_all_courses');
+
 //SRF
-Route::get('/dean/srf','Dean\srf@index');
+Route::get('/dean/srf','Dean\SRF\srf@index');
+Route::get('/dean/srf/modify/{course_code}','Dean\SRF\srf@modify_srf');
+Route::post('/dean/srf/set_srf','Dean\SRF\srf@set_srf');
+//Print SRF
+Route::get('/dean/srf/print_srf','Dean\SRF\srf@print_index');
+Route::get('/dean/srf/print_srf_now/{program_code}/{level}/{period}/{curriculum_year}','Dean\SRF\srf@print_srf_now');
+//Ajax SRF
+Route::get('/ajax/dean/srf/get_list','Dean\SRF\Ajax\setup@get_list');
+Route::get('/ajax/dean/srf/print_get_list','Dean\SRF\Ajax\setup@print_list');

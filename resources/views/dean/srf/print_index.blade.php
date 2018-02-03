@@ -25,12 +25,12 @@
 @section('header')
 <section class="content-header">
     <h1>
-        Subject Related Fee
+        Print SRF
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-home"></i> Home</li>
-        <li class="active"><a href="{{url('/dean/srf')}}"> Subject Related Fee</a></li>
+        <li class="active"><a href="{{url('/dean/srf/print_srf')}}"> Print SRF</a></li>
     </ol>
 </section>
 @endsection
@@ -57,6 +57,17 @@
                     </div>
                 </div>
                 <div class="col-md-3">
+                    <div class="form-group" id="curriculum-form">
+                        <label>Curriculum Year</label>
+                        <select class="form form-control select2" id="curriculum_year" style="width: 100%;">
+                            <option value="">Select Curriculum Year</option>
+                            @foreach ($curriculum_years as $curriculum_year)
+                            <option value="{{$curriculum_year->curriculum_year}}">{{$curriculum_year->curriculum_year}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
                     <div class="form-group" id="level-form">
                         <label>Level</label>
                         <select class="form form-control select2" id="level" style="width: 100%;">
@@ -68,7 +79,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group" id="period-form">
                         <label>Period</label>
                         <select class="form form-control select2" id="period" style="width: 100%;">
@@ -79,22 +90,22 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group" id="submit-form">
                         <label><br></label>
-                        <button type="submit" class="btn btn-success col-sm-12" onclick="displayResult(program.value,level.value,period.value)">Search</button>
+                        <button type="submit" class="btn btn-success col-sm-12" onclick="displayResult(program.value,curriculum_year.value,level.value,period.value)">Search</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>        
 </div>
-<div class="col-md-12">
+<div class="col-md-12" id="bb">
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title"><span class='fa fa-edit'></span> Set Up</h3>
+            <h3 class="box-title"><span class='fa fa-edit'></span> Result</h3>
+            <a onclick='print_search(program.value,curriculum_year.value,level.value,period.value)'><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
         </div>
         <div class="box-body">
@@ -108,36 +119,60 @@
 <script>
     $("#level-form").hide();
     $("#period-form").hide();
+    $("#curriculum-form").hide();
     $("#submit-form").hide();
+    $("#bb").hide();
 
     $("#program-form").change(function () {
         $("#period-form").hide();
         $("#submit-form").hide();
+        $("#level-form").hide();
+    $("#bb").hide();
+        $("#curriculum-form").fadeIn();
+    });
+    $("#curriculum-form").change(function () {
+        $("#submit-form").hide();
+    $("#bb").hide();
+        $("#period-form").hide();
         $("#level-form").fadeIn();
     });
     $("#level-form").change(function () {
         $("#submit-form").hide();
+    $("#bb").hide();
         $("#period-form").fadeIn();
     });
     $("#period-form").change(function () {
+    $("#bb").hide();
         $("#submit-form").fadeIn();
     });
 </script>  
 <script>
-    function displayResult(program,level,period) {
+    function displayResult(program,curriculum_year,level,period) {
         array = {};
         array['program_code'] = program;
         array['level'] = level;
         array['period'] = period;
+        array['curriculum_year'] = curriculum_year;
         $.ajax({
             type: "GET",
-            url: "/ajax/dean/srf/get_list/",
+            url: "/ajax/dean/srf/print_get_list/",
             data: array,
             success: function (data) {
+                $('#bb').fadeIn();
                 $('#result').html(data);
             }
 
         });
+    }
+    
+    function print_search(program,curriculum_year,level,period) {
+        array = {};
+        array['program_code'] = program;
+        array['level'] = level;
+        array['period'] = period;
+        array['curriculum_year'] = curriculum_year;
+        
+        window.open('/dean/srf/print_srf_now/' + array['program_code'] + "/" + array['level'] + "/" + array['period'] + "/" + array['curriculum_year'], "_blank") ;
     }
 </script>
 @endsection

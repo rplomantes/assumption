@@ -302,11 +302,11 @@ class AssessmentController extends Controller {
     }
     function changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
         $changestatus = \App\Status::where('idno', $idno)->first();
-        $changestatus->status = 2;
+        $changestatus->status = env('ASSESSED');
         $changestatus->school_year = $school_year;
         $changestatus->period = $period;
         $changestatus->save();
-        $this->changeStatus2($school_year, $period, $plan, $type_of_account, $idno, $discount_code);
+        //$this->changeStatus2($school_year, $period, $plan, $type_of_account, $idno, $discount_code);
     }
     function changeStatus2($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
         $changestatus = \App\CollegeLevel::where('idno', $idno)->first();

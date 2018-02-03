@@ -42,8 +42,7 @@
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
 $user = \App\User::where('idno', $idno)->first();
-$status_level = \App\Status::where('idno', $idno)->first();
-$status = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status_level->school_year)->where('period', $status_level->period)->first();
+$status = \App\Status::where('idno', $idno)->first();
 ?>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{url('/images','assumption-logo.png')}}"></div>
@@ -76,6 +75,8 @@ $status = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status_
             <tr style='background: #a0a0a0'>
                 <th class='td'><b>Course Code</b></th>
                 <th class='td'><b>Course Name</b></th>
+                <th class='td' align="center"><b>Schedule</b></th>
+                <th class='td' align="center"><b>Instructor</b></th>
                 <th class='td' align="center"><b>Units</b></th>
             </tr>    
         </thead>
@@ -83,15 +84,49 @@ $status = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status_
             @foreach($grade_colleges as $grade_college)
             <?php
             $units = $units + $grade_college->lec + $grade_college->lab;
+            $offering_ids = \App\CourseOffering::find($grade_college->course_offering_id);
             ?>
             <tr>
                 <td class='td'>{{$grade_college->course_code}}</td>
                 <td class='td'>{{$grade_college->course_name}}</td>
+                <td class='td'>
+                    <?php
+                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+                    ?>   
+                    @foreach ($schedule3s as $schedule3)
+                    {{$schedule3->room}}
+                    @endforeach
+                    <?php
+                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+                    ?>
+                    @foreach ($schedule2s as $schedule2)
+                    <?php
+                    $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                    ?>
+                    <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                    [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                    @endforeach
+                </td>
+                <td class="td">
+                <?php
+                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
+                    $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
+
+                    foreach($schedule_instructor as $get){
+                        if ($get->instructor_id != NULL){
+                            $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                            echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                        } else {
+                        echo "";
+                        }
+                    }
+                ?>
+                </td>
                 <td class='td' align='center'>{{$grade_college->lec+$grade_college->lab}}</td>
             </tr>
             @endforeach
             <tr style="background: #a0a0a0">
-                <td class='td' colspan="2"><strong>Total Units</strong></td>
+                <td class='td' colspan="4"><strong>Total Units</strong></td>
                 <td class='td' align='center'><strong>{{$units}}</strong></td>
             </tr>
         </tbody>

@@ -102,7 +102,17 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                        <li><a href="{{url('dean', array('srf'))}}"><i class="fa fa-money" aria-hidden="true"></i> <span>Subject Related Fee</span></a></li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-money"></i> <span>Subject Related Fee</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('dean', array('srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Set SRF</span></a></li>
+                                <li><a href="{{url('dean', array('srf', 'print_srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>*Print SRF</span></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </section>
             </aside>
@@ -182,6 +192,13 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                 Pace.restart()
             });
         </script>
+        <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+        <script>
+           $(function () {
+               $('.select2').select2();
+           });
+        </script>
+        <script src="{{asset('bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
         @yield('footerscript')
     </body>
 </html>

@@ -108,7 +108,8 @@ class advising_ajax extends Controller {
     }
 
     public function getSchedule($course_offering_id) {
-        $schedules = \App\ScheduleCollege::distinct()->where('course_offering_id', $course_offering_id)->get(['time_start', 'time_end', 'room']);
+        $offering_id = \App\CourseOffering::find($course_offering_id);
+        $schedules = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['time_start', 'time_end', 'room']);
         $data = "";
         $whatDay = "";
         $finalSched = "";

@@ -1,7 +1,6 @@
 <?php
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
-$status_level = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 ?>
 <?php
@@ -74,21 +73,21 @@ $units = 0;
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         @if(count($status)>0)
-                        @if($status_level->is_new == "0")
-                        <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
-                        <li><a href="#">Previous Program <span class="pull-right">{{$status_level->program_code}}</span></a></li>
-                        <li><a href="#">Previous Level <span class="pull-right">{{$status_level->level}}</span></a></li>
-                        <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
-                        @else
+                            @if($status->is_new == "0")
+                            <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
+                            <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                            <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
+                            <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
+                            @else
+                            <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
+                            <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                            <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                            <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
+                            @endif
+                        @else 
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
-                        <li><a href="#">Program <span class="pull-right">{{$status_level->program_code}}</span></a></li>
-                        <li><a href="#">Level <span class="pull-right">{{$status_level->level}}</span></a></li>
-                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
-                        @endif
-                        @else    
-                        <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
-                        <li><a href="#">Program <span class="pull-right">{{$status_level->program_code}}</span></a></li>
-                        <li><a href="#">Level <span class="pull-right">{{$status_level->level}}</span></a></li>
+                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
                         <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @endif
                     </ul>
@@ -119,6 +118,7 @@ $units = 0;
                             @foreach($grade_colleges as $grade_college)
                             <?php
                             $units = $units + $grade_college->lec + $grade_college->lab;
+                            $offering_ids = \App\CourseOffering::find($grade_college->course_offering_id);
                             ?>
                             <tr>
                                 <td>{{$grade_college->course_code}}</td>
@@ -126,17 +126,17 @@ $units = 0;
                                 <td>{{$grade_college->lec+$grade_college->lab}}</td>
                                 <td>
                                     <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('course_offering_id', $grade_college->course_offering_id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
                                     ?>   
                                     @foreach ($schedule3s as $schedule3)
                                     {{$schedule3->room}}
                                     @endforeach
                                     <?php
-                                    $schedule2s = \App\ScheduleCollege::distinct()->where('course_offering_id', $grade_college->course_offering_id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
                                     ?>
                                     @foreach ($schedule2s as $schedule2)
                                     <?php
-                                    $days = \App\ScheduleCollege::where('course_offering_id', $grade_college->course_offering_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                    $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
                                     [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
