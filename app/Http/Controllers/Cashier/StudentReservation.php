@@ -113,7 +113,22 @@ class StudentReservation extends Controller
     public static function postPayment($request,$reference_id){
         $remarks="";
         $paidby = \App\User::where('idno',$request->idno)->first();
+        $status = \App\Status::where('idno',$request->idno)->first();
+        
         $adddpayment = new \App\Payment;
+        if(count($status)>0){
+            if($status->status <= env("ASSESSED")){}
+                if($status->academic_type=="College"){
+                   $level= \App\CollegeLevel::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
+                   $adddpayment->program_code = $level->program_code;
+                   $adddpayment->level = $level->level;
+                   
+                } else {
+                    $level = \App\BedLevel::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
+                    $adddpayment->level = $level->level;
+                    $addpayment->section = $level->section;
+                }
+            }
         $adddpayment->transaction_date = date('Y-m-d');
         $adddpayment->receipt_no=  StudentLedger::getreceipt();
         $adddpayment->reference_id=$reference_id;

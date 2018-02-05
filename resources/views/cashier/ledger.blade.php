@@ -75,20 +75,31 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 echo "<tr><td>Status : </td><td>Alreary Advised but Not Assessed Yet</td><tr>";
                 break;
             case env("ASSESSED"):
-                if($status->academic_type=="College"){
-                 echo "<tr><td>Program/Level : </td><td>".$status->program_code ." - ".$status->level."</td><tr>";    
-                } else {
                 echo "<tr><td>Status : </td><td>Assessed</td><tr>";
-                if($status->department=="Senior High School"){
-                echo "<tr><td>Tracks : </td><td>".$status->track."</td><tr>";    
-                }
-                echo "<tr><td>Level/Section : </td><td>".$status->level ." - ".$status->section."</td><tr>";
-                }
+                    if($status->academic_type=="College"){     
+                        if(count($levels)>0){
+                        echo "<tr><td>Program/Level : </td><td>".$levels->program_code ." - ".$levels->level."</td><tr>";    
+                        }
+                        
+                    } else {
+                    
+                    if($levels->department=="Senior High School"){
+                        echo "<tr><td>Tracks : </td><td>".$levels->track."</td><tr>";    
+                    }
+                    echo "<tr><td>Level/Section : </td><td>".$levels->level ." - ".$levels->section."</td><tr>";
+                    
+                    
+                    }
+                    
                 break;
             case env("ENROLLED"):
                  echo "<tr><td>Status : </td><td>Enrolled</td><tr>";
-                 echo "<tr><td>Level/Section : </td><td>".$status->level ." - ".$status->section."</td><tr>";
-                break;
+                if($status->academic_type=="College"){
+                 echo "<tr><td>Level/Section : </td><td>".$levels->program_code ." - ".$levels->level."</td><tr>";
+                } else {
+                    
+                }
+                 break;
             case 4:
                  echo "<tr><td>Status : </td><td>Dropped</td><tr>";
             }

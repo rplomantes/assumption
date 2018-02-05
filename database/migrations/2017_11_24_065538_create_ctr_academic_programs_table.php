@@ -22,8 +22,8 @@ class CreateCtrAcademicProgramsTable extends Migration
             $table->string('program_code')->nullable();
             $table->string('program_name')->nullable();
             $table->string('level')->nullable();
-            $table->string('track_code')->nullable();
-            $table->string('track_name')->nullable();
+            $table->string('strand')->nullable();
+            $table->string('strand_name')->nullable();
             $table->timestamps();
         });
     }

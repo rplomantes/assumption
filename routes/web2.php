@@ -53,8 +53,10 @@ Route::post('/accounting/set_other_payment','Accounting\AddAccount@post_set_othe
 Route::get('/accounting/remove_set_other_payment/{id}','Accounting\AddAccount@remove_set_other_payment');
 Route::get('/accounting/cash_receipt','Accounting\BookOfAccount@cash_receipt');
 //BED registrar
-Route::get('bedregistrar/assess/{$idno}','BedRegistrar\Assess@assess');
-Route::get('bedregistrar/enrollment_statistics/{school_year}','BedRegistrar\Assess@enrollment_statistics');
+Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
+Route::get('/bedregistrar/enrollment_statistics/{school_year}','BedRegistrar\Assess@enrollment_statistics');
+Route::get('/bedregistrar/registration','BedRegistrar\Registration@register');
+Route::post('/bedregistrar/registration','BedRegistrar\Registration@post_register');
 //update
 //Route::get('updatebedlevel','Updater@updateBedLevel');
 
