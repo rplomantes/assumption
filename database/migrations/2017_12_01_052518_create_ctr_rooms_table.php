@@ -16,7 +16,7 @@ class CreateCtrRoomsTable extends Migration
         Schema::create('ctr_rooms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('room');
-            $table->string('building');
+            $table->string('building')->nullable();
             $table->timestamps();
         });
     }

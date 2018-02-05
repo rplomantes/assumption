@@ -1,10 +1,20 @@
 @if(count($lists)>0)
 <div class='table-responsive'>
 <table class="table table-striped table-condensed">
-    <tr><th>Student ID</th><th>Student Name</th><th>Assessment</th></tr>
+    <tr>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Student Record</th>
+        <th>Assessment</th>
+    </tr>
     @foreach($lists as $list)
     @if($list->accesslevel == '0')
-    <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td><td><a href="{{url('registrar_college',array('assessment',$list->idno))}}">Assessment</a></td>
+    <tr>
+        <td>{{$list->idno}}</td>
+        <td>{{$list->lastname}}, {{$list->firstname}}</td>
+        <td><a href="{{url('registrar_college')}}">Student Record</a></td>
+        <td><a href="{{url('registrar_college',array('assessment',$list->idno))}}">Assessment</a></td>
+        
     </tr>
     @endif
     @endforeach
