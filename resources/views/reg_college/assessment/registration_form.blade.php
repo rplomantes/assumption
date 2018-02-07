@@ -36,7 +36,7 @@
         <td width='15%'>Student No:</td>
         <td width="55%" style="border-bottom: 1pt solid black;"><b>{{strtoupper($user->idno)}}</b></td>
         <td><div align='left'>Date:</div></td>
-        <td colspan="2" style="border-bottom: 1pt solid black;">{{$status->date_assessed}}</td>
+        <td colspan="2" style="border-bottom: 1pt solid black;">{{$status->date_registered}}</td>
     </tr>
     <tr>
         <td>Name:</td>
@@ -46,7 +46,7 @@
     </tr>
     <tr>
         <td>Course/Level:</td>
-        <td colspan="4" style="border-bottom: 1pt solid black;">{{$status->program_code}} - {{$status->level}}</td>
+        <td colspan="4" style="border-bottom: 1pt solid black;">{{$status->program_name}} - {{$status->level}}</td>
     </tr>
 </table>
 <br><b>REGISTRATION</b><br>
@@ -248,7 +248,7 @@ foreach ($discounts as $discount) {
 <tr>
     <td class="tdd">
 <center>Approved by:<br><br>
-    ____________________________<br><strong>NAME</strong><br><small>School Registrar</small>
+    ____________________________<br><strong></strong><br><small>School Registrar</small>
 </center>
 </td>
 </tr>

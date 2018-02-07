@@ -16,11 +16,14 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idno');
+            $table->date('date_advised')->nullable();
             $table->date('date_registered')->nullable();
             $table->date('date_enrolled')->nullable();
             $table->date('date_dropped')->nullable();
-            $table->string('academic_type');
-            $table->string('status')->default(0);
+            $table->string('academic_type')->nullable();
+            $table->string('academic_code')->nullable();
+            $table->integer('status')->default(0);
+            $table->string('department')->nullable();
             $table->string('program_code')->nullable();
             $table->string('program_name')->nullable();
             $table->string('level')->nullable();
@@ -30,8 +33,6 @@ class CreateStatusesTable extends Migration
             $table->string('school_year')->nullable();
             $table->string('period')->nullable();
             $table->integer('is_new')->default(1);
-            $table->string('department')->nullable();
-            $table->string('academic_code')->nullable();
             $table->string('type_of_plan')->nullable();
             $table->string('type_of_account')->nullable();
             $table->string('type_of_discount')->nullable();

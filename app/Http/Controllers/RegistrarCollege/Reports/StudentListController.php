@@ -56,7 +56,7 @@ class StudentListController extends Controller {
                 $program_code = "and program_code = '" . $program_code . "'";
             }
 
-            $lists = DB::Select("Select * from college_levels where status=3 $school_year $period $level $program_code");
+            $lists = DB::Select("Select * from college_level where status=3 $school_year $period $level $program_code");
             //$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
 
             $pdf = PDF::loadView('reg_college.reports.student_list.print_search', compact('lists', 'school_years', 'periods', 'levels', 'program_codes'));

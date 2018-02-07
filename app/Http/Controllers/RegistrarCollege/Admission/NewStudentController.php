@@ -44,7 +44,7 @@ class NewStudentController extends Controller {
             DB::beginTransaction();
             $reference_no = uniqid();
             $this->adduser($request, $reference_no);
-            //$this->addstatus($request, $reference_no);
+            $this->addstatus($request, $reference_no);
             $this->addstudentinfo($request, $reference_no);
             $this->addregistration($request, $reference_no);
             DB::commit();
@@ -75,16 +75,16 @@ class NewStudentController extends Controller {
 
     function addstatus($request, $reference_no) {
 
-        //$program_to_enroll = $request->program_to_enroll;
+        $program_to_enroll = $request->program_to_enroll;
 
         $add_new_status = new \App\Status;
         $add_new_status->idno = $reference_no;
-        $add_new_status->date_registered = date('Y-m-d');
         $add_new_status->is_new = 1;
         $add_new_status->status = 0; //registered
-        //$add_new_status->academic_type = "College";
-        //$add_new_status->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
-        //$add_new_status->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+        $add_new_status->academic_type = "College";
+        //$add_new_status->academic_code = $this->get_academic_code($program_to_enroll);
+        $add_new_status->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
+        $add_new_status->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
         //$add_new_status->department = $this->get_department($program_to_enroll);
         //$add_new_status->program_code = $program_to_enroll;
         //$add_new_status->program_name = $this->get_program_name($program_to_enroll);
@@ -132,9 +132,9 @@ class NewStudentController extends Controller {
 
     function addregistration($request, $reference_no) {
 
-        $program_to_enroll = $request->program_to_enroll;
+        //$program_to_enroll = $request->program_to_enroll;
 
-        $add_new_registration = new \App\Registration;
+        $add_new_registration = new \App\Admission;
         $add_new_registration->idno = $reference_no;
         $add_new_registration->registration_date = date('Y-m-d');
         //$add_new_registration->department = $this->get_department($program_to_enroll);
@@ -152,6 +152,11 @@ class NewStudentController extends Controller {
     function get_program_name($program_to_enroll) {
         $program_name = \App\CtrAcademicProgram::where('program_code', $program_to_enroll)->first()->program_name;
         return $program_name;
+    }
+    
+    function get_academic_code($program_to_enroll) {
+        $academic_code = \App\CtrAcademicProgram::where('program_code', $program_to_enroll)->first()->academic_code;
+        return $academic_code;
     }
 
 }

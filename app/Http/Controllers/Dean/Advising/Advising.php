@@ -20,8 +20,8 @@ class Advising extends Controller {
         if (Auth::user()->accesslevel == env('DEAN')) {
 //            $advising_status = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->is_available;
 //            if ($advising_status == 1) {
-                $status = \App\Status::where('idno', $idno)->first();
-                if (count($status) == 0) {
+                $status_is_new = \App\Status::where('idno', $idno)->first()->is_new;
+                if ($status_is_new == 1) {
                     return view('dean.advising.advise_new_reg', compact('status', 'idno'));
                 } else {
                     $student_info = \App\StudentInfo::where('idno', $idno)->first();
@@ -80,6 +80,7 @@ class Advising extends Controller {
 
                 $updatestatus = \App\Status::where('idno', $idno)->first();
                 $updatestatus->status = env('ADVISING');
+                $updatestatus->date_advised = date('Y-m-d');
                 $updatestatus->academic_type = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->academic_type;
                 $updatestatus->academic_code = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->academic_code;
                 $updatestatus->program_code = "$program_code";

@@ -23,8 +23,7 @@
                     <?php $counter = $counter + 1; ?>
                     <?php $user = \App\User::where('idno', $list->idno)->first(); ?>
                     <?php $student_info = \App\StudentInfo::where('idno', $list->idno)->first(); ?>
-                    <?php $statusee = \App\Status::where('idno', $list->idno)->first(); ?>
-                    <?php $status = \App\CollegeLevel::where('idno', $list->idno)->where('school_year', $statusee->school_year)->where('period', $statusee->period)->first(); ?>
+                    <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
                     <tr>
                         <td>{{$counter}}</td>
                         <td>{{$list->idno}}</td>

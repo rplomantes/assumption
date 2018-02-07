@@ -41,7 +41,7 @@ class StudentList_ajax extends Controller {
                 $program_code = "and program_code = '" . $program_code . "'";
             }
 
-            $lists = DB::Select("Select * from college_levels where status=3 $school_year $period $level $program_code");
+            $lists = DB::Select("Select * from college_level where status=3 $school_year $period $level $program_code");
 
             return view('reg_college.reports.student_list.ajax.display_search', compact('lists'));
         }

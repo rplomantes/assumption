@@ -54,9 +54,9 @@
                         </tr>
                         @foreach ($academic_programs as $academic_program)
                         <?php
-                        $advised = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('status', 1)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
-                        $enrollees = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
-                        $assessed  = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
+                        $advised = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 1)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
+                        $enrollees = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
+                        $assessed  = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
                         ?>
                         <tr>
                             <td>{{$academic_program->level}}</td>
@@ -80,6 +80,7 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Department</th>
+                            <th>Advised</th>
                             <th>Assessed</th>
                             <th>Enrolled</th>
                         </tr>
@@ -90,9 +91,9 @@
                         ?>
                         @foreach ($departments as $department)
                         <?php
-                        $advised = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('status', 1)->where('department', $department->department)->get();
-                        $enrollees = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('department', $department->department)->get();
-                        $assessed  = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('department', $department->department)->get();
+                        $advised = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 1)->where('department', $department->department)->get();
+                        $enrollees = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('department', $department->department)->get();
+                        $assessed  = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('department', $department->department)->get();
                         ?>
                         <tr>
                             <td>{{$department->department}}</td>

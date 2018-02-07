@@ -14,6 +14,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
+<link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 @extends("layouts.appdean_college")
 @section('messagemenu')
 <li class="dropdown messages-menu">
@@ -150,7 +151,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-md-4 level">     
                             <label>Level</label>     
-                            <select id="level" class="form-control select2" onchange="get_section(this.value, program_code.value)">
+                            <select id="level" class="form-control" onchange="get_section(this.value, program_code.value)">
                                 <option value="">Select Level</option>
                                 <option value="1st Year">1st Year</option>
                                 <option value="2nd Year">2nd Year</option>
@@ -160,7 +161,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-md-4 section">     
                             <label>Section</label>     
-                            <select id="section" name="section" class="form-control select2">
+                            <select id="section" name="section" class="form-control">
 
                             </select>    
                         </div>

@@ -58,6 +58,48 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-2">
+                            <div class="form-group" id="year_level-form">
+                                <label>Year Level</label>
+                                <select id="year_level" class="form-control select2" style="width: 100%;">
+                                    <option value=" ">Select Year Level</option>
+                                    @foreach ($levels as $level)
+                                    <option value="{{$level->level}}">{{$level->level}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group" id="section-form">
+                                <label>Section</label>
+                                <select id="section" class="form-control select2" style="width: 100%;" onchange="getList('{{$program_code}}')">
+                                    <option value=" ">Select Section</option>
+                                    <option value="1">Section 1</option>
+                                    <option value="2">Section 2</option>
+                                    <option value="3">Section 3</option>
+                                    <option value="4">Section 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" id="section_name-form">
+                                <label>Section Name</label>
+                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name" onchange="getList('{{$program_code}}')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Search Courses</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2">
                             <div class="form-group" id="curriculum_year-form">
                                 <label>Curriculum Year</label>
                                 <select id="curriculum_year" class="form-control select2" style="width: 100%;">
@@ -82,30 +124,12 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                         <div class="col-md-2" id="period-form">
                             <div class="form-group">
                                 <label>Period</label>
-                                <select id="period" class="form-control select2" style="width: 100%;">
+                                <select id="period" class="form-control select2" style="width: 100%;" onchange="getList('{{$program_code}}')">
                                     <option value=" ">Select Period</option>
                                     @foreach ($periods as $period)
                                     <option value="{{$period->period}}">{{$period->period}}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group" id="section-form">
-                                <label>Section</label>
-                                <select id="section" class="form-control select2" style="width: 100%;" onchange="getList('{{$program_code}}')">
-                                    <option value=" ">Select Section</option>
-                                    <option value="1">Section 1</option>
-                                    <option value="2">Section 2</option>
-                                    <option value="3">Section 3</option>
-                                    <option value="4">Section 4</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group" id="section_name-form">
-                                <label>Section Name</label>
-                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name" onchange="getList('{{$program_code}}')">
                             </div>
                         </div>
                     </div>
@@ -137,7 +161,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     $("#level-form").change(function(){
         $("#period-form").fadeIn();
     });
-    $("#period-form").change(function(){
+    $("#year_level-form").change(function(){
         $("#section-form").fadeIn();
     });
     $("#section-form").change(function(){
@@ -164,7 +188,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
 
     function getCourseOffered(array, program_code){
     array['curriculum_year'];
-    array['level'];
+    array['level'] = $("#year_level").val();
     array['period'];
     array['section'];
     $.ajax({
@@ -181,7 +205,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     function addtocourseoffering(course_code) {
     array = {};
     array['curriculum_year'] = $("#curriculum_year").val();
-    array['level'] = $("#level").val();
+    array['level'] = $("#year_level").val();
     array['period'] = $("#period").val();
     array['section'] = $("#section").val();
     array['section_name'] = $("#section_name").val();
@@ -203,7 +227,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     array['curriculum_year'] = $("#curriculum_year").val();
     array['section'] = $("#section").val();
     array['section_name'] = $("#section_name").val();
-    array['level'] = $("#level").val();
+    array['level'] = $("#year_level").val();
     array['period'] = $("#period").val();
     array['course_code'] = $("#course_code").val();
     $.ajax({
