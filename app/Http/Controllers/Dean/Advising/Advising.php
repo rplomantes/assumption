@@ -24,6 +24,7 @@ class Advising extends Controller {
                 if ($status_is_new == 1) {
                     return view('dean.advising.advise_new_reg', compact('status', 'idno'));
                 } else {
+                    $status = \App\Status::where('idno', $idno)->first();
                     $student_info = \App\StudentInfo::where('idno', $idno)->first();
                     if ($status->status == 0) {
                         return view('dean.advising.advise', compact('status', 'idno'));
