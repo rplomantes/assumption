@@ -119,14 +119,14 @@ class StudentReservation extends Controller
         if(count($status)>0){
             if($status->status <= env("ASSESSED")){}
                 if($status->academic_type=="College"){
-                   $level= \App\CollegeLevel::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
+                   $level= \App\Status::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
                    $adddpayment->program_code = $level->program_code;
                    $adddpayment->level = $level->level;
                    
                 } else {
-                    $level = \App\BedLevel::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
+                    $level = \App\Status::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
                     $adddpayment->level = $level->level;
-                    $addpayment->section = $level->section;
+                    $adddpayment->section = $level->section;
                 }
             }
         $adddpayment->transaction_date = date('Y-m-d');

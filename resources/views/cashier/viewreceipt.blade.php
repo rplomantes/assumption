@@ -63,8 +63,8 @@ if(Auth::user()->accesslevel==env("CASHIER")){
         <tr><th>Name:</th><td><b> {{$payment->paid_by}}</b></td><td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td><tr>
         @if(count($status)>0)
         @if($status->status==3)
-            @if($status->department=="College")
-            <tr><th>Course / Level</th><td>{{$status->program_code}} / {{$tatus->level}}</td><td></td></tr>
+            @if($status->academic_type=="College")
+            <tr><th>Course / Level</th><td>{{$status->program_code}} / {{$status->level}}</td><td></td></tr>
             @else
             <tr><th>Level / Section</th><td>{{$status->level}}</td><td></td></tr>
             @endif

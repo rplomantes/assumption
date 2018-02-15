@@ -59,9 +59,9 @@ class StudentLedger extends Controller
       $totaldue=  $totalmaindue+$due_others + $due_previous;
       $status = \App\Status::where('idno',$idno)->first();
       if($status->academic_type=="BED"){
-      $levels = \App\BedLevel::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();   
+      $levels = \App\Status::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();   
       } else if($status->academic_type=="College"){
-      $levels=  \App\CollegeLevel::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();    
+      $levels=  \App\Status::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();    
       }
       
       $payments =  \App\Payment::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();

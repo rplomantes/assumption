@@ -28,6 +28,7 @@ Route::get('/cashier/set_receiptd','Cashier\ColllectioReport@set_receipt');
 Route::get('/cashier/deposit_slip/{transaction_date}','Cashier\CollectionReport@deposit_slip');
 Route::post('/cashier/deposit_slip','Cashier\CollectionReport@post_deposit_slip');
 Route::get('/cashier/remove_deposit/{id}','Cashier\CollectionReport@remove_deposit');
+Route::get('/cashier/printreceipt/{reference_id}', 'Cashier\PrintController@printreceipt');
 //Registrar College Assessment//////////////////////////////////////////////////
 //Assessment/////
 
