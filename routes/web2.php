@@ -58,6 +58,7 @@ Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
 Route::get('/bedregistrar/enrollment_statistics/{school_year}','BedRegistrar\Assess@enrollment_statistics');
 Route::get('/bedregistrar/registration','BedRegistrar\Registration@register');
 Route::post('/bedregistrar/registration','BedRegistrar\Registration@post_register');
+Route::post('/bedregistrar/assess','BedRegistrar\Assess@post_assess');
 //update
 //Route::get('updatebedlevel','Updater@updateBedLevel');
 

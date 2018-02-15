@@ -39,26 +39,27 @@ class Assess extends Controller
         }
     
     
-    function postassess(Request $request){
+    function post_assess(Request $request){
         if(Auth::user()->accesslevel == env("REG_BE")){
-            $user = \App\User::where("idno",$requedt->idno)->first();
+            $user = \App\User::where("idno",$request->idno)->first();
                 if($user->academic_type == "BED"){
                     $status = \App\Status::where('idno',$request->idno)->first();
-                    if(count($tatus) == 0 ){
+                    if($tatus->status == 0 ){
                         $schoolyear =  \App\CtrAcademicSchoolYear::where('academic_type',"BED")->first();
                         DB::beginTransaction();
-                        $this->addStatus($request);
                         $this->addGrades($request, $schoolyear);
                         $this->addLedger($request, $schoolyear);
+                        $this->addStatus($request);
                         DB::commit();
                     }
-                    else if($status->status == env('ASSESSED')){
+                    else if($status->status >= env('ASSESSED')){
                         
                     }
                 else{
                     view('unauthorized');
                 }    
-            }    
+            }  
+            
         }
     }
     function changeStatus($id){

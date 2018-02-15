@@ -13,14 +13,21 @@ class Updater extends Controller
     
     function updateBedLevel(){
         
-        $levels = \App\BedLevel::get();
+        $levels = \App\Status::where('academic_type','BED')->get();
         foreach($levels as $level){
-            $update = \App\Status::where('idno',$level->idno)->first();
-            $update->level = $level->level;
-            $update->section = $level->section;
-            $update->strand=$level->strand;
-            $update->update();
-        }
+            $add = new \App\BedLevel;
+            $add->idno = $level->idno;
+            $add->level = $level->level;
+            $add->strand = $level->strand;
+            $add->track = $level->track;
+            $add->section = $level->section;
+            $add->status =$level->status;
+            $add->department = $level->department;
+            $add->school_year = $level->school_year;
+            $add->period = $level->period;
+            $add->save();
+            
         
     }
+}
 }

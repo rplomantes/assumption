@@ -102,6 +102,7 @@ class MainPayment extends Controller
                 if($status->status==env("ASSESSED")){
                     $this->addUnrealizedEntry($request,$reference_id);
                     $this->changeStatus($request->idno);
+                    
                     //$this->notifyStudent($request, $reference_id);
                 }
          }
