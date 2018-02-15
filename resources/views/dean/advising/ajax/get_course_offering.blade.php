@@ -21,4 +21,4 @@
     </tbody>
 </table>
                     </div>
-<button class='btn btn-success col-sm-12' onclick="addallcourses(period.value, curriculum_year.value,'{{$level}}', '{{$program_code}}')">ADD ALL COURSES</button>
+<button class='btn btn-success col-sm-12' onclick="addallcourses('{{$level}}', section.value,'{{$program_code}}')">ADD ALL COURSES</button>
