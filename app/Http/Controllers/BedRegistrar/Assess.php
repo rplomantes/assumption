@@ -40,33 +40,56 @@ class Assess extends Controller
     
     
     function post_assess(Request $request){
+        $validation = $this->validate($request,[
+                'plan' => 'required',
+            ]);
+        if($validation){
         if(Auth::user()->accesslevel == env("REG_BE")){
             $user = \App\User::where("idno",$request->idno)->first();
                 if($user->academic_type == "BED"){
                     $status = \App\Status::where('idno',$request->idno)->first();
-                    if($tatus->status == 0 ){
+                    if($status->status == 0 ){
                         $schoolyear =  \App\CtrAcademicSchoolYear::where('academic_type',"BED")->first();
                         DB::beginTransaction();
                         $this->addGrades($request, $schoolyear);
-                        $this->addLedger($request, $schoolyear);
-                        $this->addStatus($request);
+                        //$this->addLedger($request, $schoolyear);
+                        //$this->addDueDates($request,$schoolyear);
+                        //$this->modifyStatus($request);
                         DB::commit();
+                        return view(url('begregistrar',array('viewregistration',$request->idno)));
                     }
                     else if($status->status >= env('ASSESSED')){
-                        
+                        return view(url('begregistrar',array('viewregistration',$request->idno)));
                     }
                 else{
                     view('unauthorized');
                 }    
             }  
             
-        }
+        }}
     }
     function changeStatus($id){
         
     }
-    function addGrades($idno, $schoolyear){
-        
+    function addGrades($request, $schoolyear){
+        $subjects = \App\BedCurriculum::where('level',$request->level)->where('track',$request->track)->get();
+        if(count($subjects)>0){
+            foreach($subjects as $subject){
+                $addsubject = new \App\GradeBasicEd;
+                $addsubject->idno = $request->idno;
+                $addsubject->school_year = $schoolyear;
+                $addsubject->track = $request->track;
+                $addsubject->level = $request->level;
+                $addsubject->subject_code = $subject->subject->code;
+                $addsubject->subject_name = $subject->subject_name;
+                $addsubject->group_name = $subject->group_name;
+                $addsubject->units = $subject->units;
+                $addsubject->display_subject_code = $subject->display_subject_code;
+                $addsubject->weighted = $subject->weighted;
+                $addsubject->save();
+            }
+                    
+        }
     }
     
     function addLedger($idno,$schoolyear){

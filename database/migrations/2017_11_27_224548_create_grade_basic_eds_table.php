@@ -21,6 +21,9 @@ class CreateGradeBasicEdsTable extends Migration
             $table->integer("subject_type")->default(0);
             $table->string("subject_code");
             $table->string("subject_name");
+            $table->string("display_subject_code");
+            $table->string("group_name");
+            $table->string("units");
             $table->integer("points")->nullable();
             $table->integer("weighted")->nullable();
             $table->integer("sort_to")->default(0);

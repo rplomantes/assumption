@@ -152,12 +152,12 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                 <div class="panel box box-danger">
                   <div class="box-header with-border">
                     <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
                         Select Level, Option and Discount
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseTwo" class="panel-collapse collapse in">
+                  <div id="collapseFour" class="panel-collapse collapse in">
                     <div class="box-body">
                       @if(count($status)>0)
             @if($status->status == "0")
@@ -233,41 +233,7 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                     </div>
                   </div>
                 </div>
-                     <div class="panel box box-success">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-                        PE Uniforms and Others
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseFour" class="panel-collapse collapse in">
-               <div class="box-body">
-                <div class="row">   
-                <div class="col-md-12 ">
-                @if(count($optional_pe_uniforms)>0)
-                <h5>PE Uniforms and Others</h5>
-                <table border = "1" class="table table-striped">
-                    <tr align="center"><td>Book Title</td><td>QTY</td><td>Amount</td></tr>
-                @foreach($optional_pe_uniforms as $optional)
-                <tr><td width="50%">
-                 {{$optional->subsidiary}}
-                </td><td width="20%"><input type="number" name="qty_pe_uniforms[{{$optional->id}}]" class="form form-control" value="{{$optional->default_qty}}" oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)" onkeypress="process_sub({{$optional->id}},this.value,{{$optional->amount}},event,this)"></td>
-                <td align="right"><div id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}</td>
-                </tr>
-                @endforeach
-                </table>
-                @endif
-                </div>  
-                
-                    
-  
-                    
-                   </div> 
-                  </div>
-                </div>
                       
-              </div>  
             </div>
                 
             <!-- /.box-body -->
@@ -281,12 +247,12 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                 <div class="panel box box-success">
                   <div class="box-header with-border">
                     <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                         List of Books and Required Materials
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseThree" class="panel-collapse collapse in">
+                  <div id="collapseTwo" class="panel-collapse collapse">
                <div class="box-body">
                 <div class="row">   
                 <div class="col-md-12 ">
@@ -343,7 +309,41 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                 </div>
                       
               </div>
-           
+           <div class="panel box box-success">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        PE Uniforms and Others
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseThree" class="panel-collapse collapse">
+               <div class="box-body">
+                <div class="row">   
+                <div class="col-md-12 ">
+                @if(count($optional_pe_uniforms)>0)
+                <h5>PE Uniforms and Others</h5>
+                <table border = "1" class="table table-striped">
+                    <tr align="center"><td>Book Title</td><td>QTY</td><td>Amount</td></tr>
+                @foreach($optional_pe_uniforms as $optional)
+                <tr><td width="50%">
+                 {{$optional->subsidiary}}
+                </td><td width="20%"><input type="number" name="qty_pe_uniforms[{{$optional->id}}]" class="form form-control" value="{{$optional->default_qty}}" oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)" onkeypress="process_sub({{$optional->id}},this.value,{{$optional->amount}},event,this)"></td>
+                <td align="right"><div id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}</td>
+                </tr>
+                @endforeach
+                </table>
+                @endif
+                </div>  
+                
+                    
+  
+                    
+                   </div> 
+                  </div>
+                </div>
+                      
+              </div> 
               </div>  
   <input type="submit" name="submit" value="Process Assessment" class="btn btn-primary form-control">           
  </div>   
