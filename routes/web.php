@@ -24,6 +24,9 @@ Route::get('/', 'HomeController@index')->name('home');
 //Registrar College - MAIN//////////////////////////////////////////////////////
 Route::get('/ajax/registrar_college/getstudentlist', 'RegistrarCollege\Ajax\GetStudentList_ajax@getstudentlist');
 
+//Registrar College - View Info/////////////////////////////////////////////////
+Route::get('registrar_college/view_info/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@view_info');
+Route::post('registrar_college/save_info/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@save_info');
 
 //Registrar College Advising
 //Set Up

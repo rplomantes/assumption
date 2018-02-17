@@ -107,6 +107,8 @@ class Advising extends Controller {
 
                 $updatestudentinfo = \App\StudentInfo::where('idno', $idno)->first();
                 $updatestudentinfo->curriculum_year = $curriculum_year;
+                $updatestudentinfo->program_code = "$program_code";
+                $updatestudentinfo->program_name = "$program_name";
                 $updatestudentinfo->save();
 
                 return view('dean.advising.confirmed_advised', compact('idno'));

@@ -112,10 +112,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <label>Level</label>     
                             <select name="level" id="select_level" class="form-control select2" required="">
                                 <option value="">Select Level</option>
-                                <option value="1st Year" @if ($status->level == "1st Year") selected="" @endif>1st Year</option>
-                                <option value="2nd Year" @if ($status->level == "2nd Year") selected="" @endif>2nd Year</option>
-                                <option value="3rd Year" @if ($status->level == "3rd Year") selected="" @endif>3rd Year</option>
-                                <option value="4th Year" @if ($status->level == "4th Year") selected="" @endif>4th Year</option>
+                                <option value="1st Year" @if ($status->level == NULL) selected="" @endif>1st Year</option>
+                                <option value="2nd Year" @if ($status->level == "1st Year") selected="" @endif>2nd Year</option>
+                                <option value="3rd Year" @if ($status->level == "2nd Year") selected="" @endif>3rd Year</option>
+                                <option value="4th Year" @if ($status->level == "3rd Year") selected="" @endif>4th Year</option>
                             </select>     
                         </div>
                     </div>

@@ -32,7 +32,48 @@ class CreateStudentInfosTable extends Migration
             $table->string('zip')->nullable();
             $table->string('tel_no')->nullable();
             $table->string('cell_no')->nullable();
+            
             $table->string('last_school_attended')->nullable();
+            $table->string('last_school_address')->nullable();
+            $table->string('last_school_year')->nullable();
+            
+            $table->string('immig_status')->nullable();
+            $table->string('auth_stay')->nullable();
+            $table->string('passport')->nullable();
+            $table->string('passport_exp_date')->nullable();
+            $table->string('passport_place_issued')->nullable();
+            $table->string('acr_no')->nullable();
+            $table->string('acr_date_issued')->nullable();
+            $table->string('acr_place_issued')->nullable();
+            
+            $table->string('father')->nullable();
+            $table->integer('f_is_living')->nullable();
+            $table->string('f_occupation')->nullable();
+            $table->string('f_phone')->nullable();
+            $table->string('f_address')->nullable();
+            $table->string('mother')->nullable();
+            $table->integer('m_is_living')->nullable();
+            $table->string('m_occupation')->nullable();
+            $table->string('m_phone')->nullable();
+            $table->string('m_address')->nullable();
+            $table->string('spouse')->nullable();
+            $table->integer('s_is_living')->nullable();
+            $table->string('s_occupation')->nullable();
+            $table->string('s_phone')->nullable();
+            $table->string('s_address')->nullable();
+            
+            $table->string('primary')->nullable();
+            $table->string('primary_address')->nullable();
+            $table->string('primary_year')->nullable();
+            
+            $table->string('gradeschool')->nullable();
+            $table->string('gradeschool_address')->nullable();
+            $table->string('gradeschool_year')->nullable();
+            
+            $table->string('highschool')->nullable();
+            $table->string('highschool_address')->nullable();
+            $table->string('highschool_year')->nullable();
+            
             $table->timestamps();
             $table->foreign('idno')
                     ->references('idno')->on('users')
