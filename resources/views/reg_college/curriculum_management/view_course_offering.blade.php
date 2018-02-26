@@ -6,6 +6,7 @@ $curriculum_years = \App\Curriculum::distinct()->where('program_code', $program_
 $levels = \App\Curriculum::distinct()->where('program_code', $program_code)->orderBy('level')->get(['level']);
 $periods = \App\Curriculum::distinct()->where('program_code', $program_code)->orderBy('period')->get(['period']);
 $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first(['program_name']);
+$electives = \App\CtrElective::where('program_code', $program_code)->get();
 ?>
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 @extends('layouts.appreg_college')
@@ -133,6 +134,25 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" id="elective-form">
+                                <label>Electives</label>
+                                <select id="elective" class="form-control select2" style="width: 100%;">
+                                    <option value=" ">Select Period</option>
+                                    @foreach ($electives as $elective)
+                                    <option value="{{$elective->id}}">{{$elective->course_code}} - {{$elective->course_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group" id="submit_elective-form">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-success col-sm-12" onclick="add_elective(elective.value)">Add Elective</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,6 +174,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     $("#period-form").hide();
     $("#section-form").hide();
     $("#section_name-form").hide();
+    $("#submit_elective-form").hide();
     
     $("#curriculum_year-form").change(function(){
         $("#level-form").fadeIn();
@@ -166,6 +187,9 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     });
     $("#section-form").change(function(){
         $("#section_name-form").fadeIn();
+    });
+    $("#elective-form").change(function(){
+        $("#submit_elective-form").fadeIn();
     });
 </script>
 <script>
@@ -247,7 +271,7 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
     array['program_code'] = $("#program_code").val();
     array['curriculum_year'] = $("#curriculum_year").val();
     array['section'] = $("#section").val();
-    array['level'] = $("#level").val();
+    array['level'] = $("#year_level").val();
     array['period'] = $("#period").val();
     if (confirm("Are You Sure To Remove?")) {
     $.ajax({
@@ -260,6 +284,26 @@ $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->f
 
     });
     }
+    }
+    
+    function add_elective(id){
+    array = {};
+    array['id'] = id;
+    array['curriculum_year'] = $("#curriculum_year").val();
+    array['level'] = $("#year_level").val();
+    array['period'] = $("#period").val();
+    array['section'] = $("#section").val();
+    array['section_name'] = $("#section_name").val();
+    array['program_code'] = $("#program_code").val();
+    $.ajax({
+    type: "GET",
+            url: "/ajax/registrar_college/curriculum_management/add_offering_electives/",
+            data: array,
+            success: function (data) {
+            $('#course_offered').html(data);
+            }
+
+    });
     }
 
 </script>

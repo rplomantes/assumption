@@ -129,7 +129,7 @@ class AssessmentController extends Controller {
     }
     
     function deletecurrentledgers($idno, $school_year, $period) {
-        $currentledgers = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch','<=','5')->get();
+        $currentledgers = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch','<=','6')->get();
         if (count($currentledgers) > 0) {
             foreach ($currentledgers as $currentledger) {
                 $currentledger->delete();
@@ -210,7 +210,7 @@ class AssessmentController extends Controller {
         $addledger->receipt_details = "Tuition Fee";
         $addledger->accounting_code = env("AR_TUITION_CODE");
         $addledger->accounting_name = env("AR_TUITION_NAME");
-        $addledger->category_switch = "5";
+        $addledger->category_switch = env("TUITION_FEE");
         $addledger->amount = $tuitionfee;
         $addledger->discount = $tobediscount;
         $addledger->discount_code = $discount_code;
@@ -245,10 +245,10 @@ class AssessmentController extends Controller {
     function computeLedgerDueDate($idno, $school_year, $period, $plan) {
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
-        $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 5)->sum('amount');
-        $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 5)->sum('amount');
-        $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 5)->sum('discount');
-        $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 5)->sum('discount');
+        $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
+        $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 6)->sum('amount');
+        $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('discount');
+        $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 6)->sum('discount');
         $totalFees = ($totalTuition + $totalOtherFees) - ($totalTuitionDiscount + $totalOtherFeesDiscount);
         $downpaymentamount = (($totalTuition - $totalTuitionDiscount) / 2) + ($totalOtherFees - $totalOtherFeesDiscount);
         if ($plan == 'Cash') {
@@ -294,6 +294,16 @@ class AssessmentController extends Controller {
         } else if ($plan == "Monthly") {
             $interest = 1.03;
         }
+        
+//        if ($plan == "Cash") {
+//            $interest = 1;
+//        } else if ($plan == "Plan B") {
+//            $interest = 1.01;
+//        } else if ($plan == "Plan C") {
+//            $interest = 1.02;
+//        } else if ($plan == "Plan D") {
+//            $interest = 1.03;
+//        }
         return $interest;
     }
     function computeplan($downpaymentamount, $totalFees, $due_dates) {
@@ -318,7 +328,7 @@ class AssessmentController extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno',$idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch','<=','5')->get();
+            $ledgers = \App\Ledger::where('idno',$idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch','<=','6')->get();
             $changestatus=  \App\Status::where('idno',$idno)->first();
             $changestatus->status=env("ENROLLED");
             $changestatus->update();

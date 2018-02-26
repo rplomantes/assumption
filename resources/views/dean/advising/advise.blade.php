@@ -112,10 +112,18 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <label>Level</label>     
                             <select name="level" id="select_level" class="form-control select2" required="">
                                 <option value="">Select Level</option>
+                                @if ($school_year->period == "1st Semester")
                                 <option value="1st Year" @if ($status->level == NULL) selected="" @endif>1st Year</option>
                                 <option value="2nd Year" @if ($status->level == "1st Year") selected="" @endif>2nd Year</option>
                                 <option value="3rd Year" @if ($status->level == "2nd Year") selected="" @endif>3rd Year</option>
                                 <option value="4th Year" @if ($status->level == "3rd Year") selected="" @endif>4th Year</option>
+                                @else
+                                <option value="1st Year" @if ($status->level == "1st Year") selected="" @endif>1st Year</option>
+                                <option value="2nd Year" @if ($status->level == "2nd Year") selected="" @endif>2nd Year</option>
+                                <option value="3rd Year" @if ($status->level == "3rd Year") selected="" @endif>3rd Year</option>
+                                <option value="4th Year" @if ($status->level == "4th Year") selected="" @endif>4th Year</option>
+                                @endif
+                                
                             </select>     
                         </div>
                     </div>
@@ -154,7 +162,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <div class="col-md-4">   
                             <label>Program</label>     
                             <select id="program_code" class="form-control select2">
-                                <option value="">Select Program</option>
+                                <option value="null">Select Program</option>
                                 @foreach($programs as $program)
                                 <option value="{{$program->program_code}}">{{$program->program_name}}</option>
                                 @endforeach
@@ -163,7 +171,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <div class="col-md-4 level">     
                             <label>Level</label>     
                             <select id="level" class="form-control" onchange="get_section(this.value, program_code.value)">
-                                <option value="">Select Level</option>
+                                <option value="null">Select Level</option>
                                 <option value="1st Year">1st Year</option>
                                 <option value="2nd Year">2nd Year</option>
                                 <option value="3rd Year">3rd Year</option>
@@ -173,7 +181,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <div class="col-md-4 section">     
                             <label>Section</label>     
                             <select id="section" name="section" class="form-control">
-
+                                <option value="null"></option>
                             </select>    
                         </div>
                     </div>

@@ -92,7 +92,7 @@ class courseoffering_ajax extends Controller {
 
             if (count($curriculums) > 0) {
                 foreach ($curriculums as $curriculum) {
-        $course_details = \App\Curriculum::where('course_code', $curriculum->course_code)->where('program_code', $program_code)->first();
+                    $course_details = \App\Curriculum::where('course_code', $curriculum->course_code)->where('program_code', $program_code)->first();
                     $counter = \App\CourseOffering::where('course_code', $curriculum->course_code)->where('school_year', $school_year->school_year)->where('program_code', $curriculum->program_code)->where('period', $school_year->period)->where('level', $curriculum->level)->where('section', $section)->first();
                     if (count($counter) == 0) {
                         $addsubject = new CourseOffering;
@@ -125,11 +125,49 @@ class courseoffering_ajax extends Controller {
             $section = Input::get("section");
             $level = Input::get("level");
             $period = Input::get("period");
-            
+
             $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
 
             $removesubject = \App\CourseOffering::find($id);
             $removesubject->delete();
+
+            return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
+        }
+    }
+
+    function addelectives() {
+        $curriculum_year = Input::get("curriculum_year");
+        $level = Input::get("level");
+        $period = Input::get("period");
+        $section = Input::get("section");
+        $section_name = Input::get("section_name");
+        $program_code = Input::get("program_code");
+        $id = Input::get("id");
+
+        $course_details = \App\CtrElective::where('id', $id)->first();
+        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+        $counter = \App\CourseOffering::where('course_code', $course_details->course_code)->where('program_code', $course_details->program_code)->where('period', $school_year->period)->where('school_year', $school_year->school_year)->where('level', $level)->where('section', $section)->get();
+
+        if (Request::ajax()) {
+            if (count($counter) == 0) {
+                $addsubject = new CourseOffering;
+                $addsubject->program_code = $program_code;
+                $addsubject->course_code = $course_details->course_code;
+                $addsubject->course_name = $course_details->course_name;
+                $addsubject->section = $section;
+                $addsubject->section_name = $section_name;
+                $addsubject->school_year = $school_year->school_year;
+                $addsubject->period = $school_year->period;
+                $addsubject->lec = $course_details->lec;
+                $addsubject->lab = $course_details->lab;
+                $addsubject->hours = $course_details->hours;
+                $addsubject->level = $level;
+                $addsubject->srf = $course_details->srf;
+                $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->save();
+            } else {
+                
+            }
 
             return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }

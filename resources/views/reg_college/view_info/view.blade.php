@@ -44,7 +44,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
 
 <form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
-{{ csrf_field() }}
+    {{ csrf_field() }}
     <div class="col-sm-12">
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -88,6 +88,17 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="col-sm-12">
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     </div>
     <div class="col-md-12">
         <!-- Custom Tabs -->
@@ -381,7 +392,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-    <input type="submit" value='Save' class='form-control btn btn-success'>
+        <input type="submit" value='Save' class='form-control btn btn-success'>
     </div>
 </form>
 @endsection

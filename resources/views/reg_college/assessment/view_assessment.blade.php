@@ -106,12 +106,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <input type="hidden" name="type_account" id="type_account" value="Regular">
                         <div class="form-group">
                         <div class='col-sm-12' id='plan-form'>
+                            <?php $plans = \App\CtrDueDate::distinct()->where('academic_type', 'College')->where('level',$status->level)->get(['plan']); ?>
                             <label>Plan</label>
                             <select id="plan" name="plan" class='form-control'>
                                 <option>Select Plan</option>
                                 <option value='Cash'>Cash</option>
-                                <option value='Quarterly'>Quarterly</option>
-                                <option value='Monthly'>Monthly</option>
+                                @foreach ($plans as $plan)
+                                <option value='{{$plan->plan}}'>{{$plan->plan}}</option>
+                                @endforeach
                             </select>
                         </div>
                         </div>

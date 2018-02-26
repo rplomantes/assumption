@@ -37,131 +37,91 @@
 @section('maincontent')
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Program</h3>
-                </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
-                        <tr>
-                            <th style='width: 80px'>Level</th>
-                            <th>Program</th>
-                            <th>Advised</th>
-                            <th>Assessed</th>
-                            <th>Enrolled</th>
-                        </tr>
-                        @foreach ($academic_programs as $academic_program)
-                        <?php
-                        $advised = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 1)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
-                        $enrollees = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
-                        $assessed  = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('program_code', $academic_program->program_code)->where('level', $academic_program->level)->get();
-                        ?>
-                        <tr>
-                            <td>{{$academic_program->level}}</td>
-                            <td>{{$academic_program->program_code}}</td>
-                            <td>{{count($advised)}}</td>
-                            <td>{{count($assessed)}}</td>
-                            <td>{{count($enrollees)}}</td>
-                        </tr>
-                        @endforeach
+                        <thead>
+                            <tr>
+                                <th width="70%">Program</th>
+                                <th>1st</th>
+                                <th>2nd</th>
+                                <th>3rd</th>
+                                <th>4th</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $totalcount1 = 0;
+                            $totalcount2 = 0;
+                            $totalcount3 = 0;
+                            $totalcount4 = 0;
+                            $totalunofficial1 = 0;
+                            $totalunofficial2 = 0;
+                            $totalunofficial3 = 0;
+                            $totalunofficial4 = 0;
+                            ?>
+                            @foreach ($academic_programs as $academic_program)
+                            <tr>
+                                <td>{{$academic_program->program_name}}</td>
+                                <td><?php $count1 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
+                                <td><?php $count2 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
+                                <td><?php $count3 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
+                                <td><?php $count4 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
+                                <td><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
+                            </tr>
+                            <?php
+                            $totalcount1 = $totalcount1 + count($count1);
+                            $totalcount2 = $totalcount2 + count($count2);
+                            $totalcount3 = $totalcount3 + count($count3);
+                            $totalcount4 = $totalcount4 + count($count4);
+                            ?>
+                            <?php $unofficial1 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "1st Year")->get();?>
+                            <?php $unofficial2 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "2nd Year")->get();?>
+                            <?php $unofficial3 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "3rd Year")->get();?>
+                            <?php $unofficial4 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "4th Year")->get();?>
+                            
+                            <?php
+                            $totalunofficial1 = $totalunofficial1 + count($unofficial1);
+                            $totalunofficial2 = $totalunofficial2 + count($unofficial2);
+                            $totalunofficial3 = $totalunofficial3 + count($unofficial3);
+                            $totalunofficial4 = $totalunofficial4 + count($unofficial4);
+                            ?>
+                            @endforeach
+                            <tr>
+                                <td><div align="right">TOTAL ENROLLED</div></td>
+                                <td>{{$totalcount1}}</td>
+                                <td>{{$totalcount2}}</td>
+                                <td>{{$totalcount3}}</td>
+                                <td>{{$totalcount4}}</td>
+                                <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
+                            </tr>
+                            <tr>
+                                <td><div align="right">TOTAL UNOFFICIALLY ENROLLED</div></td>
+                                <td>{{$totalunofficial1}}</td>
+                                <td>{{$totalunofficial2}}</td>
+                                <td>{{$totalunofficial3}}</td>
+                                <td>{{$totalunofficial4}}</td>
+                                <td><?php $totalunofficial = $totalunofficial1 + $totalunofficial2 + $totalunofficial3 + $totalunofficial4; ?>{{$totalunofficial}}</td>
+                            </tr>
+                            <tr>
+                                <td><div align="right">GRAND TOTAL</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{$totalenrolled + $totalunofficial}}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Department</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Department</th>
-                            <th>Advised</th>
-                            <th>Assessed</th>
-                            <th>Enrolled</th>
-                        </tr>
-                        <?php
-                        $totaladvised = 0;
-                        $totalassessed = 0;
-                        $totalenrollees = 0;
-                        ?>
-                        @foreach ($departments as $department)
-                        <?php
-                        $advised = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 1)->where('department', $department->department)->get();
-                        $enrollees = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 3)->where('department', $department->department)->get();
-                        $assessed  = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 2)->where('department', $department->department)->get();
-                        ?>
-                        <tr>
-                            <td>{{$department->department}}</td>
-                            <td>{{count($advised)}}</td>
-                            <td>{{count($assessed)}}</td>
-                            <td>{{count($enrollees)}}</td>
-                        </tr>
-                        <?php
-                        $totaladvised = $totaladvised + count($advised);
-                        $totalassessed = $totalassessed + count($assessed);
-                        $totalenrollees = $totalenrollees + count($enrollees);
-                        ?>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Total</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th style="color:green">Advised</th>
-                            <th style="color:green">{{$totaladvised}}</th>
-                        </tr>
-                        <tr>
-                            <th style="color:blue">Assessed</th>
-                            <th style="color:blue">{{$totalassessed}}</th>
-                        </tr>
-                        <tr>
-                            <th style="color:red">Enrollees</th>
-                            <th style="color:red">{{$totalenrollees}}</th>
-                        </tr>
-                        <tr>
-                            <th style="color: mediumvioletred">Total</th>
-                            <th style="color: mediumvioletred">{{$totaladvised + $totalenrollees + $totalassessed}}</th>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+            <a target='_blank' href='{{url('registrar_college', array('reports', 'enrollment_statistics', 'print_enrollment_statistics'))}}'><button class="btn btn-success col-sm-12">PRINT</button></a>
         </div>
     </div>
 </section>
 @endsection
 @section('footerscript')
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#search").keypress(function (e) {
-            var theEvent = e || window.event;
-            var key = theEvent.keyCode || theEvent.which;
-            var array = {};
-            array['search'] = $("#search").val();
-            if (key == 13) {
-                $.ajax({
-                    type: "GET",
-                    url: "/ajax/registrar_college/getstudentlist",
-                    data: array,
-                    success: function (data) {
-                        $("#studentlist").html(data);
-                        $("#search").val("");
-                    }
-                });
-            }
-        })
-    })
-</script>
 @endsection

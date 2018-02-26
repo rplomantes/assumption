@@ -21,7 +21,7 @@ class advising_ajax extends Controller {
 
             $display = "<label>Section</label>"
                     . "<select id=\"section\" name=\"section\" class=\"form-control select2\" onchange=\"get_course_offering(level.value, program_code.value, section.value)\">"
-                    . "<option value=\'\'>Select Section</option>";
+                    . "<option value=\'null\'>Select Section</option>";
             foreach ($sections as $section) {
                 $display = $display . "<option value=".$section->section.">" . $section->section_name . "</option>";
             }
