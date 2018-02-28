@@ -65,23 +65,23 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <div class="row">
                             <div class="col-sm-2">
                                 <label>ID Number</label>
-                                <input type="text" name="idno" class="form-control" value="{{$user->idno}}">
+                                <input type="text" name="idno" class="form-control" value="{{old('idno',$user->idno)}}">
                             </div>
                             <div class="col-sm-3">
                                 <label>Lastname</label>
-                                <input type="text" name="lastname" class="form-control" value="{{$user->lastname}}">
+                                <input type="text" name="lastname" class="form-control" value="{{old('lastname',$user->lastname)}}">
                             </div>
                             <div class="col-sm-3">
                                 <label>Firstname</label>
-                                <input type="text" name="firstname" class="form-control" value="{{$user->firstname}}">
+                                <input type="text" name="firstname" class="form-control" value="{{old('firstname',$user->firstname)}}">
                             </div>
                             <div class="col-sm-2">
                                 <label>Middlename</label>
-                                <input type="text" name="middlename" class="form-control" value="{{$user->middlename}}">
+                                <input type="text" name="middlename" class="form-control" value="{{old('middlename',$user->middlename)}}">
                             </div>
                             <div class="col-sm-2">
                                 <label>Extension Name</label>
-                                <input type="text" name="extensionname" class="form-control" value="{{$user->extensionname}}">
+                                <input type="text" name="extensionname" class="form-control" value="{{old('extensionname',$user->extensionname)}}">
                             </div>
                         </div>
                     </li>
@@ -107,43 +107,43 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 <li class="active"><a href="#tab_1" data-toggle="tab">Personal Information</a></li>
                 <li><a href="#tab_2" data-toggle="tab">Family Background</a></li>
                 <li><a href="#tab_3" data-toggle="tab">Educational Background</a></li>
-                <li><a href="#tab_4" data-toggle="tab">Admission Credentials</a></li>
+                <!--<li><a href="#tab_4" data-toggle="tab">Admission Credentials</a></li>-->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Address</label>
-                            <input class="form form-control" name='street' placeholder='Street Address' value="{{$info->street}}" type="text">
+                            <input class="form form-control" name='street' placeholder='Street Address' value="{{old('street',$info->street)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
-                            <input class="form form-control" name='barangay' placeholder='Barangay' value="{{$info->barangay}}" type="text">
+                            <input class="form form-control" name='barangay' placeholder='Barangay' value="{{old('barangay',$info->barangay)}}" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-5">
-                            <input class="form form-control" name='municipality' placeholder='Municipality/City*' value="{{$info->municipality}}" type="text">
+                            <input class="form form-control" name='municipality' placeholder='Municipality/City*' value="{{old('municipality',$info->municipality)}}" type="text">
                         </div>
                         <div class="col-sm-5">
-                            <input class="form form-control" name='province' placeholder='Province*' value="{{$info->province}}" type="text">
+                            <input class="form form-control" name='province' placeholder='Province*' value="{{old('province',$info->province)}}" type="text">
                         </div>
                         <div class="col-sm-2">
-                            <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{$info->zip}}" type="text">
+                            <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip',$info->zip)}}" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>Contact Numbers</label>
-                            <input class="form form-control" name='tel_no' placeholder='Telephone Number' value="{{$info->tel_no}}" type="text">
+                            <input class="form form-control" name='tel_no' placeholder='Telephone Number' value="{{old('tel_no',$info->tel_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
-                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{$info->cel_no}}" type="text">
+                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cel_no',$info->cel_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Email</label>
-                            <input class="form form-control" name='email' placeholder='Email Address*' value="{{$user->email}}" type="email">
+                            <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email',$user->email)}}" type="email">
                         </div>
                     </div>
                     <hr>
@@ -154,12 +154,12 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <div class="input-group-addon">
                                     <i class="fa fa-birthday-cake"></i>
                                 </div>
-                                <input class="form form-control" name='birthdate' value="{{$info->birthdate}}" type="date">
+                                <input class="form form-control" name='birthdate' value="{{old('birthdate',$info->birthdate)}}" type="date">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <label>Birth Place</label>
-                            <input class="form form-control" name='place_of_birth' value="{{$info->place_of_birth}}" placeholder='Place of Birth' type="text">
+                            <input class="form form-control" name='place_of_birth' value="{{old('place_of_birth',$info->place_of_birth)}}" placeholder='Place of Birth' type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Gender</label>
@@ -183,11 +183,11 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-4">
                             <label>Nationality</label>
-                            <input class="form form-control" name='nationality' placeholder='Nationality' value="{{$info->nationality}}" type="text">
+                            <input class="form form-control" name='nationality' placeholder='Nationality' value="{{old('nationality',$info->nationality)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Religion</label>
-                            <input class="form form-control" name='religion' placeholder='Religion' value="{{$info->religion}}" type="text">
+                            <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion',$info->religion)}}" type="text">
                         </div>
                     </div>
                     <hr>
@@ -195,39 +195,39 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Immig. Status/Visa Classification</label>
-                            <input class="form form-control" name='immig_status' value="{{$info->immig_status}}" type="text">
+                            <input class="form form-control" name='immig_status' value="{{old('immig_status',$info->immig_status)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Authorized Stay</label>
-                            <input class="form form-control" name='auth_stay' value="{{$info->auth_stay}}" type="text">
+                            <input class="form form-control" name='auth_stay' value="{{old('auth_stay',$info->auth_stay)}}" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>Passport No.</label>
-                            <input class="form form-control" name='passport' value="{{$info->passport}}" type="text">
+                            <input class="form form-control" name='passport' value="{{old('passport',$info->passport)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Expiration Date</label>
-                            <input class="form form-control" name='passport_exp_date' value="{{$info->passport_exp_date}}" type="date">
+                            <input class="form form-control" name='passport_exp_date' value="{{old('passport_exp_date',$info->passport_exp_date)}}" type="date">
                         </div>
                         <div class="col-sm-4">
                             <label>Place Issued</label>
-                            <input class="form form-control" name='passport_place_issued' value="{{$info->passport_place_issued}}" type="text">
+                            <input class="form form-control" name='passport_place_issued' value="{{old('passport_place_issued',$info->passport_place_issued)}}" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>ACR No.</label>
-                            <input class="form form-control" name='acr_no' value="{{$info->acr_no}}" type="text">
+                            <input class="form form-control" name='acr_no' value="{{old('acr_no',$info->acr_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Date Issued</label>
-                            <input class="form form-control" name='acr_date_issued' value="{{$info->acr_date_issued}}" type="date">
+                            <input class="form form-control" name='acr_date_issued' value="{{old('acr_date_issued',$info->acr_date_issued)}}" type="date">
                         </div>
                         <div class="col-sm-4">
                             <label>Place Issued</label>
-                            <input class="form form-control" name='acr_place_issued' value="{{$info->acr_place_issued}}" type="text">
+                            <input class="form form-control" name='acr_place_issued' value="{{old('acr_place_issued',$info->acr_place_issued)}}" type="text">
                         </div>
                     </div>
                 </div>
@@ -236,7 +236,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Father's Name</label>
-                            <input class="form form-control" name='father' value="{{$info->father}}" type="text">
+                            <input class="form form-control" name='father' value="{{old('father',$info->father)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
@@ -249,22 +249,22 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class='form-group'>
                         <div class="col-sm-4">
                             <label>Occupation</label>
-                            <input class="form form-control" name='f_occupation' value="{{$info->f_occupation}}" type="text">
+                            <input class="form form-control" name='f_occupation' value="{{old('f_occupation',$info->f_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
-                            <input class="form form-control" name='f_phone' value="{{$info->f_phone}}" type="text">
+                            <input class="form form-control" name='f_phone' value="{{old('f_phone',$info->f_phone)}}" type="text">
                         </div>
                         <div class="col-sm-6">
                             <label>Business Address</label>
-                            <input class="form form-control" name='f_address' value="{{$info->f_address}}" type="text">
+                            <input class="form form-control" name='f_address' value="{{old('f_address',$info->f_address)}}" type="text">
                         </div>
                     </div>
                     <label>Mother</label>
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Mother's Name</label>
-                            <input class="form form-control" name='mother' value="{{$info->mother}}" type="text">
+                            <input class="form form-control" name='mother' value="{{old('mother',$info->mother)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
@@ -277,15 +277,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class='form-group'>
                         <div class="col-sm-4">
                             <label>Occupation</label>
-                            <input class="form form-control" name='m_occupation' value="{{$info->m_occupation}}" type="text">
+                            <input class="form form-control" name='m_occupation' value="{{old('m_occupation',$info->m_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
-                            <input class="form form-control" name='m_phone' value="{{$info->m_phone}}" type="text">
+                            <input class="form form-control" name='m_phone' value="{{old('m_phone',$info->m_phone)}}" type="text">
                         </div>
                         <div class="col-sm-6">
                             <label>Business Address</label>
-                            <input class="form form-control" name='m_address' value="{{$info->m_address}}" type="text">
+                            <input class="form form-control" name='m_address' value="{{old('m_address',$info->m_address)}}" type="text">
                         </div>
                     </div>
                     <hr>
@@ -293,7 +293,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Spouse's Name</label>
-                            <input class="form form-control" name='spouse' value="{{$info->spouse}}" type="text">
+                            <input class="form form-control" name='spouse' value="{{old('spouse',$info->spouse)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
@@ -306,15 +306,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class='form-group'>
                         <div class="col-sm-4">
                             <label>Occupation</label>
-                            <input class="form form-control" name='s_occupation' value="{{$info->s_occupation}}" type="text">
+                            <input class="form form-control" name='s_occupation' value="{{old('s_occupation',$info->s_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
-                            <input class="form form-control" name='s_phone' value="{{$info->s_phone}}" type="text">
+                            <input class="form form-control" name='s_phone' value="{{old('s_phone',$info->s_phone)}}" type="text">
                         </div>
                         <div class="col-sm-6">
                             <label>Business Address</label>
-                            <input class="form form-control" name='s_address' value="{{$info->s_address}}" type="text">
+                            <input class="form form-control" name='s_address' value="{{old('s_address',$info->s_address)}}" type="text">
                         </div>
                     </div>
                 </div>
@@ -323,15 +323,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class='form-group'>
                         <div class="col-sm-7">
                             <label>School</label>
-                            <input class="form form-control" name='last_school_attended' value="{{$info->last_school_attended}}" type="text">
+                            <input class="form form-control" name='last_school_attended' value="{{old('last_school_attended',$info->last_school_attended)}}" type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Address</label>
-                            <input class="form form-control" name='last_school_address' value="{{$info->last_school_address}}" type="text">
+                            <input class="form form-control" name='last_school_address' value="{{old('last_school_address',$info->last_school_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Year</label>
-                            <input class="form form-control" name='last_school_year' value="{{$info->last_school_year}}" type="text">
+                            <input class="form form-control" name='last_school_year' value="{{old('last_school_year',$info->last_school_year)}}" type="text">
                         </div>
                     </div>
                     <hr>
@@ -339,45 +339,45 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class='form-group'>
                         <div class="col-sm-7">
                             <label>School</label>
-                            <input class="form form-control" name='primary' value="{{$info->primary}}" type="text">
+                            <input class="form form-control" name='primary' value="{{old('primary',$info->primary)}}" type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Address</label>
-                            <input class="form form-control" name='primary_address' value="{{$info->primary_address}}" type="text">
+                            <input class="form form-control" name='primary_address' value="{{old('primary_address',$info->primary_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Year</label>
-                            <input class="form form-control" name='primary_year' value="{{$info->primary_year}}" type="text">
+                            <input class="form form-control" name='primary_year' value="{{old('primary_year',$info->primary_year)}}" type="text">
                         </div>
                     </div>
                     <label>Grade School</label>
                     <div class='form-group'>
                         <div class="col-sm-7">
                             <label>School</label>
-                            <input class="form form-control" name='gradeschool' value="{{$info->gradeschool}}" type="text">
+                            <input class="form form-control" name='gradeschool' value="{{old('gradeschool',$info->gradeschool)}}" type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Address</label>
-                            <input class="form form-control" name='gradeschool_address' value="{{$info->gradeschool_address}}" type="text">
+                            <input class="form form-control" name='gradeschool_address' value="{{old('gradeschool_address',$info->gradeschool_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Year</label>
-                            <input class="form form-control" name='gradeschool_year' value="{{$info->gradeschool_year}}" type="text">
+                            <input class="form form-control" name='gradeschool_year' value="{{old('gradeschool_year',$info->gradeschool_year)}}" type="text">
                         </div>
                     </div>
                     <label>High School</label>
                     <div class='form-group'>
                         <div class="col-sm-7">
                             <label>School</label>
-                            <input class="form form-control" name='highschool' value="{{$info->highschool}}" type="text">
+                            <input class="form form-control" name='highschool' value="{{old('highschool',$info->highschool)}}" type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Address</label>
-                            <input class="form form-control" name='highschool_address' value="{{$info->highschool_address}}" type="text">
+                            <input class="form form-control" name='highschool_address' value="{{old('highschool_address',$info->highschool_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Year</label>
-                            <input class="form form-control" name='highschool_year' value="{{$info->highschool_year}}" type="text">
+                            <input class="form form-control" name='highschool_year' value="{{old('highschool_year',$info->highschool_year)}}" type="text">
                         </div>
                     </div>
                 </div>

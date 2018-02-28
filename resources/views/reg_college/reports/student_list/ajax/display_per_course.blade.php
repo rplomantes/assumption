@@ -20,7 +20,7 @@
                 <tbody>
                     <?php $counter = 0; ?>
                     @foreach ($list_per_courses as $list_per_course)
-                    <?php $status = \App\Status::where('idno', $list_per_course->idno)->first(); ?>
+                    <?php $status = \App\CollegeLevel::where('idno', $list_per_course->idno)->first(); ?>
                     @if(count($status)>0)
                     <?php $counter = $counter + 1; ?>
                     <?php $user = \App\User::where('idno', $list_per_course->idno)->first(); ?>

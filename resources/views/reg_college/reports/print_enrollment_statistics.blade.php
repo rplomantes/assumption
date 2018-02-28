@@ -41,18 +41,18 @@
 </style>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{url('/images','assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>ENROLLMENT STATISTICS</b></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>ENROLLMENT STATISTICS</b><br><b>{{$period}}, {{$school_year}} - {{$school_year + 1}}</b></div>
 </div>
 <div>
-    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 145px;'>
+    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 155px;'>
         <thead>
             <tr>
-                <th width="70%">Program</th>
-                <th>1st</th>
-                <th>2nd</th>
-                <th>3rd</th>
-                <th>4th</th>
-                <th>Total</th>
+                <th width="70%" style="text-align: center;">Program</th>
+                <th style="text-align: center;">1st</th>
+                <th style="text-align: center;">2nd</th>
+                <th style="text-align: center;">3rd</th>
+                <th style="text-align: center;">4th</th>
+                <th style="text-align: center;">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -69,11 +69,11 @@
             @foreach ($academic_programs as $academic_program)
             <tr>
                 <td>{{$academic_program->program_name}}</td>
-                <td><?php $count1 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
-                <td><?php $count2 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
-                <td><?php $count3 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
-                <td><?php $count4 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
-                <td><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
+                <td style="text-align: center;"><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
+                <td style="text-align: center;"><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
+                <td style="text-align: center;"><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
+                <td style="text-align: center;"><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
+                <td style="text-align: center;"><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
             </tr>
             <?php
             $totalcount1 = $totalcount1 + count($count1);
@@ -95,19 +95,19 @@
             @endforeach
             <tr>
                 <td><div align="right">TOTAL ENROLLED</div></td>
-                <td>{{$totalcount1}}</td>
-                <td>{{$totalcount2}}</td>
-                <td>{{$totalcount3}}</td>
-                <td>{{$totalcount4}}</td>
-                <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
+                <td style="text-align: center;">{{$totalcount1}}</td>
+                <td style="text-align: center;">{{$totalcount2}}</td>
+                <td style="text-align: center;">{{$totalcount3}}</td>
+                <td style="text-align: center;">{{$totalcount4}}</td>
+                <td style="text-align: center;"><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
             </tr>
             <tr>
                 <td><div align="right">TOTAL UNOFFICIALLY ENROLLED</div></td>
-                <td>{{$totalunofficial1}}</td>
-                <td>{{$totalunofficial2}}</td>
-                <td>{{$totalunofficial3}}</td>
-                <td>{{$totalunofficial4}}</td>
-                <td><?php $totalunofficial = $totalunofficial1 + $totalunofficial2 + $totalunofficial3 + $totalunofficial4; ?>{{$totalunofficial}}</td>
+                <td style="text-align: center;">{{$totalunofficial1}}</td>
+                <td style="text-align: center;">{{$totalunofficial2}}</td>
+                <td style="text-align: center;">{{$totalunofficial3}}</td>
+                <td style="text-align: center;">{{$totalunofficial4}}</td>
+                <td style="text-align: center;"><?php $totalunofficial = $totalunofficial1 + $totalunofficial2 + $totalunofficial3 + $totalunofficial4; ?>{{$totalunofficial}}</td>
             </tr>
             <tr>
                 <td><div align="right">GRAND TOTAL</div></td>
@@ -115,7 +115,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{$totalenrolled + $totalunofficial}}</td>
+                <td style="text-align: center;">{{$totalenrolled + $totalunofficial}}</td>
             </tr>
         </tbody>
     </table>

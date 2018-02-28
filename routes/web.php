@@ -27,6 +27,8 @@ Route::get('/ajax/registrar_college/getstudentlist', 'RegistrarCollege\Ajax\GetS
 //Registrar College - View Info/////////////////////////////////////////////////
 Route::get('registrar_college/view_info/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@view_info');
 Route::post('registrar_college/save_info/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@save_info');
+//Registrar College - Student Record////////////////////////////////////////////
+Route::get('registrar_college/student_record/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@view_record');
 
 //Registrar College Advising
 //Set Up
