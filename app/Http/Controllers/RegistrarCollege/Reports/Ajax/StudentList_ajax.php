@@ -41,7 +41,7 @@ class StudentList_ajax extends Controller {
                 $program_code = "and program_code = '" . $program_code . "'";
             }
 
-            $lists = DB::Select("Select * from college_levels where status=3 $school_year $period $level $program_code");
+            $lists = DB::Select("Select * from college_levels join users on users.idno = college_levels.idno where college_levels.status=3 $school_year $period $level $program_code order by users.lastname");
 
             return view('reg_college.reports.student_list.ajax.display_search', compact('lists'));
         }
@@ -133,7 +133,7 @@ class StudentList_ajax extends Controller {
         if (Request::ajax()) {
             $course_id = Input::get("course_id");
             
-            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->get();
+            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('users.lastname')->get();
             
             return view('reg_college.reports.student_list.ajax.display_per_course', compact('list_per_courses'));
         }

@@ -40,7 +40,7 @@
 
 </style>
 <div>    
-    <div style='float: left; margin-left: 150px;'><img src="{{url('/images','assumption-logo.png')}}"></div>
+    <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>STUDENT LIST</b></div>
 </div>
 <div>
@@ -58,24 +58,8 @@
                 <th width='3%' align='center'>#</th>
                 <th width='15%'>ID Number</th>
                 <th width='30%'>Student Name</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Program</th>
+                <th>Level</th>
             </tr>
         </thead>
         <tbody>
@@ -89,24 +73,8 @@
                 <td align='center'>{{$counter}}</td>
                 <td>{{$list->idno}}</td>
                 <td>{{$user->lastname}}, {{$user->firstname}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{$status->program_code}}</td>
+                <td>{{$status->level}}</td>
             </tr>
             @endforeach
         </tbody>
