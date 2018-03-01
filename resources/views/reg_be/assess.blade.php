@@ -46,10 +46,10 @@ case "Grade 11":
 
 $plans = \App\CtrDueDate::selectRaw('distinct plan')->where('academic_type','BED')->get();
 $discounts = \App\CtrDiscount::get();
-$optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','books')->get();
-$optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','materials')->get();
-$optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','other_materials')->get();
-$optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->where('category','pe_uniform')->get();;
+$optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Books')->get();
+$optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Materials')->get();
+$optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Other Materials')->get();
+$optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','PE Uniforms/Others')->get();;
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -152,12 +152,12 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                 <div class="panel box box-danger">
                   <div class="box-header with-border">
                     <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                         Select Level, Option and Discount
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseFour" class="panel-collapse collapse in">
+                  <div id="collapseTwo" class="panel-collapse collapse in">
                     <div class="box-body">
                       @if(count($status)>0)
             @if($status->status == "0")
@@ -206,7 +206,7 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                     <label>Payment Options</label>
                     <select class="form form-control" name="plan" id="plan">
                         <option value="">Select Payment Option</option>
-                        <option value="annual">Annual</option>
+                        <option value="Annual">Annual</option>
                         @foreach($plans as $plan)
                         <option value="{{$plan->plan}}">{{$plan->plan}}</option>
                         @endforeach
@@ -221,7 +221,7 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                         <option value="none">None</option>
                         @if(count($discounts)>0)
                             @foreach($discounts as $discount)
-                                <option value="{{$discount->discount_code}}">{{$discount->discount_name}}</option>
+                                <option value="{{$discount->discount_code}}">{{$discount->discount_description}}</option>
                             @endforeach
                         @endif
                     </select>    
@@ -247,16 +247,18 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                 <div class="panel box box-success">
                   <div class="box-header with-border">
                     <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                         List of Books and Required Materials
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseTwo" class="panel-collapse collapse">
+                    
+               <div id="collapseThree" class="panel-collapse collapse in">
                <div class="box-body">
-                <div class="row">   
+                <div class="row" id="book_materials">   
                 <div class="col-md-12 ">
                 @if(count($optional_books)>0)
+    
                 <h5>Books</h5>
                 <table border = "1" class="table table-striped">
                     <tr align="center"><td>Book Title</td><td>QTY</td><td>Amount</td></tr>
@@ -270,7 +272,8 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
                 </table>
                 @endif
                 </div>  
-                <div class="col-md-12">  
+                <div class="col-md-12"> 
+                    
                   @if(count($optional_materials)>0)
                 <h5>Materials</h5>
                 <table border = "1" class="table table-striped">
@@ -312,14 +315,14 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
            <div class="panel box box-success">
                   <div class="box-header with-border">
                     <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
                         PE Uniforms and Others
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseThree" class="panel-collapse collapse">
+                  <div id="collapseFour" class="panel-collapse collapse in">
                <div class="box-body">
-                <div class="row">   
+                <div class="row" id="pe_uniforms">   
                 <div class="col-md-12 ">
                 @if(count($optional_pe_uniforms)>0)
                 <h5>PE Uniforms and Others</h5>
@@ -369,6 +372,8 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
            } else {
                $("#strand_control").fadeOut(300);
            }
+           popBookMaterials($('#level').val());
+           popUniform($("#level").val());
        })
        
      $(".number").on('keypress',function(e){
@@ -401,6 +406,26 @@ $optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->wher
         }      
         total = amount*qty;
         $("#book_display"+id).html(total.toFixed(2));
+    }
+    
+    function popBookMaterials(level){
+         $.ajax({
+            type: "GET", 
+            url: "/bedregistrar/ajax/book_materials/" +  level, 
+            success:function(data){
+                $('#book_materials').html(data);  
+                }
+            });
+    }
+    
+    function popUniform(level){
+        $.ajax({
+            type: "GET", 
+            url: "/bedregistrar/ajax/peuniforms/" +  level, 
+            success:function(data){
+                $('#pe_uniforms').html(data);  
+                }
+            });
     }
 </script>    
 @endsection

@@ -123,7 +123,7 @@ class DebitMemo extends Controller
         
     if($request->main_due > 0 ){
            $totalpayment = $request->main_due;
-           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','5')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
+           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','6')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
            MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMO"));
         }
         

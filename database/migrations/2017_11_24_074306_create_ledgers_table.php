@@ -22,7 +22,7 @@ class CreateLedgersTable extends Migration
             $table->string('strand')->nullable();
             $table->string('level');
             $table->string('school_year');
-            $table->string('period');
+            $table->string('period')->nullable();
             $table->string('category');
             $table->string('subsidiary');
             $table->string('receipt_details');
@@ -35,6 +35,10 @@ class CreateLedgersTable extends Migration
             $table->decimal('esc',10,2)->default(0.00);
             $table->decimal('debit_memo',10,2)->default(0.00);
             $table->integer('discount_code')->nullable();
+            $table->integer('qty')->default(1);
+            $table->integer('is_served')->default(0);
+            $table->date('date_served')->nullable();
+            $table->string('received_by')->nullable();
             $table->foreign('idno')
                     ->references('idno')->on('users')
                     ->onUpdate('cascade');

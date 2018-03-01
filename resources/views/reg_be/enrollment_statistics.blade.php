@@ -51,15 +51,30 @@
  <div class="col-md-12">
      <div class="box">    
      <div class="box-body">
+     <h3>Pre School</h3>
      <table id="example1" class="table table-responsive table-striped">
+         <thead>
+              <tr><th>GRADE LEVEL</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>Total</th></tr>
+         </thead>
+         <tbody>
+             
+         </tbody>
+     </table>
+     </div>
+         </div>
+     <div class="box">    
+     <div class="box-body">
+     
+     <h3>Grades 1 - 10</h3>    
+     <table id="example2" class="table table-responsive table-striped">
          <thead>
              <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>Total</th></tr>
          </thead>
          <tbody>
              @if(count($statistics)>0)
-                <?php $islevel=""; $count=0; $strand=""; $subtotal=0; $noofloop=0;?>
+                <?php $islevel=0; $count=0; $strand=""; $subtotal=0; $noofloop=0;?>
                 @foreach($statistics as $statistic)
-                    @if($islevel!=$statistic->sort_by)
+                    @if($islevel != $statistic->sort_by)
                         @if($noofloop > 0)
                         <?php
                         for($i=$noofloop;$i<=4;$i++){
@@ -68,8 +83,8 @@
                         ?>
                         <td>{{$subtotal}}</td></tr>
                         @endif
-                        <tr><td>Grade {{$statistic->sort_by}} </td><td>{{$statistic->count}}</td>
-                   <?php $islevel=$statistic->sort_by; $subtotal=0;$noofloop=1 ?>
+                        <tr><td>{{$statistic->sort_by}} </td><td>{{$statistic->count}}</td>
+                   <?php $islevel=$statistic->sort_by; $subtotal=0;$noofloop=1; ?>
                     @else
                         <?php $subtotal = $subtotal+$statistic->count; $noofloop=$noofloop+1;?>
                         <td>{{$statistic->count}} </td>
@@ -85,44 +100,7 @@
                         @endif
              @endif
              
-              @if(count($abm)>0)
-                <?php $islevel=""; $count=0; $strand="";?>
-                @foreach($abm as $statistic)
-                    @if($islevel!=$statistic->sort_by)
-                    <?php $islevel=$statistic->sort_by; ?>
-                        </tr>
-                        <tr><td>Grade {{$statistic->sort_by}} {{$statistic->strand}} </td><td>{{$statistic->count}}</td>
-                    @else
-                        <td>{{$statistic->count}} </td>
-                    @endif
-                @endforeach      
-             @endif
-             
-             @if(count($humms)>0)
-                <?php $islevel=""; $count=0; $strand="";?>
-                @foreach($humms as $statistic)
-                    @if($islevel!=$statistic->sort_by)
-                    <?php $islevel=$statistic->sort_by; ?>
-                        </tr>
-                        <tr><td>Grade {{$statistic->sort_by}} {{$statistic->strand}} </td><td>{{$statistic->count}}</td>
-                    @else
-                        <td>{{$statistic->count}} </td>
-                    @endif
-                @endforeach      
-             @endif
-             
-             @if(count($stem)>0)
-                <?php $islevel=""; $count=0; $strand="";?>
-                @foreach($stem as $statistic)
-                    @if($islevel!=$statistic->sort_by)
-                    <?php $islevel=$statistic->sort_by; ?>
-                        </tr>
-                        <tr><td>Grade {{$statistic->sort_by}} {{$statistic->strand}} </td><td>{{$statistic->count}}</td>
-                    @else
-                        <td>{{$statistic->count}} </td>
-                    @endif
-                @endforeach      
-             @endif
+              
          
        </tbody>
        <tfoot>
@@ -139,6 +117,7 @@
 <script>
     $(document).ready(function(){
         $('#example1').DataTable();
+        $('#example2').DataTable();
        $("#search").on('keypress',function(e){
           if(e.keyCode==13){
               var array={};

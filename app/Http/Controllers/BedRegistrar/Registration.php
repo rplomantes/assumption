@@ -63,4 +63,19 @@ class Registration extends Controller
             }
         }
     }
+    function info($idno){
+        if(Auth::user()->accesslevel==env("REG_BE")){
+            $student = \App\User::where("idno",$idno)->first();
+            return view("reg_be.info",compact('student'));
+        }
+    }
+    
+    function reset_password(Request $request){
+        if(Auth::user()->accesslevel==env("REG_BE")){
+            $user=  \App\User::where('idno',$request->idno)->first();
+            $user->password = bcrypt($request->password);
+            $user->update();
+            return redirect(url('/bedregistrar',array('info',$request->idno)));
+        }
+    }
 }

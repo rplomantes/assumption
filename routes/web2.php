@@ -5,7 +5,9 @@ Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
 Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
 Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
 Route::get('/accounting/ajax/getotherpayment','Accounting\Ajax\GetOtherPayment@getotherpayment');
-Route::get('bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList@index');
+Route::get('/bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList@index');
+Route::get('/bedregistrar/ajax/book_materials/{current_level}','BedRegistrar\Ajax\BookMaterials@index');
+Route::get('/bedregistrar/ajax/peuniforms/{current_level}','BedRegistrar\Ajax\BookMaterials@peuniforms');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 
@@ -54,12 +56,15 @@ Route::post('/accounting/set_other_payment','Accounting\AddAccount@post_set_othe
 Route::get('/accounting/remove_set_other_payment/{id}','Accounting\AddAccount@remove_set_other_payment');
 Route::get('/accounting/cash_receipt','Accounting\BookOfAccount@cash_receipt');
 //BED registrar
+Route::get('/bedregistrar/info/{idno}','BedRegistrar\Registration@info');
 Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
 Route::get('/bedregistrar/enrollment_statistics/{school_year}','BedRegistrar\Assess@enrollment_statistics');
 Route::get('/bedregistrar/registration','BedRegistrar\Registration@register');
 Route::post('/bedregistrar/registration','BedRegistrar\Registration@post_register');
 Route::post('/bedregistrar/assess','BedRegistrar\Assess@post_assess');
+Route::get('/bedregistrar/reassess/{idno}','BedRegistrar\Assess@reassess');
+Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
 //update
-//Route::get('updatebedlevel','Updater@updateBedLevel');
+Route::get('updatebedlevel','Updater@updateBedLevel');
 
 ?>

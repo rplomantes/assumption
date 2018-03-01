@@ -17,7 +17,7 @@ class CreateLedgerDueDatesTable extends Migration
             $table->increments('id');
             $table->string('idno');
             $table->string('school_year');
-            $table->string('period');
+            $table->string('period')->nullable();
             $table->integer('due_switch');
             $table->date('due_date');
             $table->decimal('amount',10,2);
