@@ -43,7 +43,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Electives</h3>
+                    <h3 class="box-title">Add Electives</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
