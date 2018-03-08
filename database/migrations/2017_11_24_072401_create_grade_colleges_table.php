@@ -33,6 +33,11 @@ class CreateGradeCollegesTable extends Migration
             $table->string('period');
             $table->decimal('srf',10,2);
             $table->integer('percent_tuition');
+            $table->integer('prelim_status')->default(0);
+            $table->integer('midterm_status')->default(0);
+            $table->integer('finals_status')->default(0);
+            $table->integer('final_grade_status')->default(0);
+            $table->integer('grade_point_status')->default(0);
             $table->integer('is_lock')->default(0);
             $table->integer('is_dropped')->default(0);
             $table->timestamps();

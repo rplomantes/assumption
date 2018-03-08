@@ -50,7 +50,7 @@ class ViewInstructorsController extends Controller {
         $this->addinstructorinfo($request);
         DB::commit();
 
-        return redirect(url('/'));
+        return redirect(url('/registrar_college/instructor/view_instructor'));
     }
 
     function adduser($request) {

@@ -37,6 +37,7 @@ class LoginController extends Controller
     {
         $this->addadmin();
         $this->add999999();
+        //$this->generatePassword();
         $this->middleware('guest')->except('logout');
     }
     
@@ -57,6 +58,15 @@ class LoginController extends Controller
         if(count($check)<=0){
             $password = bcrypt("999999");
             DB::Select("Insert into users(idno,lastname,firstname,accesslevel,email, password) values('999999','none','none','0','999999@999999.com','$password')");
+        }
+    }
+    public function generatePassword(){
+        $prof = \App\User::where('accesslevel', 1)->get();
+        foreach ($prof as $profs){
+            $password = strtolower($profs->lastname);
+            $pass = bcrypt($password);
+            $profs->password = "$pass";
+            $profs->save();
         }
     }
 }

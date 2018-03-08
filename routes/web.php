@@ -94,6 +94,13 @@ Route::get('/registrar_college/instructor/modify_instructor/{idno}', 'RegistrarC
 Route::post('/registrar_college/instructor/modify_old_instructor', 'RegistrarCollege\Instructor\ViewInstructorsController@modify');
 
 
+//Registrar Grade Management
+//Close/Open Grade Module
+Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\GradeManagement\OpenCloseController@setup');
+Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
+//View Grades
+Route::get('/registrar_college/grade_management/view_grades', 'RegistrarCollege\GradeManagement\GradesController@view_grades');
+
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
 Route::get('/registrar_college/reports/student_list/search','RegistrarCollege\Reports\StudentListController@search');
@@ -106,7 +113,7 @@ Route::get('/ajax/registrar_college/reports/student_list/select_section','Regist
 Route::get('/ajax/registrar_college/reports/student_list/select_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_course');
 Route::get('/ajax/registrar_college/reports/student_list/list_per_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@list_per_course');
 //Enrollment Statistics
-Route::get('/registrar_college/reports/enrollment_statistics','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
+Route::get('/registrar_college/reports/enrollment_statistics/','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
 Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_statistics','RegistrarCollege\Reports\EnrollmentStatisticsController@print_statistics');
 
 
@@ -135,3 +142,16 @@ Route::get('/dean/srf/print_srf_now/{program_code}/{level}/{period}/{curriculum_
 //Ajax SRF
 Route::get('/ajax/dean/srf/get_list','Dean\SRF\Ajax\setup@get_list');
 Route::get('/ajax/dean/srf/print_get_list','Dean\SRF\Ajax\setup@print_list');
+
+
+//COLLEGE INSTRUCTOR - MAIN/////////////////////////////////////////////////////
+Route::get('/college_instructor/grades/{schedule_id}', 'CollegeInstructor\Grades\GradesController@index');
+Route::post('/college_instructor/grades/save_submit', 'CollegeInstructor\Grades\GradesController@save_submit');
+Route::get('/college_instructor/print_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_list');
+Route::get('/college_instructor/print_grade/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
+
+//Ajax COLLEGE INSTRUCTOR///////////////////////////////////////////////////////
+Route::get('/ajax/college_instructor/grades/change_midterm/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_midterm');
+Route::get('/ajax/college_instructor/grades/change_finals/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_finals');
+Route::get('/ajax/college_instructor/grades/change_grade_point/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_grade_point');
+

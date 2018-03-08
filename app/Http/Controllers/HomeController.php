@@ -26,7 +26,7 @@ class HomeController extends Controller
         $accesslevel = \Auth::user()->accesslevel;
         switch($accesslevel){
             case 1:
-                return view('dean.index');
+                return view('college_instructor.index');
                 break;
             case 10:
                 return view('dean.index');

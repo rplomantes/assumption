@@ -86,11 +86,46 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 <a href="#" class="form form-control btn btn-primary">Print Student Record</a>
             </div>
             <div class="form-group">
-                <a href="#" class="form form-control btn btn-success">Other Payment</a>
+                <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="form form-control btn btn-success">View Student Information</a>
             </div>
             <div class="form-group">
-                <a href="#" class="form form-control btn btn-success">Reservation</a>
+                <a href="#" class="form form-control btn btn-success">Others</a>
             </div>
+        </div>
+        <div class="col-sm-12">
+        <?php $school_years = \App\GradeCollege::distinct()->where('idno', $user->idno)->get(['school_year']); ?>
+            @foreach ($school_years as $school_year)
+            <?php $periods = \App\GradeCollege::distinct()->where('idno',$user->idno)->where('school_year', $school_year->school_year)->get(['period']); ?>
+                @foreach ($periods as $period)
+        <?php $grades= \App\GradeCollege::where('idno',$idno)->where('school_year', $school_year->school_year)->where('period', $period->period)->get(); ?>
+            
+                <table class="table table-striped">
+                    {{$period->period}}, {{$school_year->school_year}} - {{$school_year->school_year+1}}
+                <thead>
+                <tr>
+                    <th width="10%">Code</th>
+                    <th width="60%">Description</th>
+                    <th>Midterm</th>
+                    <th>Finals</th>
+                    <th>Final Grade</th>
+                    <th>Grade Point</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($grades as $grade)
+                <tr>
+                    <td>{{$grade->course_code}}</td>
+                    <td>{{$grade->course_name}}</td>
+                    <td>{{$grade->midterm}}</td>
+                    <td>{{$grade->finals}}</td>
+                    <td>{{$grade->final_grade}}</td>
+                    <td>{{$grade->grade_point}}</td>
+                </tr>
+                @endforeach
+                @endforeach
+                @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </section>

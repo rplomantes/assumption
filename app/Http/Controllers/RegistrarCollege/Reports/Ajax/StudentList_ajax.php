@@ -102,7 +102,7 @@ class StudentList_ajax extends Controller {
             if ($section == "all") {
                 $section = "";
             } else {
-                $section = "and section = '" . $section . "'";
+                $section = "and section_name = '" . $section . "'";
             }
 
             if ($period == "all") {
