@@ -233,8 +233,10 @@ $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
                         @if(count($discounts)>0)
                             @foreach($discounts as $discount)
                                 <option value="{{$discount->discount_code}}"
+                                        @if(count($pre_discount)>0)
                                         @if($discount->discount_description == $pre_discount->discount_description)
                                         selected="selected"
+                                        @endif
                                         @endif
                                         >{{$discount->discount_description}}</option>
                             @endforeach
