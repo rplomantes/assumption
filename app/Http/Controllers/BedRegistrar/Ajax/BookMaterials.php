@@ -23,4 +23,12 @@ class BookMaterials extends Controller
     function peuniforms($current_level){
         return view('reg_be.ajax.peuniforms',  compact('current_level'));
     }
+    function getUniformAmount(){
+        if(Request::ajax()){
+            $id = Input::get('id');
+            $qty = Input::get('qty');
+            $amount = \App\CtrUniformSize::find($id)->amount; 
+            return number_format($amount*$qty,2);    
+        }
+    }
 }

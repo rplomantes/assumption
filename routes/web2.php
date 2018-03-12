@@ -1,6 +1,7 @@
 <?php
 
 //ajax route
+Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList@view_list');
 Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
 Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
 Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
@@ -8,6 +9,7 @@ Route::get('/accounting/ajax/getotherpayment','Accounting\Ajax\GetOtherPayment@g
 Route::get('/bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList@index');
 Route::get('/bedregistrar/ajax/book_materials/{current_level}','BedRegistrar\Ajax\BookMaterials@index');
 Route::get('/bedregistrar/ajax/peuniforms/{current_level}','BedRegistrar\Ajax\BookMaterials@peuniforms');
+Route::get('/bedregistrar/ajax/getUniformAmount','BedRegistrar\Ajax\BookMaterials@getUniformAmount');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 
@@ -64,6 +66,7 @@ Route::post('/bedregistrar/registration','BedRegistrar\Registration@post_registe
 Route::post('/bedregistrar/assess','BedRegistrar\Assess@post_assess');
 Route::get('/bedregistrar/reassess/{idno}','BedRegistrar\Assess@reassess');
 Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
+Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
 //update
 Route::get('updatebedlevel','Updater@updateBedLevel');
 

@@ -4,8 +4,8 @@ $user = \App\User::where('idno',$idno)->first();
 $status =  \App\Status::where('idno',$idno)->first();
 if($status->status == env("ENROLLED"))
     $display_status = "ENROLLED";
-$ledger = \App\Ledger::SelectRaw('category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->groupBy('category')->get();
+$ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
 $due_dates = \App\LedgerDueDate::where('idno',$idno)->get();
 $totalmainpayment=0;
 ?>

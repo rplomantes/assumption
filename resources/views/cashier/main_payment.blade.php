@@ -83,7 +83,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
       {{csrf_field()}}
            <input type="hidden" name="idno" value="{{$user->idno}}">
            <input type="hidden" name="receipt_no" value="{{$receipt_number}}">
-           
+           <input type="hidden" name="level" value="{{$status->level}}">
     <div class="col-md-6">
         <div id="detailed_form">   
             <div class="form form-group">    

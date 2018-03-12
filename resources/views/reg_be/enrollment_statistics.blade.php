@@ -72,23 +72,45 @@
          </thead>
          <tbody>
              @if(count($statistics)>0)
-                <?php $islevel=0; $count=0; $strand=""; $subtotal=0; $noofloop=0;?>
+                <?php $islevel=""; $count=0; $strand=""; $subtotal=0; $noofloop=0;?>
                 @foreach($statistics as $statistic)
-                    @if($islevel != $statistic->sort_by)
+                    @if($statistic->level != "Grade 11" && $statistic->level != "Grade 12" && $statistic->level!="Kinder" && $statistic->level!="Pre-Kinder")
+                    @if($islevel != $statistic->level)
                         @if($noofloop > 0)
                         <?php
-                        for($i=$noofloop;$i<=4;$i++){
+                        for($i=$noofloop;$i<5;$i++){
                             echo "<td></td>";
                         }
+                        $noofloop=0;
                         ?>
                         <td>{{$subtotal}}</td></tr>
                         @endif
-                        <tr><td>{{$statistic->sort_by}} </td><td>{{$statistic->count}}</td>
-                   <?php $islevel=$statistic->sort_by; $subtotal=0;$noofloop=1; ?>
+                        
+                        <tr><td>{{$statistic->level}} </td>
+                            @if($statistic->section == '1')
+                            <?php $noofloop=1;?>
+                            <td>{{$statistic->count}}</td>
+                            @elseif($statistic->section == '2')
+                            <?php $noofloop=2;?>
+                            <td></td><td>{{$statistic->count}}</td>
+                            @elseif($statistic->section == '3')
+                            <?php $noofloop=3;?>
+                            <td></td><td></td><td>{{$statistic->count}}</td>
+                            
+                            @elseif($statistic->section == '4')
+                            <td></td><td></td><td></td><td>{{$statistic->count}}</td>
+                            <?php $noofloop=4;?>
+                            @elseif($statistic->section == '5')
+                            <td></td><td></td><td></td><td></td><td>{{$statistic->count}}</td>
+                            <?php $noofloop=5;?>
+                            @endif
+                   
+                     <?php $islevel=$statistic->level; $subtotal=$statistic->count; ?>
                     @else
                         <?php $subtotal = $subtotal+$statistic->count; $noofloop=$noofloop+1;?>
                         <td>{{$statistic->count}} </td>
                     @endif
+                @endif    
                 @endforeach  
                 @if($noofloop > 0)
                         <?php

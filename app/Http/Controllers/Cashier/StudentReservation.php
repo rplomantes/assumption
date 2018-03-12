@@ -43,7 +43,7 @@ class StudentReservation extends Controller
     
     function postAccounting($request, $reference_id){
         $fiscal_year= \App\CtrFiscalYear::first()->fiscal_year;
-        $dept=\App\Status::where('idno',$request->idno)->first();
+        $dept=  \App\CtrAcademicProgram::where('level',$request->level)->first();
         if(count($dept)>0){
         $department = $dept->department;
         } else {
@@ -175,7 +175,7 @@ class StudentReservation extends Controller
     public static function postCashDebit($request,$reference_id){
         $addaccounting = new \App\Accounting;
         $fiscal_year= \App\CtrFiscalYear::first()->fiscal_year;
-        $dept=\App\Status::where('idno',$request->idno)->first();
+        $dept=  \App\CtrAcademicProgram::where('level',$request->level)->first();
         if(count($dept)>0){
         $department = $dept->department;
         } else {

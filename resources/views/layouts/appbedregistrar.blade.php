@@ -3,7 +3,7 @@ $file_exist=0;
 if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
     $file_exist=1;
 }
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first();
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +20,8 @@ $school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first()
   <link rel="stylesheet" href="{{url("dist",array("css","skins","skin-blue.min.css"))}}">
   <link rel="stylesheet" href="{{url("/bower_components", array("datatables.net-bs","css","dataTables.bootstrap.min.css"))}}">
   <link rel="stylesheet" href="{{url('/dist',array('css','skins','_all-skins.min.css'))}}">
+  <link rel="stylesheet" href="{{url('/dist',array('css','AdminLTE.min.css'))}}">
+  <link rel="stylesheet" href="{{url('/bower_components',array('select2','dist','css','select2.min.css'))}}">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -133,8 +135,8 @@ $school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first()
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/accounting',array('cash_receipt',date('Y-m-d'),date('Y-m-d')))}}">Per Grade Level and Section </a></li>
-            <li><a href="{{url('/accounting',array('cash_disbursement',date('Y-m-d'),date('Y-m-d')))}}">Per Class </a></li>
+            <li><a href="{{url('/bedregistrar',array('student_list'))}}">Per Grade Level and Section </a></li>
+            <li><a href="">Per Class </a></li>
           </ul>
         </li>
         

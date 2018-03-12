@@ -24,5 +24,26 @@ class GetStudentList extends Controller
             return view('reg_be.ajax.getstudentlist',compact('lists'));
         }
     }   
- }  
+ } 
+function view_list(){
+    if(Request::ajax()){
+        if(Auth::user()->accesslevel==env("REG_BE")){
+            $schoolyear = \App\CtrAcademicSchoolYear::where('academic_type',"BED")->first()->school_year;
+            $level = Input::get('level');
+            $section = Input::get('section');
+            $strand=Input::get("strand");
+            if($level=="Grade 11" || $level=="Grade 12"){
+                $status= \App\BedLevel::where('level',$level)->where('section',$section)
+                        ->where('strand',$strand)->where('school_year',$schoolyear)
+                        ->get();
+            }
+         else {
+            $status= \App\BedLevel::where('level',$level)->where('section',$section)
+                        ->where('school_year',$schoolyear)
+                        ->get();
+        }
+        return view("reg_be.ajax.view_list",compact("status","level","section",'strand'));
+       }
+    }
+} 
 }

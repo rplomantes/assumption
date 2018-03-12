@@ -21,6 +21,7 @@ class MainPayment extends Controller
     function main_payment($idno){
         if(Auth::user()->accesslevel==env("CASHIER")){
         $user = \App\User::where('idno',$idno)->first();
+        $status = \App\Status::where('idno',$idno)->first();
         $receipt_number=  StudentLedger::getreceipt();
         $total_other=0.00;
         
@@ -66,7 +67,7 @@ class MainPayment extends Controller
         $duetoday= \App\LedgerDueDate::where('idno', $idno)->where('due_date','<=',date('Y-m-d'))->where('due_switch','1')->selectRaw('sum(amount) as amount')->first();
         //Total Payment Main
         $payment = \App\Ledger::where('idno',$idno)->where('category_switch','<=','6')
-                ->selectRaw('sum(debit_memo)+sum(payment)+sum(discount) as payment')->first();
+                ->selectRaw('sum(debit_memo)+sum(payment) as payment')->first();
         //
         if($downpayment->amount + $duetoday->amount -$payment->payment > 0){
         $due_total = $downpayment->amount + $duetoday->amount -$payment->payment;
@@ -80,7 +81,7 @@ class MainPayment extends Controller
         $deposit =  \App\Reservation::where('idno',$idno)->where('reservation_type','2')
                 ->where('is_consumed','0')->selectRaw('sum(amount) as amount')->first();
         
-        return view('cashier.main_payment',compact('user','other_fee_total','miscellaneous_fee_total','depository_fee_total','srf_total','tuition_fee_total','previous_total','other_misc','reservation','deposit','receipt_number','due_total','optional_fee_total'));
+        return view('cashier.main_payment',compact('user','other_fee_total','miscellaneous_fee_total','depository_fee_total','srf_total','tuition_fee_total','previous_total','other_misc','reservation','deposit','receipt_number','due_total','optional_fee_total','status'));
     
         }
     }
@@ -89,11 +90,11 @@ class MainPayment extends Controller
         if(Auth::user()->accesslevel==env("CASHIER")){    
         DB::beginTransaction();
         $reference_id = uniqid();
-        $this->checkStatus($request,$reference_id);
         StudentReservation::postPayment($request,$reference_id);
         $this->postAccounting($request, $reference_id);
         StudentReservation::postCashDebit($request, $reference_id);
         StudentLedger::updatereceipt();
+        $this->checkStatus($request,$reference_id);
         DB::commit();
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }
@@ -105,8 +106,8 @@ class MainPayment extends Controller
             $status = \App\Status::where('idno',$request->idno)->first();
                 if($status->status==env("ASSESSED")){
                     $this->addUnrealizedEntry($request,$reference_id);
-                    $this->changeStatus($request->idno);
-                    $this->addLevels($request->idno);
+                    $idno=$this->changeStatus($request->idno);
+                    $this->addLevels($idno);
                     //$this->notifyStudent($request, $reference_id);
                 }
          }
@@ -116,7 +117,8 @@ class MainPayment extends Controller
          $totaltuition=  \App\Ledger::where('idno',$request->idno)->where('category_switch',env("TUITION_FEE"))
                  ->selectRaw("sum(amount) as amount")->first();
          $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
-         $department=  \App\Status::where('idno',$request->idno)->first()->department;
+         $dept=  \App\CtrAcademicProgram::where('level',$request->level)->first();
+         $department=  $dept->department;//\App\Status::where('idno',$request->idno)->first()->department;
         //add debit tuition fee ar
          $addacct = new \App\Accounting;
          $addacct->transaction_date = date('Y-m-d');
@@ -158,6 +160,32 @@ class MainPayment extends Controller
          $change->status=env("ENROLLED");
          $change->date_enrolled=date('Y-m-d');
          $change->update();
+         $no=$idno;
+         if(strlen($idno)>10){
+             $user= \App\User::where('idno',$idno)->first();
+             $no = MainPayment::getIdno($idno);
+             $user->idno = $no;
+             $user->save();
+         } else {
+             $status = \App\Status::where('idno',$idno)->first();
+             $status->is_new=0;
+             $status->update();
+             }
+        return $no;
+     }
+     
+     public static function  getIdno($idno){
+     $id_no = \App\CtrStudentNumber::first();
+     $idNumber=$id_no->idno;
+     $id_no->idno=$id_no->idno+1;
+     $id_no->update();
+     for ($i=strlen($idNumber);$i<=4;$i++){
+         $idNumber = "0".$idNumber;
+     }
+     $status = \App\Status::where('idno',$idno)->first();
+     $pre=\App\CtrEnrollmentSchoolYear::where('academic_type',$status->academic_type)->first();
+     $pre_number = $pre->school_year;
+     return substr($pre_number,2,2).$idNumber;
      }
      
      function notifyStudent($request, $reference_id){
@@ -187,9 +215,11 @@ class MainPayment extends Controller
         
     }
   
-    function processDiscount($request,$reference_id,$discount,$discount_code,$accounting_type){
+    public static function processDiscount($request,$reference_id,$discount,$discount_code,$accounting_type){
+        $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
         $discount_ref = \App\CtrDiscount::where('discount_code',$discount_code)->first();
-        $department=  \App\Status::where('idno',$request->idno)->first()->department;
+        $dept=  \App\CtrAcademicProgram::where('level',$request->level)->first();
+        $department=  $dept->department;//\App\Status::where('idno',$request->idno)->first()->department;
         $addacct = new \App\Accounting;
                     $addacct->transaction_date = date('Y-m-d');
                     $addacct->reference_id=$reference_id;
@@ -207,6 +237,8 @@ class MainPayment extends Controller
                     $addacct->save();        
         
     }
+    
+    
 
     public static function processAccounting($request, $reference_id,$totalpayment,$ledgers,$accounting_type){
         $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
@@ -216,7 +248,8 @@ class MainPayment extends Controller
                         //process if there is discount
                         if($ledger->debit_memo==0 && $ledger->payment==0){
                             if($ledger->discount>0){
-                            $this->processDiscount($request, $reference_id, $ledger->discount, $ledger->discount_code);
+                                     
+                            MainPayment::processDiscount($request, $reference_id, $ledger->discount, $ledger->discount_code,1);
                             $addacct = new \App\Accounting;
                             $addacct->transaction_date = date('Y-m-d');
                             $addacct->reference_id=$reference_id;
@@ -294,6 +327,55 @@ class MainPayment extends Controller
             }
     }
     function addLevels($idno){
+        $status=  \App\Status::where('idno',$idno)->first();
+        if(count($status)>0){
+            if($status->academic_type=="BED"){
+                $addbed = new \App\BedLevel;
+                $addbed->idno = $status->idno;
+                $addbed->date_registered = $status->date_registered;
+                $addbed->date_enrolled = date('Y-m-d');
+                $addbed->department = $this->getDepartment($status->level);
+                $addbed->strand=$status->strand;
+                $addbed->track = $status->track;
+                $addbed->level = $status->level;
+                $addbed->section = $status->section;
+                $addbed->status = $status->status;
+                $addbed->school_year = $status->school_year;
+                $addbed->type_of_plan = $status->type_of_plan;
+                $addbed->type_of_account = $status->type_of_account;
+                $addbed->type_of_discount = $status->type_of_discount;
+                $addbed->esc=$status->esc;
+                $addbed->registration_no = $status->registration_no;
+                $addbed->remarks=$status->remarks;
+                $addbed->is_new=$status->is_new;
+                $addbed->save();
+       
+            } else {
+                $addbed = new \App\CollegeLevel;
+                $addbed->idno = $status->idno;
+                $addbed->date_registered = $status->date_registered;
+                $addbed->date_enrolled = date('Y-m-d');
+                $addbed->department = $status->department;
+                $addbed->level = $status->level;
+                $addbed->program_code = $status->program_code;
+                $addbed->program_name = $status->program_name;
+                $addbed->status = $status->status;
+                $addbed->school_year = $status->school_year;
+                $addbed->period = $status->period;
+                $addbed->type_of_plan = $status->type_of_plan;
+                $addbed->type_of_account = $status->type_of_account;
+                $addbed->type_of_discount = $status->type_of_discount;
+                $addbed->esc=$status->esc;
+                $addbed->registration_no = $status->registration_no;
+                $addbed->remarks=$status->remarks;
+                $addbed->is_new=$status->is_new;
+                $addbed->save();
+            }
+        }
         
     }
+    function getDepartment($level){
+            $dept = \App\CtrAcademicProgram::where('level',$level)->first();
+            return $dept->department;
+        }
 }

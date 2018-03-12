@@ -59,7 +59,7 @@ class Registration extends Controller
                $addstatus->academic_type="BED";
                $addstatus->save();
                DB::Commit();
-               return view('reg_be.sucessfull');
+               return view('reg_be.successfull');
             }
         }
     }
@@ -76,6 +76,12 @@ class Registration extends Controller
             $user->password = bcrypt($request->password);
             $user->update();
             return redirect(url('/bedregistrar',array('info',$request->idno)));
+        }
+    }
+    function student_list(){
+        if(Auth::user()->accesslevel==env("REG_BE")){
+            $students = \App\Status::where('academic_type',"BED")->where('status',env("ENROLLED"))->get();
+            return view("reg_be.student_list",compact('students'));
         }
     }
 }

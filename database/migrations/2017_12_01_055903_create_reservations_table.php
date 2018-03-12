@@ -22,6 +22,7 @@ class CreateReservationsTable extends Migration
             $table->integer('is_reverse')->default(0);
             $table->integer('is_consumed')->default(0);
             $table->integer('reservation_type');
+            $table->string('consume_sy')->nullable();
             $table->string('posted_by');
             $table->foreign('idno')->references('idno')
                     ->on('users')->onUpdate('cascade');

@@ -23,6 +23,7 @@ class CreateDebitMemosTable extends Migration
             $table->decimal('amount',10,2);
             $table->integer('is_current')->default(1);
             $table->integer('is_reverse')->default(0);
+            $table->string('reservation_sy')->nullable();
             $table->string('posted_by');
             $table->foreign("idno")->references("idno")
                     ->on("users")->onUpdate("cascade");

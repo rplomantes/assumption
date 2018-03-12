@@ -12,7 +12,33 @@ class Updater extends Controller
     //
     
     function updateBedLevel(){
-        $students = \App\Status::where('academic_type','BED')->get();
+        $users =  \App\User::where('accesslevel',0)->where('level','Grade 12')->get();
+        foreach($users as $user){
+            $update = \App\User::find($user->id);
+            $update->password = bcrypt($user->idno);
+            $update->update();
+        }
+        return "Done";
+    }
+      /*  
+        $data = DB::Select("Select * from partial_student_discount");
+        $notmuch="";
+        foreach($data as $dat){
+            $find = \App\Promotion::where('idno',$dat->idno)->first();
+            if(count($find)>0){
+            $find->discount = $dat->discount;
+            $find->update();
+            } else {
+             $notmuch=$notmuch."-".$dat->idno;   
+            }
+        }
+        
+        return $notmuch;
+       
+    */   
+          
+  /*       
+        $students = \App\Status::where('level','Pre-Kinder')->get();
         $current_level="";
         foreach($students as $student){
             $add = new \App\Promotion;
@@ -21,6 +47,7 @@ class Updater extends Controller
 case "Pre-Kinder":
     $current_level = "Kinder";
     break;
+
 case "Kinder":
     $current_level = "Grade 1";
     break;
@@ -57,6 +84,8 @@ case "Grade 10":
 case "Grade 11":
     $current_level = "Grade 12";
     break;
+
+ 
 }
     $add->level = $current_level;
     $add->section = $student->section;
@@ -64,8 +93,8 @@ case "Grade 11":
     $add->strand = $student->strand;
     $add->save();
             
-        }
-    /*  
+        }*/
+ /*
         $levels = \App\Status::where('level','Kinder')->get();
         foreach($levels as $level){
             $add = new \App\BedLevel;
@@ -83,8 +112,8 @@ case "Grade 11":
         
     }
        */
-       /* 
-        $users = \App\User::where('level','Kinder')->get();
+       /*
+        $users = \App\User::where('level','Pre-Kinder')->get();
         foreach($users as $user){
             $add = new \App\Status;
             $add->idno = $user->idno;
@@ -97,9 +126,8 @@ case "Grade 11":
             } else {
                 $add->is_new=0;
             }
-            $add->department = "Kinder";
+            $add->department = "Pre-Kinder";
             $add->school_year="2017";
             $add->save();
         }*/
-}
 }
