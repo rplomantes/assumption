@@ -39,6 +39,7 @@ class CreateStatusesTable extends Migration
             $table->integer('esc')->default(0);
             $table->string('registration_no')->nullable();
             $table->string('remarks')->nullable();
+            $table->integer('is_audit')->default(0);
             $table->foreign('idno')
                     ->references('idno')->on('users')
                     ->onUpdate('cascade');

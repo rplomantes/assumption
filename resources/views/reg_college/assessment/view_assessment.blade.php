@@ -69,16 +69,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         @if(count($status)>0)
-                            @if($status->is_new == "0")
-                            <li><a href="#">Status <span class="pull-right">Old Student</span></a></li>
-                            <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                            <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                            <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
-                            @else
-                            <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
-                            <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                            <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                            @endif
+                        @if($status->is_new == "0")
+                        <li><a href="#">Status <span class="pull-right">Old Student</span></a></li>
+                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
+                        @else
+                        <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
+                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        @endif
                         @else    
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                         <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
@@ -90,55 +90,68 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             </div>
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Tuition Fee Quotations</h3>
+                    <h3 class="box-title">Is Audit?</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                 </div>
                 <div class='box-body'>
                     <form method="POST" action="{{url('/registrar_college',array('assessment','save_assessment'))}}">    
-                            {{ csrf_field() }}
-                            
-                    <div class="form-horizontal">
-                        <input type="hidden" name="idno" value="{{$user->idno}}">  
-                        <input type="hidden" name="program_code" value="{{$status->program_code}}">
-                        <input type="hidden" name="level" value="{{$status->level}}">
-                        <input type="hidden" name="type_account" id="type_account" value="Regular">
-                        <div class="form-group">
-                        <div class='col-sm-12' id='plan-form'>
-                            <?php $plans = \App\CtrDueDate::distinct()->where('academic_type', 'College')->where('level',$status->level)->get(['plan']); ?>
-                            <label>Plan</label>
-                            <select id="plan" name="plan" class='form-control'>
-                                <option>Select Plan</option>
-                                <option value='Cash'>Cash</option>
-                                @foreach ($plans as $plan)
-                                <option value='{{$plan->plan}}'>{{$plan->plan}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        </div>
-                        <div class="form-group">
-                        <div class='col-sm-12' id='discount-form'>
-                            <label>Discount</label>
-                            <select id="discount" name="discount" class='form-control'>
-                                <option value="">Select Discount</option>
-                                <option value="">None</option>
-                                @foreach ($discounts as $discount)
-                                <option value="{{$discount->discount_code}}">{{$discount->discount_code}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        {{ csrf_field() }}
+                            <input type="radio" name="is_audit" value='1'> Yes<br>
+                            <input type="radio" name="is_audit" value='0' checked> No
+                        
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Tuition Fee Quotations</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
-                    <div class="form-group" id="compute-form">
-                        <div class="col-sm-12">
-                            <input type="submit" class="form-control btn-primary" value="Process Assessment" name="submit">
-                            <!--<button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}',discount.value)">Compute</button>-->
-                        </div>
-                    </div>
-                    <div class="col-sm-12 box-body" id="display_result">
+                </div>
+                <div class='box-body'>
 
-                    </div>
-                    </div>
+                        <div class="form-horizontal">
+                            <input type="hidden" name="idno" value="{{$user->idno}}">  
+                            <input type="hidden" name="program_code" value="{{$status->program_code}}">
+                            <input type="hidden" name="level" value="{{$status->level}}">
+                            <input type="hidden" name="type_account" id="type_account" value="Regular">
+                            <div class="form-group">
+                                <div class='col-sm-12' id='plan-form'>
+                                    <?php $plans = \App\CtrDueDate::distinct()->where('academic_type', 'College')->where('level', $status->level)->get(['plan']); ?>
+                                    <label>Plan</label>
+                                    <select id="plan" name="plan" class='form-control'>
+                                        <option>Select Plan</option>
+                                        <option value='Cash'>Plan A - Cash</option>
+                                        @foreach ($plans as $plan)
+                                        <option value='{{$plan->plan}}'>{{$plan->plan}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class='col-sm-12' id='discount-form'>
+                                    <label>Discount</label>
+                                    <select id="discount" name="discount" class='form-control'>
+                                        <option value="">Select Discount</option>
+                                        <option value="">None</option>
+                                        @foreach ($discounts as $discount)
+                                        <option value="{{$discount->discount_code}}">{{$discount->discount_code}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="compute-form">
+                                <div class="col-sm-12">
+                                    <input type="submit" class="form-control btn-primary" value="Process Assessment" name="submit">
+                                    <!--<button class="btn btn-primary col-sm-12"  onclick="get_assessed_payment(plan.value, type_account.value, '{{$user->idno}}',discount.value)">Compute</button>-->
+                                </div>
+                            </div>
+                            <div class="col-sm-12 box-body" id="display_result">
+
+                            </div>
+                        </div>
                     </form>        
                 </div>
             </div>
@@ -153,65 +166,65 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
                 <div class='box-body'>
                     <div class='table-responsive'>
-                    <table class='table table-striped'>
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Course Name</th>
-                                <th>Units</th>
-                                <th>Schedule</th>
-                                <th>Instructor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $units = 0; ?>
-                            @foreach($grade_colleges as $grade_college)
-                            <?php
-                            $units = $units + $grade_college->lec + $grade_college->lab;
-                            $offering_ids = \App\CourseOffering::find($grade_college->course_offering_id);
-                            ?>
-                            <tr>
-                                <td>{{$grade_college->course_code}}</td>
-                                <td>{{$grade_college->course_name}}</td>
-                                <td>{{$grade_college->lec+$grade_college->lab}}</td>
-                                <td>
-                                    <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
-                                    ?>   
-                                    @foreach ($schedule3s as $schedule3)
-                                    {{$schedule3->room}}
-                                    @endforeach
-                                    <?php
-                                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
-                                    ?>
-                                    @foreach ($schedule2s as $schedule2)
-                                    <?php
-                                    $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
-                                    ?>
-                                    <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
-                                    @endforeach
-                                </td>
+                        <table class='table table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Course Name</th>
+                                    <th>Units</th>
+                                    <th>Schedule</th>
+                                    <th>Instructor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $units = 0; ?>
+                                @foreach($grade_colleges as $grade_college)
                                 <?php
-                                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
-                                $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
-
-                                if (count($instructor) > 0) {
-                                    $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
-                                } else {
-                                    $data = "";
-                                }
+                                $units = $units + $grade_college->lec + $grade_college->lab;
+                                $offering_ids = \App\CourseOffering::find($grade_college->course_offering_id);
                                 ?>
-                                <td >{{$data}}</td>
-                            </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="2"><strong>Total Units</strong></td>
-                                <td><strong>{{$units}}</strong></td>
-                                <td colspan="2"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <td>{{$grade_college->course_code}}</td>
+                                    <td>{{$grade_college->course_name}}</td>
+                                    <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                                    <td>
+                                        <?php
+                                        $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                        ?>   
+                                        @foreach ($schedule3s as $schedule3)
+                                        {{$schedule3->room}}
+                                        @endforeach
+                                        <?php
+                                        $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                        ?>
+                                        @foreach ($schedule2s as $schedule2)
+                                        <?php
+                                        $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                        ?>
+                                        <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                                        [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                                        @endforeach
+                                    </td>
+                                    <?php
+                                    $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
+                                    $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
+
+                                    if (count($instructor) > 0) {
+                                        $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
+                                    } else {
+                                        $data = "";
+                                    }
+                                    ?>
+                                    <td >{{$data}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="2"><strong>Total Units</strong></td>
+                                    <td><strong>{{$units}}</strong></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -232,23 +245,23 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     });
 </script>
 <script>
-    function get_assessed_payment(plan, type_account, idno, discount){
-    array = {};
-    array['plan'] = plan;
-    array['discount'] = discount;
-    array['type_of_account'] = type_account;
-    array['program_code'] = "{{$status->program_code}}";
-    array['level'] = "{{$status->level}}";
-    array['idno'] = idno;
-    $.ajax({
-    type: "GET",
+    function get_assessed_payment(plan, type_account, idno, discount) {
+        array = {};
+        array['plan'] = plan;
+        array['discount'] = discount;
+        array['type_of_account'] = type_account;
+        array['program_code'] = "{{$status->program_code}}";
+        array['level'] = "{{$status->level}}";
+        array['idno'] = idno;
+        $.ajax({
+            type: "GET",
             url: "/ajax/registrar_college/assessment/get_assessed_payment",
             data: array,
             success: function (data) {
-            $('#display_result').html(data);
+                $('#display_result').html(data);
             }
 
-    });
+        });
     }
 </script>
 @endsection

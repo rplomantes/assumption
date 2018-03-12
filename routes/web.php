@@ -100,6 +100,8 @@ Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\G
 Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
 //View Grades
 Route::get('/registrar_college/grade_management/view_grades', 'RegistrarCollege\GradeManagement\GradesController@view_grades');
+//Ajax View Grades
+Route::get('/ajax/registrar_college/grade_management/get_schedules', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@view_grades');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List

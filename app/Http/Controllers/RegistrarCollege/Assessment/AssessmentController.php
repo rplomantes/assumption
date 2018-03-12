@@ -53,6 +53,7 @@ class AssessmentController extends Controller {
             $level = $request->level;
             $type_of_account = $request->type_of_account;
             $program_code = $request->program_code;
+            $is_audit = $request->is_audit;
             
             ///delete current records if reasssess///
             $this->deletecurrentledgers($idno, $school_year, $period);
@@ -70,7 +71,7 @@ class AssessmentController extends Controller {
             }
 
                 //get tuition fee rate///
-                $tfr = \App\CtrCollegeTuitionFee::where('program_code', $program_code)->where('level', $level)->first();
+                $tfr = \App\CtrCollegeTuitionFee::where('program_code', $program_code)->where('period',$period)->where('level', $level)->first();
                 $tuitionrate = $tfr->per_unit;
                 
                 //poppulate other fee with discount////
@@ -82,7 +83,7 @@ class AssessmentController extends Controller {
                 //populate due dates//
                 $this->computeLedgerDueDate($idno, $school_year, $period, $plan);
                 //change status///
-                $this->changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code);
+                $this->changeStatus($is_audit, $school_year, $period, $plan, $type_of_account, $idno, $discount_code);
                 //check reservation//
                 $this->checkReservations($request, $idno, $school_year, $period);
                 /*
@@ -287,30 +288,30 @@ class AssessmentController extends Controller {
     }
     
      function getInterest($plan) {
-        if ($plan == "Cash") {
-            $interest = 1;
-        } else if ($plan == "Quarterly") {
-            $interest = 1.02;
-        } else if ($plan == "Monthly") {
-            $interest = 1.03;
-        }
-        
 //        if ($plan == "Cash") {
 //            $interest = 1;
-//        } else if ($plan == "Plan B") {
-//            $interest = 1.01;
-//        } else if ($plan == "Plan C") {
+//        } else if ($plan == "Quarterly") {
 //            $interest = 1.02;
-//        } else if ($plan == "Plan D") {
+//        } else if ($plan == "Monthly") {
 //            $interest = 1.03;
 //        }
+        
+        if ($plan == "Cash") {
+            $interest = 1;
+        } else if ($plan == "Plan B") {
+            $interest = 1.01;
+        } else if ($plan == "Plan C") {
+            $interest = 1.02;
+        } else if ($plan == "Plan D") {
+            $interest = 1.03;
+        }
         return $interest;
     }
     function computeplan($downpaymentamount, $totalFees, $due_dates) {
         $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
         return $planpayment;
     }
-    function changeStatus($school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
+    function changeStatus($is_audit,$school_year, $period, $plan, $type_of_account, $idno, $discount_code) {
         $changestatus = \App\Status::where('idno', $idno)->first();
         $changestatus->date_registered = date('Y-m-d');
         $changestatus->status = env('ASSESSED');
@@ -321,6 +322,7 @@ class AssessmentController extends Controller {
         $changestatus->school_year = $school_year;
         $changestatus->period = $period;
         $changestatus->type_of_discount = $discount_code;
+        $changestatus->is_audit = $is_audit;
         $changestatus->save();
     }
      function checkReservations($request, $idno, $school_year, $period) {

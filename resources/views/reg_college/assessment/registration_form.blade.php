@@ -122,7 +122,7 @@ $dfee = 0;
 $srffee = 0;
 $esc = 0;
 $oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 7)->get();
-$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 5)->get();
+$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 6)->get();
 foreach ($tfs as $tf) {
     $tfee = $tfee + $tf->amount;
 }
