@@ -129,7 +129,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
      <h3>Grades 1 - 10</h3>    
      <table id="example2" class="table table-responsive table-striped">
          <thead>
-             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th>Total</th></tr>
+             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>Total</th></tr>
          </thead>
          <tbody>
              <tr><td>Grade 1 </td><td>{{getCount('Grade 1','1','',$school_year)}}</td>
@@ -169,6 +169,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{getCount('Grade 5','3','',$school_year)}}</td>
              <td>{{getCount('Grade 5','4','',$school_year)}}</td>
              <td>{{getCount('Grade 5','5','',$school_year)}}</td>
+             <td>{{getCount('Grade 5','6','',$school_year)}}</td>
              <td>{{gettotal('Grade 5','',$school_year)}}</td>
             </tr>
              <tr><td>Grade 6 </td><td>{{getCount('Grade 6','1','',$school_year)}}</td>
@@ -176,6 +177,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{getCount('Grade 6','3','',$school_year)}}</td>
              <td>{{getCount('Grade 6','4','',$school_year)}}</td>
              <td>{{getCount('Grade 6','5','',$school_year)}}</td>
+             <td>{{getCount('Grade 6','6','',$school_year)}}</td>
              <td>{{gettotal('Grade 6','',$school_year)}}</td>
             </tr>
              <tr><td>Grade 7 </td><td>{{getCount('Grade 7','1','',$school_year)}}</td>
@@ -191,6 +193,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{getCount('Grade 8','3','',$school_year)}}</td>
              <td>{{getCount('Grade 8','4','',$school_year)}}</td>
              <td>{{getCount('Grade 8','5','',$school_year)}}</td>
+             <td>{{getCount('Grade 8','6','',$school_year)}}</td>
              <td>{{gettotal('Grade 8','',$school_year)}}</td>
             </tr>
              <tr><td>Grade 9 </td><td>{{getCount('Grade 9','1','',$school_year)}}</td>
