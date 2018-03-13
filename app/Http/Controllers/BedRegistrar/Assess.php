@@ -180,7 +180,7 @@ class Assess extends Controller
     
     function enrollment_statistics($school_year){
         $kinder = \App\BedLevel::selectRaw("level,section,count(*)as count")
-                ->whereRaw("school_year=$school_year AND level='Kinder' AND status='3'")->groupBy('level','section');
+                ->whereRaw("school_year=$school_year AND level='Kinder'")->groupBy('level','section');
         
         $statistics = \App\BedLevel::selectRaw("level, section, count(*) as count")
                 ->whereRaw("school_year=$school_year AND status='3'")->groupBy('level','section')
@@ -198,7 +198,7 @@ class Assess extends Controller
                 ->whereRaw("school_year=$school_year AND strand = 'STEM' AND status='3'")->groupBy('sort_by','strand','section','strand')
                 ->get();
       
-        return view('reg_be.enrollment_statistics',compact('statistics','abm','humms','stem'));
+        return view('reg_be.enrollment_statistics',compact('statistics','abm','humms','stem','school_year','kinder'));
     }
     
     function addSRF($request,$schoolyear){
