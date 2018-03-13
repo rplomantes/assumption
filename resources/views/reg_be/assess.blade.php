@@ -265,7 +265,7 @@ $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
                   <div class="box-header with-border">
                     <h4 class="box-title">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        LIST OF REQUIRED BOOKS AND METERIALS
+                        LIST OF REQUIRED BOOKS AND MATERIALS
                       </a>
                     </h4>
                   </div>
