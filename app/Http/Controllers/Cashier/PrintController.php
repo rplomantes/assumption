@@ -33,4 +33,17 @@ class PrintController extends Controller
         return $pdf->stream("official_receipt.pdf");
     }
     
+    function print_collection_report($date_from,$date_to){
+        if(Auth::user()->accesslevel==env("CASHIER")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->where('posted_by',Auth::user()->idno)->get();
+        }
+        
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                        ->orderBy('posted_by')->get();
+        }
+         $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to'));
+         return $pdf->stream();
+    }
 }
