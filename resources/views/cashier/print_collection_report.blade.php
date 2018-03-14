@@ -48,8 +48,8 @@ $totalcanceled=0;
 
 </style>
 <div>    
-    <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>COLLECTION REPORT</b></div>
+    <!--<div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>-->
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='Left'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>COLLECTION REPORT</b></div>
 </div>
     <body>
      <br>
@@ -65,10 +65,13 @@ $totalcanceled=0;
              
      <table width="100%" id="example1" border="1" cellspacing="0" cellpadding="2" class="table table-responsive table-striped">
          <thead>
-             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check</th><th>Credit Card</th><th>Bank Deposit</th><th>Total</th>
+             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check</th><th>Credit Card</th>
+<!--                 <th>Bank Deposit</th>-->
+                 <th>Total</th>
                  @if(Auth::user()->accesslevel == env("ACCTNG_STAFF"))
                  <th>Posted By</th>
                  @endif
+                 <th>Remarks</th>
              </tr>
          </thead>
          <tbody>
@@ -92,8 +95,9 @@ $totalcanceled=0;
                     <td class="decimal">{{number_format($payment->cash_amount,2)}}</td>
                     <td class="decimal">{{number_format($payment->check_amount,2)}}</td>
                     <td class="decimal">{{number_format($payment->credit_card_amount,2)}}</td>
-                    <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>
+<!--                    <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>-->
                     <td class="decimal"><b>{{number_format($total,2)}}</b></td>
+                    <td></td>
                    
                     @else
                     <?php
@@ -105,11 +109,12 @@ $totalcanceled=0;
   <span style='color:black'>{{number_format($payment->check_amount,2)}}</span></span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
-                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
-  <span style='color:black'>{{number_format($payment->deposit_amount,2)}}</span></span></td>
+<!--                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
+  <span style='color:black'>{{number_format($payment->deposit_amount,2)}}</span></span></td>-->
   <td class="decimal"><span style='color:red;text-decoration:line-through;'>
   <span style='color:#999'>{{number_format($totalcanceled,2)}}</span></span></td>
-                    <td>Canceled</td>
+  <td></td>
+                    
                     @endif
                     @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
                     <td>{{$payment->posted_by}}</td>
@@ -124,8 +129,9 @@ $totalcanceled=0;
                         <th class="decimal">{{number_format($totalcash,2)}}</th>
                     <th class="decimal">{{number_format($totalcheck,2)}}</th>
                     <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
-                    <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>
+<!--                    <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>-->
                     <th class="decimal">{{number_format($grandtotal,2)}}</th>
+                    <th></th>
                     </tr>
         
          </tfoot>    

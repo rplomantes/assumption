@@ -30,7 +30,7 @@ class PrintController extends Controller
         
         $pdf = PDF::loadView('cashier.print_receipt', compact('payment','status','accountings','receipt_details','receipt_less'));
         $pdf->setPaper(array(0, 0, 432.00, 468.0));
-        return $pdf->stream("official_receipt.pdf");
+        return $pdf->stream();
     }
     
     function print_collection_report($date_from,$date_to){
@@ -44,6 +44,7 @@ class PrintController extends Controller
                         ->orderBy('posted_by')->get();
         }
          $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to'));
+         $pdf->setPaper('letter','landscape');
          return $pdf->stream();
     }
 }

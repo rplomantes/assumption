@@ -15,6 +15,15 @@
             <th>Name:</th>
             <td colspan="3"><b>{{strtoupper($payment->paid_by)}}</b></td>
         </tr>
+        @if(count($status)>0)
+        @if($status->status==3)
+            @if($status->academic_type=="College")
+            <tr><th colspan="2">Course/Level: {{$status->program_code}} / {{$status->level}}</th><td></td><td></td></tr>
+            @else
+            <tr><th colspan="2">Level/Section: {{$status->level}}</th><td></td><td></td></tr>
+            @endif
+        @endif
+        @endif
     </table>
 
 
