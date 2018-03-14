@@ -31,7 +31,7 @@
 
 
     <?php $totalreceipt = 0; ?>
-    <table width="100%" style="font-size: 10pt;">
+    <table width="100%" style="font-size: 8pt;">
         <thead>
             <tr>
                 <th>Particular</th>
@@ -69,11 +69,11 @@
 
     <hr>
 
-    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; font-size: 10pt;">
+    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; font-size: 8pt;">
         <b>Explanation:</b><br>{{$payment->remarks}}
     </p>
     <hr>
-    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; font-size: 10pt;">
+    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; font-size: 8pt;">
         <b>Payment Rendered:</b><br>  
         @if($payment->cash_amount>0) 
         Cash Received : {{number_format($payment->amount_received,2)}}<br>

@@ -230,7 +230,7 @@ class MainPayment extends Controller
                     $addacct->particular=$discount_ref->discount_description;
                     $addacct->accounting_code=$discount_ref->accounting_code;
                     $addacct->department=$department;
-                    $addacct->accounting_name=$discount_ref->sccounting_name;
+                    $addacct->accounting_name=$discount_ref->accounting_name;
                     $addacct->fiscal_year=$fiscal_year;
                     $addacct->debit=$discount;
                     $addacct->posted_by=Auth::user()->idno;
