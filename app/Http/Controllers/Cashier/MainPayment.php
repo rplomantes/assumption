@@ -353,6 +353,7 @@ class MainPayment extends Controller
             } else {
                 $addbed = new \App\CollegeLevel;
                 $addbed->idno = $status->idno;
+                $addbed->date_advised = $status->date_advised;
                 $addbed->date_registered = $status->date_registered;
                 $addbed->date_enrolled = date('Y-m-d');
                 $addbed->department = $status->department;
