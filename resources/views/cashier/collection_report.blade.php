@@ -105,7 +105,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                     <td class="decimal">{{number_format($payment->credit_card_amount,2)}}</td>
                     <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>
                     <td class="decimal"><b>{{number_format($total,2)}}</b></td>
-                    <td>Ok</td>
+                    <td>OK</td>
                     @else
                     <?php
                     $totalcanceled=$payment->cash_amount+$payment->check_amount + $payment->credit_card_amount +$payment->deposit_amount;

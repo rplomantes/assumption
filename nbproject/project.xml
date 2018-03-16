@@ -5,12 +5,5 @@
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
             <name>assumption</name>
         </data>
-        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-            <word>elese</word>
-            <word>endforeach</word>
-            <word>endif</word>
-            <word>endsection</word>
-            <word>foreach</word>
-        </spellchecker-wordlist>
     </configuration>
 </project>
