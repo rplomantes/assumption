@@ -180,7 +180,11 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                         <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>
                                     </ul>
                                 </li>
-                                <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics'))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
+                                <?php 
+                                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+                                $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+                                ?>
+                                <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
                             </ul>
                         </li>
                 </section>

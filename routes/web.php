@@ -102,6 +102,10 @@ Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarC
 Route::get('/registrar_college/grade_management/view_grades', 'RegistrarCollege\GradeManagement\GradesController@view_grades');
 //Ajax View Grades
 Route::get('/ajax/registrar_college/grade_management/get_schedules', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@view_grades');
+Route::get('/ajax/registrar_college/grade_management/get_list_students', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@get_list_students');
+Route::get('/ajax/registrar_college/grade_management/lock/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@lock');
+Route::get('/ajax/registrar_college/grade_management/unlock/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@unlock');
+Route::get('/ajax/registrar_college/grade_management/approve_all', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@approve_all');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
@@ -115,8 +119,8 @@ Route::get('/ajax/registrar_college/reports/student_list/select_section','Regist
 Route::get('/ajax/registrar_college/reports/student_list/select_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_course');
 Route::get('/ajax/registrar_college/reports/student_list/list_per_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@list_per_course');
 //Enrollment Statistics
-Route::get('/registrar_college/reports/enrollment_statistics/','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
-Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_statistics','RegistrarCollege\Reports\EnrollmentStatisticsController@print_statistics');
+Route::get('/registrar_college/reports/enrollment_statistics/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
+Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_statistics/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@print_statistics');
 
 
 //Dean - MAIN///////////////////////////////////////////////////////////////////

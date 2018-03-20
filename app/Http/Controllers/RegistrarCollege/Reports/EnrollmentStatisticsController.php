@@ -16,10 +16,10 @@ class EnrollmentStatisticsController extends Controller {
         $this->middleware('auth');
     }
 
-    function index() {
+    function index($school_year, $period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-            $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+            //$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+            //$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
             $academic_programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             $departments = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['department']);
 
@@ -27,10 +27,10 @@ class EnrollmentStatisticsController extends Controller {
         }
     }
 
-    function print_statistics() {
+    function print_statistics($school_year, $period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-            $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+            //$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+            //$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
             $academic_programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             $departments = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['department']);
 

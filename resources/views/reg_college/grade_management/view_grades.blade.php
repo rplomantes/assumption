@@ -58,16 +58,19 @@ $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()
             </div>
             <div class="col-sm-2" id="search">
                 <label>&nbsp;</label>
-                <button class="btn btn-primary col-sm-12">Search</button>
+                <button class="btn btn-primary col-sm-12" onclick="displayList(schedule_id.value)">Search</button>
             </div>
         </div>
     </div>
+</div>
+<div id="result">
+
 </div>
 @endsection
 @section('footerscript')
 <script>
     $('#search').hide();
-    function selectSchedule(course_code){
+    function selectSchedule(course_code) {
         array = {};
         array['course_code'] = course_code;
         $.ajax({
@@ -79,6 +82,57 @@ $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()
                 $('#search').fadeIn();
             }
 
+        });
+    }
+    function displayList(schedule_id) {
+        array = {};
+        array['schedule_id'] = schedule_id;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/get_list_students",
+            data: array,
+            success: function (data) {
+                $('#result').hide().html(data).fadeIn();
+            }
+
+        });
+    }
+    function lock(idno, schedule_id, id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        array['grade_id'] = id;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/lock/" + idno,
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
+        });
+    }
+    function unlock(idno, schedule_id, id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        array['grade_id'] = id;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/unlock/" + idno,
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
+        });
+    }
+    function approveall(schedule_id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/approve_all",
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
         });
     }
 </script>
