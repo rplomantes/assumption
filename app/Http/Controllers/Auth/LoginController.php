@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -43,6 +45,16 @@ class LoginController extends Controller
     
     public function username() {
         return 'idno';
+    }
+    
+    public function login (Request $request) {
+        
+        $this->validateLogin($request);
+        
+        if (Auth::attempt(['idno' => $request->input('idno'), 'password' => $request->input('password'), 'status' => 1])) {
+            return redirect()->intended('/home');
+        }
+        return $this->sendFailedLoginResponse($request);
     }
     
     public function addadmin(){

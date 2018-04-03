@@ -68,6 +68,7 @@ Route::post('/bedregistrar/assess','BedRegistrar\Assess@post_assess');
 Route::get('/bedregistrar/reassess/{idno}','BedRegistrar\Assess@reassess');
 Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
 Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
+Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updateinfo');
 //update
 Route::get('updatebedlevel','Updater@updateBedLevel');
 

@@ -115,6 +115,7 @@ class AssessmentController extends Controller {
 
         $user = \App\User::where('idno', $idno)->first();
         $status = \App\Status::where('idno', $idno)->first();
+        $student_info = \App\StudentInfo::where('idno', $idno)->first();
         $y = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
 
         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
@@ -122,7 +123,7 @@ class AssessmentController extends Controller {
         $ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('due_switch', 1)->get();
         $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('due_switch', 0)->first();
 
-        $pdf = PDF::loadView('reg_college.assessment.registration_form', compact('grades', 'user', 'status', 'school_year', 'ledger_due_dates', 'downpayment', 'y'));
+        $pdf = PDF::loadView('reg_college.assessment.registration_form', compact('student_info','grades', 'user', 'status', 'school_year', 'ledger_due_dates', 'downpayment', 'y'));
         $pdf->setPaper(array(0, 0, 612.00, 936.0));
         return $pdf->stream("registration_form_$status->registration_no.pdf");
 

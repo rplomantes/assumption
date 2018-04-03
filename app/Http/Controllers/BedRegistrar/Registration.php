@@ -85,4 +85,9 @@ class Registration extends Controller
             return view("reg_be.student_list",compact('students'));
         }
     }
+    function updateinfo() {
+        if(Auth::user()->accesslevel==env("REG_BE")){
+            
+        }
+    }
 }

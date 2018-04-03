@@ -52,7 +52,7 @@
     <div class="col-md-12">
     <div class="box">
         <div class="box-body">
-     <form class="form form-horizontal" method="POST" action="{{url('/bedregistrar','info')}}">
+     <form class="form form-horizontal" method="POST" action="{{url('/bedregistrar','updateinfo', $student->idno)}}">
      {{csrf_field()}}
      <div class="col-md-4">
      <div class="form form-group">
@@ -63,11 +63,22 @@
      <div class="col-md-8">
          <div class="col-md-3 pull-right">
              <div class="form form-group">
+                 <label>User Status</label>
+                 <select class="form form-control" name="user_status" id="user_status">
+                     <option value="0" @if ($student->status == 0) selected=''@endif>0 - Not Active</option>
+                     <option value="1" @if ($student->status == 1) selected=''@endif>1 - Active</option>
+                     <option value="2" @if ($student->status == 2) selected=''@endif>2 - See Registrar</option>
+                 </select>
+             </div>
+          </div>
+         <div class="col-md-3 pull-right">
+             <div class="form form-group">
+                 <label><br><br></label>
                   <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">
                 Reset Password
               </button>
-                  </div>    
-          </div>   
+             </div>
+          </div> 
      </div>    
          
      <div class="form form-group">
@@ -75,7 +86,7 @@
      <label>Name</lable> 
      </div>
      <div class="col-md-3">
-      <input type="text" name='firstname'id="firstnaame" class="formr form-control" placeholder="First Name" value="{{$student->firstname}}">
+      <input type="text" name='firstname'id="firstname" class="form form-control" placeholder="First Name" value="{{$student->firstname}}">
      @if ($errors->has('firstname'))
                         <span class="help-block">
                             <strong>{{ $errors->first('firstname') }}</strong>
