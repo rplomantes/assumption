@@ -74,6 +74,7 @@ class Registration extends Controller
         if(Auth::user()->accesslevel==env("REG_BE")){
             $user=  \App\User::where('idno',$request->idno)->first();
             $user->password = bcrypt($request->password);
+            $user->is_first_login=1;
             $user->update();
             return redirect(url('/bedregistrar',array('info',$request->idno)));
         }

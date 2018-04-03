@@ -61,6 +61,7 @@
     $(document).ready(function(){
        $("#search").on('keypress',function(e){
           if(e.keyCode==13){
+             
               var array={};
               array['search'] = $("#search").val();
               $.ajax({
