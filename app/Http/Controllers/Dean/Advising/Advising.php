@@ -130,5 +130,15 @@ class Advising extends Controller {
             return $pdf->stream("advising_slip_" . $idno . ".pdf");
         }
     }
+    
+    function view_grades($idno) {
+        if (Auth::user()->accesslevel == env('DEAN')) {
+            $student_info = \App\StudentInfo::where('idno', $idno)->first();
+            
+            $curricula = \App\Curriculum::where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->get();
+            
+            return view('dean.advising.view_grades', compact('idno', 'student_info', 'curricula'));
+        }
+    }
 
 }

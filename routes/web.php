@@ -130,6 +130,7 @@ Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudent
 Route::get('/dean/advising/{idno}','Dean\Advising\Advising@advising');
 Route::get('/dean/advising/confirm_advised/{idno}/{program_code}/{level}/{curriculum_year}/{section}','Dean\Advising\Advising@confirm_advised');
 Route::get('/dean/advising/print_advising_slip/{idno}','Dean\Advising\Advising@print_advising_slip');
+Route::get('/college/view_grades/{idno}', 'Dean\Advising\Advising@view_grades');
 //Ajax Assessment
 Route::get('/ajax/dean/advising/get_section', 'Dean\Advising\Ajax\advising_ajax@get_section');
 Route::get('/ajax/dean/advising/get_course_offering', 'Dean\Advising\Ajax\advising_ajax@get_course_offering');

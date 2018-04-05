@@ -52,7 +52,7 @@
     <div class="col-md-12">
     <div class="box">
         <div class="box-body">
-     <form class="form form-horizontal" method="POST" action="{{url('/bedregistrar','updateinfo', $student->idno)}}">
+     <form class="form form-horizontal" method="POST" action="{{url('/bedregistrar', array('updateinfo', $student->idno))}}">
      {{csrf_field()}}
      <div class="col-md-4">
      <div class="form form-group">
@@ -115,10 +115,10 @@
          <label>Address and Contact Number</label>
          </div>   
          <div class="col-md-8">
-             <input type="text" class="form form-control" placeholder="Address" id="address">
+             <input type="text" class="form form-control" name='address' placeholder="Address" id="address">
          </div>  
          <div class="col-md-4">
-             <input type="text" class="form form-control" placeholder="Contact Number" id="address">
+             <input type="text" class="form form-control" name='contact_no' placeholder="Contact Number" id="contact_no">
          </div>
      </div> 
      
@@ -130,7 +130,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" name="date_of_birth" class="form-control pull-right" id="datepicker">
+                  <input type="date" name="date_of_birth" class="form-control pull-right" id="datepicker">
                 </div>
          </div>  
          <div class="col-md-5">

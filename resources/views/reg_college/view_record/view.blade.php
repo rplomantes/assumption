@@ -4,7 +4,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
-
+<?php $student_info = \App\StudentInfo::where('idno', $user->idno)->first(); ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
 <li class="dropdown messages-menu">
@@ -89,43 +89,41 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="form form-control btn btn-success">View Student Information</a>
             </div>
             <div class="form-group">
-                <a href="#" class="form form-control btn btn-success">Others</a>
+                <a href="#" class="form form-control btn btn-success">View Curriculum Status</a>
             </div>
         </div>
         <div class="col-sm-12">
-        <?php $school_years = \App\GradeCollege::distinct()->where('idno', $user->idno)->get(['school_year']); ?>
-            @foreach ($school_years as $school_year)
-            <?php $periods = \App\GradeCollege::distinct()->where('idno',$user->idno)->where('school_year', $school_year->school_year)->get(['period']); ?>
-                @foreach ($periods as $period)
-        <?php $grades= \App\GradeCollege::where('idno',$idno)->where('school_year', $school_year->school_year)->where('period', $period->period)->get(); ?>
-            
-                <table class="table table-striped">
-                    {{$period->period}}, {{$school_year->school_year}} - {{$school_year->school_year+1}}
-                <thead>
-                <tr>
-                    <th width="10%">Code</th>
-                    <th width="60%">Description</th>
-                    <th>Midterm</th>
-                    <th>Finals</th>
-                    <th>Final Grade</th>
-                    <th>Grade Point</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($grades as $grade)
-                <tr>
-                    <td>{{$grade->course_code}}</td>
-                    <td>{{$grade->course_name}}</td>
-                    <td>{{$grade->midterm}}</td>
-                    <td>{{$grade->finals}}</td>
-                    <td>{{$grade->final_grade}}</td>
-                    <td>{{$grade->grade_point}}</td>
-                </tr>
-                @endforeach
-                @endforeach
-                @endforeach
-                </tbody>
-            </table>
+            <?php $levels = \App\Curriculum::distinct()->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('level')->get(['level']); ?>
+@foreach ($levels as $level)
+<?php $periods = \App\Curriculum::distinct()->where('level', $level->level)->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('period')->get(['period']); ?>
+@foreach ($periods as $period)
+<?php $curricula = \App\Curriculum::where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->where('level', $level->level)->where('period', $period->period)->get(); ?>
+<table class="table table-striped" width="100%">
+    <br><b>{{$level->level}} - {{$period->period}}</b>
+    <thead>
+        <tr>
+            <th width="10%">Code</th>
+            <th width="50%">Description</th>
+            <th width="5%">Lec</th>
+            <th width="5%">Lab</th>
+            <th width="8%">Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($curricula as $curriculum)
+<?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+        <tr>
+            <td>{{$curriculum->course_code}}</td>
+            <td>{{$curriculum->course_name}}</td>
+            <td>{{$curriculum->lec}}</td>
+            <td>{{$curriculum->lab}}</td>
+            <td>@if (count($grades)>0) {{$grades->grade_point}} @else Not Yet Taken @endif</td>
+        </tr>
+        @endforeach
+        @endforeach
+        @endforeach
+    </tbody>
+</table>
         </div>
     </div>
 </section>

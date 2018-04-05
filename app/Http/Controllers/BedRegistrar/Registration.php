@@ -85,9 +85,26 @@ class Registration extends Controller
             return view("reg_be.student_list",compact('students'));
         }
     }
-    function updateinfo() {
+    function updateinfo(Request $request) {
         if(Auth::user()->accesslevel==env("REG_BE")){
+            $updateuser = \App\User::where('idno', $request->referenceid)->first();
+            $updateuser->firstname = $request->firstname;
+            $updateuser->lastname = $request->lastname;
+            $updateuser->middlename = $request->middlename;
+            $updateuser->extensionname = $request->extensionname;
+            $updateuser->status = $request->user_status;
+            $updateuser->lrn = $request->lrn;
+            $updateuser->save();
             
+            $addprofile = \App\BedProfile::where('idno', $request->referenceid)->first();
+            $addprofile->date_of_birth = $request->date_of_birth;
+            $addprofile->address = $request->address;
+            $addprofile->contact_no = $request->contact_no;
+            $addprofile->parent_name = $request->parent_name;
+            $addprofile->parent_email = $request->parent_email;
+            $addprofile->save();
+            
+            return redirect(url('/bedregistrar',array('info',$request->idno)));
         }
     }
 }

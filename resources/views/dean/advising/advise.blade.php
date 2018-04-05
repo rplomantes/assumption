@@ -47,7 +47,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> Home</a></li>
-        <li>Assessment</li>
+        <li>Advising</li>
         <li class="active">{{$user->idno}}</li>
     </ol>
 </section>
@@ -128,7 +128,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-12">     
+                        <div class="col-md-6">     
                             <label>Curriculum Year</label>     
                             <select id="select_curriculum_year" class="form-control select2" required="" @if ($student_info->curriculum_year != NULL) disabled="" @endif>
                                 <option value="">Select Curriculum</option>
@@ -136,6 +136,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option value="{{$curriculum_year->curriculum_year}}" @if ($student_info->curriculum_year == "$curriculum_year->curriculum_year") selected="" @endif>{{$curriculum_year->curriculum_year}}</option>
                                 @endforeach
                             </select>     
+                        </div>
+                        <div class="col-md-6">
+                            <label>&nbsp;</label>
+                            <a href='{{url("/college", array('view_grades',$user->idno))}}' target="_blank"><button class='btn btn-primary col-sm-12'>View Grades</button></a>
                         </div>
                     </div>
                 </div>
