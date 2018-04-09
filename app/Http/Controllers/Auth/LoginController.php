@@ -52,7 +52,10 @@ class LoginController extends Controller
         $this->validateLogin($request);
         
         if (Auth::attempt(['idno' => $request->input('idno'), 'password' => $request->input('password'), 'status' => 1])) {
-            return redirect()->intended('/home');
+            return redirect()->intended('/');
+        } else if (Auth::attempt(['idno' => $request->input('idno'), 'password' => $request->input('password'), 'status' => 0])) {
+                Auth::logout();
+                return view('auth.login')->withErrors("Access Denied - Account Deactivated");
         }
         return $this->sendFailedLoginResponse($request);
     }

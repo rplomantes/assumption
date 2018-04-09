@@ -7,7 +7,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
 $curriculum_years = \App\Curriculum::distinct()->get(['curriculum_year']);
 ?>
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
@@ -42,7 +42,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 @section('header')
 <section class="content-header">
     <h1>
-        Assessment
+        Advising
         <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
@@ -174,7 +174,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-md-4 level">     
                             <label>Level</label>     
-                            <select id="level" class="form-control" onchange="get_section(this.value, program_code.value)">
+                            <!--<select id="level" class="form-control" onchange="get_section(this.value, program_code.value)">-->
+                            <select id="level" class="form-control">
                                 <option value="null">Select Level</option>
                                 <option value="1st Year">1st Year</option>
                                 <option value="2nd Year">2nd Year</option>
@@ -182,10 +183,13 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option value="4th Year">4th Year</option>
                             </select>     
                         </div>
-                        <div class="col-md-4 section">     
-                            <label>Section</label>     
-                            <select id="section" name="section" class="form-control">
+                        <div class="col-md-4 period">     
+                            <label>Period</label>     
+                            <select id="period" name="period" class="form-control" onchange="get_curricula(level.value, program_code.value, period.value)">
                                 <option value="null"></option>
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                                <option value="Summer">Summer</option>
                             </select>    
                         </div>
                     </div>
@@ -198,7 +202,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     <div class="col-sm-6 course_offering">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Course Offering</h3>
+                <h3 class="box-title">Curriculum</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -211,7 +215,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     <div class="col-sm-6 course_offered">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Course Offered</h3>
+                <h3 class="box-title">Courses Advised</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -223,48 +227,30 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 ?>
                     <div class='table-responsive'>
                 @if(count($grade_colleges)>0)
-                <table class="table table-striped"><thead><tr><th>Course</th><th>Units</th><th>Schedule/Room</th><th>Instructor</th></tr></thead><tbody>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Course Name</th>
+                            <th>Lec</th>
+                            <th>Lab</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @foreach($grade_colleges as $grade_college)
                         <?php
                         $units = $units + $grade_college->lec + $grade_college->lab;
                         $offering_ids = \App\CourseOffering::find($grade_college->course_offering_id);
                         ?>
                         <tr>
-                            <td>{{$grade_college->course_code}} - {{$grade_college->course_name}}</td>
-                            <td>{{$grade_college->lec+$grade_college->lab}}</td>
-                            <td>
-                                <?php
-                                $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
-                                ?>   
-                                @foreach ($schedule3s as $schedule3)
-                                {{$schedule3->room}}
-                                @endforeach
-                                <?php
-                                $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
-                                ?>
-                                @foreach ($schedule2s as $schedule2)
-                                <?php
-                                $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
-                                ?>
-                                <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}]<br>
-                                @endforeach
-                            </td>
-                            <?php
-                            $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
-                            $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
-                            $data="";
-                            foreach ($schedule_instructor as $get){
-                                if ($get->instructor_id != NULL){
-                                $instructor = \App\User::where('idno', $get->instructor_id)->first();
-                                $data = $instructor->firstname." ".$instructor->lastname." ".$instructor->extensionname;
-                                }
-                            }
-                            ?>
-                            <td>{{$data}}</td>
+                            <td>{{$grade_college->course_code}}</td>
+                            <td>{{$grade_college->course_name}}</td>
+                            <td>{{$grade_college->lec}}</td>
+                            <td>{{$grade_college->lab}}</td>
                             <td><button class="btn btn-danger" onclick="removecourse('{{$grade_college->id}}')"><span class="fa fa-minus-circle"></span></button></td></tr>
                         @endforeach
-                        <tr><td><strong>Total Units</strong></td><td colspan="4"><strong>{{$units}}</strong></td></tr>
+                        <tr><td><strong>Total Units</strong></td><td></td><td></td><td></td><td><strong>{{$units}}</strong></td></tr>
                     </tbody></table>
                 @else
                 <div class="alert alert-danger">No Course Selected Yet!!</div>
@@ -275,25 +261,28 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     </div>
     <div class="col-sm-12 save">
         <!--href="{{url('dean', array('assessment','confirm_advised',$user->idno))}}"-->
-        <a><button onclick="confirm_advised('{{$user->idno}}', select_program.value, select_level.value, select_curriculum_year.value, section.value)" class="col-sm-12 btn btn-warning">CONFIRM ADVISEMENT</button></a>
+        <a><button onclick="confirm_advised('{{$user->idno}}', select_program.value, select_level.value, select_curriculum_year.value, period.value)" class="col-sm-12 btn btn-warning">CONFIRM ADVISEMENT</button></a>
     </div>
 </div>
 @endsection
 @section("footerscript")
 <script>
     $(".level").hide();
-    $(".section").hide();
+    $(".period").hide();
     $(".save").hide();
     $(document).ready(function () {
-    $("#program_code").on("change", function (e) {
-    $(".section").hide();
-    $(".level").fadeIn();
-    })
+        $("#program_code").on("change", function (e) {
+            $(".period").hide();
+            $(".level").fadeIn();
+        })
+        $("#level").on("change", function (e) {
+            $(".period").fadeIn();
+        })
     })
 </script>
 <script>
 
-            $("#search").keypress(function(e){
+    $("#search").keypress(function(e){
     if (e.keyCode == 13){
     array = {}
     array['school_year'] = {{$school_year->school_year}};
@@ -311,32 +300,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     });
     }
     });
-    function get_section(level, program_code){
+    function get_curricula(level, program_code, period){
     array = {};
     array['level'] = level;
     array['program_code'] = program_code;
     array['school_year'] = {{$school_year->school_year}};
     array['period'] = "{{$school_year->period}}";
+    array['curriculum_period'] = period;
     $.ajax({
     type: "GET",
-            url: "/ajax/dean/advising/get_section",
-            data: array,
-            success: function (data) {
-            $('.section').fadeIn().html(data);
-            }
-
-    });
-    }
-    function get_course_offering(level, program_code, section){
-    array = {};
-    array['level'] = level;
-    array['program_code'] = program_code;
-    array['school_year'] = {{$school_year->school_year}};
-    array['period'] = "{{$school_year->period}}";
-    array['section'] = section;
-    $.ajax({
-    type: "GET",
-            url: "/ajax/dean/advising/get_course_offering",
+            url: "/ajax/dean/advising/get_curricula",
             data: array,
             success: function (data) {
             $('.course_offering').fadeIn();
@@ -346,9 +319,9 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
     });
     }
-    function add_to_course_offered(course_offering_id){
+    function add_to_course_offered(curriculum_id){
     array = {};
-    array['course_offering_id'] = course_offering_id;
+    array['curriculum_id'] = curriculum_id;
     array['idno'] = "{{$user->idno}}";
     array['school_year'] = {{$school_year->school_year}};
     array['period'] = "{{$school_year->period}}";
@@ -382,14 +355,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     }
     }
 
-    function addallcourses(level, section, program_code){
+    function addallcourses(level, curriculum_period, program_code, curriculum_year){
     array = {};
     array['idno'] = "{{$user->idno}}";
     array['school_year'] = {{$school_year->school_year}};
     array['period'] = "{{$school_year->period}}";
     array['program_code'] = program_code;
     array['level'] = level;
-    array['section'] = section;
+    array['curriculum_period'] = curriculum_period;
+    array['curriculum_year'] = curriculum_year;
     //if( confirm("Are You Sure To Add All Courses?"){
     $.ajax({
     type:"GET",

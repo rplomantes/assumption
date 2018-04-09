@@ -2,7 +2,7 @@
 $user = \App\User::where('idno', $idno)->first();
 ?>
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
 ?>
 @extends("layouts.appdean_college")
 @section('messagemenu')

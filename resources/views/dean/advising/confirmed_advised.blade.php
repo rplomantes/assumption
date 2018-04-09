@@ -30,7 +30,7 @@ $courses = \App\GradeCollege::where('idno', $idno)->where('school_year', $school
 @section('header')
 <section class="content-header">
     <h1>
-        Courses Assessed
+        Courses Advised
         <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
@@ -60,7 +60,7 @@ $user = \App\User::where('idno', $idno)->first();
                 ?>
                     <div class='table-responsive'>
                 @if(count($grade_colleges)>0)
-                <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course Name</th><th>Units</th></tr></thead><tbody>
+                <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course Name</th><th>Lec</th><th>Lab</th></tr></thead><tbody>
                         @foreach($grade_colleges as $grade_college)
                         <?php
                         $units = $units + $grade_college->lec + $grade_college->lab;
@@ -68,10 +68,11 @@ $user = \App\User::where('idno', $idno)->first();
                         <tr>
                             <td>{{$grade_college->course_code}}</td>
                             <td>{{$grade_college->course_name}}</td>
-                            <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                            <td>{{$grade_college->lec}}</td>
+                            <td>{{$grade_college->lab}}</td>
                         </tr>
                         @endforeach
-                        <tr><td colspan="2"><strong>Total Units</strong></td><td><strong>{{$units}}</strong></td></tr>
+                        <tr><td colspan="2"><strong>Total Units</strong></td><td colspan="2" align='center'><strong>{{$units}}</strong></td></tr>
                     </tbody></table>
                 @else
                 <div class="alert alert-danger">No Course Selected Yet!!</div>

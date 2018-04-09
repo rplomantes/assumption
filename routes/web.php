@@ -34,6 +34,10 @@ Route::get('registrar_college/student_record/{idno}','RegistrarCollege\StudentRe
 //Set Up
 Route::get('/registrar_college/advising/set_up', 'RegistrarCollege\Advising\AdvisingController@index');
 Route::post('/registrar_college/advising/save_set_up', 'RegistrarCollege\Advising\AdvisingController@save');
+//Advising Statistics
+Route::get('/registrar_college/advising/advising_statistics', 'RegistrarCollege\Advising\AdvisingStatistics@index');
+//Ajax Advising Statistics
+Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
 
 
 //Registrar College Curriculum Management///////////////////////////////////////
@@ -128,12 +132,12 @@ Route::get('/dean/viewrecord/{idno}','Dean\Record@view');
 Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
 //Assessment////////////////////////////////////////////////////////////////////
 Route::get('/dean/advising/{idno}','Dean\Advising\Advising@advising');
-Route::get('/dean/advising/confirm_advised/{idno}/{program_code}/{level}/{curriculum_year}/{section}','Dean\Advising\Advising@confirm_advised');
+Route::get('/dean/advising/confirm_advised/{idno}/{program_code}/{level}/{curriculum_year}/{period}','Dean\Advising\Advising@confirm_advised');
 Route::get('/dean/advising/print_advising_slip/{idno}','Dean\Advising\Advising@print_advising_slip');
 Route::get('/college/view_grades/{idno}', 'Dean\Advising\Advising@view_grades');
 //Ajax Assessment
 Route::get('/ajax/dean/advising/get_section', 'Dean\Advising\Ajax\advising_ajax@get_section');
-Route::get('/ajax/dean/advising/get_course_offering', 'Dean\Advising\Ajax\advising_ajax@get_course_offering');
+Route::get('/ajax/dean/advising/get_curricula', 'Dean\Advising\Ajax\advising_ajax@get_curricula');
 Route::get('/ajax/dean/advising/add_to_course_offered','Dean\Advising\Ajax\advising_ajax@add_to_course_offered');
 Route::get('/ajax/dean/advising/remove_to_course_offered','Dean\Advising\Ajax\advising_ajax@remove_to_course_offered');
 Route::get('/ajax/dean/advising/get_offering_per_search','Dean\Advising\Ajax\advising_ajax@get_offering_per_search');

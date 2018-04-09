@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,9 @@ class HomeController extends Controller
     {
         $accesslevel = \Auth::user()->accesslevel;
         switch($accesslevel){
+            case 0:
+                Auth::logout();
+                return view('auth.login')->withErrors("Access Denied - Not Authorized");
             case 1:
                 return view('college_instructor.index');
                 break;
@@ -41,7 +45,6 @@ class HomeController extends Controller
                 return view('reg_college.index');
                 break;
             case 21:
-                
                 return view('reg_be.index',compact('school_year'));
                 break;
             case 30:

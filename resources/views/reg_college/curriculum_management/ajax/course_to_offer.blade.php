@@ -18,16 +18,21 @@ $courses = \App\Curriculum::where('program_code', $program_code)->where('curricu
                     <tr>
                         <th>Course Code</th>
                         <th>Description</th>
+                        <th>No. of Students Advised</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($courses as $course)
+                    @foreach ($courses as $course)<?php
+$school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
+?>
+                    <?php $student_count = \App\GradeCollege::where('course_code', $course->course_code)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('is_advising', 1)->get(); ?>
                 <input type="hidden" id="course_code" value="{{$course->course_code}}">
                 <input type="hidden" id="course_name" value="{{$course->course_name}}">
                 <tr>
                     <td>{{$course->course_code}}</td>
                     <td>{{$course->course_name}}</td>
+                    <td>{{count($student_count)}}</td>
                     <td><button class="btn btn-success" onclick="addtocourseoffering('{{$course->course_code}}')"><span class="fa fa-plus-circle"></span></button></td>
                 </tr>
                 @endforeach

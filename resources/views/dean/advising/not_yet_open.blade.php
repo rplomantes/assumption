@@ -4,7 +4,7 @@ $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 ?>
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;

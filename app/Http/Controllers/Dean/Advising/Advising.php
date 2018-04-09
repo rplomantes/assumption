@@ -18,8 +18,8 @@ class Advising extends Controller {
 
     function advising($idno) {
         if (Auth::user()->accesslevel == env('DEAN')) {
-//            $advising_status = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->is_available;
-//            if ($advising_status == 1) {
+            $advising_status = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->is_available;
+            if ($advising_status == 1) {
                 $status_is_new = \App\Status::where('idno', $idno)->first()->is_new;
                 if ($status_is_new == 1) {
                     return view('dean.advising.advise_new_reg', compact('status', 'idno'));
@@ -29,7 +29,7 @@ class Advising extends Controller {
                     if ($status->status == 0) {
                         return view('dean.advising.advise', compact('status', 'idno'));
                     } else if ($status->status == env('ADVISING')) {
-                        return redirect(url('dean', array('advising', 'confirm_advised', $idno, $status->program_code, $status->level, $student_info->curriculum_year, $status->section)));
+                        return redirect(url('dean', array('advising', 'confirm_advised', $idno, $status->program_code, $status->level, $student_info->curriculum_year, $status->period)));
                     } else if ($status->status == env('ASSESSED')) {
                         return view('dean.advising.already_assessed', compact('idno'));
                     } else if ($status->status == env('ENROLLED')) {
@@ -38,9 +38,9 @@ class Advising extends Controller {
                         return view('dean.advising.enrolled', compact('status', 'idno'));
                     }
                 }
-//            } else {
-//                return view('dean.advising.not_yet_open', compact('status', 'idno'));
-//            }
+            } else {
+                return view('dean.advising.not_yet_open', compact('status', 'idno'));
+            }
         }
     }
 
@@ -51,8 +51,8 @@ class Advising extends Controller {
             $addstatus->idno = $idno;
             $addstatus->is_new = 1;
             $addstatus->academic_type = "College";
-            $addstatus->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
-            $addstatus->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+            $addstatus->school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->school_year;
+            $addstatus->period = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->period;
             $addstatus->save();
         }
     }
@@ -62,13 +62,13 @@ class Advising extends Controller {
         if (count($checkstatus_level)=== 0) {
             $addstatus = new \App\CollegeLevel;
             $addstatus->idno = $idno;
-            $addstatus->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
-            $addstatus->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+            $addstatus->school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->school_year;
+            $addstatus->period = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->period;
             $addstatus->save();
         }
     }
 
-    function confirm_advised($idno, $program_code, $level, $curriculum_year, $section) {
+    function confirm_advised($idno, $program_code, $level, $curriculum_year, $period) {
         if (Auth::user()->accesslevel == env('DEAN')) {
 
             $this->checkstatus($idno);
@@ -87,10 +87,9 @@ class Advising extends Controller {
                 $updatestatus->program_code = "$program_code";
                 $updatestatus->program_name = "$program_name";
                 $updatestatus->level = "$level";
-                $updatestatus->section = "$section";
                 $updatestatus->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                $updatestatus->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
-                $updatestatus->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+                $updatestatus->school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->school_year;
+                $updatestatus->period = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->period;
                 $updatestatus->save();
 
 //                $updatestatus_level = \App\CollegeLevel::where('idno', $idno)->first();

@@ -16,7 +16,7 @@ class CreateGradeCollegesTable extends Migration
         Schema::create('grade_colleges', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idno');
-            $table->integer('course_offering_id');
+            $table->integer('course_offering_id')->nullable();
             $table->string('course_code');
             $table->string('course_name');
             $table->string('level');
@@ -40,6 +40,7 @@ class CreateGradeCollegesTable extends Migration
             $table->integer('grade_point_status')->default(0);
             $table->integer('is_lock')->default(0);
             $table->integer('is_dropped')->default(0);
+            $table->integer('is_advising')->default(1);
             $table->timestamps();
              $table->foreign('idno')
                     ->references('idno')->on('users')
