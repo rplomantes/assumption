@@ -96,13 +96,13 @@ class Registration extends Controller
             $updateuser->lrn = $request->lrn;
             $updateuser->save();
             
-            $addprofile = \App\BedProfile::where('idno', $request->referenceid)->first();
-            $addprofile->date_of_birth = $request->date_of_birth;
-            $addprofile->address = $request->address;
-            $addprofile->contact_no = $request->contact_no;
-            $addprofile->parent_name = $request->parent_name;
-            $addprofile->parent_email = $request->parent_email;
-            $addprofile->save();
+//            $addprofile = \App\BedProfile::where('idno', $request->referenceid)->first();
+//            $addprofile->date_of_birth = $request->date_of_birth;
+//            $addprofile->address = $request->address;
+//            $addprofile->contact_no = $request->contact_no;
+//            $addprofile->parent_name = $request->parent_name;
+//            $addprofile->parent_email = $request->parent_email;
+//            $addprofile->save();
             
             return redirect(url('/bedregistrar',array('info',$request->idno)));
         }
