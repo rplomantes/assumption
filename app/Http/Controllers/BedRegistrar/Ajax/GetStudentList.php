@@ -28,7 +28,7 @@ class GetStudentList extends Controller
 function view_list(){
     if(Request::ajax()){
         if(Auth::user()->accesslevel==env("REG_BE")){
-            $schoolyear = \App\CtrAcademicSchoolYear::where('academic_type',"BED")->first()->school_year;
+            $schoolyear = Input::get('school_year');
             $level = Input::get('level');
             $section = Input::get('section');
             $strand=Input::get("strand");

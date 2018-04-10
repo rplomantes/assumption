@@ -1,6 +1,7 @@
 <?php
 $levels = DB::Select("SELECT distinct level from statuses where academic_type='BED'");
 $strands = DB::Select("Select distinct strand from ctr_academic_programs where academic_type='BED'");
+$school_years = DB::Select("Select distinct school_year from bed_levels");
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -54,10 +55,10 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
 @section('maincontent')
  <!-- search form (Optional) -->
  <div class="col-md-12">
-     <div class="col-md-3">
+     <div class="col-md-2">
          <div class="form form-group">
         <label>Level</label>
-        <select class="form-control select2" id="level" data-placeholder="Select a State">
+        <select class="form-control select2" id="level" data-placeholder="Select Level">
                         style="width: 100%;">
                   @foreach($levels as $level)
                   <option>{{$level->level}}</option>
@@ -65,21 +66,27 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
         </select>
         </div>      
      </div>  
-     <div class="col-md-3">
+     <div class="col-md-2">
          <div class="form form-group">
         <label>Section</label>
-        <select class="form-control select2" id="section" data-placeholder="Select a State">
+        <select class="form-control select2" id="section" data-placeholder="Select Section">
                         style="width: 100%;">
                   @for($i=1;$i<=7;$i++)
                   <option>{{$i}}</option>
                   @endfor
+                  <option>A</option>
+                  <option>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                  <option>E</option>
+                  <option>F</option>
         </select>
         </div>      
      </div>  
-     <div class="col-md-3">
+     <div class="col-md-2">
         <div class="form form-group strandDisplay">
         <label>Strand</label>
-        <select class="form-control select2" id="strand" data-placeholder="Select a State">
+        <select class="form-control select2" id="strand" data-placeholder="Select Strand">
                         style="width: 100%;">
                   @foreach($strands as $level)
                   <option>{{$level->strand}}</option>
@@ -87,6 +94,18 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
         </select>
         </div>      
      </div>  
+     <div class="col-md-2">
+        <div class="form form-group">
+        <label>School Year</label>
+        <select class="form-control select2" id="school_year" data-placeholder="Select School Year">
+                        style="width: 100%;">
+                  @foreach($school_years as $school_year)
+                  <option>{{$school_year->school_year}}</option>
+                  @endforeach
+        </select>
+        </div>      
+     </div> 
+     
      <div class="col-md-3">
         <div class="form form-group">
             <br>
@@ -125,6 +144,7 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
               array['level'] = $("#level").val();
               array['section'] = $("#section").val();
               array['strand'] = $("#strand").val();
+              array['school_year']=$("#school_year").val();
               $.ajax({
                   type:"GET",
                   url:"/bedregistrar/ajax/view_list",
