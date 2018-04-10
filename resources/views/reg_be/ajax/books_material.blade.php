@@ -2,6 +2,8 @@
 $optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Books')->get();
 $optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Materials')->get();
 $optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Other Materials')->get();
+$materials = \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
+$other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 ?>                
                 <table border="1"> 
                 @if(count($optional_books)>0)
@@ -21,6 +23,13 @@ $optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->
                 <tr><td><input name="qty_books[{{$optional->id}}]" onclick="return false;" type="checkbox" checked="checked"></td>
                 <td colspan="3">
                     Required {{$optional->subsidiary}} <span class="warning">(SET)</span>
+                    @if(count($materials)>0)
+                   <ul>
+                   @foreach($materials as $material)
+                  <li>{{$material->particular}}
+                   @endforeach
+                   </ul>
+                   @endif
                     </td>
                     
                 <td align="left"><div id="total_book2">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>
@@ -33,6 +42,13 @@ $optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->
                 <tr><td><input name="qty_books[{{$optional->id}}]"  type="checkbox" checked="checked" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
                  {{$optional->subsidiary}} <span class="warning">(SET)</span>
+                 @if(count($other_materials)>0)
+                   <ul>
+                   @foreach($other_materials as $material)
+                  <li>{{$material->particular}}
+                   @endforeach
+                   </ul>
+                   @endif
                     </td>
                     
                 <td align="left"><div id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>

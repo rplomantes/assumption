@@ -72,4 +72,13 @@ Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updatei
 //update
 Route::get('updatebedlevel','Updater@updateBedLevel');
 
+//bookstore ajax
+
+Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList@index');
+
+//bookstore
+Route::get('bookstore/view_order/{idno}','Bookstore\Order@view_order');
+Route::get('bookstore/place_order/{idno}','Bookstore\Order\@place_order');
+
+
 ?>

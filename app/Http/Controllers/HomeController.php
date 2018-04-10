@@ -59,6 +59,9 @@ class HomeController extends Controller
             case 100:
                 return view('admin.index');
                 break;
+            case 50:
+                return view('bookstore.index');
+                break;
         }
     }
 }

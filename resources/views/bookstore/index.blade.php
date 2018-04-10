@@ -1,4 +1,4 @@
-@extends('layouts.appbedregistrar')
+@extends('layouts.appbookstore')
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -23,7 +23,7 @@
                         <small><i class="fa fa-clock-o"></i> 5 mins</small>
                       </h4>
                       <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
+                      
                     </a>
                   </li>
                   <!-- end message -->
@@ -61,11 +61,12 @@
     $(document).ready(function(){
        $("#search").on('keypress',function(e){
           if(e.keyCode==13){
+             
               var array={};
               array['search'] = $("#search").val();
               $.ajax({
                   type:"GET",
-                  url:"/bedregistrar/ajax/getstudentlist",
+                  url:"/bookstore/ajax/getstudentlist",
                   data:array,
                   success:function(data){
                    $("#displaystudent").html(data)
@@ -77,3 +78,4 @@
     });
 </script>    
 @endsection
+

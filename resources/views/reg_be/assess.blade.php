@@ -56,6 +56,8 @@ $socks = \App\CtrUniformSize::where('particular','AC School Socks')->get();
 $dengues=  \App\CtrUniformSize::where('particular','AC Dengue Attire')->get();
 //$pre_discount = DB::Select("Select * from partial_student_discount where idno = '$user->idno'")->first();
 $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
+$materials =  \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
+$other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -279,15 +281,17 @@ $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
                      
                 @if(count($optional_books)>0)
                 <tr align="left"><td colspan="4"><strong>Books and Other Materials</strong></td><td>Sub Total</td></tr>
-                <?php $i=1; $totalbook=0;?>
+                <?php $i=1; $totalbook=0;$count=1;?>
                 @foreach($optional_books as $optional)
                 <?php 
+                
                 $default_value="checked='checked'";
                 $default_amount=number_format($optional->amount * $optional->default_qty,2);
                 if($errors->has('plan')){
                     $default_value="";
                     $default_amount=0.00;
                     $qty_books=old('qty_books');
+                   
                     foreach($qty_books as $key=>$value){
                         if($key==$optional->id){
                         $default_value="checked='checked'";
@@ -296,9 +300,9 @@ $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
                   
                     }
                 ?>
-                <tr><td><input name="qty_books[{{$optional->id}}]" value="1" type="checkbox" {{$default_value}} onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td><td>
+                <tr><td>{{$count++}}</td><td>
                  {{$optional->subsidiary}}
-                    </td><td>{{$optional->default_qty}}</td>
+                    </td><td><input name="qty_books[{{$optional->id}}]" value="1" type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)"></td>
                 <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$default_amount}}<?php $totalbook=$totalbook+($optional->amount * $optional->default_qty);?></div></td>
                 <td></td></tr>
                 @endforeach
@@ -306,12 +310,19 @@ $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
                 @endif
                 @if(count($optional_materials)>0)
                 @foreach($optional_materials as $optional)
-                <tr><td><input name="qty_books[{{$optional->id}}]" value="1" onclick="return false;" type="checkbox" checked="checked"></td>
+                <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" checked="checked" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
                     Required {{$optional->subsidiary}} <span class="warning">(SET)</span>
+                   @if(count($materials)>0)
+                   <ul>
+                   @foreach($materials as $material)
+                  <li>{{$material->particular}}
+                   @endforeach
+                   </ul>
+                   @endif
                     </td>
                     
-                <td align="left"><div id="total_book2">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>
+                <td align="left"><div id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>
                 </tr>
                 @endforeach
                 @endif 
@@ -336,6 +347,13 @@ $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
                 <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" {{$default_value}} onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
                  {{$optional->subsidiary}} <span class="warning">(SET)</span>
+                 @if(count($other_materials)>0)
+                   <ul>
+                   @foreach($other_materials as $material)
+                  <li>{{$material->particular}}
+                   @endforeach
+                   </ul>
+                   @endif
                     </td>
                     
                 <td align="left"><div id="book_display{{$optional->id}}">{{$default_amount}}</div></td>
