@@ -48,7 +48,7 @@
 <?php $number = 1; ?>
 @foreach ($courses_id as $course_id)
 <?php
-$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock')->orderBy('users.lastname')->get();
+$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
 @if (count($students)>0)
 

@@ -56,7 +56,7 @@
      {{csrf_field()}}
      <div class="col-md-4">
      <div class="form form-group">
-         <label>Id Number
+         <label>ID Number
          <input type="text" class="form form-control" value="{{$student->idno}}" readonly="readonly" name="referenceid" id="referenceid">
      </div> 
      </div> 

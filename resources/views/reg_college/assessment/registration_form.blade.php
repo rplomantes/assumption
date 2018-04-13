@@ -247,9 +247,8 @@ foreach ($discounts as $discount) {
     @if (count($ledger_due_dates)>0)
     <table width='60%' style="margin-left: 30px; margin-right: 30px; float:left; border: 0px" id='pt'>
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th>Plan:</th>
+            <td colspan="2" style="border-bottom: 1px solid black">{{$status->type_of_plan}}</td>
         </tr>
         <tr>
             <th>Due Date</th>

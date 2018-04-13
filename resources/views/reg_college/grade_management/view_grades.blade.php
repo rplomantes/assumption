@@ -1,6 +1,6 @@
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+//$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+//$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -29,7 +29,7 @@ $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()
 <section class="content-header">
     <h1>
         Grades
-        <small></small>
+        <small>A.Y. {{$school_year}}-{{$school_year+1}} - {{$period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>

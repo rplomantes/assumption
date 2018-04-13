@@ -94,6 +94,12 @@ class ViewInstructorsController extends Controller {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $user_info = \App\User::where('idno', $idno)->first();
             $instructor_info = \App\InstructorsInfo::where('idno', $idno)->first();
+            
+            if(count($instructor_info)==0) {
+                $add_info = new \App\InstructorsInfo;
+                $add_info->idno = $idno;
+                $add_info->save();
+            }
 
             return view('reg_college.instructor.view_modify', compact('user_info', 'instructor_info', 'idno'));
         }

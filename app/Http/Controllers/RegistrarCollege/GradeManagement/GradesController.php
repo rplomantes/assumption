@@ -13,9 +13,9 @@ class GradesController extends Controller
         $this->middleware('auth');
     }
 
-    function view_grades() {
+    function view_grades($school_year, $period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            return view('reg_college.grade_management.view_grades');
+            return view('reg_college.grade_management.view_grades', compact('school_year', 'period'));
         }
     }
 }

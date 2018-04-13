@@ -48,7 +48,7 @@ $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
 <?php $number = 1; ?>
 @foreach ($courses_id as $course_id)
 <?php
-$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
 @if (count($students)>0)
 
@@ -57,7 +57,6 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
     <input type="hidden" name="schedule_id" value="{{$schedule_id}}">
     <input type="hidden" name="midterm_status" value="{{$close->midterm}}">
     <input type="hidden" name="finals_status" value="{{$close->finals}}">
-    <input type="hidden" name="grade_point_status" value="{{$close->grade_point}}">
     <div class="col-sm-12">
         <div class="box">
             <div class="box-header">
@@ -72,7 +71,6 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <th>Name</th>
                             <th width="5%">Midterm</th>
                             <th width="5%">Finals</th>
-                            <th width="5%">Grade</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,39 +79,74 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <td>{{$number}}<?php $number = $number + 1; ?></td>
                             <td>{{$student->idno}}</td>
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
-                            <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=1 oninput="change_midterm(this.value, {{$student->id}}, {{$student->idno}})"
+                            <td>
+                                <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, {{$student->idno}})"
                                 @if($student->midterm_status == 0 && $close->midterm == 0)
                                 
                                 @elseif($student->midterm_status == 1 && $close->midterm >= 0)
-                                readonly='' style="color:green"
+                                disabled='' style="color:green"
                                 @elseif($student->midterm_status == 0 && $close->midterm == 1)
-                                readonly=''
+                                disabled=''
                                 @elseif($student->midterm_status == 2 && $close->midterm >= 0)
-                                readonly='' style="color:blue"
+                                disabled='' style="color:blue"
                                 @endif
-                            ></td>
-                            <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=1 oninput="change_finals(this.value, {{$student->id}}, {{$student->idno}})"
-                                 @if($student->finals_status == 0 && $close->finals == 0)
+                                >
+                                    <option></option>
+                                    <option @if ($student->midterm == "PASSED") selected='' @endif>PASSED</option>
+                                    <option @if ($student->midterm == 1.00) selected='' @endif>1.00</option>
+                                    <option @if ($student->midterm == 1.20) selected='' @endif>1.20</option>
+                                    <option @if ($student->midterm == 1.50) selected='' @endif>1.50</option>
+                                    <option @if ($student->midterm == 1.70) selected='' @endif>1.70</option>
+                                    <option @if ($student->midterm == 2.00) selected='' @endif>2.00</option>
+                                    <option @if ($student->midterm == 2.20) selected='' @endif>2.20</option>
+                                    <option @if ($student->midterm == 2.50) selected='' @endif>2.50</option>
+                                    <option @if ($student->midterm == 2.70) selected='' @endif>2.70</option>
+                                    <option @if ($student->midterm == 3.00) selected='' @endif>3.00</option>
+                                    <option @if ($student->midterm == 3.50) selected='' @endif>3.50</option>
+                                    <option @if ($student->midterm == 4.00) selected='' @endif>4.00</option>
+                                    <option @if ($student->midterm == "FA") selected='' @endif>FA</option>
+                                    <option @if ($student->midterm == "INC") selected='' @endif>INC</option>
+                                    <option @if ($student->midterm == "NA") selected='' @endif>NA</option>
+                                    <option @if ($student->midterm == "NG") selected='' @endif>NG</option>
+                                    <option @if ($student->midterm == "UD") selected='' @endif>UD</option>
+                                    <option @if ($student->midterm == "W") selected='' @endif>W</option>
+                                    <option @if ($student->midterm == "AUDIT") selected='' @endif>AUDIT</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, {{$student->idno}})"
+                                @if($student->finals_status == 0 && $close->finals == 0)
                                 
                                 @elseif($student->finals_status == 1 && $close->finals >= 0)
-                                readonly='' style="color:green"
+                                disabled='' style="color:green"
                                 @elseif($student->finals_status == 0 && $close->finals == 1)
-                                readonly=''
+                                disabled=''
                                 @elseif($student->finals_status == 2 && $close->finals >= 0)
-                                readonly='' style="color:blue"
+                                disabled='' style="color:blue"
                                 @endif      
-                            ></td>
-                            <td><input class='grade' type="text" name="grade_point[{{$student->id}}]" id="grade_point" value="{{$student->grade_point}}" size=1 oninput="change_grade_point(this.value, {{$student->id}}, {{$student->idno}})"
-                                @if($student->grade_point_status == 0 && $close->grade_point == 0)
-                                
-                                @elseif($student->grade_point_status == 1 && $close->grade_point >= 0)
-                                readonly='' style="color:green"
-                                @elseif($student->grade_point_status == 0 && $close->grade_point == 1)
-                                readonly=''
-                                @elseif($student->grade_point_status == 2 && $close->grade_point >= 0)
-                                readonly='' style="color:blue"
-                                @endif    
-                            ></td>
+                                >
+                                    <option></option>
+                                    <option @if ($student->finals == "PASSED") selected='' @endif>PASSED</option>
+                                    <option @if ($student->finals == 1.00) selected='' @endif>1.00</option>
+                                    <option @if ($student->finals == 1.20) selected='' @endif>1.20</option>
+                                    <option @if ($student->finals == 1.50) selected='' @endif>1.50</option>
+                                    <option @if ($student->finals == 1.70) selected='' @endif>1.70</option>
+                                    <option @if ($student->finals == 2.00) selected='' @endif>2.00</option>
+                                    <option @if ($student->finals == 2.20) selected='' @endif>2.20</option>
+                                    <option @if ($student->finals == 2.50) selected='' @endif>2.50</option>
+                                    <option @if ($student->finals == 2.70) selected='' @endif>2.70</option>
+                                    <option @if ($student->finals == 3.00) selected='' @endif>3.00</option>
+                                    <option @if ($student->finals == 3.50) selected='' @endif>3.50</option>
+                                    <option @if ($student->finals == 4.00) selected='' @endif>4.00</option>
+                                    <option @if ($student->finals == "FA") selected='' @endif>FA</option>
+                                    <option @if ($student->finals == "INC") selected='' @endif>INC</option>
+                                    <option @if ($student->finals == "NA") selected='' @endif>NA</option>
+                                    <option @if ($student->finals == "NG") selected='' @endif>NG</option>
+                                    <option @if ($student->finals == "UD") selected='' @endif>UD</option>
+                                    <option @if ($student->finals == "W") selected='' @endif>W</option>
+                                    <option @if ($student->finals == "AUDIT") selected='' @endif>AUDIT</option>
+                                </select>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -133,7 +166,7 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
         <a href='{{url('college_instructor', array('print_grade', $schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Grade Record</div></a>
     </div>
     
-    @if ($close->midterm != 1 || $close->finals != 1 || $close->grade_point != 1)
+    @if ($close->midterm != 1 || $close->finals != 1)
     <div class="col-sm-2">
         <a href='{{url('college_instructor', array('grades', $schedule_id))}}'><div class="btn btn-primary col-sm-12">Save</div></a>
     </div>

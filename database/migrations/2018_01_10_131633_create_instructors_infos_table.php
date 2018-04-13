@@ -16,9 +16,9 @@ class CreateInstructorsInfosTable extends Migration
         Schema::create('instructors_infos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idno');
-            $table->string('employment_status');
-            $table->string('academic_type');
-            $table->string('department');
+            $table->string('employment_status')->nullable();
+            $table->string('academic_type')->nullable();
+            $table->string('department')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('place_of_birth')->nullable();
             $table->string('gender')->nullable();

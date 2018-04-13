@@ -4,7 +4,7 @@ $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
 <?php $number = 1; ?>
 @foreach ($courses_id as $course_id)
 <?php
-$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses','statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
 @if (count($students)>0)
 
@@ -28,7 +28,6 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <th>Name</th>
                             <th width="5%">Midterm</th>
                             <th width="5%">Finals</th>
-                            <th width="5%">Grade</th>
                             <th>Lock/Unlock</th>
                         </tr>
                     </thead>
@@ -40,7 +39,6 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
                             <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=1 readonly=""></td>
                             <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=1 readonly=""></td>
-                            <td><input class='grade' type="text" name="grade_point[{{$student->id}}]" id="grade_point" value="{{$student->grade_point}}" size=1 readonly=""></td>
                             <td>
                                 @if($student->midterm_status <= 1 || $student->finals_status <= 1 || $student->grade_point_status <= 1)
                                 <div class="btn btn-warning col-sm-12" onclick="lock({{$student->idno}}, schedule_id.value, {{$student->id}})">Lock</div>

@@ -41,7 +41,6 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $update_grades->midterm_status = 2;
             $update_grades->finals_status = 2;
-            $update_grades->grade_point_status = 2;
             $update_grades->save();
             
             return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name'));
@@ -58,7 +57,6 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $update_grades->midterm_status = 0;
             $update_grades->finals_status = 0;
-            $update_grades->grade_point_status = 0;
             $update_grades->save();
             
             return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name'));
@@ -86,10 +84,12 @@ class AjaxViewGrades extends Controller {
     function updateStatus($course_offering){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
+            $checkstatus = \App\Status::where('idno', $update->idno)->first()->status;
+            if ($checkstatus == 3){
             $update->midterm_status = 2;
             $update->finals_status = 2;
-            $update->grade_point_status = 2;
             $update->save();
+            }
         }
     }
 

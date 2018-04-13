@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dean\Ajax;
+namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -14,13 +14,13 @@ class GetStudentList_ajax extends Controller
     function getstudentlist(){
         if(Request::ajax()){
             $search = Input::get('search');
-            $lists = \App\User::where('academic_type', 'College')
-                    ->where(function ($query) use ($search){
+            $lists = \App\User::
+                    where(function ($query) use ($search){
                         $query->where("lastname","like","%$search%")
                               ->orWhere("firstname","like","%$search%")
                               ->orWhere("idno",$search);
                     })->get();
-            return view('dean.ajax.getstudentlist',compact('lists'));
+            return view('admin.ajax.getstudentlist',compact('lists'));
         }
     }
 }

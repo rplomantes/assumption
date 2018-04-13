@@ -30,8 +30,7 @@ $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->fi
 @section('header')
 <section class="content-header">
     <h1>
-        Assessment
-        <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
+        Grades
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> Home</a></li>
@@ -59,13 +58,14 @@ $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->fi
     </thead>
     <tbody>
         @foreach ($curricula as $curriculum)
-<?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+<?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+<?php $grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
         <tr>
             <td>{{$curriculum->course_code}}</td>
             <td>{{$curriculum->course_name}}</td>
             <td>{{$curriculum->lec}}</td>
             <td>{{$curriculum->lab}}</td>
-            <td>@if (count($grades)>0) {{$grades->grade_point}} @else Not Yet Taken @endif</td>
+            <td>@if (count($grades)>0) {{$grades->finals}} @else Not Yet Taken @endif</td>
         </tr>
         @endforeach
         @endforeach

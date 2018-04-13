@@ -57,7 +57,7 @@
            if(key==13){
                $.ajax({
                    type:"GET",
-                   url:"/ajax/registrar_college/getstudentlist",
+                   url:"/ajax/admin/getstudentlist",
                    data:array,
                    success:function(data){
                        $("#studentlist").html(data);

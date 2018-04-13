@@ -128,7 +128,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-6">     
+                        <div class="col-md-12">     
                             <label>Curriculum Year</label>     
                             <select id="select_curriculum_year" class="form-control select2" required="" @if ($student_info->curriculum_year != NULL) disabled="" @endif>
                                 <option value="">Select Curriculum</option>
@@ -137,16 +137,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 @endforeach
                             </select>     
                         </div>
-                        <div class="col-md-6">
+<!--                        <div class="col-md-6">
                             <label>&nbsp;</label>
                             <a href='{{url("/college", array('view_grades',$user->idno))}}' target="_blank"><button class='btn btn-primary col-sm-12'>View Grades</button></a>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-12">
+<!--    <div class="col-sm-12">
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Search Courses</h3>
@@ -174,7 +174,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-md-4 level">     
                             <label>Level</label>     
-                            <!--<select id="level" class="form-control" onchange="get_section(this.value, program_code.value)">-->
+                            <select id="level" class="form-control" onchange="get_section(this.value, program_code.value)">
                             <select id="level" class="form-control">
                                 <option value="null">Select Level</option>
                                 <option value="1st Year">1st Year</option>
@@ -196,10 +196,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
-<div class="row">
-    <div class="col-sm-6 course_offering">
+<!--<div class="row">
+    <div class="col-sm-12 course_offering">
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Curriculum</h3>
@@ -209,6 +209,52 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             </div>
             <div class="box-body tablecourse">
 
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="row">
+    <div class="col-sm-6 course_offering">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Curriculum</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+<?php $levels = \App\Curriculum::distinct()->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('level')->get(['level']); ?>
+@foreach ($levels as $level)
+<?php $periods = \App\Curriculum::distinct()->where('level', $level->level)->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('period')->get(['period']); ?>
+@foreach ($periods as $period)
+<?php $curricula = \App\Curriculum::where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->where('level', $level->level)->where('period', $period->period)->get(); ?>
+<table class="table table-striped table-condensed" width="100%">
+    <br><b>{{$level->level}} - {{$period->period}}</b>
+    <thead>
+        <tr>
+            <th width="10%">Code</th>
+            <th width="50%">Description</th>
+            <th width="5%">Lec</th>
+            <th width="5%">Lab</th>
+            <th width="8%">Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($curricula as $curriculum)
+<?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+<?php $grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+        <tr>
+            <td>{{$curriculum->course_code}}</td>
+            <td>{{$curriculum->course_name}}</td>
+            <td>{{$curriculum->lec}}</td>
+            <td>{{$curriculum->lab}}</td>
+            <td>@if (count($grades)>0) {{$grades->finals}} @else <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button> @endif</td>
+        </tr>
+        @endforeach
+        @endforeach
+        @endforeach
+    </tbody>
+</table>
             </div>
         </div>
     </div>

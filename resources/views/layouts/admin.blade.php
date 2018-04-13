@@ -105,7 +105,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                        <li><a href="{{url('/register')}}"><i class="fa fa-home"></i> <span>Register User</span></a></li>
+                        <li><a href="{{url('/register')}}"><i class="fa fa-users"></i> <span>Register User</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set SRF</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Schedule of Fees</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Payment Plan</span></a></li>

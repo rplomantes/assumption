@@ -23,11 +23,11 @@ class CreateGradeCollegesTable extends Migration
             $table->integer('lec')->nullable();
             $table->integer('lab')->nullable();
             $table->decimal('hours',5,2)->nullable();
-            $table->decimal('prelim',5,2)->nullable();
-            $table->decimal('midterm',5,2)->nullable();
-            $table->decimal('finals',5,2)->nullable();
-            $table->decimal('final_grade',5,2)->nullable();
-            $table->decimal('grade_point',5,2)->nullable();
+            $table->string('prelim')->nullable();
+            $table->string('midterm')->nullable();
+            $table->string('finals')->nullable();
+            $table->string('final_grade')->nullable();
+            $table->string('grade_point')->nullable();
             $table->string('remarks')->nullable();
             $table->string('school_year');
             $table->string('period');

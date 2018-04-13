@@ -26,7 +26,6 @@ class OpenCloseController extends Controller
             $update = \App\CtrCollegeGrading::where('academic_type', 'College')->first();
             $update->midterm = $request->midterm;
             $update->finals = $request->finals;
-            $update->grade_point = $request->grade_point;
             $update->save();
             
             return redirect('/registrar_college/grade_management/open_close');

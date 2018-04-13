@@ -55,13 +55,6 @@
                             <option value='1' @if ($status->finals == 1) selected='' @endif>Close</option>
                         </select>
                     </div>
-                    <div class='col-sm-4'>
-                        <label>Final Grade</label>
-                        <select name='grade_point' class='form form-control'>
-                            <option value='0' @if ($status->grade_point == 0) selected='' @endif>Open</option>
-                            <option value='1' @if ($status->grade_point == 1) selected='' @endif>Close</option>
-                        </select>
-                    </div>
                 </div>
                 <div class='form-group'>
                     <div class='col-sm-12'>

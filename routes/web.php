@@ -103,7 +103,7 @@ Route::post('/registrar_college/instructor/modify_old_instructor', 'RegistrarCol
 Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\GradeManagement\OpenCloseController@setup');
 Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
 //View Grades
-Route::get('/registrar_college/grade_management/view_grades', 'RegistrarCollege\GradeManagement\GradesController@view_grades');
+Route::get('/registrar_college/grade_management/view_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@view_grades');
 //Ajax View Grades
 Route::get('/ajax/registrar_college/grade_management/get_schedules', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@view_grades');
 Route::get('/ajax/registrar_college/grade_management/get_list_students', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@get_list_students');
@@ -128,7 +128,7 @@ Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_st
 
 
 //Dean - MAIN///////////////////////////////////////////////////////////////////
-Route::get('/dean/viewrecord/{idno}','Dean\Record@view');
+Route::get('/college/view_grades/{idno}','Dean\Record@view');
 Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
 //Assessment////////////////////////////////////////////////////////////////////
 Route::get('/dean/advising/{idno}','Dean\Advising\Advising@advising');
@@ -166,3 +166,8 @@ Route::get('/ajax/college_instructor/grades/change_midterm/{idno}', 'CollegeInst
 Route::get('/ajax/college_instructor/grades/change_finals/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_finals');
 Route::get('/ajax/college_instructor/grades/change_grade_point/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_grade_point');
 
+//ADMIN/////////////////////////////////////////////////////////////////////////
+Route::get('/admin/view_information/{idno}', 'Admin\ViewInformation\viewInfoController@index');
+Route::post('/admin/resetpassword', 'Admin\ViewInformation\viewInfoController@resetpassword');
+Route::post('/admin/update_info/', 'Admin\ViewInformation\viewInfoController@update_info');
+Route::get('/ajax/admin/getstudentlist','Admin\Ajax\GetStudentList_ajax@getstudentlist');

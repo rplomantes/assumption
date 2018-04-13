@@ -154,6 +154,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('instructor','add_instructor'))}}"><i class="fa fa-circle-o"></i> <span>Add Instructor</span></a></li>
                             </ul>
                         </li>
+                                <?php 
+                                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+                                $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+                                ?>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-pencil"></i> <span>Grade Management</span>
                                 <span class="pull-right-container">
@@ -162,7 +166,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('grade_management','open_close'))}}"><i class="fa fa-circle-o"></i> <span>Open/Close Grade Module</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('grade_management','view_grades'))}}"><i class="fa fa-circle-o"></i> <span>View Grades</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('grade_management','view_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>View Grades</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -181,10 +185,6 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 <!--                                        <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>-->
                                     </ul>
                                 </li>
-                                <?php 
-                                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-                                $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
-                                ?>
                                 <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
                             </ul>
                         </li>

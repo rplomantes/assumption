@@ -88,9 +88,9 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <div class="form-group">
                 <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="form form-control btn btn-success">View Student Information</a>
             </div>
-            <div class="form-group">
+<!--            <div class="form-group">
                 <a href="#" class="form form-control btn btn-success">View Curriculum Status</a>
-            </div>
+            </div>-->
         </div>
         <div class="col-sm-12">
             <?php $levels = \App\Curriculum::distinct()->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('level')->get(['level']); ?>
@@ -111,13 +111,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach ($curricula as $curriculum)
-                    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+                    <?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+<?php $grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
                     <tr>
                         <td>{{$curriculum->course_code}}</td>
                         <td>{{$curriculum->course_name}}</td>
                         <td>{{$curriculum->lec}}</td>
                         <td>{{$curriculum->lab}}</td>
-                        <td>@if (count($grades)>0) {{$grades->grade_point}} @else Not Yet Taken @endif</td>
+                        <td>@if (count($grades)>0) {{$grades->finals}} @else Not Yet Taken @endif</td>
                     </tr>
                     @endforeach
                     @endforeach

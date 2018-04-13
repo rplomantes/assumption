@@ -12,8 +12,12 @@ class GetStudentList_ajax extends Controller
     function getstudentlist(){
         if (Request::ajax()) {
             $search = Input::get("search");
-            $lists = \App\User::Where("lastname","like","%$search%")
-                    ->orWhere("firstname","like","%$search%")->orWhere("idno",$search)->get();
+            $lists = \App\User::where('academic_type', 'College')
+                    ->where(function ($query) use ($search){
+                        $query->where("lastname","like","%$search%")
+                              ->orWhere("firstname","like","%$search%")
+                              ->orWhere("idno",$search);
+                    })->get();
             
             return view('reg_college.ajax.getstudentlist', compact('lists'));
         }
