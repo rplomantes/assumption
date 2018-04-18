@@ -47,4 +47,19 @@ class PrintController extends Controller
          $pdf->setPaper('letter','landscape');
          return $pdf->stream();
     }
+    
+    function print_list_of_checks($date_from,$date_to){
+        if(Auth::user()->accesslevel==env("CASHIER")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->where('posted_by',Auth::user()->idno)->where('check_amount','>','0')
+                    ->where('is_reverse','0')->get();
+            $pdf=PDF::loadView('cashier.print_list_of_checks',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream();
+            
+    
+            
+        }
+        
+    }
 }

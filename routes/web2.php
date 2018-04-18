@@ -24,6 +24,7 @@ Route::post('/cashier/main_payment', 'Cashier\MainPayment@post_main_payment');
 Route::get('/cashier/reverserestore/{reference_id}', 'Cashier\StudentLedger@reverserestore');
 Route::get('/cashier/collection_report/{date_from}/{date_to}','Cashier\CollectionReport@collection');
 Route::get('/cashier/list_of_checks/{date_from}/{date_to}','Cashier\CollectionReport@list_of_checks');
+Route::get('/cashier/print/list_of_checks/{date_from}/{date_to}','Cashier\PrintController@print_list_of_checks');
 Route::get('/cashier/credit_cards/{date_from}/{date_to}','Cashier\CollectionReport@credit_cards');
 Route::get('/cashier/bank_deposits/{date_from}/{date_to}','Cashier\CollectionReport@bank_deposits');
 Route::get('/cashier/non_student_payment','Cashier\OtherPayment@non_student_payment');
@@ -77,8 +78,10 @@ Route::get('updatebedlevel','Updater@updateBedLevel');
 Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList@index');
 
 //bookstore
-Route::get('bookstore/view_order/{idno}','Bookstore\Order@view_order');
-Route::get('bookstore/place_order/{idno}','Bookstore\Order\@place_order');
-
+Route::get('/bookstore/view_order/{idno}','Bookstore\Order@view_order');
+Route::get('/bookstore/place_order/{idno}','Bookstore\Order@place_order');
+Route::get('/bookstore/print_order/{idno}','Bookstore\Order@print_order');
+//bookstor ajax
+Route::get('/bookstore/ajax/change_remarks','Bookstore\Ajax\BookMaterial@change_remarks');
 
 ?>
