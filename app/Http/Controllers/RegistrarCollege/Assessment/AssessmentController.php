@@ -23,7 +23,12 @@ class AssessmentController extends Controller {
             if ($status->status == 0) {
                 return view('reg_college.assessment.not_advised', compact('status', 'idno'));
             } else if ($status->status == env('ADVISING')) {
-                return view('reg_college.assessment.view_assessment', compact('idno'));
+                $value=$this->checkcourse_offering_id($idno);
+                if($value == 1){
+                    return view('reg_college.assessment.view_assessment', compact('idno'));
+                } else {
+                    return view('reg_college.assessment.not_complete_section', compact('status', 'idno'));
+                }
             } else if ($status->status == env('ASSESSED')) {
                 return view('reg_college.assessment.assessed', compact('status', 'idno'));
             } else if ($status->status >= env('ENROLLED')) {
@@ -31,6 +36,17 @@ class AssessmentController extends Controller {
             } else {
                 return view('reg_college.assessment.enrolled', compact('status', 'idno'));
             }
+        }
+    }
+    
+    function checkcourse_offering_id($idno){
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
+        $check = \App\GradeCollege::where('idno', "$idno")->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('course_offering_id', NULL)->get();
+        
+        if(count($check)>0){
+            return 0;
+        } else {
+            return 1;
         }
     }
 

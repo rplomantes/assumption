@@ -20,4 +20,10 @@ class AdvisingStatistics extends Controller
             return view('reg_college.advising.advising_statistics', compact('advising_school_year', 'courses'));
         }
     }
+    function sectioning($course_code) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $advising_school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
+            return view('reg_college.advising.sectioning', compact('advising_school_year', 'course_code'));
+        }
+    }
 }

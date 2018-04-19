@@ -142,6 +142,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <a href='{{url("/college", array('view_grades',$user->idno))}}' target="_blank"><button class='btn btn-primary col-sm-12'>View Grades</button></a>
                         </div>-->
                     </div>
+                            <input type="hidden" id="period" name="period" value="{{$school_year->period}}">
                 </div>
             </div>
         </div>

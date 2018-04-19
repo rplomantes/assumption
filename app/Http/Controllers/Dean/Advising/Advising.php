@@ -19,6 +19,7 @@ class Advising extends Controller {
     function advising($idno) {
         if (Auth::user()->accesslevel == env('DEAN')) {
             $advising_status = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->is_available;
+            $enrollment_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
             if ($advising_status == 1) {
                 $status_is_new = \App\Status::where('idno', $idno)->first()->is_new;
                 if ($status_is_new == 1) {
@@ -32,10 +33,10 @@ class Advising extends Controller {
                         return redirect(url('dean', array('advising', 'confirm_advised', $idno, $status->program_code, $status->level, $student_info->curriculum_year, $status->period)));
                     } else if ($status->status == env('ASSESSED')) {
                         return view('dean.advising.already_assessed', compact('idno'));
-                    } else if ($status->status == env('ENROLLED')) {
+                    } else if ($status->status == env('ENROLLED') && $status->school_year == "$enrollment_school_year->school_year" && $status->period == "$enrollment_school_year->period") {
                         return view('dean.advising.enrolled', compact('status', 'idno'));
                     } else {
-                        return view('dean.advising.enrolled', compact('status', 'idno'));
+                        return view('dean.advising.advise', compact('status', 'idno'));
                     }
                 }
             } else {
@@ -73,9 +74,17 @@ class Advising extends Controller {
 
             $this->checkstatus($idno);
             //$this->checkstatus_level($idno, $status);
-
-            $status = \App\Status::where('idno', $idno)->first()->status;
-            if ($status == 0 || $status == env('ADVISING')) {
+            $enrollment_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+            
+            $status = \App\Status::where('idno', $idno)->first();
+            
+            if ($status->status == env('ASSESSED') && $status->school_year == "$enrollment_school_year->school_year" && $status->period == "$enrollment_school_year->period") {
+                $error = "Student already assessed.";
+                return view('dean.advising.error', compact('error'));
+            } else if ($status->status == env('ENROLLED') && $status->school_year == "$enrollment_school_year->school_year" && $status->period == "$enrollment_school_year->period") {
+                $error = "Student already enrolled.";
+                return view('dean.advising.error', compact('error'));
+            } else {
 
                 $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->program_name;
 
@@ -111,12 +120,6 @@ class Advising extends Controller {
                 $updatestudentinfo->save();
 
                 return view('dean.advising.confirmed_advised', compact('idno'));
-            } else if ($status == env('ASSESSED')) {
-                $error = "Student already assessed.";
-                return view('dean.advising.error', compact('error'));
-            } else {
-                $error = "Student already enrolled.";
-                return view('dean.advising.error', compact('error'));
             }
         }
     }

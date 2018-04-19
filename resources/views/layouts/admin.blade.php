@@ -56,7 +56,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
                                         <p>
                                             {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                                            <small>Registrar - College</small>
+                                            <small>SIS Administrator</small>
                                         </p>
                                     </li>
 

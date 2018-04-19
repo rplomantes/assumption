@@ -42,7 +42,9 @@
 <div class='col-sm-12'>
     <div class='box'>
         <div class='box-body'>
+            @if ($school_year=="2017" && $period == "2nd Semester")
             <?php $courses = \App\CourseOffering::distinct()->where('school_year', $school_year)->where('period', $period)->get(['course_code', 'course_name']); ?>
+            
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Select Course</label>
@@ -60,6 +62,23 @@
                 <label>&nbsp;</label>
                 <button class="btn btn-primary col-sm-12" onclick="displayList(schedule_id.value)">Search</button>
             </div>
+            
+            @else
+            <?php $courses = \App\CollegeGrades2018::distinct()->where('school_year', $school_year)->where('period', $period)->get(['course_code']); ?>
+            
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Select Course</label>
+                    <select class="form form-control select2" id="old_course_code" onchange="displayOldList(old_course_code.value, '{{$school_year}}', '{{$period}}')">
+                        <option value="">Select Course</option>
+                        @foreach($courses as $course)
+                        <option value="{{$course->course_code}}">{{$course->course_code}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            
+            @endif
         </div>
     </div>
 </div>
@@ -73,6 +92,8 @@
     function selectSchedule(course_code) {
         array = {};
         array['course_code'] = course_code;
+        array['school_year'] = "{{$school_year}}";
+        array['period'] = "{{$period}}";
         $.ajax({
             type: "GET",
             url: "/ajax/registrar_college/grade_management/get_schedules",
@@ -97,6 +118,23 @@
 
         });
     }
+    
+    function displayOldList(course_code, school_year, period) {
+        array = {};
+        array['course_code'] = course_code;
+        array['school_year'] = school_year;
+        array['period'] = period;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/get_oldlist_students",
+            data: array,
+            success: function (data) {
+                $('#result').hide().html(data).fadeIn();
+            }
+
+        });
+    }
+    
     function lock(idno, schedule_id, id){
         array = {};
         array['schedule_id'] = schedule_id;
@@ -132,6 +170,36 @@
             data: array,
             success: function (data) {
                 $('#result').html(data);
+            }
+        });
+    }
+    
+    function change_midterm(grade, grade_id, idno,stat) {
+        array = {};
+        array['grade'] = grade;
+        array['grade_id'] = grade_id;
+        array['idno'] = idno;
+        array['stat'] = stat;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grades/change_midterm/" + idno,
+            data: array,
+            success: function () {
+            }
+        });
+    }
+    
+    function change_finals(grade, grade_id, idno,stat) {
+        array = {};
+        array['grade'] = grade;
+        array['grade_id'] = grade_id;
+        array['idno'] = idno;
+        array['stat'] = stat;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grades/change_finals/" + idno,
+            data: array,
+            success: function () {
             }
         });
     }

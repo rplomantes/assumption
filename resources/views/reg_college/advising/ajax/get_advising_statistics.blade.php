@@ -17,7 +17,8 @@
                     <th>Course Name</th>
                     <th>Lec</th>
                     <th>Lab</th>
-                    <th>Number of Students</th>
+                    <th>Students to Section</th>
+                    <th>Scheduling</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
                     <td>{{$lec}}</td>
                     <td>{{$lab}}</td>
                     <td>{{count($student_count)}}</td>
+                    <td><a target="_blank" href="{{url('/registrar_college', array('advising','sectioning', $course_code))}}"><button>Sectioning</button></a></td>
                 </tr>
             </tbody>
         </table>

@@ -1,7 +1,7 @@
 <div class="form-group">
     <label>Select Schedule</label>
     <select class="form form-control select2" id="schedule_id">
-        <option>Select Schedule</option>
+        <option value="">Select Schedule</option>
         @foreach ($schedules as $sched)
         <option value="{{$sched->schedule_id}}">
             <?php

@@ -36,8 +36,12 @@ Route::get('/registrar_college/advising/set_up', 'RegistrarCollege\Advising\Advi
 Route::post('/registrar_college/advising/save_set_up', 'RegistrarCollege\Advising\AdvisingController@save');
 //Advising Statistics
 Route::get('/registrar_college/advising/advising_statistics', 'RegistrarCollege\Advising\AdvisingStatistics@index');
+Route::get('/registrar_college/advising/sectioning/{course_code}', 'RegistrarCollege\Advising\AdvisingStatistics@sectioning');
 //Ajax Advising Statistics
 Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
+Route::get('/ajax/registrar_college/advising/addtosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@addtosection');
+Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getsection');
+Route::get('/ajax/registrar_college/advising/getschedulestudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getschedulestudentlist');
 
 
 //Registrar College Curriculum Management///////////////////////////////////////
@@ -107,9 +111,12 @@ Route::get('/registrar_college/grade_management/view_grades/{school_year}/{perio
 //Ajax View Grades
 Route::get('/ajax/registrar_college/grade_management/get_schedules', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@view_grades');
 Route::get('/ajax/registrar_college/grade_management/get_list_students', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@get_list_students');
+Route::get('/ajax/registrar_college/grade_management/get_oldlist_students', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@get_oldlist_students');
 Route::get('/ajax/registrar_college/grade_management/lock/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@lock');
 Route::get('/ajax/registrar_college/grade_management/unlock/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@unlock');
 Route::get('/ajax/registrar_college/grade_management/approve_all', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@approve_all');
+Route::get('/ajax/registrar_college/grades/change_midterm/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_midterm');
+Route::get('/ajax/registrar_college/grades/change_finals/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_finals');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List

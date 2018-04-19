@@ -13,8 +13,10 @@ class AjaxViewGrades extends Controller {
     function view_grades() {
         if (Request::ajax()) {
             $course_code = Input::get("course_code");
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-            $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+//            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+//            $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
             $schedules = \App\CourseOffering::distinct()->where('course_code', $course_code)->where('school_year', $school_year)->where('period', $period)->get(['schedule_id']);
 
             return view('reg_college.grade_management.ajax.display_schedule', compact('schedules'));
@@ -31,6 +33,15 @@ class AjaxViewGrades extends Controller {
         }
     }
     
+    function get_oldlist_students() {
+        if (Request::ajax()) {
+            $course_code = Input::get("course_code");
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+
+            return view('reg_college.grade_management.view_oldstudents', compact('course_code', 'school_year','period'));
+        }
+    }
     function lock($idno) {
         if (Request::ajax()) {
             $grade_id = Input::get("grade_id");
@@ -89,6 +100,42 @@ class AjaxViewGrades extends Controller {
             $update->midterm_status = 2;
             $update->finals_status = 2;
             $update->save();
+            }
+        }
+    }
+    
+    function change_midterm($idno){
+        if (Request::ajax()) {
+            $grade = Input::get("grade");
+            $grade_id = Input::get("grade_id");
+            $stat = Input::get("stat");
+            
+            if($stat == "old"){
+            $update_grades = \App\CollegeGrades2018::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->midterm = $grade;
+            $update_grades->save();
+            }else {
+            $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->midterm = $grade;
+            $update_grades->save();
+            }
+        }
+    }
+    
+    function change_finals($idno){
+        if (Request::ajax()) {
+            $grade = Input::get("grade");
+            $grade_id = Input::get("grade_id");
+            $stat = Input::get("stat");
+            
+            if($stat == "old"){
+            $update_grades = \App\CollegeGrades2018::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->finals = $grade;
+            $update_grades->save();
+            }else {
+            $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->finals = $grade;
+            $update_grades->save();
             }
         }
     }
