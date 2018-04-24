@@ -123,6 +123,8 @@
                             <option value="31">Accounting Staff</option>
                             <option value="40">Cashier</option>
                             <option value="50">Bookstore</option>
+                            <option value="60">Admission-HED</option>
+                            <option value="61">Admission-BED</option>
                         </select>    
 
                         @if ($errors->has('accesslevel'))

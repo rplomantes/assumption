@@ -20,13 +20,13 @@ class Registration extends Controller
     }
     
     function register(){
-        if(Auth::user()->accesslevel == env("REG_BE")){
+        if(Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")){
             $referenceid = uniqid();
             return view('reg_be.registration',compact('referenceid'));
         }
     }
     function post_register(Request $request){
-        if(Auth::user()->accesslevel == env("REG_BE")){
+        if(Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")){
             $validate = $request->validate([
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -40,6 +40,7 @@ class Registration extends Controller
                $addstudent->firstname = $request->firstname;
                $addstudent->middlename = $request->middlename;
                $addstudent->extensionname = $request->extensionname;
+               $addstudent->is_foreign = $request->is_foreign;
                $addstudent->academic_type="BED";
                $addstudent->lrn = $request->lrn;
                $addstudent->save();

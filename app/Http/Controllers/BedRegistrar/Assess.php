@@ -177,7 +177,7 @@ class Assess extends Controller
             if(count($status)>0){
                 if($status->is_new=="1"){
                     $addfee = \App\CtrNewStudentFee::get();
-                    if($count($addfee)>0){
+                    if(count($addfee)>0){
                         foreach($addfee as $fee){
                             $addledger = new \App\Ledger;
                             $addledger->idno = $request->idno;
@@ -199,7 +199,7 @@ class Assess extends Controller
                     }
                 }
             }
-            $is_foreign =  \App\User::where('idno',$request->idno)->get();
+            $is_foreign =  \App\User::where('idno',$request->idno)->first();
             if(count($is_foreign)>0){
                 if($is_foreign->is_foreign == '1'){
                     foreach($is_foreign as $fee){

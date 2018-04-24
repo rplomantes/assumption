@@ -1,12 +1,4 @@
-<?php
-    if(Auth::user()->accesslevel == env('ADMISSION_BED')){
-    $layout = "layouts.appadmission-bed";
-    } else {
-    $layout = "layouts.appbedregistrar";
-    }
-?>
-
-@extends($layout)
+@extends('layouts.appadmission-bed')
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -45,7 +37,7 @@
 @section('header')
 <section class="content-header">
       <h1>
-        Successfully Added
+        Search Student
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -58,7 +50,10 @@
  <!-- search form (Optional) -->
  <div class="col-md-12">
         
-     <h1>Successfully Added!!!</h1>   
+     <input type="text" id="search" class="form-control" placeholder="Search...">
+        
+     <div id="displaystudent">
+     </div>    
  </div>    
 @endsection
 @section('footerscript')
@@ -70,7 +65,7 @@
               array['search'] = $("#search").val();
               $.ajax({
                   type:"GET",
-                  url:"/bedregistrar/ajax/getstudentlist",
+                  url:"/admissionbed/ajax/getstudentlist",
                   data:array,
                   success:function(data){
                    $("#displaystudent").html(data)
@@ -82,4 +77,3 @@
     });
 </script>    
 @endsection
-

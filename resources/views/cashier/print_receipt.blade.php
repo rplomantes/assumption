@@ -1,27 +1,35 @@
-
-<div style="margin-left: 20px; margin-right: 15px;">
-    <table width="311" style="margin-top: 10px; margin-right: 30px">
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+                font-size: 10pt;
+            }
+        </style>
+    </head>
+    <body>
+        <table width="311" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="right"><b>{{$payment->receipt_no}}</b></td>
+            <td align="right">{{$payment->receipt_no}}</td>
         </tr>
-    </table>
-    <table width='311' style='font-size: 10pt; margin-top: 30px;' border='0'>
+    </table><br><br><br>
+    <table width='298' border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <th width='5%'>ID No:</th>
-            <th width='20%'>{{$payment->idno}}</th>
-            <th width='5%' align='right'>Date:</th>
-            <td width='8%' align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td>
+            <td width="10">ID No:</td>
+            <td>&nbsp;{{$payment->idno}}</td>
+            <td align='right'>Date:</td>
+            <td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td>
         </tr>
         <tr>
-            <th>Name:</th>
-            <td colspan="3"><b>{{strtoupper($payment->paid_by)}}</b></td>
+            <td>Name:</td>
+            <td colspan="3">&nbsp;{{strtoupper($payment->paid_by)}}</td>
         </tr>
         @if(count($status)>0)
         @if($status->status==3)
             @if($status->academic_type=="College")
-            <tr><th colspan="2">Course/Level: {{$status->program_code}} / {{$status->level}}</th><td></td><td></td></tr>
+            <tr><td colspan="2">Course/Level: {{$status->program_code}} / {{$status->level}} - {{$status->department}}</td></tr>
             @else
-            <tr><th colspan="2">Level/Section: {{$status->level}}</th><td></td><td></td></tr>
+            <tr><td colspan="4">Level/Section: {{$status->level}} - {{$status->department}}</td></tr>
             @endif
         @endif
         @endif
@@ -32,11 +40,11 @@
 
 
     <?php $totalreceipt = 0; ?>
-    <table width="100%" style="font-size: 8pt;">
+    <table width='311' border="0" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th>Particular</th>
-                <th width='30%' align='right'>Amount</th>
+                <td>Particular</td>
+                <td align='right'>Amount</td>
             </tr>
         </thead>
         <tbody>
@@ -62,20 +70,20 @@
             @endforeach
             @endif
             <tr>
-                <th>TOTAL AMOUNT</th>
-                <th align="right"><span class="totalreceipt">{{number_format($totalreceipt,2)}}</span></th>
+                <td>Total Amount</td>
+                <td align="right"><span class="totalreceipt">{{number_format($totalreceipt,2)}}</span></td>
             <tr>
         </tbody>    
     </table>
 
     <hr>
 
-    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; font-size: 8pt;">
-        <b>Explanation:</b><br>{{$payment->remarks}}
+    <p class="text-muted well well-sm no-shadow">
+        Explanation:<br>{{$payment->remarks}}
     </p>
     <hr>
-    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; font-size: 8pt;">
-        <b>Payment Rendered:</b><br>  
+    <p class="text-muted well well-sm no-shadow">
+        Payment Rendered:<br>  
         @if($payment->cash_amount>0) 
         Cash Received : {{number_format($payment->amount_received,2)}}<br>
         Change : {{number_format($payment->amount_received-$payment->cash_amount,2)}}<br>
@@ -97,7 +105,8 @@
         @endif
     </p>
 
-    <p style="position: fixed; bottom: 60px; margin-top: 15px; margin-right: 70px ;font-size: 10pt;" align="right">
-        <b>{{\App\User::where('idno',$payment->posted_by)->first()->firstname}} {{\App\User::where('idno',$payment->posted_by)->first()->lastname}}</b>
+    <p style="position: fixed; bottom: 60px; margin-top: 15px; margin-right: 70px ;" align="right">
+        {{\App\User::where('idno',$payment->posted_by)->first()->firstname}} {{\App\User::where('idno',$payment->posted_by)->first()->lastname}}
     </p>
-</div>
+    </body>
+</html>

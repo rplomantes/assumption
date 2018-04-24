@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->integer('is_first_login')->default(1);
             $table->string('email')->unique();
             $table->string('academic_type')->nullable();
+            $table->integer('is_foreign')->default(0);
             $table->string('lrn')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

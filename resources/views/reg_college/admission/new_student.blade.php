@@ -1,4 +1,12 @@
-@extends('layouts.appreg_college')
+<?php
+    if(Auth::user()->accesslevel == env('ADMISSION_HED')){
+    $layout = "layouts.appadmission-hed";
+    } else {
+    $layout = "layouts.appreg_college";
+    }
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -137,7 +145,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label>Civil Status</label>
                                 <select class="form form-control" name='civil_status' placeholder='Telephone Number' value="{{old('civil_status')}}" type="text">
                                     <option value="">Select Civil Status</option>
@@ -147,13 +155,21 @@
                                     <option value="Widowed">Widowed</option>
                                 </select>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label>Nationality</label>
                                 <input class="form form-control" name='nationality' placeholder='Nationality' value="{{old('nationality')}}" type="text">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label>Religion</label>
                                 <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion')}}" type="text">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Local/Foreigner</label>
+                                <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
+                                    <option value="">Select Local/Foreign</option>
+                                    <option value="0" @if ( old('is_foreign') == 0) selected='' @endif >Local</option>
+                                    <option value="1" @if ( old('is_foreign') == 1) selected='' @endif >Foreign</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

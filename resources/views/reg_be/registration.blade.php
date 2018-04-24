@@ -1,4 +1,12 @@
-@extends('layouts.appbedregistrar')
+<?php
+    if(Auth::user()->accesslevel == env('ADMISSION_BED')){
+    $layout = "layouts.appadmission-bed";
+    } else {
+    $layout = "layouts.appbedregistrar";
+    }
+?>
+
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -55,7 +63,7 @@
      {{csrf_field()}}
      <div class="col-md-4">
      <div class="form form-group">
-         <label>Id Number
+         <label>ID Number
          <input type="text" class="form form-control" value="{{$referenceid}}" readonly="readonly" name="referenceid" id="referenceid">
      </div> 
      </div>    
@@ -115,6 +123,14 @@
          <div class="col-md-5">
              <label>LRN</label>
              <input type="text" class="form form-control" name="lrn" id="lrn" placeholder="LRN">
+         </div>  
+         <div class="col-md-3">
+             <label>Loca/Foreign</label>
+             <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
+                <option value="">Select Local/Foreign</option>
+                <option value="0" @if ( old('is_foreign') == 0) selected='' @endif >Local</option>
+                <option value="1" @if ( old('is_foreign') == 1) selected='' @endif >Foreign</option>
+            </select>
          </div>
      </div> 
      
@@ -181,7 +197,7 @@
               array['search'] = $("#search").val();
               $.ajax({
                   type:"GET",
-                  url:"/bedregistrar/ajax/getstudentlist",
+                  url:"/admissionbed/ajax/getstudentlist",
                   data:array,
                   success:function(data){
                    $("#displaystudent").html(data)

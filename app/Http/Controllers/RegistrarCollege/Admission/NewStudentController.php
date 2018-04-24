@@ -15,14 +15,14 @@ class NewStudentController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
             $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             return view('reg_college.admission.new_student', compact('programs'));
         }
     }
 
     function add_new_student(Request $request) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
             $this->validate($request, [
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -39,7 +39,7 @@ class NewStudentController extends Controller {
     }
 
     function create_new_student($request) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
 
             DB::beginTransaction();
             $reference_no = uniqid();
@@ -60,6 +60,7 @@ class NewStudentController extends Controller {
         $lastname = $request->lastname;
         $extensionname = $request->extensionname;
         $email = $request->email;
+        $is_foreign = $request->is_foreign;
 
         $add_new_user = new \App\User;
         $add_new_user->idno = $reference_no;
@@ -70,6 +71,7 @@ class NewStudentController extends Controller {
         $add_new_user->accesslevel = 0;
         $add_new_user->status = 1; //active or not
         $add_new_user->email = $email;
+        $add_new_user->is_foreign = $is_foreign;
         $add_new_user->save();
     }
 

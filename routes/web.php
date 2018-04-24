@@ -178,3 +178,14 @@ Route::get('/admin/view_information/{idno}', 'Admin\ViewInformation\viewInfoCont
 Route::post('/admin/resetpassword', 'Admin\ViewInformation\viewInfoController@resetpassword');
 Route::post('/admin/update_info/', 'Admin\ViewInformation\viewInfoController@update_info');
 Route::get('/ajax/admin/getstudentlist','Admin\Ajax\GetStudentList_ajax@getstudentlist');
+
+//College Admission///////////////////////////////////////////////////
+Route::get('/ajax/admission-hed/getstudentlist', 'AdmissionHED\Ajax\GetStudentList_ajax@getstudentlist');
+//New Student
+Route::get('/admission/admission-hed/new_student','AdmissionHED\Admission\NewStudentController@index');
+Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\NewStudentController@add_new_student');
+
+//BED Admission///////////////////////////////////////////////////
+Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
+Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
+
