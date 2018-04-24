@@ -1,7 +1,7 @@
 <?php
-$optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Books')->get();
-$optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Materials')->get();
-$optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Other Materials')->get();
+$optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','Books')->get();
+$optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Materials')->get();
+$optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Other Materials')->get();
 $materials = \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
 $other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 ?>                

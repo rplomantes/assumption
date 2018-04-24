@@ -46,10 +46,10 @@ case "Grade 11":
 
 $plans = \App\CtrDueDate::selectRaw('distinct plan')->where('academic_type','BED')->get();
 $discounts = \App\CtrDiscount::get();
-$optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Books')->where('amount','>','0')->get();
-$optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Materials')->get();
-$optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','Other Materials')->get();
-$optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->where('receipt_details','PE Uniforms/Others')->get();;
+$optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','Books')->where('amount','>','0')->get();
+$optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Materials')->get();
+$optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Other Materials')->get();
+$optional_pe_uniforms = \App\CtrOptionalFee::where('level',$current_level)->where('category','PE Uniforms/Others')->get();;
 $uniforms=  \App\CtrUniformSize::where('particular','AC P.E. T-Shirt')->get();
 $joggings = \App\CtrUniformSize::where('particular','AC P.E. Jogging Pants')->get();
 $socks = \App\CtrUniformSize::where('particular','AC School Socks')->get();

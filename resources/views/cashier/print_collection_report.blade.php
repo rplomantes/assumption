@@ -10,6 +10,13 @@ $totalcanceled=0;
 
 ?>
 <html>
+    
+        <style>
+            body {
+                font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+                
+            }
+        </style>
     <style>
     img {
         display: block;
@@ -49,9 +56,12 @@ $totalcanceled=0;
 </style>
 <div>    
     <!--<div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>-->
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='Left'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>COLLECTION REPORT</b></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='Left'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>COLLECTION REPORT</b>
+    
+     <br>
+     Date Covered : {{$date_from}} to {{$date_to}}</div>
 </div>
-    <body>
+    <body><p>
      <br>
      <br>
      <br>
@@ -59,8 +69,6 @@ $totalcanceled=0;
      <br>
      <br>
      <br>
-     <br>
-     Date Covered : {{$date_from}} to {{$date_to}}
      </p>
              
      <table width="100%" id="example1" border="1" cellspacing="0" cellpadding="2" class="table table-responsive table-striped">
@@ -151,7 +159,7 @@ $totalcanceled=0;
      </table> 
      @if(count($credits)>0)
      <?php $totalcredit=0;$totaldebit=0;?>
-     <span>Summary of transactions</span>
+     <span><br>Summary of transactions</span>
      <table border = "1" cellspacing="0" cellpadding="2" width="50%">
          <tr><td>Particular</td><td>Debit</td><td>Credit</td></tr>
          @foreach($debits as $debit)
