@@ -156,11 +156,11 @@ $totalcanceled=0;
          <tr><td>Particular</td><td>Debit</td><td>Credit</td></tr>
          @foreach($debits as $debit)
          <?php $totaldebit= $totaldebit + $debit->debit;?>
-         <tr><td>{{$debit->category}}</td><td align="right">{{number_format($debit->debit,2)}}</td><td></td></tr>
+         <tr><td>{{$debit->receipt_details}}</td><td align="right">{{number_format($debit->debit,2)}}</td><td></td></tr>
          @endforeach
          @foreach($credits as $credit)
          <?php $totalcredit= $totalcredit + $credit->credit;?>
-         <tr><td>{{$credit->category}}</td><td></td><td align="right">{{number_format($credit->credit,2)}}</td></tr>
+         <tr><td>{{$credit->receipt_details}}</td><td></td><td align="right">{{number_format($credit->credit,2)}}</td></tr>
          @endforeach
          
          <tr><td>Total</td><td align="right">{{number_format($totaldebit,2)}}</td><td align="right">{{number_format($totalcredit,2)}}
