@@ -199,7 +199,7 @@ class Assess extends Controller
                     }
                 }
             }
-            $is_foreign =  \App\StudentInfo::where('idno',$request->idno)->get();
+            $is_foreign =  \App\User::where('idno',$request->idno)->get();
             if(count($is_foreign)>0){
                 if($is_foreign->is_foreign == '1'){
                     foreach($is_foreign as $fee){
