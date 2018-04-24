@@ -68,6 +68,9 @@ $totalcanceled=0;
              <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check No</th><th>Bank</th><th>Check Amount</th><th>Credit Card No</th><th>Desc</th><th>Amount</th>
 <!--                 <th>Bank Deposit</th>-->
                  <th>Total</th>
+                  @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
+                    <th>Posted By</th>
+                    @endif
 
              </tr>
          </thead>
@@ -138,11 +141,31 @@ $totalcanceled=0;
                     <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
 <!--                    <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>-->
                     <th class="decimal">{{number_format($grandtotal,2)}}</th>
+                     @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
+                    <th></th>
+                    @endif
                     
                     </tr>
         
          </tfoot>    
      </table> 
+     @if(count($credits)>0)
+     <?php $totalcredit=0;$totaldebit=0;?>
+     <span>Summary of transactions</span>
+     <table border = "1" cellspacing="0" cellpadding="2" width="50%">
+         <tr><td>Particular</td><td>Debit</td><td>Credit</td></tr>
+         @foreach($debits as $debit)
+         <?php $totaldebit= $totaldebit + $debit->debit;?>
+         <tr><td>{{$debit->category}}</td><td align="right">{{number_format($debit->debit,2)}}</td><td></td></tr>
+         @endforeach
+         @foreach($credits as $credit)
+         <?php $totalcredit= $totalcredit + $credit->credit;?>
+         <tr><td>{{$credit->category}}</td><td></td><td align="right">{{number_format($credit->credit,2)}}</td></tr>
+         @endforeach
+         
+         <tr><td>Total</td><td align="right">{{number_format($totaldebit,2)}}</td><td align="right">{{number_format($totalcredit,2)}}
+     </table>    
+     @endif
      </div>    
      </div> <br><br><br>Prepared by: <br><br><b>{{Auth::user()->firstname}} {{Auth::user()->lastname}}</b>
      <br><br><br><br>Checked by: <br><br><b></b>
