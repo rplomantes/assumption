@@ -38,18 +38,18 @@ class PrintController extends Controller
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('posted_by',Auth::user()->idno)->get();
             $credits =  \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('posted_by',Auth::user()->idno)->where('credit','>','0')->groupBy('receipt_details')->get();
+                    ->where('posted_by',Auth::user()->idno)->where('credit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
             $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('posted_by',Auth::user()->idno)->where('debit','>','0')->groupBy('receipt_details')->get();
+                    ->where('posted_by',Auth::user()->idno)->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
         }
         
          if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                         ->orderBy('posted_by')->get();
             $credits =  \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('credit','>','0')->groupBy('receipt_details')->get();
+                    ->where('credit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
             $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('debit','>','0')->groupBy('receipt_details')->get();
+                    ->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
         }
          $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to','credits','debits'));
          $pdf->setPaper('letter','portrait');
