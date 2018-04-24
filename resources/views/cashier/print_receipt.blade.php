@@ -1,10 +1,11 @@
+
 <div style="margin-left: 20px; margin-right: 15px;">
-    <table width="100%" style="margin-top: 10px; margin-right: 30px">
+    <table width="311" style="margin-top: 10px; margin-right: 30px">
         <tr>
             <td align="right"><b>{{$payment->receipt_no}}</b></td>
         </tr>
     </table>
-    <table width='100%' style='font-size: 10pt; margin-top: 30px;' border='0'>
+    <table width='311' style='font-size: 10pt; margin-top: 30px;' border='0'>
         <tr>
             <th width='5%'>ID No:</th>
             <th width='20%'>{{$payment->idno}}</th>

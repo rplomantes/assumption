@@ -29,7 +29,7 @@ class PrintController extends Controller
         
         
         $pdf = PDF::loadView('cashier.print_receipt', compact('payment','status','accountings','receipt_details','receipt_less'));
-        $pdf->setPaper(array(0, 0, 432.00, 468.0));
+        $pdf->setPaper([0, 0, 336, 440],'portrait');
         return $pdf->stream();
     }
     
