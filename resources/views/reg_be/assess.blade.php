@@ -284,7 +284,6 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 <?php $i=1; $totalbook=0;$count=1;?>
                 @foreach($optional_books as $optional)
                 <?php 
-                
                 $default_value="checked='checked'";
                 $default_amount=number_format($optional->amount * $optional->default_qty,2);
                 if($errors->has('plan')){
@@ -293,7 +292,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                     $qty_books=old('qty_books');
                    
                     foreach($qty_books as $key=>$value){
-                        if($key==$optional->id){
+                        if($key==$optional->id){  
                         $default_value="checked='checked'";
                         $default_amount=number_format($optional->amount * $optional->default_qty,2);
                     }}
@@ -303,7 +302,8 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 <tr><td>{{$count++}}</td><td>
                  {{$optional->subsidiary}}
                     </td><td><input name="qty_books[{{$optional->id}}]" value="1" type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)"></td>
-                <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$default_amount}}<?php $totalbook=$totalbook+($optional->amount * $optional->default_qty);?></div></td>
+                <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$default_amount}}
+                    <?php $totalbook=$totalbook+ ($optional->amount * $optional->default_qty);?></div></td>
                 <td></td></tr>
                 @endforeach
                 <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{number_format($totalbook,2)}}</div></td></tr>
@@ -490,7 +490,7 @@ input[type=number]{
     getUniformAmount($("#jogging_size").val(),'jogging');
     getUniformAmount($("#socks_size").val(),'socks');
     getUniformAmount($("#dengue_size").val(),'dengue');
-    book_display();
+    //book_display();
     });
     
     function process_sub(id,qty,amount,event,these){  
