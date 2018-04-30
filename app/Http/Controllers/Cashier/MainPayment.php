@@ -179,13 +179,14 @@ class MainPayment extends Controller
      $idNumber=$id_no->idno;
      $id_no->idno=$id_no->idno+1;
      $id_no->update();
-     for ($i=strlen($idNumber);$i<=4;$i++){
+     for ($i=strlen($idNumber);$i<=2;$i++){
          $idNumber = "0".$idNumber;
      }
      $status = \App\Status::where('idno',$idno)->first();
      $pre=\App\CtrEnrollmentSchoolYear::where('academic_type',$status->academic_type)->first();
      $pre_number = $pre->school_year;
-     return substr($pre_number,2,2).$idNumber;
+     $pre_number2 = $pre->school_year+1;
+     return substr($pre_number,2,2).substr($pre_number2,2,2).$idNumber;
      }
      
      function notifyStudent($request, $reference_id){

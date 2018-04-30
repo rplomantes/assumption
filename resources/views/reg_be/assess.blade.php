@@ -288,7 +288,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 $default_amount=number_format($optional->amount * $optional->default_qty,2);
                 if($errors->has('plan')){
                     $default_value="";
-                    $default_amount=0.00;
+                    $default_amount=0;
                     $qty_books=old('qty_books');
                    
                     foreach($qty_books as $key=>$value){

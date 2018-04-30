@@ -631,4 +631,7 @@ class Assess extends Controller
         }
     }
     
+    function roundOff ($amount) {
+        return round($amount);
+    }
 }
