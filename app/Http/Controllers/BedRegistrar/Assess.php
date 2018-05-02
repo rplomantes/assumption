@@ -151,20 +151,20 @@ class Assess extends Controller
                 $discount_amount=0;
                 switch ($fee->category_switch){
                     case env("MISC_FEE"):
-                        $amount = $fee->amount;
+                        $amount = $this->roundOff($fee->amount);
                         $discount_amount = $fee->amount * $discount_misc/100;
                         break;
                     case env("OTHER_FEE"):
-                        $amount=$fee->amount;
+                        $amount=$this->roundOff($fee->amount);
                         $discount_amount = $fee->amount * $discount_other/100;
                         break;
                     case env("DEPOSITORY_FEE"):
-                        $amount=$fee->amount;
+                        $amount=$this->roundOff($fee->amount);
                         $discount_amount = $fee->amount * $discount_depository/100;
                         break;
                     case env("TUITION_FEE"):
                         $addpercent = $this->addPercentage($request->plan);
-                        $amount = ($fee->amount + ($fee->amount * $addpercent/100));
+                        $amount = $this->roundOff(($fee->amount + ($fee->amount * $addpercent/100)));
                         $discount_amount = $amount * $discount_tuition/100;
                 }
                 
@@ -202,7 +202,8 @@ class Assess extends Controller
             $is_foreign =  \App\User::where('idno',$request->idno)->first();
             if(count($is_foreign)>0){
                 if($is_foreign->is_foreign == '1'){
-                    foreach($is_foreign as $fee){
+                    $addfee = \App\CtrForiegnFee::get();
+                    foreach($addfee as $fee){
                         $addledger = new \App\Ledger;
                             $addledger->idno = $request->idno;
                             $addledger->department = $department->department;
@@ -295,16 +296,16 @@ class Assess extends Controller
     
     function addPercentage($plan){
         switch ($plan){
-            case "Annual":
+            case "Plan A - Annual":
                 return 0;
                 break;
-            case "Semestral":
+            case "Plan B - Semestral":
                 return 1;
                 break;
-            case "Quarterly":
+            case "Plan C - Quarterly":
                 return 2;
                 break;
-            case "Monthly":
+            case "Plan D - Monthly":
                 return 3;
                 break;
         } 
