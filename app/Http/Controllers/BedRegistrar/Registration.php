@@ -95,6 +95,7 @@ class Registration extends Controller
             $updateuser->extensionname = $request->extensionname;
             $updateuser->status = $request->user_status;
             $updateuser->lrn = $request->lrn;
+            $updateuser->is_foreign = $request->is_foreign;
             $updateuser->save();
             
             $addprofile = \App\BedProfile::where('idno', $request->referenceid)->first();

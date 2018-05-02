@@ -136,6 +136,13 @@
          <div class="col-md-5">
              <label>LRN</label>
              <input type="text" class="form form-control" name="lrn" id="lrn" placeholder="LRN">
+         </div> 
+         <div class="col-md-3">
+             <label>Local/Foreign</label>
+             <select class="form form-control" name='is_foreign' type="text">
+                <option value="0" @if ($student->is_foreign) == 0) selected='' @endif >Local</option>
+                <option value="1" @if ($student->is_foreign) == 1) selected='' @endif >Foreign</option>
+            </select>
          </div>
      </div> 
      

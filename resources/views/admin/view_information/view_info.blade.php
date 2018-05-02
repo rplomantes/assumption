@@ -95,6 +95,8 @@
                         <option value="31" @if ($user->accesslevel == 31) selected='' @endif>Accounting Staff</option>
                         <option value="40" @if ($user->accesslevel == 40) selected='' @endif>Cashier</option>
                         <option value="50" @if ($user->accesslevel == 50) selected='' @endif>Bookstore</option>
+                        <option value="60" @if ($user->accesslevel == 60) selected='' @endif>Admission - HED</option>
+                        <option value="61" @if ($user->accesslevel == 61) selected='' @endif>Admission - BED</option>
                     </select>
                 </div>
                 <div class="col-sm-6">

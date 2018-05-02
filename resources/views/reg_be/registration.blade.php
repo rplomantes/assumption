@@ -126,7 +126,7 @@
          </div>  
          <div class="col-md-3">
              <label>Loca/Foreign</label>
-             <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
+             <select class="form form-control" name='is_foreign' value="{{old('is_foreign')}}" type="text">
                 <option value="">Select Local/Foreign</option>
                 <option value="0" @if ( old('is_foreign') == 0) selected='' @endif >Local</option>
                 <option value="1" @if ( old('is_foreign') == 1) selected='' @endif >Foreign</option>
