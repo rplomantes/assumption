@@ -83,7 +83,7 @@
                         <select id='schedule_id' class='form form-control select2' onchange="getsection(this.value);">
                             <option value="">Select Schedule</option>
                             <?php $enrollment_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();?>
-                            <?php $sections = \App\CourseOffering::distinct()->where('course_code', $course_code)->where('school_year', $enrollment_school_year->school_year)->where('period', $enrollment_school_year->period)->get(['schedule_id']); ?>
+                            <?php $sections = \App\CourseOffering::distinct()->where('course_code', $course_code)->where('school_year', $enrollment_school_year->school_year)->where('period', $enrollment_school_year->period)->where('schedule_id', '!=', null)->get(['schedule_id']); ?>
                             @foreach ($sections as $available_class)
                             <option value="{{$available_class->schedule_id}}">
                         
@@ -165,6 +165,20 @@
             data: array,
             success: function (data) {
                 $('#student_list').html(data);
+            }
+
+        });
+    }
+    function removetosection(idno, course_code, schedule_id, section){
+        array = {};
+        array['idno'] = idno;
+        array['course_code'] = course_code;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/advising/removetosection",
+            data: array,
+            success: function (data) {
+                get_schedule_student_list(course_code, schedule_id, section);
             }
 
         });

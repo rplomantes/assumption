@@ -43,6 +43,7 @@ Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'Registra
 Route::get('/ajax/registrar_college/advising/addtosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@addtosection');
 Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getsection');
 Route::get('/ajax/registrar_college/advising/getschedulestudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getschedulestudentlist');
+Route::get('/ajax/registrar_college/advising/removetosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@removetosection');
 
 
 //Registrar College Curriculum Management///////////////////////////////////////

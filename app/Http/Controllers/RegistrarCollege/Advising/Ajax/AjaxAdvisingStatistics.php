@@ -60,11 +60,12 @@ class AjaxAdvisingStatistics extends Controller
             
             if(count($lists)>0){
             $counter=0;
-            $data = "<table class='\table table-condensed'\><tr><th>No.</th><th>ID Number</th><th>Name</th></tr>";
+            $data = "<table class='\table table-condensed'\><tr><th>No.</th><th>ID Number</th><th>Name</th><th></th></tr>";
             foreach ($lists as $list){
                 $counter= $counter+1;
                 $user= \App\User::where('idno', $list->idno)->first();
-                $data = $data."<tr><td>".$counter."</td><td>".$list->idno."</td><td>".$user->lastname.", ".$user->firstname."</td></tr>";
+                $data = $data."<tr><td>".$counter."</td><td>".$list->idno."</td><td>".$user->lastname.", ".$user->firstname."</td>"
+                        . "<td><a href='javascript:void(0)' onclick='removetosection(\"$list->idno\", \"$course_code\", \"$schedule_id\", \"$section\")'>Remove</a></td></tr>";
             }
             $data = $data."</table>";
             } else {
@@ -72,6 +73,18 @@ class AjaxAdvisingStatistics extends Controller
             }
             
             return $data;
+        }
+    }
+    function removetosection(){
+        if (Request::ajax()) {
+            $course_code = Input::get("course_code");
+            $idno = Input::get("idno");
+            
+            $update_grade_college = \App\GradeCollege::where('idno',$idno)->where('course_code', $course_code)->first();
+            $update_grade_college->course_offering_id = NULL;
+            $update_grade_college->is_advising = 1;
+            $update_grade_college->save();
+            
         }
     }
     
