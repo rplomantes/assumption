@@ -108,6 +108,8 @@
     function displayList(schedule_id) {
         array = {};
         array['schedule_id'] = schedule_id;
+        array['school_year'] = "{{$school_year}}";
+        array['period'] = "{{$period}}";
         $.ajax({
             type: "GET",
             url: "/ajax/registrar_college/grade_management/get_list_students",

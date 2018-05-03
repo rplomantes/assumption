@@ -26,10 +26,12 @@ class AjaxViewGrades extends Controller {
     function get_list_students() {
         if (Request::ajax()) {
             $schedule_id = Input::get("schedule_id");
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
 
             $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
-            return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name'));
+            return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name','school_year','period'));
         }
     }
     
