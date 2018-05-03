@@ -25,7 +25,7 @@ $students = \App\CollegeGrades2018::where('college_grades2018s.course_code', "$c
                         <tr>
                             <td>{{$number}}<?php $number = $number + 1; ?></td>
                             <td>{{$student->idno}}</td>
-                            <td>{{$student->id}}-{{$student->lastname}}, {{$student->firstname}}</td>
+                            <td>{{$student->lastname}}, {{$student->firstname}}</td>
                             <td>
                                 <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, '{{$student->id}}', '{{$student->idno}}', 'old')">
                                     <option></option>

@@ -88,9 +88,9 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <div class="form-group">
                 <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="form form-control btn btn-success">View Student Information</a>
             </div>
-<!--            <div class="form-group">
-                <a href="#" class="form form-control btn btn-success">View Curriculum Status</a>
-            </div>-->
+            <div class="form-group">
+                <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="form form-control btn btn-success">View Transcript</a>
+            </div>
         </div>
         <div class="col-sm-12">
             <?php $levels = \App\Curriculum::distinct()->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('level')->get(['level']); ?>
