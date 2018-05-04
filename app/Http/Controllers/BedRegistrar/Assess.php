@@ -452,7 +452,7 @@ class Assess extends Controller {
         $status->level = $request->level;
         if ($request->level == "Grade 11" || $request->level == "Grade 12") {
             $status->strand = $request->strand;
-            $status->period = $request->period;
+            $status->period = $period;
         }
         $status->school_year = $schoolyear;
         $status->section = $request->section;
@@ -484,7 +484,7 @@ class Assess extends Controller {
         if ($academic_type == "BED") {
             \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->delete();
         } else {
-            \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->where('period', $period)->delete();
+            \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->delete();
         }
     }
 
@@ -492,7 +492,7 @@ class Assess extends Controller {
         if ($academic_type == "BED") {
             \App\LedgerDueDate::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         } else {
-            \App\LedgerDueDate::where('idno', $idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
+            \App\LedgerDueDate::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         }
     }
 
@@ -500,7 +500,7 @@ class Assess extends Controller {
         if ($academic_type == "BED") {
             \App\GradeBasicEd::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         } else {
-            \App\GradeBasicEd::where('idno', $idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
+            \App\GradeBasicEd::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         }
     }
 

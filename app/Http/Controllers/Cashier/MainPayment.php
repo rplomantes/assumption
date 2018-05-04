@@ -330,7 +330,7 @@ class MainPayment extends Controller
     function addLevels($idno){
         $status=  \App\Status::where('idno',$idno)->first();
         if(count($status)>0){
-            if($status->academic_type=="BED"){
+            if($status->academic_type=="BED" || $status->academic_type=="SHS"){
                 $addbed = new \App\BedLevel;
                 $addbed->idno = $status->idno;
                 $addbed->date_registered = $status->date_registered;
@@ -341,6 +341,9 @@ class MainPayment extends Controller
                 $addbed->level = $status->level;
                 $addbed->section = $status->section;
                 $addbed->status = $status->status;
+                if($status->academic_type=='SHS'){
+                    $addbed->period = $status->period;
+                }
                 $addbed->school_year = $status->school_year;
                 $addbed->type_of_plan = $status->type_of_plan;
                 $addbed->type_of_account = $status->type_of_account;
