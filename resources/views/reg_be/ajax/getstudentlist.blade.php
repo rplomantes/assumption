@@ -2,7 +2,7 @@
 <table class="table table-responsive table-striped">
     <tr><th>Student ID</th><th>Student Name</th><th>Assess</th><th>View Info</th><th>View Grades<th></tr>
     @foreach($lists as $list)
-    @if($list->accesslevel == '0' && $list->academic_type=="BED")
+    @if($list->accesslevel == '0' && $list->academic_type=="BED" || $list->academic_type=="SHS")
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
         <td><a  href="{{url('/bedregistrar',array('assess',$list->idno))}}">Assess</a></td>
         <td><a  href="{{url('/bedregistrar',array('info',$list->idno))}}">View Info</a></td>

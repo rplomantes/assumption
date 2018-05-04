@@ -44,7 +44,7 @@ case "Grade 11":
     break;
 }
 
-$plans = \App\CtrDueDate::selectRaw('distinct plan')->where('academic_type','BED')->get();
+$plans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type',$user->academic_type)->get();
 $discounts = \App\CtrDiscount::get();
 $optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','Books')->where('amount','>','0')->get();
 $optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Materials')->get();
@@ -214,7 +214,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                     <label>Payment Options <span class="warning">Required</span></label>
                     <select class="form form-control" name="plan" id="plan">
                         <option value="">Select Payment Option</option>
-                        <option value="Plan A - Annual">Plan A - Annual</option>
+                        <option value="Annual">Plan A - Annual</option>
                         @foreach($plans as $plan)
                         <option value="{{$plan->plan}}">{{$plan->plan}}</option>
                         @endforeach
