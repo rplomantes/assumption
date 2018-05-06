@@ -1,5 +1,5 @@
 <?php
-$levels = DB::Select("SELECT distinct level from statuses where academic_type='BED'");
+$levels = DB::Select("SELECT distinct level, sort_by from ctr_academic_programs where academic_type='BED' order by sort_by");
 $strands = DB::Select("Select distinct strand from ctr_academic_programs where academic_type='BED'");
 $school_years = DB::Select("Select distinct school_year from bed_levels");
 ?>
@@ -59,7 +59,7 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
          <div class="form form-group">
         <label>Level</label>
         <select class="form-control select2" id="level" data-placeholder="Select Level">
-                        style="width: 100%;">
+                  <option>Select Level</option>      
                   @foreach($levels as $level)
                   <option>{{$level->level}}</option>
                   @endforeach
@@ -67,33 +67,25 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
         </div>      
      </div>  
      <div class="col-md-2">
-         <div class="form form-group">
-        <label>Section</label>
-        <select class="form-control select2" id="section" data-placeholder="Select Section">
-                        style="width: 100%;">
-                  @for($i=1;$i<=7;$i++)
-                  <option>{{$i}}</option>
-                  @endfor
-                  <option>A</option>
-                  <option>B</option>
-                  <option>C</option>
-                  <option>D</option>
-                  <option>E</option>
-                  <option>F</option>
-        </select>
-        </div>      
-     </div>  
-     <div class="col-md-2">
-        <div class="form form-group strandDisplay">
+        <div class="form form-group">
         <label>Strand</label>
-        <select class="form-control select2" id="strand" data-placeholder="Select Strand">
-                        style="width: 100%;">
-                  @foreach($strands as $level)
+        <div class="strandDisplay">
+        <select class="form-control select2" id="strand" data-placeholder="Select Strand">       
+                 <option>Select Strand</option> 
+                 @foreach($strands as $level)
                   <option>{{$level->strand}}</option>
                   @endforeach
         </select>
+        </div>    
         </div>      
-     </div>  
+     </div> 
+     <div class="col-md-2">
+         <div class="form form-group">
+        <label>Section</label>
+        <div id="sectionDisplay">
+        </div>    
+        </div>      
+     </div> 
      <div class="col-md-2">
         <div class="form form-group">
         <label>School Year</label>
@@ -135,7 +127,38 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
         $("#level").on('change',function(e){
             if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12" ){
                $(".strandDisplay").fadeIn(300); 
+               $("#sectionDisplay").html("");
+            } else {
+                $(".strandDisplay").fadeOut(300); 
+                var array={};
+                array['level']=$("#level").val();
+                $.ajax({
+                    type:"GET",
+                    url:"/bedregistrar/ajax/getsection",
+                    data:array,
+                    success: function(data){  
+                        $("#sectionDisplay").html(data)
+                        $('.select2').select2()
+                    }
+                })
             }
+        });
+        
+         $("#strand").on('change',function(e){
+            
+                var array={};
+                array['level']=$("#level").val();
+                array['strand']=$("#strand").val()
+                $.ajax({
+                    type:"GET",
+                    url:"/bedregistrar/ajax/getsection",
+                    data:array,
+                    success: function(data){  
+                        $("#sectionDisplay").html(data)
+                        $('.select2').select2()
+                    }
+                })
+            
         });
         
        $("#view_list").on('click',function(e){
@@ -156,8 +179,12 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
               })
            
        }); 
+       
+       
     });
+    
+    function print_student_list(){
+        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val())
+    }
 </script>    
 @endsection
-
-

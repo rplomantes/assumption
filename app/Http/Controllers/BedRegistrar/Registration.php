@@ -118,4 +118,8 @@ class Registration extends Controller
             return redirect(url('/bedregistrar',array('info',$request->idno)));
         }
     }
+    
+    function sectioning(){
+        return view("reg_be.sectioning");
+    }
 }

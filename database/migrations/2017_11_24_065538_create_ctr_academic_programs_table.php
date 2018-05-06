@@ -24,6 +24,7 @@ class CreateCtrAcademicProgramsTable extends Migration
             $table->string('level')->nullable();
             $table->string('strand')->nullable();
             $table->string('strand_name')->nullable();
+            $table->integer('sort_by')->default(0);
             $table->timestamps();
         });
     }

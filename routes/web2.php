@@ -10,6 +10,10 @@ Route::get('/bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList
 Route::get('/bedregistrar/ajax/book_materials/{current_level}','BedRegistrar\Ajax\BookMaterials@index');
 Route::get('/bedregistrar/ajax/peuniforms/{current_level}','BedRegistrar\Ajax\BookMaterials@peuniforms');
 Route::get('/bedregistrar/ajax/getUniformAmount','BedRegistrar\Ajax\BookMaterials@getUniformAmount');
+Route::get('/bedregistrar/ajax/getsection','BedRegistrar\Ajax\GetStudentList@getsection');
+Route::get('/bedregistrar/ajax/studentlevel','BedRegistrar\Ajax\GetStudentList@studentlevel');
+Route::get('/bedregistrar/ajax/sectioncontrol','BedRegistrar\Ajax\GetStudentList@sectioncontrol');
+Route::get('/bedregistrar/ajax/sectionlist','Bedregistrar\Ajax\GetStudentList@pop_section_list');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 
@@ -70,8 +74,10 @@ Route::get('/bedregistrar/reassess/{idno}','BedRegistrar\Assess@reassess');
 Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
 Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
 Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updateinfo');
+Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_year}','BedRegistrar\Ajax\GetStudentList@print_student_list');
+Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
 //update
-Route::get('updatebedlevel','Updater@updateBedLevel');
+//Route::get('updatebedlevel','Updater@updateBedLevel');
 
 //bookstore ajax
 
