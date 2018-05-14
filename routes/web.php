@@ -21,6 +21,10 @@ include_once 'web2.php';
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
+//REG ASSESSMENT
+Route::get('/registrar_college/assessment2/{idno}/{school_year}/{period}', 'RegistrarCollege\Assessment\AssessmentController@index2');
+Route::post('/registrar_college/assessment/set_up_school_year', 'RegistrarCollege\Assessment\AssessmentController@set_up_year');
+
 //Registrar College - MAIN//////////////////////////////////////////////////////
 Route::get('/ajax/registrar_college/getstudentlist', 'RegistrarCollege\Ajax\GetStudentList_ajax@getstudentlist');
 
@@ -76,6 +80,7 @@ Route::get('/registrar_college/curriculum_management/edit_course_schedule/{cours
 Route::post('/registrar_college/curriculum_management/add_course_schedule', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@add_course_schedule');
 Route::get('/registrar_college/curriculum_management/merge_schedule/{schedule_id}/{course_id}','RegistrarCollege\CurriculumManagement\CourseScheduleController@merge_schedule');
 Route::get('/registrar_college/curriculum_management/unmerged_schedule/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@unmerged_schedule');
+Route::get('/registrar_college/curriculum_management/add_tba/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@add_tba');
 //Ajax Course Schedule
 Route::get('/ajax/registrar_college/curriculum_management/course_to_schedule/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@listcourse_to_schedule');
 Route::get('/ajax/registrar_college/curriculum_management/show_available_rooms/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@show_available_rooms');
@@ -191,3 +196,5 @@ Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\N
 Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
 Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
 
+//ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
+Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');

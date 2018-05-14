@@ -4,7 +4,7 @@ $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 ?>
 <?php
-//$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
@@ -13,7 +13,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 }
 ?>
 <?php
-$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
+$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
 $units = 0;
 ?>
 @extends('layouts.appreg_college')
@@ -43,7 +43,6 @@ $units = 0;
 <section class="content-header">
     <h1>
         Assessment
-        <small>A.Y. {{$school_year}} - {{$school_year+1}} {{$period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -73,18 +72,18 @@ $units = 0;
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         @if(count($status)>0)
-                        @if($status->is_new == "0")
-                        <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
-                        <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
-                        @else
-                        <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
-                        <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
-                        <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
-                        @endif
-                        @else    
+                            @if($status->is_new == "0")
+                            <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
+                            <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                            <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
+                            <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
+                            @else
+                            <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
+                            <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
+                            <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                            <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
+                            @endif
+                        @else 
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                         <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
@@ -96,8 +95,32 @@ $units = 0;
         </div>
         <div class="col-md-8">
             <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Select School Year and Period</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
                 <div class='box-body'>
-                    <h3>Student Not Yet Advised!!!</h3>
+                    <form class='form-horizontal' action='{{url('registrar_college',array('assessment','set_up_school_year'))}}' method='post'>
+                        {{csrf_field()}}
+                        <input type='hidden' value='{{$user->idno}}' name='idno'>
+                        <label>School Year</label>
+                        <select class='form form-control' name='school_year'>
+                            <option></option>
+                            <option>2017</option>
+                            <option>2018</option>
+                        </select>
+                        <label>Period</label>
+                        <select class='form form-control' name='period'>
+                            <option></option>
+                            <option>1st Semester</option>
+                            <option>2nd Semester</option>
+                            <option>Summer</option>
+                        </select>
+                        <label></label>
+                        <input class='form form-control btn btn-success' type='submit' value='Set School Year and Period'>
+                    </form>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Assumption College - Cashier</title>
+  <title>Assumption College - Accounting</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap','dist','css','bootstrap.min.css'))}}">
   <link rel="stylesheet" href="{{url("/bower_components",array("font-awesome","css","font-awesome.min.css"))}}">
@@ -26,8 +26,8 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 <div class="wrapper">
   <header class="main-header">
     <a href="{{url('/')}}" class="logo">
-      <span class="logo-mini"><b>A</b>CT</span>
-      <span class="logo-lg"><b>A</b>CCOUNTING</span>
+      <span class="logo-mini"><b>A</b>CS</span>
+      <span class="logo-lg"><b>Accounting</b>AC</span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -38,54 +38,47 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
          
          @yield('messagemenu')
           
-          
-          
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
-                        @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
-                        @endif
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-               @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
-                        @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
-                        @endif
+         <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    @if($file_exist==1)
+                                    <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
+                                    @else
+                                    <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
+                                    @endif
+                                    <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        @if($file_exist==1)
+                                        <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+                                        @else
+                                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
+                                        @endif
 
-                <p>
-                  {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                  <small>Accounting</small>
-                </p>
-              </li>
-              
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                    
-                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
-                       onclick="event.preventDefault();
-                       document.getElementById('logout-form').submit();">
-                       <span><i class="fa fa-sign-out"></i> Logout</span>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                   </form>
-                </div>
-              </li>
-            </ul>
-          </li>
+                                        <p>
+                                            {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
+                                            <small>Accounting</small>
+                                        </p>
+                                    </li>
+
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+
+                                            <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
+                                               onclick="event.preventDefault();
+                                                       document.getElementById('logout-form').submit();">
+                                                <span><i class="fa fa-sign-out"></i> Logout</span>
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="javascript:void(0)" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -166,6 +159,8 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
             <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
           </ul>
         </li>
+       
+        <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><i class="fa fa-link"></i> <span>Schedule of Fees</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

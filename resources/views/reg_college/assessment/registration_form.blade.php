@@ -30,7 +30,7 @@
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{url('/images','assumption-logo.png')}}"></div>
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>REGISTRATION FORM</b>
-        <br><small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
+        <br><small>A.Y. {{$school_year}} - {{$school_year+1}} {{$period}}</small>
     </div>
 </div>
 <br>
@@ -76,6 +76,7 @@
     <tr>
         <td id='reg'><small>@if($status->academic_type!='Senior High School'){{$grade->course_code}}@endif {{$grade->course_name}} @if($grade->is_drop == 1) [DROPPED] @endif </small></td>
 
+                                    @if($grade->course_offering_id!=NULL)
         @if ($status->academic_type!='Senior High School')
         <?php
         $offering_ids = \App\CourseOffering::find($grade->course_offering_id);
@@ -88,7 +89,13 @@
             <?php
             $days = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
             ?>
-            @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}} [{{$schedule2->room}}]<br>
+            @foreach ($days as $day){{$day->day}}@endforeach
+            <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
             <!--{{$schedule2->day}} {{$schedule2->time_start}} - {{$schedule2->time_end}}<br>-->
             @endforeach
         </td>
@@ -110,6 +117,10 @@
         @else
         <td id='reg'></td>
         <td id='reg'></td>
+        @endif
+        @else
+        <td id='reg'>TBA</td>
+        <td id='reg'>TBA</td>
         @endif
         <td id='reg'>
             <?php
@@ -156,30 +167,30 @@ $mfee = 0;
 $dfee = 0;
 $srffee = 0;
 $esc = 0;
-$oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 7)->get();
-$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 6)->get();
+$oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 7)->get();
+$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 6)->get();
 foreach ($tfs as $tf) {
     $tfee = $tfee + $tf->amount;
 }
-$ofs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 2)->get();
+$ofs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 2)->get();
 foreach ($ofs as $of) {
     $ofee = $ofee + $of->amount;
 }
-$defs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 3)->get();
+$defs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 3)->get();
 foreach ($defs as $def) {
     $defee = $defee + $def->amount;
 }
-$mfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 1)->get();
+$mfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 1)->get();
 foreach ($mfs as $mf) {
     $mfee = $mfee + $mf->amount;
 }
-$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 4)->get();
+$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 4)->get();
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
 }
-$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->where('category_switch', 4)->get();
+$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 4)->get();
 
-$discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y->school_year)->where('period', $y->period)->get();
+$discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->get();
 foreach ($discounts as $discount) {
     $dfee = $dfee + ($discount->discount);
     $esc = $esc + $discount->esc;

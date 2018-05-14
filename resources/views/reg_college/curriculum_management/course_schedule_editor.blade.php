@@ -55,6 +55,14 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                     </div>
                 </div>
                 <div class="box-body">
+                    
+                    <div class='row'>
+                        <div class="col-md-3">
+                            <a href='{{url('registrar_college', array('curriculum_management','add_tba',$course_offering->id))}}'><button type="button" class="btn btn-default">
+                                Set as TBA
+                                </button></a>
+                        </div>
+                    </div>
                     <div class='table-responsive'>
                     <table class="table table-striped">
                         <thead>
@@ -74,7 +82,13 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     $days = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                    @foreach ($days as $day){{$day->day}}@endforeach
+                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                                     @endforeach
                                 </td>
                                 <td>
@@ -191,7 +205,13 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     $days = \App\ScheduleCollege::where('schedule_id', $distinct->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                    @foreach ($days as $day){{$day->day}}@endforeach 
+                                    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                                     @endforeach
                                 </td>
                                 <td>
@@ -232,7 +252,13 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                         $days = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                         ?>
                                         <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                        @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @foreach ($days as $day){{$day->day}}@endforeach
+                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                                         @endforeach
                                     </td>
                                     <td>
@@ -303,6 +329,5 @@ function show_available_rooms(day, time_start, time_end) {
 
     });
 }
-
 </script>
 @endsection

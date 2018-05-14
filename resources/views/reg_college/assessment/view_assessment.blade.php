@@ -1,9 +1,9 @@
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+//$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
-$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 $discounts = \App\CtrDiscount::all();
 ?>
 <?php
@@ -39,7 +39,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 <section class="content-header">
     <h1>
         Assessment
-        <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
+        <small>A.Y. {{$school_year}} - {{$school_year+1}} {{$period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -114,6 +114,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
                         <div class="form-horizontal">
                             <input type="hidden" name="idno" value="{{$user->idno}}">  
+                            <input type="hidden" name="school_year" value="{{$school_year}}">  
+                            <input type="hidden" name="period" value="{{$period}}">  
                             <input type="hidden" name="program_code" value="{{$status->program_code}}">
                             <input type="hidden" name="level" value="{{$status->level}}">
                             <input type="hidden" name="type_account" id="type_account" value="Regular">
@@ -124,9 +126,11 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                     <select id="plan" name="plan" class='form-control'>
                                         <option>Select Plan</option>
                                         <option value='Cash'>Plan A - Cash</option>
+                                        @if($period != "Summer")
                                         @foreach ($plans as $plan)
                                         <option value='{{$plan->plan}}'>{{$plan->plan}}</option>
                                         @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -187,6 +191,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                     <td>{{$grade_college->course_code}}</td>
                                     <td>{{$grade_college->course_name}}</td>
                                     <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                                    @if($grade_college->course_offering_id!=NULL)
                                     <td>
                                         <?php
                                         $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -202,7 +207,13 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                         $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                         ?>
                                         <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                        [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                                        [@foreach ($days as $day){{$day->day}}@endforeach
+                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                                         @endforeach
                                     </td>
                                     <td>
@@ -220,6 +231,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     }
                 ?>
                                     </td>
+                                    @else
+                                    <td>TBA</td>
+                                    <td>TBA</td>
+                                    @endif
                                 </tr>
                                 @endforeach
                                 <tr>

@@ -17,9 +17,9 @@ class advising_ajax extends Controller {
             $level = Input::get("level");
             $program_code = Input::get("program_code");
             $curriculum_period = Input::get("curriculum_period");
+            $curriculum_year = Input::get("curriculum_year");
 
-            $curricula = \App\Curriculum::where('period', $curriculum_period)->where('level', $level)->where('program_code', $program_code)->get();
-            $curriculum_year = \App\Curriculum::where('period', $curriculum_period)->where('level', $level)->where('program_code', $program_code)->first()->curriculum_year;
+            $curricula = \App\Curriculum::where('period', $curriculum_period)->where('level', $level)->where('program_code', $program_code)->where('curriculum_year', $curriculum_year)->get();
 
             return view('dean.advising.ajax.get_course_offering', compact('curricula', 'level', 'section', 'program_code', 'curriculum_year'));
         }

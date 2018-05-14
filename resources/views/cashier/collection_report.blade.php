@@ -72,11 +72,25 @@ if(Auth::user()->accesslevel==env("CASHIER")){
       </div>
  
      <div class="box">    
-     <div class="box-body">
+     <div class="box-body table-responsive">
              
      <table id="example1" class="table table-responsive table-striped">
          <thead>
-             <tr><th>Date</th><th>Receipt No</th><th>Receive From</th><th>Cash</th><th>Check</th><th>Credit Card</th><th>Bank Deposit</th><th>Total</th><th>Status</th>
+             <tr><th>Date</th>
+                 <th>OR No</th>
+                 <th>ID No</th>
+                 <th>Name</th>
+                 <th>Remarks</th>
+                 <th>Cash</th>
+                 <th>Check No</th>
+                 <th>Bank</th>
+                 <th>Check Amount</th>
+                 <th>Card No</th>
+                 <th>Card Desc</th>
+                 <th>Card Amount</th>
+                 <th>Bank Deposit</th>
+                 <th>Total</th>
+                 <th>Status</th>
                  @if(Auth::user()->accesslevel == env("ACCTNG_STAFF"))
                  <th>Posted By</th>
                  @endif
@@ -98,10 +112,16 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                     ?>
                 <tr><td>{{$payment->transaction_date}}</td>
                     <td>{{$payment->receipt_no}}</td>
+                    <td>{{$payment->idno}}</td>
                     <td>{{$payment->paid_by}}</td>
+                    <td>{{$payment->remarks}}</td>
                     @if($payment->is_reverse=="0")
                     <td class="decimal">{{number_format($payment->cash_amount,2)}}</td>
+                    <td class="decimal">{{$payment->check_number}}</td>
+                    <td class="decimal">{{$payment->bank_name}}</td>
                     <td class="decimal">{{number_format($payment->check_amount,2)}}</td>
+                    <td class="decimal">{{$payment->credit_card_no}}</td>
+                    <td class="decimal">{{$payment->credit_card_bank}}</td>
                     <td class="decimal">{{number_format($payment->credit_card_amount,2)}}</td>
                     <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>
                     <td class="decimal"><b>{{number_format($total,2)}}</b></td>
@@ -113,7 +133,15 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->cash_amount,2)}}</span></span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
+  <span style='color:black'>{{$payment->check_number}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
+  <span style='color:black'>{{$payment->bank_name}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->check_amount,2)}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
+  <span style='color:black'>{{$payment->credit_card_no}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
+  <span style='color:black'>{{$payment->credit_card_bank}}</span></span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
@@ -131,9 +159,13 @@ if(Auth::user()->accesslevel==env("CASHIER")){
              @endif
          </tbody>
           <tfoot>
-                    <tr><th colspan="3">Total</th>
+                    <tr><th colspan="5">Total</th>
                         <th class="decimal">{{number_format($totalcash,2)}}</th>
+                        <th></th>
+                        <th></th>
                     <th class="decimal">{{number_format($totalcheck,2)}}</th>
+                        <th></th>
+                        <th></th>
                     <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
                     <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>
                     <th class="decimal">{{number_format($grandtotal,2)}}</th>

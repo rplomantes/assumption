@@ -72,6 +72,7 @@ class NewStudentController extends Controller {
         $add_new_user->status = 1; //active or not
         $add_new_user->email = $email;
         $add_new_user->is_foreign = $is_foreign;
+        $add_new_user->academic_type = "College";
         $add_new_user->save();
     }
 

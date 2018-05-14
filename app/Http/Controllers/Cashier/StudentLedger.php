@@ -91,10 +91,10 @@ class StudentLedger extends Controller
             $id = \App\ReferenceId::where('idno',Auth::user()->idno)->first()->id;
             $number =  \App\ReferenceId::where('idno',Auth::user()->idno)->first()->receipt_no;
             $receipt="";
-            for($i=strlen($number);$i<=6;$i++){
+            for($i=strlen($number);$i<=8;$i++){
                 $receipt=$receipt."0";
             }
-            return $id.$receipt.$number;
+            return $receipt.$number;
         }
     }
     public static function updatereceipt(){

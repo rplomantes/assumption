@@ -97,6 +97,7 @@ $levels = \App\CourseOffering::distinct()->orderBy('level')->get(['level']);
     $("#level-form").hide();
     $("#section-form").hide();
     $("#courses_offered").hide();
+    $("#mod_button").hide();
 
     $("#program-form").change(function () {
         $("#courses_offered").hide();

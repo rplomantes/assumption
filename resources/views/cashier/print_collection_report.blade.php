@@ -70,10 +70,11 @@ $totalcanceled = 0;
         <table width="100%" id="example1" border="1" cellspacing="0" cellpadding="2" class="table table-responsive table-striped">
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th><?php $counter=1; ?></th>
                     <th>OR No</th>
                     <th>ID no</th>
                     <th>Name</th>
+                    <th>Remarks</th>
                     <th>Cash</th>
                     <th>Check No</th>
                     <th>Bank</th>
@@ -102,10 +103,11 @@ $totalcanceled = 0;
                 }
                 ?>
                 <tr>
-                    <td>{{$payment->transaction_date}}</td>
+                    <td>{{$counter}} <?php $counter = $counter+1; ?></td>
                     <td>{{$payment->receipt_no}}</td>
                     <td>{{$payment->idno}}</td>
                     <td>{{$payment->paid_by}}</td>
+                    <td>{{$payment->remarks}}</td>
                     @if($payment->is_reverse=="0")
                     <td class="decimal">{{number_format($payment->cash_amount,2)}}</td>
                     <td>{{$payment->check_number}}</td>
@@ -138,13 +140,12 @@ $totalcanceled = 0;
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="3">Total</th>
+                    <th colspan="5">Total</th>
                     <th class="decimal">{{number_format($totalcash,2)}}</th>
                     <th></th>
                     <th></th>
                     <th></th>
                     <th class="decimal">{{number_format($totalcheck,2)}}</th>
-                    <th></th>
                     <th></th>
                     <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
                     <th class="decimal">{{number_format($grandtotal,2)}}</th>

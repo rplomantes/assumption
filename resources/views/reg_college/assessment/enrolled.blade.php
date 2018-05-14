@@ -4,7 +4,7 @@ $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 ?>
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+//$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
@@ -13,7 +13,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 }
 ?>
 <?php
-$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 $units = 0;
 ?>
 @extends('layouts.appreg_college')
@@ -43,7 +43,7 @@ $units = 0;
 <section class="content-header">
     <h1>
         Assessment
-        <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
+        <small>A.Y. {{$school_year}} - {{$school_year+1}} {{$period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -100,6 +100,7 @@ $units = 0;
             </div>
         </div>
         <div class="col-md-8">
+                            @if(count($grade_colleges)>0)
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Courses Assessed</h3>
@@ -129,6 +130,7 @@ $units = 0;
                                 <td>{{$grade_college->course_code}}</td>
                                 <td>{{$grade_college->course_name}}</td>
                                 <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                                    @if($grade_college->course_offering_id!=NULL)
                                 <td>
                                     <?php
                                     $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -162,6 +164,10 @@ $units = 0;
                     }
                 ?>
                                 </td>
+                                @else
+                                <td>TBA</td>
+                                <td>TBA</td>
+                                @endif
                             </tr>
                             @endforeach
                             <tr>
@@ -175,9 +181,12 @@ $units = 0;
                 </div>
             </div>
             <div class="col-sm-12">
-                <a href='{{url('registrar_college', array('print_registration_form', $user->idno))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
+                <a href='{{url('registrar_college', array('print_registration_form', $user->idno, $school_year, $period))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
             </div>
         </div>
+        @else
+                                No Courses Assessed!
+                            @endif
     </div>
 </section>
 

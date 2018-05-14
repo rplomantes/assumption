@@ -171,7 +171,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-md-4 period">     
                             <label>Period</label>     
-                            <select id="period" name="period" class="form-control" onchange="get_curricula(level.value, program_code.value, period.value)">
+                            <select id="period" name="period" class="form-control" onchange="get_curricula(level.value, program_code.value, period.value, select_curriculum_year.value)">
                                 <option value="null"></option>
                                 <option value="1st Semester">1st Semester</option>
                                 <option value="2nd Semester">2nd Semester</option>
@@ -286,13 +286,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     });
     }
     });
-    function get_curricula(level, program_code, period){
+    function get_curricula(level, program_code, period, curriculum_year){
     array = {};
     array['level'] = level;
     array['program_code'] = program_code;
     array['school_year'] = {{$school_year->school_year}};
     array['period'] = "{{$school_year->period}}";
     array['curriculum_period'] = period;
+    array['curriculum_year'] = curriculum_year;
     $.ajax({
     type: "GET",
             url: "/ajax/dean/advising/get_curricula",

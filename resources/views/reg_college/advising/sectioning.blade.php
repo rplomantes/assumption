@@ -95,7 +95,13 @@
                                     $days = \App\ScheduleCollege::where('schedule_id', $available_class->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                    @foreach ($days as $day){{$day->day}}@endforeach 
+                                    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $available_class->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                                     @endforeach
                                     <?php
                                     $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $available_class->schedule_id)->get(['time_start', 'time_end', 'room']);

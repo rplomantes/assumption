@@ -4,7 +4,7 @@ $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 ?>
 <?php
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+//$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
 <?php
 $file_exist = 0;
@@ -13,7 +13,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 }
 ?>
 <?php
-$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
+$grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 $units = 0;
 ?>
 @extends('layouts.appreg_college')
@@ -43,7 +43,7 @@ $units = 0;
 <section class="content-header">
     <h1>
         Assessment
-        <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
+        <small>A.Y. {{$school_year}} - {{$school_year+1}} {{$period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -95,6 +95,8 @@ $units = 0;
             </div>
         </div>
         <div class="col-md-8">
+            
+                            @if(count($grade_colleges)>0)
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Courses Assessed</h3>
@@ -124,6 +126,7 @@ $units = 0;
                                 <td>{{$grade_college->course_code}}</td>
                                 <td>{{$grade_college->course_name}}</td>
                                 <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                                    @if($grade_college->course_offering_id!=NULL)
                                 <td>
                                     <?php
                                     $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -139,7 +142,13 @@ $units = 0;
                                     $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                                    [@foreach ($days as $day){{$day->day}}@endforeach
+                                    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                                     @endforeach
                                 </td>
                 <td>
@@ -157,6 +166,10 @@ $units = 0;
                     }
                 ?>
                 </td>
+                @else
+                <td>TBA</td>
+                <td>TBA</td>
+                @endif
                             </tr>
                             @endforeach
                             <tr>
@@ -173,8 +186,12 @@ $units = 0;
                 <a href="{{url('registrar_college', array('reassess',$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
             </div>
             <div class="col-sm-6">
-                <a href='{{url('registrar_college', array('print_registration_form', $user->idno))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
+                <a href='{{url('registrar_college', array('print_registration_form', $user->idno, $school_year, $period))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
             </div>
+                            
+                            @else
+                                No Courses Assessed!
+                            @endif
         </div>
     </div>
 </section>

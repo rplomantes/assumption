@@ -36,7 +36,13 @@
                     $days = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                     ?>
                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                    @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                    @foreach ($days as $day){{$day->day}}@endforeach 
+                    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
+                                        @else
+                                        
+                                        @endif
                     @endforeach
                 </td>
                 <td>
@@ -47,7 +53,9 @@
                     {{$schedule3->room}}<br>
                     @endforeach
                 </td>
-                <td><a href="{{url('registrar_college', array('curriculum_management','edit_course_schedule',$course->id))}}" target="_blank"><button class="btn btn-info"><span class="fa fa-pencil"></span></button></a></td>
+                <td>
+                   <a href="{{url('registrar_college', array('curriculum_management','edit_course_schedule',$course->id))}}"><button class="btn btn-info"><span class="fa fa-pencil"></span></button></a>
+                </td>
             </tr>
             @endforeach
         </tbody>
