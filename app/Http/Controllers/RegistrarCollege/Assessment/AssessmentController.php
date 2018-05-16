@@ -26,7 +26,12 @@ class AssessmentController extends Controller {
     function index2($idno, $school_year,$period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
-            $status = \App\Status::where('idno', $idno)->first();
+            $checkcollegelevels = \App\CollegeLevel::where('idno',$idno)->where('school_year',$school_year)->where('period',$period)->first();
+            if(count($checkcollegelevels)>0){
+                $status = \App\CollegeLevel::where('idno',$idno)->where('school_year',$school_year)->where('period',$period)->first();
+            }else {
+                $status = \App\Status::where('idno', $idno)->first();
+            }
             if ($status->status == 0) {
                 return view('reg_college.assessment.not_advised', compact('status', 'idno', 'school_year', 'period'));
             } else if ($status->status == env('ADVISING')) {

@@ -88,6 +88,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </ul>
                 </div>
             </div>
+            
+                            @if(count($grade_colleges)>0)
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Is Audit?</h3>
@@ -159,8 +161,12 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </form>        
                 </div>
             </div>
+                            
+                            @else
+                            @endif
         </div>
         <div class="col-md-8">
+                            @if(count($grade_colleges)>0)
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Courses Assessed</h3>
@@ -208,7 +214,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                         ?>
                                         <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
                                         [@foreach ($days as $day){{$day->day}}@endforeach
-                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
+                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
                                         @if ($is_tba == 0)
                                         {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
                                         @else
@@ -248,6 +254,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
+        
+                            @else
+                                No Courses Assessed!
+                            @endif
     </div>
 </section>
 

@@ -61,14 +61,14 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('
         <div class="form-group">
             <div class="col-sm-3">
                 <label>Select Level</label>
-                <select class="form form-control" id="level">
+                <select class="form form-control" name="level" id="level">
                     @foreach ($levels as $level)
                     <option>{{$level->level}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-sm-3" id="strand_control">
-                <label>Strand</label>
+                <label>Select Strand</label>
                 <Select name="strand" id="strand" class="form form-control">
                     <option value="">Select Strand</option>    
                     @foreach($strands as $strand)
@@ -77,9 +77,9 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('
                 </select> 
             </div>
             <div class="col-sm-3" id="program_control">
-                <label>Strand</label>
-                <Select name="strand" id="strand" class="form form-control">
-                    <option value="">Select Strand</option>    
+                <label>Select Program</label>
+                <Select name="program" id="program" class="form form-control">
+                    <option value="">Select Program</option>    
                     @foreach($programs as $program)
                     <option>{{$program->program_name}}</option>
                     @endforeach
@@ -89,17 +89,22 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('
         <div class="form-group">
             <div class="col-sm-3">
                 <label>School Year</label>
-                <select class="form form-control" id="school_year">
+                <select name="school_year" class="form form-control" id="school_year">
                 </select>
             </div>
             <div class="col-sm-3" id="period_control">
                 <label>Period</label>
-                <select class="form form-control" id="period">
+                <select name="period" class="form form-control" id="period">
                     <option></option>
                     <option>1st Semester</option>
                     <option>2nd Semester</option>
                     <option>Summer</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <btn class="btn btn-success form-control">Search</btn>
             </div>
         </div>
     </div>
@@ -115,17 +120,15 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('
         if ($("#level").val() == "Grade 11" || $("#level").val() == "Grade 12") {
             $("#strand_control").fadeIn(300);
             $("#period_control").fadeIn(300);
-        } else {
-            $("#strand_control").fadeOut(300);
-            $("#period_control").fadeOut(300);
-        }
-    });
-    $("#level").on('change', function (e) {
-        if ($("#level").val() == "1st Year" || $("#level").val() == "2nd Year" || $("#level").val() == "3rd Year" || $("#level").val() == "4th Year") {
+            $("#program_control").fadeOut(300);
+        } else if ($("#level").val() == "1st Year" || $("#level").val() == "2nd Year" || $("#level").val() == "3rd Year" || $("#level").val() == "4th Year" || $("#level").val() == "5th Year") {
             $("#period_control").fadeIn(300);
             $("#program_control").fadeIn(300);
+            $("#strand_control").fadeOut(300);
         } else {
+            $("#program_control").fadeOut(300);
             $("#period_control").fadeOut(300);
+            $("#strand_control").fadeOut(300);
         }
     });
 </script>
