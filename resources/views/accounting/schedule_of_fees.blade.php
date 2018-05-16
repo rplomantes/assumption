@@ -1,7 +1,7 @@
 <?php
 $levels = \App\CtrAcademicProgram::distinct()->orderBy('level', 'asc')->get(['level']);
 $strands = \App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code', 'SHS')->get();
-$programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('academic_type', 'College')->get();
+$programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_code")->where('academic_type', 'College')->get();
 ?>
 @extends('layouts.appaccountingstaff')
 @section('messagemenu')
@@ -57,57 +57,53 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('
     <div class="box-header">
         <div class="box-title">Search</div>
     </div>
-    <div class="box-body form-horizontal">
-        <div class="form-group">
-            <div class="col-sm-3">
-                <label>Select Level</label>
-                <select class="form form-control" name="level" id="level">
-                    @foreach ($levels as $level)
-                    <option>{{$level->level}}</option>
-                    @endforeach
-                </select>
+    <form method="post" action="{{url('/accounting/view_schedule_of_fees')}}">
+        {{ csrf_field() }}
+        <div class="box-body form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label>Select Level</label>
+                    <select class="form form-control" name="level" id="level">
+                        @foreach ($levels as $level)
+                        <option>{{$level->level}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-3" id="strand_control">
+                    <label>Select Strand</label>
+                    <Select name="strand" id="strand" class="form form-control">
+                        <option value="">Select Strand</option>    
+                        @foreach($strands as $strand)
+                        <option>{{$strand->strand}}</option>
+                        @endforeach
+                    </select> 
+                </div>
+                <div class="col-sm-3" id="program_control">
+                    <label>Select Program</label>
+                    <Select name="program_code" id="program_code" class="form form-control">
+                        <option value="">Select Program</option>    
+                        @foreach($programs as $program)
+                        <option value="{{$program->program_code}}">{{$program->program_name}}</option>
+                        @endforeach
+                    </select> 
+                </div>
+                <div class="col-sm-3" id="period_control">
+                    <label>Period</label>
+                    <select name="period" class="form form-control" id="period">
+                        <option></option>
+                        <option>1st Semester</option>
+                        <option>2nd Semester</option>
+                        <option>Summer</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-sm-3" id="strand_control">
-                <label>Select Strand</label>
-                <Select name="strand" id="strand" class="form form-control">
-                    <option value="">Select Strand</option>    
-                    @foreach($strands as $strand)
-                    <option>{{$strand->strand}}</option>
-                    @endforeach
-                </select> 
-            </div>
-            <div class="col-sm-3" id="program_control">
-                <label>Select Program</label>
-                <Select name="program" id="program" class="form form-control">
-                    <option value="">Select Program</option>    
-                    @foreach($programs as $program)
-                    <option>{{$program->program_name}}</option>
-                    @endforeach
-                </select> 
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3">
-                <label>School Year</label>
-                <select name="school_year" class="form form-control" id="school_year">
-                </select>
-            </div>
-            <div class="col-sm-3" id="period_control">
-                <label>Period</label>
-                <select name="period" class="form form-control" id="period">
-                    <option></option>
-                    <option>1st Semester</option>
-                    <option>2nd Semester</option>
-                    <option>Summer</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3">
-                <btn class="btn btn-success form-control">Search</btn>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <input type="submit" class="btn btn-success form-control" value="Generate PDF" >
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @endsection
@@ -118,8 +114,7 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name")->where('
     $("#program_control").hide();
     $("#level").on('change', function (e) {
         if ($("#level").val() == "Grade 11" || $("#level").val() == "Grade 12") {
-            $("#strand_control").fadeIn(300);
-            $("#period_control").fadeIn(300);
+            
             $("#program_control").fadeOut(300);
         } else if ($("#level").val() == "1st Year" || $("#level").val() == "2nd Year" || $("#level").val() == "3rd Year" || $("#level").val() == "4th Year" || $("#level").val() == "5th Year") {
             $("#period_control").fadeIn(300);

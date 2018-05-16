@@ -198,3 +198,4 @@ Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
 
 //ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
 Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');
+Route::post('/accounting/view_schedule_of_fees', 'Accounting\ScheduleOfFees@view');
