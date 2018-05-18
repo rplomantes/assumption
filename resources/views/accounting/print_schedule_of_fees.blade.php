@@ -41,6 +41,15 @@ $total_misc = 0;
                 <td align="right"><div style="border-bottom: 1px solid black">{{$miscellaneous_fee->amount}}</div></td>
             </tr>
             @endforeach
+            @foreach ($other_collections as $other_collection)
+            @if($other_collection->category == "Miscellaneous Fees")
+            <?php $total_misc = $total_misc + $other_collection->amount; ?>
+            <tr>
+                <td><div class='tab'>{{$other_collection->subsidiary}}</div></td>
+                <td align="right"><div style="border-bottom: 1px solid black">{{$other_collection->amount}}</div></td>
+            </tr>
+            @endif
+            @endforeach
             <tr>
                 <th><div class='tab'>Total Miscellaneous Fees</div></th>
                 <td align="right"><div style="border-bottom: 1px solid black">{{number_format($total_misc,2)}}</div></td>
@@ -60,6 +69,15 @@ $total_misc = 0;
                 <td align="right"><div style="border-bottom: 1px solid black">{{$other_fee->amount}}</div></td>
             </tr>
             @endforeach
+            @foreach ($other_collections as $other_collection)
+            @if($other_collection->category == "Other Fees")
+            <?php $total_misc = $total_misc + $other_collection->amount; ?>
+            <tr>
+                <td><div class='tab'>{{$other_collection->subsidiary}}</div></td>
+                <td align="right"><div style="border-bottom: 1px solid black">{{$other_collection->amount}}</div></td>
+            </tr>
+            @endif
+            @endforeach
             <tr>
                 <th><div class='tab'>Total Other Fees</div></th>
                 <td align="right"><div style="border-bottom: 1px solid black">{{number_format($total_other,2)}}</div></td>
@@ -76,6 +94,15 @@ $total_misc = 0;
                 <td><div class='tab'>{{$depository_fee->subsidiary}}</div></td>
                 <td align="right"><div style="border-bottom: 1px solid black">{{$depository_fee->amount}}</div></td>
             </tr>
+            @endforeach
+            @foreach ($other_collections as $other_collection)
+            @if($other_collection->category == "Depository Fees")
+            <?php $total_misc = $total_misc + $other_collection->amount; ?>
+            <tr>
+                <td><div class='tab'>{{$other_collection->subsidiary}}</div></td>
+                <td align="right"><div style="border-bottom: 1px solid black">{{$other_collection->amount}}</div></td>
+            </tr>
+            @endif
             @endforeach
             <tr>
                 <th><div class='tab'>Total Depository Fees</div></th>

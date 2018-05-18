@@ -172,20 +172,20 @@ class Assess extends Controller {
                 $discount_amount = 0;
                 switch ($fee->category_switch) {
                     case env("MISC_FEE"):
-                        $amount = $fee->amount;
+                        $amount = $this->roundOff($fee->amount);
                         $discount_amount = $fee->amount * $discount_misc / 100;
                         break;
                     case env("OTHER_FEE"):
-                        $amount = $fee->amount;
+                        $amount = $this->roundOff($fee->amount);
                         $discount_amount = $fee->amount * $discount_other / 100;
                         break;
                     case env("DEPOSITORY_FEE"):
-                        $amount = $fee->amount;
+                        $amount = $this->roundOff($fee->amount);
                         $discount_amount = $fee->amount * $discount_depository / 100;
                         break;
                     case env("TUITION_FEE"):
                         $addpercent = $this->addPercentage($request->plan);
-                        $amount = ($fee->amount + ($fee->amount * $addpercent / 100));
+                        $amount = $this->roundOff(($fee->amount + ($fee->amount * $addpercent / 100)));
                         $discount_amount = $amount * $discount_tuition / 100;
                 }
 
