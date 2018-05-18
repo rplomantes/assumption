@@ -58,6 +58,8 @@ $dengues=  \App\CtrUniformSize::where('particular','AC Dengue Attire')->get();
 $pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
 $materials =  \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
 $other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
+$discount = \App\DiscountCollection::where('id',$user->idno)->get();
+$other_collection = \App\OtherCollection::get();
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -114,6 +116,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
          
 <div class="row">
     <div class="col-md-12">
+        
         <div class="col-md-6">
           <div class="box box-solid">
             <div class="box-header with-border">
@@ -135,22 +138,22 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                     <div class="box-body">
                         <div class="col-md-4">       
                  <table class="table table-responsive">        
-                      @if(count($status)>0)
+              @if(count($status)>0)
                     @if($status->status==env("ENROLLED"))
-                <tr><td colspan="2"><b>This student is already ENROLLED!!</b></td></tr>
-                <tr><th>Level</th><td>{{$status->level}}</td></tr>
-                @if($status->level == "Grade 11" || $status->level=="Grade 12")
-                <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
-                @endif
-                <tr><th>Section</th><td>{{$status->section}}</td></tr>
-                @elseif($status->status=="0")
-                <tr><td colspan="2"><b>Previous Level</b></td></tr>
-                <tr><th>Level</th><td>{{$status->level}}</td></tr>
-                @if($status->level == "Grade 11" || $status->level=="Grade 12")
-                <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
-                @endif
-                <tr><th>Section</th><td>{{$status->section}}</td></tr>
-                @endif
+                            <tr><td colspan="2"><b>This student is already ENROLLED!!</b></td></tr>
+                            <tr><th>Level</th><td>{{$status->level}}</td></tr>
+                        @if($status->level == "Grade 11" || $status->level=="Grade 12")
+                            <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
+                        @endif
+                            <tr><th>Section</th><td>{{$status->section}}</td></tr>
+                    @elseif($status->status=="0")
+                            <tr><td colspan="2"><b>Previous Level</b></td></tr>
+                            <tr><th>Level</th><td>{{$status->level}}</td></tr>
+                        @if($status->level == "Grade 11" || $status->level=="Grade 12")
+                            <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
+                        @endif
+                            <tr><th>Section</th><td>{{$status->section}}</td></tr>
+                    @endif
              @endif   
              </table>
                             </div>
@@ -167,10 +170,10 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                   </div>
                   <div id="collapseTwo" class="panel-collapse collapse in">
                     <div class="box-body">
-                      @if(count($status)>0)
+         @if(count($status)>0)
             @if($status->status == "0")
-            <div class="form form-group">
-            <div class="col-md-6">
+                <div class="form form-group">
+                <div class="col-md-6">
                 <label>Grade Level</label>
                 <Select name="level" id="level" class="form form-control">
                     <option value="">Select Level</option>
@@ -182,7 +185,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                             >{{$level->level}}</option>
                     @endforeach
                 </select>      
-            </div>
+                </div>
                 <div class="col-md-6" id="strand_control">
                     <label>Strand</label>
                     <Select name="strand" id="strand" class="form form-control">
@@ -196,8 +199,8 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                     @endforeach
                 </select> 
                 </div>    
-            </div>  
-            <div class="form form-group">
+                </div>  
+                <div class="form form-group">
                 <div class="col-md-6">
                     <label>Section</label>
                     <select name="section" id="section" class="form form-control">
@@ -245,10 +248,27 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                         @endif
                     </select>    
                 </div>    
-            </div>    
+                </div>    
             
-            @endif
+                @endif
          @endif
+         <hr>
+         <div class="form form-group">
+             <div class="col-md-6">
+             <label>Other Discount</label>
+             <select id="other_discount" class="form form-control">
+                 @foreach($other_collection as $other)
+                 <option>{{$other->subsidiary}}</option>
+                 @endforeach
+             </select>    
+             </div>
+             <div class="col-md-6">
+                 <label>Discount Amount</label>
+                 <input type="text" class="form-control" id="discount_amount">
+             </div>    
+         </div>
+         
+           
                     </div>
                   </div>
                 </div>
