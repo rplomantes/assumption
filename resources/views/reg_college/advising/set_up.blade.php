@@ -38,6 +38,9 @@
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
+            @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title"> Set Up</h3>

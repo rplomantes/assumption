@@ -172,5 +172,24 @@ class courseoffering_ajax extends Controller {
             return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
     }
+    function getsectionname(){
+        $year_level = Input::get("year_level");
+        $section = Input::get("section");
+        $program_code = Input::get("program_code");
+        
+        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
+        
+        $section_name = \App\CourseOffering::where('level', $year_level)->where('school_year', $school_year->school_year)->where('period',$school_year->period)->where('section', $section)->where('program_code', $program_code)->first();
+
+        if(count($section_name)>0){
+            $data = "<label>Section Name</label>"
+                    . "<input type='text' id='section_name' name='section_name' class='form-control' value='". $section_name->section_name ."'>";
+        } else {
+            $data = "<label>Section Name</label>"
+                    . "<input type='text' id='section_name' name='section_name' class='form-control' placeholder=\"Section Name\">";
+        }
+        return $data;
+        
+    }
 
 }

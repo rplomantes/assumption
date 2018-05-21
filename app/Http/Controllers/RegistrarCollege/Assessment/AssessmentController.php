@@ -18,7 +18,14 @@ class AssessmentController extends Controller {
     
     function index($idno){
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            
+                $status = \App\Status::where('idno', $idno)->first();
+            if ($status->status == 0) {
+//                return view('dean', array('advising',$idno), compact('status', 'idno', 'school_year', 'period'));
+                return redirect("/dean/advising/$idno");
+            } else{ 
                 return view('reg_college.assessment.select_school_year', compact('idno'));
+            }
         }
         
     }
@@ -32,9 +39,7 @@ class AssessmentController extends Controller {
             }else {
                 $status = \App\Status::where('idno', $idno)->first();
             }
-            if ($status->status == 0) {
-                return view('reg_college.assessment.not_advised', compact('status', 'idno', 'school_year', 'period'));
-            } else if ($status->status == env('ADVISING')) {
+            if ($status->status == env('ADVISING')) {
                 //return view('reg_college.assessment.select_school_year', compact('idno'));
                 return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
             } else if ($status->status == env('ASSESSED')) {

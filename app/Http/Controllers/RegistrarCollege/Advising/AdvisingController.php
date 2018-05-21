@@ -5,6 +5,7 @@ namespace App\Http\Controllers\RegistrarCollege\Advising;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Session;
 
 class AdvisingController extends Controller
 {
@@ -32,6 +33,13 @@ class AdvisingController extends Controller
             $update->is_available = $is_available;
             $update->update();
             
+            if($is_available == 1){
+                $message = "OPEN!";
+            } else {
+                $message = "CLOSED!";
+            }
+            
+            Session::flash('message', "Advising is now $message");
             return redirect('registrar_college/advising/set_up');
             
         }

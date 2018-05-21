@@ -72,19 +72,28 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
                         <div class="col-md-2">
                             <div class="form-group" id="section-form">
                                 <label>Section</label>
-                                <select id="section" class="form-control select2" style="width: 100%;" onchange="getList('{{$program_code}}')">
+                                <select id="section" class="form-control select2" style="width: 100%;" onchange="getsection_name('this.value')">
                                     <option value=" ">Select Section</option>
                                     <option value="1">Section 1</option>
                                     <option value="2">Section 2</option>
                                     <option value="3">Section 3</option>
                                     <option value="4">Section 4</option>
+                                    <option value="5">Section 5</option>
+                                    <option value="6">Section 6</option>
+                                    <option value="7">Section 7</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group" id="section_name-form">
                                 <label>Section Name</label>
-                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name" onchange="getList('{{$program_code}}')">
+                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group" id="section_name-form">
+                                <label class="col-sm-12">&nbsp;</label>
+                                <button class="btn btn-success col-sm-12" onclick="getList('{{$program_code}}')">Set Now!</button>
                             </div>
                         </div>
                     </div>
@@ -304,6 +313,24 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
             }
 
     });
+    }
+    
+    function getsection_name(){
+    array = {};
+    array['year_level'] = $("#year_level").val();
+    array['section'] = $("#section").val();
+    array['program_code'] = "{{$program_code}}";
+    $.ajax({
+    type: "GET",
+            url: "/ajax/registrar_college/curriculum_management/get_sectionname/",
+            data: array,
+            success: function (data) {
+            $('#section_name-form').html(data);
+            }
+
+    });
+    
+        
     }
 
 </script>

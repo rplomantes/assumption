@@ -4,7 +4,16 @@ $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->fi
 <?php
 $courses = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
 ?>
-@extends("layouts.appdean_college")
+
+    <?php
+    if(Auth::user()->accesslevel == env('DEAN')){
+    $layout = "layouts.appdean_college";
+    } else {
+    $layout = "layouts.appreg_college";
+    }
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

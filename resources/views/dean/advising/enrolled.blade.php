@@ -16,7 +16,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
 $units = 0;
 ?>
-@extends('layouts.appdean_college')
+
+    <?php
+    if(Auth::user()->accesslevel == env('DEAN')){
+    $layout = "layouts.appdean_college";
+    } else {
+    $layout = "layouts.appreg_college";
+    }
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

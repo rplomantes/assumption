@@ -252,24 +252,41 @@ $other_collection = \App\OtherCollection::get();
             
                 @endif
          @endif
-         <hr>
-         <div class="form form-group">
-             <div class="col-md-6">
-             <label>Other Discount</label>
-             <select id="other_discount" class="form form-control">
-                 @foreach($other_collection as $other)
-                 <option>{{$other->subsidiary}}</option>
-                 @endforeach
-             </select>    
-             </div>
-             <div class="col-md-6">
-                 <label>Discount Amount</label>
-                 <input type="text" class="form-control" id="discount_amount">
-             </div>    
-         </div>
          
            
                     </div>
+                  </div>
+                </div>
+                <div class="panel box box-success">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        Other Discounts
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse in">
+                      <div class="box-body">
+                          
+         <div class="form form-group">
+             <div class="col-md-5">
+                <label>Other Discount</label>
+                <select id="other_discount" class="form form-control">
+                    @foreach($other_collection as $other)
+                    <option>{{$other->subsidiary}}</option>
+                    @endforeach
+                </select>    
+             </div>
+             <div class="col-md-5">
+                 <label>Discount Amount</label>
+                 <input type="text" class="form-control" id="discount_amount">
+             </div>
+             <div class="col-md-2">
+                 <label class="col-sm-12">&nbsp;</label>
+                 <button class="btn btn-success"><span class="fa fa-plus-circle"></span></button>
+             </div>    
+         </div>
+                      </div>
                   </div>
                 </div>
                       

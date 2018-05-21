@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use Session;
 
 class NewStudentController extends Controller {
 
@@ -49,7 +50,8 @@ class NewStudentController extends Controller {
             $this->addregistration($request, $reference_no);
             DB::commit();
 
-            return redirect(url('/'));
+            Session::flash('message', "New Student Registered!");
+            return redirect(url('/registrar_college',array('admission','new_student')));
         }
     }
 

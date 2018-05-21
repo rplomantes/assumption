@@ -453,6 +453,7 @@ class Assess extends Controller {
         if ($request->level == "Grade 11" || $request->level == "Grade 12") {
             $status->strand = $request->strand;
             $status->period = $period;
+            $status->academic_type = "SHS";
         }
         $status->school_year = $schoolyear;
         $status->section = $request->section;
@@ -564,6 +565,7 @@ class Assess extends Controller {
         }
         $status->level = $assignlevel;
         $status->status = 0;
+        $status->academic_type = $academic_type;
         $status->update();
 
         $user->academic_type = $academic_type;

@@ -17,7 +17,7 @@ class Advising extends Controller {
     }
 
     function advising($idno) {
-        if (Auth::user()->accesslevel == env('DEAN')) {
+        if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $advising_status = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->is_available;
             $enrollment_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
             if ($advising_status == 1) {
@@ -70,7 +70,7 @@ class Advising extends Controller {
     }
 
     function confirm_advised($idno, $program_code, $level, $curriculum_year, $period) {
-        if (Auth::user()->accesslevel == env('DEAN')) {
+        if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $this->checkstatus($idno);
             //$this->checkstatus_level($idno, $status);
@@ -125,7 +125,7 @@ class Advising extends Controller {
     }
 
     function print_advising_slip($idno) {
-        if (Auth::user()->accesslevel == env('DEAN')) {
+        if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $pdf = PDF::loadView('dean.advising.advising_slip', compact('idno'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
