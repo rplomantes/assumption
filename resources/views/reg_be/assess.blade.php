@@ -257,6 +257,9 @@ $other_collection = \App\OtherCollection::get();
                     </div>
                   </div>
                 </div>
+
+         <!--Other Discounts-->                 
+<!--
                 <div class="panel box box-success">
                   <div class="box-header with-border">
                     <h4 class="box-title">
@@ -267,6 +270,7 @@ $other_collection = \App\OtherCollection::get();
                   </div>
                   <div id="collapseTwo" class="panel-collapse collapse in">
                       <div class="box-body">
+                          
                           
          <div class="form form-group">
              <div class="col-md-5">
@@ -288,7 +292,7 @@ $other_collection = \App\OtherCollection::get();
          </div>
                       </div>
                   </div>
-                </div>
+                </div>-->
                       
             </div>
                 

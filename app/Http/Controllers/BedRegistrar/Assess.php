@@ -693,7 +693,9 @@ class Assess extends Controller {
                 $addledger->accounting_name = $this->getAccountingName($add->accounting_code);
                 $addledger->category_switch = $add->category_switch;
                 $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary);
-                $addledger->amount = $add->amount - $disc_other;
+                $addledger->amount = $add->amount;
+                $addledger->discount = $disc_other;
+                $addledger->discount_code = $add->subsidiary;
                 $addledger->save();
             }
         }
