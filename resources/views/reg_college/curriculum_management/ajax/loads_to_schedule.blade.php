@@ -25,6 +25,7 @@ $available_classes = \App\ScheduleCollege::distinct()->where('course_code', $cou
                 <select name="schedule_id" id="schedule_id" class="form-control select2" style="width: 100%;" required="required">
                     <option value=" ">Select a Class</option>
                     @foreach ($available_classes as $available_class)
+                    <?php $course_off_id = \App\ScheduleCollege::where('schedule_id', $available_class->schedule_id)->first()->course_offering_id; ?>
                     <option value="{{$available_class->schedule_id}}">
                         
                                     <?php
@@ -49,6 +50,8 @@ $available_classes = \App\ScheduleCollege::distinct()->where('course_code', $cou
                                     @foreach ($schedule3s as $schedule3)
                                     {{$schedule3->room}}<br>
                                     @endforeach
+                                    <?php $section = \App\CourseOffering::where('id', $course_off_id)->first()->section_name; ?>
+                                    {{$section}}
                         
                     </option>
                     @endforeach

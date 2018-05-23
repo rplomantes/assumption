@@ -134,12 +134,18 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
                         <div class="col-md-2" id="period-form">
                             <div class="form-group">
                                 <label>Period</label>
-                                <select id="period" class="form-control select2" style="width: 100%;" onchange="getList('{{$program_code}}')">
+                                <select id="period" class="form-control select2" style="width: 100%;">
                                     <option value=" ">Select Period</option>
                                     @foreach ($periods as $period)
                                     <option value="{{$period->period}}">{{$period->period}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-sm-12">&nbsp;</label>
+                                <button class="btn btn-success col-sm-12" onclick="getList('{{$program_code}}')">Search</button>
                             </div>
                         </div>
                     </div>

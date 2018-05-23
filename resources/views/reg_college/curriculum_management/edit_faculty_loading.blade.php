@@ -78,6 +78,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                                     $schedules = \App\ScheduleCollege::where('schedule_id', $load->schedule_id)->get();
                                     $details = \App\CourseOffering::where('schedule_id', $load->schedule_id)->get();
                                     ?>
+                                    {{$load->schedule_id}}
                                     {{$load->course_code}}
                                 </td>
                                 <td>

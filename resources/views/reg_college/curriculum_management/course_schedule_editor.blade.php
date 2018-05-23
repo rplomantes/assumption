@@ -205,14 +205,18 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     $days = \App\ScheduleCollege::where('schedule_id', $distinct->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                                     ?>
                                     <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    @foreach ($days as $day){{$day->day}}@endforeach 
-                                    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
-                                        @if ($is_tba == 0)
+                                    @foreach ($days as $day){{$day->day}}@endforeach
+                                    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $distinct->schedule_id)->first()->is_tba; ?>
+                                    @if (count($is_tba)>0)    
+                                    @if ($is_tba == 0)
                                         {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
                                         @else
                                         
                                         @endif
+                                        @else
+                                        @endif
                                     @endforeach
+
                                 </td>
                                 <td>
                                     <?php

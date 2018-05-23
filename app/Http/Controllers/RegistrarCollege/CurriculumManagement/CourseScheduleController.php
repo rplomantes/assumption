@@ -26,7 +26,10 @@ class CourseScheduleController extends Controller {
             $schedules = \App\ScheduleCollege::where('course_offering_id', $id)->get();
             $course_offering = \App\CourseOffering::where('id', $id)->first();
 
-            return view('reg_college.curriculum_management.course_schedule_editor', compact('schedules', 'course_offering'));
+           // return $id;
+          //  return $schedules;
+          //  return $course_offering->id;
+           return view('reg_college.curriculum_management.course_schedule_editor', compact('schedules', 'course_offering'));
         }
     }
 
@@ -41,10 +44,10 @@ class CourseScheduleController extends Controller {
             $course_offering_id = $request->course_offering_id;
             $room = $request->room;
 
-            $deletesched = \App\ScheduleCollege::where('course_offering_id', $course_offering_id)->get();
-            foreach ($deletesched as $delete) {
-                $delete->delete();
-            }
+//            $deletesched = \App\ScheduleCollege::where('course_offering_id', $course_offering_id)->get();
+//            foreach ($deletesched as $delete) {
+//                $delete->delete();
+//            }
 
             $final_start = date("H:i:s", strtotime($time_start));
             $final_end = date("H:i:s", strtotime($time_end));
