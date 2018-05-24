@@ -57,11 +57,14 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                 <div class="box-body">
                     
                     <div class='row'>
+                        <?php $check_tba = \App\ScheduleCollege::where('course_offering_id', $course_offering->id)->where('is_tba', 1)->get();?>
+                        @if(count($check_tba)<=0)
                         <div class="col-md-3">
                             <a href='{{url('registrar_college', array('curriculum_management','add_tba',$course_offering->id))}}'><button type="button" class="btn btn-default">
                                 Set as TBA
                                 </button></a>
                         </div>
+                        @endif
                     </div>
                     <div class='table-responsive'>
                     <table class="table table-striped">

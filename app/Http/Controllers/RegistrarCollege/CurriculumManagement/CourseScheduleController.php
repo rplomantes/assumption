@@ -26,10 +26,7 @@ class CourseScheduleController extends Controller {
             $schedules = \App\ScheduleCollege::where('course_offering_id', $id)->get();
             $course_offering = \App\CourseOffering::where('id', $id)->first();
 
-           // return $id;
-          //  return $schedules;
-          //  return $course_offering->id;
-           return view('reg_college.curriculum_management.course_schedule_editor', compact('schedules', 'course_offering'));
+           return view('reg_college.curriculum_management.course_schedule_editor', compact('schedules', 'course_offering','is_tba'));
         }
     }
 
@@ -44,15 +41,16 @@ class CourseScheduleController extends Controller {
             $course_offering_id = $request->course_offering_id;
             $room = $request->room;
 
-//            $deletesched = \App\ScheduleCollege::where('course_offering_id', $course_offering_id)->get();
-//            foreach ($deletesched as $delete) {
-//                $delete->delete();
-//            }
+            $updateCourseOffering = \App\CourseOffering::where('id', $course_offering_id)->first();
+            
+            $deletesched = \App\ScheduleCollege::where('schedule_id', "$updateCourseOffering->schedule_id")->where('is_tba', 1)->get();
+            foreach ($deletesched as $delete) {
+                $delete->delete();
+            }
 
             $final_start = date("H:i:s", strtotime($time_start));
             $final_end = date("H:i:s", strtotime($time_end));
 
-            $updateCourseOffering = \App\CourseOffering::where('id', $course_offering_id)->first();
 
             if ($updateCourseOffering->schedule_id == NULL) {
                 $schedule_id = uniqid();
@@ -102,14 +100,16 @@ class CourseScheduleController extends Controller {
     }
 
     function add_tba($course_offering_id) {
-        $deletesched = \App\ScheduleCollege::where('course_offering_id', $course_offering_id)->get();
-        foreach ($deletesched as $delete) {
-            $delete->delete();
-        }
+//        $deletesched = \App\ScheduleCollege::where('course_offering_id', $course_offering_id)->get();
+//        foreach ($deletesched as $delete) {
+//            $delete->delete();
+//        }
 
         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
 
         $updateCourseOffering = \App\CourseOffering::where('id', $course_offering_id)->first();
+        $updateCourseOffering->schedule_id = NULL;
+                $updateCourseOffering->save();
         if ($updateCourseOffering->schedule_id == NULL) {
             $schedule_id = uniqid();
             $updateCourseOffering->schedule_id = $schedule_id;

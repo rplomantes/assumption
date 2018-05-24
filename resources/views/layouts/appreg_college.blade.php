@@ -137,6 +137,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}"><i class="fa fa-circle-o"></i> <span>Curriculum</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','add_electives'))}}"><i class="fa fa-circle-o"></i> <span>Add Electives</span></a></li>
                                 <!--<li><a href="{{url('/registrar_college', array('curriculum_management','upload_curriculum'))}}"><i class="fa fa-circle-o"></i> <span>*Upload Curriculum</span></a></li>-->
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering'))}}"><i class="fa fa-circle-o"></i> <span>View Course Offering</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','course_offering'))}}"><i class="fa fa-circle-o"></i> <span>Course Offering</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','course_schedule'))}}"><i class="fa fa-circle-o"></i> <span>Course Schedule</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}"><i class="fa fa-circle-o"></i> <span>Faculty Loading</span></a></li>

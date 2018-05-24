@@ -61,7 +61,7 @@ $levels = \App\CourseOffering::distinct()->orderBy('level')->get(['level']);
                                 <select id="program_code" class="form-control select2" style="width: 100%;">
                                     <option value=" ">Select Program</option>
                                     @foreach ($program_codes as $program_code)
-                                    <option value="{{$program_code->program_code}}">{{$program_code->program_code}}</option>
+                                    <option value="{{$program_code->program_code}}">{{$program_code->program_code}} - <?php $program_name = \App\CtrAcademicProgram::where('program_code', $program_code->program_code)->first()->program_name;?>{{$program_name}}</option>
                                     @endforeach
                                 </select>
                             </div>

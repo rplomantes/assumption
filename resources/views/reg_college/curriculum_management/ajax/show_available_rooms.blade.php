@@ -3,7 +3,7 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Available Rooms {{count($is_conflict)}}</h4>
+            <h4 class="modal-title">Available Rooms</h4>
         </div>
         <form method="post" action="{{url ('registrar_college', array('curriculum_management','add_course_schedule'))}}">
         <div class="modal-body">

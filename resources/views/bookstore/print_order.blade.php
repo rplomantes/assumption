@@ -134,13 +134,18 @@ $peamount=0;
                     </table>    
                 </td></tr></table>
         <br>
-                    <table border='0' cellspacing="0" cellpadding="0" class="table-striped"><tr><td>
+                    <table border='0' cellspacing="0" cellpadding="0" class="table-striped">
+                        <tr><td>
+                        * Please review the items to be ordered above. Once items are bought, returns, replacements, and refunds will no longer be accepted unless items are defective.
+                </td></tr>
+                        <tr><td>
                         * Unsold books will be pulled out by August 31, {{$status->school_year}}
                 </td></tr><tr>
                             <td>
             RECEIVED THE ABOVE ITEMS COMPLETE, AND IN GOOD ORDER AND CONDITION.
                 </td></tr>
-           <br><br><br><br>
+                    </table>
+           <br>
         <table class="table-striped" border="0" cellpadding="0" cellspacing="0"><tr>
                <td align="center" width="33%"><div class="blank">&nbsp;</div></td><td align="center" width="33%"><div class="blank">&nbsp;</div></td><td><div class="blank">&nbsp;</div></td></tr>
            <tr> <td align="center">Print Name</td><td align="center">Signature</td><td align="center">Date</td></tr>

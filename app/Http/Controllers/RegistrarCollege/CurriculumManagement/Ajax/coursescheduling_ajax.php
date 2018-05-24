@@ -41,10 +41,10 @@ class coursescheduling_ajax extends Controller {
 
             $school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
             $is_conflict = \App\ScheduleCollege::
-                    join('course_offerings', 'schedule_colleges.course_offering_id', '=', 'course_offerings.id')
+                    join('course_offerings', 'schedule_colleges.schedule_id', '=', 'course_offerings.schedule_id')
                     ->where('course_offerings.program_code', $info_course_offering->program_code)
                     ->where('course_offerings.level', $info_course_offering->level)
-                    ->where('course_offerings.section', $info_course_offering->section)
+                    ->where('course_offerings.section_name', $info_course_offering->section_name)
                     ->where('schedule_colleges.school_year', $school_year->school_year)
                     ->where('schedule_colleges.period', $school_year->period)
                     ->where('schedule_colleges.day', $day)

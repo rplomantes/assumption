@@ -259,7 +259,7 @@ class AssessmentController extends Controller {
         $addledger->accounting_code = env("AR_TUITION_CODE");
         $addledger->accounting_name = env("AR_TUITION_NAME");
         $addledger->category_switch = env("TUITION_FEE");
-        $addledger->amount = $tuitionfee;
+        $addledger->amount = $this->roundOff($tuitionfee);
         $addledger->discount = $tobediscount;
         $addledger->discount_code = $discount_code;
         $addledger->save();
@@ -467,5 +467,9 @@ class AssessmentController extends Controller {
         $update->update();
 
         return $id . $receipt . $number;
+    }
+    
+    function roundOff($amount) {
+        return round($amount);
     }
 }

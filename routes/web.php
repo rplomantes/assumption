@@ -64,6 +64,11 @@ Route::get('/ajax/registrar_college/curriculum_management/remove_electives', 'Re
 //Upload Curriculum
 Route::get('/registrar_college/curriculum_management/upload_curriculum', 'RegistrarCollege\CurriculumManagement\UploadCurriculumController@index');
 Route::post('/registrar_college/curriculum_management/upload', 'RegistrarCollege\CurriculumManagement\UploadCurriculumController@upload');
+//View Course Offering
+Route::get('/registrar_college/curriculum_management/view_course_offering', 'RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@index');
+//Ajax View Course Offering
+Route::get('/ajax/registrar_college/curriculum_management/get_sections', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@get_sections');
+Route::get('/ajax/registrar_college/curriculum_management/get_offerings', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@get_offerings');
 //Course Offering
 Route::get('/registrar_college/curriculum_management/course_offering', 'RegistrarCollege\CurriculumManagement\CourseOfferingController@index');
 Route::get('/registrar_college/curriculum_management/view_offering/{program_code}', 'RegistrarCollege\CurriculumManagement\CourseOfferingController@viewofferings');
