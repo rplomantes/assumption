@@ -29,7 +29,13 @@
 </style>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>REGISTRATION FORM</b>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br>
+        @if($status->status == 3)
+        <b>REGISTRATION FORM</b>
+        @else
+        <b>UNOFFICIAL <br>REGISTRATION FORM</b>
+        @endif
+        
         <br><small>A.Y. {{$school_year}} - {{$school_year+1}} {{$period}}</small>
     </div>
 </div>
