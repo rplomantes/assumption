@@ -118,7 +118,15 @@ class AssessmentController extends Controller {
         $tuitionrate = $tfr->per_unit;
 
         //poppulate other fee with discount////
+        $course_assessed = \App\GradeCollege::where('idno',$idno)->where('school_year', $school_year)->where('period', $period)->get();
+        if(count($course_assessed)>1){
         $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
+        } else {
+            $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('course_name', 'like', '%practicum%')->get();
+            if(count($check_practicum)==1){
+                $this->getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
+            }
+        }
         //populate tuition fee with discount///
         $this->getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype);
         //populate srf//
@@ -203,6 +211,31 @@ class AssessmentController extends Controller {
     function getdiscount($type, $discount_code) {
         if ($type == 'tf') {
             return \App\CtrDiscount::where('discount_code', $discount_code)->first()->amount;
+        }
+    }
+    
+    function getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code){
+        $otherfees = \App\CtrCollegePracticumFee::get();
+        if (count($otherfees) > 0) {
+            foreach ($otherfees as $otherfee) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = $otherfee->category;
+                $addledger->subsidiary = $otherfee->subsidiary;
+                $addledger->receipt_details = $otherfee->receipt_details;
+                $addledger->accounting_code = $otherfee->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                $addledger->category_switch = $otherfee->category_switch;
+                $addledger->amount = $otherfee->amount;
+                $addledger->discount = $otherfee->amount * ($discountof / 100);
+                $addledger->discount_code = $discount_code;
+                $addledger->save();
+            }
         }
     }
 
