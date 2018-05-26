@@ -114,9 +114,9 @@ $units = 0;
                             <tr>
                                 <th>Code</th>
                                 <th>Course Name</th>
-                                <th>Units</th>
                                 <th>Schedule</th>
                                 <th>Instructor</th>
+                                <th>Units</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,7 +128,7 @@ $units = 0;
                             <tr>
                                 <td>{{$grade_college->course_code}}</td>
                                 <td>{{$grade_college->course_name}}</td>
-                                <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                                    @if($grade_college->course_offering_id!=NULL)
                                 <td>
                                     <?php
                                     $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -158,12 +158,16 @@ $units = 0;
                                 }
                                 ?>
                                 <td >{{$data}}</td>
+                @else
+                <td>TBA</td>
+                <td>TBA</td>
+                @endif
+                                <td>{{$grade_college->lec+$grade_college->lab}}</td>
                             </tr>
                             @endforeach
                             <tr>
-                                <td colspan="2"><strong>Total Units</strong></td>
+                                <td colspan="4"><strong>Total Units</strong></td>
                                 <td><strong>{{$units}}</strong></td>
-                                <td colspan="2"></td>
                             </tr>
                         </tbody>
                     </table>

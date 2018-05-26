@@ -125,9 +125,9 @@ Route::get('/registrar_college/grade_management/view_grades/{school_year}/{perio
 Route::get('/ajax/registrar_college/grade_management/get_schedules', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@view_grades');
 Route::get('/ajax/registrar_college/grade_management/get_list_students', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@get_list_students');
 Route::get('/ajax/registrar_college/grade_management/get_oldlist_students', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@get_oldlist_students');
-Route::get('/ajax/registrar_college/grade_management/lock/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@lock');
-Route::get('/ajax/registrar_college/grade_management/unlock/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@unlock');
-Route::get('/ajax/registrar_college/grade_management/approve_all', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@approve_all');
+Route::get('/ajax/registrar_college/grade_management/lock/{idno}/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@lock');
+Route::get('/ajax/registrar_college/grade_management/unlock/{idno}/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@unlock');
+Route::get('/ajax/registrar_college/grade_management/approve_all/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@approve_all');
 Route::get('/ajax/registrar_college/grades/change_midterm/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_midterm');
 Route::get('/ajax/registrar_college/grades/change_finals/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_finals');
 
@@ -205,3 +205,6 @@ Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
 //ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
 Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');
 Route::post('/accounting/view_schedule_of_fees', 'Accounting\ScheduleOfFees@view');
+//Set OR Number
+Route::get('/accounting/set_or', 'Accounting\SetReceiptController@index');
+Route::post('/accounting/update_or', 'Accounting\SetReceiptController@update_or');

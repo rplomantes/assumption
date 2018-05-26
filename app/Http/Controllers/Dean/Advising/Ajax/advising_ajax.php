@@ -49,8 +49,8 @@ class advising_ajax extends Controller {
                 $newgrade->save();
             }
             $studentcourses = \App\GradeCollege::where('idno', $idno)
-                    ->where('school_year', $newgrade->school_year)
-                    ->where('period', $newgrade->period)
+                    ->where('school_year', $school_year)
+                    ->where('period', $period)
                     ->get();
 
             if (count($studentcourses) > 0) {

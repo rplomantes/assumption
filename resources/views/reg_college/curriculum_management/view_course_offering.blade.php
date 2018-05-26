@@ -154,7 +154,7 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
                             <div class="form-group" id="elective-form">
                                 <label>Electives</label>
                                 <select id="elective" class="form-control select2" style="width: 100%;">
-                                    <option value=" ">Select Period</option>
+                                    <option value=" ">Select Elective</option>
                                     @foreach ($electives as $elective)
                                     <option value="{{$elective->id}}">{{$elective->course_code}} - {{$elective->course_name}}</option>
                                     @endforeach

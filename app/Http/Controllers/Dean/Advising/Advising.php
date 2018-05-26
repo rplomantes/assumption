@@ -22,7 +22,8 @@ class Advising extends Controller {
             $enrollment_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
             if ($advising_status == 1) {
                 $status_is_new = \App\Status::where('idno', $idno)->first()->is_new;
-                if ($status_is_new == 1) {
+                $status_stat = \App\Status::where('idno', $idno)->first()->status;
+                if ($status_is_new == 1 && $status_stat == 0) {
                     return view('dean.advising.advise_new_reg', compact('status', 'idno'));
                 } else {
                     $status = \App\Status::where('idno', $idno)->first();

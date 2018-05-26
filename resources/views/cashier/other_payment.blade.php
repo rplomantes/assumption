@@ -168,7 +168,7 @@
                <select class="form-control" name="credit_card_type" id="credit_card_type">
                    <option>Visa</option>
                    <option>Mastercard</option>
-                   <option>AMEX</option>
+                   <option>Debit</option>
                </select>    
             </div>    
             <div class="col-md-4">    

@@ -173,28 +173,28 @@ $mfee = 0;
 $dfee = 0;
 $srffee = 0;
 $esc = 0;
-$oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 7)->get();
-$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 6)->get();
+$oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('OTHER_MISC'))->get();
+$tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('TUITION_FEE'))->get();
 foreach ($tfs as $tf) {
     $tfee = $tfee + $tf->amount;
 }
-$ofs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 2)->get();
+$ofs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('OTHER_FEE'))->get();
 foreach ($ofs as $of) {
     $ofee = $ofee + $of->amount;
 }
-$defs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 3)->get();
+$defs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('DEPOSITORY_FEE'))->get();
 foreach ($defs as $def) {
     $defee = $defee + $def->amount;
 }
-$mfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 1)->get();
+$mfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('MISC_FEE'))->get();
 foreach ($mfs as $mf) {
     $mfee = $mfee + $mf->amount;
 }
-$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 4)->get();
+$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->get();
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
 }
-$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', 4)->get();
+$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->get();
 
 $discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->get();
 foreach ($discounts as $discount) {

@@ -40,7 +40,7 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=1 readonly=""></td>
                             <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=1 readonly=""></td>
                             <td>
-                                @if($student->midterm_status <= 1 || $student->finals_status <= 1 || $student->grade_point_status <= 1)
+                                @if($student->midterm_status <= 1 || $student->finals_status <= 1)
                                 <div class="btn btn-warning col-sm-12" onclick="lock({{$student->idno}}, schedule_id.value, {{$student->id}})">Lock</div>
                                 @else 
                                 <div class="btn btn-danger col-sm-12" onclick="unlock({{$student->idno}}, schedule_id.value, {{$student->id}})">Unlock</div>

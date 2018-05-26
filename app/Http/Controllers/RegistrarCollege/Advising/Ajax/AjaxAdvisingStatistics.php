@@ -25,7 +25,7 @@ class AjaxAdvisingStatistics extends Controller
             $schedule_id = Input::get("schedule_id");
             $section = Input::get("section");
             
-            $course_offering_id = \App\CourseOffering::where('schedule_id', $schedule_id)->where('course_code', $course_code)->where('section', $section)->first();
+            $course_offering_id = \App\CourseOffering::where('schedule_id', $schedule_id)->where('course_code', $course_code)->where('section_name', $section)->first();
             
             $update_grade_college = \App\GradeCollege::where('idno',$idno)->where('course_code', $course_code)->first();
             $update_grade_college->course_offering_id = $course_offering_id->id;
@@ -43,7 +43,7 @@ class AjaxAdvisingStatistics extends Controller
             
             $data = "<option value=''>Select Section</option>";
             foreach ($sections as $section) {
-                $data = $data."<option value=".$section->section.">".$section->section_name."</section>";
+                $data = $data."<option value=".$section->section_name.">".$section->section_name."</section>";
             }
             return $data;
         }

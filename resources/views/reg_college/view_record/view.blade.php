@@ -44,7 +44,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
 <section class="content">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -81,18 +81,17 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <a href="#" class="form form-control btn btn-primary">Print Student Record</a>
+            <div class="col-sm-2">
+                <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
             </div>
-            <div class="form-group">
-                <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="form form-control btn btn-success">View Student Information</a>
+            <div class="col-sm-2">
+                <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
             </div>
-            <div class="form-group">
-                <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="form form-control btn btn-success">View Transcript</a>
+            <div class="col-sm-2">
+                <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
             </div>
-        </div>
         <div class="col-sm-12">
+            <h3>Curriculum Record</h3>
             <?php $levels = \App\Curriculum::distinct()->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('level')->get(['level']); ?>
             @foreach ($levels as $level)
             <?php $periods = \App\Curriculum::distinct()->where('level', $level->level)->where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->orderBy('period')->get(['period']); ?>

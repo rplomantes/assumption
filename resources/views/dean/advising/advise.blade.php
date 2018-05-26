@@ -251,14 +251,24 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     </thead>
     <tbody>
         @foreach ($curricula as $curriculum)
-<?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
 <?php $grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
         <tr>
             <td>{{$curriculum->course_code}}</td>
             <td>{{$curriculum->course_name}}</td>
             <td>{{$curriculum->lec}}</td>
             <td>{{$curriculum->lab}}</td>
-            <td>@if (count($grades)>0) {{$grades->finals}} @else <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button> @endif</td>
+            <td>
+                @if (count($grades)>0)
+                {{$grades->finals}}
+                @else
+                <?php $check_grades_new = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+                @if (count($check_grades_new)>0)
+                    {{$check_grades_new->finals}}
+                @else
+                <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
+                @endif
+                @endif
+            </td>
         </tr>
         @endforeach
         @endforeach

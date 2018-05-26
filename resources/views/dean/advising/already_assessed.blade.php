@@ -69,7 +69,7 @@ $user = \App\User::where('idno', $idno)->first();
                 ?>
                     <div class='table-responsive'>
                 @if(count($grade_colleges)>0)
-                <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course</th><th>Units</th><th>Schedule/Room</th><th>Instructor</th></tr></thead><tbody>
+                <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course</th><th>Schedule/Room</th><th>Instructor</th><th>Units</th></tr></thead><tbody>
                         @foreach($grade_colleges as $grade_college)
                         <?php
                         $units = $units + $grade_college->lec + $grade_college->lab;
@@ -78,7 +78,7 @@ $user = \App\User::where('idno', $idno)->first();
                         <tr>
                             <td>{{$grade_college->course_code}}</td>
                             <td>{{$grade_college->course_name}}</td>
-                            <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                                    @if($grade_college->course_offering_id!=NULL)
                             <td>
                                 <?php
                                 $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -111,10 +111,15 @@ $user = \App\User::where('idno', $idno)->first();
                                     }
                                 }
                             ?>
-                            </td>
-                        </tr>
+                            </td> 
+                @else
+                <td>TBA</td>
+                <td>TBA</td>
+                @endif
+                            <td>{{$grade_college->lec+$grade_college->lab}}</td>
+                       </tr>
                         @endforeach
-                        <tr><td colspan="2"><strong>Total Units</strong></td><td><strong>{{$units}}</strong></td></tr>
+                        <tr><td colspan="4"><strong>Total Units</strong></td><td><strong>{{$units}}</strong></td></tr>
                     </tbody></table>
                 @else
                 <div class="alert alert-danger">No Course Selected Yet!!</div>

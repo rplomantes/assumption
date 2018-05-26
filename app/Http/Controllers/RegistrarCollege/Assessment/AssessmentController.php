@@ -122,7 +122,12 @@ class AssessmentController extends Controller {
         if(count($course_assessed)>1){
         $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
         } else {
-            $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('course_name', 'like', '%practicum%')->get();
+            $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)
+                    ->where(function($q) {
+                        $q->where('course_name', 'like', '%practicum%')
+                          ->orWhere('course_code', 'like', '%prac%');
+                    })
+                    ->get();
             if(count($check_practicum)==1){
                 $this->getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
             }

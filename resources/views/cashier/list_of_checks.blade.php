@@ -1,7 +1,15 @@
 <?php
 $totalchecks=0;
 ?>
-@extends('layouts.appcashier')
+<?php
+$layout="";
+if(Auth::user()->accesslevel==env("CASHIER")){
+ $layout = "layouts.appcashier";   
+} else if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+  $layout="layouts.appaccountingstaff";  
+}       
+?>
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

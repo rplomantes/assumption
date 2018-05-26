@@ -115,8 +115,9 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-        <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-link"></i> <span>Set Other Payment</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
+        <li><a href="{{url('/accounting','set_or')}}"><i class="fa fa-columns"></i> <span> Set OR Number</span></a></li>
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Disbursement</span></a></li>
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Journal Entry</span></a></li>
         <li class="treeview">
@@ -139,7 +140,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/accounting',array('cash_receipt_dr_cr',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
+            <li><a href="{{url('/accounting',array('cash_receipt_drcr',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
             <li><a href="{{url('/accounting',array('disburesement_drcr',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
             <li><a href="{{url('/accounting',array('general_journal_drcr',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
             <li><a href="{{url('/accounting',array('debit_memo_journal_drcr',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>

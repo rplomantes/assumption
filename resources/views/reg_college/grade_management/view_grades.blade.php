@@ -42,7 +42,7 @@
 <div class='col-sm-12'>
     <div class='box'>
         <div class='box-body'>
-            @if ($school_year=="2017" && $period == "2nd Semester")
+            @if ($school_year>="2017")
             <?php $courses = \App\CourseOffering::distinct()->where('school_year', $school_year)->where('period', $period)->get(['course_code', 'course_name']); ?>
             
             <div class="col-sm-6">
@@ -141,9 +141,13 @@
         array = {};
         array['schedule_id'] = schedule_id;
         array['grade_id'] = id;
+        array['school_year'] = "{{$school_year}}";
+        array['period'] = "{{$period}}";
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/grade_management/lock/" + idno,
+            url: "/ajax/registrar_college/grade_management/lock/" + idno + '/' + school_year + '/'+ period,
             data: array,
             success: function (data) {
                 $('#result').html(data);
@@ -154,9 +158,13 @@
         array = {};
         array['schedule_id'] = schedule_id;
         array['grade_id'] = id;
+        array['school_year'] = "{{$school_year}}";
+        array['period'] = "{{$period}}";
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/grade_management/unlock/" + idno,
+            url: "/ajax/registrar_college/grade_management/unlock/" + idno + '/' + school_year + '/'+ period,
             data: array,
             success: function (data) {
                 $('#result').html(data);
@@ -166,9 +174,11 @@
     function approveall(schedule_id){
         array = {};
         array['schedule_id'] = schedule_id;
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/grade_management/approve_all",
+            url: "/ajax/registrar_college/grade_management/approve_all" + '/' + school_year + '/'+ period,
             data: array,
             success: function (data) {
                 $('#result').html(data);

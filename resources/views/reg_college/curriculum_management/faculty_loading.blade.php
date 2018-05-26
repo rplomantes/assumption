@@ -51,7 +51,7 @@ $faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get
                 </div>
                 <div class="box-body">
                     <div class='table-responsive'>
-                    <table class='table table-hover'>
+                    <table class='table table-hover' id="faculty_list">
                         <thead>
                             <tr>
                                 <th>Faculty Code</th>
@@ -111,6 +111,16 @@ $faculties = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get
 
         });
     }
+</script>
+
+<!-- DataTables -->
+<script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    $('#faculty_list').DataTable()
+  })
 </script>
 
 @endsection
