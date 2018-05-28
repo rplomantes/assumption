@@ -259,11 +259,19 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <td>{{$curriculum->lab}}</td>
             <td>
                 @if (count($grades)>0)
-                {{$grades->finals}}
+                    @if($grades->finals == "FA" || $grades->finals == "4.00" || $grades->finals == "INC" || $grades->finals == "NA" || $grades->finals == "NG" || $grades->finals == "UD" || $grades->finals == "W")
+                    <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
+                    @else
+                    {{$grades->finals}}
+                    @endif
                 @else
                 <?php $check_grades_new = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
                 @if (count($check_grades_new)>0)
+                    @if ($check_grades_new->finals == "FA" || $check_grades_new->finals == "4.00" ||$check_grades_new->finals == "INC" ||$check_grades_new->finals == "NA" ||$check_grades_new->finals == "NG" ||$check_grades_new->finals == "UD" ||$check_grades_new->finals == "W")
+                    <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
+                    @else
                     {{$check_grades_new->finals}}
+                    @endif
                 @else
                 <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
                 @endif
@@ -275,6 +283,54 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
         @endforeach
     </tbody>
 </table>
+    <?php
+    $electives = \App\CtrElective::where('curriculum_year', $student_info->curriculum_year)->where('program_code', $student_info->program_code)->get();
+    ?>
+@if(count($electives)>0)
+<table class="table table-striped table-condensed" width="100%">
+    <br><b>ELECTIVES</b>
+    <thead>
+        <tr>
+            <th width="10%">Code</th>
+            <th width="50%">Description</th>
+            <th width="5%">Lec</th>
+            <th width="5%">Lab</th>
+            <th width="8%">Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($electives as $elective)
+                <?php $elect_grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $elective->course_code)->first(); ?>
+        <tr>
+            <td>{{$elective->course_code}}</td>
+            <td>{{$elective->course_name}}</td>
+            <td>{{$elective->lec}}</td>
+            <td>{{$elective->lab}}</td>
+            <td>
+                @if (count($elect_grades)>0)
+                    @if($elect_grades->finals == "FA" || $elect_grades->finals == "4.00" || $elect_grades->finals == "INC" || $elect_grades->finals == "NA" || $elect_grades->finals == "NG" || $elect_grades->finals == "UD" || $elect_grades->finals == "W")
+                    <button class="btn btn-primary" onclick="add_to_course_offered('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
+                    @else
+                    {{$elect_grades->finals}}
+                    @endif
+                @else
+                <?php $check_grades_new = \App\GradeCollege::where('idno', $idno)->where('course_code', $elective->course_code)->first(); ?>
+                @if (count($check_grades_new)>0)
+                    @if ($check_grades_new->finals == "FA" || $check_grades_new->finals == "4.00" ||$check_grades_new->finals == "INC" ||$check_grades_new->finals == "NA" ||$check_grades_new->finals == "NG" ||$check_grades_new->finals == "UD" ||$check_grades_new->finals == "W")
+                    <button class="btn btn-primary" onclick="add_to_course_offered_elect('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
+                    @else
+                    {{$check_grades_new->finals}}
+                    @endif
+                @else
+                <button class="btn btn-primary" onclick="add_to_course_offered_elect('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
+                @endif
+                @endif
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@endif
             </div>
         </div>
     </div>
@@ -394,6 +450,23 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     $.ajax({
     type: "GET",
             url: "/ajax/dean/advising/add_to_course_offered",
+            data: array,
+            success: function (data) {
+            $('.tablecourse_offered').html(data);
+            $(".save").fadeIn();
+            }
+
+    });
+    }
+    function add_to_course_offered_elect(curriculum_id){
+    array = {};
+    array['curriculum_id'] = curriculum_id;
+    array['idno'] = "{{$user->idno}}";
+    array['school_year'] = {{$school_year->school_year}};
+    array['period'] = "{{$school_year->period}}";
+    $.ajax({
+    type: "GET",
+            url: "/ajax/dean/advising/add_to_course_offered_elect",
             data: array,
             success: function (data) {
             $('.tablecourse_offered').html(data);

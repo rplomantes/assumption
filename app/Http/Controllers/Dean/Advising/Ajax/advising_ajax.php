@@ -73,6 +73,55 @@ class advising_ajax extends Controller {
             }
         }
     }
+    
+    function add_to_course_offered_elect() {
+        if (Request::ajax()) {
+            $idno = Input::get('idno');
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $curriculum = \App\CtrElective::find(Input::get('curriculum_id'));
+            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->get();
+            if (count($checkcourse) == 0) {
+                $newgrade = new \App\GradeCollege;
+                $newgrade->idno = $idno;
+                $newgrade->course_offering_id = NULL;
+                $newgrade->course_code = $curriculum->course_code;
+                $newgrade->course_name = $curriculum->course_name;
+                $newgrade->level = "ELECTIVE";
+                $newgrade->lec = $curriculum->lec;
+                $newgrade->lab = $curriculum->lab;
+                $newgrade->hours = $curriculum->hours;
+                $newgrade->school_year = $school_year;
+                $newgrade->period = $period;
+                $newgrade->srf = $curriculum->srf;
+                $newgrade->percent_tuition = $curriculum->percent_tuition;
+                $newgrade->save();
+            }
+            $studentcourses = \App\GradeCollege::where('idno', $idno)
+                    ->where('school_year', $school_year)
+                    ->where('period', $period)
+                    ->get();
+
+            if (count($studentcourses) > 0) {
+                $data = "<table class=\"table table-striped\" width=\"100%\"><tr><thead><th>Code</th><th>Course Name</th><th>Lec</th><th>Lab</th><th></th></tr></thead><tbody>";
+                $units = 0;
+                foreach ($studentcourses as $studentcourse) {
+                    $data = $data . "<tr><td>" . $studentcourse->course_code
+                            . "</td><td>" . $studentcourse->course_name
+                            . "</td><td>" . ($studentcourse->lec)
+                            . "</td><td>" . ($studentcourse->lab)
+                            . "</td><td><button class=\"btn btn-danger\" onclick=\"removecourse('" . $studentcourse->id . "')\"><span class=\"fa fa-minus-circle\"></span></button></td></tr>";
+
+                    $units = $units + $studentcourse->lec + $studentcourse->lab;
+                }
+                $data = $data . "<tr><td><strong>Total Units</strong></td><td></td><td></td><td></td><td colspan=\"4\"><strong>$units</strong></td></tr>";
+                $data = $data . "</tbody></table>";
+                return $data;
+            } else {
+                return "<div class='alert alert-danger'>No Course Selected Yet!!</div>";
+            }
+        }
+    }
 
     function checkcourse($idno, $course_code) {
         $hassubject = \App\GradeCollege::where('idno', $idno)->where('course_code', $course_code)->get();
