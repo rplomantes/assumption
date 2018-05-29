@@ -130,6 +130,8 @@ class AssessmentController extends Controller {
                     ->get();
             if(count($check_practicum)==1){
                 $this->getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
+            }else{
+        $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
             }
         }
         //populate tuition fee with discount///

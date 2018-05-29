@@ -54,9 +54,9 @@ class AjaxAdvisingStatistics extends Controller
             $section = Input::get("section");
             $course_code = Input::get("course_code");
             
-            $course_offering_id= \App\CourseOffering::where('schedule_id', $schedule_id)->where('course_code', $course_code)->first();
+            $course_offering_id= \App\CourseOffering::where('schedule_id', $schedule_id)->where('course_code', $course_code)->where('section_name', $section)->first();
             
-            $lists = \App\GradeCollege::where('grade_colleges.course_offering_id', $course_offering_id->id)->where('grade_colleges.is_advising',0)->join('users','grade_colleges.idno','=','users.idno' )->orderBy('users.lastname')->get();
+            $lists = \App\GradeCollege::where('grade_colleges.course_offering_id', $course_offering_id->id)->where('grade_colleges.is_advising',0)->join('users','grade_colleges.idno','=','users.idno' )->orderBy('users.lastname', 'asc')->get();
             
             if(count($lists)>0){
             $counter=0;

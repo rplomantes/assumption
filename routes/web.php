@@ -48,6 +48,11 @@ Route::get('/ajax/registrar_college/advising/addtosection', 'RegistrarCollege\Ad
 Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getsection');
 Route::get('/ajax/registrar_college/advising/getschedulestudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getschedulestudentlist');
 Route::get('/ajax/registrar_college/advising/removetosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@removetosection');
+//Assigning of Schedules
+Route::get('/registrar_college/advising/assigning_of_schedules/{idno}', 'RegistrarCollege\Advising\AssigningOfSchedules@index');
+Route::post('/registrar_college/advising/assign_schedule', 'RegistrarCollege\Advising\AssigningOfSchedules@assign_schedule');
+//Ajax Assigning of Schedule
+Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AssignSchedule_ajax@get_section');
 
 
 //Registrar College Curriculum Management///////////////////////////////////////

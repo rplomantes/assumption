@@ -113,9 +113,9 @@
             foreach ($schedule_instructor as $get) {
                 if ($get->instructor_id != NULL) {
                     $instructor = \App\User::where('idno', $get->instructor_id)->first();
-                    echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                   // echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
                 } else {
-                    echo "";
+                    //echo "";
                 }
             }
             ?>
