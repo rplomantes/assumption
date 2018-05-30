@@ -88,6 +88,11 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </ul>
                 </div>
             </div>
+            <div class='box'>
+                <div class='box-body'>
+                    <a href='{{url('/registrar_college', array('assessment', 'readvise',$user->idno))}}'><button class='btn btn-primary col-sm-12'>Re-advise Student</button></a>
+                </div>
+            </div>
             
                             @if(count($grade_colleges)>0)
             <div class="box">

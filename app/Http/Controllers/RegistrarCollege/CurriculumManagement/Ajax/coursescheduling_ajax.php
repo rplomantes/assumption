@@ -67,11 +67,11 @@ class coursescheduling_ajax extends Controller {
             if (count($rooms) > 0) {
                 $sql = "id is not null";
                 foreach ($rooms as $room) {
-                    $sql = $sql . " and room != '" . $room->room . "'";
+                    $sql = $sql . " and is_no_conflict=1 and room != '" . $room->room . "'";
                 }
                 $available_rooms = \App\CtrRoom::whereRaw($sql)->get();
             } else {
-                $available_rooms = \App\CtrRoom::all();
+                $available_rooms = \App\CtrRoom::where('is_no_conflict', 1)->get();
             }
 
             return view('reg_college.curriculum_management.ajax.show_available_rooms', compact('day', 'time_start', 'time_end', 'course_offering_id', 'school_year', 'rooms', 'available_rooms', 'is_conflict'));

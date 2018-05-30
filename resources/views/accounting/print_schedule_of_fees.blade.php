@@ -71,7 +71,7 @@ $total_misc = 0;
             @endforeach
             @foreach ($other_collections as $other_collection)
             @if($other_collection->category == "Other Fees")
-            <?php $total_misc = $total_misc + $other_collection->amount; ?>
+            <?php $total_other = $total_other + $other_collection->amount; ?>
             <tr>
                 <td><div class='tab'>{{$other_collection->subsidiary}}</div></td>
                 <td align="right"><div style="border-bottom: 1px solid black">{{$other_collection->amount}}</div></td>

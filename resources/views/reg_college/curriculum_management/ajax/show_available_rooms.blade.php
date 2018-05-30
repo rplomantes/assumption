@@ -1,3 +1,4 @@
+<?php $no_conflict_rooms = \App\CtrRoom::where('is_no_conflict', 0)->get(); ?>
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -9,7 +10,6 @@
         <div class="modal-body">
             <div class="form-group">
                 @if (count($is_conflict)<=0)
-                @if (count($available_rooms)>0)
                 <label>Available Rooms</label>
                 {{ csrf_field() }}
                 <input type="hidden" value="{{$course_offering_id}}" name="course_offering_id">
@@ -19,13 +19,16 @@
           
                 <select name="room" id="room" class="form-control select2" style="width: 100%;" required="required">
                     <option value=" ">Select Room</option>
+                    @foreach($no_conflict_rooms as $no_conflict_room)
+                    <option value='{{$no_conflict_room->room}}'>{{$no_conflict_room->room}}</option>
+                    @endforeach
+                @if (count($available_rooms)>0)
                     @foreach ($available_rooms as $available_room)
                     <option value="{{$available_room->room}}">{{$available_room->room}}</option>
-                    @endforeach                
+                    @endforeach          
+                @endif    
                 </select>
-                @else
-                No Room Available
-                @endif
+                
                 @else
                 There is a conlfict in schedule.
                 @endif

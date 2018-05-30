@@ -23,6 +23,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 //REG ASSESSMENT
 Route::get('/registrar_college/assessment2/{idno}/{school_year}/{period}', 'RegistrarCollege\Assessment\AssessmentController@index2');
+Route::get('/registrar_college/assessment/readvise/{idno}', 'RegistrarCollege\Assessment\AssessmentController@readvise');
 Route::post('/registrar_college/assessment/set_up_school_year', 'RegistrarCollege\Assessment\AssessmentController@set_up_year');
 
 //Registrar College - MAIN//////////////////////////////////////////////////////

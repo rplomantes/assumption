@@ -69,8 +69,8 @@
 <table id='registration' width="100%" style='margin-top: 5px; font-size: 9pt'>
     <tr>
         <th id='reg'>Course</th>
-        <th id='reg'>Schedule/Room</th>
-        <th id='reg'>Instructor</th>
+        <th id='reg'>Schedule</th>
+        <th id="reg">Room</th>
         <th id='reg'>Lec</th>
         <th id='reg'>Lab</th>
     </tr>
@@ -105,7 +105,7 @@
             <!--{{$schedule2->day}} {{$schedule2->time_start}} - {{$schedule2->time_end}}<br>-->
             @endforeach
         </td>
-        <td id='reg'>
+<!--        <td id='reg'>
             <?php
             $offering_id = \App\CourseOffering::find($grade->course_offering_id);
             $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
@@ -119,6 +119,14 @@
                 }
             }
             ?>
+        </td>-->
+        <td id="reg">
+            <?php
+            $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+            ?>
+            @foreach ($schedule3s as $schedule3)
+            {{$schedule3->room}}<br>
+            @endforeach
         </td>
         @else
         <td id='reg'></td>

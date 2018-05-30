@@ -74,6 +74,18 @@ class AssessmentController extends Controller {
             return 1;
         }
     }
+    
+    function readvise($idno) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            
+            $status = \App\Status::where('idno', $idno)->first();
+            $status->status=0;
+            $status->save();
+            
+            return redirect("/registrar_college/assessment/$idno");
+            //return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
+        }
+    }
 
     function save_assessment(Request $request) {
         DB::beginTransaction();
