@@ -99,6 +99,17 @@ class StudentLedger extends Controller
             return $receipt.$number;
         }
     }
+    public static function getending_receipt(){
+        if(Auth::user()->accesslevel==env("CASHIER")){
+            $id = \App\ReferenceId::where('idno',Auth::user()->idno)->first()->id;
+            $number =  \App\ReferenceId::where('idno',Auth::user()->idno)->first()->end_receipt_no;
+            $receipt="";
+            for($i=strlen($number);$i<=8;$i++){
+                $receipt=$receipt."0";
+            }
+            return $receipt.$number;
+        }
+    }
     public static function updatereceipt(){
         if(Auth::user()->accesslevel==env("CASHIER")){
            $update=\App\ReferenceId::where('idno',Auth::user()->idno)->first();

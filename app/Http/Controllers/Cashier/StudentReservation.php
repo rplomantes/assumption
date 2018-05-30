@@ -22,7 +22,13 @@ class StudentReservation extends Controller
         $reservations = \App\Reservation::where('idno',$idno)->where('reservation_type','1')->orderBy('transaction_date')->get();
         $deposits = \App\Reservation::where('idno',$idno)->where('reservation_type','2')->orderBy('transaction_date')->get();
         $receipt_no = StudentLedger::getreceipt();
+        $ending_receipt_number=  StudentLedger::getending_receipt();
+        $total_other=0.00;
+        if($receipt_no<=$ending_receipt_number){
         return view('cashier.reservation',compact('user','reservations','deposits','receipt_no'));
+        }else{
+            return "OR Used!";
+        }
         } 
     }
     

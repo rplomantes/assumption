@@ -50,9 +50,10 @@ $available_classes = \App\ScheduleCollege::distinct()->where('course_code', $cou
                                     @foreach ($schedule3s as $schedule3)
                                     {{$schedule3->room}}<br>
                                     @endforeach
-                                    <?php $section = \App\CourseOffering::where('id', $course_off_id)->first()->section_name; ?>
+                                    <?php $section = \App\CourseOffering::where('id', $course_off_id)->first(); ?>
                                     @if(count($section)>0)
-                                    {{$section}}
+                                    {{$section->section_name}}
+                                    @else
                                     @endif
                         
                     </option>

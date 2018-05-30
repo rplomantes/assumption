@@ -31,7 +31,10 @@ class advising_ajax extends Controller {
             $school_year = Input::get("school_year");
             $period = Input::get("period");
             $curriculum = \App\Curriculum::find(Input::get('curriculum_id'));
-            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->get();
+            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)
+                    ->where(function($q) {
+                        $q->where('finals','FA')->orWhere('finals', 4.00)->orWhere('finals','INC')->orWhere('finals','NA')->orWhere('finals','NG')->orWhere('finals','UD')->orWhere('finals','W');
+                    })->get();
             if (count($checkcourse) == 0) {
                 $newgrade = new \App\GradeCollege;
                 $newgrade->idno = $idno;

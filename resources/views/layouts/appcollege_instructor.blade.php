@@ -117,7 +117,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li class="treeview">
                                     <a href="#"><i class="fa fa-circle-o"></i> {{$load->course_code}}<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
                                     <ul class="treeview-menu">
-                                        <?php $scheds = \App\ScheduleCollege::distinct()->where('instructor_id', Auth::user()->idno)->where('course_code', $load->course_code)->get(['schedule_id']); ?>
+                                        <?php $scheds = \App\ScheduleCollege::distinct()->where('instructor_id', Auth::user()->idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('course_code', $load->course_code)->get(['schedule_id']); ?>
                                         @foreach ($scheds as $sched)
                                         <li>
                                             <a href="{{url('college_instructor', array('grades', $sched->schedule_id))}}">

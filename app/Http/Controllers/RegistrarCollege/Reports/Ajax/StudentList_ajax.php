@@ -133,7 +133,7 @@ class StudentList_ajax extends Controller {
         if (Request::ajax()) {
             $course_id = Input::get("course_id");
             
-            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('users.lastname')->get();
+            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->orderBy('users.lastname')->get();
             
             return view('reg_college.reports.student_list.ajax.display_per_course', compact('list_per_courses'));
         }

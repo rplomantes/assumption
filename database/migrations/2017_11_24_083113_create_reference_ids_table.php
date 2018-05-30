@@ -20,6 +20,7 @@ class CreateReferenceIdsTable extends Migration
             $table->integer('petty_cash')->default(1);
             $table->integer('voucher_no')->default(1);
             $table->integer('receipt_no')->default(1);
+            $table->integer('end_receipt_no')->default(1);
             $table->integer('dm_no')->default(1);
             $table->foreign('idno')->references('idno')
                     ->on('users')

@@ -51,7 +51,8 @@
                     <tr>
                         <th>ID No</th>
                         <th>Name</th>
-                        <th>OR Number</th>
+                        <th>Starting OR Number</th>
+                        <th>Ending OR Number</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,15 +60,17 @@
                         {{ csrf_field() }}
                     @foreach ($users as $user)
                     <?php $or_number = \App\ReferenceId::where('idno', $user->idno)->first()->receipt_no; ?>
+                    <?php $end_or_number = \App\ReferenceId::where('idno', $user->idno)->first()->end_receipt_no; ?>
                         <input type='hidden' name='idno[]' value='{{$user->idno}}'>
                     <tr>
                         <td>{{$user->idno}}</td>
                         <td>{{$user->lastname}}, {{$user->firstname}}</td>
                         <td><input class="form form-control" size="2" id='or' type=text value="{{$or_number}}" name="or_number[]"></td>
+                        <td><input class="form form-control" size="2" id='end_or' type=text value="{{$end_or_number}}" name="end_or_number[]"></td>
                     </tr>
                     @endforeach
                     <tr>
-                        <td colspan="3"><input type='submit' class='btn btn-success col-sm-12' value='Update OR Numbers'></td>
+                        <td colspan="4"><input type='submit' class='btn btn-success col-sm-12' value='Update OR Numbers'></td>
                     </tr>
                 </tbody>
             </table>

@@ -31,6 +31,7 @@ class SetReceiptController extends Controller
             for($i=0; $i<$x; $i++){
               $update_or = \App\ReferenceId::where('idno', $request->idno[$i])->first();
               $update_or->receipt_no = $request->or_number[$i];
+              $update_or->end_receipt_no = $request->end_or_number[$i];
               $update_or->save();
             }
             Session::flash('message', "OR updated!");

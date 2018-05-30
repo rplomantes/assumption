@@ -72,7 +72,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                     <tr><td>Studnt Name : </td><td>{{$user->lastname}}, {{$user->firstname}}</td></tr>
                     </table>
         </div>  
-        <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
+        <div class="col-md-6"><div class="nav navbar pull-right"> DM No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
     </div>    
    <hr />  
   <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/accounting','debit_memo')}}">

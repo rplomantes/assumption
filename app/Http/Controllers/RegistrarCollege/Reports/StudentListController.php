@@ -75,7 +75,7 @@ class StudentListController extends Controller {
 
     function print_per_course($course_id, $section, $section_name, $school_years, $periods, $levels, $program_codes) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('users.lastname')->get();
+            $list_per_courses = \App\GradeCollege::where('course_offering_id', $course_id)->join('users', 'users.idno', '=', 'grade_colleges.idno')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->orderBy('users.lastname')->get();
             $course_code = \App\CourseOffering::where('id', $course_id)->first()->course_code;
             $course_name = \App\CourseOffering::where('id', $course_id)->first()->course_name;
             $schedule_id = \App\CourseOffering::where('id', $course_id)->first()->schedule_id;
