@@ -61,6 +61,8 @@ class StudentLedger extends Controller
       $status = \App\Status::where('idno',$idno)->first();
       if($status->academic_type=="BED"){
       $levels = \App\Status::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();   
+      } else if($status->academic_type=="SHS") {
+      $levels = \App\Status::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();   
       } else if($status->academic_type=="College"){
       $levels=  \App\Status::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();    
       }

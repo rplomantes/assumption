@@ -104,7 +104,7 @@
                                 <td>{{$totalcount2}}</td>
                                 <td>{{$totalcount3}}</td>
                                 <td>{{$totalcount4}}</td>
-                                <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4 + $totalaud; ?>{{$totalenrolled}}</td>
+                                <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
                             </tr>
                             <tr>
                                 <td><div align="right">TOTAL UNOFFICIALLY ENROLLED</div></td>
@@ -120,7 +120,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{$totalenrolled + $totalunofficial}}</td>
+                                <td>{{$totalenrolled + $totalunofficial + $totalaud}}</td>
                             </tr>
                         </tbody>
                     </table>

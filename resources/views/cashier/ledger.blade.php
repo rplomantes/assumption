@@ -83,7 +83,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                         
                     } else {
                     
-                    if($levels->academic_type=="Senior High School"){
+                    if($levels->academic_type=="SHS"){
                         echo "<tr><td>Tracks : </td><td>".$levels->track."</td><tr>";    
                     }
                     echo "<tr><td>Level/Section : </td><td>".$levels->level ." - ".$levels->section."</td><tr>";

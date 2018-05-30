@@ -107,7 +107,7 @@
                 <td style="text-align: center;">{{$totalcount2}}</td>
                 <td style="text-align: center;">{{$totalcount3}}</td>
                 <td style="text-align: center;">{{$totalcount4}}</td>
-                <td style="text-align: center;"><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4 + $totalaud; ?>{{$totalenrolled}}</td>
+                <td style="text-align: center;"><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
             </tr>
             <tr>
                 <td><div align="right">TOTAL UNOFFICIALLY ENROLLED</div></td>
@@ -123,7 +123,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="text-align: center;">{{$totalenrolled + $totalunofficial}}</td>
+                <td style="text-align: center;">{{$totalenrolled + $totalunofficial + $totalaud}}</td>
             </tr>
         </tbody>
     </table>

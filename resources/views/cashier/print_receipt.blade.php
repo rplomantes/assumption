@@ -27,7 +27,7 @@
         @if(count($status)>0)
         @if($status->status==3)
             @if($status->academic_type=="College")
-            <tr><td colspan="2">Course/Level: {{$status->program_code}} / {{$status->level}} - {{$status->department}}</td></tr>
+            <tr><td colspan="4">Course/Level: {{$status->program_code}}/{{$status->level}}-{{$status->department}}</td></tr>
             @else
             <tr><td colspan="4">Level/Section: {{$status->level}} - {{$status->department}}</td></tr>
             @endif
