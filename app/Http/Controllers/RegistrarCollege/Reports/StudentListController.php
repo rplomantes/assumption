@@ -85,5 +85,12 @@ class StudentListController extends Controller {
             return $pdf->stream("student_list_.pdf");
         }
     }
+
+    function per_instructor() {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            
+            return view('reg_college.reports.student_list.per_instructor', compact('school_years', 'programs'));
+        }
+    }
     
 }

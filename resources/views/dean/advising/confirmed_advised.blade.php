@@ -89,12 +89,26 @@ $user = \App\User::where('idno', $idno)->first();
                     </div>
             </div>
         </div>
+        
+        @if(Auth::user()->accesslevel == env('DEAN'))        
         <div class='col-sm-6'>
             <a href='{{url('/')}}'><button class='btn btn-warning col-sm-12'><span class='fa fa-home'></span> RETURN HOME</button></a>
         </div>
         <div class='col-sm-6'>
             <a href='{{url('dean', array('advising','print_advising_slip',$idno))}}' target="_blank"><button class='btn btn-success col-sm-12'><span class='fa fa-print'></span> PRINT ADIVISING SLIP</button></a>
         </div>
+        @else
+        <div class='col-sm-4'>
+            <a href='{{url('/')}}'><button class='btn btn-warning col-sm-12'><span class='fa fa-home'></span> RETURN HOME</button></a>
+        </div>
+        <div class='col-sm-4'>
+            <a href='{{url('dean', array('advising','print_advising_slip',$idno))}}' target="_blank"><button class='btn btn-success col-sm-12'><span class='fa fa-print'></span> PRINT ADIVISING SLIP</button></a>
+        </div>
+        <div class='col-sm-4'>
+            <a href='{{url('registrar_college', array('assessment',$idno))}}'><button class='btn btn-primary col-sm-12'> PROCEED TO ASSESSMENT</button></a>
+        </div>
+        @endif
+        
     </div>
 </div>
 @endsection

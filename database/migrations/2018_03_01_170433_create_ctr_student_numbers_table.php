@@ -16,6 +16,7 @@ class CreateCtrStudentNumbersTable extends Migration
         Schema::create('ctr_student_numbers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idno')->default(1);
+            $table->string('academic_type');
             $table->timestamps();
         });
     }
