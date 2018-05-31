@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use Session;
 
 class ViewInfoController extends Controller {
 
@@ -39,9 +40,11 @@ class ViewInfoController extends Controller {
             $this->updateInfo($request);
             $this->updateFamilyBackground($request);
             $this->updateEducBackground($request);
-            //$this->updateUser($request);
+            $this->updateUser($request);
             DB::Commit();
-            return "updated";
+            
+            Session::flash('message', 'Information Updated!');
+            return redirect("registrar_college/view_info/$request->idno");
         }
     }
     
@@ -113,7 +116,13 @@ class ViewInfoController extends Controller {
     }
     
     function updateUser($request){
-        
+        $updateUser = \App\User::where('idno',$request->idno)->first();
+        $updateUser->firstname = $request->firstname;
+        $updateUser->middlename = $request->middlename;
+        $updateUser->lastname = $request->lastname;
+        $updateUser->extensionname = $request->extensionname;
+        $updateUser->is_foreign = $request->is_foreign;
+        $updateUser->save();
     }
 
 }

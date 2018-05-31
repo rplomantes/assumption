@@ -33,7 +33,7 @@ class advising_ajax extends Controller {
             $curriculum = \App\Curriculum::find(Input::get('curriculum_id'));
             $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)
                     ->where(function($q) {
-                        $q->where('finals','FA')->orWhere('finals', 4.00)->orWhere('finals','INC')->orWhere('finals','NA')->orWhere('finals','NG')->orWhere('finals','UD')->orWhere('finals','W');
+                        $q->Where('finals','!=','FA')->orWhere('finals','!=', '4.00')->orWhere('finals','!=','INC')->orWhere('finals','!=','NA')->orWhere('finals','!=','NG')->orWhere('finals','!=','UD')->orWhere('finals','!=','W');
                     })->get();
             if (count($checkcourse) == 0) {
                 $newgrade = new \App\GradeCollege;

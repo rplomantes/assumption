@@ -51,7 +51,8 @@
                     <tr>
                         <th>ID No</th>
                         <th>Name</th>
-                        <th>Starting OR Number</th>
+<!--                        <th>Starting OR Number</th>-->
+                        <th>Current OR Number</th>
                         <th>Ending OR Number</th>
                     </tr>
                 </thead>
@@ -59,12 +60,14 @@
                     <form method='post' action='{{url('accounting/update_or')}}'>
                         {{ csrf_field() }}
                     @foreach ($users as $user)
+                    <?php $start_or_number = \App\ReferenceId::where('idno', $user->idno)->first()->start_receipt_no; ?>
                     <?php $or_number = \App\ReferenceId::where('idno', $user->idno)->first()->receipt_no; ?>
                     <?php $end_or_number = \App\ReferenceId::where('idno', $user->idno)->first()->end_receipt_no; ?>
                         <input type='hidden' name='idno[]' value='{{$user->idno}}'>
                     <tr>
                         <td>{{$user->idno}}</td>
                         <td>{{$user->lastname}}, {{$user->firstname}}</td>
+                        <!--<td><input class="form form-control" size="2" id='or' type=text value="{{$start_or_number}}" name="start_or_number[]"></td>-->
                         <td><input class="form form-control" size="2" id='or' type=text value="{{$or_number}}" name="or_number[]"></td>
                         <td><input class="form form-control" size="2" id='end_or' type=text value="{{$end_or_number}}" name="end_or_number[]"></td>
                     </tr>

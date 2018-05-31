@@ -281,6 +281,29 @@ class AssessmentController extends Controller {
                 $addledger->save();
             }
         }
+            $is_foreign = \App\User::where('idno', $idno)->first();
+            if (count($is_foreign) > 0) {
+                if ($is_foreign->is_foreign == '1') {
+                    $addfee = \App\CtrCollegeForeignFee::get();
+                    foreach ($addfee as $fee) {
+                        $addledger = new \App\Ledger;
+                        $addledger->idno = $idno;
+                        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                        $addledger->program_code = $program_code;
+                        $addledger->level = $level;
+                        $addledger->school_year = $school_year;
+                        $addledger->period = $period;
+                        $addledger->category = $fee->category;
+                        $addledger->subsidiary = $fee->subsidiary;
+                        $addledger->receipt_details = $fee->receipt_details;
+                        $addledger->accounting_code = $fee->accounting_code;
+                        $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                        $addledger->category_switch = $fee->category_switch;
+                        $addledger->amount = $fee->amount;
+                        $addledger->save();
+                    }
+                }
+            }
     }
 
     function getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype) {

@@ -45,7 +45,9 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
 <form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
     {{ csrf_field() }}
-    <div class="col-sm-12">
+    <div class="col-sm-12">@if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
@@ -65,7 +67,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <div class="row">
                             <div class="col-sm-2">
                                 <label>ID Number</label>
-                                <input type="text" name="idno" class="form-control" value="{{old('idno',$user->idno)}}">
+                                <input type="text" name="idno" class="form-control" value="{{old('idno',$user->idno)}}" readonly="">
                             </div>
                             <div class="col-sm-3">
                                 <label>Lastname</label>
@@ -143,7 +145,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-4">
                             <label>Email</label>
-                            <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email',$user->email)}}" type="email">
+                            <input class="form form-control" name='email' placeholder='Email Address*' readonly="" value="{{old('email',$user->email)}}" type="email">
                         </div>
                     </div>
                     <hr>
@@ -171,7 +173,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label>Civil Status</label>
                             <select class="form form-control" name='civil_status' placeholder='Telephone Number' type="text">
                                 <option value="">Select Civil Status</option>
@@ -181,13 +183,21 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option value="Widowed" @if ($info->civil_status == 'Widowed') selected='' @endif>Widowed</option>
                             </select>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label>Nationality</label>
                             <input class="form form-control" name='nationality' placeholder='Nationality' value="{{old('nationality',$info->nationality)}}" type="text">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label>Religion</label>
                             <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion',$info->religion)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Local/Foreigner</label>
+                            <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
+                                <option value="">Select Local/Foreign</option>
+                                <option value="0" @if ($user->is_foreign == 0) selected='' @endif>Local</option>
+                                <option value="1" @if ($user->is_foreign == 1) selected='' @endif >Foreign</option>
+                            </select>
                         </div>
                     </div>
                     <hr>

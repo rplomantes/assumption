@@ -30,6 +30,7 @@ class SetReceiptController extends Controller
             $i=0;
             for($i=0; $i<$x; $i++){
               $update_or = \App\ReferenceId::where('idno', $request->idno[$i])->first();
+              //$update_or->start_receipt_no = $request->start_or_number[$i];
               $update_or->receipt_no = $request->or_number[$i];
               $update_or->end_receipt_no = $request->end_or_number[$i];
               $update_or->save();
