@@ -116,12 +116,13 @@ function view_list(){
       $school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first(); 
       $strand=""; 
       $level = Input::get('level');
+      $section = Input::get('section');
       if($level=="Grade 11" || $level=="Grade 12"){
           $strand = Input::get('strand');
-          $students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->get();
+          $students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
           
       } else {
-           $students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->get();
+           $students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
       }
       return view('reg_be.ajax.studentlevel',compact('level','strand','students','school_year'));
    }  
@@ -142,5 +143,37 @@ function view_list(){
       }
       return view('reg_be.ajax.sectioncontrol',compact('level','strand','sections'));
    }  
+ }
+ 
+ function pop_section_list(){
+       if(Request::ajax()){
+      $school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first(); 
+      $strand=""; 
+      $level = Input::get('level');
+      $section = Input::get('section');
+      if($level=="Grade 11" || $level=="Grade 12"){
+          $strand = Input::get('strand');
+          $students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
+          
+      } else {
+           $students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
+      }
+      return view('reg_be.ajax.studentlevel',compact('level','strand','students','school_year'));
+   }
+ }
+ 
+ function change_section(){
+     if(Request::ajax()){
+         $idno = Input::get('idno');
+         $level = Input::get('level');
+         $section = Input::get('section');
+         $bedlevel = \App\BedLevel::where('idno',$idno)->where('level',$level)->first();
+         $bedlevel->section = $section;
+         $bedlevel->update();
+         $status = \App\Status::where('idno',$idno)->where('level',$level)->first();
+         $status->section = $section;
+         $status->update();
+         
+     }
  }
 }

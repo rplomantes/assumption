@@ -17,6 +17,7 @@ Route::get('/bedregistrar/ajax/getsection','BedRegistrar\Ajax\GetStudentList@get
 Route::get('/bedregistrar/ajax/studentlevel','BedRegistrar\Ajax\GetStudentList@studentlevel');
 Route::get('/bedregistrar/ajax/sectioncontrol','BedRegistrar\Ajax\GetStudentList@sectioncontrol');
 Route::get('/bedregistrar/ajax/sectionlist','Bedregistrar\Ajax\GetStudentList@pop_section_list');
+Route::get('/bedregistrar/ajax/change_section','Bedregistrar\Ajax\GetStudentList@change_section');
 Route::get('/registrarcollege/ajax/getprogram', 'RegistrarCollege\Admission\Ajax\getcourseController@getCourse');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');

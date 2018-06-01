@@ -94,6 +94,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
              </div>    
          </div> <div class="clearfix"></div>   
          <div id="sectionDisplay">
+             
          </div>    
      </div>    
          </div>
@@ -112,13 +113,13 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
          $("#section_control").html("");
          } else {
          $(".strandDisplay").fadeOut(300);
-         poplist()
+         //poplist()
          popsection_control();
          }
       }); 
       
       $("#strand").on('change',function(e){
-          poplist();
+          //poplist();
           popsection_control();
       })
     });
@@ -128,9 +129,8 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
        if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
          array['strand']=$("#strand").val();  
        }
-       
        array['level']=$("#level").val();
-       
+       array['section']=$("#section").val();
        $.ajax({
            type:'GET',
            url:'/bedregistrar/ajax/studentlevel',
@@ -146,14 +146,13 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
        
        array['level']=$("#level").val();
        if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
-         array['strand']=$("#strand").val();  
+       array['strand']=$("#strand").val();  
        }
        $.ajax({
            type:'GET',
            url:'/bedregistrar/ajax/sectioncontrol',
            data:array,
-           success:function(data){
-                  
+           success:function(data){ 
                $("#section_control").html(data);
            
            }
@@ -161,8 +160,8 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
     }
     
     function popsectionlist(){
-          var array={};
-     
+       poplist(); 
+       var array={};
        array['section']=$("#section").val();
        array['level']=$("#level").val();
        if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
@@ -176,6 +175,21 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
                $("#sectionDisplay").html(data);
            }
        });
+    }
+    
+    function change_section(idno){
+        var array={};
+        array['idno']=idno;
+        array['level']=$("#level").val();
+        array['section']=$("#section").val();
+        $.ajax({
+            type:'GET',
+            url:'/bedregistrar/ajax/change_section',
+            data:array,
+            success:function(data){
+                popsectionlist();
+            }
+        })
     }
 </script>    
 @endsection
