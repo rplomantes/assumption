@@ -28,7 +28,7 @@ class courseoffering_ajax extends Controller {
         $section = Input::get("section");
         if (Request::ajax()) {
 
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
             return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
@@ -44,7 +44,7 @@ class courseoffering_ajax extends Controller {
 
         $course_name = \App\Curriculum::distinct()->where('course_code', $course_code)->get(['course_name', 'course_code'])->first();
         $course_details = \App\Curriculum::where('course_code', $course_code)->where('program_code', $program_code)->first();
-        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
         $counter = \App\CourseOffering::where('course_code', $course_code)->where('program_code', $program_code)->where('period', $school_year->period)->where('school_year', $school_year->school_year)->where('level', $level)->where('section', $section)->get();
 
         if (Request::ajax()) {
@@ -82,7 +82,7 @@ class courseoffering_ajax extends Controller {
             $level = Input::get("level");
             $period = Input::get("period");
 
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
 
             $curriculums = \App\Curriculum::where("curriculum_year", $curriculum_year)
@@ -126,7 +126,7 @@ class courseoffering_ajax extends Controller {
             $level = Input::get("level");
             $period = Input::get("period");
 
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
             $removesubject = \App\CourseOffering::find($id);
             $removesubject->delete();
@@ -145,7 +145,7 @@ class courseoffering_ajax extends Controller {
         $id = Input::get("id");
 
         $course_details = \App\CtrElective::where('id', $id)->first();
-        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
         $counter = \App\CourseOffering::where('course_code', $course_details->course_code)->where('program_code', $course_details->program_code)->where('period', $school_year->period)->where('school_year', $school_year->school_year)->where('level', $level)->where('section', $section)->get();
 
         if (Request::ajax()) {
@@ -177,7 +177,7 @@ class courseoffering_ajax extends Controller {
         $section = Input::get("section");
         $program_code = Input::get("program_code");
         
-        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
         
         $section_name = \App\CourseOffering::where('level', $year_level)->where('school_year', $school_year->school_year)->where('period',$school_year->period)->where('section', $section)->where('program_code', $program_code)->first();
 

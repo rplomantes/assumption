@@ -130,6 +130,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option @if ($pin_grades->finals == 3.00) selected='' @endif>3.00</option>
                                 <option @if ($pin_grades->finals == 3.50) selected='' @endif>3.50</option>
                                 <option @if ($pin_grades->finals == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($pin_grades->finals == "FAILED") selected='' @endif>FAILED</option>
                                 <option @if ($pin_grades->finals == "FA") selected='' @endif>FA</option>
                                 <option @if ($pin_grades->finals == "INC") selected='' @endif>INC</option>
                                 <option @if ($pin_grades->finals == "NA") selected='' @endif>NA</option>

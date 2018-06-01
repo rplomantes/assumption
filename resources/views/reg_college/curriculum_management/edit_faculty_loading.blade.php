@@ -55,7 +55,7 @@ $faculty = \App\User::where('idno', $idno)->first();
                 <div class="box-body">
                     <?php
                     $user = \App\User::where('id', $idno)->first();
-                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+                    $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
                     $loads = \App\ScheduleCollege::distinct()->where('instructor_id', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['schedule_id', 'course_code']);
 
                     $courses = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['course_name', 'course_code']);

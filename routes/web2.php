@@ -1,5 +1,8 @@
 <?php
 
+//admission view student info
+Route::get('/admission_hed/view_info/{idno}','AdmissionHED\ViewInfoAdmissionHedController@view_info');
+Route::post('/admission_hed/update_info','AdmissionHED\ViewInfoAdmissionHedController@update_info');
 //ajax route
 Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList@view_list');
 Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
@@ -14,6 +17,7 @@ Route::get('/bedregistrar/ajax/getsection','BedRegistrar\Ajax\GetStudentList@get
 Route::get('/bedregistrar/ajax/studentlevel','BedRegistrar\Ajax\GetStudentList@studentlevel');
 Route::get('/bedregistrar/ajax/sectioncontrol','BedRegistrar\Ajax\GetStudentList@sectioncontrol');
 Route::get('/bedregistrar/ajax/sectionlist','Bedregistrar\Ajax\GetStudentList@pop_section_list');
+Route::get('/registrarcollege/ajax/getprogram', 'RegistrarCollege\Admission\Ajax\getcourseController@getCourse');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 

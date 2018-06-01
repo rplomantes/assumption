@@ -24,7 +24,7 @@ $courses = \App\Curriculum::where('program_code', $program_code)->where('curricu
                 </thead>
                 <tbody>
                     @foreach ($courses as $course)<?php
-$school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 ?>
                     <?php $student_count = \App\GradeCollege::where('course_code', $course->course_code)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('is_advising', 1)->get(); ?>
                 <input type="hidden" id="course_code" value="{{$course->course_code}}">

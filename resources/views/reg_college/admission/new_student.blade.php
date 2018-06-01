@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 <section class="content-header">
     <h1>
-        Admission
+        Pre-Application
         <small></small>
     </h1>
     <ol class="breadcrumb">
@@ -48,11 +48,9 @@
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
-            @if (Session::has('message'))
-            <div class="alert alert-success">{{ Session::get('message') }}</div>
-        @endif
             <div class="box">
                 <div class="box-header">
+<!--Personal Info-->                    
                     <h3 class="box-title"><span class='fa fa-edit'></span> Personal Information</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -84,10 +82,10 @@
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='lastname' placeholder='Last Name*' value="{{old('lastname')}}" type="text">
                             </div>
-                            <div class="col-sm-3">
+<!--                            <div class="col-sm-3">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='extensionname' placeholder='Extension Name' value="{{old('extensionname')}}" type="text">
-                            </div>
+                            </div>-->
                         </div>
                         <div class="form-group">
                             <div class="col-sm-8">
@@ -112,7 +110,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-4">
-                                <label>Birthday</label>
+                                <label>Birthday*</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-birthday-cake"></i>
@@ -125,14 +123,17 @@
                                 <input class="form form-control" name='place_of_birth' value="{{old('place_of_birth')}}" placeholder='Place of Birth' type="text">
                             </div>
                             <div class="col-sm-4">
+                                <label>Email</label>
+                                <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email')}}" type="email">
+                            </div>    
+                       </div>                                   
+<!--                            <div class="col-sm-4">
                                 <label>Gender</label>
                                 <select class="form form-control" name='gender' type="text">
-                                    <option value=''>Select Gender*</option>
+                                    <option value='Female'>Female</option>                                    
                                     <option value='Male'>Male</option>
-                                    <option value='Female'>Female</option>
                                 </select>
-                            </div>
-                        </div>
+                            </div>-->                    
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <label>Contact Numbers</label>
@@ -141,12 +142,8 @@
                             <div class="col-sm-4">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cell_no')}}" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Email</label>
-                                <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email')}}" type="email">
-                            </div>
-                        </div>
+                            </div>                        
+                        </div> 
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Civil Status</label>
@@ -156,7 +153,7 @@
                                     <option value="Married">Married</option>
                                     <option value="Divorced">Divorced</option>
                                     <option value="Widowed">Widowed</option>
-                                </select>
+                                </select>   
                             </div>
                             <div class="col-sm-3">
                                 <label>Nationality</label>
@@ -169,18 +166,152 @@
                             <div class="col-sm-3">
                                 <label>Local/Foreigner</label>
                                 <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
-                                    <option value="">Select Local/Foreign</option>
-                                    <option value="0" @if ( old('is_foreign') == 0) selected='' @endif >Local</option>
-                                    <option value="1" @if ( old('is_foreign') == 1) selected='' @endif >Foreign</option>
+                                    <option value=''>Select Local/Foreign</option>
+                                    <option value='0' @if ( old('is_foreign') == 0) selected='' @endif >Filipino</option>
+                                    <option value='1' @if ( old('is_foreign') == 1) selected='' @endif >Foreigner</option>
+                                    <option value='2' @if ( old('is_foreign') == 2) selected='' @endif >Dual Citizen</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
+<!--                        <div class="form-group">
+                            <div class="col-sm-9">
                                 <label>Last School Attended</label>
                                 <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' value="{{old('last_school_attended')}}" type="text">
                             </div>
+                        <div class="col-sm-3">
+                                <label>Applying for Scholarship</label>
+                                <select class="form form-control" name='is_scholarship' type="text">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <hr>
+                        <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Applying For</label>
+                            <select class="form form-control" name='applying_for' id='applying_for'>
+                                <option value=''>Select Academic Type*</option>
+                                <option>Senior High School</option>
+                                <option>College</option>             
+                                <option>Graduate School</option>
+                            </select>        
+                        </div>                      
+                            
+                        <div id='programForm'> 
+                        <div class='col-sm-4'>
+                            <label>          </label>
+                            <div id='displayProgram'>        
+                            </div>    
                         </div>
+                        </div>    
+                        </div>                            
+<!--                        <div class="col-sm-4">
+                            <label>Citizenship</label>
+                            <select class="form form-control" name='nationality' type="text">
+                                <option value='Filipino'>Filipino</option>
+                                <option value='Dual Citizen'>Dual Citizen</option>
+                                <option value='Foreigner'>Foreigner</option>                                   
+                            </select>
+                        </div>-->    
+                        <div class="form-group">
+                        <div class="col-sm-6">
+                                <label>Do you have now, or in the past, a condition/s which require or requires you to see a professional?</label>
+                                <select class="form form-control" id="condition" name='see_professional' type="text">
+                                    <option value='0'>None</option>
+                                    <option value='10'>Yes</option>
+                                </select>    
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <div class="col-sm-6">
+                            <select class="form form-control" id="conditionType" name='conditionType' type="text">
+                            <label>Condition:</label>                            
+                                    <option value=''>Select Condition*</option>>
+                                    <option value='Medical'>Medical</option>
+                                    <option value='Psychological'>Psychological</option>
+                                    <option value='Learning_Disability'>Learning Disability</option>
+                                    <option value='Emotional'>Emotional</option>
+                                    <option value='Social'>Social</option>
+                                    <option value='Others'>Others*</option>
+                            </select>  
+                        </div>
+                        </div>                                
+                        <div class="form-group">    
+                            <div class="col-sm-6" id="specifyCondition">
+                                <label>Please specify condition and type of professional seen:</label>
+                                <input class="form form-control" placeholder="Specify*" name='specifyCondition' type="text">
+                            </div>        
+                        </div>                             
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input class="form form-control btn btn-success" type="submit" value='REGISTER NEW STUDENT'>
+                            </div>
+                        </div>  
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>                        
+</section>                  
+@endsection
+@section('footerscript')
+
+<script>
+    $(document).ready(function(){
+    $("#conditionType").hide();
+    $("#specifyCondition").hide();
+    //$('#programForm').hide();
+
+    $('#applying_for').on('change', function(e){
+       // alert("hello")    
+        var array={};
+        array['applying_for'] = $('#applying_for').val();
+        $.ajax({
+           type:"get",
+           url: "/registrarcollege/ajax/getprogram",
+           data: array,
+           success:function(data){
+             $("#displayProgram").html(data);
+           }
+           
+        });
+    });
+    
+    
+    $('#condition').on('change', function(){
+        var value = $('#condition').val();
+        if(value == 10){
+            $('#conditionType').fadeIn();
+        }
+        else{
+            $('#conditionType').hide();
+        }
+    });
+    
+    $('#conditionType').on('change', function(){
+        var value = $('#conditionType').val();
+        if(value === "Others"){
+            $('#specifyCondition').fadeIn();
+        }
+        else{
+            $('#specifyCondition').hide();  
+        }
+    });
+    })
+</script>
+
+<script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+<script>
+$(function () {
+    $('.select2').select2();
+});
+</script>   
+
+@endsection
+
+
+
 <!--                        <div class="form-group">
                             <div class="col-sm-12">
                                 <label>Program to enroll*</label>
@@ -192,24 +323,4 @@
                                 </select>
                             </div>
                         </div>-->
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <input class="form form-control btn btn-success" type="submit" value='REGISTER NEW STUDENT'>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-@endsection
-@section('footerscript')
-<script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-<script>
-$(function () {
-    $('.select2').select2();
-});
-</script>
-@endsection
+                

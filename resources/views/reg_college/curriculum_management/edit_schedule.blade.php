@@ -1,6 +1,6 @@
 <?php
-$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
+$period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
 $list_schedules = \App\ScheduleCollege::distinct()->where('school_year', $school_year)->where('period', $period)->get(['schedule_id']);
 ?>
 @extends('layouts.appreg_college')

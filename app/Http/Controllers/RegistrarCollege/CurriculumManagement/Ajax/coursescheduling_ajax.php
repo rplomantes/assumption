@@ -39,7 +39,7 @@ class coursescheduling_ajax extends Controller {
             $info_course_offering = \App\CourseOffering::where('id', $course_offering_id)->first();
 
 
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
             $is_conflict = \App\ScheduleCollege::
                     join('course_offerings', 'schedule_colleges.schedule_id', '=', 'course_offerings.schedule_id')
                     ->where('course_offerings.program_code', $info_course_offering->program_code)

@@ -14,8 +14,8 @@ class GetStudentList_ajax extends Controller
             $search = Input::get("search");
             $lists = \App\User::Where("lastname","like","%$search%")
                     ->orWhere("firstname","like","%$search%")->orWhere("idno",$search)->get();
-            
             return view('admission-hed.ajax.getstudentlist', compact('lists'));
         }
     }
+    
 }

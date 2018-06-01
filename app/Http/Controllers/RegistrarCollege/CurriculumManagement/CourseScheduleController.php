@@ -34,7 +34,7 @@ class CourseScheduleController extends Controller {
 
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
             $day = $request->day;
             $time_start = $request->time_start;
             $time_end = $request->time_end;
@@ -105,7 +105,7 @@ class CourseScheduleController extends Controller {
 //            $delete->delete();
 //        }
 
-        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
         $updateCourseOffering = \App\CourseOffering::where('id', $course_offering_id)->first();
         $updateCourseOffering->schedule_id = NULL;
