@@ -69,18 +69,38 @@
                 <div class="box-body">
                     <form class="form-horizontal" method='post' action='{{url('/registrar_college', array('admission', 'add_new_student'))}}'>
                         {{ csrf_field() }}
+                        
+                        <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Applying For</label>
+                            <select class="form form-control" name='applying_for' id='applying_for'>
+                                <option value=''>Select Academic Type*</option>
+                                <option>Senior High School</option>
+                                <option>College</option>             
+                                <option>Graduate School</option>
+                            </select>        
+                        </div>                      
+                            
+                        <div id='programForm'> 
+                        <div class='col-sm-4'>
+                            <label class="col-sm-12">&nbsp;</label>
+                            <div id='displayProgram'>        
+                            </div>    
+                        </div>
+                        </div>    
+                        </div> 
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Name</label>
+                                <input class="form form-control" name='lastname' placeholder='Last Name*' value="{{old('lastname')}}" type="text">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>&nbsp;</label>
                                 <input class="form form-control" name='firstname' placeholder='First Name*' value="{{old('firstname')}}" type="text">
                             </div>
                             <div class="col-sm-3">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='middlename' placeholder='Middle Name' value="{{old('middlename')}}" type="text">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>&nbsp;</label>
-                                <input class="form form-control" name='lastname' placeholder='Last Name*' value="{{old('lastname')}}" type="text">
                             </div>
 <!--                            <div class="col-sm-3">
                                 <label>&nbsp;</label>
@@ -109,8 +129,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-4">
-                                <label>Birthday*</label>
+<!--                            <div class="col-sm-4">
+                                <label>Birthday</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-birthday-cake"></i>
@@ -121,7 +141,7 @@
                             <div class="col-sm-4">
                                 <label>Birth Place</label>
                                 <input class="form form-control" name='place_of_birth' value="{{old('place_of_birth')}}" placeholder='Place of Birth' type="text">
-                            </div>
+                            </div>-->
                             <div class="col-sm-4">
                                 <label>Email</label>
                                 <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email')}}" type="email">
@@ -145,7 +165,7 @@
                             </div>                        
                         </div> 
                         <div class="form-group">
-                            <div class="col-sm-3">
+<!--                            <div class="col-sm-3">
                                 <label>Civil Status</label>
                                 <select class="form form-control" name='civil_status' placeholder='Telephone Number' value="{{old('civil_status')}}" type="text">
                                     <option value="">Select Civil Status</option>
@@ -162,9 +182,9 @@
                             <div class="col-sm-3">
                                 <label>Religion</label>
                                 <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion')}}" type="text">
-                            </div>
+                            </div>-->
                             <div class="col-sm-3">
-                                <label>Local/Foreigner</label>
+                                <label>Citizenship</label>
                                 <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
                                     <option value=''>Select Local/Foreign</option>
                                     <option value='0' @if ( old('is_foreign') == 0) selected='' @endif >Filipino</option>
@@ -186,26 +206,7 @@
                                 </select>
                             </div>
                         </div>-->
-                        <hr>
-                        <div class="form-group">
-                        <div class="col-sm-4">
-                            <label>Applying For</label>
-                            <select class="form form-control" name='applying_for' id='applying_for'>
-                                <option value=''>Select Academic Type*</option>
-                                <option>Senior High School</option>
-                                <option>College</option>             
-                                <option>Graduate School</option>
-                            </select>        
-                        </div>                      
-                            
-                        <div id='programForm'> 
-                        <div class='col-sm-4'>
-                            <label>          </label>
-                            <div id='displayProgram'>        
-                            </div>    
-                        </div>
-                        </div>    
-                        </div>                            
+                        <hr>                           
 <!--                        <div class="col-sm-4">
                             <label>Citizenship</label>
                             <select class="form form-control" name='nationality' type="text">

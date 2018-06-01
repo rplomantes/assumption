@@ -33,7 +33,7 @@ class NewStudentController extends Controller {
                 'lastname' => 'required',
                 'municipality' => 'required',
                 'province' => 'required',
-                'birthdate' => 'required',
+//                'birthdate' => 'required',
 //                'gender' => 'required',
                 'email' => 'required',
                 'see_professional' => 'required',

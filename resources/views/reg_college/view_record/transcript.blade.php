@@ -180,6 +180,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->finals == 3.00) selected='' @endif>3.00</option>
                                 <option @if ($grade->finals == 3.50) selected='' @endif>3.50</option>
                                 <option @if ($grade->finals == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($grade->finals == "FAILED") selected='' @endif>FAILED</option>
                                 <option @if ($grade->finals == "FA") selected='' @endif>FA</option>
                                 <option @if ($grade->finals == "INC") selected='' @endif>INC</option>
                                 <option @if ($grade->finals == "NA") selected='' @endif>NA</option>
