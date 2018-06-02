@@ -128,7 +128,7 @@
                                 <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip')}}" type="text">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">-->
 <!--                            <div class="col-sm-4">
                                 <label>Birthday</label>
                                 <div class="input-group">
@@ -141,12 +141,8 @@
                             <div class="col-sm-4">
                                 <label>Birth Place</label>
                                 <input class="form form-control" name='place_of_birth' value="{{old('place_of_birth')}}" placeholder='Place of Birth' type="text">
-                            </div>-->
-                            <div class="col-sm-4">
-                                <label>Email</label>
-                                <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email')}}" type="email">
-                            </div>    
-                       </div>                                   
+                            </div>--> 
+<!--                       </div>                                   -->
 <!--                            <div class="col-sm-4">
                                 <label>Gender</label>
                                 <select class="form form-control" name='gender' type="text">
@@ -162,7 +158,11 @@
                             <div class="col-sm-4">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cell_no')}}" type="text">
-                            </div>                        
+                            </div> 
+                            <div class="col-sm-4">
+                                <label>Email</label>
+                                <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email')}}" type="email">
+                            </div>                               
                         </div> 
                         <div class="form-group">
 <!--                            <div class="col-sm-3">
@@ -218,14 +218,23 @@
                         <div class="form-group">
                         <div class="col-sm-6">
                                 <label>Do you have now, or in the past, a condition/s which require or requires you to see a professional?</label>
-                                <select class="form form-control" id="condition" name='see_professional' type="text">
+                                <select class="form form-control" id="see_professional" name='see_professional' type="text">
                                     <option value='0'>None</option>
                                     <option value='10'>Yes</option>
                                 </select>    
                             </div>
                         </div>
                         <div class="form-group">
-                        <div class="col-sm-6">
+                            <div class="col-sm-6" id="conditionType" name='conditionType' type='text'>
+                                <input type='checkbox' name='medical' value='1')>Medical<br>
+                                <input type='checkbox' name='psychological' value='1')>Psychological<br>
+                                <input type='checkbox' name='learning_disability' value='1')>Learning Disability<br>
+                                <input type='checkbox' name='emotional' value='1')>Emotional<br>
+                                <input type='checkbox' name='social' value='1')>Social<br>
+                                <input type='checkbox' name='others' value='1')>Others<br>
+                            </div>
+                        </div>                             
+<!--                        <div class="col-sm-6">
                             <select class="form form-control" id="conditionType" name='conditionType' type="text">
                             <label>Condition:</label>                            
                                     <option value=''>Select Condition*</option>>
@@ -236,12 +245,11 @@
                                     <option value='Social'>Social</option>
                                     <option value='Others'>Others*</option>
                             </select>  
-                        </div>
-                        </div>                                
+                        </div>-->                               
                         <div class="form-group">    
-                            <div class="col-sm-6" id="specifyCondition">
+                            <div class="col-sm-6" id="specify_condition">
                                 <label>Please specify condition and type of professional seen:</label>
-                                <input class="form form-control" placeholder="Specify*" name='specifyCondition' type="text">
+                                <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text">
                             </div>        
                         </div>                             
                         <div class="form-group">
@@ -261,7 +269,7 @@
 <script>
     $(document).ready(function(){
     $("#conditionType").hide();
-    $("#specifyCondition").hide();
+    $("#specify_condition").hide();
     //$('#programForm').hide();
 
     $('#applying_for').on('change', function(e){
@@ -280,25 +288,27 @@
     });
     
     
-    $('#condition').on('change', function(){
-        var value = $('#condition').val();
+    $('#see_professional').on('change', function(){
+        var value = $('#see_professional').val();
         if(value == 10){
             $('#conditionType').fadeIn();
+            $('#specify_condition').fadeIn();
         }
         else{
             $('#conditionType').hide();
+            $('#specify_condition').hide();
         }
     });
     
-    $('#conditionType').on('change', function(){
-        var value = $('#conditionType').val();
-        if(value === "Others"){
-            $('#specifyCondition').fadeIn();
-        }
-        else{
-            $('#specifyCondition').hide();  
-        }
-    });
+//    $('#conditionType').on('change', function(){
+//        var value = $('#conditionType').val();
+//        if(value === "Others"){
+//            $('#specifyCondition').fadeIn();
+//        }
+//        else{
+//            $('#specifyCondition').hide();  
+//        }
+//    });
     })
 </script>
 

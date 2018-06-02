@@ -80,18 +80,25 @@ class ViewInfoAdmissionHedController extends Controller
             $updatePersonalInfo->student_status = $request->student_status;
             $updatePersonalInfo->tagged_as = $request->tagged_as;
             $updatePersonalInfo->applying_for = $request->applying_for;
-            
+            $updatePersonalInfo->medical = $request->medical;
+            $updatePersonalInfo->psychological = $request->psychological;
+            $updatePersonalInfo->learning_disability = $request->learning_disability;
+            $updatePersonalInfo->emotional = $request->emotional;
+            $updatePersonalInfo->social = $request->social;
+            $updatePersonalInfo->others = $request->others;
+            $updatePersonalInfo->specify_condition = $request->specify_condition;
+            $updatePersonalInfo->save();
 //            if($request->admission_status == 'Probationary'){
 //                $updatePersonalInfo->admission_status = $request->agreement;
 //            }else{
 //                $updatePersonalInfo->admission_status = $request->admission_status;
 //            }
-            if($request->conditionType == 'Others'){
-                $updatePersonalInfo->condition = $request->specifyCondition;
-            }else{
-                $updatePersonalInfo->condition = $request->conditionType; 
-            }
-            $updatePersonalInfo->save();
+//            if($request->conditionType == 'Others'){
+//                $updatePersonalInfo->condition = $request->specifyCondition;
+//            }else{
+//                $updatePersonalInfo->condition = $request->conditionType; 
+//            }
+            
     }
     
         function update_admission_checklist($request){

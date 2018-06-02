@@ -176,10 +176,17 @@ class NewStudentController extends Controller {
         $admission_status = $request->admission_status;
         $tagged_as = $request->tagged_as;
         $student_status = $request->student_status;
-        $condition = $request->conditionType;
-        if($condition == 'Others'){
-            $condition = $request->specifyCondition;
-        }
+        $medical = $request->medical;
+        $psychological = $request->psychological;
+        $learning_disability = $request->learning_disability;
+        $emotional = $request->emotional;
+        $social = $request->social;
+        $others = $request->others;
+        $specify_condition = $request->specify_condition;
+//        $condition = $request->conditionType;
+//        if($condition == 'Others'){
+//            $condition = $request->specifyCondition;
+//        }
         
         $add_new_student_info = new \App\AdmissionHed;
         $add_new_student_info->idno = $reference_no;
@@ -195,7 +202,14 @@ class NewStudentController extends Controller {
         $add_new_student_info->see_professional = $see_professional;
         $add_new_student_info->admission_status = $admission_status;
         $add_new_student_info->tagged_as = $tagged_as;
-        $add_new_student_info->condition = $condition;
+        $add_new_student_info->medical = $medical;
+        $add_new_student_info->psychological = $psychological;
+        $add_new_student_info->learning_disability = $learning_disability;
+        $add_new_student_info->emotional = $emotional;
+        $add_new_student_info->social = $social;
+        $add_new_student_info->others = $others;
+        $add_new_student_info->specify_condition = $specify_condition;
+//        $add_new_student_info->condition = $condition;
         $add_new_student_info->save();
         
     }

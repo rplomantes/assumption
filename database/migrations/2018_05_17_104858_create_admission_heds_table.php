@@ -30,6 +30,13 @@ class CreateAdmissionHedsTable extends Migration
             $table->integer('see_professional')->default(0);
             $table->string('condition')->nullable();
             $table->string('admission_status')->nullable();
+            $table->integer('medical')->nullable();
+            $table->integer('psychological')->nullable();
+            $table->integer('learning_disability')->nullable();
+            $table->integer('emotional')->nullable();
+            $table->integer('social')->nullable();
+            $table->integer('others')->nullable();
+            $table->string('specify_condition')->nullable();
             $table->foreign('idno')
                     ->references('idno')->on('users')
                     ->onUpdate('cascade');

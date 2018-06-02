@@ -313,8 +313,18 @@
                                 </select>    
                             </div>
                         </div>-->
-                        <div class="form-group">
-                            <div class="col-sm-6">
+                        <div class="form-group">            
+                            <div class="col-sm-6" id="conditionType" name='conditionType' type='text'>
+                                <label>Condition</label>
+                                <input type='checkbox' name='medical' value='1' @if($adhedinfo->medical == '1') checked='' @else @endif>Medical
+                                <input type='checkbox' name='psychological' value='1' @if($adhedinfo->psychological == '1') checked='' @else @endif>Psychological
+                                <input type='checkbox' name='learning_disability' value='1' @if($adhedinfo->learning_disability == '1') checked='' @else @endif>Learning Disability
+                                <input type='checkbox' name='emotional' value='1' @if($adhedinfo->emotional == '1') checked='' @else @endif>Emotional
+                                <input type='checkbox' name='social' value='1' @if($adhedinfo->social == '1') checked='' @else @endif>Social
+                                <input type='checkbox' name='others' value='1' @if($adhedinfo->others == '1') checked='' @else @endif>Others
+                            </div>
+                        </div>                                   
+<!--                            <div class="col-sm-6">
                             <label>Condition:</label>                             
                             <select class="form form-control" id="conditionType" name='conditionType' type="text">                             
                                     <option value='0' @if($adhedinfo->condition == '0') selected='' @else @endif>None*</option>
@@ -325,12 +335,11 @@
                                     <option value='Social' @if($adhedinfo->condition == 'Social') selected='' @else @endif>Social</option>
                                     <option value='Others' @if($adhedinfo->conditionType == 'Others') selected='' @else @endif>Others</option>
                             </select>  
-                            </div>
-                        </div>                                
+                            </div>-->
                         <div class="form-group">    
-                            <div class="col-sm-6" id="specifyCondition">
+                            <div class="col-sm-6" id="specify_condition">
                                 <label>Please specify condition and type of professional seen:</label>
-                                <input class="form form-control" placeholder="Specify*" name='specifyCondition' type="text" value='{{old('condition', $adhedinfo->condition)}}'>
+                                <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text" value='{{old('specify_condition', $adhedinfo->specify_condition)}}'>
                             </div>        
                         </div>
                         <hr>       
@@ -384,7 +393,6 @@
 <script>
     $(document).ready(function(){
 //    $("#conditionType").hide();
-    $("#specifyCondition").hide();
     $('#assumption_scholar').hide();
     $('#partner_scholar').hide();
     $('#probationary').hide();
@@ -426,15 +434,15 @@
         }
     });  
 
-    $('#conditionType').on('change', function(){
-        var value = $('#conditionType').val();
-        if(value === "Others"){
-            $('#specifyCondition').fadeIn();
-        }
-        else{
-            $('#specifyCondition').hide();  
-        }
-    });
+//    $('#conditionType').on('change', function(){
+//        var value = $('#conditionType').val();
+//        if(value === "Others"){
+//            $('#specifyCondition').fadeIn();
+//        }
+//        else{
+//            $('#specifyCondition').hide();  
+//        }
+//    });
     
     })
 </script>
