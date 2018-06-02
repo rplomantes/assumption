@@ -17,6 +17,7 @@ Route::get('/', function () {
 */
 
 include_once 'web2.php';
+include_once 'web3.php';
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
