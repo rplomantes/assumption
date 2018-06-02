@@ -336,7 +336,7 @@ class MainPayment extends Controller {
         }
     }
 
-    function addLevels($idno) {
+    public static function addLevels($idno) {
         $status = \App\Status::where('idno', $idno)->first();
         if (count($status) > 0) {
             if ($status->academic_type == "BED" || $status->academic_type == "SHS") {

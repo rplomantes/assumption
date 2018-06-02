@@ -15,28 +15,27 @@ class AssessmentController extends Controller {
     public function __construct() {
         $this->middleware('auth');
     }
-    
-    function index($idno){
+
+    function index($idno) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            
-                $status = \App\Status::where('idno', $idno)->first();
+
+            $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == 0) {
 //                return view('dean', array('advising',$idno), compact('status', 'idno', 'school_year', 'period'));
                 return redirect("/dean/advising/$idno");
-            } else{ 
+            } else {
                 return view('reg_college.assessment.select_school_year', compact('idno'));
             }
         }
-        
     }
 
-    function index2($idno, $school_year,$period) {
+    function index2($idno, $school_year, $period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
-            $checkcollegelevels = \App\CollegeLevel::where('idno',$idno)->where('school_year',$school_year)->where('period',$period)->first();
-            if(count($checkcollegelevels)>0){
-                $status = \App\CollegeLevel::where('idno',$idno)->where('school_year',$school_year)->where('period',$period)->first();
-            }else {
+            $checkcollegelevels = \App\CollegeLevel::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->first();
+            if (count($checkcollegelevels) > 0) {
+                $status = \App\CollegeLevel::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->first();
+            } else {
                 $status = \App\Status::where('idno', $idno)->first();
             }
             if ($status->status == env('ADVISING')) {
@@ -54,11 +53,11 @@ class AssessmentController extends Controller {
 
     function set_up_year(Request $request) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            
+
             $school_year = $request->school_year;
             $period = $request->period;
             $idno = $request->idno;
-            
+
             return redirect("/registrar_college/assessment2/$idno/$school_year/$period");
             //return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
         }
@@ -74,14 +73,14 @@ class AssessmentController extends Controller {
             return 1;
         }
     }
-    
+
     function readvise($idno) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            
+
             $status = \App\Status::where('idno', $idno)->first();
-            $status->status=0;
+            $status->status = 0;
             $status->save();
-            
+
             return redirect("/registrar_college/assessment/$idno");
             //return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
         }
@@ -91,15 +90,20 @@ class AssessmentController extends Controller {
         DB::beginTransaction();
         $this->processAssessment($request);
         DB::Commit();
+        $user = \App\User::where('idno', $request->idno)->first();
+        if(count($user)>0){
         return redirect(url('/registrar_college', array('assessment', $request->idno)));
+        }else{
+        return redirect(url('/'));
+        }
     }
 
     function processAssessment($request) {
         $discounttf = 0;
         $discountof = 0;
         $discounttype = 0;
-        $school_year=$request->school_year;
-        $period=$request->period;
+        $school_year = $request->school_year;
+        $period = $request->period;
 //        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
 //        $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
         $idno = $request->idno;
@@ -130,21 +134,26 @@ class AssessmentController extends Controller {
         $tuitionrate = $tfr->per_unit;
 
         //poppulate other fee with discount////
-        $course_assessed = \App\GradeCollege::where('idno',$idno)->where('school_year', $school_year)->where('period', $period)->get();
-        if(count($course_assessed)>1){
-        $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
+        $course_assessed = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
+        if (count($course_assessed) > 1) {
+            $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
         } else {
             $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)
                     ->where(function($q) {
                         $q->where('course_name', 'like', '%practicum%')
-                          ->orWhere('course_code', 'like', '%prac%');
+                        ->orWhere('course_code', 'like', '%prac%');
                     })
                     ->get();
-            if(count($check_practicum)==1){
+            if (count($check_practicum) == 1) {
                 $this->getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
-            }else{
-        $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
+            } else {
+                $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code);
             }
+        }
+        //check enrollment cut off
+        $cut_off = \App\CtrEnrollmentCutOff::where('academic_type', "College")->first();
+        if (date('Y-m-d') > $cut_off->cut_off) {
+            $this->addLatePayment($idno, $school_year, $period, $level, $program_code);
         }
         //populate tuition fee with discount///
         $this->getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype);
@@ -156,6 +165,8 @@ class AssessmentController extends Controller {
         $this->changeStatus($is_audit, $school_year, $period, $plan, $type_of_account, $idno, $discount_code);
         //check reservation//
         $this->checkReservations($request, $idno, $school_year, $period);
+        //check if no payment will be made
+        $this->checkLedger($request, $idno, $school_year, $period);
         /*
           $totalFee = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('amount');
           $totalDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('discount');
@@ -180,7 +191,7 @@ class AssessmentController extends Controller {
         return redirect("/registrar_college/assessment/$idno");
     }
 
-    function print_registration_form($idno,$school_year,$period) {
+    function print_registration_form($idno, $school_year, $period) {
 
         $user = \App\User::where('idno', $idno)->first();
         $status = \App\Status::where('idno', $idno)->first();
@@ -188,13 +199,13 @@ class AssessmentController extends Controller {
         //$y = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
         $y_year = $school_year;
         $y_period = $period;
-        
+
         //$school_year = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
         $ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('due_switch', 1)->get();
         $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('due_switch', 0)->first();
 
-        $pdf = PDF::loadView('reg_college.assessment.registration_form', compact('student_info', 'grades', 'user', 'status', 'school_year','period', 'ledger_due_dates', 'downpayment', 'y_year', 'y_period'));
+        $pdf = PDF::loadView('reg_college.assessment.registration_form', compact('student_info', 'grades', 'user', 'status', 'school_year', 'period', 'ledger_due_dates', 'downpayment', 'y_year', 'y_period'));
         $pdf->setPaper(array(0, 0, 612.00, 936.0));
         return $pdf->stream("registration_form_$status->registration_no.pdf");
 
@@ -206,6 +217,12 @@ class AssessmentController extends Controller {
         if (count($currentledgers) > 0) {
             foreach ($currentledgers as $currentledger) {
                 $currentledger->delete();
+            }
+        }
+        $deletelatepayments = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subsidiary', 'Late Payment')->get();
+        if (count($deletelatepayments) > 0) {
+            foreach ($deletelatepayments as $deletelatepayment) {
+                $deletelatepayment->delete();
             }
         }
     }
@@ -232,8 +249,31 @@ class AssessmentController extends Controller {
             return \App\CtrDiscount::where('discount_code', $discount_code)->first()->amount;
         }
     }
-    
-    function getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code){
+
+    function addLatePayment($idno, $school_year, $period, $level, $program_code) {
+        $latefees = \App\CtrCollegeLatePayment::get();
+        if (count($latefees) > 0) {
+            foreach ($latefees as $latefee) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = $latefee->category;
+                $addledger->subsidiary = $latefee->subsidiary;
+                $addledger->receipt_details = $latefee->receipt_details;
+                $addledger->accounting_code = $latefee->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($latefee->accounting_code);
+                $addledger->category_switch = $latefee->category_switch;
+                $addledger->amount = $latefee->amount;
+                $addledger->save();
+            }
+        }
+    }
+
+    function getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code) {
         $otherfees = \App\CtrCollegePracticumFee::get();
         if (count($otherfees) > 0) {
             foreach ($otherfees as $otherfee) {
@@ -256,30 +296,30 @@ class AssessmentController extends Controller {
                 $addledger->save();
             }
         }
-            $is_foreign = \App\User::where('idno', $idno)->first();
-            if (count($is_foreign) > 0) {
-                if ($is_foreign->is_foreign == '1') {
-                    $addfee = \App\CtrCollegePracticumForeignFee::get();
-                    foreach ($addfee as $fee) {
-                        $addledger = new \App\Ledger;
-                        $addledger->idno = $idno;
-                        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                        $addledger->program_code = $program_code;
-                        $addledger->level = $level;
-                        $addledger->school_year = $school_year;
-                        $addledger->period = $period;
-                        $addledger->category = $fee->category;
-                        $addledger->subsidiary = $fee->subsidiary;
-                        $addledger->receipt_details = $fee->receipt_details;
-                        $addledger->accounting_code = $fee->accounting_code;
-                        $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
-                        $addledger->category_switch = $fee->category_switch;
-                        $addledger->amount = $fee->amount * ($discountof / 100);
-                        $addledger->discount_code = $discount_code;
-                        $addledger->save();
-                    }
+        $is_foreign = \App\User::where('idno', $idno)->first();
+        if (count($is_foreign) > 0) {
+            if ($is_foreign->is_foreign == '1') {
+                $addfee = \App\CtrCollegePracticumForeignFee::get();
+                foreach ($addfee as $fee) {
+                    $addledger = new \App\Ledger;
+                    $addledger->idno = $idno;
+                    $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                    $addledger->program_code = $program_code;
+                    $addledger->level = $level;
+                    $addledger->school_year = $school_year;
+                    $addledger->period = $period;
+                    $addledger->category = $fee->category;
+                    $addledger->subsidiary = $fee->subsidiary;
+                    $addledger->receipt_details = $fee->receipt_details;
+                    $addledger->accounting_code = $fee->accounting_code;
+                    $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                    $addledger->category_switch = $fee->category_switch;
+                    $addledger->amount = $fee->amount * ($discountof / 100);
+                    $addledger->discount_code = $discount_code;
+                    $addledger->save();
                 }
             }
+        }
     }
 
     function getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code) {
@@ -305,30 +345,54 @@ class AssessmentController extends Controller {
                 $addledger->save();
             }
         }
-            $is_foreign = \App\User::where('idno', $idno)->first();
-            if (count($is_foreign) > 0) {
-                if ($is_foreign->is_foreign == '1') {
-                    $addfee = \App\CtrCollegeForeignFee::get();
-                    foreach ($addfee as $fee) {
-                        $addledger = new \App\Ledger;
-                        $addledger->idno = $idno;
-                        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                        $addledger->program_code = $program_code;
-                        $addledger->level = $level;
-                        $addledger->school_year = $school_year;
-                        $addledger->period = $period;
-                        $addledger->category = $fee->category;
-                        $addledger->subsidiary = $fee->subsidiary;
-                        $addledger->receipt_details = $fee->receipt_details;
-                        $addledger->accounting_code = $fee->accounting_code;
-                        $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
-                        $addledger->category_switch = $fee->category_switch;
-                        $addledger->amount = $fee->amount * ($discountof / 100);
-                        $addledger->discount_code = $discount_code;
-                        $addledger->save();
-                    }
+
+        $is_foreign = \App\User::where('idno', $idno)->first();
+        if (count($is_foreign) > 0) {
+            if ($is_foreign->is_foreign == '1') {
+                $addfee = \App\CtrCollegeForeignFee::get();
+                foreach ($addfee as $fee) {
+                    $addledger = new \App\Ledger;
+                    $addledger->idno = $idno;
+                    $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                    $addledger->program_code = $program_code;
+                    $addledger->level = $level;
+                    $addledger->school_year = $school_year;
+                    $addledger->period = $period;
+                    $addledger->category = $fee->category;
+                    $addledger->subsidiary = $fee->subsidiary;
+                    $addledger->receipt_details = $fee->receipt_details;
+                    $addledger->accounting_code = $fee->accounting_code;
+                    $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                    $addledger->category_switch = $fee->category_switch;
+                    $addledger->amount = $fee->amount * ($discountof / 100);
+                    $addledger->discount_code = $discount_code;
+                    $addledger->save();
                 }
             }
+        }
+
+        //non discounted other fees
+        $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+        if (count($nondiscountotherfees) > 0) {
+            foreach ($nondiscountotherfees as $otherfee) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = $otherfee->category;
+                $addledger->subsidiary = $otherfee->subsidiary;
+                $addledger->receipt_details = $otherfee->receipt_details;
+                $addledger->accounting_code = $otherfee->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                $addledger->category_switch = $otherfee->category_switch;
+                $addledger->amount = $otherfee->amount;
+                $addledger->discount = $otherfee->amount;
+                $addledger->save();
+            }
+        }
     }
 
     function getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype) {
@@ -392,9 +456,9 @@ class AssessmentController extends Controller {
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
         $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
-        $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 6)->sum('amount');
+        $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('amount');
         $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('discount');
-        $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '!=', 6)->sum('discount');
+        $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('discount');
         $totalFees = ($totalTuition + $totalOtherFees) - ($totalTuitionDiscount + $totalOtherFeesDiscount);
         $downpaymentamount = (($totalTuition - $totalTuitionDiscount) / 2) + ($totalOtherFees - $totalOtherFeesDiscount);
         if ($plan == 'Cash') {
@@ -568,8 +632,35 @@ class AssessmentController extends Controller {
 
         return $id . $receipt . $number;
     }
-    
+
+    function checkLedger($request, $idno, $school_year, $period) {
+        $checkledger_amount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('amount');
+        $checkledger_discount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('discount');
+        $checkledger = $checkledger_amount - $checkledger_discount;
+        if ($checkledger <= 0) {
+
+            $change = \App\Status::where('idno', $idno)->first();
+            $change->status = env("ENROLLED");
+            $change->date_enrolled = date('Y-m-d');
+            $change->update();
+            $no = $idno;
+            if (strlen($idno) > 10) {
+                $user = \App\User::where('idno', $idno)->first();
+                $no = MainPayment::getIdno($idno);
+                $user->idno = $no;
+                $user->save();
+            } else {
+                $status = \App\Status::where('idno', $idno)->first();
+                $status->is_new = 0;
+                $status->update();
+            }
+
+            MainPayment::addLevels($no);
+        }
+    }
+
     function roundOff($amount) {
         return round($amount);
     }
+
 }
