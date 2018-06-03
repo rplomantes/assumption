@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -22,10 +21,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         $accesslevel = \Auth::user()->accesslevel;
-        switch($accesslevel){
+
+        if ($accesslevel > 0) {
+            if (Auth::user()->is_first_login == "1") {
+                return view('set_password');
+            }
+        }
+
+        switch ($accesslevel) {
             case 0:
                 Auth::logout();
                 return view('auth.login')->withErrors("Access Denied - Not Authorized");
@@ -45,7 +50,7 @@ class HomeController extends Controller
                 return view('reg_college.index');
                 break;
             case 21:
-                return view('reg_be.index',compact('school_year'));
+                return view('reg_be.index', compact('school_year'));
                 break;
             case 30:
                 return view('accounting.index');
@@ -70,4 +75,19 @@ class HomeController extends Controller
                 break;
         }
     }
+
+    function set_password(Request $request) {
+
+        $validation = $this->validate($request, [
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+        if ($validation) {
+            $user = \App\User::where('idno', Auth::user()->idno)->first();
+            $user->password = bcrypt($request->password);
+            $user->is_first_login = 0;
+            $user->update();
+            return redirect(url('/'));
+        }
+    }
+
 }

@@ -21,6 +21,7 @@ include_once 'web3.php';
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
+Route::post('/set_password','HomeController@set_password');
 
 //REG ASSESSMENT
 Route::get('/registrar_college/assessment2/{idno}/{school_year}/{period}', 'RegistrarCollege\Assessment\AssessmentController@index2');
