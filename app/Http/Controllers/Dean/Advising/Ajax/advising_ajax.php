@@ -244,5 +244,17 @@ class advising_ajax extends Controller {
             }
         }
     }
+    function get_curriculum(){
+        if (Request::ajax()) {
+            $program_code = Input::get("program_code");
+            $curriculum_years = \App\Curriculum::distinct()->where('program_code', $program_code)->get(['curriculum_year']);
+            
+            $data = "<option value=''>Select Curriculum</option>";
+            foreach ($curriculum_years as $curriculum_year) {
+                $data = $data.'<option value="'.$curriculum_year->curriculum_year.'">'.$curriculum_year->curriculum_year.'</option>';
+            }
+            return $data;
+        }
+    }
 
 }

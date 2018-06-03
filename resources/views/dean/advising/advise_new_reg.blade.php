@@ -98,7 +98,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <div class="form-group">
                         <div class="col-md-12">   
                             <label>Program</label>     
-                            <select name="program_code" id="select_program" class="form-control select2" required="">
+                            <select name="program_code" id="select_program" class="form-control select2" required="" onchange='get_curriculum_year(this.value)'>
                                 <option value="">Select Program</option>
                                 @foreach($programs as $program)
                                 <option value="{{$program->program_code}}" @if ($status->program_code == "$program->program_code") selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
@@ -131,9 +131,6 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <label>Curriculum Year</label>     
                             <select id="select_curriculum_year" class="form-control select2" required="">
                                 <option value="">Select Curriculum</option>
-                                @foreach ($curriculum_years as $curriculum_year)
-                                <option value="{{$curriculum_year->curriculum_year}}">{{$curriculum_year->curriculum_year}}</option>
-                                @endforeach
                             </select>     
                         </div>
                     </div>
@@ -372,6 +369,20 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     })
             //}
     }
+
+    function get_curriculum_year(program_code){
+    array = {};
+    array['program_code'] = program_code;
+    $.ajax({
+    type:"GET",
+            url:"/ajax/dean/advising/get_curriculum",
+            data:array,
+            success:function(data){
+            $("#select_curriculum_year").html(data);
+            }
+    })
+    }
+    
     function confirm_advised(idno, program_code, level, curriculum_year, section){
         window.location = "/dean/advising/confirm_advised/" + idno + "/" + program_code + "/" + level + "/" + curriculum_year + "/" + section; 
     }
