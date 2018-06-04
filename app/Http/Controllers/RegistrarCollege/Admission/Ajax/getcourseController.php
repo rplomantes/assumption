@@ -17,8 +17,8 @@ class getcourseController extends Controller
             }elseif($applying_for == "College"){
                 $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distinct program_name")->where('academic_type','College')->get();
                 
-            }elseif($applying_for == "GradSchool"){
-                $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distict program_name")->where('academic_type','Gradschool')->get();
+            }elseif($applying_for == "Graduate School"){
+                $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distict program_name")->where('academic_type','Masters Degree')->get();
             }
                 return view("reg_college.admission.getProgram", compact("applying_for", "ctr_academic_program"));   
         }

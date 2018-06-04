@@ -90,7 +90,9 @@
                         </div>   
                         <div class='col-sm-4'>
                             <label class="col-sm-12">School Year</label>
-                            <input class="form form-control" name='applying_for_sy' placeholder='YYYY - YYYY'type="text">          
+                            <select class="form form-control" name="applying_for_sy">
+                                <option value='2018'>2018</option>
+                            </select>
                         </div>                            
                         </div> 
                         <div class="form-group">

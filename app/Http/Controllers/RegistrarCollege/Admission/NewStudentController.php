@@ -238,7 +238,6 @@ class NewStudentController extends Controller {
         $tor = $request->tor;
         $honor_dismiss = $request->honor_dismiss;
         $course_desc = $request->course_desc;
-        $remarks = $request->remarks;
         $cbc = $request->cbc;
         $bt = $request->bt;
         $x_ray = $request->x_ray;
@@ -247,7 +246,9 @@ class NewStudentController extends Controller {
         $photocopy_diploma = $request->photocopy_diploma;
         $marriage_contract = $request->marriage_contract;
         $child_birth_cert = $request->child_birth_cert;
-
+        $medical_clearance = $request->medical_clearance;
+        $remarks = $request->remarks;
+        
         $add_admission_checklist = new \App\AdmissionHedRequirements;
         $add_admission_checklist->idno = $reference_no;
         $add_admission_checklist->birth_certificate = $birth_certificate;
@@ -261,13 +262,14 @@ class NewStudentController extends Controller {
         $add_admission_checklist->course_desc = $course_desc;
         $add_admission_checklist->cbc = $cbc;
         $add_admission_checklist->bt = $bt;
-        $add_admission_checklist->remarks = $remarks;
         $add_admission_checklist->x_ray = $x_ray;
         $add_admission_checklist->visa = $visa;
         $add_admission_checklist->passport = $passport;
         $add_admission_checklist->photocopy_diploma = $photocopy_diploma;
         $add_admission_checklist->marriage_contract = $marriage_contract;
         $add_admission_checklist->child_birth_cert = $child_birth_cert;
+        $add_admission_checklist->medical_clearance = $medical_clearance;
+        $add_admission_checklist->remarks = $remarks;        
         $add_admission_checklist->save();
     }
 

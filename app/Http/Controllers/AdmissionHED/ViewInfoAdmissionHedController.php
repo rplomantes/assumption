@@ -131,6 +131,7 @@ class ViewInfoAdmissionHedController extends Controller {
         $update_admission_checklist->photocopy_diploma = $request->photocopy_diploma;
         $update_admission_checklist->marriage_contract = $request->marriage_contract;
         $update_admission_checklist->child_birth_cert = $request->child_birth_cert;
+        $update_admission_checklist->medical_clearance = $request->medical_clearance;
         $update_admission_checklist->remarks = $request->remarks;
         $update_admission_checklist->update();
     }

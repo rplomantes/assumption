@@ -82,7 +82,9 @@
                             </div>              
                         <div class='col-sm-4'>
                             <label class="col-sm-12">School Year</label>
-                            <input class="form form-control" name='applying_for_sy' placeholder='YYYY - YYYY' value="{{old('applying_for_sy', $adhedinfo->applying_for_sy)}}" type="text">          
+                            <select class="form form-control" name="applying_for_sy">
+                                <option value='2018' @if($adhedinfo->applying_for_sy == '2018') selected='' @else @endif>2018</option>
+                            </select>                           
                         </div>                              
                             <div class="col-sm-3">
                                 <label>Student Status</label>
@@ -324,17 +326,6 @@
                                 </select>    
                             </div>
                         </div>-->
-                        <div class="form-group">            
-                            <div class="col-sm-12" id="conditionType" name='conditionType' type='text'>
-                                <label>Condition</label>
-                                <input type='checkbox' name='medical' value='1' @if($adhedinfo->medical == '1') checked='' @else @endif> Medical |
-                                <input type='checkbox' name='psychological' value='1' @if($adhedinfo->psychological == '1') checked='' @else @endif> Psychological |
-                                <input type='checkbox' name='learning_disability' value='1' @if($adhedinfo->learning_disability == '1') checked='' @else @endif> Learning Disability |
-                                <input type='checkbox' name='emotional' value='1' @if($adhedinfo->emotional == '1') checked='' @else @endif> Emotional |
-                                <input type='checkbox' name='social' value='1' @if($adhedinfo->social == '1') checked='' @else @endif> Social |
-                                <input type='checkbox' name='others' value='1' @if($adhedinfo->others == '1') checked='' @else @endif> Others 
-                            </div>
-                        </div>    
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Guardian Type</label>
@@ -372,6 +363,18 @@
                                     <option value='Others' @if($adhedinfo->conditionType == 'Others') selected='' @else @endif>Others</option>
                             </select>  
                             </div>-->
+                        <hr>
+                        <div class="form-group">            
+                            <div class="col-sm-12" id="conditionType" name='conditionType' type='text'>
+                                <label>Condition</label>
+                                <input type='checkbox' name='medical' value='1' @if($adhedinfo->medical == '1') checked='' @else @endif> Medical |
+                                <input type='checkbox' name='psychological' value='1' @if($adhedinfo->psychological == '1') checked='' @else @endif> Psychological |
+                                <input type='checkbox' name='learning_disability' value='1' @if($adhedinfo->learning_disability == '1') checked='' @else @endif> Learning Disability |
+                                <input type='checkbox' name='emotional' value='1' @if($adhedinfo->emotional == '1') checked='' @else @endif> Emotional |
+                                <input type='checkbox' name='social' value='1' @if($adhedinfo->social == '1') checked='' @else @endif> Social |
+                                <input type='checkbox' name='others' value='1' @if($adhedinfo->others == '1') checked='' @else @endif> Others 
+                            </div>
+                        </div>    
                         <div class="form-group">    
                             <div class="col-sm-6" id="specify_condition">
                                 <label>Please specify condition and type of professional seen:</label>
@@ -392,7 +395,8 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Labtest</label><br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='cbc' value='1' @if($admissionreq->cbc == '1') checked='' @else @endif> Complete Blood Count<br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='bt' value='1' @if($admissionreq->bt == '1') checked='' @else @endif> Blood Typing<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='x_ray' value='1' @if($admissionreq->x_ray == '1') checked='' @else @endif> Chest X-Ray<br>                                   
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='x_ray' value='1' @if($admissionreq->x_ray == '1') checked='' @else @endif> Chest X-Ray<br>  
+                                <input type="checkbox" name='medical_clearance'value='1' @if($admissionreq->medical_clearance == '1') checked='' @else @endif> Medical Clearance<br>
                                 <input type="checkbox" name='birth_certificate'value='1' @if($admissionreq->birth_certificate == '1') checked='' @else @endif> Original PSA Birth Certificate<br>
                                 <input type="checkbox" name='form138' value='1' @if($admissionreq->form138 == '1') checked='' @else @endif> Original Report Card (Form 138)<br>
                                 <input type="checkbox" name='school_rec' value='1' @if($admissionreq->school_rec == '1') checked='' @else @endif> Original School Record Form( 137)<br>
