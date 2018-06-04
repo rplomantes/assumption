@@ -43,6 +43,12 @@
                 @case (61)
                     Admission BED
                 @break
+                @case (70)
+                    Guidance HED
+                @break
+                @case (71)
+                    Guidance BED
+                @break
                 @endswitch
             </td>
             <td><a href="{{url('/admin', array('view_information', $list->idno))}}">View</a></td></tr>

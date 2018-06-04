@@ -64,7 +64,6 @@ $other_collection = \App\OtherCollection::get();
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
  <li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <span class="label label-success">4</span>
@@ -72,26 +71,19 @@ $other_collection = \App\OtherCollection::get();
             <ul class="dropdown-menu">
               <li class="header">You have 4 messages</li>
               <li>
-                <!-- inner menu: contains the messages -->
                 <ul class="menu">
-                  <li><!-- start message -->
+                  <li>
                     <a href="#">
                       <div class="pull-left">
-                        <!-- User Image -->
-                       
                       </div>
-                      <!-- Message title and timestamp -->
                       <h4>
                         Support Team
                         <small><i class="fa fa-clock-o"></i> 5 mins</small>
                       </h4>
-                      <!-- The message -->
                       <p>Why not buy a new awesome theme?</p>
                     </a>
                   </li>
-                  <!-- end message -->
                 </ul>
-                <!-- /.menu -->
               </li>
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
@@ -99,78 +91,70 @@ $other_collection = \App\OtherCollection::get();
 @endsection
 @section('header')
 <section class="content-header">
-       <h1>
+    <h1>
         Assessment
         <small></small>
-      </h1>
-      <ol class="breadcrumb">
+    </h1>
+    <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Assessment</li>
-      </ol>
+    </ol>
 </section>
 @endsection
 @section('maincontent')
 <form class="form form-horizontal" method="post" action="{{url('/bedregistrar','assess')}}">
-         {{csrf_field()}}
-         <input type="hidden" name="idno" value="{{$user->idno}}">
-         
-<div class="row">
-    <div class="col-md-12">
-        
-        <div class="col-md-6">
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h1 class="box-title"><b>{{$user->idno}} - {{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></h1>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="box-group" id="accordion">
-                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                <div class="panel box box-primary">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        Previous Grade Level
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="box-body">
-                        <div class="col-md-4">       
-                 <table class="table table-responsive">        
-              @if(count($status)>0)
-                    @if($status->status==env("ENROLLED"))
-                            <tr><td colspan="2"><b>This student is already ENROLLED!!</b></td></tr>
-                            <tr><th>Level</th><td>{{$status->level}}</td></tr>
-                        @if($status->level == "Grade 11" || $status->level=="Grade 12")
-                            <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
-                        @endif
-                            <tr><th>Section</th><td>{{$status->section}}</td></tr>
-                    @elseif($status->status=="0")
-                            <tr><td colspan="2"><b>Previous Level</b></td></tr>
-                            <tr><th>Level</th><td>{{$status->level}}</td></tr>
-                        @if($status->level == "Grade 11" || $status->level=="Grade 12")
-                            <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
-                        @endif
-                            <tr><th>Section</th><td>{{$status->section}}</td></tr>
-                    @endif
-             @endif   
-             </table>
-                            </div>
+    {{csrf_field()}}
+    <input type="hidden" name="idno" value="{{$user->idno}}">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h1 class="box-title"><b>{{$user->idno}} - {{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></h1>
                     </div>
-                  </div>
-                </div>
-                <div class="panel box box-danger">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                        Select Level, Option and Discount
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseTwo" class="panel-collapse collapse in">
                     <div class="box-body">
-         @if(count($status)>0)
+                        <div class="box-group" id="accordion">
+                            <div class="panel box box-primary">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Previous Grade Level</a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in">
+                                    <div class="box-body">
+                                        <div class="col-md-4">
+                                            <table class="table table-responsive">
+                                                @if(count($status)>0)
+                                                @if($status->status==env("ENROLLED"))
+                                                <tr><td colspan="2"><b>This student is already ENROLLED!!</b></td></tr>
+                                                <tr><th>Level</th><td>{{$status->level}}</td></tr>
+                                                @if($status->level == "Grade 11" || $status->level=="Grade 12")
+                                                <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
+                                                @endif
+                                                <tr><th>Section</th><td>{{$status->section}}</td></tr>
+                                                @elseif($status->status=="0")
+                                                <tr><td colspan="2"><b>Previous Level</b></td></tr>
+                                                <tr><th>Level</th><td>{{$status->level}}</td></tr>
+                                                @if($status->level == "Grade 11" || $status->level=="Grade 12")
+                                                <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
+                                                @endif
+                                                <tr><th>Section</th><td>{{$status->section}}</td></tr>
+                                                @endif
+                                                @endif
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel box box-danger">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Select Level, Option and Discount</a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse in">
+                                    <div class="box-body">
+                                        @if(count($status)>0)
             @if($status->status == "0")
                 <div class="form form-group">
                 <div class="col-md-6">
@@ -259,7 +243,7 @@ $other_collection = \App\OtherCollection::get();
                 </div>
 
          <!--Other Discounts-->                 
-<!--
+
                 <div class="panel box box-success">
                   <div class="box-header with-border">
                     <h4 class="box-title">
@@ -287,12 +271,25 @@ $other_collection = \App\OtherCollection::get();
              </div>
              <div class="col-md-2">
                  <label class="col-sm-12">&nbsp;</label>
-                 <button class="btn btn-success"><span class="fa fa-plus-circle"></span></button>
+                 <a href="javascript:void(0)"><button type="button" class="btn btn-success" onclick="add_discount_collection('{{$user->idno}}', other_discount.value, discount_amount.value)"><span class="fa fa-plus-circle"></span></button></a>
              </div>    
          </div>
+                          <?php $get_discount_collections = \App\DiscountCollection::where('idno', $user->idno)->get(); ?>
+                          
+                          <div id="discount_collections">
+                              <table class="table table-condensed">
+                                  @if(count($get_discount_collections)>0)
+                                  @foreach($get_discount_collections as $discount_collection)
+                                  <tr><td>{{$discount_collection->subsidiary}}</td><td>{{$discount_collection->discount_amount}}</td><td><a href="javascript:void(0)" onclick="remove_discount_collection('{{$discount_collection->id}}','{{$user->idno}}')">Remove</a></td></tr>
+                                  @endforeach
+                                  @else
+                                  <tr><td><i>No Other Discounts Added.</i></td></tr>
+                                  @endif
+                              </table>
+                          </div>
                       </div>
                   </div>
-                </div>-->
+                </div>
                       
             </div>
                 
@@ -665,6 +662,46 @@ input[type=number]{
         });
         
         }
+    }
+    function add_discount_collection(idno,subsidiary, discount_amount){
+    array = {};
+    array['idno'] = idno;
+    array['subsidiary'] = subsidiary;
+    array['discount_amount'] = discount_amount;
+    $.ajax({
+    type: "GET",
+            url: "/bedregistrar/ajax/add_discount_collection",
+            data: array,
+            success: function (data) {
+                pop_discount_collection(idno);
+            }
+
+    });
+    }
+    function remove_discount_collection(id,idno){
+    array = {};
+    array['id'] = id;
+    array['idno'] = idno;
+    $.ajax({
+    type: "GET",
+            url: "/bedregistrar/ajax/remove_discount_collection",
+            data: array,
+            success: function (data) {
+                pop_discount_collection(idno);
+            }
+
+    });
+    }
+    function pop_discount_collection(idno){
+    $.ajax({
+    type: "GET",
+            url: "/bedregistrar/ajax/pop_discount_collection",
+            data: array,
+            success: function (data) {
+                $('#discount_collections').html(data);
+            }
+
+    });
     }
 </script>    
 

@@ -3,7 +3,15 @@ $levels = \App\CtrAcademicProgram::selectRaw("distinct level, sort_by")->where('
         ->orderBy('sort_by')->get();
 $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academic_type','BED')->get();
 ?>
-@extends('layouts.appbedregistrar')
+<?php
+    if(Auth::user()->accesslevel == env('GUIDANCE_BED')){
+    $layout = "layouts.appguidance_bed";
+    } else {
+    $layout = "layouts.appbedregistrar";
+    }
+?>
+
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

@@ -219,3 +219,14 @@ Route::post('/accounting/view_schedule_of_fees', 'Accounting\ScheduleOfFees@view
 //Set OR Number
 Route::get('/accounting/set_or', 'Accounting\SetReceiptController@index');
 Route::post('/accounting/update_or', 'Accounting\SetReceiptController@update_or');
+
+
+//GUIDANCE BED - MAIN///////////////////////////////////////////////////////////
+Route::get('/ajax/guidance_bed/getstudentlist', 'GuidanceBed\Ajax\GetStudentList_ajax@getstudentlist');
+
+
+
+//BED REGISTRAR
+Route::get('/bedregistrar/ajax/add_discount_collection','BedRegistrar\Ajax\DiscountCollection@add_discount_collection');
+Route::get('/bedregistrar/ajax/remove_discount_collection','BedRegistrar\Ajax\DiscountCollection@remove_discount_collection');
+Route::get('/bedregistrar/ajax/pop_discount_collection','BedRegistrar\Ajax\DiscountCollection@pop_discount_collection');
