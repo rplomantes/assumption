@@ -314,7 +314,8 @@ class AssessmentController extends Controller {
                     $addledger->accounting_code = $fee->accounting_code;
                     $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
                     $addledger->category_switch = $fee->category_switch;
-                    $addledger->amount = $fee->amount * ($discountof / 100);
+                    $addledger->amount = $fee->amount;
+                    $addledger->discount = $fee->amount * ($discountof / 100);
                     $addledger->discount_code = $discount_code;
                     $addledger->save();
                 }
@@ -364,7 +365,8 @@ class AssessmentController extends Controller {
                     $addledger->accounting_code = $fee->accounting_code;
                     $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
                     $addledger->category_switch = $fee->category_switch;
-                    $addledger->amount = $fee->amount * ($discountof / 100);
+                    $addledger->amount = $fee->amount;
+                    $addledger->discount = $fee->amount * ($discountof / 100);
                     $addledger->discount_code = $discount_code;
                     $addledger->save();
                 }
@@ -389,7 +391,6 @@ class AssessmentController extends Controller {
                 $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
                 $addledger->category_switch = $otherfee->category_switch;
                 $addledger->amount = $otherfee->amount;
-                $addledger->discount = $otherfee->amount;
                 $addledger->save();
             }
         }
