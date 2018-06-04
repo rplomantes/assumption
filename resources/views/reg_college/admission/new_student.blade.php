@@ -201,6 +201,17 @@
                                 <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship')}}" type="text">
                             </div>  
                         </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label>Guardian Type</label>
+                                <select class="form form-control" name="guardian_type" type="text">
+                                    <option value='0'>Select Guardian Type</option>
+                                    <option value='Father'>Father</option>
+                                    <option value='Mother'>Mother</option>
+                                    <option value='Guardian'>Guardian</option>
+                                </select>
+                            </div>                                    
+                        </div>
                         <div class="form-group"> 
                             <div class="col-sm-4">
                                 <label>Emergency Contact Person</label>
@@ -255,7 +266,8 @@
                                 <input type='checkbox' name='social' value='1')> Social<br>
                                 <input type='checkbox' name='others' value='1')> Others<br>
                             </div>
-                        </div>                             
+                        </div>           
+  
 <!--                        <div class="col-sm-6">
                             <select class="form form-control" id="conditionType" name='conditionType' type="text">
                             <label>Condition:</label>                            

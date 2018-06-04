@@ -22,7 +22,6 @@ class CreateAdmissionHedRequirementsTable extends Migration
             $table->integer('admission_agreement')->nullable();
             $table->integer('parent_partnership')->nullable();
             $table->integer('tor')->nullable();
-            $table->integer('school_rec')->nullable();
             $table->integer('honor_dismiss')->nullable();
             $table->integer('course_desc')->nullable();
             $table->integer('cbc')->nullable();
@@ -33,6 +32,7 @@ class CreateAdmissionHedRequirementsTable extends Migration
             $table->integer('photocopy_diploma')->nullable();
             $table->integer('marriage_contract')->nullable();
             $table->integer('child_birth_cert')->nullable();
+            $table->integer('school_rec')->nullable();
             $table->string('remarks')->nullable();
             $table->foreign('idno')
                     ->references('idno')->on('users')

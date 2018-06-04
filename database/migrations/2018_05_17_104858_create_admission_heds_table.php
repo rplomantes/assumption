@@ -41,8 +41,9 @@ class CreateAdmissionHedsTable extends Migration
             $table->string('guardian_contact')->nullable();
             $table->string('guardian_email')->nullable();
             $table->integer('specify_citizenship')->nullable();
-            $table->interger('school_year')->nullable();
             $table->string('applying_for_sy')->nullable();
+            $table->string('guardiantype')->nullable();
+            
             $table->foreign('idno')
                     ->references('idno')->on('users')
                     ->onUpdate('cascade');

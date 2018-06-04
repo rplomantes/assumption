@@ -185,6 +185,7 @@ class NewStudentController extends Controller {
         $guardian_name = $request->guardian_name;
         $guardian_contact = $request->guardian_contact;
         $guardian_email = $request->guardian_email;
+        $guardian_type = $request->guardian_type;
         
 //        $condition = $request->conditionType;
 //        if($condition == 'Others'){
@@ -217,6 +218,7 @@ class NewStudentController extends Controller {
         $add_new_student_info->guardian_name = $guardian_name;
         $add_new_student_info->guardian_contact= $guardian_contact;
         $add_new_student_info->guardian_email = $guardian_email;
+        $add_new_student_info->guardian_type = $guardian_type;
         
         
         

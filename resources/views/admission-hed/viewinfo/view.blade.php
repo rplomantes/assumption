@@ -335,6 +335,17 @@
                                 <input type='checkbox' name='others' value='1' @if($adhedinfo->others == '1') checked='' @else @endif> Others 
                             </div>
                         </div>    
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label>Guardian Type</label>
+                                <select class="form form-control" name="guardian_type" type="text">
+                                    <option value='0'>Select Guardian Type</option>
+                                    <option value='Father' @if($adhedinfo->guardian_type == 'Father') selected='' @else @endif>Father</option>
+                                    <option value='Mother' @if($adhedinfo->guardian_type == 'Mother') selected='' @else @endif>Mother</option>
+                                    <option value='Guardian' @if($adhedinfo->guardian_type == 'Guardian') selected='' @else @endif>Guardian</option>
+                                </select>
+                            </div>                                    
+                        </div>    
                         <div class="form-group"> 
                             <div class="col-sm-4">
                                 <label>Emergency Contact Person</label>

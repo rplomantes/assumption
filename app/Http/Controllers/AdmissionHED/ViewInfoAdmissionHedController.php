@@ -47,7 +47,6 @@ class ViewInfoAdmissionHedController extends Controller {
     }
 
     function updatePersonalInfo($request) {
-
         $updatePersonalInfo = \App\User::where('idno', $request->idno)->first();
         $updatePersonalInfo->firstname = $request->firstname;
         $updatePersonalInfo->middlename = $request->middlename;
@@ -98,6 +97,7 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->guardian_name = $request->guardian_name;
         $updatePersonalInfo->guardian_contact = $request->guardian_contact;
         $updatePersonalInfo->guardian_email = $request->guardian_email;
+        $updatePersonalInfo->guardian_type = $request->guardian_type;
 
         $updatePersonalInfo->update();
 //            if($request->admission_status == 'Probationary'){
