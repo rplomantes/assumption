@@ -41,7 +41,7 @@
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 <section class="content-header">
     <h1>
-        Enrollment Permit
+        Personal Information
         <small></small>
     </h1>
     <ol class="breadcrumb">
@@ -55,14 +55,13 @@
     <div class="row">
         <form class="form-horizontal" method='post' action='{{url('/admission_hed/update_info')}}'>
             {{ csrf_field() }}
-        
             <div class="col-sm-12">
                     @if(Session::has('message'))
                         <div class="alert alert-success">{{Session::get('message')}}</div>
                     @endif               
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title"><span class='fa fa-edit'></span>Student Information</h3>
+                    <h3 class="box-title"><span class='fa fa-edit'></span>Enrollment Permit</h3>
                     <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>                    
                 </div>
@@ -72,15 +71,7 @@
                             <div class="col-sm-3">
                                 <label>Student No.</label>
                                 <input class="form form-control" name="idno" placeholder="ID Number" value="{{old('idno',$users->idno)}}" readonly="">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Student Status</label>
-                                <select class="form form-control" name='student_status' type="text">                             
-                                    <option value=''@if($adhedinfo->student_status  == '') selected='' @else @endif>Select Status</option>
-                                    <option value='0'@if($adhedinfo->student_status  == '0') selected='' @else @endif>Not Approved</option>
-                                    <option value='1' @if($adhedinfo->student_status  == '1') selected='' @else @endif>Approved</option>
-                                </select>                                
-                            </div>                               
+                            </div>                       
                             <div class="col-sm-3">
                                 <label>Tagged As</label>
                                 <select class="form form-control" name='tagged_as' type="text">                              
@@ -88,26 +79,30 @@
                                     <option value='2' @if($adhedinfo->tagged_as == '2') selected='' @else @endif>Transferee</option>
                                     <option value='3' @if($adhedinfo->tagged_as == '3') selected='' @else @endif>Cross Enrollee</option>
                                 </select>                                
-                            </div>                                                   
-                            <div class='col-sm-3'> 
-                                <label>Reinforcement Summer Class</label>    
-                                <select class="form form-control" name="summer_classes">
-                                    <option value='0'>Select Class</option>
-                                    <option value='1' @if($adhedinfo->summer_classes == '1') selected='' @else @endif>Both</option>
-                                    <option value='2' @if($adhedinfo->summer_classes == '2') selected='' @else @endif>Math Plus</option>
-                                    <option value='3' @if($adhedinfo->summer_classes == '3') selected='' @else @endif>English Plus</option>
-                                </select>    
-                            </div>
+                            </div>              
+                        <div class='col-sm-4'>
+                            <label class="col-sm-12">School Year</label>
+                            <input class="form form-control" name='applying_for_sy' placeholder='YYYY - YYYY' value="{{old('applying_for_sy', $adhedinfo->applying_for_sy)}}" type="text">          
+                        </div>                              
+                            <div class="col-sm-3">
+                                <label>Student Status</label>
+                                <select class="form form-control" name='student_status' type="text">                             
+                                    <option value=''@if($adhedinfo->student_status  == '') selected='' @else @endif>Select Status</option>
+                                    <option value='0'@if($adhedinfo->student_status  == '0') selected='' @else @endif>Not Approved</option>
+                                    <option value='1' @if($adhedinfo->student_status  == '1') selected='' @else @endif>Approved</option>
+                                </select>                                
+                            </div>                                      
                         </div>
                         <div class="form-group">
                             <div class="col-sm-3">
-                                <label>Academic Type</label>
-                                <select class="form form-control" name='applying_for' id='applying_for'>
+                                <label>Applied For</label>
+<!--                                <select class="form form-control" name='applying_for' id='applying_for' readonly="true">
                                     <option value=''>Select Academic Type*</option>
                                     <option value='Senior High School' @if($adhedinfo->applying_for == "Senior High School") selected="" @else @endif>Senior High School</option>
                                     <option value='College' @if($adhedinfo->applying_for == "College") selected="" @else @endif>College</option>             
                                     <option value='Graduate School' @if($adhedinfo->applying_for == "Graduate School") selected="" @else @endif>Graduate School</option>
-                                </select>        
+                                </select>        -->
+                            <input class="form form-control" name='applying_for' value="{{old('applying_for', $adhedinfo->applying_for)}}" type="text" readonly="">
                             </div>   
                             <div class='col-sm-6'id='programForm'>
                             <label>Major</label>
@@ -129,7 +124,17 @@
                                 </select>
                                 @endif 
                             </div>
-                            </div>                                                              
+                            </div>             
+                            <div class='col-sm-3'> 
+                                <label>Reinforcement Summer Class</label>    
+                                <select class="form form-control" name="summer_classes">
+                                    <option value='0'>Select Class</option>
+                                    <option value='1' @if($adhedinfo->summer_classes == '1') selected='' @else @endif>Both</option>
+                                    <option value='3' @if($adhedinfo->summer_classes == '3') selected='' @else @endif>English Plus</option>
+                                    <option value='2' @if($adhedinfo->summer_classes == '2') selected='' @else @endif>Math Plus</option>
+                                    <option value='4' @if($adhedinfo->summer_classes == '4') selected='' @else @endif>None</option>
+                                </select>    
+                            </div>                            
                         </div>
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -191,7 +196,7 @@
             <div class="col-sm-12">
               <div class="box">
                 <div class="box-header">
-                    <h4 class="box-title"><span class='fa fa-edit'></span>Personal Information</h4>
+                    <h4 class="box-title"><span class='fa fa-edit'></span>Pre-Application Form</h4>
                     <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>                     
                     </div>
@@ -216,10 +221,10 @@
                                 <label>Address</label>
                                 <input class="form form-control" name='street' placeholder='Street Address' value="{{old('street', $studentinfos->street)}}" type="text">
                             </div>
-                            <div class="col-sm-4">
+<!--                            <div class="col-sm-4">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='barangay' placeholder='Barangay' value="{{old('barangay', $studentinfos->barangay)}}" type="text">
-                            </div>
+                            </div>-->
                         </div>
                         <div class="form-group">
                             <div class="col-sm-5">
@@ -228,9 +233,9 @@
                             <div class="col-sm-5">
                                 <input class="form form-control" name='province' placeholder='Province*' value="{{old('province',$studentinfos->province)}}" type="text">
                             </div>
-                            <div class="col-sm-2">
+<!--                            <div class="col-sm-2">
                                 <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip', $studentinfos->zip)}}" type="text">
-                            </div>
+                            </div>-->
                         </div>
                         <div class="form-group">
                             <div class="col-sm-4">
@@ -287,7 +292,9 @@
                                 <label>Religion</label>
                                 <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion', $studentinfos->religion)}}" type="text">
                             </div>
-                            <div class="col-sm-3">
+                        </div>
+                        <div class="form-group">
+                        <div class="col-sm-3">
                                 <label>Local/Foreigner</label>
                                 <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
                                     <option value=''>Select Local/Foreign</option>
@@ -295,8 +302,12 @@
                                     <option value='1' @if ($users->is_foreign == '1') selected='' @else @endif >Foreigner</option>
                                     <option value='2' @if ($users->is_foreign == '2') selected='' @else @endif >Dual Citizen</option>
                                 </select>
-                            </div>
-                        </div>
+                            </div>                            
+                            <div class="col-sm-3">
+                                <label>Specified Citizenship</label>
+                                <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship', $adhedinfo->specify_citizenship)}}" type="text">
+                            </div>    
+                        </div>    
 <!--                        <div class="form-group">
                             <div class="col-sm-9">
                                 <label>Last School Attended</label>
@@ -314,16 +325,30 @@
                             </div>
                         </div>-->
                         <div class="form-group">            
-                            <div class="col-sm-6" id="conditionType" name='conditionType' type='text'>
+                            <div class="col-sm-12" id="conditionType" name='conditionType' type='text'>
                                 <label>Condition</label>
-                                <input type='checkbox' name='medical' value='1' @if($adhedinfo->medical == '1') checked='' @else @endif>Medical
-                                <input type='checkbox' name='psychological' value='1' @if($adhedinfo->psychological == '1') checked='' @else @endif>Psychological
-                                <input type='checkbox' name='learning_disability' value='1' @if($adhedinfo->learning_disability == '1') checked='' @else @endif>Learning Disability
-                                <input type='checkbox' name='emotional' value='1' @if($adhedinfo->emotional == '1') checked='' @else @endif>Emotional
-                                <input type='checkbox' name='social' value='1' @if($adhedinfo->social == '1') checked='' @else @endif>Social
-                                <input type='checkbox' name='others' value='1' @if($adhedinfo->others == '1') checked='' @else @endif>Others
+                                <input type='checkbox' name='medical' value='1' @if($adhedinfo->medical == '1') checked='' @else @endif> Medical |
+                                <input type='checkbox' name='psychological' value='1' @if($adhedinfo->psychological == '1') checked='' @else @endif> Psychological |
+                                <input type='checkbox' name='learning_disability' value='1' @if($adhedinfo->learning_disability == '1') checked='' @else @endif> Learning Disability |
+                                <input type='checkbox' name='emotional' value='1' @if($adhedinfo->emotional == '1') checked='' @else @endif> Emotional |
+                                <input type='checkbox' name='social' value='1' @if($adhedinfo->social == '1') checked='' @else @endif> Social |
+                                <input type='checkbox' name='others' value='1' @if($adhedinfo->others == '1') checked='' @else @endif> Others 
                             </div>
-                        </div>                                   
+                        </div>    
+                        <div class="form-group"> 
+                            <div class="col-sm-4">
+                                <label>Emergency Contact Person</label>
+                                <input class="form form-control" name='guardian_name' placeholder='Complete Name' value="{{old('guardian_name', $adhedinfo->guardian_name)}}" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>&nbsp;</label>
+                                <input class="form form-control" name='guardian_contact' placeholder='Landline / Tel No.' value="{{old('guardian_contact', $adhedinfo->guardian_contact)}}" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>&nbsp;</label>
+                                <input class="form form-control" name='guardian_email' placeholder='Guardian Email Address' value="{{old('guardian_email', $adhedinfo->guardian_email)}}" type="email">
+                            </div>    
+                        </div>    
 <!--                            <div class="col-sm-6">
                             <label>Condition:</label>                             
                             <select class="form form-control" id="conditionType" name='conditionType' type="text">                             
@@ -351,34 +376,36 @@
                         <div class="form-group">
                             <div class="col-sm-4">    
                             <label>Freshman / Transferee</label><br>
-                                <input type="checkbox" name='admission_agreement' value='1' @if($admissionreq->admission_agreement == '1') checked='' @else @endif>Admissions Agreement<br>
-                                <input type="checkbox" name='course_desc' value='1' @if($admissionreq->course_desc == '1') checked='' @else @endif>Course Description<br>
-                                <input type="checkbox" name='cbc' value='1' @if($admissionreq->cbc == '1') checked='' @else @endif>CBC<br>
-                                <input type="checkbox" name='bt' value='1' @if($admissionreq->bt == '1') checked='' @else @endif>BT<br>
-                                <input type="checkbox" name='birth_certificate'value='1' @if($admissionreq->birth_certificate == '1') checked='' @else @endif>Original PSA Birth Certificate<br>
-                                <input type="checkbox" name='form138' value='1' @if($admissionreq->form138 == '1') checked='' @else @endif>Original Report Card (Form 138)<br>
-                                <input type="checkbox" name='parent_partnership' value='1' @if($admissionreq->parent_partnership  == '1') checked='' @else @endif>Parent Partnership<br>
-                                <input type="checkbox" name='photocopy_diploma' value='1' @if($admissionreq->photocopy_diploma == '1') checked='' @else @endif>Photocopy of High School Diploma<br>
-                                <input type="checkbox" name='honor_dismiss' value='1' @if($admissionreq->honor_dismiss == '1') checked='' @else @endif>Honorable Dismissal/Transfer Credential<br>                       
-                                <input type="checkbox" name='tor' value='1' @if($admissionreq->tor == '1') checked='' @else @endif>Transcript of Records<br>
-                                <input type="checkbox" name='x_ray' value='1' @if($admissionreq->x_ray == '1') checked='' @else @endif>X-Ray<br>
-                            
-                            
-                            </div>                     
+                                <input type="checkbox" name='admission_agreement' value='1' @if($admissionreq->admission_agreement == '1') checked='' @else @endif> Admissions Agreement<br>
+                                <input type="checkbox" name='course_desc' value='1' @if($admissionreq->course_desc == '1') checked='' @else @endif> Course Description<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Labtest</label><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='cbc' value='1' @if($admissionreq->cbc == '1') checked='' @else @endif> Complete Blood Count<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='bt' value='1' @if($admissionreq->bt == '1') checked='' @else @endif> Blood Typing<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name='x_ray' value='1' @if($admissionreq->x_ray == '1') checked='' @else @endif> Chest X-Ray<br>                                   
+                                <input type="checkbox" name='birth_certificate'value='1' @if($admissionreq->birth_certificate == '1') checked='' @else @endif> Original PSA Birth Certificate<br>
+                                <input type="checkbox" name='form138' value='1' @if($admissionreq->form138 == '1') checked='' @else @endif> Original Report Card (Form 138)<br>
+                                <input type="checkbox" name='school_rec' value='1' @if($admissionreq->school_rec == '1') checked='' @else @endif> Original School Record Form( 137)<br>
+                                <input type="checkbox" name='tor' value='1' @if($admissionreq->tor == '1') checked='' @else @endif> Original Transcript of Records<br>
+                                <input type="checkbox" name='parent_partnership' value='1' @if($admissionreq->parent_partnership  == '1') checked='' @else @endif> Parent Partnership<br>
+                                <input type="checkbox" name='photocopy_diploma' value='1' @if($admissionreq->photocopy_diploma == '1') checked='' @else @endif> Photocopy of High School Diploma<br>
+                                <input type="checkbox" name='honor_dismiss' value='1' @if($admissionreq->honor_dismiss == '1') checked='' @else @endif> Honorable Dismissal/Transfer Credential<br><br>                       
+                                <label>Remarks:</label>    
+                                <input class="form form-control" name="remarks" placeholder="Remarks" type="text" value='{{old('remarks', $admissionreq->remarks)}}'>
+                            </div>  
                             <div class="col-sm-4">
                             <label>Foreign/ Dual Citizens</label><br>
-                                <input type="checkbox" name='passport' value='1' @if($admissionreq->passport == '1') checked='' @else @endif>Copy of passport bio page, latest admission authorized stay<br>
-                                <input type="checkbox" name='visa' value='1' @if($admissionreq->visa == '1') checked='' @else @endif>Student Visa/ Study Permit/ Recognition from Bureau of Immigration/ Deportation<br>
+                                <input type="checkbox" name='passport' value='1' @if($admissionreq->passport == '1') checked='' @else @endif> Copy of passport bio page, latest admission authorized stay<br>
+                                <input type="checkbox" name='visa' value='1' @if($admissionreq->visa == '1') checked='' @else @endif> Student Visa/ Study Permit/ Recognition from Bureau of Immigration/ Deportation<br>
                             </div>
                             <div class="col-sm-4">
                             <label>Married</label><br>
-                                <input type="checkbox" name='child_birth_cert' value='1' @if($admissionreq->child_birth_cert == '1') checked='' @else @endif>Birth Certificate of a child</input><br>
-                                <input type="checkbox" name='marriage_contract' value='1' @if($admissionreq->marriage_contract == '1') checked='' @else @endif>Marriage Contract</input><br>                          
+                                <input type="checkbox" name='child_birth_cert' value='1' @if($admissionreq->child_birth_cert == '1') checked='' @else @endif> Birth Certificate of a child</input><br>
+                                <input type="checkbox" name='marriage_contract' value='1' @if($admissionreq->marriage_contract == '1') checked='' @else @endif> Marriage Contract</input><br>                          
                             </div>
                         </div> 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <input class="form form-control btn btn-success" type="submit" value='UPDATE STUDENT'>
+                                <button class="form form-control btn btn-success" type="submit">Update Student</button>
                             </div>
                         </div> 
                     </div>
@@ -415,7 +442,7 @@
     
     $('#admission_status').on('change', function(){
         var value = $('#admission_status').val();
-        if(value === "Scholar"){
+        if(value == "Scholar"){
             $('#assumption_scholar').fadeIn();
             $('#partner_scholar').fadeIn();
         }else{
@@ -423,16 +450,15 @@
             $('#partner_scholar').hide(); 
         }
     });
-
-    $('#admission_status').on('change', function(){
+    
+     $('#admission_status').on('change', function(){
         var value = $('#admission_status').val();
-        if(value === "Probationary" || value === "Deload"){
+        if(value == "Probationary" || value == "Deload"){
             $('#probationary').fadeIn();
+        }else{
+            $('#probationary').hide();
         }
-        else{
-            $('#probationary').hide(); 
-        }
-    });  
+    });
 
 //    $('#conditionType').on('change', function(){
 //        var value = $('#conditionType').val();

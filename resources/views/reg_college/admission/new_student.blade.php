@@ -87,7 +87,11 @@
                             <div id='displayProgram'>        
                             </div>    
                         </div>
-                        </div>    
+                        </div>   
+                        <div class='col-sm-4'>
+                            <label class="col-sm-12">School Year</label>
+                            <input class="form form-control" name='applying_for_sy' placeholder='YYYY - YYYY'type="text">          
+                        </div>                            
                         </div> 
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -112,10 +116,10 @@
                                 <label>Address</label>
                                 <input class="form form-control" name='street' placeholder='Street Address' value="{{old('street')}}" type="text">
                             </div>
-                            <div class="col-sm-4">
+<!--                            <div class="col-sm-4">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='barangay' placeholder='Barangay' value="{{old('barangay')}}" type="text">
-                            </div>
+                            </div>-->
                         </div>
                         <div class="form-group">
                             <div class="col-sm-5">
@@ -124,9 +128,9 @@
                             <div class="col-sm-5">
                                 <input class="form form-control" name='province' placeholder='Province*' value="{{old('province')}}" type="text">
                             </div>
-                            <div class="col-sm-2">
+<!--                            <div class="col-sm-2">
                                 <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip')}}" type="text">
-                            </div>
+                            </div>-->
                         </div>
                         <!--<div class="form-group">-->
 <!--                            <div class="col-sm-4">
@@ -185,14 +189,32 @@
                             </div>-->
                             <div class="col-sm-3">
                                 <label>Citizenship</label>
-                                <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
+                                <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text" id="is_foreign">
                                     <option value=''>Select Local/Foreign</option>
                                     <option value='0' @if ( old('is_foreign') == 0) selected='' @endif >Filipino</option>
                                     <option value='1' @if ( old('is_foreign') == 1) selected='' @endif >Foreigner</option>
                                     <option value='2' @if ( old('is_foreign') == 2) selected='' @endif >Dual Citizen</option>
                                 </select>
                             </div>
+                            <div class="col-sm-4" id="specify_citizenship">
+                                <label>Others</label>
+                                <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship')}}" type="text">
+                            </div>  
                         </div>
+                        <div class="form-group"> 
+                            <div class="col-sm-4">
+                                <label>Emergency Contact Person</label>
+                                <input class="form form-control" name='guardian_name' placeholder='Complete Name' value="{{old('guardian_name')}}" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>&nbsp;</label>
+                                <input class="form form-control" name='guardian_contact' placeholder='Landline / Tel No.' value="{{old('guardian_contact')}}" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>&nbsp;</label>
+                                <input class="form form-control" name='guardian_email' placeholder='Guardian Email Address' value="{{old('guardian_email')}}" type="email">
+                            </div>    
+                        </div>    
 <!--                        <div class="form-group">
                             <div class="col-sm-9">
                                 <label>Last School Attended</label>
@@ -226,12 +248,12 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-6" id="conditionType" name='conditionType' type='text'>
-                                <input type='checkbox' name='medical' value='1')>Medical<br>
-                                <input type='checkbox' name='psychological' value='1')>Psychological<br>
-                                <input type='checkbox' name='learning_disability' value='1')>Learning Disability<br>
-                                <input type='checkbox' name='emotional' value='1')>Emotional<br>
-                                <input type='checkbox' name='social' value='1')>Social<br>
-                                <input type='checkbox' name='others' value='1')>Others<br>
+                                <input type='checkbox' name='medical' value='1')> Medical<br>
+                                <input type='checkbox' name='psychological' value='1')> Psychological<br>
+                                <input type='checkbox' name='learning_disability' value='1')> Learning Disability<br>
+                                <input type='checkbox' name='emotional' value='1')> Emotional<br>
+                                <input type='checkbox' name='social' value='1')> Social<br>
+                                <input type='checkbox' name='others' value='1')> Others<br>
                             </div>
                         </div>                             
 <!--                        <div class="col-sm-6">
@@ -251,7 +273,7 @@
                                 <label>Please specify condition and type of professional seen:</label>
                                 <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text">
                             </div>        
-                        </div>                             
+                        </div>          
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <input class="form form-control btn btn-success" type="submit" value='REGISTER NEW STUDENT'>
@@ -270,6 +292,7 @@
     $(document).ready(function(){
     $("#conditionType").hide();
     $("#specify_condition").hide();
+    $('#specify_citizenship').hide();
     //$('#programForm').hide();
 
     $('#applying_for').on('change', function(e){
@@ -300,9 +323,20 @@
         }
     });
     
+    $('#is_foreign').on('change', function(){
+        var value = $('#is_foreign').val();
+        if(value == 1 || value == 2){
+            $('#specify_citizenship').fadeIn();
+        }
+        else{
+            $('#specify_citizenship').hide(); 
+        }
+    });  
+    
 //    $('#conditionType').on('change', function(){
 //        var value = $('#conditionType').val();
-//        if(value === "Others"){
+//        if(value === 
+//        "Others"){
 //            $('#specifyCondition').fadeIn();
 //        }
 //        else{
