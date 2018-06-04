@@ -96,8 +96,8 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                  echo "<tr><td>Status : </td><td>Enrolled</td><tr>";
                 if($status->academic_type=="College"){
                  echo "<tr><td>Level/Section : </td><td>".$levels->program_code ." - ".$levels->level."</td><tr>";
-                } else {
-                    
+                } elseif($status->academic_type=="BED" || $status->academic_type=="SHS") {
+                 echo "<tr><td>Level : </td><td>".$levels->level."</td><tr>";
                 }
                  break;
             case 4:

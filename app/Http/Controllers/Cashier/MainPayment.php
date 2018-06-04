@@ -344,7 +344,7 @@ class MainPayment extends Controller {
                 $addbed->idno = $status->idno;
                 $addbed->date_registered = $status->date_registered;
                 $addbed->date_enrolled = date('Y-m-d');
-                $addbed->department = $this->getDepartment($status->level);
+                $addbed->department = $status->department;
                 $addbed->strand = $status->strand;
                 $addbed->track = $status->track;
                 $addbed->level = $status->level;
