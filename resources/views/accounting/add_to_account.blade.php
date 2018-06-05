@@ -117,7 +117,7 @@
         @endforeach
         </table>
     @else    
-    <h1>No other payment addedd</h1>
+    <h1>No other payment added!</h1>
     @endif
    </div> 
 </div>    
