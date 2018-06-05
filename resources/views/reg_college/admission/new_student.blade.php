@@ -34,13 +34,12 @@
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
 <section class="content-header">
     <h1>
-        Pre-Application
+        Pre-Application Form
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"> Curriculum Management</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('admission','new_student'))}}"> New Student</a></li>
+        <li class="active">New Student</li>
     </ol>
 </section>
 @endsection
@@ -50,12 +49,11 @@
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">
-<!--Personal Info-->                    
+<!--Personal Info-->                  
                     <h3 class="box-title"><span class='fa fa-edit'></span> Personal Information</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
-
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
@@ -69,30 +67,29 @@
                 <div class="box-body">
                     <form class="form-horizontal" method='post' action='{{url('/registrar_college', array('admission', 'add_new_student'))}}'>
                         {{ csrf_field() }}
-                        
                         <div class="form-group">
-                        <div class="col-sm-4">
-                            <label>Applying For</label>
-                            <select class="form form-control" name='applying_for' id='applying_for'>
-                                <option value=''>Select Academic Type*</option>
-                                <option>Senior High School</option>
-                                <option>College</option>             
-                                <option>Graduate School</option>
-                            </select>        
-                        </div>                      
-                            
-                        <div id='programForm'> 
-                        <div class='col-sm-4'>
-                            <label class="col-sm-12">&nbsp;</label>
-                            <div id='displayProgram'>        
-                            </div>    
+                            <div class='col-sm-4'>
+                                <label>School Year</label>
+                                <select class="form form-control" name="applying_for_sy">
+                                    <option value='2018'>2018</option>
+                                </select>
+                            </div>
                         </div>
-                        </div>   
-                        <div class='col-sm-4'>
-                            <label class="col-sm-12">School Year</label>
-                            <select class="form form-control" name="applying_for_sy">
-                                <option value='2018'>2018</option>
-                            </select>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>Applying For</label>
+                                <select class="form form-control" name='applying_for' id='applying_for'>
+                                    <option value=''>Select Academic Type*</option>
+                                    <option>College</option>             
+                                    <option>Graduate School</option>
+                                </select>        
+                            </div>
+                        <div id='form-group programForm'> 
+                            <div class='col-sm-4'>
+                                <label class="col-sm-12">&nbsp;</label>
+                                <div id='displayProgram'>        
+                                </div>    
+                            </div>
                         </div>                            
                         </div> 
                         <div class="form-group">

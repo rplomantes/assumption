@@ -33,6 +33,7 @@ class CreateAdmissionHedRequirementsTable extends Migration
             $table->integer('photocopy_diploma')->nullable();
             $table->integer('marriage_contract')->nullable();
             $table->integer('child_birth_cert')->nullable();
+            $table->integer('school_rec')->nullable();
             $table->integer('medical_clearance')->nullable();
             $table->string('remarks')->nullable();
             $table->foreign('idno')
