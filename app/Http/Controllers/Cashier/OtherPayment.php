@@ -29,7 +29,7 @@ class OtherPayment extends Controller
         if($receipt_number<=$ending_receipt_number){
         return view('cashier.other_payment',compact('user','status','receipt_number','particulars'));
         }else{
-            return "OR Used!";
+                return view('cashier.ORUsed');
         }
     }}
     function post_other_payment(Request $request){

@@ -8,6 +8,7 @@
         <th>Student Record</th>
         <th>Assessment</th>
         <th>Schedule</th>
+        <th>Adding/Dropping</th>
     </tr>
     @foreach($lists as $list)
     @if($list->accesslevel == '0')
@@ -18,7 +19,7 @@
         <td><a href="{{url('registrar_college', array('student_record', $list->idno))}}">Student Record</a></td>
         <td><a href="{{url('registrar_college', array('assessment',$list->idno))}}">Assessment</a></td>
         <td><a href="{{url('registrar_college', array('advising','assigning_of_schedules',$list->idno))}}">Schedule</a></td>
-        
+        <td><a href="{{url('registrar_college', array('adding_dropping',$list->idno))}}">Adding/Dropping</a></td>
     </tr>
     @endif
     @endforeach

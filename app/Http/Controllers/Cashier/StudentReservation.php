@@ -27,7 +27,7 @@ class StudentReservation extends Controller
         if($receipt_no<=$ending_receipt_number){
         return view('cashier.reservation',compact('user','reservations','deposits','receipt_no'));
         }else{
-            return "OR Used!";
+                return view('cashier.ORUsed');
         }
         } 
     }

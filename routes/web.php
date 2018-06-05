@@ -57,6 +57,15 @@ Route::post('/registrar_college/advising/assign_schedule', 'RegistrarCollege\Adv
 //Ajax Assigning of Schedule
 Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AssignSchedule_ajax@get_section');
 
+//Adding/Dropping///////////////////////////////////////////////////////////////
+Route::get('/registrar_college/adding_dropping/{idno}','RegistrarCollege\AddingDropping\AddingDroppingController@index');
+Route::get('/registrar_college/remove_adding_dropping/{idno}/{id}','RegistrarCollege\AddingDropping\AddingDroppingController@remove');
+Route::get('/registrar_college/process_adding_dropping/{idno}','RegistrarCollege\AddingDropping\AddingDroppingController@process');
+//Ajax
+Route::get('/ajax/registrar_college/adding_dropping/search_offer/','RegistrarCollege\AddingDropping\Ajax\AddingDropping_ajax@index');
+Route::get('/ajax/registrar_college/adding_dropping/adding/','RegistrarCollege\AddingDropping\Ajax\AddingDropping_ajax@adding');
+Route::get('/ajax/registrar_college/adding_dropping/dropping/','RegistrarCollege\AddingDropping\Ajax\AddingDropping_ajax@dropping');
+Route::get('/ajax/registrar_college/adding_dropping/show/','RegistrarCollege\AddingDropping\Ajax\AddingDropping_ajax@show');
 
 //Registrar College Curriculum Management///////////////////////////////////////
 //Curriculum

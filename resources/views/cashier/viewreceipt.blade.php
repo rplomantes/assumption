@@ -133,6 +133,14 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                 Restore
             @endif
             </a>
+            @elseif(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+            <a class="btn btn-primary" id="cancelrestore" href="{{url("/cashier",array("reverserestore",$payment->reference_id))}}">
+            @if($payment->is_reverse=="0")    
+                Cancel
+            @else
+                Restore
+            @endif
+            </a>
             @endif
             
             <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$payment->idno))}}">Back To Ledger</a>

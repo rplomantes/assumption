@@ -147,7 +147,7 @@ class MainPayment extends Controller {
         $addacct->category = env("UNEARNED_NAME");
         $addacct->subsidiary = $request->idno;
         $addacct->receipt_details = env("UNEARNED_NAME");
-        $addacct->particular = "Unrealized Tiution Fee For " . $request->idno;
+        $addacct->particular = "Unrealized Tuition Fee For " . $request->idno;
         $addacct->accounting_code = env("UNEARNED_CODE");
         $addacct->accounting_name = env("UNEARNED_NAME");
         $addacct->department = $department;
