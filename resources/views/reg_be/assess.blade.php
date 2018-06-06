@@ -348,7 +348,7 @@ $other_collection = \App\OtherCollection::get();
                 @endif
                 @if(count($optional_materials)>0)
                 @foreach($optional_materials as $optional)
-                <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" checked="checked" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
+                <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" checked="checked" onclick="return false;" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
                     Required {{$optional->subsidiary}} <span class="warning">(SET)</span>
                    @if(count($materials)>0)
