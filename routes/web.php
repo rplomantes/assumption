@@ -230,6 +230,7 @@ Route::get('/accounting/set_or', 'Accounting\SetReceiptController@index');
 Route::post('/accounting/update_or', 'Accounting\SetReceiptController@update_or');
 //Search OR
 Route::get('/accounting/search_or', 'Accounting\SetReceiptController@search_or');
+Route::get('/accounting/ajax/getsearch_or', 'Accounting\Ajax\AjaxSetReceipt@getsearch_or');
 
 
 //GUIDANCE BED - MAIN///////////////////////////////////////////////////////////

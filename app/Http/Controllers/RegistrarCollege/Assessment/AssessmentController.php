@@ -476,6 +476,7 @@ class AssessmentController extends Controller {
     }
 
     function computeLedgerDueDate($idno, $school_year, $period, $plan) {
+        $total_decimal = 0;
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
         $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
@@ -509,10 +510,19 @@ class AssessmentController extends Controller {
                 $addledgerduedates->period = $period;
                 $addledgerduedates->due_switch = 1;
                 $addledgerduedates->due_date = $paln->due_date;
-                $addledgerduedates->amount = $this->computeplan($downpaymentamount, $totalFees, $due_dates);
+                $plan_amount = floor($this->computeplan($downpaymentamount, $totalFees, $due_dates));
+                $addledgerduedates->amount = $plan_amount;
                 $addledgerduedates->save();
+                $total_decimal = $total_decimal + ($this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount);
             }
+            $this->update_due_dates($idno, $this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount, $total_decimal, $downpaymentamount);
         }
+    }
+
+    function update_due_dates($idno, $dueamount, $total_decimal, $downpaymentamount) {
+        $update = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+        $update->amount = $downpaymentamount + $total_decimal;
+        $update->save();
     }
 
     function getAccountingName($accounting_code) {

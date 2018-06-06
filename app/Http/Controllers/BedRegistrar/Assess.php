@@ -393,6 +393,7 @@ class Assess extends Controller {
     }
 
     function addDueDates($request, $schoolyear, $period) {
+        $total_decimal = 0;
         if ($request->plan == "Annual") {
             $total = \App\Ledger::selectRaw('idno, sum(amount)-sum(discount) as total')->where('idno', $request->idno)
                             ->where('category_switch', '<=', env("TUITION_FEE"))->groupBy('idno')->first();
@@ -428,7 +429,7 @@ class Assess extends Controller {
 
             $addduedate->due_date = Date('Y-m-d');
             $addduedate->due_switch = 0;
-            $addduedate->amount = $dueothers->total + $dueamount;
+            $addduedate->amount = $dueothers->total;
             $addduedate->save();
 
             foreach ($duedates as $duedate) {
@@ -440,10 +441,19 @@ class Assess extends Controller {
                 }
                 $addduedate->due_date = $duedate->due_date;
                 $addduedate->due_switch = 1;
-                $addduedate->amount = $dueamount;
+                $plan_amount = floor($dueamount);
+                $addduedate->amount = $plan_amount;
                 $addduedate->save();
+                $total_decimal = $total_decimal + ($dueamount-$plan_amount);
             }
+             
+             $this->update_due_dates($request, $dueamount, $total_decimal, $dueothers->total);
         }
+    }
+    function update_due_dates($request,$dueamount, $total_decimal, $dueothers){
+        $update = \App\LedgerDueDate::where('idno',$request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+        $update->amount = $dueothers + $dueamount + $total_decimal;
+        $update->save();
     }
 
     function modifyStatus($request, $schoolyear, $period) {
