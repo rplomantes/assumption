@@ -1,4 +1,4 @@
-<?php
+    <?php
     if(Auth::user()->accesslevel == env('ADMISSION_HED')){
     $layout = "layouts.appadmission-hed";
     } else {
