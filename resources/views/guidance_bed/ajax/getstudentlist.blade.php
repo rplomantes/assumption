@@ -11,7 +11,7 @@
     <tr>
         <td>{{$list->idno}}</td>
         <td>{{$list->lastname}}, {{$list->firstname}}</td>
-        <td><a href="{{url('/')}}">Promotions</a></td>
+        <td><a href="{{url('/guidance_bed', array('promotions',$list->idno))}}">Promotions</a></td>
     </tr>
     @endif
     @endforeach

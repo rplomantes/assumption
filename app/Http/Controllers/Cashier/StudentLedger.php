@@ -118,7 +118,7 @@ class StudentLedger extends Controller
         }
     }
     function reverserestore($reference_id){
-        if(Auth::user()->accesslevel==env("CASHIER")){
+        if(Auth::user()->accesslevel==env("CASHIER")||Auth::user()->accesslevel == env('ACCTNG_STAFF')||Auth::user()->accesslevel == env('ACCTNG_HEAD')){
             DB::beginTransaction();
             //$this->checkifreservation($reference_id);
             $this->reverserestore_ledger($reference_id, env("CASH"));

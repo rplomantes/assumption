@@ -51,4 +51,10 @@ class SetReceiptController extends Controller
         $log->datetime = date("Y-m-d H:i:s");
         $log->save();
     }
+    
+    function search_or(){
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+        return view('accounting.search_or');
+        }
+    }
 }

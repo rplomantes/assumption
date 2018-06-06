@@ -16,11 +16,12 @@ class AddingDroppingController extends Controller {
     }
 
     function index($idno) {
-        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+        $user = \App\User::where('idno',$idno)->first();
+        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
         $adding_droppings = \App\AddingDropping::where('idno', $idno)->where('is_done', 0)->get();
 
-        return view('reg_college.adding_dropping.view_grades', compact('school_year', 'idno', 'grades', 'adding_droppings'));
+        return view('reg_college.adding_dropping.view_grades', compact('school_year', 'idno', 'grades', 'adding_droppings', 'user'));
     }
 
     function remove($idno, $id) {
@@ -94,6 +95,22 @@ class AddingDroppingController extends Controller {
                 $new_grade->period = $school_year->period;
                 $new_grade->srf = $grade->srf;
                 $new_grade->save();
+                
+                $addledger = new \App\Ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $status->program_code)->first()->department;
+                $addledger->program_code = $status->program_code;
+                $addledger->level = $grade->level;
+                $addledger->school_year = $school_year->school_year;
+                $addledger->period = $school_year->period;
+                $addledger->category = "SRF";
+                $addledger->subsidiary = $grade->course_code;
+                $addledger->receipt_details = "SRF";
+                $addledger->accounting_code = env("SRF_CODE");
+                $addledger->accounting_name = env("SRF_NAME");
+                $addledger->category_switch = env("SRF_FEE");
+                $addledger->amount = $grade->srf;
+                $addledger->save();
 
                 $grade->is_done = 1;
                 $grade->save();

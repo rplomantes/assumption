@@ -372,22 +372,23 @@ class Assess extends Controller {
         $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
         $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
         foreach ($optional as $key => $value) {
-
-            $item = \App\CtrOptionalFee::find($key);
-            $addledger = new \App\Ledger;
-            $addledger->idno = $request->idno;
-            $addledger->department = $department->department;
-            $addledger->level = $request->level;
-            $addledger->school_year = $schoolyear->school_year;
-            $addledger->category = $item->category;
-            $addledger->subsidiary = $item->subsidiary;
-            $addledger->receipt_details = $item->receipt_details;
-            $addledger->accounting_code = $item->accounting_code;
-            $addledger->accounting_name = $this->getAccountingName($item->accounting_code);
-            $addledger->category_switch = $item->category_switch;
-            $addledger->amount = $item->amount;
-            $addledger->qty = '1';
-            $addledger->save();
+            if ($value > 0) {
+                $item = \App\CtrOptionalFee::find($key);
+                $addledger = new \App\Ledger;
+                $addledger->idno = $request->idno;
+                $addledger->department = $department->department;
+                $addledger->level = $request->level;
+                $addledger->school_year = $schoolyear->school_year;
+                $addledger->category = $item->category;
+                $addledger->subsidiary = $item->subsidiary;
+                $addledger->receipt_details = $item->receipt_details;
+                $addledger->accounting_code = $item->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($item->accounting_code);
+                $addledger->category_switch = $item->category_switch;
+                $addledger->amount = $item->amount;
+                $addledger->qty = '1';
+                $addledger->save();
+            }
         }
     }
 

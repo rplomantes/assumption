@@ -23,9 +23,9 @@
 @endsection
 @section('header')
 <section class="content-header">
-    <h1>
-        Set Up Advising
-        <small></small>
+    <h1 style="color: red">
+        <b>{{strtoupper($user->idno)}} - {{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}}</b>
+        <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>

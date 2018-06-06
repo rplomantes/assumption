@@ -117,7 +117,17 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
-        <li><a href="{{url('/accounting','set_or')}}"><i class="fa fa-columns"></i> <span> Set OR Number</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-columns"></i> <span>Official Receipt</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+        <li><a href="{{url('/accounting','search_or')}}"><span> Search OR</span></a></li>
+        <li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>
+          </ul>
+        </li>
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Disbursement</span></a></li>
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Journal Entry</span></a></li>
         <li class="treeview">

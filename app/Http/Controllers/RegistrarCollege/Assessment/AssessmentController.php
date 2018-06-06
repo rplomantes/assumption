@@ -91,10 +91,10 @@ class AssessmentController extends Controller {
         $this->processAssessment($request);
         DB::Commit();
         $user = \App\User::where('idno', $request->idno)->first();
-        if(count($user)>0){
-        return redirect(url('/registrar_college', array('assessment', $request->idno)));
-        }else{
-        return redirect(url('/'));
+        if (count($user) > 0) {
+            return redirect(url('/registrar_college', array('assessment', $request->idno)));
+        } else {
+            return redirect(url('/'));
         }
     }
 
@@ -428,6 +428,28 @@ class AssessmentController extends Controller {
         $addledger->discount = $tobediscount;
         $addledger->discount_code = $discount_code;
         $addledger->save();
+
+        $status = \App\Status::where('idno', $idno)->first();
+        $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
+        if (count($due_dates) > 0) {
+            foreach ($due_dates as $paln) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = "Tuition Fee";
+                $addledger->subsidiary = "Tuition Fee";
+                $addledger->receipt_details = "Tuition Fee";
+                $addledger->accounting_code = env("AR_TUITION_CODE");
+                $addledger->accounting_name = env("AR_TUITION_NAME");
+                $addledger->category_switch = env("TUITION_FEE");
+                $addledger->amount = 300;
+                $addledger->save();
+            }
+        }
     }
 
     function getSRF($idno, $program_code, $school_year, $period, $level) {
