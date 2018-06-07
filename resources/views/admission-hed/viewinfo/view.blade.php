@@ -10,8 +10,8 @@
             }elseif($adhedinfo->applying_for == "College"){
                 $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distinct program_name")->where('academic_type','College')->get();
                 
-            }elseif($adhedinfo->applying_for == "GradSchool"){
-                $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distict program_name")->where('academic_type','Gradschool')->get();
+            }elseif($adhedinfo->applying_for == "Graduate School"){
+                $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distinct program_name")->where('academic_type','Masters Degree')->get();
             }
 ?>
 @extends($layout)
@@ -308,26 +308,6 @@
                         </div>
                         <div class="form-group">    
                             <div class="col-sm-3">
-                                <label>Civil Status</label>
-                                <select class="form form-control" name='civil_status' placeholder='Civil Status' type="text">
-                                    <option value="">Select Civil Status</option>
-                                    <option value="Single" @if($studentinfos->civil_status == 'Single') selected='' @else @endif>Single</option>
-                                    <option value="Married" @if($studentinfos->civil_status == 'Married') selected='' @else @endif>Married</option>
-                                    <option value="Divorced" @if($studentinfos->civil_status == 'Divorced') selected='' @else @endif>Divorced</option>
-                                    <option value="Widowed" @if($studentinfos->civil_status == 'Widowed') selected='' @else @endif>Widowed</option>
-                                </select>   
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Nationality</label>
-                                  <input class="form form-control" name='nationality' placeholder='Nationality' value="{{old('nationality', $studentinfos->nationality)}}" type="text">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Religion</label>
-                                <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion', $studentinfos->religion)}}" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                        <div class="col-sm-3">
                                 <label>Local/Foreigner</label>
                                 <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
                                     <option value=''>Select Local/Foreign</option>
@@ -339,8 +319,26 @@
                             <div class="col-sm-3">
                                 <label>Specified Citizenship</label>
                                 <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship', $adhedinfo->specify_citizenship)}}" type="text">
-                            </div>    
-                        </div>    
+                            </div>                              
+                            <div class="col-sm-3">
+                                <label>Civil Status</label>
+                                <select class="form form-control" name='civil_status' placeholder='Civil Status' type="text">
+                                    <option value="">Select Civil Status</option>
+                                    <option value="Single" @if($studentinfos->civil_status == 'Single') selected='' @else @endif>Single</option>
+                                    <option value="Married" @if($studentinfos->civil_status == 'Married') selected='' @else @endif>Married</option>
+                                    <option value="Divorced" @if($studentinfos->civil_status == 'Divorced') selected='' @else @endif>Divorced</option>
+                                    <option value="Widowed" @if($studentinfos->civil_status == 'Widowed') selected='' @else @endif>Widowed</option>
+                                </select>   
+                            </div>
+<!--                            <div class="col-sm-3">
+                                <label>Nationality</label>
+                                  <input class="form form-control" name='nationality' placeholder='Nationality' value="{{old('nationality', $studentinfos->nationality)}}" type="text">
+                            </div>-->
+                            <div class="col-sm-3">
+                                <label>Religion</label>
+                                <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion', $studentinfos->religion)}}" type="text">
+                            </div>
+                        </div>  
 <!--                        <div class="form-group">
                             <div class="col-sm-9">
                                 <label>Last School Attended</label>

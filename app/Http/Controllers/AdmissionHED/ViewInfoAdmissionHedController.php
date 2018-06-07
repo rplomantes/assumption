@@ -68,7 +68,7 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->tel_no = $request->tel_no;
         $updatePersonalInfo->cell_no = $request->cell_no;
         $updatePersonalInfo->civil_status = $request->civil_status;
-        $updatePersonalInfo->nationality = $request->nationality;
+        $updatePersonalInfo->nationality = $request->specify_citizenship;
         $updatePersonalInfo->religion = $request->religion;
         $updatePersonalInfo->last_school_attended = $request->last_school_attended;
         $updatePersonalInfo->update();

@@ -121,6 +121,7 @@ class NewStudentController extends Controller {
         $tel_no = $request->tel_no;
         $cell_no = $request->cell_no;
         $last_school_attended = $request->last_school_attended;
+        $specify_citizenship = $request->specify_citizenship;
         //$program_to_enroll = $request->program_to_enroll;
 
         $add_new_student_info = new \App\StudentInfo;
@@ -141,6 +142,7 @@ class NewStudentController extends Controller {
         $add_new_student_info->tel_no = $tel_no;
         $add_new_student_info->cell_no = $cell_no;
         $add_new_student_info->last_school_attended = $last_school_attended;
+        $add_new_student_info->nationality = $specify_citizenship;
         $add_new_student_info->save();
     }
 

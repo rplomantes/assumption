@@ -68,12 +68,7 @@
                     <form class="form-horizontal" method='post' action='{{url('/registrar_college', array('admission', 'add_new_student'))}}'>
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <div class='col-sm-4'>
-                                <label>School Year</label>
-                                <select class="form form-control" name="applying_for_sy">
-                                    <option value='2018'>2018</option>
-                                </select>
-                            </div>
+   
                         </div>
                         <div class="form-group">
                             <div class="col-sm-4">
@@ -84,13 +79,19 @@
                                     <option>Graduate School</option>
                                 </select>        
                             </div>
-                        <div id='form-group programForm'> 
+                        <div id='programForm'> 
                             <div class='col-sm-4'>
                                 <label class="col-sm-12">&nbsp;</label>
                                 <div id='displayProgram'>        
                                 </div>    
                             </div>
-                        </div>                            
+                        </div> 
+                            <div class='col-sm-4'>
+                                <label>School Year</label>
+                                <select class="form form-control" name="applying_for_sy">
+                                    <option value='2018'>2018</option>
+                                </select>
+                            </div>                            
                         </div> 
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -304,7 +305,7 @@
     $("#conditionType").hide();
     $("#specify_condition").hide();
     $('#specify_citizenship').hide();
-    //$('#programForm').hide();
+    $('#programForm').hide();
 
     $('#applying_for').on('change', function(e){
        // alert("hello")    
@@ -333,7 +334,17 @@
             $('#specify_condition').hide();
         }
     });
-    
+
+    $('#applying_for').on('change', function(){
+        var value = $('#applying_for').val();
+        if(value == 'College' || value == 'Graduate School'){
+            $('#programForm').fadeIn();
+        }
+        else{
+            $('#programForm').hide();
+        }
+    });    
+        
     $('#is_foreign').on('change', function(){
         var value = $('#is_foreign').val();
         if(value == 1 || value == 2){
