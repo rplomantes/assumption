@@ -98,7 +98,6 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->guardian_contact = $request->guardian_contact;
         $updatePersonalInfo->guardian_email = $request->guardian_email;
         $updatePersonalInfo->guardian_type = $request->guardian_type;
-
         $updatePersonalInfo->update();
 //            if($request->admission_status == 'Probationary'){
 //                $updatePersonalInfo->admission_status = $request->agreement;

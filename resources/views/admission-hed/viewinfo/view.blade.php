@@ -480,7 +480,6 @@
     
     })
 </script>
-
 <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <script>
 $(function () {
