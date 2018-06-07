@@ -282,6 +282,15 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
             <input type="text" name="deposit_amount" id="deposit_amount" class="form form-control number" />
             </div>
         </div>    
+    </div> 
+    <div class="over_payment">
+        <div class="form form-group">
+        
+        <div class="col-md-12">
+            <label>Over Payment</label>
+            <input type="text" name="over_payment" id="over_payment" class="form form-control number" value="0" readonly="redonly">
+        </div>
+        </div>
     </div>    
      <div class="submit_button">
         <div class="form form-group">
@@ -343,6 +352,10 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
         color:#f00;
         font-weight: bold;
         font-size: 12pt;
+    }
+    .over_payment{
+        background-color: #B995A9;
+        padding: 10px
     }
 </style>
 
@@ -589,11 +602,13 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
          totalamount = 0;
          amountreceive= 0;
          noncash=0;
+         check_amount=0;
          if($("#collected_amount").val()!=""){
             totalamount = totalamount + eval($("#collected_amount").val())
         }
          
          if($("#check_amount").val()!=""){
+            check_amount= eval($("#check_amount").val());
             noncash = noncash + eval($("#check_amount").val())
         }
          if($("#credit_card_amount").val()!=""){
@@ -604,8 +619,27 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
         }
          
         if(noncash > totalamount){
-             alert("Invalid Amount !!!!!")     
-         } else {
+            if(noncash-check_amount>totalamount){
+             alert("Invalid Amount !!!!!")
+            } else {
+             $("#over_payment").val(check_amount-totalamount)
+             if($("#cash_receive").val()!=""){
+                   amountreceive = eval($("#cash_receive").val());
+               } 
+              if(amountreceive+noncash-totalamount >= 0){
+                  $("#submit_button").fadeIn(300)
+                  $("#submit_button").focus();
+              }else{
+                  $("#submit_button").fadeOut(300)
+              }
+              $('#cash_receive').val(0);
+              $('#deposit_amount').val(0);
+              $('#credit_card_amount').val(0);
+              $("#change").val(0)
+              return "0.00";
+            }
+            } else {
+                
              if($("#cash_receive").val()!=""){
                    amountreceive = eval($("#cash_receive").val());
                } 

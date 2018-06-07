@@ -210,10 +210,30 @@ class MainPayment extends Controller {
 
     function postAccounting($request, $reference_id) {
 
+        if($request->over_payment > 0){
+            $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
+            $addacct = new \App\Accounting;
+            $addacct->transaction_date = date('Y-m-d');
+            $addacct->reference_id = $reference_id;
+            $addacct->accounting_type = env("CASH");
+            $addacct->category = "Overpayment";
+            $addacct->subsidiary = "Overpayment";
+            $addacct->receipt_details = "Overpayment";
+            $addacct->particular = "Overpayment";
+            $addacct->accounting_code = env("OVER_PAYMENT_CODE");
+            $addacct->accounting_name = env("OVER_PAYMENT_NAME");
+            $addacct->department = "NONE";
+            $addacct->fiscal_year = $fiscal_year;
+            $addacct->credit = $request->over_payment;
+            $addacct->posted_by = Auth::user()->idno;
+            $addacct->save();
+        }
+        
         if ($request->main_due > 0) {
             $totalpayment = $request->main_due;
             $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '<=', '6')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
+            
         }
 
         if ($request->previous_balance > 0) {
