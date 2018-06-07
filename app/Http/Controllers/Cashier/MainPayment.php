@@ -116,10 +116,11 @@ class MainPayment extends Controller {
     }
 
     public static function addUnrealizedEntry($request, $reference_id) {
+        $level = \App\Status::where('idno', $request->idno)->first()->level;
         $totaltuition = \App\Ledger::where('idno', $request->idno)->where('category_switch', env("TUITION_FEE"))
                         ->selectRaw("sum(amount) as amount")->first();
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
-        $dept = \App\CtrAcademicProgram::where('level', $request->level)->first();
+        $dept = \App\CtrAcademicProgram::where('level', $level)->first();
         $department = $dept->department; //\App\Status::where('idno',$request->idno)->first()->department;
         //add debit tuition fee ar
         $addacct = new \App\Accounting;
