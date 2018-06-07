@@ -19,7 +19,7 @@ class GetStudentList_ajax extends Controller
                         $query->where("lastname","like","%$search%")
                               ->orWhere("firstname","like","%$search%")
                               ->orWhere("idno",$search);
-                    })->get();
+                    })->orderBy('accesslevel', 'asc')->get();
             return view('admin.ajax.getstudentlist',compact('lists'));
         }
     }

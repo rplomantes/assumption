@@ -60,6 +60,8 @@ $materials =  \App\CtrMaterial::where('level',$current_level)->where('category',
 $other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 $discount = \App\DiscountCollection::where('id',$user->idno)->get();
 $other_collection = \App\OtherCollection::get();
+
+$check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -104,6 +106,14 @@ $other_collection = \App\OtherCollection::get();
 @section('maincontent')
 <form class="form form-horizontal" method="post" action="{{url('/bedregistrar','assess')}}">
     {{csrf_field()}}
+    <?php $balance = 0; ?>
+    @if(count($check_balances)>0)
+    @foreach ($check_balances as $check_balance)
+    <?php $balance = $balance + $check_balance->balance; ?>
+    @endforeach
+    <div class="alert alert-danger">Student still have an outstanding balance of <b>Php {{number_format($balance)}}</b>. Please go to Treasurer's Office to settle the account.<br>
+    If <b>Official Receipt</b> was presented, kindly disregard this message. Thank you!</div>
+    @endif
     <input type="hidden" name="idno" value="{{$user->idno}}">
     <div class="row">
         <div class="col-md-12">
