@@ -19,6 +19,8 @@ Route::get('/bedregistrar/ajax/sectioncontrol','BedRegistrar\Ajax\GetStudentList
 Route::get('/bedregistrar/ajax/sectionlist','BedRegistrar\Ajax\GetStudentList@pop_section_list');
 Route::get('/bedregistrar/ajax/change_section','BedRegistrar\Ajax\GetStudentList@change_section');
 Route::get('/registrarcollege/ajax/getprogram', 'RegistrarCollege\Admission\Ajax\getcourseController@getCourse');
+Route::get('/accounting/ajax/getplan','Accounting\Ajax\GetPlan@plan');
+Route::get('/accounting/ajax/print_getplan/{department}','Accounting\Ajax\GetPlan@print_plan');
 //cashier
 Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
 
@@ -68,6 +70,7 @@ Route::get('/accounting/set_other_payment','Accounting\AddAccount@set_other_paym
 Route::post('/accounting/set_other_payment','Accounting\AddAccount@post_set_other_payment');
 Route::get('/accounting/remove_set_other_payment/{id}','Accounting\AddAccount@remove_set_other_payment');
 Route::get('/accounting/cash_receipt','Accounting\BookOfAccount@cash_receipt');
+Route::get('/accounting/schedule_of_plan', 'Accounting\ScheduleOfFees@plan');
 //BED registrar
 Route::get('/bedregistrar/info/{idno}','BedRegistrar\Registration@info');
 Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');

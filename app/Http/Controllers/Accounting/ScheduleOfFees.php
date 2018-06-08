@@ -60,4 +60,7 @@ class ScheduleOfFees extends Controller
             return $pdf->stream("schedule_of_fees.pdf");
         }
     }
+    function plan(){
+        return view('accounting.schedule_of_plan');
+    }
 }

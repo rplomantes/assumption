@@ -170,9 +170,19 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
             <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
           </ul>
         </li>
-       
-        <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><i class="fa fa-link"></i> <span>Schedule of Fees</span></a></li>
-      </ul>
+       <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Schedule Of Fees</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+              
+        <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><i class="fa fa-link"></i> <span>Per Level</span></a></li>
+        <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><i class="fa fa-link"></i> <span>Per Plan</span></a></li> 
+       </ul>
+          </li> 
+          </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
