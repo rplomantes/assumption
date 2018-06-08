@@ -19,7 +19,7 @@ class GetPlan extends Controller
     //
     function print_plan($department){
         $pdf = PDF::loadView('accounting.ajax.print_plan', compact('department'));
-        $pdf->setPaper('legal','landscape');
+        $pdf->setPaper('letter','landscape');
         return $pdf->stream();
     }
 }
