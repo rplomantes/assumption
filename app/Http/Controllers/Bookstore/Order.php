@@ -52,7 +52,7 @@ class Order extends Controller
         $pe_uniforms = \App\Ledger::where('category_switch','5')->where('idno',$idno)->where('category','PE Uniforms/others')->get();
 
         $pdf = PDF::loadView('bookstore.print_order', compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status'));
-        $pdf->setPaper(array(0,0,540,612));
+        $pdf->setPaper(array(0, 0, 612.00, 792.0));
         return $pdf->stream();
   }
     

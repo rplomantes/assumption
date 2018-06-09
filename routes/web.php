@@ -244,3 +244,6 @@ Route::get('/bedregistrar/ajax/add_discount_collection','BedRegistrar\Ajax\Disco
 Route::get('/bedregistrar/ajax/remove_discount_collection','BedRegistrar\Ajax\DiscountCollection@remove_discount_collection');
 Route::get('/bedregistrar/ajax/pop_discount_collection','BedRegistrar\Ajax\DiscountCollection@pop_discount_collection');
 
+
+//print assessment for Bed registrar
+Route::get('/bedregistrar/print_assessment/{idno}','BedRegistrar\Assess@print_assessment');

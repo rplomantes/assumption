@@ -156,7 +156,10 @@ $totalmainpayment=0;
     @else
     <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
     @endif
-</div>  
+</div>
+<div class="col-md-3">
+    <a href="{{url('/bedregistrar',array('print_assessment',$idno))}}" class="btn btn-success form form-control">Print Assessment Form</a>
+</div>
 <div class="col-md-3">
     <a href="{{url('/')}}" class="btn btn-primary form fom-control">Back To Main</a>
 </div>    

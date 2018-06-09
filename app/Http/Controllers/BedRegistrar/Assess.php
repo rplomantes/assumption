@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 use App\Http\Controllers\Cashier\MainPayment;
+use PDF;
 
 class Assess extends Controller {
 
@@ -71,7 +72,7 @@ class Assess extends Controller {
                         $this->addSRF($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addDueDates($request, $schoolyear->school_year, $schoolyear->period);
                         $this->modifyStatus($request, $schoolyear->school_year, $schoolyear->period);
-                        $this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
+                        $idno=$this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
 
                         //$this->addBooks($request,$schoolyear);
                         DB::commit();
@@ -356,7 +357,7 @@ class Assess extends Controller {
                 $addledger->level = $request->level;
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $tshirt->category;
-                $addledger->subsidiary = $tshirt->subsidiary;
+                $addledger->subsidiary = $tshirt->subsidiary . " [" . $tshirt->size . "]";
                 $addledger->receipt_details = $tshirt->receipt_details;
                 $addledger->accounting_code = $tshirt->accounting_code;
                 $addledger->accounting_name = $this->getAccountingName($tshirt->accounting_code);
@@ -605,6 +606,8 @@ class Assess extends Controller {
                     $change->update();
                 }
             }
+            
+            return MainPayment::changeStatus($request->idno);
         }
     }
 
@@ -725,4 +728,9 @@ class Assess extends Controller {
         return round($amount);
     }
 
+    function print_assessment($idno){
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('reg_be.assessment_form', compact('idno'));
+        return $pdf->stream();
+    }
 }

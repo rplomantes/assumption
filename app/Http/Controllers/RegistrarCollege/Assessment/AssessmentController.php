@@ -587,6 +587,7 @@ class AssessmentController extends Controller {
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
                     $change->is_consumed = '1';
+                    $change->consume_sy = $school_year;
                     $change->update();
                 }
             }
@@ -640,6 +641,7 @@ class AssessmentController extends Controller {
     }
 
     function postDebitMemo($idno, $reference_id, $totalReserved) {
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
         $debit_memo = new \App\DebitMemo;
         $debit_memo->idno = $idno;
         $debit_memo->transaction_date = date("Y-m-d");
@@ -647,6 +649,7 @@ class AssessmentController extends Controller {
         $debit_memo->dm_no = $this->getDMNumber();
         $debit_memo->explanation = "Reversal of Reservation/Student Deposit";
         $debit_memo->amount = $totalReserved;
+        $debit_memo->reservation_sy = $school_year->school_year;
         $debit_memo->posted_by = Auth::user()->idno;
         $debit_memo->save();
     }
