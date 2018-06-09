@@ -24,6 +24,7 @@ class CreateReservationsTable extends Migration
             $table->integer('reservation_type');
             $table->string('consume_sy')->nullable();
             $table->string('posted_by');
+            $table->string('levels_reference_id')->nullable();
             $table->foreign('idno')->references('idno')
                     ->on('users')->onUpdate('cascade');
             $table->timestamps();
