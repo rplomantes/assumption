@@ -38,6 +38,7 @@ class CreateCollegeLevelsTable extends Migration
             $table->string('registration_no')->nullable();
             $table->string('remarks')->nullable();
             $table->string('is_audit')->default(0);
+            $table->string('levels_reference_id')->nullable();
             $table->foreign('idno')
                     ->references('idno')->on('users')
                     ->onUpdate('cascade');
