@@ -158,8 +158,9 @@ class MainPayment extends Controller {
         $addacct->save();
     }
 
-    public static function changeStatus($idno) {
+    public static function changeStatus($idno, $levels_reference_id) {
         $change = \App\Status::where('idno', $idno)->first();
+        $change->levels_reference_id = $levels_reference_id;
         $change->status = env("ENROLLED");
         $change->date_enrolled = date('Y-m-d');
         $change->update();
@@ -357,12 +358,13 @@ class MainPayment extends Controller {
         }
     }
 
-    public static function addLevels($idno) {
+    public static function addLevels($idno,$levels_reference_id) {
         $status = \App\Status::where('idno', $idno)->first();
         if (count($status) > 0) {
             if ($status->academic_type == "BED" || $status->academic_type == "SHS") {
                 $addbed = new \App\BedLevel;
                 $addbed->idno = $status->idno;
+                $addbed->levels_reference_id = $levels_reference_id;
                 $addbed->date_registered = $status->date_registered;
                 $addbed->date_enrolled = date('Y-m-d');
                 $addbed->department = $status->department;

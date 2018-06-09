@@ -62,6 +62,7 @@ $discount = \App\DiscountCollection::where('id',$user->idno)->get();
 $other_collection = \App\OtherCollection::get();
 
 $check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
+$check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->get();
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -113,6 +114,13 @@ $check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
     @endforeach
     <div class="alert alert-danger">Student still have an outstanding balance of <b>Php {{number_format($balance)}}</b>. Please go to Treasurer's Office to settle the account.<br>
     If <b>Official Receipt</b> was presented, kindly disregard this message. Thank you!</div>
+    @endif
+    <?php $reservation = 0; ?>
+    @if(count($check_reservations)>0)
+    @foreach ($check_reservations as $check_reservation)
+    <?php $reservation = $reservation + $check_reservation->amount; ?>
+    @endforeach
+    <div class="alert alert-info">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
     @endif
     <input type="hidden" name="idno" value="{{$user->idno}}">
     <div class="row">

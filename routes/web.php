@@ -247,3 +247,4 @@ Route::get('/bedregistrar/ajax/pop_discount_collection','BedRegistrar\Ajax\Disco
 
 //print assessment for Bed registrar
 Route::get('/bedregistrar/print_assessment/{idno}','BedRegistrar\Assess@print_assessment');
+Route::get('/bedregistrar/reassess_reservations/{idno}/{levels_reference_id}','BedRegistrar\Assess@reassess_reservations');

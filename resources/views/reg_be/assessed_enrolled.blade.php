@@ -153,8 +153,10 @@ $totalmainpayment=0;
 <div class="col-md-6">
     @if($status->status==env("ASSESSED"))
     <a href="{{url('/bedregistrar',array('reassess',$idno))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}}</a>
-    @else
+    @elseif ($totalpayment > 0)
     <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
+    @else
+    <a href="{{url('/bedregistrar',array('reassess_reservations',$idno, $status->levels_reference_id))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}}</a>    
     @endif
 </div>
 <div class="col-md-3">

@@ -492,6 +492,64 @@ class Assess extends Controller {
 
         return redirect(url('/bedregistrar', array('assess', $idno)));
     }
+    function reassess_reservations($idno, $levels_reference_id) {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            $status = \App\Status::where('idno', $idno)->first();
+            $user = \App\User::where('idno', $idno)->first();
+            $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', $user->academic_type)->first();
+            if ($status->status == env("ENROLLED")){
+                DB::beginTransaction();
+                $this->reverse_reservations($idno, $levels_reference_id);
+                $this->removeDM($idno, $levels_reference_id);
+                $this->remove_bed_levels($idno, $levels_reference_id);
+                $this->update_status($idno, $levels_reference_id);
+                $this->removeLedger($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                DB::commit();
+            }
+        }
+
+        return redirect(url('/bedregistrar', array('assess', $idno)));
+    }
+    
+    function reverse_reservations($idno, $levels_reference_id){
+        $reverses = \App\Reservation::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
+        foreach ($reverses as $reverse){
+            $reverse->levels_reference_id = "";
+            $reverse->is_consumed = 0;
+            $reverse->consume_sy = "";
+            $reverse->save();
+        }
+    }
+    
+    function removeDM($idno, $levels_reference_id){
+        $removeDMs = \App\DebitMemo::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
+        foreach($removeDMs as $removeDM){
+            $reference_id = $removeDM->reference_id;
+            $removeDM->delete();
+            $this->remove_accountings($reference_id);
+        }
+    }
+    
+    function remove_bed_levels($idno, $levels_reference_id){
+        $remove_bed_levels = \App\BedLevel::where('levels_reference_id', $levels_reference_id)->first();
+        $remove_bed_levels->delete();
+    }
+    
+    function remove_accountings($reference_id){
+        $remove_accountings = \App\Accounting::where('reference_id', $reference_id)->get();
+        foreach ($remove_accountings as $accounting){
+            $accounting->delete();
+        }
+    }
+    
+    function update_status($idno, $levels_reference_id){
+        $update_status = \App\Status::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->first();
+        $update_status->status = env("ASSESSED");
+        $update_status->save();
+    }
 
     function removeLedger($idno, $schoolyear, $period, $academic_type) {
         if ($academic_type == "BED") {
@@ -589,11 +647,12 @@ class Assess extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
+            $levels_reference_id = uniqid();
             $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
-            $this->postDebit($request, $reference_id, $totalpayment);
+            $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id);
 
             $changestatus = \App\Status::where('idno', $request->idno)->first();
             $changestatus->status = env("ENROLLED");
@@ -601,17 +660,18 @@ class Assess extends Controller {
             $changereservation = \App\Reservation::where('idno', $request->idno)->get();
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
+                    $change->levels_reference_id = $levels_reference_id;
                     $change->is_consumed = '1';
                     $change->consume_sy = $school_year;
                     $change->update();
                 }
             }
-            
-            return MainPayment::changeStatus($request->idno);
+            MainPayment::addLevels($request->idno, $levels_reference_id);
+            return MainPayment::changeStatus($request->idno, $levels_reference_id);
         }
     }
 
-    function postDebit($request, $reference_id) {
+    function postDebit($request, $reference_id, $totalpayment,$levels_reference_id) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $reservations = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
         $dept = \App\CtrAcademicProgram::where('level', $request->level)->first();
@@ -649,14 +709,15 @@ class Assess extends Controller {
                 $ledger->is_consumed = 1;
                 $totalReserved = $totalReserved + $ledger->amount;
             }
-            $this->postDebitMemo($request->idno, $reference_id, $totalReserved);
+            $this->postDebitMemo($request->idno, $reference_id, $totalReserved,$levels_reference_id);
         }
     }
 
-    function postDebitMemo($idno, $reference_id, $totalReserved) {
+    function postDebitMemo($idno, $reference_id, $totalReserved, $levels_reference_id) {
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
         $debit_memo = new \App\DebitMemo;
         $debit_memo->idno = $idno;
+        $debit_memo->levels_reference_id = $levels_reference_id;
         $debit_memo->transaction_date = date("Y-m-d");
         $debit_memo->reference_id = $reference_id;
         $debit_memo->dm_no = $this->getDMNumber();
