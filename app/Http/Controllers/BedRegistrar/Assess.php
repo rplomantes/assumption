@@ -72,7 +72,10 @@ class Assess extends Controller {
                         $this->addSRF($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addDueDates($request, $schoolyear->school_year, $schoolyear->period);
                         $this->modifyStatus($request, $schoolyear->school_year, $schoolyear->period);
-                        $idno=$this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
+                        $stat=$this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
+                        if($stat != $idno){
+                            $idno = $stat;
+                        }
 
                         //$this->addBooks($request,$schoolyear);
                         DB::commit();

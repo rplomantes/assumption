@@ -120,7 +120,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
     @foreach ($check_reservations as $check_reservation)
     <?php $reservation = $reservation + $check_reservation->amount; ?>
     @endforeach
-    <div class="alert alert-info">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
+    <div class="alert alert-info    ">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
     @endif
     <input type="hidden" name="idno" value="{{$user->idno}}">
     <div class="row">
