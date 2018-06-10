@@ -50,7 +50,7 @@ $upon = 0;
  </head>
     <body>
         <table border="0" cellpadding="0" cellspacing="0">
-            <tr><td><img width="100"src="{{url('/images','assumption-logo.png')}}" ><td>&nbsp;</td></td>
+            <tr><td><img width="100"src="{{public_path('/images/assumption-logo.png')}}" ><td>&nbsp;</td></td>
                 <td valign="top"><div class="logo">Assumption College</div>
         <div class="address">San Lorenzo Drive, San Lorenzo Village<br> Makati City</div>
         </td></tr>
