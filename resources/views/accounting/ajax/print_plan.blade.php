@@ -1,7 +1,13 @@
 <?php
 function get_plan($level,$category){
     $amount = \App\CtrBedFee::selectRaw('sum(amount) as amount, level, category')->whereRaw("level = '$level' and category = '$category'")->groupBy('level','category')->first();
-    return $amount->amount;  
+    $other_amount = \App\OtherCollection::selectRaw('sum(amount) as amount, category')->whereRaw("category = '$category'")->groupBy('category')->first();
+    if(count($other_amount)>0){
+        $amount = $amount->amount + $other_amount->amount;
+    } else {
+        $amount = $amount->amount;
+    }
+    return $amount;
 }
 ?>
 <!DOCTYPE html>

@@ -72,10 +72,8 @@ class Assess extends Controller {
                         $this->addSRF($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addDueDates($request, $schoolyear->school_year, $schoolyear->period);
                         $this->modifyStatus($request, $schoolyear->school_year, $schoolyear->period);
-                        $stat=$this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
-                        if($stat != $idno){
-                            $idno = $stat;
-                        }
+                        $this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
+
 
                         //$this->addBooks($request,$schoolyear);
                         DB::commit();
@@ -448,14 +446,15 @@ class Assess extends Controller {
                 $plan_amount = floor($dueamount);
                 $addduedate->amount = $plan_amount;
                 $addduedate->save();
-                $total_decimal = $total_decimal + ($dueamount-$plan_amount);
+                $total_decimal = $total_decimal + ($dueamount - $plan_amount);
             }
-             
-             $this->update_due_dates($request, $dueamount, $total_decimal, $dueothers->total);
+
+            $this->update_due_dates($request, $dueamount, $total_decimal, $dueothers->total);
         }
     }
-    function update_due_dates($request,$dueamount, $total_decimal, $dueothers){
-        $update = \App\LedgerDueDate::where('idno',$request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+
+    function update_due_dates($request, $dueamount, $total_decimal, $dueothers) {
+        $update = \App\LedgerDueDate::where('idno', $request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
         $update->amount = $dueothers + $dueamount + $total_decimal;
         $update->save();
     }
@@ -495,17 +494,18 @@ class Assess extends Controller {
 
         return redirect(url('/bedregistrar', array('assess', $idno)));
     }
+
     function reassess_reservations($idno, $levels_reference_id) {
         if (Auth::user()->accesslevel == env("REG_BE")) {
             $status = \App\Status::where('idno', $idno)->first();
             $user = \App\User::where('idno', $idno)->first();
             $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', $user->academic_type)->first();
-            if ($status->status == env("ENROLLED")){
+            if ($status->status == env("ASSESSED")) {
                 DB::beginTransaction();
                 $this->reverse_reservations($idno, $levels_reference_id);
                 $this->removeDM($idno, $levels_reference_id);
-                $this->remove_bed_levels($idno, $levels_reference_id);
-                $this->update_status($idno, $levels_reference_id);
+                //$this->remove_bed_levels($idno, $levels_reference_id);
+                //$this->update_status($idno, $levels_reference_id);
                 $this->removeLedger($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
@@ -516,39 +516,39 @@ class Assess extends Controller {
 
         return redirect(url('/bedregistrar', array('assess', $idno)));
     }
-    
-    function reverse_reservations($idno, $levels_reference_id){
+
+    function reverse_reservations($idno, $levels_reference_id) {
         $reverses = \App\Reservation::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
-        foreach ($reverses as $reverse){
+        foreach ($reverses as $reverse) {
             $reverse->levels_reference_id = "";
             $reverse->is_consumed = 0;
             $reverse->consume_sy = "";
             $reverse->save();
         }
     }
-    
-    function removeDM($idno, $levels_reference_id){
+
+    function removeDM($idno, $levels_reference_id) {
         $removeDMs = \App\DebitMemo::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
-        foreach($removeDMs as $removeDM){
+        foreach ($removeDMs as $removeDM) {
             $reference_id = $removeDM->reference_id;
             $removeDM->delete();
             $this->remove_accountings($reference_id);
         }
     }
-    
-    function remove_bed_levels($idno, $levels_reference_id){
+
+    function remove_bed_levels($idno, $levels_reference_id) {
         $remove_bed_levels = \App\BedLevel::where('levels_reference_id', $levels_reference_id)->first();
         $remove_bed_levels->delete();
     }
-    
-    function remove_accountings($reference_id){
+
+    function remove_accountings($reference_id) {
         $remove_accountings = \App\Accounting::where('reference_id', $reference_id)->get();
-        foreach ($remove_accountings as $accounting){
+        foreach ($remove_accountings as $accounting) {
             $accounting->delete();
         }
     }
-    
-    function update_status($idno, $levels_reference_id){
+
+    function update_status($idno, $levels_reference_id) {
         $update_status = \App\Status::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->first();
         $update_status->status = env("ASSESSED");
         $update_status->save();
@@ -646,20 +646,20 @@ class Assess extends Controller {
     }
 
     function checkReservations($request, $school_year, $period) {
+        $levels_reference_id = uniqid();
         $checkreservations = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 0)->where('is_reverse', 0)->selectRaw('sum(amount) as amount')->first();
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $levels_reference_id = uniqid();
             $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
             $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id);
 
-            $changestatus = \App\Status::where('idno', $request->idno)->first();
-            $changestatus->status = env("ENROLLED");
-            $changestatus->update();
+//            $changestatus = \App\Status::where('idno', $request->idno)->first();
+//            $changestatus->status = env("ENROLLED");
+//            $changestatus->update();
             $changereservation = \App\Reservation::where('idno', $request->idno)->get();
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
@@ -669,12 +669,15 @@ class Assess extends Controller {
                     $change->update();
                 }
             }
-            MainPayment::addLevels($request->idno, $levels_reference_id);
-            return MainPayment::changeStatus($request->idno, $levels_reference_id);
+//            MainPayment::addLevels($request->idno, $levels_reference_id);
         }
+        $change = \App\Status::where('idno', $request->idno)->first();
+        $change->levels_reference_id = $levels_reference_id;
+        $change->update();
+//        return MainPayment::changeStatus($request->idno, $levels_reference_id);
     }
 
-    function postDebit($request, $reference_id, $totalpayment,$levels_reference_id) {
+    function postDebit($request, $reference_id, $totalpayment, $levels_reference_id) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $reservations = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
         $dept = \App\CtrAcademicProgram::where('level', $request->level)->first();
@@ -712,7 +715,7 @@ class Assess extends Controller {
                 $ledger->is_consumed = 1;
                 $totalReserved = $totalReserved + $ledger->amount;
             }
-            $this->postDebitMemo($request->idno, $reference_id, $totalReserved,$levels_reference_id);
+            $this->postDebitMemo($request->idno, $reference_id, $totalReserved, $levels_reference_id);
         }
     }
 
@@ -792,9 +795,10 @@ class Assess extends Controller {
         return round($amount);
     }
 
-    function print_assessment($idno){
+    function print_assessment($idno) {
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('reg_be.assessment_form', compact('idno'));
         return $pdf->stream();
     }
+
 }

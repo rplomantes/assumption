@@ -150,20 +150,27 @@ $totalmainpayment=0;
         </div>
         @endif
     </div>
+    @if($status->status==env("ASSESSED") && $totaldm > 0)
 <div class="col-md-6">
-    @if($status->status==env("ASSESSED"))
-    <a href="{{url('/bedregistrar',array('reassess',$idno))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}}</a>
-    @elseif ($totalpayment > 0)
-    <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
-    @else
     <a href="{{url('/bedregistrar',array('reassess_reservations',$idno, $status->levels_reference_id))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}}</a>    
-    @endif
 </div>
-<div class="col-md-3">
+    <div class="col-md-3">
     <a href="{{url('/bedregistrar',array('print_assessment',$idno))}}" class="btn btn-success form form-control">Print Assessment Form</a>
+    </div>
+    @elseif ($status->status==env("ASSESSED"))
+<div class="col-md-6">
+    <a href="{{url('/bedregistrar',array('reassess',$idno))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}}</a>
 </div>
+    <div class="col-md-3">
+    <a href="{{url('/bedregistrar',array('print_assessment',$idno))}}" class="btn btn-success form form-control">Print Assessment Form</a>
+    </div>
+    @else
+<div class="col-md-6">
+    <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
+</div>
+    @endif
 <div class="col-md-3">
-    <a href="{{url('/')}}" class="btn btn-primary form fom-control">Back To Main</a>
+    <a href="{{url('/')}}" class="col-sm-12 btn btn-primary form fom-control">Back To Main</a>
 </div>    
 </div>      
 </div>    

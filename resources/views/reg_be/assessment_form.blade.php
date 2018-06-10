@@ -5,7 +5,20 @@ $status =  \App\Status::where('idno',$idno)->first();
 if($status->status == env("ENROLLED"))
     $display_status = "ENROLLED";
 $ledger = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->groupBy('category','category_switch')->orderBy('category_switch')->get();
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)
+        ->where(function($query){
+            $query->where('category_switch', 4)
+                    ->orWhere('category_switch', 5)
+                    ->orWhere('category_switch', 7);
+            })->groupBy('category','category_switch')->orderBy('category_switch')->get();
+$ledger_tuition = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 6)->groupBy('category','category_switch')->orderBy('category_switch')->get();
+$ledger_misc = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 1)->groupBy('category','category_switch')->orderBy('category_switch')->get();
+$ledger_other = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 2)->groupBy('category','category_switch')->orderBy('category_switch')->get();
+$ledger_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 3)->groupBy('category','category_switch')->orderBy('category_switch')->get();
 $due_dates = \App\LedgerDueDate::where('idno',$idno)->get();
 $upon_payment=0;
 if(count($due_dates)>0) {
@@ -61,11 +74,11 @@ $upon = 0;
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr><td width="75%">
     <label>Breakdown of Fees</label>           
-    <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
+    <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Reservation</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
-           @foreach($ledger as $main)
+           @foreach($ledger_misc as $main)
            <?php
                $totalamount=$totalamount+$main->amount;
                $totaldiscount=$totaldiscount+$main->discount;
@@ -81,8 +94,81 @@ $upon = 0;
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-               <tr><td>Total</td>
-               <td align="right">{{number_format($totalamount,2)}}</td>
+           @foreach($ledger_other as $main)
+           <?php
+               $totalamount=$totalamount+$main->amount;
+               $totaldiscount=$totaldiscount+$main->discount;
+               $totaldm=$totaldm+$main->debit_memo;
+               $totalpayment=$totalpayment+$main->payment;
+               $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main->category}}</td>
+               <td align="right">{{number_format($main->amount,2)}}</td>
+               <td align="right">{{number_format($main->discount,2)}}</td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           @foreach($ledger_depo as $main)
+           <?php
+               $totalamount=$totalamount+$main->amount;
+               $totaldiscount=$totaldiscount+$main->discount;
+               $totaldm=$totaldm+$main->debit_memo;
+               $totalpayment=$totalpayment+$main->payment;
+               $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main->category}}</td>
+               <td align="right">{{number_format($main->amount,2)}}</td>
+               <td align="right">{{number_format($main->discount,2)}}</td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           @foreach($ledger_tuition as $main)
+           <?php
+               $totalamount=$totalamount+$main->amount;
+               $totaldiscount=$totaldiscount+$main->discount;
+               $totaldm=$totaldm+$main->debit_memo;
+               $totalpayment=$totalpayment+$main->payment;
+               $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main->category}}</td>
+               <td align="right">{{number_format($main->amount,2)}}</td>
+               <td align="right">{{number_format($main->discount,2)}}</td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           
+               <tr style="background-color:gainsboro"><td>Total School Fees</td>
+               <td align="right"><b>{{number_format($totalamount,2)}}</b></td>
+               <td align="right">{{number_format($totaldiscount,2)}}</td>
+               <td align="right">{{number_format($totaldm,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
+               <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
+               
+               
+               @foreach($ledger as $main)
+           <?php
+               $totalamount=$totalamount+$main->amount;
+               $totaldiscount=$totaldiscount+$main->discount;
+               $totaldm=$totaldm+$main->debit_memo;
+               $totalpayment=$totalpayment+$main->payment;
+               $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main->category}}</td>
+               <td align="right">{{number_format($main->amount,2)}}</td>
+               <td align="right">{{number_format($main->discount,2)}}</td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           <tr style="background-color:gray"><td>Total</td>
+               <td align="right"><b>{{number_format($totalamount,2)}}</b></td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
                <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
@@ -120,9 +206,8 @@ $upon = 0;
            </table>
         <br>
        
-        <p> Amount to be paid <span class="due_amount"> Php {{number_format($upon-$totaldm,2)}}</span>.</p>
+        <p> Amount to be paid <span class="due_amount">Php {{number_format($upon-$totaldm,2)}}</span>.</p>
         <p>*Please print this form and present it to the cashier.<br>
             </p>
  </body>
  </html>
-

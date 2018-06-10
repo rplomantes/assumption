@@ -11,6 +11,10 @@ $file_exist = 0;
 if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
+
+
+$check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
+$check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->get();
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -51,6 +55,21 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 @section('maincontent')
 <section class="content">
     <div class="row">
+    <?php $balance = 0; ?>
+    @if(count($check_balances)>0)
+    @foreach ($check_balances as $check_balance)
+    <?php $balance = $balance + $check_balance->balance; ?>
+    @endforeach
+    <div class="alert alert-danger">Student still have an outstanding balance of <b>Php {{number_format($balance)}}</b>. Please go to Treasurer's Office to settle the account.<br>
+    If <b>Official Receipt</b> was presented, kindly disregard this message. Thank you!</div>
+    @endif
+    <?php $reservation = 0; ?>
+    @if(count($check_reservations)>0)
+    @foreach ($check_reservations as $check_reservation)
+    <?php $reservation = $reservation + $check_reservation->amount; ?>
+    @endforeach
+    <div class="alert alert-info    ">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>. Once assessment is complete the Student will be automatically <b>ENROLLED</b>. <br>This process is cannot be undone.</div>
+    @endif
         <div class="col-md-4">
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user-2">

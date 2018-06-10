@@ -572,6 +572,7 @@ class AssessmentController extends Controller {
     }
 
     function checkReservations($request, $idno, $school_year, $period) {
+        $levels_reference_id = uniqid();
         $checkreservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->selectRaw('sum(amount) as amount')->first();
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
@@ -582,7 +583,7 @@ class AssessmentController extends Controller {
             $changestatus->update();
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
-            $this->postDebit($idno, $reference_id, $totalpayment);
+            $this->postDebit($idno, $reference_id, $totalpayment, $levels_reference_id);
             $changereservation = \App\Reservation::where('idno', $idno)->get();
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
@@ -592,6 +593,9 @@ class AssessmentController extends Controller {
                 }
             }
         }
+        $change = \App\Status::where('idno', $request->idno)->first();
+        $change->levels_reference_id = $levels_reference_id;
+        $change->update();
     }
 
     function postDebit($idno, $reference_id) {

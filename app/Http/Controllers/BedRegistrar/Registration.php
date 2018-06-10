@@ -54,6 +54,7 @@ class Registration extends Controller {
 
                 $addstatus = new \App\Status;
                 $addstatus->idno = $request->referenceid;
+                $addstatus->section = "";
                 $addstatus->status = 0;
                 $addstatus->academic_type = "BED";
                 $addstatus->save();
