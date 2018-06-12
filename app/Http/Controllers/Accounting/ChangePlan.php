@@ -57,12 +57,16 @@ class ChangePlan extends Controller
         $addchange->original_plan = $originalplan;
         $addchange->change_plan = $changeplan;
         $addchange->original_amount = $orginalamount->amount;
-        $addchange->change_amount = $changeamount;
+        $addchange->change_amount = $this->roundOff($changeamount);
         $addchange->posted_by = Auth::user()->idno;
         $addchange->save();
     
-        $orginalamount->amount=$changeamount;
+        $orginalamount->amount=$this->roundOff($changeamount);
         $orginalamount->update();
+    }
+
+    function roundOff($amount) {
+        return round($amount);
     }
     
     function update_plan($request){
