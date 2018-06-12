@@ -299,6 +299,12 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <div class="form-group">
         <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">OTHER PAYMENT</a>
         </div>
+        @if($status->academic_type == "BED" && $status->status==env("ENROLLED"))
+        <div class="form-group">
+        <a href="{{url('/accounting',array('change_plan',$user->idno))}}" class="form form-control btn btn-primary">CHANGE PLAN</a>
+        </div>
+        @endif
+        
         @endif
         @if(count($due_dates)>0)
         <label>Schedule of Payment</label>

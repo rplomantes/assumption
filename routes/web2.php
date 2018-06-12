@@ -71,6 +71,8 @@ Route::post('/accounting/set_other_payment','Accounting\AddAccount@post_set_othe
 Route::get('/accounting/remove_set_other_payment/{id}','Accounting\AddAccount@remove_set_other_payment');
 Route::get('/accounting/cash_receipt','Accounting\BookOfAccount@cash_receipt');
 Route::get('/accounting/schedule_of_plan', 'Accounting\ScheduleOfFees@plan');
+ROUTE::GET('/accounting/change_plan/{idno}','Accounting\ChangePlan@index');
+Route::post('/accounting/change_plan','Accounting\ChangePlan@post_plan');
 //BED registrar
 Route::get('/bedregistrar/info/{idno}','BedRegistrar\Registration@info');
 Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
