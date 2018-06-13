@@ -40,7 +40,7 @@ class CreateAdmissionHedsTable extends Migration
             $table->string('guardian_name')->nullable();
             $table->string('guardian_contact')->nullable();
             $table->string('guardian_email')->nullable();
-            $table->integer('specify_citizenship')->nullable();
+            $table->string('specify_citizenship')->nullable();
             $table->string('applying_for_sy')->nullable();
             $table->string('guardian_type')->nullable();
             
