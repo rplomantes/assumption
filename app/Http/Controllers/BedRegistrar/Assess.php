@@ -387,8 +387,8 @@ class Assess extends Controller {
                 $addledger->accounting_code = $item->accounting_code;
                 $addledger->accounting_name = $this->getAccountingName($item->accounting_code);
                 $addledger->category_switch = $item->category_switch;
-                $addledger->amount = $item->amount;
-                $addledger->qty = '1';
+                $addledger->amount = $item->amount * $value;
+                $addledger->qty = $value;
                 $addledger->save();
             }
         }

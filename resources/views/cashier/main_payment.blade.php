@@ -373,6 +373,14 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
     
     
     $(document).ready(function(){ 
+        jQuery('input[type=submit]').click(function(){
+            if(jQuery.data(this, 'clicked')){
+                return false;
+            } else{
+                jQuery.data(this, 'clicked', true);
+                return true;
+            }
+        });
         $("#submit_button").fadeOut(300);
         $("#donereg").fadeOut(300);
         $("#payment_pad").fadeOut(300);
