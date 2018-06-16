@@ -148,7 +148,10 @@ if(Auth::user()->accesslevel==env("CASHIER")){
            
             </div>
             
-            </div>  
+            </div> 
+        @if($payment->reason_reverse!="")
+    <div class="alert alert-info col-md-12">Reason of Reverse/Cancellation:<br><b>{{$payment->reason_reverse}}</b></div> 
+    @endif
     </div>
         
     </div>    
@@ -213,8 +216,24 @@ if(Auth::user()->accesslevel==env("CASHIER")){
 <script>
   $(document).ready(function(){
      $("#cancelrestore").on('click',function(e){
-         if(prompt("Please state your reason.")){
-             return true;
+         if(value = prompt("Please state your reason.")){
+            
+            array = {};
+            array['payment_reference_id'] = "{{$payment->reference_id}}";
+            array['reason'] = value;
+            $.ajax({
+            type: "GET",
+            url: "/ajax/cashier/reason_reverserestore/",
+            data: array,
+            success: function (data) {
+            }
+            });
+            if(confirm("Are you sure?")){
+                return true;
+            }else{
+                return false;
+                e.preventDefault();
+            }
          }else{
              return false;
              e.preventDefault();

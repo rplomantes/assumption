@@ -26,17 +26,17 @@ class SetReceiptController extends Controller
     
     function update_or(Request $request){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-            $x=count($request->idno);
-            $i=0;
-            for($i=0; $i<$x; $i++){
-              $update_or = \App\ReferenceId::where('idno', $request->idno[$i])->first();
-              //$update_or->start_receipt_no = $request->start_or_number[$i];
-              $update_or->receipt_no = $request->or_number[$i];
+//           $x=count($request->idno);
+            $i=$request->idno[$request->id];
+//            for($i=0; $i<$x; $i++){
+              $update_or = \App\ReferenceId::where('idno', $i)->first();
+              $update_or->start_receipt_no = $request->start_or_number[$i];
+              $update_or->receipt_no = $request->start_or_number[$i];
               $update_or->end_receipt_no = $request->end_or_number[$i];
               $update_or->save();
-            }
-            $this->log('OR Updated');
-            Session::flash('message', "OR updated!");
+//            }
+            $this->log("OR Updated for $i.");
+            Session::flash('message', "OR Updated for $i.");
             
             return redirect('accounting/set_or');
             

@@ -86,7 +86,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                     <td>{{$payment->check_number}}</td>
                     @if($payment->is_reverse=="0")
                     <td>{{number_format($payment->check_amount,2)}}</td>
-                    <td>Ok</td>
+                    <td>OK</td>
                     @else
                     <?php
                     $totalcanceled=$payment->cash_amount+$payment->check_amount + $payment->credit_card_amount +$payment->deposit_amount;
@@ -102,7 +102,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
          </tbody>
           <tfoot>
                     <tr><th colspan="5">Total</th>
-                    <
+                    
                     <th><b>{{number_format($totalchecks,2)}}</b></th>
                     <th></th></tr>
         

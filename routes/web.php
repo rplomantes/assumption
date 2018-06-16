@@ -101,6 +101,7 @@ Route::get('/ajax/registrar_college/curriculum_management/get_sectionname', 'Reg
 Route::get('/registrar_college/curriculum_management/course_schedule', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@index');
 Route::get('/registrar_college/curriculum_management/edit_course_schedule/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@edit_course_schedule');
 Route::post('/registrar_college/curriculum_management/add_course_schedule', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@add_course_schedule');
+Route::post('/registrar_college/curriculum_management/edit_room_schedule', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@edit_room_schedule');
 Route::get('/registrar_college/curriculum_management/merge_schedule/{schedule_id}/{course_id}','RegistrarCollege\CurriculumManagement\CourseScheduleController@merge_schedule');
 Route::get('/registrar_college/curriculum_management/unmerged_schedule/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@unmerged_schedule');
 Route::get('/registrar_college/curriculum_management/add_tba/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@add_tba');
@@ -108,6 +109,9 @@ Route::get('/registrar_college/curriculum_management/add_tba/{course_offering_id
 Route::get('/ajax/registrar_college/curriculum_management/course_to_schedule/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@listcourse_to_schedule');
 Route::get('/ajax/registrar_college/curriculum_management/show_available_rooms/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@show_available_rooms');
 Route::get('/ajax/registrar_college/curriculum_management/get_section/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@get_section');
+Route::get('/ajax/registrar_college/curriculum_management/edit_schedule', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@edit_room_schedule');
+Route::get('/ajax/registrar_college/curriculum_management/show_available_rooms2/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@show_available_rooms2');
+Route::get('/ajax/registrar_college/curriculum_management/edit_schedule', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@edit_room_schedule');
 //Assign Instructor
 Route::get('/registrar_college/curriculum_management/faculty_loading', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@index');
 Route::get('/registrar_college/curriculum_management/edit_faculty_loading/{idno}', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@edit_faculty_loading');
@@ -147,6 +151,7 @@ Route::get('/ajax/registrar_college/grade_management/unlock/{idno}/{school_year}
 Route::get('/ajax/registrar_college/grade_management/approve_all/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@approve_all');
 Route::get('/ajax/registrar_college/grades/change_midterm/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_midterm');
 Route::get('/ajax/registrar_college/grades/change_finals/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_finals');
+Route::get('/ajax/registrar_college/grades/change_completion/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_completion');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
@@ -251,3 +256,6 @@ Route::get('/bedregistrar/print_assessment/{idno}','BedRegistrar\Assess@print_as
 Route::get('/bedregistrar/reassess_reservations/{idno}/{levels_reference_id}','BedRegistrar\Assess@reassess_reservations');
 //reassess college with reservation
 Route::get('/registrar_college/reassess_reservations/{idno}/{levels_reference_id}/{school_year}/{period}','RegistrarCollege\Assessment\AssessmentController@reassess_reservations');
+
+//save_reason
+Route::get('/ajax/cashier/reason_reverserestore/','Cashier\Ajax\ajaxReceipt@reason_reverserestore');

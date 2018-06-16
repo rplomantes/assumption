@@ -75,6 +75,32 @@ class CourseScheduleController extends Controller {
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
         }
     }
+    
+    function edit_room_schedule(Request $request){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+
+            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+            $day = $request->day;
+            $time_start = $request->time_start;
+            $time_end = $request->time_end;
+            $course_offering_id = $request->course_offering_id;
+            $room = $request->room;
+
+            $final_start = date("H:i:s", strtotime($time_start));
+            $final_end = date("H:i:s", strtotime($time_end));
+            
+            $updateSchedule = \App\ScheduleCollege::where('id',$request->schedule_id)->first();
+
+            $updateSchedule->room = "$room";
+            $updateSchedule->day = "$day";
+            $updateSchedule->time_start = "$final_start";
+            $updateSchedule->time_end = "$final_end";
+            $updateSchedule->update();
+
+            return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
+            
+        }
+    }
 
     function unmerged_schedule($course_offering_id) {
 

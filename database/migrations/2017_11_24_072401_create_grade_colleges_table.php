@@ -28,6 +28,7 @@ class CreateGradeCollegesTable extends Migration
             $table->string('finals')->nullable();
             $table->string('final_grade')->nullable();
             $table->string('grade_point')->nullable();
+            $table->string('completion')->nullable();
             $table->string('remarks')->nullable();
             $table->string('school_year');
             $table->string('period');

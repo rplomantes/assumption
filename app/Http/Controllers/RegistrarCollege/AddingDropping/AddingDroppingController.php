@@ -37,13 +37,33 @@ class AddingDroppingController extends Controller {
         $user = \App\User::where('idno', $idno)->first();
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
         DB::beginTransaction();
+        $is_practicum_only = $this->checkPracticumOnly($idno, $school_year->school_year, $school_year->period);
         $this->addSurcharge($idno, $school_year, $status, $user);
-        $this->processAdding($idno, $school_year, $status, $user);
+        $this->processAdding($idno, $school_year, $status, $user, $is_practicum_only);
         $this->processDropping($idno, $school_year, $status, $user);
         $this->deleteLedgerduedate($idno, $school_year->school_year, $school_year->period);
         $this->computeLedgerDueDate($idno, $school_year->school_year, $school_year->period, $status->type_of_plan);
         DB::Commit();
         return redirect("registrar_college/assessment/$idno");
+    }
+    
+    function checkPracticumOnly($idno, $school_year, $period){
+        $course_assessed = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
+        if (count($course_assessed) > 1) {
+            return "0";
+        } else {
+            $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)
+                    ->where(function($q) {
+                        $q->where('course_name', 'like', '%practicum%')
+                        ->orWhere('course_code', 'like', '%prac%');
+                    })
+                    ->get();
+            if (count($check_practicum) == 1) {
+                return "1";
+            } else {
+                return "0";
+            }
+        }
     }
 
     function addSurcharge($idno, $school_year, $status, $user) {
@@ -69,7 +89,7 @@ class AddingDroppingController extends Controller {
         }
     }
 
-    function processAdding($idno, $school_year, $status, $user) {
+    function processAdding($idno, $school_year, $status, $user, $is_practicum_only) {
         $tuitionfee = 0;
         $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
         $tuitionrate = $tfr->per_unit;
@@ -96,13 +116,54 @@ class AddingDroppingController extends Controller {
                 $new_grade->srf = $grade->srf;
                 $new_grade->save();
                 
-                $addledger = new \App\Ledger;
+                if($grade->srf>0){
+                $this->getSRF($idno, $status->program_code, $school_year->school_year, $school_year->period, $grade->level, $grade->id);
+                }
+                
+                if($is_practicum_only == 1){
+                $this->getOtherFee($idno, $school_year->school_year, $school_year->period, $grade->level, $status->program_code);
+                }
+
+                $grade->is_done = 1;
+                $grade->save();
+            }
+        }
+    }
+    
+    function getOtherFee($idno, $school_year, $period, $level, $program_code) {
+        $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->where('subsidiary','!=','Registration')->get();
+        if (count($otherfees) > 0) {
+            foreach ($otherfees as $otherfee) {
+                $addledger = new \App\ledger;
                 $addledger->idno = $idno;
-                $addledger->department = \App\CtrAcademicProgram::where('program_code', $status->program_code)->first()->department;
-                $addledger->program_code = $status->program_code;
-                $addledger->level = $grade->level;
-                $addledger->school_year = $school_year->school_year;
-                $addledger->period = $school_year->period;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = $otherfee->category;
+                $addledger->subsidiary = $otherfee->subsidiary;
+                $addledger->receipt_details = $otherfee->receipt_details;
+                $addledger->accounting_code = $otherfee->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                $addledger->category_switch = $otherfee->category_switch;
+                $addledger->amount = $otherfee->amount;
+                $addledger->save();
+            }
+        }
+    }
+    
+    function getSRF($idno, $program_code, $school_year,$period,$level,$id) {
+        $grades = \App\AddingDropping::distinct()->where('id', $id)->where('srf', '>', '0')->get();
+        if (count($grades) > 0) {
+            foreach ($grades as $grade) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
                 $addledger->category = "SRF";
                 $addledger->subsidiary = $grade->course_code;
                 $addledger->receipt_details = "SRF";
@@ -111,9 +172,6 @@ class AddingDroppingController extends Controller {
                 $addledger->category_switch = env("SRF_FEE");
                 $addledger->amount = $grade->srf;
                 $addledger->save();
-
-                $grade->is_done = 1;
-                $grade->save();
             }
         }
     }

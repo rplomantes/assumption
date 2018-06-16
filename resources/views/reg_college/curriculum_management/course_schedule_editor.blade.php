@@ -72,6 +72,7 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                             <tr>
                                 <th>Schedule</th>
                                 <th>Room</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,10 +97,17 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                 </td>
                                 <td>
                                     <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room','id']);
                                     ?>
                                     @foreach ($schedule3s as $schedule3)
                                     {{$schedule3->room}}<br>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($schedule3s as $schedule3)
+                                    <button id="edit-schedule-form" type="button" class="btn btn-warning" onclick="edit_schedule({{$schedule3->id}})" >
+                                        <i class="fa fa-pencil"></i>
+                                    </button><br>
                                     @endforeach
                                 </td>
                             </tr>
@@ -168,6 +176,10 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                 Room
                             </button>
                         </div>
+                    </div>
+                    
+                    <div  id='edit-schedule'>
+                        
                     </div>
                 </div>
             </div>
@@ -299,6 +311,10 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
     
 </div>
 
+<div class="modal fade" id="show_rooms2">
+    
+</div>
+
 @endsection
 @section('footerscript')
 <script src="{{asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
@@ -320,6 +336,20 @@ $(function () {
     $('.select2').select2();
 });
 
+function edit_schedule(schedule_id){
+    array = {};
+    array['schedule_id'] = schedule_id;
+    array['course_offering_id'] = {{$course_offering->id}};
+    $.ajax({
+        type: "GET",
+        url: "/ajax/registrar_college/curriculum_management/edit_schedule",
+        data: array,
+        success: function (data){
+            $('#edit-schedule').html(data);
+        }
+    });
+}
+
 function show_available_rooms(day, time_start, time_end) {
     array = {};
     array['day'] = day;
@@ -332,6 +362,24 @@ function show_available_rooms(day, time_start, time_end) {
             data: array,
             success: function (data) {
             $('#show_rooms').html(data);
+            }
+
+    });
+}
+
+function edit_available_rooms(schedule_id,day, time_start, time_end) {
+    array = {};
+    array['schedule_id'] = schedule_id
+    array['day'] = day;
+    array['time_start'] = time_start;
+    array['time_end'] = time_end;
+    array['course_offering_id'] = {{$course_offering->id}};
+    $.ajax({
+    type: "GET",
+            url: "/ajax/registrar_college/curriculum_management/show_available_rooms2/",
+            data: array,
+            success: function (data) {
+            $('#show_rooms2').html(data);
             }
 
     });

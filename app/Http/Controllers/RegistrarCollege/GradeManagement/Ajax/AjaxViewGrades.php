@@ -141,5 +141,23 @@ class AjaxViewGrades extends Controller {
             }
         }
     }
+    
+    function change_completion($idno){
+        if (Request::ajax()) {
+            $grade = Input::get("grade");
+            $grade_id = Input::get("grade_id");
+            $stat = Input::get("stat");
+            
+            if($stat == "old"){
+            $update_grades = \App\CollegeGrades2018::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->completion = $grade;
+            $update_grades->save();
+            }else {
+            $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->completion = $grade;
+            $update_grades->save();
+            }
+        }
+    }
 
 }
