@@ -217,7 +217,8 @@
                             <div class="col-sm-4">
                                 <label>Foreign/ Dual Citizens</label><br>
                                 <input type="checkbox" name='passport' value='1' @if($admissionreq->passport == '1') checked='' @else @endif> Copy of passport bio page, latest admission authorized stay<br>
-                                <input type="checkbox" name='visa' value='1' @if($admissionreq->visa == '1') checked='' @else @endif> Student Visa/ Study Permit/ Recognition from Bureau of Immigration/ Deportation<br><br>            
+                                <input type="checkbox" name='visa' value='1' @if($admissionreq->visa == '1') checked='' @else @endif> Student Visa/ Study Permit/ Recognition from Bureau of Immigration/ Deportation<br>           
+                                <hr>
                                 <label>Married</label><br>
                                 <input type="checkbox" name='child_birth_cert' value='1' @if($admissionreq->child_birth_cert == '1') checked='' @else @endif> Birth Certificate of a child</input><br>
                                 <input type="checkbox" name='marriage_contract' value='1' @if($admissionreq->marriage_contract == '1') checked='' @else @endif> Marriage Contract</input><br>                          
@@ -258,11 +259,12 @@
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='barangay' placeholder='Barangay' value="{{old('barangay', $studentinfos->barangay)}}" type="text">
                             </div>-->
-                        </div>
                         <div class="form-group">
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
+                                <label>&nbsp;</label>
                                 <input class="form form-control" name='municipality' placeholder='Municipality/City*' value="{{old('municipality', $studentinfos->municipality)}}" type="text">
-                            </div>
+                            </div>                        
+                        </div>
                             <div class="col-sm-5">
                                 <input class="form form-control" name='province' placeholder='Province*' value="{{old('province',$studentinfos->province)}}" type="text">
                             </div>
@@ -270,6 +272,27 @@
                                 <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip', $studentinfos->zip)}}" type="text">
                             </div>-->
                         </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>Contact Numbers</label>
+                                <input class="form form-control" name='tel_no' placeholder='Telephone Number' value="{{old('tel_no', $studentinfos->tel_no)}}" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>&nbsp;</label>
+                                <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cell_no', $studentinfos->cell_no)}}" type="text">
+                           </div>
+                            <div class="col-sm-4">
+                                <label>Email</label>
+                                <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email',$users->email)}}" type="email">                           
+                            </div>
+<!--                            <div class="col-sm-4">
+                                <label>Gender</label>
+                                <select class="form form-control" name='gender' type="text" readonly="">
+                                    <option value='Female' @if($studentinfos->gender == 'Female') selected='' @else @endif>Female</option>
+                                    <option value='Male' @if($studentinfos->gender == 'Male') selected='' @else @endif>Male</option>
+                                </select>
+                            </div>                            -->
+                        </div>                        
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <label>Birthday</label>
@@ -283,32 +306,11 @@
                             <div class="col-sm-4">
                                 <label>Birth Place</label>
                                 <input class="form form-control" name='place_of_birth' value="{{old('place_of_birth',$studentinfos->place_of_birth)}}" placeholder='Place of Birth' type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Email</label>
-                                <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email',$users->email)}}" type="email">
-                            </div>           
+                            </div>         
                         </div>                            
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <label>Contact Numbers</label>
-                                <input class="form form-control" name='tel_no' placeholder='Telephone Number' value="{{old('tel_no', $studentinfos->tel_no)}}" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>&nbsp;</label>
-                                <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cell_no', $studentinfos->cell_no)}}" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Gender</label>
-                                <select class="form form-control" name='gender' type="text" readonly="">
-                                    <option value='Female' @if($studentinfos->gender == 'Female') selected='' @else @endif>Female</option>
-<!--                                    <option value='Male' @if($studentinfos->gender == 'Male') selected='' @else @endif>Male</option>-->
-                                </select>
-                            </div>                            
-                        </div>
                         <div class="form-group">    
                             <div class="col-sm-3">
-                                <label>Local/Foreigner</label>
+                                <label>Citizenship</label>
                                 <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
                                     <option value=''>Select Local/Foreign</option>
                                     <option value='0' @if($users->is_foreign == '0') selected='' @else @endif >Filipino</option>
@@ -317,8 +319,8 @@
                                 </select>
                             </div>                            
                             <div class="col-sm-3">
-                                <label>Specified Citizenship</label>
-                                <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship', $adhedinfo->specify_citizenship)}}" type="text">
+                                <label>&nbsp;</label>
+                                <input class="form form-control" name='specify_citizenship' placeholder='Specified Citizenship' value="{{old('specify_citizenship', $adhedinfo->specify_citizenship)}}" type="text">
                             </div>                              
                             <div class="col-sm-3">
                                 <label>Civil Status</label>
@@ -334,10 +336,10 @@
                                 <label>Nationality</label>
                                   <input class="form form-control" name='nationality' placeholder='Nationality' value="{{old('nationality', $studentinfos->nationality)}}" type="text">
                             </div>-->
-                            <div class="col-sm-3">
+<!--                            <div class="col-sm-3">
                                 <label>Religion</label>
                                 <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion', $studentinfos->religion)}}" type="text">
-                            </div>
+                            </div>-->
                         </div>  
 <!--                        <div class="form-group">
                             <div class="col-sm-9">
@@ -395,7 +397,7 @@
                         <hr>
                         <div class="form-group">            
                             <div class="col-sm-12" id="conditionType" name='conditionType' type='text'>
-                                <label>Condition</label>
+                                <label>Condition:</label><br>
                                 <input type='checkbox' name='medical' value='1' @if($adhedinfo->medical == '1') checked='' @else @endif> Medical |
                                 <input type='checkbox' name='psychological' value='1' @if($adhedinfo->psychological == '1') checked='' @else @endif> Psychological |
                                 <input type='checkbox' name='learning_disability' value='1' @if($adhedinfo->learning_disability == '1') checked='' @else @endif> Learning Disability |
@@ -406,13 +408,13 @@
                         </div>    
                         <div class="form-group">    
                             <div class="col-sm-6" id="specify_condition">
-                                <label>Please specify condition and type of professional seen:</label>
+                                <label>Please specify condition and type of professional seen</label>
                                 <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text" value='{{old('specify_condition', $adhedinfo->specify_condition)}}'>
                             </div>        
                         </div>   
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button class="form form-control btn btn-success" type="submit">Update Student</button>
+                                <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                             </div>
                         </div>
                       

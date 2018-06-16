@@ -201,10 +201,11 @@
                                 <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship')}}" type="text">
                             </div>  
                         </div>
+                        <hr>
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Guardian Type</label>
-                                <select class="form form-control" name="guardian_type" type="text">
+                                <select class="form form-control" name="guardian_type" type="text" id='guardiantype'>
                                     <option value='0'>Select Guardian Type</option>
                                     <option value='Father'>Father</option>
                                     <option value='Mother'>Mother</option>
@@ -212,7 +213,7 @@
                                 </select>
                             </div>                                    
                         </div>
-                        <div class="form-group"> 
+                        <div class="form-group" id='parentinfo'> 
                             <div class="col-sm-4">
                                 <label>Emergency Contact Person</label>
                                 <input class="form form-control" name='guardian_name' placeholder='Complete Name' value="{{old('guardian_name')}}" type="text">
@@ -306,6 +307,7 @@
     $("#specify_condition").hide();
     $('#specify_citizenship').hide();
     $('#programForm').hide();
+    $('#parentinfo').hide();
 
     $('#applying_for').on('change', function(e){
        // alert("hello")    
@@ -322,6 +324,14 @@
         });
     });
     
+    $('#guardiantype').on('change',function(){
+       var value = $('#guardiantype').val();
+       if(value == '0'){
+           $('#parentinfo').hide();
+       }else{
+           $('#parentinfo').fadeIn();
+       }
+    });
     
     $('#see_professional').on('change', function(){
         var value = $('#see_professional').val();

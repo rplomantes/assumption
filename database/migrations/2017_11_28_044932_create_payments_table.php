@@ -41,6 +41,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('is_reverse')->default(0);
             $table->string('reason_reverse')->nullable();
             $table->integer('is_current')->default(1);
+            $table->string('reason_reverse')->nullable();
             $table->string('school_year')->nullable();
             $table->string('period')->nullable();
             $table->string('remarks');
