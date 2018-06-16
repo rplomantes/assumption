@@ -60,7 +60,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
         <div class="col-md-12 orheader">OFFICIAL RECEIPT</div>
         <div class="col-md-12">
         <table class="table">
-        <tr><th>Name:</th><td><b> {{$payment->paid_by}}</b></td><td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td><tr>
+        <tr><th>Name</th><td><b> {{$payment->paid_by}}</b></td><td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td><tr>
         @if(count($status)>0)
         @if($status->status==3)
             @if($status->academic_type=="College")
@@ -68,6 +68,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
             @else
             <tr><th>Level / Section</th><td>{{$status->level}}</td><td></td></tr>
             @endif
+            <tr><th>Plan</th><td>{{$status->type_of_plan}}</td><td></td></tr>
         @endif 
         @endif
         <tr><th></th><td align="right"></td></tr>
@@ -106,7 +107,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
         @if($payment->check_amount>0)
         Bank : {{$payment->bank_name}}<br>
         Check No : {{$payment->check_number}}<br>
-        Check Amount : {{number_format($payment->check_amount)}}<br>
+        Check Amount : {{number_format($payment->check_amount,2)}}<br>
         @endif
         @if($payment->credit_card_amount>0)
         Credit Card : {{$payment->credit_card_bank}} {{$payment->credit_card_type}}<br>
@@ -178,7 +179,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
         </div>
           
     </div>    
-</div>    
+</div>
 @endsection
 @section('footerscript')
 <style>
@@ -212,7 +213,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
 <script>
   $(document).ready(function(){
      $("#cancelrestore").on('click',function(e){
-         if(confirm("Are You Sure ?")){
+         if(prompt("Please state your reason.")){
              return true;
          }else{
              return false;

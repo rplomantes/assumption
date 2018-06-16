@@ -68,7 +68,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
     @foreach ($check_reservations as $check_reservation)
     <?php $reservation = $reservation + $check_reservation->amount; ?>
     @endforeach
-    <div class="alert alert-info    ">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>. Once assessment is complete the Student will be automatically <b>ENROLLED</b>. <br>This process is cannot be undone.</div>
+    <div class="alert alert-info    ">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
     @endif
         <div class="col-md-4">
             <!-- Widget: user widget style 1 -->

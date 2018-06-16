@@ -39,6 +39,7 @@ class CreatePaymentsTable extends Migration
             $table->string('deposit_reference')->nullable();
             $table->decimal('deposit_amount',10,2)->default(0.00);
             $table->integer('is_reverse')->default(0);
+            $table->string('reason_reverse')->nullable();
             $table->integer('is_current')->default(1);
             $table->string('school_year')->nullable();
             $table->string('period')->nullable();

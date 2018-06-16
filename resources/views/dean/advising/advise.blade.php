@@ -247,6 +247,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <th width="5%">Lec</th>
             <th width="5%">Lab</th>
             <th width="8%">Grade</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -259,10 +260,18 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <td>{{$curriculum->lab}}</td>
             <td>
                 @if (count($grades)>0)
+                    {{$grades->finals}}
+                @endif
+                <?php $check_grades_new = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+                @if (count($check_grades_new)>0)
+                    {{$check_grades_new->finals}}
+                @endif
+            </td>
+            <td>
+                @if (count($grades)>0)
                     @if($grades->finals == "FA" || $grades->finals == "4.00" || $grades->finals == "INC" || $grades->finals == "NA" || $grades->finals == "NG" || $grades->finals == "UD" || $grades->finals == "W")
                     <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
                     @else
-                    {{$grades->finals}}
                     @endif
                 @else
                 <?php $check_grades_new = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
@@ -270,7 +279,6 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     @if ($check_grades_new->finals == "FA" || $check_grades_new->finals == "4.00" ||$check_grades_new->finals == "INC" ||$check_grades_new->finals == "NA" ||$check_grades_new->finals == "NG" ||$check_grades_new->finals == "UD" ||$check_grades_new->finals == "W")
                     <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
                     @else
-                    {{$check_grades_new->finals}}
                     @endif
                 @else
                 <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
@@ -308,7 +316,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <td>{{$elective->lab}}</td>
             <td>
                 @if (count($elect_grades)>0)
-                    @if($elect_grades->finals == "FA" || $elect_grades->finals == "4.00" || $elect_grades->finals == "INC" || $elect_grades->finals == "NA" || $elect_grades->finals == "NG" || $elect_grades->finals == "UD" || $elect_grades->finals == "W")
+                    @if($select_grades->finals == "FAILED" || $elect_grades->finals == "FA" || $elect_grades->finals == "4.00" || $elect_grades->finals == "INC" || $elect_grades->finals == "NA" || $elect_grades->finals == "NG" || $elect_grades->finals == "UD" || $elect_grades->finals == "W")
                     <button class="btn btn-primary" onclick="add_to_course_offered('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
                     @else
                     {{$elect_grades->finals}}
@@ -316,7 +324,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 @else
                 <?php $check_grades_new = \App\GradeCollege::where('idno', $idno)->where('course_code', $elective->course_code)->first(); ?>
                 @if (count($check_grades_new)>0)
-                    @if ($check_grades_new->finals == "FA" || $check_grades_new->finals == "4.00" ||$check_grades_new->finals == "INC" ||$check_grades_new->finals == "NA" ||$check_grades_new->finals == "NG" ||$check_grades_new->finals == "UD" ||$check_grades_new->finals == "W")
+                    @if ($select_grades->finals == "FAILED" || $check_grades_new->finals == "FA" || $check_grades_new->finals == "4.00" ||$check_grades_new->finals == "INC" ||$check_grades_new->finals == "NA" ||$check_grades_new->finals == "NG" ||$check_grades_new->finals == "UD" ||$check_grades_new->finals == "W")
                     <button class="btn btn-primary" onclick="add_to_course_offered_elect('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
                     @else
                     {{$check_grades_new->finals}}

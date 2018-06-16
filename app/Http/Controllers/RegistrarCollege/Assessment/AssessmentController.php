@@ -577,16 +577,19 @@ class AssessmentController extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', '6')->get();
-            $changestatus = \App\Status::where('idno', $idno)->first();
-            $changestatus->status = env("ENROLLED");
-            $changestatus->update();
+            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '6')->get();
+
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
-            $this->postDebit($idno, $reference_id, $totalpayment, $levels_reference_id);
+            $this->postDebit($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period);
+            
+//            $changestatus = \App\Status::where('idno', $idno)->first();
+//            $changestatus->status = env("ENROLLED");
+//            $changestatus->update();
             $changereservation = \App\Reservation::where('idno', $idno)->get();
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
+                    $change->levels_reference_id = $levels_reference_id;
                     $change->is_consumed = '1';
                     $change->consume_sy = $school_year;
                     $change->update();
@@ -598,7 +601,7 @@ class AssessmentController extends Controller {
         $change->update();
     }
 
-    function postDebit($idno, $reference_id) {
+    function postDebit($idno, $reference_id, $totalpayment,$levels_reference_id, $school_year, $period) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $reservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
         $department = \App\Status::where('idno', $idno)->first()->department;
@@ -640,20 +643,21 @@ class AssessmentController extends Controller {
                 $ledger->is_consumed = 1;
                 $totalReserved = $totalReserved + $ledger->amount;
             }
-            $this->postDebitMemo($idno, $reference_id, $totalReserved);
+            $this->postDebitMemo($idno, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period);
         }
     }
 
-    function postDebitMemo($idno, $reference_id, $totalReserved) {
-        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+    function postDebitMemo($idno, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period) {
+
         $debit_memo = new \App\DebitMemo;
         $debit_memo->idno = $idno;
+        $debit_memo->levels_reference_id = $levels_reference_id;
         $debit_memo->transaction_date = date("Y-m-d");
         $debit_memo->reference_id = $reference_id;
         $debit_memo->dm_no = $this->getDMNumber();
         $debit_memo->explanation = "Reversal of Reservation/Student Deposit";
         $debit_memo->amount = $totalReserved;
-        $debit_memo->reservation_sy = $school_year->school_year;
+        $debit_memo->reservation_sy = $school_year;
         $debit_memo->posted_by = Auth::user()->idno;
         $debit_memo->save();
     }
@@ -701,6 +705,48 @@ class AssessmentController extends Controller {
 
     function roundOff($amount) {
         return round($amount);
+    }
+    
+    
+
+    function reassess_reservations($idno, $levels_reference_id,$schoolyear, $period) {
+        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
+            $status = \App\Status::where('idno', $idno)->first();
+            $user = \App\User::where('idno', $idno)->first();
+            if ($status->status == env("ASSESSED")) {
+                DB::beginTransaction();
+                $this->reverse_reservations($idno, $levels_reference_id);
+                $this->removeDM($idno, $levels_reference_id);
+                DB::commit();
+            }
+            return $this->reassess($idno);
+        }
+    }
+
+    function reverse_reservations($idno, $levels_reference_id) {
+        $reverses = \App\Reservation::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
+        foreach ($reverses as $reverse) {
+            $reverse->levels_reference_id = "";
+            $reverse->is_consumed = 0;
+            $reverse->consume_sy = "";
+            $reverse->save();
+        }
+    }
+
+    function removeDM($idno, $levels_reference_id) {
+        $removeDMs = \App\DebitMemo::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
+        foreach ($removeDMs as $removeDM) {
+            $reference_id = $removeDM->reference_id;
+            $removeDM->delete();
+            $this->remove_accountings($reference_id);
+        }
+    }
+
+    function remove_accountings($reference_id) {
+        $remove_accountings = \App\Accounting::where('reference_id', $reference_id)->get();
+        foreach ($remove_accountings as $accounting) {
+            $accounting->delete();
+        }
     }
 
 }

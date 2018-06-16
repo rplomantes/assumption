@@ -163,6 +163,7 @@ Route::get('/ajax/registrar_college/reports/student_list/list_per_course','Regis
 //Enrollment Statistics
 Route::get('/registrar_college/reports/enrollment_statistics/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
 Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_statistics/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@print_statistics');
+Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_official/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@print_official');
 
 
 //Dean - MAIN///////////////////////////////////////////////////////////////////
@@ -248,3 +249,5 @@ Route::get('/bedregistrar/ajax/pop_discount_collection','BedRegistrar\Ajax\Disco
 //print assessment for Bed registrar
 Route::get('/bedregistrar/print_assessment/{idno}','BedRegistrar\Assess@print_assessment');
 Route::get('/bedregistrar/reassess_reservations/{idno}/{levels_reference_id}','BedRegistrar\Assess@reassess_reservations');
+//reassess college with reservation
+Route::get('/registrar_college/reassess_reservations/{idno}/{levels_reference_id}/{school_year}/{period}','RegistrarCollege\Assessment\AssessmentController@reassess_reservations');

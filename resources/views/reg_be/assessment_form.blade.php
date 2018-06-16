@@ -60,7 +60,8 @@ $upon = 0;
         @else
          <h2 class="title">ACCOUNT DETAILS</h2>
         @endif
-       <table><tr><td>Student ID</td><td> : </td><td>{{$idno}}</td></tr>
+       <table><tr><td>A.Y.</td><td> : </td><td>{{$status->school_year}} - {{$status->school_year+1}} {{$status->period}}</td></tr>
+           <tr><td>Student ID</td><td> : </td><td>{{$idno}}</td></tr>
            <tr><td>Student Name</td><td> : </td><td><div class="name">{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</div></td></tr>
            <tr><td>Enrolled to </td><td> : </td><td>{{$status->level}}</td></tr>
            <tr><td>Plan </td><td> : </td><td>{{$status->type_of_plan}}</td></tr>

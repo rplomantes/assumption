@@ -1,3 +1,13 @@
+<?php
+$ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$user->idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
+$totaldm=0;
+?>
+@foreach ($ledger as $main)
+<?php
+$totaldm=$totaldm+$main->debit_memo;
+?>
+@endforeach
 <style>
     img {
         display: block;
@@ -270,6 +280,13 @@ foreach ($discounts as $discount) {
             <td><strong>:</strong></td>
             <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee)-$dfee)-$esc,2)}}</strong></td>
         </tr>
+        @if ($totaldm>0)
+        <tr>
+            <td>Reservation</td>
+            <td>:</td>
+            <td class='bottomline-right'>({{number_format($totaldm,2)}})</td>
+        </tr>
+        @endif
     </table>
     
     
@@ -287,7 +304,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td>{{ date ('D, M d, Y', strtotime($downpayment->due_date))}}</td>
             <td>Downpayment</td>
-            <td class='bottomline-right'>{{number_format($downpayment->amount,2)}}</td>
+            <td class='bottomline-right'>{{number_format($downpayment->amount - $totaldm,2)}}</td>
         </tr>
         @foreach ($ledger_due_dates as $ledger_due_date)
         <tr>
@@ -312,7 +329,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td>{{ date ('D, M d, Y', strtotime($downpayment->due_date))}}</td>
             <td>Upon Enrollment</td>
-            <td class='bottomline-right'>{{number_format($downpayment->amount,2)}}</td>
+            <td class='bottomline-right'>{{number_format($downpayment->amount - $totaldm,2)}}</td>
         </tr>
     </table>
     @endif
@@ -587,6 +604,13 @@ foreach ($discounts as $discount) {
             <td><strong>:</strong></td>
             <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee)-$dfee)-$esc,2)}}</strong></td>
         </tr>
+        @if ($totaldm>0)
+        <tr>
+            <td>Reservation</td>
+            <td>:</td>
+            <td class='bottomline-right'>({{number_format($totaldm,2)}})</td>
+        </tr>
+        @endif
     </table>
     
     
@@ -604,7 +628,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td>{{ date ('D, M d, Y', strtotime($downpayment->due_date))}}</td>
             <td>Downpayment</td>
-            <td class='bottomline-right'>{{number_format($downpayment->amount,2)}}</td>
+            <td class='bottomline-right'>{{number_format($downpayment->amount - $totaldm,2)}}</td>
         </tr>
         @foreach ($ledger_due_dates as $ledger_due_date)
         <tr>
@@ -629,7 +653,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td>{{ date ('D, M d, Y', strtotime($downpayment->due_date))}}</td>
             <td>Upon Enrollment</td>
-            <td class='bottomline-right'>{{number_format($downpayment->amount,2)}}</td>
+            <td class='bottomline-right'>{{number_format($downpayment->amount - $totaldm,2)}}</td>
         </tr>
     </table>
     @endif

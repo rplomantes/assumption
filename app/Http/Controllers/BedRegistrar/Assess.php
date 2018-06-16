@@ -321,16 +321,16 @@ class Assess extends Controller {
 
     function addPercentage($plan) {
         switch ($plan) {
-            case "Plan A - Annual":
+            case "Plan A":
                 return 0;
                 break;
-            case "Plan B - Semestral":
+            case "Plan B":
                 return 1;
                 break;
-            case "Plan C - Quarterly":
+            case "Plan C":
                 return 2;
                 break;
-            case "Plan D - Monthly":
+            case "Plan D":
                 return 3;
                 break;
         }
@@ -468,6 +468,8 @@ class Assess extends Controller {
             $status->strand = $request->strand;
             $status->period = $period;
             $status->academic_type = "SHS";
+        } else {
+            $status->academic_type = "BED";
         }
         $status->school_year = $schoolyear;
         $status->section = $request->section;
@@ -651,7 +653,7 @@ class Assess extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', env("TUITION_FEE"))->get();
 
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));

@@ -31,7 +31,11 @@ class advising_ajax extends Controller {
             $school_year = Input::get("school_year");
             $period = Input::get("period");
             $curriculum = \App\Curriculum::find(Input::get('curriculum_id'));
-            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->get();
+            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)
+//                    ->where(function ($query){
+//                        $query->whereRaw('finals NOT LIKE "FAILED" or finals NOT LIKE "4.00" or finals NOT LIKE "FA" or finals NOT LIKE "INC" or finals NOT LIKE "NA" or finals NOT LIKE "NG" or finals NOT LIKE "UD" or finals NOT LIKE "W" or finals NOT LIKE "AUDIT"');
+//                    })
+                            ->get();
             if (count($checkcourse) == 0) {
                 $newgrade = new \App\GradeCollege;
                 $newgrade->idno = $idno;
@@ -47,6 +51,25 @@ class advising_ajax extends Controller {
                 $newgrade->srf = $curriculum->srf;
                 $newgrade->percent_tuition = $curriculum->percent_tuition;
                 $newgrade->save();
+            }else{
+                foreach ($checkcourse as $check){
+                    if ($check->finals == "FAILED" || $check->finals == "4.00" || $check->finals == "FA" || $check->finals == "INC" || $check->finals == "NA" || $check->finals == "NG" || $check->finals == "UD" || $check->finals == "W" || $check->finals == "AUDIT"){
+                        $newgrade = new \App\GradeCollege;
+                        $newgrade->idno = $idno;
+                        $newgrade->course_offering_id = NULL;
+                        $newgrade->course_code = $curriculum->course_code;
+                        $newgrade->course_name = $curriculum->course_name;
+                        $newgrade->level = $curriculum->level;
+                        $newgrade->lec = $curriculum->lec;
+                        $newgrade->lab = $curriculum->lab;
+                        $newgrade->hours = $curriculum->hours;
+                        $newgrade->school_year = $school_year;
+                        $newgrade->period = $period;
+                        $newgrade->srf = $curriculum->srf;
+                        $newgrade->percent_tuition = $curriculum->percent_tuition;
+                        $newgrade->save();
+                    } 
+                }
             }
             $studentcourses = \App\GradeCollege::where('idno', $idno)
                     ->where('school_year', $school_year)

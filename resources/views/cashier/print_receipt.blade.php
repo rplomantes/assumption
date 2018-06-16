@@ -31,6 +31,7 @@
             @else
             <tr><td colspan="4">Level/Section: {{$status->level}} - {{$status->department}}</td></tr>
             @endif
+            <tr><td colspan="4">Plan: {{$status->type_of_plan}}</td></tr>
         @endif
         @endif
     </table>
@@ -91,7 +92,7 @@
         @if($payment->check_amount>0)
         Bank : {{$payment->bank_name}}<br>
         Check No : {{$payment->check_number}}<br>
-        Check Amount : {{number_format($payment->check_amount)}}<br>
+        Check Amount : {{number_format($payment->check_amount,2)}}<br>
         @endif
         @if($payment->credit_card_amount>0)
         Credit Card : {{$payment->credit_card_bank}} {{$payment->credit_card_type}}<br>

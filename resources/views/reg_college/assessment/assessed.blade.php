@@ -13,6 +13,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 }
 ?>
 <?php
+$ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
+$totaldm=0;
+?>
+@foreach ($ledger as $main)
+<?php
+$totaldm=$totaldm+$main->debit_memo;
+?>
+@endforeach
+<?php
 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 $units = 0;
 ?>
@@ -182,9 +192,15 @@ $units = 0;
                     </div>
                 </div>
             </div>
+            @if ($totaldm <= 0)
             <div class="col-sm-6">
                 <a href="{{url('registrar_college', array('reassess',$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
             </div>
+            @else
+            <div class="col-sm-6">
+                <a href="{{url('registrar_college', array('reassess_reservations',$idno, $status->levels_reference_id, $school_year, $period))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
+            </div>
+            @endif
             <div class="col-sm-6">
                 <a href='{{url('registrar_college', array('print_registration_form', $user->idno, $school_year, $period))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
             </div>

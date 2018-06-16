@@ -93,7 +93,7 @@ class StudentLedger extends Controller
             $id = \App\ReferenceId::where('idno',Auth::user()->idno)->first()->id;
             $number =  \App\ReferenceId::where('idno',Auth::user()->idno)->first()->receipt_no;
             $receipt="";
-            for($i=strlen($number);$i<=8;$i++){
+            for($i=strlen($number);$i<=9;$i++){
                 $receipt=$receipt."0";
             }
             return $receipt.$number;
@@ -104,7 +104,7 @@ class StudentLedger extends Controller
             $id = \App\ReferenceId::where('idno',Auth::user()->idno)->first()->id;
             $number =  \App\ReferenceId::where('idno',Auth::user()->idno)->first()->end_receipt_no;
             $receipt="";
-            for($i=strlen($number);$i<=8;$i++){
+            for($i=strlen($number);$i<=9;$i++){
                 $receipt=$receipt."0";
             }
             return $receipt.$number;

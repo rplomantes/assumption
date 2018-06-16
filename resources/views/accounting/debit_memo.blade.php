@@ -69,7 +69,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         <div class="col-md-6">
             <table class="table table-responsive"><tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>
                     <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
-                    <tr><td>Studnt Name : </td><td>{{$user->lastname}}, {{$user->firstname}}</td></tr>
+                    <tr><td>Student Name : </td><td>{{$user->lastname}}, {{$user->firstname}}</td></tr>
                     </table>
         </div>  
         <div class="col-md-6"><div class="nav navbar pull-right"> DM No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
@@ -80,6 +80,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
       {{csrf_field()}}
            <input type="hidden" name="idno" value="{{$user->idno}}">
            <input type="hidden" name="receipt_no" value="{{$receipt_number}}">
+
            
     <div class="col-md-6">
         <div id="detailed_form">   
@@ -145,7 +146,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                    
                     <div class="form form-group">
                     <div class="col-md-6">
-                        <span class="label_collected">Amount To Be Paid :</span>
+                        <span class="label_collected">Amount To Be Debit :</span>
                     </div> 
                     <div class="col-md-6">
                         <input type="text" class="form form-control number" id="collected_amount" name="collected_amount" readonly="readonly">

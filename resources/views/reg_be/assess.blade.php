@@ -219,7 +219,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
                     <label>Payment Options <span class="warning">Required</span></label>
                     <select class="form form-control" name="plan" id="plan">
                         <option value="">Select Payment Option</option>
-                        <option value="Plan A - Annual">Plan A - Annual</option>
+                        <option value="Plan A">Plan A</option>
                         @foreach($plans as $plan)
                         <option value="{{$plan->plan}}">{{$plan->plan}}</option>
                         @endforeach

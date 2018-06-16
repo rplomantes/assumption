@@ -108,15 +108,15 @@ $units = 0;
                         <label>School Year</label>
                         <select class='form form-control' name='school_year'>
                             <option></option>
-                            <option>2017</option>
-                            <option>2018</option>
+                            <option @if($school_year->school_year == 2017) selected='' @endif>2017</option>
+                            <option @if($school_year->school_year == 2018) selected='' @endif>2018</option>
                         </select>
                         <label>Period</label>
                         <select class='form form-control' name='period'>
                             <option></option>
-                            <option>1st Semester</option>
-                            <option>2nd Semester</option>
-                            <option>Summer</option>
+                            <option @if($school_year->period == '1st Semester') selected='' @endif>1st Semester</option>
+                            <option @if($school_year->period == '2nd Semester') selected='' @endif>2nd Semester</option>
+                            <option @if($school_year->period == 'Summer') selected='' @endif>Summer</option>
                         </select>
                         <label></label>
                         <input class='form form-control btn btn-success' type='submit' value='Set School Year and Period'>
