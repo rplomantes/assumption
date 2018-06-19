@@ -26,7 +26,7 @@ class ChedEnrollmentReportsController extends Controller
     function print_report(Request $request) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {           
             $students = \App\CollegeLevel::where('program_code', $request->program_code)->where('level', $request->level)->where('school_year', $request->school_year)->where('period', $request->period)->where('status',3)->get();
-            $pdf = PDF::loadView('reg_college.reports.print_ched_enrollment_report', compact('students'));
+            $pdf = PDF::loadView('reg_college.reports.print_ched_enrollment_report', compact('students','request'));
             $pdf->setPaper('letter','landscape');
             return $pdf->stream("student_list_.pdf");
         }
