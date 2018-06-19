@@ -9,6 +9,8 @@
             <word>BEHS</word>
             <word>endforeach</word>
             <word>endif</word>
+            <word>footerscript</word>
+            <word>foreach</word>
         </spellchecker-wordlist>
     </configuration>
 </project>

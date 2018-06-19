@@ -76,12 +76,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total1 = 0;
             $total1 = get_stats("BAP", "1st Year", $school_year, $period);
             $total2 = get_stats("BAP", "2nd Year", $school_year, $period);
             $total3 = get_stats("BAP", "3rd Year", $school_year, $period);
             $total4 = get_stats("BAP", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total1 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;PSYCHOLOGY</td>
@@ -89,7 +89,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total1}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF COMMUNICATION</td>
@@ -99,12 +99,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total2 = 0;
             $total1 = get_stats("BC-BC1", "1st Year", $school_year, $period);
             $total2 = get_stats("BC-BC1", "2nd Year", $school_year, $period);
             $total3 = get_stats("BC-BC1", "3rd Year", $school_year, $period);
             $total4 = get_stats("BC-BC1", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total2 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;ADVERTISING AND PUBLIC RELATIONS</td>
@@ -112,19 +112,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total2}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total3 = 0;
             $total1 = get_stats("BC-BC2", "1st Year", $school_year, $period);
             $total2 = get_stats("BC-BC2", "2nd Year", $school_year, $period);
             $total3 = get_stats("BC-BC2", "3rd Year", $school_year, $period);
             $total4 = get_stats("BC-BC2", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total3 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;MEDIA PRODUCTION</td>
@@ -132,19 +132,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total3}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total4 = 0;
             $total1 = get_stats("BC-PA", "1st Year", $school_year, $period);
             $total2 = get_stats("BC-PA", "2nd Year", $school_year, $period);
             $total3 = get_stats("BC-PA", "3rd Year", $school_year, $period);
             $total4 = get_stats("BC-PA", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total4 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;PERFORMING ARTS</td>
@@ -152,7 +152,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total4}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF ELEMENTARY EDUCATION</td>
@@ -162,12 +162,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total5 = 0;
             $total1 = get_stats("BEE", "1st Year", $school_year, $period);
             $total2 = get_stats("BEE", "2nd Year", $school_year, $period);
             $total3 = get_stats("BEE", "3rd Year", $school_year, $period);
             $total4 = get_stats("BEE", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total5 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;ELEMENTARY EDUCATION</td>
@@ -175,19 +175,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total5}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total6 = 0;
             $total1 = get_stats("BEE-PSED", "1st Year", $school_year, $period);
             $total2 = get_stats("BEE-PSED", "2nd Year", $school_year, $period);
             $total3 = get_stats("BEE-PSED", "3rd Year", $school_year, $period);
             $total4 = get_stats("BEE-PSED", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total6 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;PRE-SCHOOL EDUCATION</td>
@@ -195,7 +195,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total6}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF SECONDARY EDUCATION</td>
@@ -205,12 +205,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total7 = 0;
             $total1 = get_stats("BSE-SE1", "1st Year", $school_year, $period);
             $total2 = get_stats("BSE-SE1", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSE-SE1", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSE-SE1", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total7 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;ENGLISH</td>
@@ -218,7 +218,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total7}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF SCIENCE</td>
@@ -228,12 +228,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total8 = 0;
             $total1 = get_stats("BSA", "1st Year", $school_year, $period);
             $total2 = get_stats("BSA", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSA", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSA", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total8 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;ACCOUNTANCY</td>
@@ -241,19 +241,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total8}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total9 = 0;
             $total1 = get_stats("BSENT", "1st Year", $school_year, $period);
             $total2 = get_stats("BSENT", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSENT", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSENT", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total9 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;ENTREPRENEURSHIP</td>
@@ -261,19 +261,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total9}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total10 = 0;
             $total1 = get_stats("BSID", "1st Year", $school_year, $period);
             $total2 = get_stats("BSID", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSID", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSID", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total10 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;INTERIOR DESIGN</td>
@@ -281,19 +281,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total10}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total11 = 0;
             $total1 = get_stats("BSP", "1st Year", $school_year, $period);
             $total2 = get_stats("BSP", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSP", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSP", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total11 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;PSYCHOLOGY</td>
@@ -301,7 +301,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total11}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF SCIENCE IN ENTREPRENEURSHIP</td>
@@ -311,12 +311,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total12 = 0;
             $total1 = get_stats("BSENT-STM", "1st Year", $school_year, $period);
             $total2 = get_stats("BSENT-STM", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSENT-STM", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSENT-STM", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total12 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;WITH SPECIALIZATION IN TOURISM MANAGEMENT</td>
@@ -324,7 +324,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total12}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</td>
@@ -334,12 +334,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total13 = 0;
             $total1 = get_stats("BSBA-CM", "1st Year", $school_year, $period);
             $total2 = get_stats("BSBA-CM", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSBA-CM", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSBA-CM", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total13 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;CORPORATE MANAGEMENT</td>
@@ -347,19 +347,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total13}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total14 = 0;
             $total1 = get_stats("BSBA-HRDM", "1st Year", $school_year, $period);
             $total2 = get_stats("BSBA-HRDM", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSBA-HRDM", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSBA-HRDM", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total14 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;HUMAN RESOURCE DEVELOPMENT MANAGEMENT</td>
@@ -367,19 +367,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total14}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total15 = 0;
             $total1 = get_stats("BSBA-IB", "1st Year", $school_year, $period);
             $total2 = get_stats("BSBA-IB", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSBA-IB", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSBA-IB", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total15 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;INTERNATIONAL BUSINESS</td>
@@ -387,19 +387,19 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total15}}</td>
             </tr>
             <?php
             $total1 = 0;
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total16 = 0;
             $total1 = get_stats("BSBA-MGT3", "1st Year", $school_year, $period);
             $total2 = get_stats("BSBA-MGT3", "2nd Year", $school_year, $period);
             $total3 = get_stats("BSBA-MGT3", "3rd Year", $school_year, $period);
             $total4 = get_stats("BSBA-MGT3", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total16 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;MARKETING</td>
@@ -407,7 +407,7 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total16}}</td>
             </tr>
             <tr>
                 <td colspan="6">BACHELOR OF PERFORMING ARTS</td>
@@ -417,12 +417,12 @@ function get_stats($course_code, $level, $school_year, $period){
             $total2 = 0;
             $total3 = 0;
             $total4 = 0;
-            $course_total = 0;
+            $course_total17 = 0;
             $total1 = get_stats("BPA-TT", "1st Year", $school_year, $period);
             $total2 = get_stats("BPA-TT", "2nd Year", $school_year, $period);
             $total3 = get_stats("BPA-TT", "3rd Year", $school_year, $period);
             $total4 = get_stats("BPA-TT", "4th Year", $school_year, $period);
-            $course_total = $total1 + $total2 + $total3 + $total4;
+            $course_total17 = $total1 + $total2 + $total3 + $total4;
             ?>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;THEATER TRACK</td>
@@ -430,11 +430,14 @@ function get_stats($course_code, $level, $school_year, $period){
                 <td style="text-align: center;">{{$total2}}</td>
                 <td style="text-align: center;">{{$total3}}</td>
                 <td style="text-align: center;">{{$total4}}</td>
-                <td style="text-align: center;">{{$course_total}}</td>
+                <td style="text-align: center;">{{$course_total17}}</td>
             </tr>
             <tr>
+            <?php 
+            $grandtotal = $course_total1 + $course_total2 + $course_total3 + $course_total4 + $course_total5 + $course_total6 + $course_total7 + $course_total8 + $course_total9 + $course_total10 + $course_total11 + $course_total12 + $course_total13 + $course_total14 + $course_total15 + $course_total16 + $course_total17;
+            ?>    
                 <td colspan="5"><strong>GRAND TOTAL</strong></td>
-                <td style="text-align: center;"><strong></strong></td>
+                <td style="text-align: center;"><strong>{{$grandtotal}}</strong></td>
             </tr>
         </tbody>
     </table>
