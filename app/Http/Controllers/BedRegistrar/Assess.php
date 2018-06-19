@@ -381,8 +381,7 @@ class Assess extends Controller {
                 $addledger->department = $department->department;
                 $addledger->level = $request->level;
                 if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-                    $add->strand = $request->strand;
-                    $add->period = $period;
+                    $addledger->strand = $request->strand;
                 }
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $tshirt->category;
