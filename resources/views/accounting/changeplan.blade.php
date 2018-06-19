@@ -80,7 +80,7 @@
              <div class="form form-group">    
              <select class="form form-control" name="plan">
                  <option value="">Select Plan</option>
-                 <option value="Plan A - Annual">Plan A - Annual</option>
+                 <option value="Plan A">Plan A</option>
                  @foreach($duedateplans as $plan)
                  <option value="{{$plan->plan}}">{{$plan->plan}}</option>
                  @endforeach
