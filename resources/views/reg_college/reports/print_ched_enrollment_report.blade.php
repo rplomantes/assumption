@@ -21,7 +21,7 @@
             <!--<div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>CHED ENROLLMENT REPORTS</b><br></div>-->    
             <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>CHED ENROLLMENT REPORTS</b><br><b>{{$request->period}}, {{$request->school_year}} - {{$request->school_year + 1}}</b></div>
         
-            <table  style='margin-top: 155px;'>
+            <table  style='margin-top: 155px;' width="100%">
             <thead>
             <tr>
             <td>  

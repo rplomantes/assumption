@@ -24,13 +24,13 @@
 @section('header')
 <section class="content-header">
     <h1>
-        Ched Enrollment Report
+        CHED Enrollment Report
         <small>Per Course</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="#"> Reports</a></li>
-        <li class="active"><a href="{{ url ('/registrar_college', array('reports','ched_enrollment_reports'))}}"></i> Ched Enrollment Reports</a></li>
+        <li class="active"><a href="{{ url ('/registrar_college', array('reports','ched_enrollment_reports'))}}"></i> CHED Enrollment Report</a></li>
     </ol>
 </section>
 @endsection
