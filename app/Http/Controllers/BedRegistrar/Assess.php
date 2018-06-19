@@ -199,26 +199,50 @@ class Assess extends Controller {
             $status = \App\Status::where('idno', $request->idno)->first();
             if (count($status) > 0) {
                 if ($status->is_new == "1") {
-                    $addfee = \App\CtrNewStudentFee::get();
-                    if (count($addfee) > 0) {
-                        foreach ($addfee as $fee) {
-                            $addledger = new \App\Ledger;
-                            $addledger->idno = $request->idno;
-                            $addledger->department = $department->department;
-                            $addledger->level = $request->level;
-                            if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+
+                    if ($request->level == "Grade 11") {
+                        $addfee = \App\CtrNewShsStudentFee::get();
+                        if (count($addfee) > 0) {
+                            foreach ($addfee as $fee) {
+                                $addledger = new \App\Ledger;
+                                $addledger->idno = $request->idno;
+                                $addledger->department = $department->department;
+                                $addledger->level = $request->level;
                                 $addledger->strand = $request->strand;
                                 $addledger->period = $period;
+                                $addledger->school_year = $schoolyear;
+                                $addledger->category = $fee->category;
+                                $addledger->subsidiary = $fee->subsidiary;
+                                $addledger->receipt_details = $fee->receipt_details;
+                                $addledger->accounting_code = $fee->accounting_code;
+                                $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                                $addledger->category_switch = $fee->category_switch;
+                                $addledger->amount = $fee->amount;
+                                $addledger->save();
                             }
-                            $addledger->school_year = $schoolyear;
-                            $addledger->category = $fee->category;
-                            $addledger->subsidiary = $fee->subsidiary;
-                            $addledger->receipt_details = $fee->receipt_details;
-                            $addledger->accounting_code = $fee->accounting_code;
-                            $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
-                            $addledger->category_switch = $fee->category_switch;
-                            $addledger->amount = $fee->amount;
-                            $addledger->save();
+                        }
+                    } else {
+                        $addfee = \App\CtrNewStudentFee::get();
+                        if (count($addfee) > 0) {
+                            foreach ($addfee as $fee) {
+                                $addledger = new \App\Ledger;
+                                $addledger->idno = $request->idno;
+                                $addledger->department = $department->department;
+                                $addledger->level = $request->level;
+                                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                                    $addledger->strand = $request->strand;
+                                    $addledger->period = $period;
+                                }
+                                $addledger->school_year = $schoolyear;
+                                $addledger->category = $fee->category;
+                                $addledger->subsidiary = $fee->subsidiary;
+                                $addledger->receipt_details = $fee->receipt_details;
+                                $addledger->accounting_code = $fee->accounting_code;
+                                $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                                $addledger->category_switch = $fee->category_switch;
+                                $addledger->amount = $fee->amount;
+                                $addledger->save();
+                            }
                         }
                     }
                 }
@@ -356,6 +380,10 @@ class Assess extends Controller {
                 $addledger->idno = $request->idno;
                 $addledger->department = $department->department;
                 $addledger->level = $request->level;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $add->strand = $request->strand;
+                    $add->period = $period;
+                }
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $tshirt->category;
                 $addledger->subsidiary = $tshirt->subsidiary . " [" . $tshirt->size . "]";
@@ -380,6 +408,10 @@ class Assess extends Controller {
                 $addledger->idno = $request->idno;
                 $addledger->department = $department->department;
                 $addledger->level = $request->level;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $add->strand = $request->strand;
+                    $add->period = $period;
+                }
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $item->category;
                 $addledger->subsidiary = $item->subsidiary;
@@ -455,7 +487,7 @@ class Assess extends Controller {
 
     function update_due_dates($request, $dueamount, $total_decimal, $dueothers) {
         $update = \App\LedgerDueDate::where('idno', $request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
-        $update->amount = $dueothers + $dueamount + $total_decimal;
+        $update->amount = $update->amount + $dueamount + $total_decimal;
         $update->save();
     }
 
