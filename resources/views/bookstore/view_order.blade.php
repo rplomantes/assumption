@@ -37,7 +37,7 @@
 @section('header')
 <section class="content-header">
       <h1>
-        Search Student
+        View Orders
         <small></small>
       </h1>
       <ol class="breadcrumb">

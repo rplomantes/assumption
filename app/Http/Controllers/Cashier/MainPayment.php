@@ -238,37 +238,37 @@ class MainPayment extends Controller {
 //        }
         if ($request->miscellaneous > 0) {
             $totalpayment = $request->miscellaneous;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch",'1')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('MISC_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
             
         }
         if ($request->other_fee > 0) {
             $totalpayment = $request->other_fee;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '2')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('OTHER_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
             
         }
         if ($request->depository > 0) {
             $totalpayment = $request->depository;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '3')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('DEPOSITORY_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
             
         }
         if ($request->srf > 0) {
             $totalpayment = $request->srf;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '4')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('SRF_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
             
         }
         if ($request->optional > 0) {
             $totalpayment = $request->optional;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '5')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch",  env('OPTIONAL_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
             
         }
         if ($request->tuition > 0) {
             $totalpayment = $request->tuition;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '6')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch",  env('TUITION_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
             
         }
@@ -291,7 +291,8 @@ class MainPayment extends Controller {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $discount_ref = \App\CtrDiscount::where('discount_code', $discount_code)->first();
         $dept = \App\CtrAcademicProgram::where('level', $request->level)->first();
-        $department = $dept->department; //\App\Status::where('idno',$request->idno)->first()->department;
+        //$department = $dept->department; 
+        $department=\App\Status::where('idno',$request->idno)->first()->department;
         $addacct = new \App\Accounting;
         $addacct->transaction_date = date('Y-m-d');
         $addacct->reference_id = $reference_id;

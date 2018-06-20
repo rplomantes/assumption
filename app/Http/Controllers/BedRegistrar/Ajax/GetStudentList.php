@@ -130,7 +130,7 @@ function view_list(){
                   . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
                   . " and bed_levels.level = '$level' and  bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section'  order by lastname, firstname, middlename");
       }
-      return view('reg_be.ajax.studentlevel',compact('level','strand','students','school_year'));
+      return view('reg_be.ajax.studentlevel_list',compact('level','strand','students','school_year'));
    }  
      
  }

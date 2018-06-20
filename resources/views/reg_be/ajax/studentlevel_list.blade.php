@@ -13,7 +13,7 @@ $i=1;
         <th>Student ID</th>
         <th>Student Name</th>
         <th>Section</th>
-        <!--<th></th>-->
+        <th></th>
     </tr>
     @if(count($students)>0)
     @foreach($students as $name)
@@ -22,7 +22,7 @@ $i=1;
         <td>{{$name->idno}}</td>
         <td>{{get_name($name->idno)}}</td>
         <td>{{$name->section}}</td>
-        <!--<td><a href="javascript:void(0)" onclick="change_section('{{$name->idno}}')">>></a></td>-->
+        <td><a href="javascript:void(0)" onclick="change_section('{{$name->idno}}')">>></a></td>
     </tr>
     @endforeach
     @else

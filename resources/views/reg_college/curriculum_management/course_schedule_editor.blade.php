@@ -76,41 +76,20 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                             </tr>
                         </thead>
                         <tbody>
+                                <?php
+                                $schedules = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get();
+                                ?>
+                                @foreach($schedules as $schedule)
                             <tr>
+                                <td>{{$schedule->day}} {{date('g:i A', strtotime($schedule->time_start))}} - {{date('g:i A', strtotime($schedule->time_end))}}</td>
+                                <td>{{$schedule->room}}</td>
                                 <td>
-                                    <?php
-                                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room']);
-                                    ?>
-                                    @foreach ($schedule2s as $schedule2)
-                                    <?php
-                                    $days = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
-                                    ?>
-                                    <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                                    @foreach ($days as $day){{$day->day}}@endforeach
-                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course_offering->schedule_id)->first()->is_tba; ?>
-                                        @if ($is_tba == 0)
-                                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
-                                        @else
-                                        
-                                        @endif
-                                    @endforeach
-                                </td>
-                                <td>
-                                    <?php
-                                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course_offering->schedule_id)->get(['time_start', 'time_end', 'room','id']);
-                                    ?>
-                                    @foreach ($schedule3s as $schedule3)
-                                    {{$schedule3->room}}<br>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($schedule3s as $schedule3)
-                                    <button id="edit-schedule-form" type="button" class="btn btn-warning" onclick="edit_schedule({{$schedule3->id}})" >
+                                    <button id="edit-schedule-form" type="button" class="btn btn-warning" onclick="edit_schedule({{$schedule->id}})" >
                                         <i class="fa fa-pencil"></i>
-                                    </button><br>
-                                    @endforeach
+                                    </button>
                                 </td>
                             </tr>
+                                @endforeach
                         </tbody>
                     </table>
                     </div>

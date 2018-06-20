@@ -121,10 +121,46 @@ class DebitMemo extends Controller
     }
     function postAccounting($request,$reference_id){
         
-    if($request->main_due > 0 ){
-           $totalpayment = $request->main_due;
-           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','6')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
-           MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMO"));
+//        if($request->main_due > 0 ){
+//           $totalpayment = $request->main_due;
+//           $ledgers = \App\Ledger::where('idno',$request->idno)->where("category_switch",'<=','6')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get(); 
+//           MainPayment::processAccounting($request, $reference_id,$totalpayment,$ledgers,env("DEBIT_MEMO"));
+//        }
+        if ($request->miscellaneous > 0) {
+            $totalpayment = $request->miscellaneous;
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('MISC_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
+        }
+        if ($request->other_fee > 0) {
+            $totalpayment = $request->other_fee;
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('OTHER_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
+        }
+        if ($request->depository > 0) {
+            $totalpayment = $request->depository;
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('DEPOSITORY_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
+        }
+        if ($request->srf > 0) {
+            $totalpayment = $request->srf;
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", env('SRF_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
+        }
+        if ($request->optional > 0) {
+            $totalpayment = $request->optional;
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch",  env('OPTIONAL_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
+        }
+        if ($request->tuition > 0) {
+            $totalpayment = $request->tuition;
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch",  env('TUITION_FEE'))->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
         }
         
         if($request->previous_balance > 0){

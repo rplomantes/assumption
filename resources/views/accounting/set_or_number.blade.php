@@ -69,7 +69,7 @@
                         <td>{{$user->idno}}</td>
                         <td>{{$user->lastname}}, {{$user->firstname}}</td>
                         <td><input class="form form-control" size="2" id='start_or' type=text value="{{$start_or_number}}" name="start_or_number[{{$user->idno}}]"></td>
-                        <td><input class="form form-control" size="2" id='or' type=text value="{{$or_number}}"></td>
+                        <td><input class="form form-control" size="2" id='or' type=text value="{{$or_number}}" disabled=""></td>
                         <td><input class="form form-control" size="2" id='end_or' type=text value="{{$end_or_number}}" name="end_or_number[{{$user->idno}}]"></td>
                         <td colspan="4"><button type='submit' name='id' class='btn btn-success col-sm-12' value='{{$user->idno}}'>Update OR</button></td>
                     </tr>

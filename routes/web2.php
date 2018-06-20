@@ -96,6 +96,7 @@ Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList@index'
 //bookstore
 Route::get('/bookstore/view_order/{idno}','Bookstore\Order@view_order');
 Route::get('/bookstore/place_order/{idno}','Bookstore\Order@place_order');
+Route::post('/bookstore/place_order_now','Bookstore\Order@place_order_now');
 Route::get('/bookstore/print_order/{idno}','Bookstore\Order@print_order');
 //bookstor ajax
 Route::get('/bookstore/ajax/change_remarks','Bookstore\Ajax\BookMaterial@change_remarks');
