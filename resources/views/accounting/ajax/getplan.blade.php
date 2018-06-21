@@ -241,7 +241,7 @@ $grade2others=get_plan('Grade 12','Other Fees');
 $grade2dep = get_plan('Grade 12','Depository Fees');
 $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
 ?>
-<!--
+
 <div class="col-md-6">
     
 <table class="table table-striped">
@@ -254,20 +254,91 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
 </table>    
 </div> 
 <table border ="1" class="table table-striped">
-    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
-    <tr><td colspan="12"><b>Grade 11</b></td></tr>
-    <tr><td>Annual</td><td>{{number_format($grade1total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade1total,2)}}</td></tr>
-    <tr><td>Semestral</td><td>{{number_format(($grade1tuition*1.01/2)+($grade1total-$grade1tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade1tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade1tuition*1.01)+($grade1total-$grade1tuition),2)}}</td></tr>
-    <tr><td>Quarterly</td><td>{{number_format(($grade1tuition*1.02/4)+($grade1total-$grade1tuition),2)}}</td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade1tuition*1.02)+($grade1total-$grade1tuition),2)}}</td></tr>
-    <tr><td>Monthly</td><td>{{number_format(($grade1tuition*1.03/10)+($grade1total-$grade1tuition),2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format(($grade1tuition*1.03)+($grade1total-$grade1tuition),2)}}</td></tr>
+    <tr>
+        <td>Mode of Payment</td>
+        <td>Upon Enrollment</td>
+        <td>Sept</td>
+        <td>Oct</td>
+        <td>Nov</td>
+        <td>Dec</td>
+        <td>Total</td>
+    </tr>
+    <tr><td colspan="6"><b>Grade 11</b></td></tr>
+    <tr>
+        <td>Plan A</td>
+        <td>{{number_format($grade1total,2)}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{number_format($grade1total,2)}}</td>
+    </tr>
+    <tr>
+        <td>Plan B</td>
+        <td>{{number_format(($grade1tuition*1.01/2)+($grade1total-$grade1tuition),2)}}</td>
+        <td></td>
+        <td>{{number_format(($grade1tuition*1.01/2),2)}}</td>
+        <td></td>
+        <td></td>
+        <td>{{number_format(($grade1tuition*1.01)+($grade1total-$grade1tuition),2)}}</td></tr>
+    <tr>
+        <td>Plan C</td>
+        <td>{{number_format(($grade1tuition*1.02/3)+($grade1total-$grade1tuition),2)}}</td>
+        <td>{{number_format($grade1tuition*1.02/3,2)}}</td>
+        <td></td>
+        <td>{{number_format($grade1tuition*1.02/3,2)}}</td>
+        <td></td>
+        <td>{{number_format(($grade1tuition*1.02)+($grade1total-$grade1tuition),2)}}</td>
+    </tr>
+    <tr>
+        <td>Plan D</td>
+        <td>{{number_format(($grade1tuition*1.03/5)+($grade1total-$grade1tuition),2)}}</td>
+        <td>{{number_format($grade1tuition*1.03/5,2)}}</td>
+        <td>{{number_format($grade1tuition*1.03/5,2)}}</td>
+        <td>{{number_format($grade1tuition*1.03/5,2)}}</td>
+        <td>{{number_format($grade1tuition*1.03/5,2)}}</td>
+        <td>{{number_format(($grade1tuition*1.03)+($grade1total-$grade1tuition),2)}}</td>
+    </tr>
     <tr><td colspan="12"><b>Grade 12</b></td></tr>
-    <tr><td>Annual</td><td>{{number_format($grade2total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade2total,2)}}</td></tr>
-    <tr><td>Semestral</td><td>{{number_format(($grade2tuition*1.01/2)+($grade2total-$grade2tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade2tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade2tuition*1.01)+($grade2total-$grade2tuition),2)}}</td></tr>
-    <tr><td>Quarterly</td><td>{{number_format(($grade2tuition*1.02/4)+($grade2total-$grade2tuition),2)}}</td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade2tuition*1.02)+($grade2total-$grade2tuition),2)}}</td></tr>
-    <tr><td>Monthly</td><td>{{number_format(($grade2tuition*1.03/10)+($grade2total-$grade2tuition),2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format(($grade2tuition*1.03)+($grade2total-$grade2tuition),2)}}</td></tr>
+    <tr>
+        <td>Plan A</td>
+        <td>{{number_format($grade2total,2)}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{number_format($grade2total,2)}}</td>
+    </tr>
+    <tr>
+        <td>Plan B</td>
+        <td>{{number_format(($grade2tuition*1.01/2)+($grade2total-$grade2tuition),2)}}</td>
+        <td></td>
+        <td>{{number_format(($grade2tuition*1.01/2),2)}}</td>
+        <td></td>
+        <td></td>
+        <td>{{number_format(($grade2tuition*1.01)+($grade2total-$grade2tuition),2)}}</td>
+    </tr>
+    <tr>
+        <td>Plan C</td>
+        <td>{{number_format(($grade2tuition*1.02/3)+($grade2total-$grade2tuition),2)}}</td>
+        <td>{{number_format($grade2tuition*1.02/3,2)}}</td>
+        <td></td>
+        <td>{{number_format($grade2tuition*1.02/3,2)}}</td>
+        <td></td>
+        <td>{{number_format(($grade2tuition*1.02)+($grade2total-$grade2tuition),2)}}</td>
+    </tr>
+    <tr>
+        <td>Plan D</td>
+        <td>{{number_format(($grade2tuition*1.03/5)+($grade2total-$grade2tuition),2)}}</td>
+        <td>{{number_format($grade2tuition*1.03/5,2)}}</td>
+        <td>{{number_format($grade2tuition*1.03/5,2)}}</td>
+        <td>{{number_format($grade2tuition*1.03/5,2)}}</td>
+        <td>{{number_format($grade2tuition*1.03/5,2)}}</td>
+        <td>{{number_format(($grade2tuition*1.03)+($grade2total-$grade2tuition),2)}}</td>
+    </tr>
   
  </table>
--->
-<h1>To Follow</h1>
+
+<!--<h1>To Follow</h1>
 @endif
-<a href="{{url('/accounting',array('ajax','print_getplan',$department))}}" class="btn btn-primary" target="_blank">Print Plan</a>
+<a href="{{url('/accounting',array('ajax','print_getplan',$department))}}" class="btn btn-primary" target="_blank">Print Plan</a>-->

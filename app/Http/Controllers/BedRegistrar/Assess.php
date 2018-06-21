@@ -684,7 +684,7 @@ class Assess extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', env("TUITION_FEE"))->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch','<=',env("TUITION_FEE"))->get();
 
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
