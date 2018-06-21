@@ -73,8 +73,8 @@ $upon = 0;
         
    <table width="100%" border="0" cellspacing="0" cellpadding="0"> 
        <tr><td colspan="2">&nbsp;</td></tr>
-       <tr><td width="75%">
-    <label>Breakdown of Fees</label>           
+       <td width="75%">
+    <label>Breakdown of Fees:</label>           
     <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Reservation</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
@@ -175,7 +175,8 @@ $upon = 0;
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table>
-           </td><td width="25%" valign="top">
+           </td>
+           <td width="25%" valign="top">
                @if(count($due_dates)>0)
         <label>Schedule of Payment:</label>
         <div class="form-group">
@@ -200,10 +201,10 @@ $upon = 0;
             @endif
             <tr><td>{{$duedate}}</td><td align="right"><b>{!!$display!!}</b></td></tr>
             @endforeach
-            </table>    
+            </table>   
         </div>
         @endif
-           </td></tr>
+           </td>
            </table>
         <br>
        

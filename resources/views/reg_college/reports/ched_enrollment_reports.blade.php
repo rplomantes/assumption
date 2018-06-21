@@ -35,6 +35,15 @@
 </section>
 @endsection
 @section('maincontent')
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+        @endforeach
+                </ul>
+            </div>
+        @endif
 <section>
     <div class="row">
         <form class="form-horizontal" method='post' action='{{url('/registrar_college/reports/ched_enrollment_reports/generate')}}'>
