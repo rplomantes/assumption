@@ -83,17 +83,14 @@
         </tbody>
     </table><br><br><br>
     <table width="100%">
+        <tbody>
         <tr>
-            <td><b>Certified Correct:<br><br><br><br></b></td>
+            <td><b>Certified Correct:<br><br><br><br></b>
+            <b>ROSIE B. SOMERA</b><br>
+            Registrar<br>
+
+            <div align="right">Date Printed: {{ date('Y-m-d H:i:s') }}</div></td>
         </tr>
-        <tr>
-            <td><b>ROSIE B. SOMERA</b></td>
-        </tr>
-        <tr>
-            <td>Registrar</td>
-        </tr>
-        <tr>
-            <td align="right">Date Printed: {{ date('Y-m-d H:i:s') }}</td>
-        </tr>
+        </tbody>
     </table>
 </div>
