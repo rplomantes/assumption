@@ -472,7 +472,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
        $("#check_amount").on("keypress",function(e){
            if(e.keyCode==13){
                if($("#check_amount").val()==""){
-                   alert("Inavlid amount")
+                   alert("Invalid amount")
                }else{
                    if(computechange()<0){
                      $("#credit_card_bank").focus();  

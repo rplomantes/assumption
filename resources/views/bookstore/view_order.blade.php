@@ -174,7 +174,7 @@
              @if(count($pe_uniforms)>0)
              <h3>PE Uniform</h3>
              <table class="table table-striped">
-                 <tr><th width="30%">Paticular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
                 @foreach($pe_uniforms as $book)
                 <tr><td>{{$book->subsidiary}}</td><td>{{$book->qty}}</td><td>{{number_format($book->amount,2)}}</td>
                     <td>{{number_format($book->payment+$book->discount+$book->debit_memo,2)}}</td>

@@ -20,6 +20,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <link rel="stylesheet" href="{{ asset ('plugins/pace/pace.min.css')}}">
         <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -110,6 +111,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Schedule of Fees</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Payment Plan</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Discount</span></a></li>
+                        <li><a href="{{url('/admin/logs')}}"><i class="fa fa-home"></i> <span>Logs</span></a></li>
                 </section>
             </aside>
             <div class="content-wrapper">

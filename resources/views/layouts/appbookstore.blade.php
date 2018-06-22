@@ -11,7 +11,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Assumption College - Cashier</title>
+  <title>Assumption College - Bookstore</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap','dist','css','bootstrap.min.css'))}}">
   <link rel="stylesheet" href="{{url("/bower_components",array("font-awesome","css","font-awesome.min.css"))}}">
@@ -29,8 +29,8 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
 <div class="wrapper">
   <header class="main-header">
     <a href="{{url('/')}}" class="logo">
-      <span class="logo-mini"><b>R</b>EG</span>
-      <span class="logo-lg"><b>B</b>OOKSTORE</span>
+      <span class="logo-mini"><b>A</b>CS</span>
+      <span class="logo-lg"><b>Bookstore</b>BED</span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

@@ -73,6 +73,11 @@ class Assess extends Controller {
                         $this->addDueDates($request, $schoolyear->school_year, $schoolyear->period);
                         $this->modifyStatus($request, $schoolyear->school_year, $schoolyear->period);
                         $this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
+            
+                        $cut_off = \App\CtrEnrollmentCutOff::where('academic_type', $user->academic_type)->first();
+                        if (date('Y-m-d') > $cut_off->cut_off) {
+                            $this->addLatePayment($request, $schoolyear->school_year, $schoolyear->period);
+                        }
 
 
                         //$this->addBooks($request,$schoolyear);
@@ -86,6 +91,30 @@ class Assess extends Controller {
                         view('unauthorized');
                     }
                 }
+            }
+        }
+    }
+    
+    function addLatePayment($request, $schoolyear, $period) {
+        $latefees = \App\CtrBedLatePayment::get();
+        $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
+        if (count($latefees) > 0) {
+            foreach ($latefees as $fee) {
+                $addledger = new \App\Ledger;
+                $addledger->idno = $request->idno;
+                $addledger->department = $department->department;
+                $addledger->level = $request->level;
+                $addledger->strand = $request->strand;
+                $addledger->period = $period;
+                $addledger->school_year = $schoolyear;
+                $addledger->category = $fee->category;
+                $addledger->subsidiary = $fee->subsidiary;
+                $addledger->receipt_details = $fee->receipt_details;
+                $addledger->accounting_code = $fee->accounting_code;
+                $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                $addledger->category_switch = $fee->category_switch;
+                $addledger->amount = $fee->amount;
+                $addledger->save();
             }
         }
     }
@@ -521,6 +550,7 @@ class Assess extends Controller {
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                \App\Http\Controllers\Accounting\SetReceiptController::log("Reassess $idno.");
                 DB::commit();
             }
         }
@@ -543,6 +573,7 @@ class Assess extends Controller {
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                \App\Http\Controllers\Accounting\SetReceiptController::log("Reassess $idno.");
                 DB::commit();
             }
         }
