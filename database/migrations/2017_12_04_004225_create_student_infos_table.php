@@ -74,6 +74,11 @@ class CreateStudentInfosTable extends Migration
             $table->string('highschool_address')->nullable();
             $table->string('highschool_year')->nullable();
             
+            $table->string('date_of_admission')->nullable();
+            $table->string('award')->nullable();
+            $table->string('date_of_grad')->nullable();
+            $table->string('remarks')->nullable();
+            
             $table->timestamps();
             $table->foreign('idno')
                     ->references('idno')->on('users')

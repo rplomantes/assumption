@@ -43,7 +43,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
 <section class="content">
     <div class="row">
-        <div class="col-md-12">
+       <div class="col-md-12">
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -279,7 +279,13 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             @endforeach
             @endif
             @endif
-        </div>
+        <div class="form form-group">
+            <div class='col-sm-12'>
+            <!--<button class="col-sm-12 btn btn-success "><span></span>PRINT TRANSCRIPT OF RECORD</button>-->
+            <a target='_blank' href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-success col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
+            </div>
+        </div>    
+        </div>   
     </div>
 </section>
 
