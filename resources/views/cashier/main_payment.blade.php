@@ -623,14 +623,15 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
             noncash = noncash + eval($("#credit_card_amount").val())
         }
         if($("#deposit_amount").val()!=""){
+            deposit_amount= eval($("#deposit_amount").val());
             noncash = noncash + eval($("#deposit_amount").val())
         }
          
         if(noncash > totalamount){
-            if(noncash-check_amount>totalamount){
+            if(noncash-(check_amount+deposit_amount)>totalamount){
              alert("Invalid Amount !!!!!")
             } else {
-             $("#over_payment").val(check_amount-totalamount)
+             $("#over_payment").val((check_amount+deposit_amount)-totalamount)
              if($("#cash_receive").val()!=""){
                    amountreceive = eval($("#cash_receive").val());
                } 
@@ -641,7 +642,6 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
                   $("#submit_button").fadeOut(300)
               }
               $('#cash_receive').val(0);
-              $('#deposit_amount').val(0);
               $('#credit_card_amount').val(0);
               $("#change").val(0)
               return "0.00";
