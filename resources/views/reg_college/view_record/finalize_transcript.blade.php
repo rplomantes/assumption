@@ -43,83 +43,83 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
 <section class="content">
     <div class="row">
-    <form class="form form-horizontal" method="post" action='{{url('/registrar_college', array('view_transcript','print_transcript'))}}'>
+        <form class="form form-horizontal" method="post" action='{{url('/registrar_college', array('view_transcript','print_transcript'))}}'>
         {{ csrf_field() }}
         <input type='hidden' name='idno' value='{{$user->idno}}'>
         <div class="col-md-12">
-             <!--Widget: user widget style 1--> 
+            <!--Widget: user widget style 1--> 
             <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-yellow">
                     <table class="table table-condensed" width="100%">
-                    <tr>
-                        <td width='20%'>Student Name:</td>
-                        <td><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Student Number:</td>
-                        <td><b>{{$user->idno}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Course:</td>
-                        <td><b>{{strtoupper($level->program_name)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Date of Admission:</td>
-                        <td><b><input type="date" name="date_of_admission" value='{{old('date_of_admission', $info->date_of_admission)}}'></b></td>
-                    </tr>
-                    <tr>
-                        <td>Date and Place of Birth:</td>
-                        <td><b>{{strtoupper($info->birthdate)}}, {{strtoupper($info->place_of_birth)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Citizenship:</td>
-                        <td><b>{{strtoupper($info->nationality)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Father's Name:</td>
-                        <td><b>{{strtoupper($info->father)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Mother's Name:</td>
-                        <td><b>{{strtoupper($info->mother)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Address:</td>
-                        <td><b>{{strtoupper($info->street)}} {{strtoupper($info->barangay)}} {{strtoupper($info->municipality)}}</br></td>
-                    </tr>
-                    <tr>
-                        <td>Grade School:</td>
-                        <td><b>{{strtoupper($info->gradeschool)}} {{strtoupper($info->gradeschool_address)}}</br></td>
-                    </tr>
-                    <tr>
-                        <td>High School:</td>
-                        <td><b>{{strtoupper($info->highschool)}} {{strtoupper($info->highschool_address)}}</br></td>
-                    </tr>
-                    <tr>
-                        <td>Tertiary School:</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Degree Earned:</td>
-                        <td><b>{{strtoupper($level->program_name)}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Award:</td>
-                        <td><b><input type="text" name='award' value="{{old('award', $info->award)}}" ></b></td>
-                    </tr>
-                    <tr>
-                        <td>Date of Graduation:</td>
-                        <td><b><input type="date" name="date_of_grad" value="{{old('date_of_grad', $info->date_of_grad)}}" ></b></td>
-                    </tr>
-                    <tr>
-                        <td>S.O Number:</td>
-                        <td><b>EXEMPTED</b></td>
-                    </tr>
-                    <tr>
-                        <td>Remarks:</td>
-                        <td><b><input type="text" name='remarks'value="{{old('remarks', $info->remarks)}}" ></b></td>
-                    </tr>
+                        <tr>
+                            <td width='20%'>Student Name:</td>
+                            <td><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Student Number:</td>
+                            <td><b>{{$user->idno}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Course:</td>
+                            <td><b>{{strtoupper($level->program_name)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Date of Admission:</td>
+                            <td><b><input class="form form-control" type="date" name="date_of_admission" value='{{old('date_of_admission', $info->date_of_admission)}}'></b></td>
+                        </tr>
+                        <tr>
+                            <td>Date and Place of Birth:</td>
+                            <td><b>{{strtoupper(date('F d, Y',strtotime($info->birthdate)))}}, {{strtoupper($info->place_of_birth)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Citizenship:</td>
+                            <td><b>{{strtoupper($info->nationality)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Father's Name:</td>
+                            <td><b>{{strtoupper($info->father)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Mother's Name:</td>
+                            <td><b>{{strtoupper($info->mother)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td><b>{{strtoupper($info->street)}} {{strtoupper($info->barangay)}} {{strtoupper($info->municipality)}}</br></td>
+                        </tr>
+                        <tr>
+                            <td>Grade School:</td>
+                            <td><b>{{strtoupper($info->gradeschool)}} {{strtoupper($info->gradeschool_address)}}</br></td>
+                        </tr>
+                        <tr>
+                            <td>High School:</td>
+                            <td><b>{{strtoupper($info->highschool)}} {{strtoupper($info->highschool_address)}}</br></td>
+                        </tr>
+                        <tr>
+                            <td>Tertiary School:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Degree Earned:</td>
+                            <td><b>{{strtoupper($level->program_name)}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Award:</td>
+                            <td><b><input class="form form-control" type="text" name='award' value="{{old('award', $info->award)}}" ></b></td>
+                        </tr>
+                        <tr>
+                            <td>Date of Graduation:</td>
+                            <td><b><input class="form form-control" type="date" name="date_of_grad" value="{{old('date_of_grad', $info->date_of_grad)}}" ></b></td>
+                        </tr>
+                        <tr>
+                            <td>S.O. Number:</td>
+                            <td><b>EXEMPTED</b></td>
+                        </tr>
+                        <tr>
+                            <td>Remarks:</td>
+                            <td><b><input class='form form-control' type="text" name='remarks'value="{{old('remarks', $info->remarks)}}" ></b></td>
+                        </tr>
 
 
                     </table>
@@ -139,8 +139,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <tr>
                         <th width='5%'>Course Code</th>
                         <th width='40%'>Course Name</th>
-                        <th width='10%'>Completion</th>
                         <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,8 +153,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             @else
                             <i style="color: red;">Course name not found</i>
                             @endif</td>
-                        <td>{{$pin_grades->completion}}</td>
                         <td>{{$pin_grades->finals}}</td>
+                        <td>{{$pin_grades->completion}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -172,8 +172,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <tr>
                         <th width='5%'>Course Codes</th>
                         <th width='40%'>Course Name</th>
-                        <th width='10%'>Completion</th>
                         <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -181,8 +181,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
-                        <td>{{$grade->completion}}</td>
                         <td>{{$grade->finals}}</td>
+                        <td>{{$grade->completion}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -204,6 +204,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <th width='5%'>Course Codes</th>
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,6 +213,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
                         <td>{{$grade->finals}} </td>
+                        <td>{{$grade->completion}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -221,46 +223,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             @endif
             @endif
             <div class="form form-group">
-            <div class='col-sm-12'></div>
                 <input type='submit' class='col-sm-12 btn btn-success' value='PRINT TRANSCRIPT OF RECORD'>
                 <!--<a target='_blank' href='{{url('registrar_college', array('view_transcript', 'print_transcript',$user->idno))}}'><button class="btn btn-success col-sm-12">PRINT TRANSCRIPT OF RECORD</button></a>-->            
             </div>
         </div>      
-    </form>
+        </form>
     </div>
 </section>
 
 @endsection
 @section('footerscript')
-<!--<script>
-
-    function change_finals(grade, grade_id, idno, stat) {
-    array = {};
-    array['grade'] = grade;
-    array['grade_id'] = grade_id;
-    array['idno'] = idno;
-    array['stat'] = stat;
-    $.ajax({
-    type: "GET",
-            url: "/ajax/registrar_college/grades/change_finals/" + idno,
-            data: array,
-            success: function () {
-            }
-    });
-    }
-    function change_completion(grade, grade_id, idno, stat) {
-    array = {};
-    array['grade'] = grade;
-    array['grade_id'] = grade_id;
-    array['idno'] = idno;
-    array['stat'] = stat;
-    $.ajax({
-    type: "GET",
-            url: "/ajax/registrar_college/grades/change_completion/" + idno,
-            data: array,
-            success: function () {
-            }
-    });
-    }
-</script>-->
 @endsection

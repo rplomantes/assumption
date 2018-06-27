@@ -260,3 +260,6 @@ Route::get('/registrar_college/reassess_reservations/{idno}/{levels_reference_id
 
 //save_reason
 Route::get('/ajax/cashier/reason_reverserestore/','Cashier\Ajax\ajaxReceipt@reason_reverserestore');
+
+//print transcipt
+Route::get('/registrar_college/view_transcript/print_transcript/{idno}', 'RegistrarCollege\StudentRecord\StudentRecordController@print_now');

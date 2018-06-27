@@ -39,13 +39,27 @@ class StudentRecordController extends Controller
     function print_transcript(Request $request){
         if (Auth::user()->accesslevel == env('REG_COLLEGE')){
             $idno = $request->idno;
+            $user = \App\User::where('idno', $idno)->first();       
+            $level = \App\CollegeLevel::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('idno', $idno)->first();
+            $info->date_of_admission = $request->date_of_admission;
+            $info->award = $request->award;
+            $info->date_of_grad = $request->date_of_grad;
+            $info->remarks = $request->remarks;
+            $info->save();
+            
+            return redirect(url('/registrar_college/view_transcript/print_transcript/'.$request->idno));
+        }
+    }
+    function print_now($idno){
+        
             $user = \App\User::where('idno', $idno)->first();     
             $level = \App\CollegeLevel::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
-            $pdf = PDF::loadView('reg_college.view_record.print_transcript', compact('idno','user','info','status', 'level'));
-            $pdf->setPaper('letter', 'portrait');
+            
+            $pdf = PDF::loadView('reg_college.view_record.print_transcript', compact('idno','user','info','level'));
+            $pdf->setPaper(array(0,0,612,936));
 //            return $request;
-            return $pdf->stream("student_list_.pdf");
-        }
+            return $pdf->stream("transcript_".$idno.".pdf");
     }
 }
