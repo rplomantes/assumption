@@ -1,6 +1,6 @@
 <?php
 $file_exist = 0;
-if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
+if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
@@ -51,7 +51,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 <div class="widget-user-header bg-yellow">
                     <div class="widget-user-image">
                         @if($file_exist==1)
-                        <img src="/images/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+                        <img src="/images/PICTURES/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
                         @else
                         <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
                         @endif
@@ -106,13 +106,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <th width="5%">Lec</th>
                         <th width="5%">Lab</th>
                         <th width="8%">Grade</th>
+                        <th width="8%">Completion</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($curricula as $curriculum)
                     <?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
-<?php $old_grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
-<?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
+<?php $old_grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->orderBy('id', 'desc')->first(); ?>
+<?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->orderBy('created_at', 'desc')->first(); ?>
                     <tr>
                         <td>{{$curriculum->course_code}}</td>
                         <td>{{$curriculum->course_name}}</td>
@@ -125,6 +126,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 {{$grades->finals}}
                                 @else
                                 Not Yet Taken
+                                @endif
+                            @endif
+                        </td>
+                        <td>@if(count($old_grades)>0)
+                                {{$old_grades->completion}}
+                            @else
+                                @if(count($grades)>0)
+                                {{$grades->completion}}
+                                @else
                                 @endif
                             @endif
                         </td>
