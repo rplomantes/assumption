@@ -207,7 +207,7 @@
                                 <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' type="text">
                             </div> 
                             <div class="col-sm-6">
-                                <label>School Address</label>
+                                <label>Last School Address</label>
                                 <input class="form form-control" name='last_school_address' placeholder='School Address' type="text">
                             </div> 
                         </div>
