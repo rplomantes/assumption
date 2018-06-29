@@ -188,7 +188,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 <!--                                        <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>-->
                                     </ul>
                                 </li>
+                                <?php $date_today = date('Y-m-d'); ?>
                                 <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'total_daily_enrollment_statistics', $date_today, $date_today))}}"><i class="fa fa-circle-o"></i> <span>Daily Enrollment Statistics</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'ched_enrollment_reports'))}}"><i class="fa fa-circle-o"></i> <span>CHED Enrollment Report</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'list_transfer_student'))}}"><i class="fa fa-circle-o"></i> <span>List of Transfer Student</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'list_unofficially_enrolled'))}}"><i class="fa fa-circle-o"></i> <span>List of Unofficially Enrolled</span></a></li>
