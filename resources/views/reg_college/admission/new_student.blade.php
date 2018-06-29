@@ -199,7 +199,17 @@
                             <div class="col-sm-4" id="specify_citizenship">
                                 <label>Others</label>
                                 <input class="form form-control" name='specify_citizenship' placeholder='Please Specify' value="{{old('specify_citizenship')}}" type="text">
-                            </div>  
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>Last School Attended</label>
+                                <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' type="text">
+                            </div> 
+                            <div class="col-sm-6">
+                                <label>School Address</label>
+                                <input class="form form-control" name='last_school_address' placeholder='School Address' type="text">
+                            </div> 
                         </div>
                         <hr>
                         <div class="form-group">
@@ -228,9 +238,7 @@
                             </div>    
                         </div>    
 <!--                        <div class="form-group">
-                            <div class="col-sm-9">
-                                <label>Last School Attended</label>
-                                <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' value="{{old('last_school_attended')}}" type="text">
+
                             </div>
                         <div class="col-sm-3">
                                 <label>Applying for Scholarship</label>

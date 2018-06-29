@@ -321,7 +321,7 @@
                             <div class="col-sm-3">
                                 <label>&nbsp;</label>
                                 <input class="form form-control" name='specify_citizenship' placeholder='Specified Citizenship' value="{{old('specify_citizenship', $adhedinfo->specify_citizenship)}}" type="text">
-                            </div>                              
+                            </div>                                   
                             <div class="col-sm-3">
                                 <label>Civil Status</label>
                                 <select class="form form-control" name='civil_status' placeholder='Civil Status' type="text">
@@ -341,12 +341,16 @@
                                 <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion', $studentinfos->religion)}}" type="text">
                             </div>-->
                         </div>  
-<!--                        <div class="form-group">
-                            <div class="col-sm-9">
+                        <div class="form-group">
+                            <div class="col-sm-6">
                                 <label>Last School Attended</label>
                                 <input class="form form-control" name='last_school_attended' placeholder='Last School Attended' value="{{old('last_school_attended', $studentinfos->last_school_attended)}}" type="text">
-                            </div>
-                        </div>-->
+                            </div> 
+                            <div class="col-sm-6">
+                                <label>School Address</label>
+                                <input class="form form-control" name='last_school_address' placeholder='School Address' value="{{old('last_school_address', $studentinfos->last_school_address)}}" type="text">
+                            </div> 
+                        </div>
 
 <!--                        <div class="form-group">
                         <div class="col-sm-6">

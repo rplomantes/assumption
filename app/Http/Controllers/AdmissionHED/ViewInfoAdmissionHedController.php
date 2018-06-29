@@ -71,6 +71,7 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->nationality = $request->specify_citizenship;
         $updatePersonalInfo->religion = $request->religion;
         $updatePersonalInfo->last_school_attended = $request->last_school_attended;
+        $updatePersonalInfo->last_school_address = $request->last_school_address;
         $updatePersonalInfo->update();
 
         $updatePersonalInfo = \App\AdmissionHed::where('idno', $request->idno)->first();
