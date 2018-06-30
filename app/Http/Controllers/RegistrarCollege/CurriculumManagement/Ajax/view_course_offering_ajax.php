@@ -36,9 +36,8 @@ class view_course_offering_ajax extends Controller
             
             $courses = \App\CourseOffering::where('school_year', $school_year)->where('period', $period)->where('program_code', $program_code)->where('level', $level)->where('section_name', $section)->get();
             
-            return view('reg_college.curriculum_management.ajax.show_offerings', compact('courses', 'school_year', 'period', 'program_code', 'level'));
+            return view('reg_college.curriculum_management.ajax.show_offerings', compact('courses', 'school_year', 'period', 'program_code', 'level','section'));
             
         }
     }
-    
 }

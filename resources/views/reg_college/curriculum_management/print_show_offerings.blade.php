@@ -1,19 +1,52 @@
-<div class="box-body">
+<style>
+    img {
+        display: block;
+        max-width:230px;
+        max-height:95px;
+        width: auto;
+        height: auto;
+    }
+    #schoolname{
+        font-size: 18pt; 
+        font-weight: bolder;
+    }
+    .table, .th, .td {       
+        border-collapse: collapse;
+        font: 9pt;
+    }
+   
+
+</style>
+<div>    
+    <div style='float: left; margin-left: 245px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>MASTER SCHEDULE PER SECTION</b><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b><br></div>
+</div>
+<div>
+    <table class="table table-condensed" width="100%"  style='margin-top: 155px;'>
+        <tr>
+            <th style="font-size:15px" align='center'> <?php $program_name = \App\CtrAcademicProgram::where('program_code', $request->program_code)->first()->program_name; ?>{{strtoupper($program_name)}}</th><br>
+        </tr>
+        <tr>
+            <th style="font-size:30px" align='left'>Section: {{strtoupper($request->section)}}</th>
+        </tr>    
+    </table>
     @if (count($courses)>0)
-    <div class='table-responsive'>
-        <table class="table table-striped">
+    <table class="table table-striped" width='100%' border='1'>
             <thead>
                 <tr>
                     <th>Course Code</th>
                     <th>Course Name</th>
+                    <th>Unit</th>
                     <th>Schedule</th>
                     <th>Room</th>
                     <th>Instructor</th>
                 </tr>
             </thead>
             <tbody>
+                <?php $totalunits = 0; ?>
                 @foreach($courses as $course)
                 <tr>
+                <?php ?>    
                     <td>{{$course->course_code}}</td>
                     <td>
                         <?php
@@ -21,6 +54,9 @@
                         ?>
                         {{$course->course_name}}
 
+                    </td>
+                    <td>{{$unit = $course->lec + $course->lab}}
+                        <?php $totalunits = $totalunits + $unit?>
                     </td>
                     <td>
                         <?php
@@ -63,24 +99,44 @@
                         }
                         ?>
                     </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <form method='post' action='{{url('registrar_college',array('curriculum_management','ajax','printshowoffering'))}}'>
-              {{csrf_field()}}  
-              <input type='hidden' name='school_year' value='{{$school_year}}'>
-                <input type='hidden' name='period' value='{{$period}}'>
-                <input type='hidden' name='level' value='{{$level}}'>
-                <input type='hidden' name='program_code' value='{{$program_code}}'>
-                <input type='hidden' name='section' value='{{$section}}'>
-            <input type='submit' class='btn btn-primary col-sm-12' value='Print Schedule'>
-        </form>
-    </div>
+                </tr>             
+                @endforeach 
+        <tr>
+            <td align="left"><b>TOTAL UNITS:</b></td>
+            <td><b></b></td>
+            <td><b>{{$totalunits}}</b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+        </tr>                
+            </tbody>         
+        </table>   
     @else
     <div class="alert alert-info alert-dismissible">
         <h4><i class="icon fa fa-info"></i> Alert!</h4>
         No Courses Offered for this section!!!
     </div>
     @endif
+    <br>        
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>Prepared By:<br><br><br><br></td>
+                <td>Approved By:<br><br><br><br></td>
+                <td><div align="right">Date Printed: {{ date('Y-m-d H:i:s') }}</div></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>               
+                <td><b>{{strtoupper(Auth::user()->lastname)}}, {{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}}</b></td>
+                <td><b>ROSIE B. SOMERA<br></b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Registrar</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>    
 </div>
