@@ -98,19 +98,24 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                         <div class="col-sm-2">
                             <div class="form form-group">
                                 <label>Lec</label>
-                                <input type="text" id="lec" class="form-control">
+                                <input type="text" id="lec" class="form-control" value="0">
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form form-group">
                                 <label>Lab</label>
-                                <input type="text" id="lab" class="form-control">
+                                <input type="text" id="lab" class="form-control" value="0">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form form-group">
-                                <label>&nbsp;</label>
-                                <button class="col-sm-12 btn btn-success" onclick="addElectives(course_code.value, course_name.value, lec.value, lab.value, curriculum_year.value, program_code.value)">Add Electives</button>
+                                <label>Subject Related Fee</label>
+                                <input type="text" id="srf" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form form-group">
+                                <button class="col-sm-12 btn btn-success" onclick="addElectives(course_code.value, course_name.value, lec.value, lab.value, curriculum_year.value, program_code.value, srf.value)">Add Electives</button>
                             </div>
                         </div>
                     </div>
@@ -141,12 +146,13 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
         });
     }
 
-    function addElectives(course_code, course_name, lec, lab, curriculum_year, program_code) {
+    function addElectives(course_code, course_name, lec, lab, curriculum_year, program_code, srf) {
         array = {};
         array['course_code'] = course_code;
         array['course_name'] = course_name;
         array['lec'] = lec;
         array['lab'] = lab;
+        array['srf'] = srf;
         array['curriculum_year'] = curriculum_year;
         array['program_code'] = program_code;
         $.ajax({
