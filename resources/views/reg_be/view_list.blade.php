@@ -1,42 +1,123 @@
 <?php
 function get_name($idno){
     $names = \App\User::where('idno',$idno)->first();
-    return $names->lastname.", ".$names->firstname." ".$names->middlename;
+    return strtoupper($names->lastname).", ".$names->firstname." ".$names->middlename;
 }
 $i=1;
 ?>
-
-<h3>Assumption College</h3>
-<div>Student List</div>
-<div>Level : {{$level}}</div>
-@if($level=="Grade 11" || $level=="Grade 12")
-<div>Strand : {{$strand}}</div>
-@endif
+<center>
+<div><strong>Assumption College</strong></div>
+<div>Basic Education Division</div>
+<div>School Year 2017-2018</div>
+</center><br>
 
 @if($section=="All")
-<hr>
-<table border="1" cellspacing="0" cellpadding="0" width="100%">
-    <tr><th width="5%">#</th><th width="10%">Student Id</th><th width="45%">Student Name</th><th width="5%">Sect</th><th width="9%"></th><th width="9%"></th><th width="9%"></th><th width="9%"></th><th width="9%"></th></tr>
+<table width="100%">
+    <tr>
+        <td>Subject</td>
+        <td style="border-bottom: 1px solid" width="30%"></td>
+        <td>Quarter</td>
+        <td style="border-bottom: 1px solid" width="30%"></td>
+        <td>Teacher</td>
+        <td style="border-bottom: 1px solid" width="40%"></td>
+    </tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="3" width="100%">
+    <tr>
+        <th width="5%">#</th>
+        <th colspan="2"><center>
+            {{$level}}
+                @if($level=="Grade 11" || $level=="Grade 12")
+                    ({{$strand}})
+                @endif
+                - {{$section}}
+        </center></th>
+        <th width="5%">Sect</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
    
     @if(count($status)>0)
     @foreach($status as $name)
-    <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td><td align="center">{{$name->section}}</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr>
+        <td>{{$i++}}.</td>
+        <td width="1%">{{$name->idno}}</td>
+        <td width="50%">{{get_name($name->idno)}}</td>
+        <td align="center">{{$name->section}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
     @endforeach
     @else
     <tr><td colspan="8">No List For This Level</td></tr>
     @endif
     
 </table> 
-
 @else
-
-<div>Section : {{$section}}</div>
-<hr>
-<table border="1" cellspacing="0" cellpadding="0" width="100%">
-    <tr><th width="5%">#</th><th width="10%">Student Id</th><th width="45%">Student Name</th><th width="10%"></th><th width="10%"></th><th width="10%"></th><th width="10%"></th><th width="10%"></th></tr>
+<table width="100%">
+    <tr>
+        <td>Subject</td>
+        <td style="border-bottom: 1px solid" width="30%"></td>
+        <td>Quarter</td>
+        <td style="border-bottom: 1px solid" width="30%"></td>
+        <td>Teacher</td>
+        <td style="border-bottom: 1px solid" width="40%"></td>
+    </tr>
+</table>
+<table border="1" cellspacing="0" cellpadding="3" width="100%">
+    <tr>
+        <th width="5%">#</th>
+        <th colspan="2"><center>
+            {{$level}}
+                @if($level=="Grade 11" || $level=="Grade 12")
+                    ({{$strand}})
+                @endif
+                - {{$section}}
+        </center></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
     @if(count($status)>0)
     @foreach($status as $name)
-    <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+    <tr>
+        <td>{{$i++}}.</td>
+        <td width="1%">{{$name->idno}}</td>
+        <td width="50%">{{get_name($name->idno)}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
     @endforeach
     @else
     <tr><td colspan="8">No List For This Level</td></tr>
