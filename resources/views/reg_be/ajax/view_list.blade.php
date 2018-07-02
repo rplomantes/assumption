@@ -13,10 +13,10 @@ $i=1;
 @endif
 @if($section=="All")
 <table border="1" class="table table-responsive table-striped">
-    <tr><th>#</th><th>Student Id</th><th>Student Name</th><th>Section</th><th></th><th></th><th></th><th></th><th></th></tr>
+    <tr><th>#</th><th>Student ID</th><th>Student Name</th><th>Section</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
     @if(count($status)>0)
     @foreach($status as $name)
-    <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td><td>{{$name->section}}</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td><td>{{$name->section}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     @endforeach
     @else
     <tr><td colspan="8">No List For This Level</td></tr>
@@ -31,10 +31,10 @@ $i=1;
 <div>Section : {{$section}}</div>
 
 <table border="1" class="table table-responsive table-striped">
-    <tr><th>#</th><th>Student Id</th><th>Student Name</th><th></th><th></th><th></th><th></th><th></th></tr>
+    <tr><th>#</th><th>Student ID</th><th>Student Name</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
     @if(count($status)>0)
     @foreach($status as $name)
-    <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     @endforeach
     @else
     <tr><td colspan="8">No List For This Level</td></tr>
