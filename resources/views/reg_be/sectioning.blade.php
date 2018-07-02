@@ -115,7 +115,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
       $(".strandDisplay").fadeOut(300);  
       
       $("#level").on('change',function(e){
-         if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
+         if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12"){
          $(".strandDisplay").fadeIn(300);
          $("#poplist").html("");
          $("#section_control").html("");
@@ -134,7 +134,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
     
     function poplist(){
         var array={};
-       if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
+       if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12"){
          array['strand']=$("#strand").val();  
        }
        array['level']=$("#level").val();
@@ -153,7 +153,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
           var array={};
        
        array['level']=$("#level").val();
-       if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
+       if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12"){
        array['strand']=$("#strand").val();  
        }
        $.ajax({
@@ -172,7 +172,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
        var array={};
        array['section']=$("#section").val();
        array['level']=$("#level").val();
-       if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 11"){
+       if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12"){
          array['strand']=$("#strand").val();  
        }
        $.ajax({
