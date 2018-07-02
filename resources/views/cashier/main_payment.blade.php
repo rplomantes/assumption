@@ -611,6 +611,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
          amountreceive= 0;
          noncash=0;
          check_amount=0;
+         deposit_amount=0;
          if($("#collected_amount").val()!=""){
             totalamount = totalamount + eval($("#collected_amount").val())
         }
@@ -647,7 +648,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
               return "0.00";
             }
             } else {
-                
+                $("#over_payment").val(0)
              if($("#cash_receive").val()!=""){
                    amountreceive = eval($("#cash_receive").val());
                } 
