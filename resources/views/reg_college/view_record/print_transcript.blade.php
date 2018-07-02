@@ -145,13 +145,13 @@ $count = 0;
         </tr>
     </table>
     <hr>
-    <table width='100%'>
+    <table width='100%' cellpadding="2" style=" border-collapse: collapse">
         <tr>
-            <th width='12%' align='left'><b>COURSE CODE</b></th>
-            <th width='60%' align='center'><b>DESCRIPTIVE TITLE</b></th>
-            <th width='10%' align='center'><b>GRADE</b></th>
-            <th width='10%' align='center'><b>COMPLETION</b></th>
-            <th width='10%' align='center'><b>CREDITS</b></th>
+            <th width='12%' align='center' style="border:2px solid black;"><b>COURSE CODE</b></th>
+            <th width='60%' align='center' style="border:2px solid black;"><b>DESCRIPTIVE TITLE</b></th>
+            <th width='10%' align='center' style="border:2px solid black;"><b>GRADE</b></th>
+            <th width='10%' align='center' style="border:2px solid black;"><b>COMPLETION</b></th>
+            <th width='10%' align='center' style="border:2px solid black;"><b>CREDITS</b></th>
         </tr>
         
         
@@ -176,7 +176,7 @@ $count = 0;
             if(count($course_credit)>0){
                 $s = $course_credit->lec + $course_credit->lab;
             }else{
-                $s = 3;
+                $s = 99999;
             }
             if($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" ||$pin_grades->finals == "NA" ||$pin_grades->finals == "NG" ||$pin_grades->finals == "W" ||$pin_grades->finals == "FAILED" ||$pin_grades->finals == "PASSED"){
              $gpa = $gpa;
