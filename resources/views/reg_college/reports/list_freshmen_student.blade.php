@@ -24,7 +24,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        List of Transfer Student
+        List of Freshmen Student
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>

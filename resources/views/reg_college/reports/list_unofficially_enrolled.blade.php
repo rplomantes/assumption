@@ -1,4 +1,4 @@
-@extends('layouts.appreg_college')
+    @extends('layouts.appreg_college')
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -86,7 +86,7 @@
                                 </div>   
                                 <div class='col-sm-4'>
                                     <label>&nbsp;</label>
-                                    <button type='submit' class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
+                                    <button formtarget="_blank" type='submit' class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
                                 </div>
                             </div>    
                         </div>                        

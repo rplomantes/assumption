@@ -62,4 +62,17 @@ class StudentRecordController extends Controller
 //            return $request;
             return $pdf->stream("transcript_".$idno.".pdf");
     }
+    
+    function true_copy_of_grades ($idno){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $user = \App\User::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('idno', $idno)->first();
+            $status = \App\Status::where('idno', $idno)->first();
+            
+            $pdf = PDF::loadView('reg_college.view_record.print_true_copy_of_grades', compact('idno','user','info','level'));
+            $pdf->setPaper(array(0,0,612,936));
+//            return $request;
+            return $pdf->stream("true_copy_of_grades".$idno.".pdf");            
+        }
+    }    
 }

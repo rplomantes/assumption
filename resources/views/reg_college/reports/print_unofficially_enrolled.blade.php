@@ -30,7 +30,7 @@
     <table class='table' border="1" width="100%">
         <thead>
             <tr>
-                <th width='2%'>#</th>
+                <th width='1%'>#</th>
                 <th width='5%'>ID Number</th>
                 <th width='25%'>Student Name</th>
                 <th width='8%'>Level</th>
@@ -44,7 +44,7 @@
             $count = $count + 1;
             $user = \App\User::where('idno', $student->idno)->first();?>
             <tr>
-                <td>{{$count}}</td>
+                <td>{{$count}}.</td>
                 <td >{{$student->idno}}</td>
                 <td >{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
                 <td >{{$student->level}}</td>

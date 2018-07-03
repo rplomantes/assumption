@@ -98,7 +98,7 @@
                         </div>
                         <div class='form form-group'>
                             <div class='col-sm-12'>
-                                <button class='col-sm-12 btn btn-success'><span></span>GENERATE REPORT</button>
+                                <button formtarget='_blank' class='col-sm-12 btn btn-success'><span></span>GENERATE REPORT</button>
                             </div>
                         </div>                        
 <!--                        <div class='form-group'>

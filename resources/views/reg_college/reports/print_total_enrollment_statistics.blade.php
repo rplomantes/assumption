@@ -41,7 +41,7 @@
 </style>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>DAILY ENROLLMENT STATISTICS</b><br><b>{{$date_start}}  - {{$date_end}}</b></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>DAILY ENROLLMENT STATISTICS</b><br><b>{{(date('F d, Y', strtotime($date_start)))}}  - {{date('F d, Y',strtotime($date_end))}}</b></div>
 </div>
 <div>
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 155px;'>
@@ -69,11 +69,11 @@
             @foreach ($academic_programs as $academic_program)
             <tr>
                 <td>{{$academic_program->program_name}}</td>
-                <td><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "1st Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count1)}}</td>
-                <td><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "2nd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count2)}}</td>
-                <td><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "3rd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count3)}}</td>
-                <td><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "4th Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count4)}}</td>
-                <td><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
+                <td style="text-align: center;"><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "1st Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count1)}}</td>
+                <td style="text-align: center;"><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "2nd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count2)}}</td>
+                <td style="text-align: center;"><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "3rd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count3)}}</td>
+                <td style="text-align: center;"><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "4th Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($count4)}}</td>
+                <td style="text-align: center;"><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
             </tr>
             <?php
             $totalcount1 = $totalcount1 + count($count1);
@@ -95,11 +95,11 @@
             @endforeach
             <tr>
                 <td>AUDIT</td>
-                <td><?php $aud1 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "1st Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud1)}}</td>
-                <td><?php $aud2 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "2nd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud2)}}</td>
-                <td><?php $aud3 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "3rd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud3)}}</td>
-                <td><?php $aud4 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "4th Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud4)}}</td>
-                <td><?php $totalaud = count($aud1) + count($aud2) + count($aud3) + count($aud4); ?>{{$totalaud}}</td>
+                <td style="text-align: center;"><?php $aud1 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "1st Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud1)}}</td>
+                <td style="text-align: center;"><?php $aud2 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "2nd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud2)}}</td>
+                <td style="text-align: center;"><?php $aud3 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "3rd Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud3)}}</td>
+                <td style="text-align: center;"><?php $aud4 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "4th Year")->where('date_enrolled', '>=', $date_start)->where('date_enrolled', '<=', $date_end)->get(); ?>{{count($aud4)}}</td>
+                <td style="text-align: center;"><?php $totalaud = count($aud1) + count($aud2) + count($aud3) + count($aud4); ?>{{$totalaud}}</td>
             </tr>
             <tr>
                 <td><div align="right">TOTAL ENROLLED</div></td>

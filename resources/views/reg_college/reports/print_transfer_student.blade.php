@@ -26,7 +26,7 @@
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 155px;'>
         <thead>
             <tr>
-                <th width='2%' style='align-content: center'>#</th>
+                <th width='1%' style='align-content: center'>#</th>
                 <th width='10%'>ID Number</th>
                 <th width='25%'>Student Name</th>
                 <th width='30%'>Program Name</th>
@@ -42,7 +42,7 @@
             $count = $count + 1;
             $user = \App\User::where('idno', $student->idno)->first();?>
             <tr>
-                <td >{{$count}}</td>
+                <td >{{$count}}.</td>
                 <td >{{$student->idno}}</td>
                 <td >{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
                 <td >{{$student->program_name}}</td>

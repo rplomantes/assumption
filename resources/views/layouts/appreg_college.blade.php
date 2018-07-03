@@ -195,6 +195,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('reports', 'list_transfer_student'))}}"><i class="fa fa-circle-o"></i> <span>List of Transfer Student</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'list_unofficially_enrolled'))}}"><i class="fa fa-circle-o"></i> <span>List of Unofficially Enrolled</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'list_freshmen_student'))}}"><i class="fa fa-circle-o"></i> <span>List of Freshmen Student</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'nstp_reports'))}}"><i class="fa fa-circle-o"></i> <span>NSTP Reports</span></a></li>
                             </ul>
                         </li>
                 </section>

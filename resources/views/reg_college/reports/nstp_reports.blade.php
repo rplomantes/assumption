@@ -24,7 +24,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        List of Transfer Student
+        NSTP REPORTS
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -44,12 +44,12 @@
             </div>
         @endif
         <div class="row">
-            <form class="form form-horizontal" method="post" action='{{url('/registrar_college/reports/print_transfer_student')}}'>
+            <form class="form form-horizontal" method="post" action='{{url('/registrar_college/reports/print_nstp_reports')}}'>
             {{ csrf_field() }}        
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">  
-                    <h3 class="box-title">Search Transferee Student</h3>
+                    <h3 class="box-title">Search List of Enrolled</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
@@ -74,19 +74,23 @@
                                     <option value="2nd Semester">2nd Semester</option>
                                     <option value="Summer">Summer</option>
                                 </select>    
-                            </div>                                                         
-                       
-                       
-                            <div class='col-sm-7'>
+                            </div>  
+                            <div class='col-sm-4'>
+                                <label>Period</label>
+                                <select class="form form-control select2" name="course_code" id='course_code'>
+                                    <option value="">Select Course</option>
+                                    @foreach($programs as $program)
+                                    <option value='{{$program->course_code}}'>{{$program->course_code}} - {{$program->course_name}}</option>
+                                    @endforeach
+                                </select>    
+                            </div>                             
+                         </div>                        
+                        <div class='form-group'>
+                            <div class='col-sm-12'>
                                 <label>&nbsp;</label>
                                 <button formtarget='_blank' type='submit' class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
-                            </div>
-                         </div>                        
-<!--                        <div class='form-group'>
-                            <div class="col-sm-5" id='getstudent'>
-                                
                             </div>    
-                        </div>-->
+                        </div>
                     </div>    
                 </div>    
             </div>
