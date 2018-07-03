@@ -162,6 +162,20 @@ $count = 0;
     <?php $pinnacle_period = \App\CollegeGrades2018::distinct()->where('idno', $idno)->where('school_year', $pin_sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
     @foreach($pinnacle_period as $pin_pr)
     <?php $pinnacle_grades = \App\CollegeGrades2018::where('idno', $idno)->where('school_year', $pin_sy->school_year)->where('period', $pin_pr->period)->get(); ?>
+    @if (count($pinnacle_grades)==1)
+            @foreach($pinnacle_grades as $pin_grades)
+            @if (stripos($pin_grades->course_code, "+") !== FALSE)
+            @else
+                <tr>
+                    <td></td>
+                    <td align='center'><b>{{strtoupper($pin_pr->period)}}, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            @endif
+            @endforeach
+    @else
     <tr>
         <td></td>
         <td align='center'><b>{{strtoupper($pin_pr->period)}}, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
@@ -169,54 +183,43 @@ $count = 0;
         <td></td>
         <td></td>
     </tr>
+    @endif
             @foreach($pinnacle_grades as $pin_grades)
-            
+            @if (stripos($pin_grades->course_code, "+") !== FALSE)
+
+            @else
             <?php
-            $course_credit = \App\Curriculum::where('course_code', $pin_grades->course_code)->first();
-            if(count($course_credit)>0){
-                $s = $course_credit->lec + $course_credit->lab;
-            }else{
-                $s = 99999;
-            }
+            $display_final_grade = $pin_grades->finals;
             if($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" ||$pin_grades->finals == "NA" ||$pin_grades->finals == "NG" ||$pin_grades->finals == "W" ||$pin_grades->finals == "FAILED" ||$pin_grades->finals == "PASSED"){
              $gpa = $gpa;
             }else if($pin_grades->finals == "INC" ){
-                $gpa=$gpa+($pin_grades->completion*$s);
-                $count = $count + $s;
+                $gpa=$gpa+($pin_grades->completion* $pin_grades->lec + $pin_grades->lab);
+                $count = $count +  $pin_grades->lec + $pin_grades->lab;
             } else {
                 if($pin_grades->finals == "FA" ||$pin_grades->finals == "UD"){
-                    $pin_grades->finals = 4.00;
+                    $pin_grades->finals = "4.00";
                 }
-                $gpa = $gpa + ($pin_grades->finals*$s);
-                $count = $count + $s;
+                $gpa = $gpa + ($pin_grades->finals* $pin_grades->lec + $pin_grades->lab);
+                $count = $count + $pin_grades->lec + $pin_grades->lab;
             }
             ?>
             <tr>
                 <td valign='top'>{{strtoupper($pin_grades->course_code)}}</td>
-                <td valign='top'><?php $get_course_name = \App\Curriculum::where('course_code', $pin_grades->course_code)->first(); ?>
-                    @if(count($get_course_name)>0)
-                    {{strtoupper($get_course_name->course_name)}}
-                    @else
-                    <i style="color: red;">COURSE NAME NOT FOUND</i>
-                    @endif</td>
-                <td valign='top' align='center'>{{$pin_grades->finals}}</td>
+                <td valign='top'>{{strtoupper($pin_grades->course_name)}}</td>
+                <td valign='top' align='center'>{{$display_final_grade}}</td>
                 <td valign='top' align='center'>{{$pin_grades->completion}}</td>
-                <td valign='top' align='center'><?php $get_course_credit = \App\Curriculum::where('course_code', $pin_grades->course_code)->first(); ?>
-                    @if(count($get_course_credit)>0)
+                <td valign='top' align='center'>
             <?php
             if(stripos($pin_grades->course_code, "MME") !== FALSE || stripos($pin_grades->course_code, "THEO") !== FALSE || stripos($pin_grades->course_code, "NSTP") !== FALSE || stripos($pin_grades->course_code, "PE") !== FALSE){
-                $credit=$get_course_credit->lec + $get_course_credit->lab;
+                $credit=$pin_grades->lec + $pin_grades->lab;
                 $credit="(".$credit.")";
             }else{
-                $credit=$get_course_credit->lec + $get_course_credit->lab;
+                $credit=$pin_grades->lec + $pin_grades->lab;
             }
             ?>
-                    
-                    {{$credit}}
-                    @else
-                    {{$s}}
-                    @endif</td>
+                {{$credit}}</td>
             </tr>
+            @endif
             @endforeach
     @endforeach
     @endforeach
@@ -238,6 +241,8 @@ $count = 0;
     </tr>
             @foreach ($grades as $grade)
             <?php
+            
+            $display_final_grade = $grade->finals;
             if($grade->finals == "" || $grade->finals == "AUDIT" ||$grade->finals == "NA" ||$grade->finals == "NG" ||$grade->finals == "W" ||$grade->finals == "FAILED" ||$grade->finals == "PASSED"){
                 $gpa=$gpa;
                 $credit = $credit;
@@ -246,7 +251,7 @@ $count = 0;
                 $count = $count + $grade->lec + $grade->lab;
             }else{
                 if($grade->finals == "FA" ||$grade->finals == "UD"){
-                    $grade->finals = 4.00;
+                    $grade->finals = "4.00";
                 }
                 $gpa = $gpa + ($grade->finals * ($grade->lec+$grade->lab));
                 $count = $count + $grade->lec + $grade->lab;
@@ -263,7 +268,7 @@ $count = 0;
             <tr>
                 <td valign='top'>{{strtoupper($grade->course_code)}}</td>
                 <td valign='top'>{{strtoupper($grade->course_name)}}</td>
-                <td valign='top' align='center'>{{$grade->finals}}</td>
+                <td valign='top' align='center'>{{$display_final_grade}}</td>
                 <td valign='top' align='center'>{{$grade->completion}}</td>
                 <td valign='top' align='center'>{{$credit}}</td>
             </tr>
@@ -287,7 +292,10 @@ $count = 0;
         <td></td>
     </tr>
             @foreach ($grades as $grade)
+            
             <?php
+            
+            $display_final_grade = $grade->finals;
             if($grade->finals == "" || $grade->finals == "AUDIT" ||$grade->finals == "NA" ||$grade->finals == "NG" ||$grade->finals == "W" ||$grade->finals == "FAILED" ||$grade->finals == "PASSED"){
                 $gpa=$gpa;
             }else if($grade->finals == "INC" ){
@@ -295,7 +303,7 @@ $count = 0;
                 $count = $count + $grade->lec + $grade->lab;
             }else{
                 if($grade->finals == "FA" ||$grade->finals == "UD"){
-                    $grade->finals = 4.00;
+                    $grade->finals = "4.00";
                 }
                 $gpa = $gpa + ($grade->finals * ($grade->lec+$grade->lab));
                 $count = $count + $grade->lec + $grade->lab;
@@ -312,7 +320,7 @@ $count = 0;
             <tr>
                 <td valign='top'>{{strtoupper($grade->course_code)}}</td>
                 <td valign='top'>{{strtoupper($grade->course_name)}}</td>
-                <td valign='top' align='center'>{{$grade->finals}}</td>
+                <td valign='top' align='center'>{{$display_final_grade}}</td>
                 <td valign='top' align='center'>{{$grade->completion}}</td>
                 <td valign='top' align='center'>{{$credit}}</td>
             </tr>

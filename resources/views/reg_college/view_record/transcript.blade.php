@@ -110,12 +110,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     @foreach($pinnacle_grades as $pin_grades)
                     <tr>
                         <td>{{$pin_grades->course_code}}</td>
-                        <td><?php $get_course_name = \App\Curriculum::where('course_code', $pin_grades->course_code)->first(); ?>
-                            @if(count($get_course_name)>0)
-                            {{$get_course_name->course_name}}
-                            @else
-                            <i style="color: red;">Course name not found</i>
-                            @endif</td>
+                        <td>{{$pin_grades->course_name}}</td>
                         <td>
                             <select class="grade" name="completion[{{$pin_grades->id}}]" id="completion" onchange="change_completion(this.value, '{{$pin_grades->id}}', '{{$pin_grades->idno}}', 'old')">
                                 <option></option>
