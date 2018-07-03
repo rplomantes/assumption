@@ -82,12 +82,6 @@
                             <?php $unofficial2 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
                             <?php $unofficial3 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
                             <?php $unofficial4 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
-
-                            
-                            <?php $unofficial1 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "1st Year")->get(); ?>
-                            <?php $unofficial2 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "2nd Year")->get(); ?>
-                            <?php $unofficial3 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "3rd Year")->get(); ?>
-                            <?php $unofficial4 = \App\Status::where('program_code', $academic_program->program_code)->where('status', 2)->where('level', "4th Year")->get(); ?>
                             
                             <?php
                             $totalunofficial1 = $totalunofficial1 + count($unofficial1);
