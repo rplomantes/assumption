@@ -27,7 +27,7 @@ $count = 0;
             }
             footer {
                 position: fixed; 
-                bottom: 6cm; 
+                bottom: 6.3cm; 
                 left: 0px; 
                 right: 0px;
                 height: 0px; 

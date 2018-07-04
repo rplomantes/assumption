@@ -81,16 +81,16 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <a href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
             </div>
         <div class="col-sm-12">

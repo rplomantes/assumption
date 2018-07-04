@@ -29,7 +29,7 @@ class ListUnofficiallyEnrolledController extends Controller
             $students = \App\Status::join('users','users.idno', '=', 'statuses.idno')
                     ->where('statuses.program_code', $request->program_code)->where('statuses.school_year', $request->school_year)->where('statuses.period', $request->period)->where('statuses.status', 2)->orderBy('users.lastname', 'asc')->get(['statuses.program_code','statuses.program_name','statuses.period','statuses.level', 'statuses.period','statuses.school_year','users.idno']); 
             $pdf = PDF::loadView('reg_college.reports.print_unofficially_enrolled', compact('students', 'request'));
-            $pdf -> setPaper('letter','landscape');
+            $pdf -> setPaper('letter','portrait');
             return $pdf->stream('unofficial_student_.pdf');
         }
     }

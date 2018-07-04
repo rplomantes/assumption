@@ -56,9 +56,13 @@ function getTotal($getlevel,$getstrand,$schoolyear){
     $gr11total1 = 0;
     $gr11total2 = 0;
     $gr11total3 = 0;
+    $gr11total4 = 0;
+    $gr11total5 = 0;
     $gr12total1 = 0;
     $gr12total2 = 0;
     $gr12total3 = 0;
+    $gr12total4 = 0;
+    $gr12total5 = 0;
 ?>
 
 @extends('layouts.appbedregistrar')
@@ -308,6 +312,24 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{getCount('Grade 11','5','STEM',$school_year)}}</td>
              <td>{{$gr11total3 = $gr11total3 + gettotal('Grade 11','STEM',$school_year)}}</td>
             </tr>
+            <tr>
+             <td>Grade 11 GA</td>
+             <td>{{getCount('Grade 11','1','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 11','2','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 11','3','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 11','4','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 11','5','GA',$school_year)}}</td>
+             <td>{{$gr11total4 = $gr11total4 + gettotal('Grade 11','GA',$school_year)}}</td>
+            </tr>
+            <tr>
+             <td>Grade 11 NO STRAND</td>
+             <td>{{getCount('Grade 11','1','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 11','2','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 11','3','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 11','4','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 11','5','NO STRAND YET',$school_year)}}</td>
+             <td>{{$gr11total5 = $gr11total5 + gettotal('Grade 11','NO STRAND YET',$school_year)}}</td>
+            </tr>
           
             <tr><td>Grade 12 ABM</td><td>{{getCount('Grade 12','1','ABM',$school_year)}}</td>
              <td>{{getCount('Grade 12','2','ABM',$school_year)}}</td>
@@ -335,13 +357,31 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{$gr12total3 = $gr12total3 + gettotal('Grade 12','STEM',$school_year)}}</td>
             </tr>
             <tr>
+             <td>Grade 12 GA</td>
+             <td>{{getCount('Grade 12','1','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 12','2','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 12','3','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 12','4','GA',$school_year)}}</td>
+             <td>{{getCount('Grade 12','5','GA',$school_year)}}</td>
+             <td>{{$gr12total4 = $gr12total4 + gettotal('Grade 12','GA',$school_year)}}</td>
+            </tr>
+            <tr>
+             <td>Grade 12 NO STRAND</td>
+             <td>{{getCount('Grade 12','1','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 12','2','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 12','3','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 12','4','NO STRAND YET',$school_year)}}</td>
+             <td>{{getCount('Grade 12','5','NO STRAND YET',$school_year)}}</td>
+             <td>{{$gr12total5 = $gr12total5 + gettotal('Grade 12','NO STRAND YET',$school_year)}}</td>
+            </tr>
+            <tr>
              <td></td>
              <td></td>
              <td></td>
              <td></td>
              <td></td>
              <td></td>
-             <td><strong>{{$shstotal = $gr11total1 + $gr11total2 + $gr11total3 + $gr12total1 + $gr12total2 + $gr12total3}}</strong></td> 
+             <td><strong>{{$shstotal = $gr11total1 + $gr11total2 + $gr11total3 + $gr11total4 + $gr11total5 + $gr12total1 + $gr12total2 + $gr12total3 + $gr12total4 + $gr12total5}}</strong></td> 
             </tr> 
      </table>     
      </div>

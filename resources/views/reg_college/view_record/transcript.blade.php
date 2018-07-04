@@ -80,15 +80,18 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-        <div class="col-sm-2">
-            <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
-        </div>
-        <div class="col-sm-2">
-            <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
-        </div>
-        <div class="col-sm-2">
-            <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
-        </div>
+            <div class="col-sm-3">
+                <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
+            </div>
+            <div class="col-sm-3">
+                <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
+            </div>
+            <div class="col-sm-3">
+                <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
+            </div>
+            <div class="col-sm-3">
+                <a href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
+            </div>
         <div class="col-sm-12">
             <?php $pinnacle_sy = \App\CollegeGrades2018::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($pinnacle_sy)>0)
@@ -102,8 +105,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <th width='5%'>Course Code</th>
                         <th width='40%'>Course Name</th>
-                        <th width='10%'>Completion</th>
                         <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -111,31 +114,6 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$pin_grades->course_code}}</td>
                         <td>{{$pin_grades->course_name}}</td>
-                        <td>
-                            <select class="grade" name="completion[{{$pin_grades->id}}]" id="completion" onchange="change_completion(this.value, '{{$pin_grades->id}}', '{{$pin_grades->idno}}', 'old')">
-                                <option></option>
-                                <option @if ($pin_grades->completion == "PASSED") selected='' @endif>PASSED</option>
-                                <option @if ($pin_grades->completion == 1.00) selected='' @endif>1.00</option>
-                                <option @if ($pin_grades->completion == 1.20) selected='' @endif>1.20</option>
-                                <option @if ($pin_grades->completion == 1.50) selected='' @endif>1.50</option>
-                                <option @if ($pin_grades->completion == 1.70) selected='' @endif>1.70</option>
-                                <option @if ($pin_grades->completion == 2.00) selected='' @endif>2.00</option>
-                                <option @if ($pin_grades->completion == 2.20) selected='' @endif>2.20</option>
-                                <option @if ($pin_grades->completion == 2.50) selected='' @endif>2.50</option>
-                                <option @if ($pin_grades->completion == 2.70) selected='' @endif>2.70</option>
-                                <option @if ($pin_grades->completion == 3.00) selected='' @endif>3.00</option>
-                                <option @if ($pin_grades->completion == 3.50) selected='' @endif>3.50</option>
-                                <option @if ($pin_grades->completion == 4.00) selected='' @endif>4.00</option>
-                                <option @if ($pin_grades->completion == "FAILED") selected='' @endif>FAILED</option>
-                                <option @if ($pin_grades->completion == "FA") selected='' @endif>FA</option>
-                                <option @if ($pin_grades->completion == "INC") selected='' @endif>INC</option>
-                                <option @if ($pin_grades->completion == "NA") selected='' @endif>NA</option>
-                                <option @if ($pin_grades->completion == "NG") selected='' @endif>NG</option>
-                                <option @if ($pin_grades->completion == "UD") selected='' @endif>UD</option>
-                                <option @if ($pin_grades->completion == "W") selected='' @endif>W</option>
-                                <option @if ($pin_grades->completion == "AUDIT") selected='' @endif>AUDIT</option>
-                            </select>
-                        </td>
                         <td>
                             <select class="grade" name="finals[{{$pin_grades->id}}]" id="finals" onchange="change_finals(this.value, '{{$pin_grades->id}}', '{{$pin_grades->idno}}', 'old')">
                                 <option></option>
@@ -161,6 +139,31 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($pin_grades->finals == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
                         </td>
+                        <td>
+                            <select class="grade" name="completion[{{$pin_grades->id}}]" id="completion" onchange="change_completion(this.value, '{{$pin_grades->id}}', '{{$pin_grades->idno}}', 'old')">
+                                <option></option>
+                                <option @if ($pin_grades->completion == "PASSED") selected='' @endif>PASSED</option>
+                                <option @if ($pin_grades->completion == 1.00) selected='' @endif>1.00</option>
+                                <option @if ($pin_grades->completion == 1.20) selected='' @endif>1.20</option>
+                                <option @if ($pin_grades->completion == 1.50) selected='' @endif>1.50</option>
+                                <option @if ($pin_grades->completion == 1.70) selected='' @endif>1.70</option>
+                                <option @if ($pin_grades->completion == 2.00) selected='' @endif>2.00</option>
+                                <option @if ($pin_grades->completion == 2.20) selected='' @endif>2.20</option>
+                                <option @if ($pin_grades->completion == 2.50) selected='' @endif>2.50</option>
+                                <option @if ($pin_grades->completion == 2.70) selected='' @endif>2.70</option>
+                                <option @if ($pin_grades->completion == 3.00) selected='' @endif>3.00</option>
+                                <option @if ($pin_grades->completion == 3.50) selected='' @endif>3.50</option>
+                                <option @if ($pin_grades->completion == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($pin_grades->completion == "FAILED") selected='' @endif>FAILED</option>
+                                <option @if ($pin_grades->completion == "FA") selected='' @endif>FA</option>
+                                <option @if ($pin_grades->completion == "INC") selected='' @endif>INC</option>
+                                <option @if ($pin_grades->completion == "NA") selected='' @endif>NA</option>
+                                <option @if ($pin_grades->completion == "NG") selected='' @endif>NG</option>
+                                <option @if ($pin_grades->completion == "UD") selected='' @endif>UD</option>
+                                <option @if ($pin_grades->completion == "W") selected='' @endif>W</option>
+                                <option @if ($pin_grades->completion == "AUDIT") selected='' @endif>AUDIT</option>
+                            </select>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -178,8 +181,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <th width='5%'>Course Codes</th>
                         <th width='40%'>Course Name</th>
-                        <th width='10%'>Completion</th>
                         <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -187,31 +190,6 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
-                        <td>
-                            <select class="grade" name="completion[{{$grade->id}}]" id="completion" onchange="change_completion(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
-                                <option></option>
-                                <option @if ($grade->completion == "PASSED") selected='' @endif>PASSED</option>
-                                <option @if ($grade->completion == 1.00) selected='' @endif>1.00</option>
-                                <option @if ($grade->completion == 1.20) selected='' @endif>1.20</option>
-                                <option @if ($grade->completion == 1.50) selected='' @endif>1.50</option>
-                                <option @if ($grade->completion == 1.70) selected='' @endif>1.70</option>
-                                <option @if ($grade->completion == 2.00) selected='' @endif>2.00</option>
-                                <option @if ($grade->completion == 2.20) selected='' @endif>2.20</option>
-                                <option @if ($grade->completion == 2.50) selected='' @endif>2.50</option>
-                                <option @if ($grade->completion == 2.70) selected='' @endif>2.70</option>
-                                <option @if ($grade->completion == 3.00) selected='' @endif>3.00</option>
-                                <option @if ($grade->completion == 3.50) selected='' @endif>3.50</option>
-                                <option @if ($grade->completion == 4.00) selected='' @endif>4.00</option>
-                                <option @if ($grade->completion == "FAILED") selected='' @endif>FAILED</option>
-                                <option @if ($grade->completion == "FA") selected='' @endif>FA</option>
-                                <option @if ($grade->completion == "INC") selected='' @endif>INC</option>
-                                <option @if ($grade->completion == "NA") selected='' @endif>NA</option>
-                                <option @if ($grade->completion == "NG") selected='' @endif>NG</option>
-                                <option @if ($grade->completion == "UD") selected='' @endif>UD</option>
-                                <option @if ($grade->completion == "W") selected='' @endif>W</option>
-                                <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
-                            </select>
-                        </td>
                         <td>
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
@@ -237,6 +215,31 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->finals == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
                         </td>
+                        <td>
+                            <select class="grade" name="completion[{{$grade->id}}]" id="completion" onchange="change_completion(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
+                                <option></option>
+                                <option @if ($grade->completion == "PASSED") selected='' @endif>PASSED</option>
+                                <option @if ($grade->completion == 1.00) selected='' @endif>1.00</option>
+                                <option @if ($grade->completion == 1.20) selected='' @endif>1.20</option>
+                                <option @if ($grade->completion == 1.50) selected='' @endif>1.50</option>
+                                <option @if ($grade->completion == 1.70) selected='' @endif>1.70</option>
+                                <option @if ($grade->completion == 2.00) selected='' @endif>2.00</option>
+                                <option @if ($grade->completion == 2.20) selected='' @endif>2.20</option>
+                                <option @if ($grade->completion == 2.50) selected='' @endif>2.50</option>
+                                <option @if ($grade->completion == 2.70) selected='' @endif>2.70</option>
+                                <option @if ($grade->completion == 3.00) selected='' @endif>3.00</option>
+                                <option @if ($grade->completion == 3.50) selected='' @endif>3.50</option>
+                                <option @if ($grade->completion == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($grade->completion == "FAILED") selected='' @endif>FAILED</option>
+                                <option @if ($grade->completion == "FA") selected='' @endif>FA</option>
+                                <option @if ($grade->completion == "INC") selected='' @endif>INC</option>
+                                <option @if ($grade->completion == "NA") selected='' @endif>NA</option>
+                                <option @if ($grade->completion == "NG") selected='' @endif>NG</option>
+                                <option @if ($grade->completion == "UD") selected='' @endif>UD</option>
+                                <option @if ($grade->completion == "W") selected='' @endif>W</option>
+                                <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
+                            </select>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -258,6 +261,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <th width='5%'>Course Codes</th>
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -266,6 +270,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
                         <td>{{$grade->finals}}</td>
+                        <td>{{$grade->completion}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -274,13 +279,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endforeach
             @endif
             @endif
-        <div class="form form-group">
-            <div class='col-sm-12'>
             <!--<button class="col-sm-12 btn btn-success "><span></span>PRINT TRANSCRIPT OF RECORD</button>-->
-            <a target='_blank' href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-success col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
-            </div>
+            <a target='_blank' href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
+            
         </div>    
-        </div>   
     </div>
 </section>
 
