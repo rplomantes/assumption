@@ -40,4 +40,38 @@ class view_course_offering_ajax extends Controller
             
         }
     }
+
+    function get_rooms() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+//            $program_code = Input::get("program_code");
+//            $level = Input::get("level");
+            
+//                $rooms = \App\ScheduleCollege::distinct()->where('school_year', $school_year)->where('period', $period)->where('program_code', $program_code)->where('level', $level)->get(['room']);
+                $rooms = \App\ScheduleCollege::distinct()->where('school_year', $school_year)->where('period', $period)->get(['room']);
+            $data = "<label>Room</label><select id=\"room\" class=\"form-control select2\" style=\"width: 100%;\"><option value=\"\">Select room</option>";
+                foreach ($rooms as $room){
+                    $data = $data . "<option value='". $room->room ."'>". $room->room ."</option>";
+                }
+            
+            $data = $data . "</select>";
+            return $data;
+        }
+    }
+
+    function get_offerings_room() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+//            $program_code = Input::get("program_code");
+//            $level = Input::get("level");
+            $room = Input::get("room");
+            
+            $courses = \App\ScheduleCollege::where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('schedule_colleges.room', $room)->distinct('course_code')->get();
+            
+            return view('reg_college.curriculum_management.ajax.show_offerings_room', compact('courses', 'school_year', 'period', 'room'));
+            
+        }
+    }    
 }

@@ -19,7 +19,14 @@ class ViewCourseOfferingController extends Controller
             return view('reg_college.curriculum_management.view_full_course_offering');
         }
     }
-        function print_offerings(Request $request){
+    
+    function index2() {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            return view('reg_college.curriculum_management.view_full_course_offering_room');
+        }
+    }
+    
+    function print_offerings(Request $request){
  
         if (Auth::user()->accesslevel == env('REG_COLLEGE')){
             $courses = \App\CourseOffering::where('school_year', $request->school_year)->where('period', $request->period)->where('program_code', $request->program_code)->where('level', $request->level)->where('section_name', $request->section)->get();

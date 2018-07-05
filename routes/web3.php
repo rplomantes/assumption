@@ -34,6 +34,10 @@ Route::post('/registrar_college/reports/print_nstp_reports', 'RegistrarCollege\R
 
 Route::get('registrar_college/true_copy_of_grades/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@true_copy_of_grades');
 
+//View Course Offering per Room
+Route::get('/registrar_college/curriculum_management/view_course_offering_room', 'RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@index2');
+Route::get('/ajax/registrar_college/curriculum_management/get_room', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@get_rooms');
+Route::get('/ajax/registrar_college/curriculum_management/get_offerings_room', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@get_offerings_room');
 ?>
 
 

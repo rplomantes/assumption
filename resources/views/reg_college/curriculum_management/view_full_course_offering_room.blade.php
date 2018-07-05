@@ -39,9 +39,10 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
 @endsection
 @section('maincontent')
 <section class="content">
-    <div class="row">
+<!--schedule per room-->
+    <div class="row">  
         <div class="col-sm-12">
-            <h4>Per Section</h4>
+            <h4>Per Room</h4>
             <div class="box">
                 <div class="box-body">
                     <div class="row">
@@ -58,7 +59,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Period</label>
-                                <select id="period" class="form-control select2" style="width: 100%;">
+                                <select id="period" class="form-control select2" style="width: 100%;" onchange="get_room(school_year.value, this.value)">
                                     <option>Select period</option>
                                     <option value="1st Semester">1st Semester</option>
                                     <option value="2nd Semester">2nd Semester</option>
@@ -66,7 +67,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+<!--                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Program</label>
                                 <select id="program_code" class="form-control select2" style="width: 100%;">
@@ -80,7 +81,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Level</label>
-                                <select id="level" class="form-control select2" style="width: 100%;" onchange="get_section(school_year.value, period.value, program_code.value, this.value)">
+                                <select id="level" class="form-control select2" style="width: 100%;" onchange="get_room(school_year.value, period.value, program_code.value, this.value)">
                                     <option>Select level</option>
                                     <option>1st Year</option>
                                     <option>2nd Year</option>
@@ -89,18 +90,18 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                                     <option>5th Year</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-2">
-                            <div class="form-group" id="section-form">
-                                <label>Section</label>
-                                <select id="section" class="form-control select2" style="width: 100%;">
-                                    <option>Select section</option>
+                            <div class="form-group" id="room-form">
+                                <label>Room</label>
+                                <select id="room" class="form-control select2" style="width: 100%;">
+                                    <option>Select room</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group" id="section-form">
-                                <button class="btn btn-success col-sm-12" onclick="get_offerings(school_year.value, period.value, program_code.value, level.value, section.value)">Search</button>
+                            <div class="form-group" id="room-form">
+                                <button class="btn btn-success col-sm-12" onclick="get_offerings_room(school_year.value, period.value,  room.value)">Search</button>
                             </div>
                         </div>
                     </div>
@@ -110,37 +111,39 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                 </div>
             </div>
         </div>
-    </div>      
+    </div>
+</section>
+
 @endsection
 @section('footerscript')
 <script>
-    function get_section(school_year, period, program_code, level){        
+    function get_room(school_year, period,){
         array = {};
         array['school_year'] = $("#school_year").val();
         array['period'] = $("#period").val();
-        array['program_code'] = $("#program_code").val();
-        array['level'] = $("#level").val();
+//        array['program_code'] = $("#program_code").val();
+//        array['level'] = $("#level").val();
         $.ajax({
         type: "GET",
-                url: "/ajax/registrar_college/curriculum_management/get_sections/",
+                url: "/ajax/registrar_college/curriculum_management/get_room/",
                 data: array,
                 success: function (data) {
-                $('#section-form').html(data);
+                $('#room-form').html(data);
                 }
 
         });
     }
     
-    function get_offerings(school_year, period, program_code, level, section){
+    function get_offerings_room(school_year, period, room){
         array = {};
         array['school_year'] = $("#school_year").val();
         array['period'] = $("#period").val();
-        array['program_code'] = $("#program_code").val();
-        array['level'] = $("#level").val();
-        array['section'] = $("#section").val();
+//        array['program_code'] = $("#program_code").val();
+//        array['level'] = $("#level").val();
+        array['room'] = $("#room").val();
         $.ajax({
         type: "GET",
-                url: "/ajax/registrar_college/curriculum_management/get_offerings/",
+                url: "/ajax/registrar_college/curriculum_management/get_offerings_room/",
                 data: array,
                 success: function (data) {
                 $('#offerings').html(data);
