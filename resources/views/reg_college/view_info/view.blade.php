@@ -45,9 +45,31 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 
 <form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
     {{ csrf_field() }}
-    <div class="col-sm-12">@if (Session::has('message'))
+    <div class="col-md-12">
+        
+         <div class="col-md-3 pull-right">
+             <div class="form form-group">
+                 <label>User Status</label>
+                 <select class="form form-control" name="user_status" id="user_status">
+                     <option value="0" @if ($user->status == 0) selected=''@endif>0 - Not Active</option>
+                     <option value="1" @if ($user->status == 1) selected=''@endif>1 - Active</option>
+                     <option value="2" @if ($user->status == 2) selected=''@endif>2 - See Registrar</option>
+                 </select>
+             </div>
+          </div>
+         <div class="col-md-2 pull-right">
+             <div class="form form-group">
+                 <label><br><br></label>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">
+                Reset Password
+              </button>
+             </div>
+          </div>
+    </div>
+    <div class="col-sm-12">
+        @if (Session::has('message'))
             <div class="alert alert-success">{{ Session::get('message') }}</div>
-        @endif
+        @endif  
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
@@ -405,6 +427,31 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <input type="submit" value='Save' class='form-control btn btn-success'>
     </div>
 </form>
+
+<div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Enter New Password : </h4>
+              </div>
+                <form method="post" action="{{url('/registrar_college', array('resetpassword'))}}">
+                     {{csrf_field()}} 
+                     <input type="hidden" name="idno" value="{{$user->idno}}">
+              <div class="modal-body">
+                  <input type="text" name="password" class="form form-control">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Reset Password">
+              </div>
+                </form>     
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 @endsection
 @section('footerscript')
 @endsection

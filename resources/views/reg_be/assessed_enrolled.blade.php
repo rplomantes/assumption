@@ -78,7 +78,53 @@ $totalmainpayment=0;
                  @if($status->level == "Grade 11" || $status->level == "Grade 12")
                  ( {{$status->strand}} )
                  @endif
-                </div>    
+             </div>
+             @if($status->level == 'Grade 11' || $status->level == 'Grade 12' )
+             @if ($status->status == 3)
+         <div>
+             <div class="form form-group">
+                 <label><br><br></label>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">
+                Change Strand
+              </button>
+             </div>
+          </div>
+             
+             
+        <div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Change Strand </h4>
+              </div>
+                <?php $strands = \App\CtrAcademicProgram::distinct()->where('academic_code', 'SHS')->get(['strand']); ?>
+                <form method="post" action="{{url('/bedregistrar', array('assess','change_strand'))}}">
+                     {{csrf_field()}} 
+                     <input type="hidden" name="idno" value="{{$idno}}">
+              <div class="modal-body">  
+                  <label>Current Strand: <i style="color: red">{{$status->strand}}</i></label>
+                  <select class='form form-control' name="strand">
+                      <option value="NO STRAND YET">Select New Strand</option>
+                      @foreach($strands as $strand)
+                      <option value="{{$strand->strand}}">{{$strand->strand}}</option>
+                      @endforeach
+                  </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Change Strand">
+              </div>
+                </form>     
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+             
+             @endif
+             @endif
  </div>
              <div class="col-md-6">
                  <div class="pull-right">

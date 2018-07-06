@@ -263,3 +263,9 @@ Route::get('/ajax/cashier/reason_reverserestore/','Cashier\Ajax\ajaxReceipt@reas
 
 //print transcipt
 Route::get('/registrar_college/view_transcript/print_transcript/{idno}', 'RegistrarCollege\StudentRecord\StudentRecordController@print_now');
+
+//reset password
+Route::post('/registrar_college/resetpassword','RegistrarCollege\ViewInfo\ViewInfoController@reset_password');
+
+//shs change strand after enrllment
+Route::post('/bedregistrar/assess/change_strand','BedRegistrar\Assess@change_strand');
