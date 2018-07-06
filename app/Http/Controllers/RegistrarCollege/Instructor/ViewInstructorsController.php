@@ -63,6 +63,8 @@ class ViewInstructorsController extends Controller {
         $add_new_user->accesslevel = 1;
         $add_new_user->status = 1; //active or not
         $add_new_user->email = $request->email;
+        $password = bcrypt($request->lastname);
+        $add_new_user->password = $password;
         $add_new_user->save();
     }
 

@@ -122,7 +122,19 @@ class ViewInfoController extends Controller {
         $updateUser->lastname = $request->lastname;
         $updateUser->extensionname = $request->extensionname;
         $updateUser->is_foreign = $request->is_foreign;
+        $updateUser->status = $request->user_status;
         $updateUser->save();
+    }
+    
+
+    function reset_password(Request $request) {
+        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
+            $user = \App\User::where('idno', $request->idno)->first();
+            $user->password = bcrypt($request->password);
+            $user->is_first_login = 1;
+            $user->update();
+            return redirect(url('/registrar_college', array('view_info', $request->idno)));
+        }
     }
 
 }

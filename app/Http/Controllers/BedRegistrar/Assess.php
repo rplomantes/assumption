@@ -73,7 +73,7 @@ class Assess extends Controller {
                         $this->addDueDates($request, $schoolyear->school_year, $schoolyear->period);
                         $this->modifyStatus($request, $schoolyear->school_year, $schoolyear->period);
                         $this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
-            
+
                         $cut_off = \App\CtrEnrollmentCutOff::where('academic_type', $user->academic_type)->first();
                         if (date('Y-m-d') > $cut_off->cut_off) {
                             $this->addLatePayment($request, $schoolyear->school_year, $schoolyear->period);
@@ -94,7 +94,7 @@ class Assess extends Controller {
             }
         }
     }
-    
+
     function addLatePayment($request, $schoolyear, $period) {
         $latefees = \App\CtrBedLatePayment::get();
         $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
@@ -715,7 +715,7 @@ class Assess extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch','<=',env("TUITION_FEE"))->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
@@ -863,6 +863,52 @@ class Assess extends Controller {
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('reg_be.assessment_form', compact('idno'));
         return $pdf->stream();
+    }
+
+    //change strand after enrollment
+    function change_strand(Request $request) {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            DB::beginTransaction();
+            $this->changeStatusStrand($request);
+            $this->updateLedgerStrand($request);
+            $this->change_due_date($request);
+            DB::commit();
+        }
+        return redirect(url('/bedregistrar/assess/'.$request->idno));
+    }
+    function changeStatusStrand($request){
+        $changeStatus = \App\Status::where('idno', $request->idno)->first();
+        $changeStatus->strand = $request->strand;
+       $school_year =  $changeStatus->school_year;
+       $period = $changeStatus->period;
+        $changeStatus->save();
+        
+        $changeBedLevels = \App\BedLevel::where('idno', $request->idno)->where('school_year', $school_year)->where('period',$period)->first();
+        $changeBedLevels->strand = $request->strand;
+        $changeBedLevels->save();
+    }
+    function updateLedgerStrand($request){
+        $level = \App\Status::where('idno', $request->idno)->first()->level;
+        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first()->school_year;
+        $period = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first()->period;
+        $ledger = \App\Ledger::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->where('category', 'SRF')->first();
+        if(count($ledger)>0){
+            $srf = \App\CtrBedSrf::where('level', $level)->where('strand', $request->strand)->first();
+            $ledger->amount = $srf->amount;
+            $ledger->save();
+        }else{
+            $this->addSRF($request, $school_year, $period);
+        }
+    }
+    function change_due_date($request){
+        $stat = \App\Status::where('idno',$request->idno)->first();
+        $schoolyear=$stat->school_year;
+        $period=$stat->period;
+        $request->level=$stat->level;
+        $request->plan=$stat->plan;
+        
+        $deletedue=\App\LedgerDueDate::where('idno',$request->idno)->where('school_year',$schoolyear)->where('period',$period)->delete();
+        $this->addDueDates($request, $schoolyear, $period);
     }
 
 }
