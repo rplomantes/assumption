@@ -6,12 +6,14 @@
                 <tr>
                     <th>Course Code</th>
                     <th>Course Name</th>
+                    <th>Units</th>
                     <th>Schedule</th>
                     <th>Room</th>
                     <th>Instructor</th>
                 </tr>
             </thead>
             <tbody>
+                <?php $totalunits = 0; ?>
                 @foreach($courses as $course)
                 <tr>
                     <td>{{$course->course_code}}</td>
@@ -22,6 +24,8 @@
                         {{$course->course_name}}
 
                     </td>
+                    <td>{{$unit = $course->lec + $course->lab}}
+                    <?php $totalunits = $totalunits + $unit?></td>
                     <td>
                         <?php
                         $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -65,6 +69,14 @@
                     </td>
                 </tr>
                 @endforeach
+        <tr>
+            <td align="left"><b>TOTAL UNITS:</b></td>
+            <td><b></b></td>
+            <td><b>{{$totalunits}}</b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+        </tr>                       
             </tbody>
         </table>
         <form method='post' action='{{url('registrar_college',array('curriculum_management','ajax','printshowoffering'))}}'>

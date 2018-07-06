@@ -4,8 +4,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Course Code</th>
+                    <th width="10%">Course Code</th>
+                    <th>Section</th>                    
                     <th>Course Name</th>
+                    <th>Unit</th>
                     <th>Schedule</th>
                     <th>Room</th>
                     <th>Instructor</th>
@@ -14,23 +16,35 @@
             <tbody>
                 <?php $totalunits = 0;?>
                 @foreach($courses as $course)
-                <?php $course_name = \App\Curriculum::where('course_code', $course->course_code)->first(); ?>
                 <tr>
                     <td>{{$course->course_code}}</td>
                     <td>
-                        {{$course_name->course_name}}
-                    </td>      
+                        {{$course->section_name}}
+                    </td>                    
                     <td>
                         <?php
-                        $schedules = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);
+                        $schedules = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->get();
                         ?>
-                        @foreach ($schedules as $schedule)
+                        {{$course->course_name}}
+
+                    </td>
+                    <td>
+                        {{$units = $course->lab + $course->lec}}
+                    </td>                    
+                        <?php $totalunits = $totalunits + $units?>
+                    <td>
                         <?php
-                        $days = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->where('time_start', $schedule->time_start)->where('time_end', $schedule->time_end)->where('room', $schedule->room)->get(['day']);?>
+                        $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);
+                        ?>
+                        @foreach ($schedule2s as $schedule2)
+                        <?php
+                        $days = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                        ?>
+                        <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
                         @foreach ($days as $day){{$day->day}}@endforeach 
                         <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->first()->is_tba; ?>
                         @if ($is_tba == 0)
-                        {{date('g:i A', strtotime($schedule->time_start))}} - {{date('g:i A', strtotime($schedule->time_end))}}<br>
+                        {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
                         @else
 
                         @endif
@@ -38,14 +52,15 @@
                     </td>
                     <td>
                         <?php
-                        $schedules2 = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);?>
-                        @foreach ($schedules2 as $schedule2)
-                        {{$schedule2->room}}<br>
+                        $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);
+                        ?>
+                        @foreach ($schedule3s as $schedule3)
+                        {{$schedule3->room}}<br>
                         @endforeach
                     </td>
                     <td>
                         <?php
-                        $offering_id = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->first();
+                        $offering_id = \App\CourseOffering::find($course->id);
                         $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
 
                         foreach ($schedule_instructor as $get) {
@@ -60,20 +75,28 @@
                     </td>
                 </tr>
                 @endforeach
+        <tr>
+            <td><b></b></td>
+            <td><b></b></td>
+            <td align="right">TOTAL UNITS:</td>
+            <td><b>{{$totalunits}}</b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+        </tr>                 
             </tbody>
         </table>
-        <form method='post' action='{{url('registrar_college',array('curriculum_management','ajax','print_show_offerings_room'))}}'>
+        <form method='post' action='{{url('registrar_college',array('curriculum_management','print_get_general'))}}'>
               {{csrf_field()}}  
-              <input type='hidden' name='school_year' value='{{$school_year}}'>
+                <input type='hidden' name='school_year' value='{{$school_year}}'>
                 <input type='hidden' name='period' value='{{$period}}'>
-                <input type='hidden' name='room' value='{{$room}}'>
             <input type='submit' class='btn btn-primary col-sm-12' value='Print Schedule'>
         </form>
     </div>
     @else
     <div class="alert alert-info alert-dismissible">
         <h4><i class="icon fa fa-info"></i> Alert!</h4>
-        No Courses Offered for this section!!!
+        No Courses Offered !!!
     </div>
     @endif
 </div>

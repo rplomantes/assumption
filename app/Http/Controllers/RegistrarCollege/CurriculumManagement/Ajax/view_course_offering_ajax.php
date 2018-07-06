@@ -68,10 +68,22 @@ class view_course_offering_ajax extends Controller
 //            $level = Input::get("level");
             $room = Input::get("room");
             
-            $courses = \App\ScheduleCollege::where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('schedule_colleges.room', $room)->distinct('course_code')->get();
+            $courses = \App\ScheduleCollege::distinct()->where('school_year', $school_year)->where('period', $period)->where('room', $room)->get(['schedule_id','course_code']);
             
             return view('reg_college.curriculum_management.ajax.show_offerings_room', compact('courses', 'school_year', 'period', 'room'));
             
         }
     }    
+
+    function get_general() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            
+            $courses = \App\CourseOffering::where('school_year', $school_year)->where('period', $period)->orderBy('course_code')->get();
+            
+            return view('reg_college.curriculum_management.ajax.show_offerings_general', compact('courses', 'school_year', 'period'));
+            
+        }
+    }       
 }

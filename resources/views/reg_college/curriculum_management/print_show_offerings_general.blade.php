@@ -1,4 +1,37 @@
 <style>
+    body {
+        font-size: 9pt;
+    }
+    footer {
+        font-size: 8pt;
+    }
+    #schoolname{
+        font-size: 20pt; 
+        font-weight: bolder;
+    }
+</style>
+<style>
+@page {
+                margin: 0cm 0cm;
+            }
+
+            /** Define now the real margins of every page in the PDF **/
+            body {
+                margin-left: 1cm;
+                margin-right: 1cm;
+                margin-bottom: 1cm;
+                margin-top: 4.3cm;
+
+            }
+            header {
+                position: fixed; 
+                top: .5cm; 
+                left: 0px; 
+                right: 0px;
+                height: 0px; 
+                
+                margin: 0cm 1cm 0cm 1cm;
+            }          
     img {
         display: block;
         max-width:230px;
@@ -6,58 +39,53 @@
         width: auto;
         height: auto;
     }
-    #schoolname{
-        font-size: 18pt; 
-        font-weight: bolder;
-    }
-    .table, .th, .td {       
-        border-collapse: collapse;
-        font: 9pt;
-    }
-   
-
-</style>
-<div>    
-    <div style='float: left; margin-left: 245px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>MASTER SCHEDULE PER ROOM</b><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b><br></div>
-</div>
-<div>
-    <table class="table table-condensed" width="100%"  style='margin-top: 155px;'>
-        <tr>
-            <th style="font-size:30px" align='left'>Room: {{strtoupper($request->room)}}</th>
-        </tr>    
-    </table>
+        </style>           
+<body>       
+<!--    
+    <div style='float: left; margin-left:630px; margin-top:-110px;'></div>-->
+      
+    <header>
+        <table class="table table-condensed" width="100%" border="0">
+            <tbody>        
+                <div>    
+                    <div style='float: left; margin-left: 275px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+                    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br>San Lorenzo Drive, San Lorenzo Village<br> Makati City<br><br><b>GENERAL SCHEDULE</b><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b></div>
+                </div>
+            </tbody>
+        </table>
+    </header> 
     @if (count($courses)>0)
-    <table class="table table-striped" width='100%' border='1'>
+        <table class="table table-striped" width="100%">
             <thead>
                 <tr>
-                    <th>Course Code</th>
-                    <th>Course Name</th>
-                    <th>Unit</th>
-                    <th>Schedule</th>
-                    
-                    <th>Instructor</th>
+                    <th style="border-bottom:1px solid black" width="10%">Course Code</th>
+                    <th style="border-bottom:1px solid black">Section</th>                    
+                    <th style="border-bottom:1px solid black" width="40%">Course Name</th>
+                    <th style="border-bottom:1px solid black" align="center">Unit</th>
+                    <th style="border-bottom:1px solid black" width="18%">Schedule</th>
+                    <th style="border-bottom:1px solid black">Room</th>
+                    <th style="border-bottom:1px solid black" width="15%">Instructor</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $totalunits = 0; ?>
+                <?php $totalunits = 0;?>
                 @foreach($courses as $course)
-                <?php $course_name = \App\Curriculum::where('course_code', $course->course_code)->first(); ?>
                 <tr>
-                <?php ?>    
                     <td>{{$course->course_code}}</td>
+                    <td>
+                        {{$course->section_name}}
+                    </td>                    
                     <td>
                         <?php
                         $schedules = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->get();
                         ?>
-                        {{$course_name->course_name}}
+                        {{$course->course_name}}
 
                     </td>
-                    <td>
-                        <?php $units = \App\CourseOffering::where('id', $course->course_offering_id)->first(); ?>
-                        {{$unit= $units->lec + $units->lab}}
-                        <?php $totalunits = $totalunits + $unit?>
-                    </td>
+                    <td align="center">
+                        {{$units = $course->lab + $course->lec}}
+                    </td>                    
+                        <?php $totalunits = $totalunits + $units?>
                     <td>
                         <?php
                         $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -78,7 +106,15 @@
                     </td>
                     <td>
                         <?php
-                        $offering_id = \App\ScheduleCollege::where('schedule_id', $course->schedule_id)->first();
+                        $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $course->schedule_id)->get(['time_start', 'time_end', 'room']);
+                        ?>
+                        @foreach ($schedule3s as $schedule3)
+                        {{$schedule3->room}}<br>
+                        @endforeach
+                    </td>
+                    <td>
+                        <?php
+                        $offering_id = \App\CourseOffering::find($course->id);
                         $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
 
                         foreach ($schedule_instructor as $get) {
@@ -91,17 +127,19 @@
                         }
                         ?>
                     </td>
-                </tr>             
-                @endforeach 
+                </tr>
+                @endforeach
         <tr>
-            <td align="left"><b>TOTAL UNITS:</b></td>
-            <td><b></b></td>
-            <td><b>{{$totalunits}}</b></td>
             <td><b></b></td>
             <td><b></b></td>
-        </tr>                
-            </tbody>         
-        </table>   
+            <td align="right">TOTAL UNITS:</td>
+            <td align="center"><b>{{$totalunits}}</b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+            <td><b></b></td>
+        </tr>                 
+            </tbody>
+        </table>
     @else
     <div class="alert alert-info alert-dismissible">
         <h4><i class="icon fa fa-info"></i> Alert!</h4>
@@ -130,4 +168,4 @@
             </tr>
         </tbody>
     </table>    
-</div>
+</body>

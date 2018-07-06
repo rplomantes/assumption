@@ -1,3 +1,10 @@
+<?php 
+    if(Auth::user()->accesslevel == env('REG_BE')){
+        $layout = "layouts.appbedregistrar";
+    }else{
+        $layout = "layouts.appaccountingstaff";    
+    }
+?>
 <?php
 
 function getCount($getlevel,$getsection,$getstrand,$schoolyear){
@@ -65,7 +72,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
     $gr12total5 = 0;
 ?>
 
-@extends('layouts.appbedregistrar')
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

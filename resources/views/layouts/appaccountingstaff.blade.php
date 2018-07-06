@@ -181,8 +181,22 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><i class="fa fa-link"></i> <span>Per Level</span></a></li>
         <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><i class="fa fa-link"></i> <span>Per Plan</span></a></li> 
        </ul>
-          </li> 
-          </ul>
+          </li>         
+        <?php 
+            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
+            $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+            $bed_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first();
+        ?>          
+        <li class="treeview">
+            <a href="#"><i class="fa fa-bar-chart"></i> <span>Enrollment Statistics</span>   
+                <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        <ul class="treeview-menu">
+            <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>HED Statistics</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><i class="fa fa-link"></i> <span>BED Statistics</span></a></li>                
+        </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

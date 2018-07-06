@@ -1,4 +1,11 @@
-@extends('layouts.appreg_college')
+    <?php
+    if(Auth::user()->accesslevel == env('REG_COLLEGE')){
+    $layout = "layouts.appreg_college";
+    } else {
+    $layout = "layouts.appaccountingstaff";
+    }
+?>
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -126,8 +133,11 @@
                     </table>
                 </div>
             </div>
-            <a target='_blank' href='{{url('registrar_college', array('reports', 'enrollment_statistics', 'print_enrollment_statistics', $school_year, $period))}}'><button class="btn btn-success col-sm-12">PRINT ENROLLMENT REPORT</button></a>
+            @if (Auth::user()->accesslevel == env('REG_COLLEGE'))
+            
+            <a target='_blank' id='print_enroll' href='{{url('registrar_college', array('reports', 'enrollment_statistics', 'print_enrollment_statistics', $school_year, $period))}}'><button class="btn btn-success col-sm-12">PRINT ENROLLMENT REPORT</button></a>
             <!--<a target='_blank' href='{{url('registrar_college', array('reports', 'enrollment_statistics', 'print_enrollment_official', $school_year, $period))}}'><button class="btn btn-success col-sm-12">PRINT OFFICIAL REPORT</button></a>-->
+            @endif
         </div>
     </div>
 </section>

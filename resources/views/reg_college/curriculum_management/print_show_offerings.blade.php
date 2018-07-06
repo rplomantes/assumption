@@ -55,7 +55,7 @@
                         {{$course->course_name}}
 
                     </td>
-                    <td>{{$unit = $course->lec + $course->lab}}
+                    <td align="center">{{$unit = $course->lec + $course->lab}}
                         <?php $totalunits = $totalunits + $unit?>
                     </td>
                     <td>
@@ -104,7 +104,7 @@
         <tr>
             <td align="left"><b>TOTAL UNITS:</b></td>
             <td><b></b></td>
-            <td><b>{{$totalunits}}</b></td>
+            <td align="center"><b>{{$totalunits}}</b></td>
             <td><b></b></td>
             <td><b></b></td>
             <td><b></b></td>
