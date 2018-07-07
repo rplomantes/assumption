@@ -54,11 +54,13 @@ function getTotal($getlevel,$getstrand,$schoolyear){
     $elemtotal4 = 0;
     $elemtotal5 = 0;
     $elemtotal6 = 0;
+
+    
+    //junior total
     $elemtotal7 = 0;
     $elemtotal8 = 0;  
     $elemtotal9 = 0;
     $elemtotal10 = 0;
-    
     //shs total
     $gr11total1 = 0;
     $gr11total2 = 0;
@@ -172,7 +174,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
      <div class="box">    
      <div class="box-body">
      
-     <h3>Grades 1 - 10</h3>    
+     <h3>Grade School</h3>    
      <table id="example2" class="table table-responsive table-striped">
          <thead>
              <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>Total</th></tr>
@@ -236,6 +238,33 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{getCount('Grade 6','6','',$school_year)}}</td>
              <td>{{$elemtotal6 = $elemtotal6 + gettotal('Grade 6','',$school_year)}}</td>
             </tr>
+            <tr>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td><strong>{{$elemtotal = $elemtotal1 + $elemtotal2 + $elemtotal3 + $elemtotal4 + $elemtotal5 + $elemtotal6}}</strong></td>            
+            </tr>     
+         </tbody>
+       <tfoot>
+       </tfoot>    
+       </table>
+       </div>
+       </div> 
+    <!--junior high-->
+         <div class="box">    
+     <div class="box-body">
+     
+     <h3>Junior High School</h3>    
+     <table id="example2" class="table table-responsive table-striped">
+         <thead>
+             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>Total</th></tr>
+         </thead>
+         <tbody>
+            <tr>
              <tr><td>Grade 7 </td><td>{{getCount('Grade 7','1','',$school_year)}}</td>
              <td>{{getCount('Grade 7','2','',$school_year)}}</td>
              <td>{{getCount('Grade 7','3','',$school_year)}}</td>
@@ -276,18 +305,19 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td></td>
              <td></td>
              <td></td>
-             <td><strong>{{$elemtotal = $elemtotal1 + $elemtotal2 + $elemtotal3 + $elemtotal4 + $elemtotal5 + $elemtotal6 + $elemtotal7 + $elemtotal8 + $elemtotal9 + $elemtotal10}}</strong></td>            
+             <td><strong>{{$juniortotal = $elemtotal7 + $elemtotal8 + $elemtotal9 + $elemtotal10}}</strong></td>            
             </tr>     
          </tbody>
        <tfoot>
        </tfoot>    
        </table>
        </div>
-       </div>  
+       </div> 
+    <!--senior high-->
      <div class="box">    
      <div class="box-body">
      
-     <h3>Grades  11 - 12</h3> 
+        <h3>Senior High School</h3> 
      <table id="example2" class="table table-responsive table-striped">
          <thead>
              <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>Total</th></tr>
@@ -403,7 +433,7 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td></td>
              <td></td>
              <td></td>
-             <td><strong>{{$preschooltotal + $elemtotal + $shstotal}}</strong></td>          
+             <td><strong>{{$preschooltotal + $elemtotal + $juniortotal + $shstotal}}</strong></td>          
             </tr>         
      </table>
      </div>

@@ -195,7 +195,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
             </a>
         <ul class="treeview-menu">
             <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>HED Statistics</span></a></li>
-            <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><i class="fa fa-link"></i> <span>BED Statistics</span></a></li>                
+            <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><i class="fa fa-circle-o"></i> <span>BED Statistics</span></a></li>                
         </ul>
       <!-- /.sidebar-menu -->
     </section>
