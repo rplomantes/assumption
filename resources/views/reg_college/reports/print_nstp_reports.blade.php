@@ -17,7 +17,7 @@
 
 </style>
 <div>    
-    <div style='float: left; margin-left: 250px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+    <div style='float: left; margin-left: 200px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b><br><br><b><?php $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name; ?>{{$request->course_code}}: {{$course_name}}</b></div>
 </div>
 <div>
@@ -171,7 +171,7 @@
         <tbody>
             <tr>               
                 <td><b>{{strtoupper(Auth::user()->lastname)}}, {{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}}</b></td>
-                <td><b>ROSIE B. SOMERA<br></b></td>
+                <td><b>{{strtoupper(env("HED_REGISTRAR"))}}<br></b></td>
                 <td></td>
             </tr>
             <tr>

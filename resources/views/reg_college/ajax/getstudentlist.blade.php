@@ -14,7 +14,7 @@
     @if($list->accesslevel == '0')
     <tr>
         <td>{{$list->idno}}</td>
-        <td>{{$list->lastname}}, {{$list->firstname}}</td>
+        <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
         <td><a href="{{url('registrar_college', array('view_info', $list->idno))}}">View Info</a></td>
         <td><a href="{{url('registrar_college', array('student_record', $list->idno))}}">Student Record</a></td>
         <td><a href="{{url('registrar_college', array('assessment',$list->idno))}}">Assessment</a></td>

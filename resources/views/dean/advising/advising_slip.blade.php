@@ -56,7 +56,7 @@ $status = \App\Status::where('idno', $idno)->first();
         </tr>
         <tr>
             <td class='no-border td'>Name:</td>
-            <td class='underline td' colspan='3'>{{$user->firstname}} {{$user->lastname}}</td>
+            <td class='underline td' colspan='3'>{{$user->firstname}} {{$user->middlename}} {{$user->lastname}}</td>
         </tr>
         <tr>
             <td class='no-border td'>Program:</td>
@@ -101,11 +101,24 @@ $status = \App\Status::where('idno', $idno)->first();
     @else
     <div class="alert alert-danger">No Courses Advised!!</div>
     @endif
-    <table class='table2' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 30px; border-spacing: 20px; border-collapse: separate;'>
+    <table class='table2' border="0" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 30px; border-spacing: 20px; border-collapse: separate;'>
+        <tbody>
         <tr>
-            <td class='top-line'>Adviser</td>
-            <td class='top-line'>Student's Signature</td>
-            <td class='top-line'>Date</td>
+            <td align="center"><div style="border-top: 1px solid black">Adviser</div></td>
+            <td width="10%"><td>
+            <td align="center"><div style="border-top: 1px solid black">{{$user->firstname}} {{$user->middlename}} {{$user->lastname}}</div></td>
+            <td><small>DATE PRINTED</small><br>{{date('F d, Y')}}</td>
         </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="center"><div style="border-top: 1px solid black">Dean</div></td>
+
+        </tr>
+        </tbody>
     </table>
 </div>

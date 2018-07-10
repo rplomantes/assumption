@@ -95,7 +95,7 @@
         <tbody>
             <tr>
                 <td><b>Certified Correct:<br><br><br><br></b>
-                    <b>ROSIE B. SOMERA</b><br>
+                    <b>{{strtoupper(env("HED_REGISTRAR"))}}</b><br>
                     Registrar<br>
 
                     <div align="right">Date Printed: {{ date('Y-m-d H:i:s') }}</div></td>

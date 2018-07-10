@@ -67,7 +67,7 @@
         <tbody>
             <tr>               
                 <td><b>{{strtoupper(Auth::user()->lastname)}}, {{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}}</b></td>
-                <td><b>ROSIE B. SOMERA<br></b></td>
+                <td><b>{{strtoupper(env("HED_REGISTRAR"))}}<br></b></td>
                 <td></td>
             </tr>
             <tr>

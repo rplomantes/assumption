@@ -75,7 +75,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
                     @endif
                 </div>
-                <h3 class="widget-user-username">{{$user->firstname}} {{$user->lastname}}</h3>
+                <h3 class="widget-user-username">{{$user->firstname}} {{$user->middlename}} {{$user->lastname}}</h3>
                 <h5 class="widget-user-desc">{{$user->idno}}</h5>
             </div>
             <div class="box-footer no-padding">

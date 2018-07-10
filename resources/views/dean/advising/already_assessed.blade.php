@@ -57,7 +57,7 @@ $user = \App\User::where('idno', $idno)->first();
     <div class="col-sm-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">{{$user->firstname}} {{$user->lastname}}</h3>
+                <h3 class="box-title">{{$user->firstname}} {{$user->middlename}} {{$user->lastname}}</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
