@@ -63,10 +63,15 @@ class PrintController extends Controller
                     ->where('is_reverse','0')->get();
             $pdf=PDF::loadView('cashier.print_list_of_checks',compact('payments','date_from','date_to'));
             $pdf->setPaper('letter','portrait');
-            return $pdf->stream();
-            
-    
-            
+            return $pdf->stream();        
+        }
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->where('check_amount','>','0')
+                    ->where('is_reverse','0')->get();
+            $pdf=PDF::loadView('cashier.print_list_of_checks',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream();        
         }
         
     }

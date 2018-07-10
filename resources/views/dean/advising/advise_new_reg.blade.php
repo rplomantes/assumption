@@ -1,6 +1,7 @@
 <?php
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
+$admission_hed = \App\AdmissionHed::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 //$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->where('department', $status->department)->get(['program_code', 'program_name']);
 $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
@@ -101,7 +102,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <select name="program_code" id="select_program" class="form-control select2" required="" onchange='get_curriculum_year(this.value)'>
                                 <option value="">Select Program</option>
                                 @foreach($programs as $program)
-                                <option value="{{$program->program_code}}" @if ($status->program_code == "$program->program_code") selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
+                                <option value="{{$program->program_code}}" @if ($admission_hed->program_code == "$program->program_code") selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
                                 @endforeach
                             </select>     
                         </div>

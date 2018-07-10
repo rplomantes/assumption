@@ -98,12 +98,14 @@ $units = 0;
                     </ul>
                 </div>
             </div>
+            <label>Status</label>
+                <div class="btn btn-success col-md-12">ENROLLED</div>
         </div>
         <div class="col-md-8">
                             @if(count($grade_colleges)>0)
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Courses Assessed</h3>
+                    <h3 class="box-title">Courses Enrolled</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>

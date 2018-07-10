@@ -69,7 +69,7 @@ Route::get('/accounting/remove_other_payment/{id}','Accounting\AddAccount@remove
 Route::get('/accounting/set_other_payment','Accounting\AddAccount@set_other_payment');
 Route::post('/accounting/set_other_payment','Accounting\AddAccount@post_set_other_payment');
 Route::get('/accounting/remove_set_other_payment/{id}','Accounting\AddAccount@remove_set_other_payment');
-Route::get('/accounting/cash_receipt','Accounting\BookOfAccount@cash_receipt');
+Route::get('/accounting/cash_receipt/{date_start}/{date_end}','Accounting\BookOfAccount@cash_receipt');
 Route::get('/accounting/schedule_of_plan', 'Accounting\ScheduleOfFees@plan');
 ROUTE::GET('/accounting/change_plan/{idno}','Accounting\ChangePlan@index');
 Route::post('/accounting/change_plan','Accounting\ChangePlan@post_plan');

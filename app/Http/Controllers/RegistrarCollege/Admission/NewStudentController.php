@@ -78,7 +78,7 @@ class NewStudentController extends Controller {
         $add_new_user->lastname = $lastname;
         $add_new_user->extensionname = $extensionname;
         $add_new_user->accesslevel = 0;
-        $add_new_user->status = 1; //active or not
+        $add_new_user->status = 0; //active or not
         $add_new_user->email = $email;
         $add_new_user->password = bcrypt($password);
         $add_new_user->is_foreign = $is_foreign;

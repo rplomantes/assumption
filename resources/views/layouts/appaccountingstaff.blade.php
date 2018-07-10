@@ -118,7 +118,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-columns"></i> <span>Official Receipt</span>
+          <a href="#"><i class="fa fa-file-archive-o"></i> <span>Official Receipt</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -128,37 +128,31 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>
           </ul>
         </li>
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Disbursement</span></a></li>
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Journal Entry</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-columns"></i> <span>Disbursement</span></a></li>
+        <li><a href="{{url('/')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Book of Accounts</span>
+          <a href="#"><i class="fa fa-book"></i> <span>Book of Accounts</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
+            <?php $date_start = date('Y-m-d');$date_end = date('Y-m-d'); ?>
           <ul class="treeview-menu">
-            <li><a href="{{url('/accounting',array('cash_receipt',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
-            <li><a href="{{url('/accounting',array('cash_disbursement',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
-            <li><a href="{{url('/accounting',array('general_journal',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
-            <li><a href="{{url('/accounting',array('debit_memo',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>
+            <li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>
           </ul>
         </li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Debit/Credit Summary</span>
+          <a href="#"><i class="fa fa-align-justify"></i> <span>Debit/Credit Summary</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/accounting',array('cash_receipt_drcr',date('Y-m-d'),date('Y-m-d')))}}">Cash Receipts </a></li>
-            <li><a href="{{url('/accounting',array('disburesement_drcr',date('Y-m-d'),date('Y-m-d')))}}">Cash Disbursement </a></li>
-            <li><a href="{{url('/accounting',array('general_journal_drcr',date('Y-m-d'),date('Y-m-d')))}}">General Journal </a></li>
-            <li><a href="{{url('/accounting',array('debit_memo_journal_drcr',date('Y-m-d'),date('Y-m-d')))}}">Debit Memo Journal </a></li>
           </ul>
         </li>
         
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Collection Report</span>
+          <a href="#"><i class="fa fa-file-excel-o"></i> <span>Collection Report</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -171,15 +165,15 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
           </ul>
         </li>
        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Schedule Of Fees</span>
+          <a href="#"><i class="fa fa-list-alt"></i> <span>Schedule Of Fees</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
               
-        <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><i class="fa fa-link"></i> <span>Per Level</span></a></li>
-        <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><i class="fa fa-link"></i> <span>Per Plan</span></a></li> 
+        <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
+        <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
        </ul>
           </li>         
         <?php 
@@ -194,8 +188,8 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
                 </span>
             </a>
         <ul class="treeview-menu">
-            <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>HED Statistics</span></a></li>
-            <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><i class="fa fa-circle-o"></i> <span>BED Statistics</span></a></li>                
+            <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><span>HED Statistics</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><span>BED Statistics</span></a></li>                
         </ul>
       <!-- /.sidebar-menu -->
     </section>
