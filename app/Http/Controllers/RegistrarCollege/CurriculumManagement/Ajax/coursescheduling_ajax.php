@@ -140,8 +140,6 @@ class coursescheduling_ajax extends Controller {
             $school_year = \App\CtrAcademicSchoolYear::where('academic_type', "College")->first();
             
             $schedule = \App\ScheduleCollege::where('id',$schedule_id)
-                    ->where('school_year', $school_year->school_year)
-                    ->where('period', $school_year->period)
                     ->first();
             
             return view('reg_college.curriculum_management.ajax.edit_schedule',compact('schedule'));

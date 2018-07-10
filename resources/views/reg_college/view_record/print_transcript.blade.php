@@ -63,7 +63,7 @@ $count = 0;
                     <td valign='bottom' colspan='2'><i><br>APPROVED BY<br><br><br></i></td>
                 </tr>
                 <tr>
-                    <td align='center'>ROSIE B. SOMERA<br>REGISTRAR</td>
+                    <td align='center'>{{strtoupper(env("HED_REGISTRAR"))}}<br>REGISTRAR</td>
                     <td align='center'><small>DATE PRINTED</small><br>{{date('F d, Y')}}</td>
                 </tr>
             </table>
@@ -93,7 +93,7 @@ $count = 0;
         </tr>
         <tr>
             <td valign='top'>DATE AND PLACE OF BIRTH:</td>
-            <td>{{strtoupper(date('F d, Y',strtotime($info->birthdate)))}}, {{strtoupper($info->place_of_birth)}}</td>
+            <td>{{strtoupper(date('F d, Y',strtotime($info->birthdate)))}} {{strtoupper($info->place_of_birth)}}</td>
         </tr>
         <tr>
             <td>CITIZENSHIP:</td>

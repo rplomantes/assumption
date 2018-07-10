@@ -75,7 +75,7 @@ $count = 0;
                     <td valign='bottom' colspan='2'><i><br>CERTIFIED BY:<br><br><br></i></td>
                 </tr>
                 <tr>
-                    <td align='center'>ROSIE B. SOMERA<br>REGISTRAR</td>
+                    <td align='center'>{{strtoupper(env("HED_REGISTRAR"))}}<br>REGISTRAR</td>
                     <td align='center'><small>DATE PRINTED</small><br>{{date('F d, Y')}}</td>
                 </tr>
             </table>
