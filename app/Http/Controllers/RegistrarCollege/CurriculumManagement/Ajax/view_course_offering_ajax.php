@@ -79,9 +79,7 @@ class view_course_offering_ajax extends Controller
         if (Request::ajax()) {
             $school_year = Input::get("school_year");
             $period = Input::get("period");
-            
             $courses = \App\CourseOffering::where('school_year', $school_year)->where('period', $period)->orderBy('course_code')->get();
-            
             return view('reg_college.curriculum_management.ajax.show_offerings_general', compact('courses', 'school_year', 'period'));
             
         }

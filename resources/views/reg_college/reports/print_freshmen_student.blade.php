@@ -19,12 +19,12 @@
 
 </style>
 <div>    
-    <div style='float: left; margin-left: 200px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+    <div style='float: left; margin-left: 250px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>LIST OF FRESHMEN STUDENT</b><br><b>A.Y. {{$school_year}} - {{$school_year + 1}}</b><br><b></b><br></div>
 </div>
 <div>
 @if(count($lists)>0)
-<table style='margin-top:200px; width:100%' class="table table-bordered table-striped"  border="1">
+<table style='margin-top:150px; width:100%' class="table table-bordered table-striped"  border="1">
     <thead>
         <tr>    
             <th><strong>#</strong></th>
@@ -37,7 +37,7 @@
     </thead>
     <tbody>
         <?php $count = 0; ?>
-        @foreach($lists as $list)
+        @foreach($lists->list as $list)
         <?php $user = \App\User::where('idno', $list->idno)->first(); ?>
         <?php $student_info = \App\StudentInfo::where('idno', $list->idno)->first(); ?>
         <?php $level = \App\CollegeLevel::where('idno', $list->idno)->first(); ?>

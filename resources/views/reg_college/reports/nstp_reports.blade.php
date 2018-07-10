@@ -76,7 +76,7 @@
                                 </select>    
                             </div>  
                             <div class='col-sm-4'>
-                                <label>Period</label>
+                                <label>Course Name</label>
                                 <select class="form form-control select2" name="course_code" id='course_code'>
                                     <option value="">Select Course</option>
                                     @foreach($programs as $program)

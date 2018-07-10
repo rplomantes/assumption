@@ -67,7 +67,7 @@
               <input type='hidden' name='school_year' value='{{$school_year}}'>
                 <input type='hidden' name='period' value='{{$period}}'>
                 <input type='hidden' name='room' value='{{$room}}'>
-            <input type='submit' class='btn btn-primary col-sm-12' value='Print Schedule'>
+            <input type='submit' formtarget='_blank' class='btn btn-primary col-sm-12' value='Print Schedule'>
         </form>
     </div>
     @else

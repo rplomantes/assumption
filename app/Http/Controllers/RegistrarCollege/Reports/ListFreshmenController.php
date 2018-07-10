@@ -32,6 +32,8 @@ class ListFreshmenController extends Controller
     function print_freshmen($school_year){
         if(Auth::user()->accesslevel == env('REG_COLLEGE')){
             $lists = \App\CollegeLevel::distinct()->where('college_levels.school_year', $school_year)->where('college_levels.status', 3)->where('college_levels.level', "1st Year")->get(['idno', 'level', 'program_code']); 
+//            $list =  new \App\FreshmenStudentList($school_year);
+//            dd($list);
             $pdf = PDF::loadView('reg_college.reports.print_freshmen_student', compact('school_year', 'lists'));
             $pdf->setPaper('letter','landscape');
             $pdf->stream("student_freshmen_.pdf");

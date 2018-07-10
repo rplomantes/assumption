@@ -1,3 +1,4 @@
+<?php $unit = 0; ?>
 <style>
     img {
         display: block;
@@ -54,8 +55,13 @@
 
                     </td>
                     <td>
-                        <?php $units = \App\CourseOffering::where('id', $course->course_offering_id)->first(); ?>
+                        <?php $units = \App\CourseOffering::where('id', $course->course_offering_id)->first();
+                        ?>
+                        @if (count($units)>0)
                         {{$unit= $units->lec + $units->lab}}
+                        @else
+                         <?php $unit = $units + 0;?>   
+                        @endif
                         <?php $totalunits = $totalunits + $unit?>
                     </td>
                     <td>
