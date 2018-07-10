@@ -8,8 +8,7 @@ $ledger = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amoun
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)
         ->where(function($query){
             $query->where('category_switch', 4)
-                    ->orWhere('category_switch', 5)
-                    ->orWhere('category_switch', 7);
+                    ->orWhere('category_switch', 5);
             })->groupBy('category','category_switch')->orderBy('category_switch')->get();
 $ledger_tuition = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 6)->groupBy('category','category_switch')->orderBy('category_switch')->get();

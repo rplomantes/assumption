@@ -53,9 +53,11 @@
                                 <label>Academic Year</label>
                                 <select id='school_year' class='form-control select2'>
                                     <option value='all'>All</option>
-                                    @foreach ($school_years as $school_year)
+                                    <option value='2017'>2017-2018</option>
+                                    <option value='2018'>2018-2019</option>
+<!--                                    @foreach ($school_years as $school_year)
                                     <option value='{{$school_year->school_year}}'>{{$school_year->school_year}}-{{$school_year->school_year+1}}</option>
-                                    @endforeach
+                                    @endforeach-->
                                 </select>
                             </div>
                             <div class='col-sm-2'>

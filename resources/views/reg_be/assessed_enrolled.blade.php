@@ -8,6 +8,11 @@ $ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
 $due_dates = \App\LedgerDueDate::where('idno',$idno)->get();
 $totalmainpayment=0;
+if(count($ledger)>0){
+         foreach($ledger as $payment){
+             $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
+         } 
+      }
 ?>
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
@@ -171,7 +176,7 @@ $totalmainpayment=0;
     @if(count($due_dates)>0)
         <label>Schedule of Payment</label>
         <div class="form-group">
-            <?php $totalpay = $totalpayment; $display=""; $remark="";?>
+            <?php $totalpay = $totalmainpayment; $display=""; $remark="";?>
             <table class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td><td>Remarks</td></tr>
             @foreach($due_dates as $due_date)
             <?php 
