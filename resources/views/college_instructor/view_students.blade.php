@@ -48,7 +48,7 @@ $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
 <?php $number = 1; ?>
 @foreach ($courses_id as $course_id)
 <?php
-$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
 @if (count($students)>0)
 
@@ -69,7 +69,9 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <th width="3%">#</th>
                             <th width="8%">ID number</th>
                             <th>Name</th>
+                            <th width="5%">Midterm Absences</th>
                             <th width="5%">Midterm</th>
+                            <th width="5%">Finals Absences</th>
                             <th width="5%">Finals</th>
                         </tr>
                     </thead>
@@ -79,6 +81,9 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                             <td>{{$number}}<?php $number = $number + 1; ?></td>
                             <td>{{$student->idno}}</td>
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
+                            <td>
+                                <input value="{{$student->midterm_absences}}" name="midterm_absences[{{$student->id}}]" id="midterm_absences" onchange="change_midterm_absences(this.value, {{$student->id}}, {{$student->idno}})"
+                            </td>
                             <td>
                                 <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, {{$student->idno}})"
                                 @if($student->midterm_status == 0 && $close->midterm == 0)
@@ -112,6 +117,9 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
                                     <option @if ($student->midterm == "W") selected='' @endif>W</option>
                                     <option @if ($student->midterm == "AUDIT") selected='' @endif>AUDIT</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input value="{{$student->finals_absences}}" name="finals_absences[{{$student->id}}]" id="finals_absences" onchange="change_finals_absences(this.value, {{$student->id}}, {{$student->idno}})"
                             </td>
                             <td>
                                 <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, {{$student->idno}})"
@@ -204,6 +212,32 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
         $.ajax({
             type: "GET",
             url: "/ajax/college_instructor/grades/change_finals/" + idno,
+            data: array,
+            success: function () {
+            }
+        });
+    }
+    function change_midterm_absences(grade, grade_id, idno) {
+        array = {};
+        array['grade'] = grade;
+        array['grade_id'] = grade_id;
+        array['idno'] = idno;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/college_instructor/grades/change_midterm_absences/" + idno,
+            data: array,
+            success: function () {
+            }
+        });
+    }
+    function change_finals_absences(grade, grade_id, idno) {
+        array = {};
+        array['grade'] = grade;
+        array['grade_id'] = grade_id;
+        array['idno'] = idno;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/college_instructor/grades/change_finals_absences/" + idno,
             data: array,
             success: function () {
             }

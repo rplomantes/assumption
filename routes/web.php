@@ -211,6 +211,8 @@ Route::get('/college_instructor/print_grade/{schedule_id}', 'CollegeInstructor\G
 Route::get('/ajax/college_instructor/grades/change_midterm/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_midterm');
 Route::get('/ajax/college_instructor/grades/change_finals/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_finals');
 Route::get('/ajax/college_instructor/grades/change_grade_point/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_grade_point');
+Route::get('/ajax/college_instructor/grades/change_midterm_absences/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_midterm_absences');
+Route::get('/ajax/college_instructor/grades/change_finals_absences/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_finals_absences');
 
 //ADMIN/////////////////////////////////////////////////////////////////////////
 Route::get('/admin/view_information/{idno}', 'Admin\ViewInformation\viewInfoController@index');

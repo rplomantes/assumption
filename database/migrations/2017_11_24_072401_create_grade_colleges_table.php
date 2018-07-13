@@ -26,6 +26,8 @@ class CreateGradeCollegesTable extends Migration
             $table->string('prelim')->nullable();
             $table->string('midterm')->nullable();
             $table->string('finals')->nullable();
+            $table->string('midterm_absences')->default(0);
+            $table->string('finals_absences')->default(0);
             $table->string('final_grade')->nullable();
             $table->string('grade_point')->nullable();
             $table->string('completion')->nullable();

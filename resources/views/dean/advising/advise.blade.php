@@ -156,7 +156,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             </div>
         </div>
     </div>
-<!--    <div class="col-sm-12">
+    <div class="col-sm-12">
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Search Courses</h3>
@@ -172,7 +172,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <input type="text" class="form form-control" id="search"> 
                         </div>
                     </div>
-                    <div class="form-group">
+        <div class="tablecourse"></div>
+<!--                    <div class="form-group">
                         <div class="col-md-4">   
                             <label>Program</label>     
                             <select id="program_code" class="form-control select2">
@@ -202,11 +203,11 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <option value="Summer">Summer</option>
                             </select>    
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
 </div>
 <!--<div class="row">
     <div class="col-sm-12 course_offering">
@@ -329,8 +330,6 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         @else
                         {{$check_grades_new->finals}}
                         @endif
-                    @else
-                    <button class="btn btn-primary" onclick="add_to_course_offered_elect('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
                     @endif
                 <button class="btn btn-primary" onclick="add_to_course_offered_elect('{{$elective->id}}')"><span class="fa fa-plus-circle"></span></button>
                 @endif
