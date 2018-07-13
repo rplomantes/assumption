@@ -114,7 +114,7 @@ $i=1;
     <tr>
         <td>{{$i++}}.</td>
         <td width="1%">{{$name->idno}}</td>
-        <td width="50%">{{get_name($name->idno)}}{{get_ns($name->idno)}}</td>
+        <td width="40%">{{get_name($name->idno)}}{{get_ns($name->idno)}}</td>
         <td></td>
         <td></td>
         <td></td>

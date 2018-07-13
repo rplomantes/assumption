@@ -55,6 +55,7 @@ class NewStudentController extends Controller {
             $this->addregistration($request, $reference_no);
             $this->admission_hed($request, $reference_no);
             $this->admissionchecklist($request, $reference_no);
+            $this->scholarship($request, $reference_no);
             DB::commit();
 
             return redirect(url('/'));
@@ -285,6 +286,12 @@ class NewStudentController extends Controller {
     function get_academic_code($program_to_enroll) {
         $academic_code = \App\CtrAcademicProgram::where('program_code', $program_to_enroll)->first()->academic_code;
         return $academic_code;
+    }
+    
+    function scholarship ($request, $reference_no){
+        $new_scholarship = new \App\CollegeScholarship();
+        $new_scholarship->idno = $reference_no;
+        $new_scholarship->save();
     }
 
 }

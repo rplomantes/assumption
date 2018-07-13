@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCtrDiscountsTable extends Migration
+class CreateCollegeScholarshipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCtrDiscountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ctr_discounts', function (Blueprint $table) {
+        Schema::create('college_scholarships', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('academic_type')->nullable();
-            $table->string('discount_code')->unique();
-            $table->string('discount_description');
-            $table->string('accounting_code');
+            $table->string('idno');
+            $table->string('discount_code')->nullable();
+            $table->string('discount_description')->nullable();
+            $table->string('accounting_code')->nullable();
             $table->integer('tuition_fee')->default(0);
             $table->integer('other_fee')->default(0);
             $table->integer('misc_fee')->default(0);
@@ -26,6 +26,8 @@ class CreateCtrDiscountsTable extends Migration
             $table->integer('discount_type')->default(0);
             $table->decimal('amount',10,2)->default(0);
             $table->integer('is_display')->default(0);
+            $table->foreign('idno')->references('idno')
+                    ->on('users')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -37,6 +39,6 @@ class CreateCtrDiscountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ctr_discounts');
+        Schema::dropIfExists('college_scholarships');
     }
 }

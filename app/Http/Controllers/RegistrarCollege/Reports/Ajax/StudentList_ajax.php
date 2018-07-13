@@ -16,6 +16,9 @@ class StudentList_ajax extends Controller {
             $period = Input::get("period");
             $level = Input::get("level");
             $program_code = Input::get("program_code");
+            
+            $sy=Input::get("school_year");
+            $pr=Input::get("period");
 
             if ($school_year == "all") {
                 $school_year = "";
@@ -43,7 +46,7 @@ class StudentList_ajax extends Controller {
 
             $lists = DB::Select("Select * from college_levels join users on users.idno = college_levels.idno where college_levels.status=3 $school_year $period $level $program_code order by users.lastname");
 
-            return view('reg_college.reports.student_list.ajax.display_search', compact('lists'));
+            return view('reg_college.reports.student_list.ajax.display_search', compact('lists', 'sy','pr'));
         }
     }
 

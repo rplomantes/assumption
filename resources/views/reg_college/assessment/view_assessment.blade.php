@@ -5,6 +5,7 @@ $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 $grade_colleges = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 $discounts = \App\CtrDiscount::all();
+        $scholar = \App\CollegeScholarship::where('idno', $idno)->first();
 ?>
 <?php
 $file_exist = 0;
@@ -68,7 +69,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
     @foreach ($check_reservations as $check_reservation)
     <?php $reservation = $reservation + $check_reservation->amount; ?>
     @endforeach
-    <div class="alert alert-info    ">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
+    <div class="alert alert-info">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
     @endif
         <div class="col-md-4">
             <!-- Widget: user widget style 1 -->
@@ -163,13 +164,15 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
                             <div class="form-group">
                                 <div class='col-sm-12' id='discount-form'>
                                     <label>Discount</label>
-                                    <select id="discount" name="discount" class='form-control'>
+                                    <input type='text' class='form-control' readonly="" value='{{$scholar->discount_description}}'>
+                                    <input type='hidden' class='form-control' name='discount' value='{{$scholar->discount_code}}'>
+<!--                                    <select id="discount" name="discount" class='form-control'>
                                         <option value="">Select Discount</option>
                                         <option value="">None</option>
                                         @foreach ($discounts as $discount)
                                         <option value="{{$discount->discount_code}}">{{$discount->discount_code}}</option>
                                         @endforeach
-                                    </select>
+                                    </select>-->
                                 </div>
                             </div>
                             <div class="form-group" id="compute-form">
@@ -193,7 +196,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
                             @if(count($grade_colleges)>0)
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Courses Assessed</h3>
+                    <h3 class="box-title">Courses Advised</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
@@ -280,7 +283,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
         </div>
         
                             @else
-                                No Courses Assessed!
+                                No Courses Advised!
                             @endif
     </div>
 </section>
@@ -292,6 +295,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
     $("#discount-form").hide();
     $("#plan-form").change(function () {
         $("#discount-form").fadeIn();
+        $("#compute-form").fadeIn();
     });
     $("#discount-form").change(function () {
         $("#compute-form").fadeIn();

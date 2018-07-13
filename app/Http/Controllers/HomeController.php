@@ -79,6 +79,9 @@ class HomeController extends Controller {
             case 71:
                 return view('guidance_bed.index');
                 break;
+            case 80:
+                return view('scholarship_hed.index');
+                break;
         }
     }
 

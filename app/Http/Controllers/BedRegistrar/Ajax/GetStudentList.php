@@ -107,6 +107,7 @@ function view_list(){
             
          }}
          $pdf = PDF::loadView("reg_be.view_list",compact("status","level","section",'strand'));
+         $pdf->setPaper(array(0,0,612,936));
          return $pdf->stream();
          
  }

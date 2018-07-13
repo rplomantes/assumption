@@ -120,12 +120,12 @@ class AssessmentController extends Controller {
 
         //get discount////
         if (!is_null($discount_code)) {
-            $discounttype = \App\CtrDiscount::where('discount_code', $discount_code)->first()->discount_type;
+            $discounttype = \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->discount_type;
             if ($discounttype == 0) {
-                $discounttf = $this->getdiscountrate('tf', $discount_code);
-                $discountof = $this->getdiscountrate('of', $discount_code);
+                $discounttf = $this->getdiscountrate('tf', $discount_code,$idno);
+                $discountof = $this->getdiscountrate('of', $discount_code,$idno);
             } else if ($discounttype == 1) {
-                $discounttf = $this->getdiscount('tf', $discount_code);
+                $discounttf = $this->getdiscount('tf', $discount_code,$idno);
             }
         }
 
@@ -236,17 +236,17 @@ class AssessmentController extends Controller {
         }
     }
 
-    function getdiscountrate($type, $discount_code) {
+    function getdiscountrate($type, $discount_code,$idno) {
         if ($type == 'tf') {
-            return \App\CtrDiscount::where('discount_code', $discount_code)->first()->tuition_fee;
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;
         } elseif ($type == 'of') {
-            return \App\CtrDiscount::where('discount_code', $discount_code)->first()->other_fee;
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
         }
     }
 
-    function getdiscount($type, $discount_code) {
+    function getdiscount($type, $discount_code,$idno) {
         if ($type == 'tf') {
-            return \App\CtrDiscount::where('discount_code', $discount_code)->first()->amount;
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->amount;
         }
     }
 

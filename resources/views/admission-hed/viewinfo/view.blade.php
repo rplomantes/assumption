@@ -143,13 +143,7 @@
                             </div>                      
                             <div class="col-sm-3" id='assumption_scholar'>
                                 <label>Assumption Scholar</label>
-                                <select class="form form-control" name='assumption_scholar' type="text">                              
-                                    <option value=''>Select Scholarship*</option>
-                                    <option value='1' @if($adhedinfo->assumption_scholar == '1') selected='' @else @endif>Academic Scholarship</option>
-                                    <option value='2' @if($adhedinfo->assumption_scholar == '2') selected='' @else @endif>Financial Assistance</option>
-                                    <option value='3' @if($adhedinfo->assumption_scholar == '3') selected='' @else @endif>Athletic</option>
-                                    <option value='4' @if($adhedinfo->assumption_scholar == '4') selected='' @else @endif>Benefit</option>
-                                </select>      
+                                <input readonly='' class="form form-control" name='assumption_scholar' type="text" value='{{$adhedinfo->assumption_scholar}}'>
                             </div>   
                             <div class="col-sm-3" id='partner_scholar'>
                                 <label>Partner Scholar</label>

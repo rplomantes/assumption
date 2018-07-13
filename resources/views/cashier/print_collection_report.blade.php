@@ -82,6 +82,8 @@ $totalcanceled = 0;
                     <th>Card No</th>
                     <th>Card Desc</th>
                     <th>Card Amount</th>
+                    <th>Deposit References</th>
+                    <th>Deposit Amount</th>
                     <th>Total</th>
                     @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
                     <th>Posted By</th>
@@ -116,6 +118,8 @@ $totalcanceled = 0;
                     <td>{{$payment->credit_card_no}}</td>
                     <td>{{$payment->credit_card_bank}}</td>
                     <td class="decimal">{{number_format($payment->credit_card_amount,2)}}</td>
+                    <td class="decimal">{{$payment->deposit_reference}}</td>
+                    <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>
                     <td class="decimal"><b>{{number_format($total,2)}}</b></td>
                     @else
                     <?php
@@ -128,7 +132,9 @@ $totalcanceled = 0;
                     <td><span style='color:black'>{{$payment->credit_card_no}}</span></td>
                     <td><span style='color:black'>{{$payment->credit_card_bank}}</span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'><span style='color:black'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
-                    <td class="decimal"><span style='color:red;text-decoration:line-through;'><span style='color:#999'>{{number_format($totalcanceled,2)}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'><span style='color:black'>{{$payment->deposit_reference}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'><span style='color:black'>{{number_format($payment->deposit_amount,2)}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'><span style='color:#999'>{{number_format($totalcanceled,2)}}</span></span></td>
                     @endif
                     @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
                     <td>{{$payment->posted_by}}</td>
@@ -144,10 +150,12 @@ $totalcanceled = 0;
                     <th class="decimal">{{number_format($totalcash,2)}}</th>
                     <th></th>
                     <th></th>
-                    <th></th>
                     <th class="decimal">{{number_format($totalcheck,2)}}</th>
                     <th></th>
+                    <th></th>
                     <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
+                    <th></th>
+                    <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>
                     <th class="decimal">{{number_format($grandtotal,2)}}</th>
                     @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
                     <th></th>

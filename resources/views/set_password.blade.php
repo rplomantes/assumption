@@ -46,6 +46,9 @@ switch ($accesslevel) {
     case 71:
         $layout="layouts.appguidance_bed";
         break;
+    case 80:
+        $layout="layouts.appscholarship_college";
+        break;
 }
 ?>
 

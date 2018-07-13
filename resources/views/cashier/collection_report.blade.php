@@ -88,7 +88,8 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                  <th>Card No</th>
                  <th>Card Desc</th>
                  <th>Card Amount</th>
-                 <th>Bank Deposit</th>
+                 <th>Deposit References</th>
+                 <th>Deposit Amount</th>
                  <th>Total</th>
                  <th>Status</th>
                  @if(Auth::user()->accesslevel == env("ACCTNG_STAFF"))
@@ -123,6 +124,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                     <td class="decimal">{{$payment->credit_card_no}}</td>
                     <td class="decimal">{{$payment->credit_card_bank}}</td>
                     <td class="decimal">{{number_format($payment->credit_card_amount,2)}}</td>
+                    <td class="decimal">{{$payment->deposit_reference}}</td>
                     <td class="decimal">{{number_format($payment->deposit_amount,2)}}</td>
                     <td class="decimal"><b>{{number_format($total,2)}}</b></td>
                     <td>OK</td>
@@ -144,6 +146,8 @@ if(Auth::user()->accesslevel==env("CASHIER")){
   <span style='color:black'>{{$payment->credit_card_bank}}</span></span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
+                    <td class="decimal"><span style='color:red;text-decoration:line-through'>
+  <span style='color:black'>{{$payment->deposit_reference}}</span></span></td>
                     <td class="decimal"><span style='color:red;text-decoration:line-through'>
   <span style='color:black'>{{number_format($payment->deposit_amount,2)}}</span></span></td>
   <td class="decimal"><span style='color:red;text-decoration:line-through;'>
@@ -167,6 +171,7 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                         <th></th>
                         <th></th>
                     <th class="decimal">{{number_format($totalcreditcard,2)}}</th>
+                    <th></th>
                     <th class="decimal">{{number_format($totalbankdeposit,2)}}</th>
                     <th class="decimal">{{number_format($grandtotal,2)}}</th>
                     <th></th></tr>

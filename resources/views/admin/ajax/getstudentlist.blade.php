@@ -49,6 +49,9 @@
                 @case (71)
                     Guidance BED
                 @break
+                @case (80)
+                    Scholarship HED
+                @break
                 @endswitch
             </td>
             <td><a href="{{url('/admin', array('view_information', $list->idno))}}">View</a></td></tr>

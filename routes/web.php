@@ -269,3 +269,10 @@ Route::post('/registrar_college/resetpassword','RegistrarCollege\ViewInfo\ViewIn
 
 //shs change strand after enrllment
 Route::post('/bedregistrar/assess/change_strand','BedRegistrar\Assess@change_strand');
+
+
+//Scholarship College - MAIN////////////////////////////////////////////////////
+Route::get('/ajax/scholarship_college/getstudentlist', 'ScholarshipCollege\Ajax\GetStudentList_ajax@getstudentlist');
+//View Scholar
+Route::get('/scholarship_college/view_scholar/{idno}', 'ScholarshipCollege\ViewScholarship@index');
+Route::post('/scholarship_college/update_scholar', 'ScholarshipCollege\ViewScholarship@update_now');
