@@ -195,10 +195,20 @@
                 </tr>
             </thead>         
         </table>
-        @foreach ($courses_id as $course_id)
-        <?php
-        $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 0)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
-        ?>
+        <?php $number = 1; $raw = ""; ?>
+@foreach ($courses_id as $key => $course_id)
+<?php 
+if ($key == 0){
+$raw = $raw. " course_offering_id = ".$course_id->id;
+} else {
+$raw = $raw. " or course_offering_id = ".$course_id->id;
+}
+?>
+@endforeach
+<?php
+$students = \App\GradeCollege::whereRaw('('.$raw.')')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+?>
+        
         @if (count($students)>0)
         <table style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif;" class='table' border="0" width="100%" cellspacing='1' cellpadding='1'>
             <thead>
@@ -230,7 +240,6 @@
         </table>
     </div>
     @endif
-    @endforeach
     <div align='center'>* * * * * * * * * * NOTHING FOLLOWS * * * * * * * * * *</div>    
 
 </div>

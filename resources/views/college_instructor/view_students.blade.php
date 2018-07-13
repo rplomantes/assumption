@@ -45,10 +45,18 @@ $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
 </section>
 @endsection
 @section('maincontent')
-<?php $number = 1; ?>
-@foreach ($courses_id as $course_id)
+<?php $number = 1; $raw = ""; ?>
+@foreach ($courses_id as $key => $course_id)
+<?php 
+if ($key == 0){
+$raw = $raw. " course_offering_id = ".$course_id->id;
+} else {
+$raw = $raw. " or course_offering_id = ".$course_id->id;
+}
+?>
+@endforeach
 <?php
-$students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$students = \App\GradeCollege::whereRaw('('.$raw.')')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
 @if (count($students)>0)
 
@@ -163,7 +171,6 @@ $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join
         </div>
     </div>
     @endif
-    @endforeach
     <div class="col-sm-2">
         <a href='{{url('/')}}'><div class="btn btn-warning col-sm-12">Return Dashboard</div></a>
     </div>
