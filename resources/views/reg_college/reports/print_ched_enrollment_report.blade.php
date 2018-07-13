@@ -104,7 +104,7 @@
     </table>
     </footer>
     
-    <table class='table' width="100%" cellspacing='0' cellpadding='0' style='margin-top:0px;'>
+    <table class='table' width="100%" cellspacing='0' cellpadding='0' border="0" style='margin-top:0px;'>
         <thead>
             <tr>
                 <th style="border-top: 1pt dotted black;border-bottom: 1pt dotted black"><?php $counter = 1; ?></th>
@@ -152,9 +152,11 @@
                 </td>
             </tr>    
             @endforeach
-            <tr>
-                <td colspan="8"><b>Total Number of Students: {{count($students)}}</b></td>
-            </tr>                    
         </tbody>
+    </table>           
+    <table width="100%">
+        <tr>
+            <td><b>Total Number of Students: {{count($students)}}</b></td>
+        </tr>
     </table>
 </body>

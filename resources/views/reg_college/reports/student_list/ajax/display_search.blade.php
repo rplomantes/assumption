@@ -3,7 +3,9 @@
             @if (count($lists)>0)
         <div class='box-header'>
             <h3 class="box-title">Search Results</h3>
+            @if (Auth::user()->accesslevel == env('REG_COLLEGE'))
             <a onclick='print_search(school_year.value, period.value, level.value, academic_program.value)'><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
+            @endif
         </div>
         <div class="box-body">
                     <div class='table-responsive'>

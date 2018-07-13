@@ -1,4 +1,11 @@
-@extends('layouts.appreg_college')
+<?php
+    if(Auth::user()->accesslevel == env('REG_COLLEGE')){
+    $layout = "layouts.appreg_college";
+    } else {
+    $layout = "layouts.appadmission-hed";
+    }
+?>
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

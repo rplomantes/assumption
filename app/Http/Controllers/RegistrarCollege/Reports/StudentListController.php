@@ -17,7 +17,7 @@ class StudentListController extends Controller {
     }
 
     function search() {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || env('ADMISSION_HED')) {
             $school_years = \App\CourseOffering::distinct()->get(['school_year']);
             $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             return view('reg_college.reports.student_list.search', compact('school_years', 'programs'));

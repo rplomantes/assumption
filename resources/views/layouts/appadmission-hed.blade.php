@@ -116,6 +116,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('admission','new_student'))}}"><i class="fa fa-circle-o"></i> <span>New Student</span></a></li>
                             </ul>
                         </li>
+                        <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-bar-chart"></i> <span>Enrollment Reports</span></a></li>
                 </section>
             </aside>
             <div class="content-wrapper">
