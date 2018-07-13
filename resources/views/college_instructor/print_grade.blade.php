@@ -2,6 +2,37 @@
     body {
         font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
         font-size: 9pt;
+                margin-top: 3.5cm;
+                margin-left: 0cm;
+                margin-right: 0cm;
+                margin-bottom: 4cm;
+    }
+    footer {
+        font-size: 8pt;
+    }
+            header {
+                position: fixed; 
+                top: 0cm; 
+                left: 0px; 
+                right: 0px;
+                height: 0px; 
+                
+                margin: 0cm 0cm 0cm 0cm;
+            }  
+            footer {
+                position: fixed; 
+                bottom: 3.5cm; 
+                left: 0px; 
+                right: 0px;
+                height: 0px; 
+                
+                margin: 0cm 1cm cm 1cm;
+
+            }
+    #schoolname{
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 18pt; 
+        font-weight: bolder;
     }
     
     img {
@@ -11,53 +42,83 @@
         width: auto;
         height: auto;
     }
-    #schoolname{
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 18pt; 
-        font-weight: bolder;
-    }
     .table, .th, .td {
         font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
         border-collapse: collapse;
         font: 9pt;
     }
-    .table2 {
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        border: 1px solid black transparent;
-        border-collapse: collapse;
-        font: 9pt;
-    }
-    .underline {
-        border-top: 1px solid transparent;
-        border-left: 1px solid transparent;
-        border-right: 1px solid transparent;
-    }
-    .top-line {
-        border-bottom: 1px solid transparent;
-        border-left: 1px solid transparent;
-        border-right: 1px solid transparent;
-        text-align: center;
-    }
-    .no-border {
-        border-top: 1px solid transparent;
-        border-left: 1px solid transparent;
-        border-right: 1px solid transparent;
-        border-bottom: 1px solid transparent;
-    }
 
 </style>
 <body>
-<div>    
-    <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>OFFICIAL GRADING SHEET</b></div>
-</div>
+<header>
+        <table class="table table-condensed" width="100%" border="0">
+            <tbody>        
+                <div>    <?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first(); ?>
+                    <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+                    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br>San Lorenzo Drive, San Lorenzo Village<br> Makati City<br><br><b>Higher Education Department<br>OFFICIAL GRADING SHEET</b><br><b>A.Y. {{$sy->school_year}} - {{$sy->school_year + 1}}, {{$sy->period}}</b></div>
+                </div>
+            </tbody>
+        </table>
+    </header>
+    
+        <footer>
+    <table class='table' style='font-family: Arial, Helvetica Neue, Helvetica, sans-serif;' border="0" width="100%" cellspacing='1' cellpadding='1'>
+        <tbody>
+            <tr>
+                <td><b>Grading System:</b></td>
+            </tr>
+            <tr>
+                <td>1.0(95 & above)</td>
+                <td>2.5(80-82)</td>
+                <td>FA - Failure due to absences</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>1.2(93-94)</td>
+                <td>2.7(78-79)</td>
+                <td>INC - Incomplete</td>
+                <td align='center'><div style='border-top: 1pm solid black'>Professor's Signature</div></td>
+            </tr>
+            <tr>
+                <td>1.5(90-92)</td>
+                <td>3.0(75-77)</td>
+                <td>NA - Not Applicable</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>1.7(88-89)</td>
+                <td>3.5(73-74)</td>
+                <td>NG - No Grade</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2.0(85-87)</td>
+                <td>4.0(72 & below)</td>
+                <td>UD - Unofficially Dropped</td>
+                <td align='center'><div style='border-top: 1pm solid black'>Dean's Signature<div></td>
+            </tr>
+            <tr>
+                <td>2.2(83-84)</td>
+                <td></td>
+                <td>W - Officially Withdrawn</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td align='center'><small>Printed:</small> {{date('m/d/Y')}}</td>
+            </tr>
+        </tbody>
+    </table>   
+    </footer>
 <div>
-    <div style='margin-top:130px'>
+    <div>
         <?php $number = 1; ?>
-        <table border="1" width="100%" cellspacing='1' cellpadding='1'>
+        <table border="0" width="100%" cellspacing='1' cellpadding='1'>
             <thead>
-                <?php $infos = \App\CourseOffering::where('schedule_id',$schedule_id)->get(['course_code', 'course_name']);?>                                
-                
+                <?php $infos = \App\CourseOffering::where('schedule_id',$schedule_id)->first();?>
+                <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->is_tba; ?>
                 <tr>
                     <td width="11%">Course:</td>
                     <td>{{$infos->course_code}}</td>
@@ -69,19 +130,45 @@
                     <td>{{$infos->course_name}}</td>
                     
                     <td align="right">Room:</td>
-                    <td></td>
+                    <td>  
+                        <?php
+                        $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_id)->get(['time_start', 'time_end', 'room']);
+                        ?> 
+                        @foreach ($schedule3s as $schedule3)
+                        {{$schedule3->room}}
+                        @endforeach</td>
                 </tr>              
                 <tr>
                     <td>Schedule:</td>
-                    <td></td>
+                    @if($is_tba == 0)
+                    <td>
+                        <?php
+                        $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_id)->get(['time_start', 'time_end', 'room']);
+                        ?>
+                        @foreach ($schedule2s as $schedule2)
+                        <?php
+                        $days = \App\ScheduleCollege::where('schedule_id', $schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                        ?>
+                        <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                        [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                        @endforeach
+                    </td>
+                    @else
+                    <td>TBA</td>
+                    @endif
+                    
+                    
+                <?php $sections = \App\CourseOffering::distinct()->where('schedule_id',$schedule_id)->get(['section_name']);?>
                     <td align="right">Block:</td>
-                    <td>{{$infos->section_name}}</td>
+                    <td>
+                        @foreach ($sections as $section)
+                        {{$section->section_name}}&nbsp;
+                        @endforeach
+                    </td>
                 </tr>
                 <tr>
                     <td>Program:</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="3"></td>
                 </tr>                                
             </thead>    
         </table>        
@@ -97,20 +184,20 @@
         <table style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif;" class='table' border="0" width="100%" cellspacing='1' cellpadding='1'>
             <thead>
                 <tr>
-                    <th width="3%"><div align="center">#</div></th>
-                    <th width="10%">ID number</div></th>
-                    <th>Name</th>
-                    <th width="10%" align='center'>Midterm </th>
-                    <th width="10%" align='center'>Finals</th>
-                    <th width='3%'></th>
-                    <th width="10%" align='center'>Midterm</th>
-                    <th width="10%" align='center'>Finals</th>
+                    <th style="border-bottom:1px solid black" width="3%"><div align="center">#</div></th>
+                    <th style="border-bottom:1px solid black" width="10%">ID number</div></th>
+                    <th style="border-bottom:1px solid black">Name</th>
+                    <th style="border-bottom:1px solid black" width="10%" align='center'>Midterm </th>
+                    <th style="border-bottom:1px solid black" width="10%" align='center'>Finals</th>
+                    <th style="border-bottom:1px solid black" width='3%'></th>
+                    <th style="border-bottom:1px solid black" width="10%" align='center'>Midterm</th>
+                    <th style="border-bottom:1px solid black" width="10%" align='center'>Finals</th>
                 </tr>
             </thead>         
-        </table>          
+        </table>
         @foreach ($courses_id as $course_id)
         <?php
-        $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+        $students = \App\GradeCollege::where('course_offering_id', $course_id->id)->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 0)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
         ?>
         @if (count($students)>0)
         <table style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif;" class='table' border="0" width="100%" cellspacing='1' cellpadding='1'>
@@ -129,14 +216,14 @@
             <tbody>
                 @foreach($students as $student)
                 <tr>
-                    <td><div align="right">{{$number}}.<?php $number = $number + 1; ?></div></td>
-                    <td>{{$student->idno}}</td>
-                    <td>{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} </td>
-                    <td align='center'>{{$student->midterm}}</td>
-                    <td align='center'>{{$student->finals}}</td>
-                    <td></td>
-                    <td align='center'></td>
-                    <td align='center'></td>
+                    <td style="border-bottom:1px solid black"><div align="right">{{$number}}.<?php $number = $number + 1; ?></div></td>
+                    <td style="border-bottom:1px solid black">{{$student->idno}}</td>
+                    <td style="border-bottom:1px solid black">{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} </td>
+                    <td style="border-bottom:1px solid black" align='center'>{{$student->midterm}}</td>
+                    <td style="border-bottom:1px solid black" align='center'>{{$student->finals}}</td>
+                    <td style="border-bottom:1px solid black"></td>
+                    <td style="border-bottom:1px solid black" align='center'>{{$student->midterm_absences}}</td>
+                    <td style="border-bottom:1px solid black" align='center'>{{$student->finals_absences}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -144,55 +231,7 @@
     </div>
     @endif
     @endforeach
-    <div align='center'>*****NOTHING FOLLOWS*****</div>    
-    <table class='table' style='margin-top:40px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;' border="0" width="100%" cellspacing='1' cellpadding='1'>
-        <tbody>
-            <tr>
-                <td><b>Grading System:</b></td>
-            </tr>
-            <tr>
-                <td>1.0(95 & above)</td>
-                <td>2.5(80-82)</td>
-                <td>FA - Failure due to absences</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1.2(93-94)</td>
-                <td>2.7(78-79)</td>
-                <td>INC - Incomplete</td>
-                <td align='center'><div style='border-top: 1pm solid black'>Professor Signature</div></td>
-            </tr>
-            <tr>
-                <td>1.5(90-92)</td>
-                <td>3.0(75-77)</td>
-                <td>NA - Not Applicable</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1.7(88-89)</td>
-                <td>3.5(73-74)</td>
-                <td>NG - No Grade</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>2.0(85-87)</td>
-                <td>4.0(72 & below)</td>
-                <td>UD - Unoficially Dropped</td>
-                <td align='center'><div style='border-top: 1pm solid black'>Dean's Signature<div></td>
-            </tr>
-            <tr>
-                <td>2.2(83-84)</td>
-                <td></td>
-                <td>W - Officially Withdrawn</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td align='center'><small>Printed:</small> {{date('m/d/Y')}}</td>
-            </tr>
-        </tbody>
-    </table>    
+    <div align='center'>* * * * * * * * * * NOTHING FOLLOWS * * * * * * * * * *</div>    
+
 </div>
 </body>

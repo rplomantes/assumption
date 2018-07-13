@@ -119,9 +119,12 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                     <ul class="treeview-menu">
                                         <?php $scheds = \App\ScheduleCollege::distinct()->where('instructor_id', Auth::user()->idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('course_code', $load->course_code)->get(['schedule_id']); ?>
                                         @foreach ($scheds as $sched)
+                                        
+                                        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $sched->schedule_id)->first()->is_tba; ?>
                                         <li>
                                             <a href="{{url('college_instructor', array('grades', $sched->schedule_id))}}">
                                                 <i class="fa fa-circle-o"></i> 
+                                                @if($is_tba == 0)
                                                 <span>
                                                     <?php
                                                     $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $sched->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -140,6 +143,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                                     [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
                                                     @endforeach
                                                 </span>
+                                                @else
+                                                <span>TBA</span>
+                                                @endif
                                             </a>
                                         </li>
                                         @endforeach

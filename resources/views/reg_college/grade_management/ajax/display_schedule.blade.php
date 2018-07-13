@@ -3,6 +3,9 @@
     <select class="form form-control select2" id="schedule_id">
         <option value="">Select Schedule</option>
         @foreach ($schedules as $sched)
+        
+                <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $sched->schedule_id)->first()->is_tba; ?>
+        @if ($is_tba == 0)
         <option value="{{$sched->schedule_id}}">
             <?php
             $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $sched->schedule_id)->get(['time_start', 'time_end', 'room']);
@@ -21,6 +24,9 @@
             [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
         @endforeach
         </option>
+        @else
+        <option value="{{$sched->schedule_id}}">TBA</option>
+        @endif
         @endforeach
     </select>
 </div>
