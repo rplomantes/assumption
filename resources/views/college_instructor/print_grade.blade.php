@@ -121,8 +121,8 @@
                 <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->is_tba; ?>
                 <tr>
                     <td width="11%">Course:</td>
-                    <td>{{$infos->course_code}}</td>
-                    <td align="right">Professor:</td>
+                    <td width="50%">{{$infos->course_code}}</td>
+                    <td width="10%" align="right">Professor:</td>
                     <td>{{strtoupper(Auth::user()->lastname)}}, {{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}}</td>
                 </tr>
                 <tr>
@@ -150,7 +150,7 @@
                         $days = \App\ScheduleCollege::where('schedule_id', $schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                         ?>
                         <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                        [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                        @foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}<br>
                         @endforeach
                     </td>
                     @else
@@ -158,12 +158,17 @@
                     @endif
                     
                     
-                <?php $sections = \App\CourseOffering::distinct()->where('schedule_id',$schedule_id)->get(['section_name']);?>
+                <?php $allsection = ""; $sections = \App\CourseOffering::distinct()->where('schedule_id',$schedule_id)->get(['section_name']);?>
                     <td align="right">Block:</td>
                     <td>
-                        @foreach ($sections as $section)
-                        {{$section->section_name}}&nbsp;
+                        @foreach ($sections as $key => $section)
+                        @if ($key == 0)
+                        <?php $allsection = $allsection . $section->section_name; ?>
+                        @else
+                        <?php $allsection = $allsection."/".$section->section_name; ?>
+                        @endif
                         @endforeach
+                        {{$allsection}}
                     </td>
                 </tr>
                 <tr>
@@ -195,13 +200,15 @@
                 </tr>
             </thead>         
         </table>
-        <?php $number = 1; $raw = ""; ?>
+<?php $number = 1; $raw = ""; $allsection=""; ?>
 @foreach ($courses_id as $key => $course_id)
 <?php 
 if ($key == 0){
 $raw = $raw. " course_offering_id = ".$course_id->id;
+$allsection = $allsection. "$course_id->section_name";
 } else {
 $raw = $raw. " or course_offering_id = ".$course_id->id;
+$allsection = $allsection. "/$course_id->section_name";
 }
 ?>
 @endforeach

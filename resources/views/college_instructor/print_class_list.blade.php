@@ -45,14 +45,15 @@
 </div>
 <div>
 <div style='margin-top:130px'>
-<?php $number = 1; ?>
-<?php $number = 1; $raw = ""; ?>
+<?php $number = 1; $raw = ""; $allsection=""; ?>
 @foreach ($courses_id as $key => $course_id)
 <?php 
 if ($key == 0){
 $raw = $raw. " course_offering_id = ".$course_id->id;
+$allsection = $allsection. "$course_id->section_name";
 } else {
 $raw = $raw. " or course_offering_id = ".$course_id->id;
+$allsection = $allsection. "/$course_id->section_name";
 }
 ?>
 @endforeach
@@ -61,7 +62,7 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('statuses', 'statuse
 ?>
 @if (count($students)>0)
 
-    Section: {{$course_id->section_name}}
+    Section: {{$allsection}}
     <table class='table' border="1" width="100%" cellspacing='1' cellpadding='1'>
         <thead>
             <tr>

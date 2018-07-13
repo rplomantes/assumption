@@ -45,13 +45,15 @@ $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
 </section>
 @endsection
 @section('maincontent')
-<?php $number = 1; $raw = ""; ?>
+<?php $number = 1; $raw = ""; $allsection=""; ?>
 @foreach ($courses_id as $key => $course_id)
 <?php 
 if ($key == 0){
 $raw = $raw. " course_offering_id = ".$course_id->id;
+$allsection = $allsection. "$course_id->section_name";
 } else {
 $raw = $raw. " or course_offering_id = ".$course_id->id;
+$allsection = $allsection. "/$course_id->section_name";
 }
 ?>
 @endforeach
@@ -68,7 +70,7 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('statuses', 'statuse
     <div class="col-sm-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Section: {{$course_id->section_name}}</h3>
+                <h3 class="box-title">Section: {{$allsection}}</h3>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-condensed">
