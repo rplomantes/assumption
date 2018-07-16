@@ -17,11 +17,14 @@ class ViewScholarship extends Controller
     }
     
     function index($idno){
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
         $scholar = \App\CollegeScholarship::where('idno', $idno)->first();
         return view('scholarship_hed.view_scholarship.view', compact('scholar','idno'));
+        }
     }
     
     function update_now(Request $request){
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
         $scholar = \App\CollegeScholarship::where('idno', $request->idno)->first();
         if($request->discount_code == ""){
             $scholar->discount_code = "";
@@ -43,6 +46,7 @@ class ViewScholarship extends Controller
         $scholar->save();
         $this->updateAdmissionHED($request);
     return redirect(url('/scholarship_college/view_scholar/'.$request->idno));
+        }
     }
     
     function updateAdmissionHED($request){

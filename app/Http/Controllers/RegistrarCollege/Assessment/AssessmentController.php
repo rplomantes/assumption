@@ -430,25 +430,30 @@ class AssessmentController extends Controller {
         $addledger->save();
 
         $status = \App\Status::where('idno', $idno)->first();
+        $addamount = 0;
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
         if (count($due_dates) > 0) {
             foreach ($due_dates as $paln) {
-                $addledger = new \App\ledger;
-                $addledger->idno = $idno;
-                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                $addledger->program_code = $program_code;
-                $addledger->level = $level;
-                $addledger->school_year = $school_year;
-                $addledger->period = $period;
-                $addledger->category = "Tuition Fee";
-                $addledger->subsidiary = "Tuition Fee";
-                $addledger->receipt_details = "Tuition Fee";
-                $addledger->accounting_code = env("AR_TUITION_CODE");
-                $addledger->accounting_name = env("AR_TUITION_NAME");
-                $addledger->category_switch = env("TUITION_FEE");
-                $addledger->amount = 300;
-                $addledger->save();
+                $addamount = $addamount + 300;
+//                $addledger = new \App\ledger;
+//                $addledger->idno = $idno;
+//                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+//                $addledger->program_code = $program_code;
+//                $addledger->level = $level;
+//                $addledger->school_year = $school_year;
+//                $addledger->period = $period;
+//                $addledger->category = "Tuition Fee";
+//                $addledger->subsidiary = "Tuition Fee";
+//                $addledger->receipt_details = "Tuition Fee";
+//                $addledger->accounting_code = env("AR_TUITION_CODE");
+//                $addledger->accounting_name = env("AR_TUITION_NAME");
+//                $addledger->category_switch = env("TUITION_FEE");
+//                $addledger->amount = 300;
+//                $addledger->save();
             }
+            $updateledger = \App\Ledger::where('idno', $idno)->where('level', $level)->where('school_year', $school_year)->where('period', $period)->where('category_switch', env('TUITION_FEE'))->first();
+            $updateledger->amount = $updateledger->amount + $addamount;
+            $updateledger->save();
         }
     }
 
@@ -577,7 +582,7 @@ class AssessmentController extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '6')->get();
+            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));

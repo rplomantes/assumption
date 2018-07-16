@@ -231,6 +231,9 @@ Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\N
 Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
 Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
 
+//ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////
+Route::get('/accounting/breakdown_of_fees/{idno}', 'Accounting\BreakdownOfFees@index');
+
 //ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
 Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');
 Route::post('/accounting/view_schedule_of_fees', 'Accounting\ScheduleOfFees@view');

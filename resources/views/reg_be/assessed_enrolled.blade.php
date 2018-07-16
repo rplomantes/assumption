@@ -5,7 +5,9 @@ $status =  \App\Status::where('idno',$idno)->first();
 if($status->status == env("ENROLLED"))
     $display_status = "ENROLLED";
 $ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch', '<',7)->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
+$ledger_other = \App\Ledger::SelectRaw('category_switch, category,subsidiary ,sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch',7)->where('idno',Auth::user()->idno)->groupBy('category','subsidiary','category_switch')->orderBy('category_switch')->get();
 $due_dates = \App\LedgerDueDate::where('idno',$idno)->get();
 $totalmainpayment=0;
 if(count($ledger)>0){
@@ -161,6 +163,36 @@ if(count($ledger)>0){
                <td align="right">{{number_format($main->discount,2)}}</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+               <tr><td>Total</td>
+               <td align="right">{{number_format($totalamount,2)}}</td>
+               <td align="right">{{number_format($totaldiscount,2)}}</td>
+               <td align="right">{{number_format($totaldm,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
+               <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
+            </table> 
+    </div>
+    <label>Other Payments</label>
+  <div class="form-group">
+    <table class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
+           <?php
+           $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
+           ?>
+           @foreach($ledger_other as $main_other)
+           <?php
+               $totalamount=$totalamount+$main_other->amount;
+               $totaldiscount=$totaldiscount+$main_other->discount;
+               $totaldm=$totaldm+$main_other->debit_memo;
+               $totalpayment=$totalpayment+$main_other->payment;
+               $balance=+$main_other->amount-$main_other->discount-$main_other->debit_memo-$main_other->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main_other->subsidiary}}</td>
+               <td align="right">{{number_format($main_other->amount,2)}}</td>
+               <td align="right">{{number_format($main_other->discount,2)}}</td>
+               <td align="right">{{number_format($main_other->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main_other->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
                <tr><td>Total</td>

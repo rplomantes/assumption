@@ -8,49 +8,61 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 
-class ChangePlan extends Controller
-{
-    
-    public function __construct()
-    {
+class ChangePlan extends Controller {
+
+    public function __construct() {
         $this->middleware('auth');
     }
+
     //
-    function index($idno){
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
-        $student = \App\User::where('idno',$idno)->first();
-        $status = \App\Status::where("idno",$idno)->first();
-        $duedates =\App\LedgerDueDate::where("idno",$idno)->where("school_year",$status->school_year)->get();
-        if($status->level == "Grade 11" || $status->level == "Grade 12"){
-             $duedateplans=  \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type',"SHS")->get();
+    function index($idno) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+            $student = \App\User::where('idno', $idno)->first();
+            $status = \App\Status::where("idno", $idno)->first();
+            $duedates = \App\LedgerDueDate::where("idno", $idno)->where("school_year", $status->school_year)->get();
+            if ($status->academic_type == "College") {
+                $duedateplans = \App\CtrDueDate::selectRaw('distinct plan')->where('academic_type', "College")->get();
+            } else {
+                if ($status->level == "Grade 11" || $status->level == "Grade 12") {
+                    $duedateplans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type', "SHS")->get();
+                } else {
+                    $duedateplans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type', "BED")->get();
+                }
+            }
+            return view('accounting.changeplan', compact('idno', 'student', 'bedlevel', 'duedates', 'status', 'duedateplans'));
         }
-        else {   
-             $duedateplans=  \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type',"BED")->get();
-        }
-        return view('accounting.changeplan',compact('idno','student','bedlevel','duedates','status','duedateplans'));
     }
-    }
-    
-    function post_plan(Request $request){
+
+    function post_plan(Request $request) {
         $validation = $this->validate($request, [
             'plan' => 'required',
         ]);
-        
-        if($validation){
-            DB::beginTransaction();
-            $this->add_change_plan($request);
-            $this->update_plan($request);
-            $this->change_due_date($request);
-            DB::Commit();
-           return redirect(url('/cashier',array('viewledger',$request->idno))); 
+
+        if ($validation) {
+
+            if ($request->academic_type == "College") {
+                DB::beginTransaction();
+                $this->college_add_change_plan($request);
+                $this->college_update_plan($request);
+                $this->college_change_due_date($request);
+                DB::Commit();
+            } else {
+                DB::beginTransaction();
+                $this->add_change_plan($request);
+                $this->update_plan($request);
+                $this->change_due_date($request);
+                DB::Commit();
+            }
+            return redirect(url('/cashier', array('viewledger', $request->idno)));
         }
     }
-    function add_change_plan($request){
-        $originalplan = \App\Status::where('idno',$request->idno)->first()->type_of_plan;
+
+    function add_change_plan($request) {
+        $originalplan = \App\Status::where('idno', $request->idno)->first()->type_of_plan;
         $changeplan = $request->plan;
-        $orginalamount = \App\Ledger::where('idno',$request->idno)->where('category_switch',env("TUITION_FEE"))->first();
-        $tuition = \App\CtrBedFee::where('level',$request->level)->where('category_switch',env("TUITION_FEE"))->first()->amount;
-        $changeamount =$tuition+($tuition*($this->addPercentage($request->plan)/100));     
+        $orginalamount = \App\Ledger::where('idno', $request->idno)->where('category_switch', env("TUITION_FEE"))->first();
+        $tuition = \App\CtrBedFee::where('level', $request->level)->where('category_switch', env("TUITION_FEE"))->first()->amount;
+        $changeamount = $tuition + ($tuition * ($this->addPercentage($request->plan) / 100));
         $addchange = new \App\ChangePlan;
         $addchange->idno = $request->idno;
         $addchange->change_date = Date('Y-m-d');
@@ -60,35 +72,34 @@ class ChangePlan extends Controller
         $addchange->change_amount = $this->roundOff($changeamount);
         $addchange->posted_by = Auth::user()->idno;
         $addchange->save();
-    
-        $orginalamount->amount=$this->roundOff($changeamount);
+
+        $orginalamount->amount = $this->roundOff($changeamount);
         $orginalamount->update();
     }
 
     function roundOff($amount) {
         return round($amount);
     }
-    
-    function update_plan($request){
-        $status = \App\Status::where('idno',$request->idno)->first();
-        $bedlevel = \App\BedLevel::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();
+
+    function update_plan($request) {
+        $status = \App\Status::where('idno', $request->idno)->first();
+        $bedlevel = \App\BedLevel::where('idno', $request->idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
         $status->type_of_plan = $request->plan;
         $status->update();
         $bedlevel->type_of_plan = $request->plan;
         $bedlevel->update();
-        
-    }   
-        
-    function change_due_date($request){
-        $stat = \App\Status::where('idno',$request->idno)->first();
-        $schoolyear=$stat->school_year;
-        $period=$stat->period;
-        
-        $deltedue=\App\LedgerDueDate::where('idno',$request->idno)->where('school_year',$schoolyear)->where('period',$period)->delete();
+    }
+
+    function change_due_date($request) {
+        $stat = \App\Status::where('idno', $request->idno)->first();
+        $schoolyear = $stat->school_year;
+        $period = $stat->period;
+
+        $deltedue = \App\LedgerDueDate::where('idno', $request->idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
         $this->addDueDates($request, $schoolyear, $period);
     }
-    
-     function addPercentage($plan) {
+
+    function addPercentage($plan) {
         switch ($plan) {
             case "Plan A":
                 return 0;
@@ -104,9 +115,9 @@ class ChangePlan extends Controller
                 break;
         }
     }
-    
-    function addDueDates($request,$schoolyear,$period) {
-        
+
+    function addDueDates($request, $schoolyear, $period) {
+
         $total_decimal = 0;
         if ($request->plan == "Annual") {
             $total = \App\Ledger::selectRaw('idno, sum(amount)-sum(discount) as total')->where('idno', $request->idno)
@@ -158,16 +169,153 @@ class ChangePlan extends Controller
                 $plan_amount = floor($dueamount);
                 $addduedate->amount = $plan_amount;
                 $addduedate->save();
-                $total_decimal = $total_decimal + ($dueamount-$plan_amount);
+                $total_decimal = $total_decimal + ($dueamount - $plan_amount);
             }
-             
-             $this->update_due_dates($request, $dueamount, $total_decimal, $dueothers->total);
+
+            $this->update_due_dates($request, $dueamount, $total_decimal, $dueothers->total);
         }
     }
-    function update_due_dates($request,$dueamount, $total_decimal, $dueothers){
-        $update = \App\LedgerDueDate::where('idno',$request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+
+    function update_due_dates($request, $dueamount, $total_decimal, $dueothers) {
+        $update = \App\LedgerDueDate::where('idno', $request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
         $update->amount = $dueothers + $dueamount + $total_decimal;
         $update->save();
     }
     
+    
+
+    function college_add_change_plan($request) {
+        $tuition = 0;
+
+        $stat = \App\Status::where('idno', $request->idno)->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
+        $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $stat->program_code)->where('period', $period)->where('level', $stat->level)->first();
+        $tuitionrate = $tfr->per_unit;
+        
+        $grades = \App\GradeCollege::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->get();
+
+        foreach ($grades as $grade) {
+            $tuition = $tuition + (((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100)));
+        }
+        
+        $originalplan = \App\Status::where('idno', $request->idno)->first()->type_of_plan;
+        $changeplan = $request->plan;
+        $orginalamount = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('category_switch', env('TUITION_FEE'))->first();
+//        $tuition = \App\CtrBedFee::where('level', $request->level)->where('category_switch', env("TUITION_FEE"))->first()->amount;
+        $changeamount = $tuition + ($tuition * ($this->addPercentage($request->plan) / 100));
+        $addchange = new \App\ChangePlan;
+        $addchange->idno = $request->idno;
+        $addchange->change_date = Date('Y-m-d');
+        $addchange->original_plan = $originalplan;
+        $addchange->change_plan = $changeplan;
+        $addchange->original_amount = $orginalamount->amount;
+        $addchange->change_amount = $this->roundOff($changeamount);
+        $addchange->posted_by = Auth::user()->idno;
+        $addchange->save();
+
+        $orginalamount->amount = $this->roundOff($changeamount);
+        $orginalamount->update();
+        
+        $addamount = 0; 
+        $due_dates = \App\CtrDueDate::where('academic_type', "College")->where('plan', $changeplan)->where('level', $stat->level)->get();
+        if (count($due_dates) > 0) {
+            foreach ($due_dates as $paln) {
+                $addamount = $addamount + 300;
+//                $addledger = new \App\ledger;
+//                $addledger->idno = $idno;
+//                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+//                $addledger->program_code = $program_code;
+//                $addledger->level = $level;
+//                $addledger->school_year = $school_year;
+//                $addledger->period = $period;
+//                $addledger->category = "Tuition Fee";
+//                $addledger->subsidiary = "Tuition Fee";
+//                $addledger->receipt_details = "Tuition Fee";
+//                $addledger->accounting_code = env("AR_TUITION_CODE");
+//                $addledger->accounting_name = env("AR_TUITION_NAME");
+//                $addledger->category_switch = env("TUITION_FEE");
+//                $addledger->amount = 300;
+//                $addledger->save();
+            }
+            $updateledger = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('category_switch', env('TUITION_FEE'))->first();
+            $updateledger->amount = $updateledger->amount + $addamount;
+            $updateledger->save();
+        }
+        
+    }
+
+    function college_update_plan($request) {
+        $status = \App\Status::where('idno', $request->idno)->first();
+        $bedlevel = \App\CollegeLevel::where('idno', $request->idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
+        $status->type_of_plan = $request->plan;
+        $status->update();
+        $bedlevel->type_of_plan = $request->plan;
+        $bedlevel->update();
+    }
+
+    function college_change_due_date($request) {
+        $stat = \App\Status::where('idno', $request->idno)->first();
+        $schoolyear = $stat->school_year;
+        $period = $stat->period;
+
+        $deltedue = \App\LedgerDueDate::where('idno', $request->idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
+        $this->computeLedgerDueDates($request->idno, $schoolyear, $period, $stat->type_of_plan);
+    }
+    
+    function computeLedgerDueDates($idno, $school_year, $period, $plan) {
+        $total_decimal = 0;
+        $status = \App\Status::where('idno', $idno)->first();
+        $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
+        $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
+        $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('amount');
+        $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('discount');
+        $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('discount');
+        $totalFees = ($totalTuition + $totalOtherFees) - ($totalTuitionDiscount + $totalOtherFeesDiscount);
+        $downpaymentamount = (($totalTuition - $totalTuitionDiscount) / 2) + ($totalOtherFees - $totalOtherFeesDiscount);
+        if ($plan == 'Plan A') {
+            $addledgerduedates = new \App\LedgerDueDate;
+            $addledgerduedates->idno = $idno;
+            $addledgerduedates->school_year = $school_year;
+            $addledgerduedates->period = $period;
+            $addledgerduedates->due_switch = 0;
+            $addledgerduedates->due_date = date('Y-m-d');
+            $addledgerduedates->amount = $totalFees;
+            $addledgerduedates->save();
+        } else {
+            $addledgerduedates = new \App\LedgerDueDate;
+            $addledgerduedates->idno = $idno;
+            $addledgerduedates->school_year = $school_year;
+            $addledgerduedates->period = $period;
+            $addledgerduedates->due_switch = 0;
+            $addledgerduedates->due_date = date('Y-m-d');
+            $addledgerduedates->amount = $downpaymentamount;
+            $addledgerduedates->save();
+            foreach ($due_dates as $paln) {
+                $addledgerduedates = new \App\LedgerDueDate;
+                $addledgerduedates->idno = $idno;
+                $addledgerduedates->school_year = $school_year;
+                $addledgerduedates->period = $period;
+                $addledgerduedates->due_switch = 1;
+                $addledgerduedates->due_date = $paln->due_date;
+                $plan_amount = floor($this->computeplan($downpaymentamount, $totalFees, $due_dates));
+                $addledgerduedates->amount = $plan_amount;
+                $addledgerduedates->save();
+                $total_decimal = $total_decimal + ($this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount);
+            }
+            $this->college_update_due_dates($idno, $this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount, $total_decimal, $downpaymentamount);
+        }
+    }
+
+    function computeplan($downpaymentamount, $totalFees, $due_dates) {
+        $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
+        return $planpayment;
+    }
+
+    function college_update_due_dates($idno, $dueamount, $total_decimal, $downpaymentamount) {
+        $update = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+        $update->amount = $downpaymentamount + $total_decimal;
+        $update->save();
+    }
+
 }

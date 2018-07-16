@@ -306,7 +306,10 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <div class="form-group">
         <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">OTHER PAYMENT</a>
         </div>
-        @if(($status->academic_type == "BED" || $status->academic_type =="SHS") && $status->status==env("ENROLLED"))
+        <div class="form-group">
+        <a href="{{url('/accounting',array('breakdown_of_fees',$user->idno))}}" class="form form-control btn btn-primary">BREAKDOWN OF FEES</a>
+        </div>
+        @if(($status->academic_type == "BED" || $status->academic_type =="SHS" || $status->academic_type == "College") && $status->status==env("ENROLLED"))
         <div class="form-group">
         <a href="{{url('/accounting',array('change_plan',$user->idno))}}" class="form form-control btn btn-primary">CHANGE PLAN</a>
         </div>

@@ -52,7 +52,7 @@
      <div class="box">
      <div class="col-md-6">   
      <table class="table table-striped">
-     <tr><td>Id Number : </td><td>{{$idno}}</td></tr> 
+     <tr><td>ID Number : </td><td>{{$idno}}</td></tr> 
      <tr><td>Name : </td><td><b>{{$student->lastname}}, {{$student->firstname}} {{$student->middlename}}</b></td></tr>
      <tr><td>Level : </td><td>{{$status->level}}</td></tr>
      <tr><td>Plan : </td><td><span id="plan">{{$status->type_of_plan}}</span></td></tr>
@@ -77,6 +77,7 @@
                  {!!csrf_field()!!}
                  <input type="hidden" name="idno" value ="{{$idno}}">
                  <input type="hidden" name="level" value="{{$status->level}}">
+                 <input type="hidden" name="academic_type" value="{{$status->academic_type}}">
              <div class="form form-group">    
              <select class="form form-control" name="plan">
                  <option value="">Select Plan</option>
