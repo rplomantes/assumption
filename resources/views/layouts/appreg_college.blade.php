@@ -165,8 +165,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </ul>
                         </li>
                                 <?php 
-                                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
-                                $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+                                $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
+                                $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
                                 ?>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-pencil"></i> <span>Grade Management</span>

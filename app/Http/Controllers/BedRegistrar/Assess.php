@@ -872,6 +872,7 @@ class Assess extends Controller {
             $this->changeStatusStrand($request);
             $this->updateLedgerStrand($request);
             $this->change_due_date($request);
+            $this->log("Change strand of ". $request->idno." to ". $request->strand);
             DB::commit();
         }
         return redirect(url('/bedregistrar/assess/'.$request->idno));
@@ -909,6 +910,14 @@ class Assess extends Controller {
         
         $deletedue=\App\LedgerDueDate::where('idno',$request->idno)->where('school_year',$schoolyear)->where('period',$period)->delete();
         $this->addDueDates($request, $schoolyear, $period);
+    }
+    
+    public static function log($action){
+        $log = new \App\Log();
+        $log->action = "$action";
+        $log->idno = Auth::user()->idno;
+        $log->datetime = date("Y-m-d H:i:s");
+        $log->save();
     }
 
 }

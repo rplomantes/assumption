@@ -39,9 +39,9 @@
     }
 
 </style>
-<div>    
+<div>   <?php $sy = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first(); ?> 
     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>CLASS LIST</b></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>CLASS LIST</b><br><b>A.Y. {{$sy->school_year}} - {{$sy->school_year + 1}}, {{$sy->period}}</b></div><br>
 </div>
 <div>
 <div style='margin-top:130px'>
@@ -58,7 +58,9 @@ $allsection = $allsection. "/$course_id->section_name";
 ?>
 @endforeach
 <?php
-$students = \App\GradeCollege::whereRaw('('.$raw.')')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
+$period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
+$students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
 @if (count($students)>0)
 

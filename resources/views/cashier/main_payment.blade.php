@@ -407,6 +407,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
                     alert("Please Fillup Details");
                 }else{
                     computeToBePaid()
+                    $("#main_due").attr('readonly', true);
                     $("#payment_pad").fadeIn();
                     $("#cash_receive").focus();
                 }

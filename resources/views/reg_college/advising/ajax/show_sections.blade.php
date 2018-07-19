@@ -12,7 +12,7 @@
                     <select class='form form-control' name="section">
                         <option>Select Section</option>
                         @foreach ($sections as $section)
-                        <option value='{{$section->id}}'>{{$section->section_name}}</option>
+                        <option value='{{$section->section_name}}'>{{$section->section_name}}</option>
                         @endforeach
                     </select>
                 </div>

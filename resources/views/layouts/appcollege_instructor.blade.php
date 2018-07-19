@@ -110,7 +110,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                                 <?php
-                                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+                                $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first();
                                 $loads = \App\ScheduleCollege::distinct()->where('schedule_colleges.school_year', $school_year->school_year)->where('schedule_colleges.period', $school_year->period)->where('schedule_colleges.instructor_id',Auth::user()->idno)->join('course_offerings', 'course_offerings.schedule_id', '=', 'schedule_colleges.schedule_id')->get(['course_offerings.course_code']);
                                 ?>
                                 @foreach ($loads as $load)
