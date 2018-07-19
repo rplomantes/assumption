@@ -52,7 +52,7 @@ class PrintController extends Controller
                     ->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
         }
          $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to','credits','debits'));
-         $pdf->setPaper('letter','landscape');
+         $pdf->setPaper('legal','landscape');
          return $pdf->stream();
     }
     

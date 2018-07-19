@@ -121,6 +121,11 @@ Route::get('/registrar_college/curriculum_management/remove_faculty_loading/{id}
 Route::get('/ajax/registrar_college/curriculum_management/show_available_loads/','RegistrarCollege\CurriculumManagement\Ajax\facultyloading_ajax@show_available_loads');
 //Edit Schedule
 Route::get('/registrar_college/curriculum_management/edit_schedule', 'RegistrarCollege\CurriculumManagement\ScheduleEditorController@index');
+//Room Schedule Plotting
+Route::get('/registrar_college/curriculum_management/view_room_schedule', 'RegistrarCollege\CurriculumManagement\ViewRoomSchedule@index');
+Route::get('/ajax/registrar_college/curriculum_management/get_rooms', 'RegistrarCollege\CurriculumManagement\Ajax\AjaxViewRoomSchedule@view_rooms');
+Route::get('/ajax/registrar_college/curriculum_management/generateRoom', 'RegistrarCollege\CurriculumManagement\Ajax\AjaxViewRoomSchedule@generateRoom');
+Route::get('/registrar_college/curriculum_management/print_room_schedule/{school_year}/{period}/{room}', 'RegistrarCollege\CurriculumManagement\ViewRoomSchedule@print_room_schedule');
 
 //Registrar College Admission///////////////////////////////////////////////////
 //New Student
@@ -233,6 +238,7 @@ Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
 
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////
 Route::get('/accounting/breakdown_of_fees/{idno}', 'Accounting\BreakdownOfFees@index');
+Route::get('/accounting/unused_reservations', 'Accounting\Reservations@index');
 
 //ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
 Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');
