@@ -87,7 +87,7 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
                         <div class="col-md-4">
                             <div class="form-group" id="section_name-form">
                                 <label>Section Name</label>
-                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name">
+                                <input type='text' id='section_name' name='section_name' class='form-control' placeholder="Section Name" onkeyup="update_section_name(this.value,'{{$program_code}}')">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -208,6 +208,19 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
     });
 </script>
 <script>
+    function update_section_name(section_name, program_code, section, level){
+    array = {};
+    array['level'] = level;
+    array['section'] = section;
+    array['section_name'] = section_name;
+    $.ajax({
+    type: "GET",
+            url: "/ajax/registrar_college/curriculum_management/update_section_name/" + program_code,
+            data: array,
+            success: function (data) {
+            }
+    });
+    }
     function getList(program_code){
     array = {};
     array['curriculum_year'] = $("#curriculum_year").val();

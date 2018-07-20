@@ -33,6 +33,28 @@ class courseoffering_ajax extends Controller {
             return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
     }
+    
+    function update_section_name($program_code) {
+        $curriculum_year = Input::get("curriculum_year");
+        $level = Input::get("level");
+        $period = Input::get("period");
+        $section = Input::get("section");
+        $section_name = Input::get("section_name");
+        if (Request::ajax()) {
+
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+            
+            $coursesoffered = \App\CourseOffering::where('program_code', $program_code)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('level', $level)->where('section', $section)->get();
+            if(count($coursesoffered)>0){
+                foreach ($coursesoffered as $cc){
+                    $cc->section_name = "$section_name";
+                    $cc->save();
+                }
+            }
+            
+            return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
+        }
+    }
 
     function add_to_course_offered($course_code) {
         $curriculum_year = Input::get("curriculum_year");
@@ -183,7 +205,7 @@ class courseoffering_ajax extends Controller {
 
         if(count($section_name)>0){
             $data = "<label>Section Name</label>"
-                    . "<input type='text' id='section_name' name='section_name' class='form-control' value='". $section_name->section_name ."'>";
+                    . "<input type='text' id='section_name' name='section_name' class='form-control' value='". $section_name->section_name ."' onkeyup=\"update_section_name(this.value,'".$program_code."','".$section."','".$year_level."')\">";
         } else {
             $data = "<label>Section Name</label>"
                     . "<input type='text' id='section_name' name='section_name' class='form-control' placeholder=\"Section Name\">";
