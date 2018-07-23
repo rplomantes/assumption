@@ -177,13 +177,13 @@ if(count($ledger)>0){
   <div class="form-group">
     <table class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
-           $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
+           $totalamount=0;$totaldiscount=0;$totaldm_oth=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
            @foreach($ledger_other as $main_other)
            <?php
                $totalamount=$totalamount+$main_other->amount;
                $totaldiscount=$totaldiscount+$main_other->discount;
-               $totaldm=$totaldm+$main_other->debit_memo;
+               $totaldm_oth=$totaldm_oth+$main_other->debit_memo;
                $totalpayment=$totalpayment+$main_other->payment;
                $balance=+$main_other->amount-$main_other->discount-$main_other->debit_memo-$main_other->payment;
                $totalbalance=$totalbalance+$balance;
@@ -198,7 +198,7 @@ if(count($ledger)>0){
                <tr><td>Total</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
-               <td align="right">{{number_format($totaldm,2)}}</td>
+               <td align="right">{{number_format($totaldm_oth,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table> 
@@ -235,7 +235,7 @@ if(count($ledger)>0){
     </div>
     @if($status->status==env("ASSESSED") && $totaldm > 0)
 <div class="col-md-6">
-    <a href="{{url('/bedregistrar',array('reassess_reservations',$idno, $status->levels_reference_id))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}}</a>    
+    <a href="{{url('/bedregistrar',array('reassess_reservations',$idno, $status->levels_reference_id))}}" class="btn btn-success form form-control" onclick="return confirm('Are you Sure To Re-assess {{$user->firstname}} {{$user->lastname}} ? ')">Re-assess {{$user->idno}} - {{$user->lastname}}, {{$user->firstname}} with reservations</a>    
 </div>
     <div class="col-md-3">
     <a href="{{url('/bedregistrar',array('print_assessment',$idno))}}" class="btn btn-success form form-control">Print Assessment Form</a>

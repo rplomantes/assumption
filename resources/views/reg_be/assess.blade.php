@@ -45,7 +45,7 @@ case "Grade 11":
 }
 
 $plans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type',$user->academic_type)->get();
-$discounts = \App\CtrDiscount::where('is_display', 1)->get();
+$discounts = \App\CtrDiscount::where('is_display', 1)->where('academic_type','!=','College')->get();
 $optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','Books')->where('amount','>','0')->get();
 $optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Materials')->get();
 $optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Other Materials')->get();

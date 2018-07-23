@@ -178,7 +178,45 @@ if(Auth::user()->accesslevel==env("CASHIER")){
         
          </tfoot>    
      </table> 
-     </div>    
+         
+         @if(count($credits)>0)
+        <?php $totalcredit = 0;
+        $totaldebit = 0; ?>
+         <div class="col-sm-6">
+        <span>
+            <br>Summary of Transactions
+        </span>
+        <table cellspacing="0" cellpadding="2" width="50%" class="table table-responsive">
+            <tr>
+                <td>Particular</td>
+                <td>Debit</td>
+                <td>Credit</td>
+            </tr>
+            @foreach($debits as $debit)
+            <?php $totaldebit = $totaldebit + $debit->debit; ?>
+            <tr>
+                <td>{{$debit->receipt_details}}</td>
+                <td align="right">{{number_format($debit->debit,2)}}</td>
+                <td></td>
+            </tr>
+            @endforeach
+            @foreach($credits as $credit)
+            <?php $totalcredit = $totalcredit + $credit->credit; ?>
+            <tr>
+                <td>{{$credit->receipt_details}}</td>
+                <td></td>
+                <td align="right">{{number_format($credit->credit,2)}}</td>
+            </tr>
+            @endforeach
+            <tr>
+                <td>Total</td>
+                <td align="right">{{number_format($totaldebit,2)}}</td>
+                <td align="right">{{number_format($totalcredit,2)}}</td>
+            </tr>
+        </table>    
+        @endif
+     </div>
+     </div>
      </div> 
      <div class="col-md-3 pull-left">
          <a href="{{url('/cashier',array('print_collection_report',$date_from,$date_to))}}" class="btn btn-primary" target="_blank">Print</a>

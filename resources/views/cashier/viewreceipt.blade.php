@@ -144,8 +144,9 @@ if(Auth::user()->accesslevel==env("CASHIER")){
             </a>
             @endif
             
+            @if($payment->idno != 999999)
             <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$payment->idno))}}">Back To Ledger</a>
-           
+            @endif
             </div>
             
             </div> 

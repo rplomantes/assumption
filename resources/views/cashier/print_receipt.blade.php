@@ -16,7 +16,7 @@
     <table width='298' border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td width="10">ID No:</td>
-            <td>&nbsp;{{$payment->idno}}</td>
+            <td>&nbsp;@if($payment->idno==999999)@else{{$payment->idno}}@endif</td>
             <td align='right'>Date:</td>
             <td align="right">{{date('M d, Y',strtotime($payment->transaction_date))}}</td>
         </tr>
