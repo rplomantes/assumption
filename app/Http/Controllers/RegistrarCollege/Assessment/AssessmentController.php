@@ -425,7 +425,7 @@ class AssessmentController extends Controller {
         $addledger->accounting_name = env("AR_TUITION_NAME");
         $addledger->category_switch = env("TUITION_FEE");
         $addledger->amount = $this->roundOff($tuitionfee);
-        $addledger->discount = $tobediscount;
+        $addledger->discount = $this->roundOff($tobediscount);
         $addledger->discount_code = $discount_code;
         $addledger->save();
 
@@ -479,23 +479,32 @@ class AssessmentController extends Controller {
             }
         }
     }
+    
+    function get_percentage_now($plan){
+        if ($plan == "Cash") {
+            $interest = 1;
+        } else if ($plan == "Plan B") {
+            $interest = .5;
+        } else if ($plan == "Plan C") {
+            $interest = .35;
+        } else if ($plan == "Plan D") {
+            $interest = .2;
+        }
+        return $interest;
+    }
 
     function computeLedgerDueDate($idno, $school_year, $period, $plan) {
         $total_decimal = 0;
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
-        $percentage = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->first();
-        if(count($percentage) == 0){
-            $percentage_now = 1;
-        }else{
-            $percentage_now = $percentage->percentage;
-        }
+        $percentage_now = $this->get_percentage_now($plan);
+        
         $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
         $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('amount');
         $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('discount');
         $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('discount');
         $totalFees = ($totalTuition + $totalOtherFees) - ($totalTuitionDiscount + $totalOtherFeesDiscount);
-        $downpaymentamount = (($totalTuition - $totalTuitionDiscount) / 2) + ($totalOtherFees - $totalOtherFeesDiscount);
+        $downpaymentamount = (($totalTuition - $totalTuitionDiscount) * $percentage_now) + ($totalOtherFees - $totalOtherFeesDiscount);
         if ($plan == 'Cash') {
             $addledgerduedates = new \App\LedgerDueDate;
             $addledgerduedates->idno = $idno;
@@ -515,22 +524,25 @@ class AssessmentController extends Controller {
             $addledgerduedates->amount = $downpaymentamount;
             $addledgerduedates->save();
             foreach ($due_dates as $paln) {
+                $totalFees_percentage = (($totalTuition*($paln->percentage/100)) + $totalOtherFees) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount);
+                $tf_percentage = (($totalTuition*($paln->percentage/100)) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount));
+
                 $addledgerduedates = new \App\LedgerDueDate;
                 $addledgerduedates->idno = $idno;
                 $addledgerduedates->school_year = $school_year;
                 $addledgerduedates->period = $period;
                 $addledgerduedates->due_switch = 1;
                 $addledgerduedates->due_date = $paln->due_date;
-                $plan_amount = floor($this->computeplan($downpaymentamount, $totalFees, $due_dates));
+                $plan_amount = floor($this->computeplan($downpaymentamount, $totalFees_percentage, $due_dates, $tf_percentage));
                 $addledgerduedates->amount = $plan_amount;
                 $addledgerduedates->save();
-                $total_decimal = $total_decimal + ($this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount);
+                $total_decimal = $total_decimal + ($this->computeplan($downpaymentamount, $totalFees_percentage, $due_dates, $tf_percentage) - $plan_amount);
             }
-            $this->update_due_dates($idno, $this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount, $total_decimal, $downpaymentamount);
+            $this->update_due_dates($idno, $total_decimal, $downpaymentamount);
         }
     }
 
-    function update_due_dates($idno, $dueamount, $total_decimal, $downpaymentamount) {
+    function update_due_dates($idno, $total_decimal, $downpaymentamount) {
         $update = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
         $update->amount = $downpaymentamount + $total_decimal;
         $update->save();
@@ -542,13 +554,6 @@ class AssessmentController extends Controller {
     }
 
     function getInterest($plan) {
-//        if ($plan == "Cash") {
-//            $interest = 1;
-//        } else if ($plan == "Quarterly") {
-//            $interest = 1.02;
-//        } else if ($plan == "Monthly") {
-//            $interest = 1.03;
-//        }
 
         if ($plan == "Cash") {
             $interest = 1;
@@ -562,8 +567,9 @@ class AssessmentController extends Controller {
         return $interest;
     }
 
-    function computeplan($downpaymentamount, $totalFees, $due_dates) {
-        $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
+    function computeplan($downpaymentamount, $totalFees, $due_dates, $tf) {
+        $planpayment = $tf;
+//        $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
         return $planpayment;
     }
 

@@ -265,16 +265,31 @@ class ChangePlan extends Controller {
         $this->computeLedgerDueDates($request->idno, $schoolyear, $period, $stat->type_of_plan);
     }
     
+    function get_percentage_now($plan){
+        if ($plan == "Plan A") {
+            $interest = 1;
+        } else if ($plan == "Plan B") {
+            $interest = .5;
+        } else if ($plan == "Plan C") {
+            $interest = .35;
+        } else if ($plan == "Plan D") {
+            $interest = .2;
+        }
+        return $interest;
+    }
+    
     function computeLedgerDueDates($idno, $school_year, $period, $plan) {
         $total_decimal = 0;
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
+        $percentage_now = $this->get_percentage_now($plan);
+        
         $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
         $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('amount');
         $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('discount');
         $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('discount');
         $totalFees = ($totalTuition + $totalOtherFees) - ($totalTuitionDiscount + $totalOtherFeesDiscount);
-        $downpaymentamount = (($totalTuition - $totalTuitionDiscount) / 2) + ($totalOtherFees - $totalOtherFeesDiscount);
+        $downpaymentamount = (($totalTuition - $totalTuitionDiscount) * $percentage_now) + ($totalOtherFees - $totalOtherFeesDiscount);
         if ($plan == 'Plan A') {
             $addledgerduedates = new \App\LedgerDueDate;
             $addledgerduedates->idno = $idno;
@@ -294,27 +309,31 @@ class ChangePlan extends Controller {
             $addledgerduedates->amount = $downpaymentamount;
             $addledgerduedates->save();
             foreach ($due_dates as $paln) {
+                $totalFees_percentage = (($totalTuition*($paln->percentage/100)) + $totalOtherFees) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount);
+                $tf_percentage = (($totalTuition*($paln->percentage/100)) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount));
+
                 $addledgerduedates = new \App\LedgerDueDate;
                 $addledgerduedates->idno = $idno;
                 $addledgerduedates->school_year = $school_year;
                 $addledgerduedates->period = $period;
                 $addledgerduedates->due_switch = 1;
                 $addledgerduedates->due_date = $paln->due_date;
-                $plan_amount = floor($this->computeplan($downpaymentamount, $totalFees, $due_dates));
+                $plan_amount = floor($this->computeplan($downpaymentamount, $totalFees_percentage, $due_dates, $tf_percentage));
                 $addledgerduedates->amount = $plan_amount;
                 $addledgerduedates->save();
-                $total_decimal = $total_decimal + ($this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount);
+                $total_decimal = $total_decimal + ($this->computeplan($downpaymentamount, $totalFees_percentage, $due_dates, $tf_percentage) - $plan_amount);
             }
-            $this->college_update_due_dates($idno, $this->computeplan($downpaymentamount, $totalFees, $due_dates) - $plan_amount, $total_decimal, $downpaymentamount);
+            $this->college_update_due_dates($idno, $total_decimal, $downpaymentamount);
         }
     }
 
-    function computeplan($downpaymentamount, $totalFees, $due_dates) {
-        $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
+    function computeplan($downpaymentamount, $totalFees, $due_dates, $tf) {
+        $planpayment = $tf;
+//        $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);
         return $planpayment;
     }
 
-    function college_update_due_dates($idno, $dueamount, $total_decimal, $downpaymentamount) {
+    function college_update_due_dates($idno, $total_decimal, $downpaymentamount) {
         $update = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
         $update->amount = $downpaymentamount + $total_decimal;
         $update->save();
