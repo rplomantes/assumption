@@ -19,6 +19,7 @@ class CreateCtrDueDatesTable extends Migration
             $table->string('level')->nullable();
             $table->string('plan');
             $table->date('due_date');
+            $table->string('percentage')->nullable();
             $table->timestamps();
         });
     }

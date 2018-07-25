@@ -303,7 +303,7 @@ foreach ($discounts as $discount) {
         </tr>
         <tr>
             <td>{{ date ('D, M d, Y', strtotime($downpayment->due_date))}}</td>
-            <td>Downpayment</td>
+            <td>Upon Enrollment</td>
             <td class='bottomline-right'>{{number_format($downpayment->amount - $totaldm,2)}}</td>
         </tr>
         @foreach ($ledger_due_dates as $ledger_due_date)

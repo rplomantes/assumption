@@ -3,7 +3,7 @@
     <table class="table table-striped table-condensed">
         <tr><th>ID Number</th><th>Name</th><th>Access Level</th><th>View Information</th></tr>
         @foreach($lists as $list)
-        @if($list->accesslevel > '1')
+        @if($list->accesslevel > '0')
         <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
             <td>
                 @switch ($list->accesslevel)
