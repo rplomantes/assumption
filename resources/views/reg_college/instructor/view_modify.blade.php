@@ -60,7 +60,13 @@
                                 <label>ID Number</label>
                                 <input class="form form-control" readonly="" name="idno" placeholder="ID Number*" value="{{$user_info->idno}}" type="text">
                             </div>
-                        </div>
+                        <div class="col-sm-3 pull-right">
+                            <label><br><br></label>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">
+                            Reset Password
+                            </button>
+                        </div>                            
+                    </div>
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Name</label>
@@ -216,7 +222,32 @@
                         <input type='submit' class='col-sm-12 btn btn-primary' value='SAVE'>
                         </div>
                     </div>
-        </form>
+        </form>        
+         <div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Enter New Password : </h4>
+              </div>
+                <form method="post" action="{{url('/registrar_college/instructor/resetpassword')}}">
+                     {{csrf_field()}} 
+                     <input type="hidden" name="idno" value="{{$user_info->idno}}">
+              <div class="modal-body">
+                  <input type="text" name="password" class="form form-control">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Reset Password">
+              </div>
+                </form>     
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->        
     </div>
 </section>
 @endsection

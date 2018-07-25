@@ -173,4 +173,16 @@ class ViewInstructorsController extends Controller {
         $add_info->save();        
     }
 
+    function reset_password(Request $request){
+        if(Auth::user()->accesslevel == env('REG_COLLEGE')){
+            
+            $user_info = \App\User::where('idno', $request->idno)->first();
+            $user_info->password = bcrypt($request->password);
+            $user_info->is_first_login = 1;
+            $user_info->update();  
+            
+            return redirect(url('/registrar_college/instructor/modify_instructor', array($request->idno)));
+        }
+    }
+    
 }
