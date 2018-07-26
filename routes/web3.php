@@ -50,7 +50,7 @@ Route::post('/registrar_college/curriculum_management/print_get_general', 'Regis
 Route::post('/registrar_college/instructor/resetpassword','RegistrarCollege\Instructor\ViewInstructorsController@reset_password');
 
 //chagne idno script
-Route::get('/admin/changeid','Admin\ViewInformation\viewInfoController@changeIDNO');
+//Route::get('/admin/changeid','Admin\ViewInformation\viewInfoController@changeIDNO');
 ?>
 
 

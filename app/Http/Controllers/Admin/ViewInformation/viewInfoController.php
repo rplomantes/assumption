@@ -57,47 +57,47 @@ class viewInfoController extends Controller {
             return redirect(url('/admin', array('view_information', $request->idno)));
         }
     }
-
-    function changeIDNO() {
-        $ids = \App\ChangeIdno::where('change_idno', '!=', NULL)->get();
-
-        foreach ($ids as $id) {
-            
-        DB::beginTransaction();
-            if ($id->is_change == 0) {
-                $user = \App\User::where('idno', $id->change_idno)->first();
-                if(count($user)>0){
-          
-                $no = $this->getIdno($id->change_idno);
-                $user->idno = $no;
-                $user->save();
-
-                $id->change_idno = $no;
-                $id->is_change = 1;
-                $id->save();
-                }
-            } else {
-                
-            }    
-            
-        DB::Commit();    
-        }
-        return "HELLO";
-        return "Error";
-    }
-
-    function getIdno($idno) {
-        $id_no = \App\CtrStudentNumber::where('academic_type', 'BED')->first();
-        $idNumber = $id_no->idno;
-        $id_no->idno = $id_no->idno + 1;
-        $id_no->update();
-        for ($i = strlen($idNumber); $i <= 2; $i++) {
-            $idNumber = "0" . $idNumber;
-        }
-        $pre = 2018;
-        $pre_number = $pre;
-        $pre_number2 = $pre + 1;
-        return substr($pre_number, 2, 2) . substr($pre_number2, 2, 2) . $idNumber;
-    }
+//
+//    function changeIDNO() {
+//        $ids = \App\ChangeIdno::where('change_idno', '!=', NULL)->get();
+//
+//        foreach ($ids as $id) {
+//            
+//        DB::beginTransaction();
+//            if ($id->is_change == 0) {
+//                $user = \App\User::where('idno', $id->change_idno)->first();
+//                if(count($user)>0){
+//          
+//                $no = $this->getIdno($id->change_idno);
+//                $user->idno = $no;
+//                $user->save();
+//
+//                $id->change_idno = $no;
+//                $id->is_change = 1;
+//                $id->save();
+//                }
+//            } else {
+//                
+//            }    
+//            
+//        DB::Commit();    
+//        }
+//        return "HELLO";
+//        return "Error";
+//    }
+//
+//    function getIdno($idno) {
+//        $id_no = \App\CtrStudentNumber::where('academic_type', 'BED')->first();
+//        $idNumber = $id_no->idno;
+//        $id_no->idno = $id_no->idno + 1;
+//        $id_no->update();
+//        for ($i = strlen($idNumber); $i <= 2; $i++) {
+//            $idNumber = "0" . $idNumber;
+//        }
+//        $pre = 2018;
+//        $pre_number = $pre;
+//        $pre_number2 = $pre + 1;
+//        return substr($pre_number, 2, 2) . substr($pre_number2, 2, 2) . $idNumber;
+//    }
 
 }
