@@ -20,6 +20,16 @@ class Updater extends Controller
         }
         return "Done";
     }
+    
+    function updateCollege(){
+        $users =  \App\User::where('accesslevel',0)->where('academic_type','College')->get();
+        foreach($users as $user){
+            $update = \App\User::find($user->id);
+            $update->password = bcrypt($user->idno);
+            $update->update();
+        }
+        return "Done";
+    }
       /*  
         $data = DB::Select("Select * from partial_student_discount");
         $notmuch="";

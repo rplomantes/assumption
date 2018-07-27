@@ -88,6 +88,7 @@ Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_
 Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
 //update
 //Route::get('updatebedlevel','Updater@updateBedLevel');
+//Route::get('updateCollege','Updater@updateCollege');
 
 //bookstore ajax
 
