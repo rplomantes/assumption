@@ -118,7 +118,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         </table> 
         </div>
     <div class="col-md-12">
-        @if($status->academic_type == 'College')
+        @if($status->academic_type == 'College' && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
         <div class="accordion">
     <div class="accordion-section">
         <a class="accordion-section-title active" href="#accordion-0">Courses Enrolled</a>
@@ -197,7 +197,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                <td align="right"><span class="payment">{{number_format($main_misc->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach    
-           @if($status->academic_type == "College")
+           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_switch', 1)->get();
 ?>
@@ -232,7 +232,7 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($main_other->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if($status->academic_type == "College")
+           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_switch', 2)->get();
 ?>
@@ -268,7 +268,7 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <td align="right"><span class="payment">{{number_format($main_depo->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if($status->academic_type == "College")
+           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_switch', 3)->get();
 ?>
@@ -304,7 +304,7 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if($status->academic_type == "College")
+           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', env('SRF_FEE'))->get();
 ?>
