@@ -20,6 +20,7 @@
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
+            @elseif($status->status == 1) Advised
             @else Not Yet Enrolled @endif
         </td>
         <td><a href="{{url('registrar_college', array('view_info', $list->idno))}}">View Info</a></td>

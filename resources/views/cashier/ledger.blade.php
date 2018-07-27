@@ -60,7 +60,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     </div> 
     <div class="clearfix"></div>
     <div class="col-md-8">
-        <div class="col-md-6"> 
+        <div class="col-md-8"> 
              <table class="table table-responsive">
             <tr><td>Student Number : </td><td align="left">{{$user->idno}}</td></tr>
             <tr><td>Student Name : </td><td align="left"><b>{{$user->lastname}}, {{$user->firstname}}</b></td></tr>   
@@ -116,19 +116,179 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             @endif
             @endif
         </table> 
-        </div>  
-    <div class="col-md-12">    
+        </div>
+    <div class="col-md-12">
+        @if($status->academic_type == 'College')
+        <div class="accordion">
+    <div class="accordion-section">
+        <a class="accordion-section-title active" href="#accordion-0">Courses Enrolled</a>
+         
+        <div id="accordion-0" class="accordion-section-content open">
+                @if($status->status > 1)
+            <table class="table table-bordered table-condensed">
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Units</th>
+                </tr>
+                <?php $units=0; $grades = \App\GradeCollege::where('idno', $user->idno)->where('school_year', $status->school_year)->where('period', $status->period)->get(); ?>
+                @foreach ($grades as $grade)
+                <tr>
+                    <td width='25%'>{{$grade->course_code}}</td>
+                    <td>{{$grade->course_name}}</td>
+                    <td>{{$grade->lec + $grade->lab}}<?php $units = $grade->lec + $grade->lab + $units; ?></td>
+                </tr>
+                @endforeach
+                <tr>
+                    <th colspan='2'>Total Units</th>
+                    <th>{{$units}}</th>
+                </tr>
+            </table>
+                @else <h5>No Courses Enrolled/Advised</h5>
+                @endif
+        </div>
+    </div>
+        </div>
+        @endif
     <div class="accordion">
     <div class="accordion-section">
         <a class="accordion-section-title active" href="#accordion-1">Main Fees</a>
          
         <div id="accordion-1" class="accordion-section-content open">
             @if(count($ledger_main)>0)
-            <table class="table table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
-           @foreach($ledger_main as $main)
+           @foreach($ledger_main_tuition as $main_tuition)
+           <?php
+               $totalamount=$totalamount+$main_tuition->amount;
+               $totaldiscount=$totaldiscount+$main_tuition->discount;
+               $totaldm=$totaldm+$main_tuition->debit_memo;
+               $totalpayment=$totalpayment+$main_tuition->payment;
+               $balance=+$main_tuition->amount-$main_tuition->discount-$main_tuition->debit_memo-$main_tuition->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main_tuition->category}}</td>
+               <td align="right">{{number_format($main_tuition->amount,2)}}</td>
+               <td align="right">{{number_format($main_tuition->discount,2)}}</td>
+               <td align="right">{{number_format($main_tuition->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main_tuition->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           
+           
+           
+           
+           
+           @foreach($ledger_main_misc as $main_misc)
+           <?php
+               $totalamount=$totalamount+$main_misc->amount;
+               $totaldiscount=$totaldiscount+$main_misc->discount;
+               $totaldm=$totaldm+$main_misc->debit_memo;
+               $totalpayment=$totalpayment+$main_misc->payment;
+               $balance=+$main_misc->amount-$main_misc->discount-$main_misc->debit_memo-$main_misc->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main_misc->category}}</td>
+               <td align="right">{{number_format($main_misc->amount,2)}}</td>
+               <td align="right">{{number_format($main_misc->discount,2)}}</td>
+               <td align="right">{{number_format($main_misc->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main_misc->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach    
+           @if($status->academic_type == "College")
+<?php
+$ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_switch', 1)->get();
+?>
+           @foreach($ledger_list_misc as $list_misc)
+               <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_misc->subsidiary}}</td>
+               <td align="right">{{number_format($list_misc->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list_misc->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+           @endforeach  
+           @endif
+           
+           
+           
+           
+           
+           
+           @foreach($ledger_main_other as $main_other)
+           <?php
+               $totalamount=$totalamount+$main_other->amount;
+               $totaldiscount=$totaldiscount+$main_other->discount;
+               $totaldm=$totaldm+$main_other->debit_memo;
+               $totalpayment=$totalpayment+$main_other->payment;
+               $balance=+$main_other->amount-$main_other->discount-$main_other->debit_memo-$main_other->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main_other->category}}</td>
+               <td align="right">{{number_format($main_other->amount,2)}}</td>
+               <td align="right">{{number_format($main_other->discount,2)}}</td>
+               <td align="right">{{number_format($main_other->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main_other->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           @if($status->academic_type == "College")
+<?php
+$ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_switch', 2)->get();
+?>
+           @foreach($ledger_list_other as $list_other)
+               <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_other->subsidiary}}</td>
+               <td align="right">{{number_format($list_other->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list_other->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+           @endforeach
+           @endif
+           
+           
+           
+           
+           
+           
+           
+           @foreach($ledger_main_depo as $main_depo)
+           <?php
+               $totalamount=$totalamount+$main_depo->amount;
+               $totaldiscount=$totaldiscount+$main_depo->discount;
+               $totaldm=$totaldm+$main_depo->debit_memo;
+               $totalpayment=$totalpayment+$main_depo->payment;
+               $balance=+$main_depo->amount-$main_depo->discount-$main_depo->debit_memo-$main_depo->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$main_depo->category}}</td>
+               <td align="right">{{number_format($main_depo->amount,2)}}</td>
+               <td align="right">{{number_format($main_depo->discount,2)}}</td>
+               <td align="right">{{number_format($main_depo->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($main_depo->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           @if($status->academic_type == "College")
+<?php
+$ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_switch', 3)->get();
+?>
+           @foreach($ledger_list_depo as $list_depo)
+               <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_depo->subsidiary}}</td>
+               <td align="right">{{number_format($list_depo->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list_depo->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+           @endforeach
+           @endif
+           
+           
+           
+           
+           
+           
+       
+           @foreach($ledger as $main)
            <?php
                $totalamount=$totalamount+$main->amount;
                $totaldiscount=$totaldiscount+$main->discount;
@@ -144,6 +304,22 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
+           @if($status->academic_type == "College")
+<?php
+$ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', env('SRF_FEE'))->get();
+?>
+           @foreach($ledger_list as $list)
+               <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list->subsidiary}}</td>
+               <td align="right">{{number_format($list->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+           @endforeach
+           
+           @endif
+           
+           
                <tr><td>Total</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
@@ -162,7 +338,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
          
         <div id="accordion-2" class="accordion-section-content open">
             @if(count($ledger_others)>0)
-            <table class="table table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
@@ -200,7 +376,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <a class="accordion-section-title active" href="#accordion-4">Previous Balance</a>
     <div id="accordion-4" class="accordion-section-content">
             @if(count($previous)>0)
-            <table class="table table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
@@ -239,7 +415,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
          <a class="accordion-section-title" href="javascript:void(0)">Payment History</a>
          <div class="history">
          @if(count($payments)>0)
-         <table class="table table-responsive"><tr><td>Date</td><td>Receipt No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View Receipt</td></tr>
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>Receipt No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View Receipt</td></tr>
           @foreach($payments as $payment)
           <tr><td>{{$payment->transaction_date}}</td>
               <td>{{$payment->receipt_no}}</td>
@@ -260,7 +436,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
          <div class="history">
          @if(count($debit_memos)>0)
         
-         <table class="table table-responsive"><tr><td>Date</td><td>DM No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View DM</td></tr>
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>DM No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View DM</td></tr>
           @foreach($debit_memos as $payment)
           <tr><td>{{$payment->transaction_date}}</td>
               <td>{{$payment->dm_no}}</td>
@@ -277,7 +453,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
          @endif
      </div>  
     </div>  
-    </div>    
+    </div>
     <div class="col-md-4">
         <div class="form-group">
         <label>Total Due Today:</label>
@@ -422,6 +598,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
     }
     
+    $('#accordion-0').slideDown(300).addClass('open');
     $('#accordion-1').slideDown(300).addClass('open');
     $('#accordion-2').slideDown(300).addClass('open'); 
     $('#accordion-4').slideDown(300).addClass('open'); 
