@@ -67,7 +67,7 @@
                     <input type='hidden' name='idno[{{$user->idno}}]' value='{{$user->idno}}'>
                     <tr>
                         <td>{{$user->idno}}</td>
-                        <td>{{$user->lastname}}, {{$user->firstname}}</td>
+                        <td>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</td>
                         <td><input class="form form-control" size="2" id='start_or' type=text value="{{$start_or_number}}" name="start_or_number[{{$user->idno}}]"></td>
                         <td><input class="form form-control" size="2" id='or' type=text value="{{$or_number}}" disabled=""></td>
                         <td><input class="form form-control" size="2" id='end_or' type=text value="{{$end_or_number}}" name="end_or_number[{{$user->idno}}]"></td>

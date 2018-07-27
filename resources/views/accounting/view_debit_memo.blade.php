@@ -60,7 +60,7 @@
    <div class="col-md-12 orheader">DEBIT MEMO</div>
         <div class="col-md-12">
         <table class="table">
-        <tr><th>Name:</th><td><b> {{$user->lastname}}, {{$user->firstname}}</b></td><td align="right">{{date('M d, Y',strtotime($debit_memo->transaction_date))}}</td><tr>
+        <tr><th>Name:</th><td><b> {{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></td><td align="right">{{date('M d, Y',strtotime($debit_memo->transaction_date))}}</td><tr>
         @if(count($status)>0)
         @if($status->status==3)
             @if($status->department=="College")

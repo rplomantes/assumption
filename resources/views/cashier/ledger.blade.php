@@ -63,7 +63,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <div class="col-md-8"> 
              <table class="table table-responsive">
             <tr><td>Student Number : </td><td align="left">{{$user->idno}}</td></tr>
-            <tr><td>Student Name : </td><td align="left"><b>{{$user->lastname}}, {{$user->firstname}}</b></td></tr>   
+            <tr><td>Student Name : </td><td align="left"><b>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></td></tr>   
             @if(count($status)>0)
             
             <?php

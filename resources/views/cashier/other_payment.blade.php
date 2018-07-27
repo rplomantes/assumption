@@ -44,7 +44,7 @@
         <div class="col-md-6">
             <table class="table table-responsive"><tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>
                     <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
-                    <tr><td>Student Name : </td><td>{{$user->lastname}}, {{$user->firstname}}</td></tr>
+                    <tr><td>Student Name : </td><td>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</td></tr>
                     </table>
         </div>>   
         <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>

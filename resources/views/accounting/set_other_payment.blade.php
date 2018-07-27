@@ -58,7 +58,7 @@
              <input type="text" name="particular" id="particular" class="form form-control">
          </div>
          <div class="form form-group">
-             <label>Accounting Emtry</label>
+             <label>Accounting Entry</label>
              <select name="accounting_code" id="accounting_code" class="form form-control select2">
                  @if(count($chart_of_accounts)>0)
                     @foreach($chart_of_accounts as $chart_of_account)

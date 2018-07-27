@@ -55,7 +55,7 @@
            
         <table class="table table responsive">
         <tr><th>ID No. </th><td><span id="idno">{{$user->idno}}</span></td></tr>
-        <tr><th>Name </th><td><span id="sname">{{$user->lastname}}, {{$user->firstname}}</span></b></td></tr>
+        <tr><th>Name </th><td><span id="sname">{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</span></b></td></tr>
         @if(count($status)>0)
         @if($status->academic_type=="College")
         <tr><th>Course</th><td>{{$status->program_code}}</td></tr>

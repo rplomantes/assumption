@@ -198,7 +198,7 @@ $totalcanceled = 0;
             </tr>
         </table>    
         @endif
-        <br><br><br>Prepared by: <br><br><b>{{Auth::user()->firstname}} {{Auth::user()->lastname}}</b>
+        <br><br><br>Prepared by: <br><br><b>{{Auth::user()->firstname}} {{Auth::user()->lastname}} {{Auth::user()->middlename}}</b>
         <br><br><br><br>Checked by: <br><br><b></b>
     </body>
 </html>

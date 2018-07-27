@@ -100,7 +100,7 @@
         @endif
         <table boeder="0">
             <tr><td>Prepared By:</td></tr>
-            <tr><td align="right">{{Auth::user()->firstname}} {{Auth::user()->lastname}}</td></tr>
+            <tr><td align="right">{{Auth::user()->firstname}} {{Auth::user()->lastname}} {{Auth::user()->middlename}}</td></tr>
         </table>    
     </body>
 </html>    
