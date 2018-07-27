@@ -1,5 +1,5 @@
 <?php
-$current_level = \App\Promotion::where('idno', $user->idno)->first();
+$current_level = \App\Status::where('idno', $user->idno)->first();
 $levels = \App\CtrAcademicProgram::selectRaw("distinct level")->where('academic_type', "BED")->orderBy('level')->get();
 $strands = \App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code', 'SHS')->get();
 
