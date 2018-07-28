@@ -46,15 +46,16 @@ Route::post('/registrar_college/advising/save_set_up', 'RegistrarCollege\Advisin
 Route::get('/registrar_college/advising/advising_statistics', 'RegistrarCollege\Advising\AdvisingStatistics@index');
 Route::get('/registrar_college/advising/sectioning/{course_code}', 'RegistrarCollege\Advising\AdvisingStatistics@sectioning');
 //Ajax Advising Statistics
+Route::get('/ajax/registrar_college/advising/getstudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getstudentlist');
 Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
 Route::get('/ajax/registrar_college/advising/addtosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@addtosection');
-Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getsection');
+Route::get('/ajax/registrar_college/advising/getsection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getsection');
 Route::get('/ajax/registrar_college/advising/getschedulestudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getschedulestudentlist');
 Route::get('/ajax/registrar_college/advising/removetosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@removetosection');
 //Assigning of Schedules
 Route::get('/registrar_college/advising/assigning_of_schedules/{idno}', 'RegistrarCollege\Advising\AssigningOfSchedules@index');
 Route::post('/registrar_college/advising/assign_schedule', 'RegistrarCollege\Advising\AssigningOfSchedules@assign_schedule');
-//Ajax Assigning of Schedule
+//Ajax Assigning of Schedule individually
 Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Advising\Ajax\AssignSchedule_ajax@get_section');
 
 //Adding/Dropping///////////////////////////////////////////////////////////////

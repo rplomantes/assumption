@@ -1,9 +1,4 @@
-<?php $course_name = \App\GradeCollege::distinct()->where('course_code', $course_code)->first(['course_name'])->course_name; ?>
-<?php $student_count = \App\GradeCollege::where('course_code', $course_code)->where('school_year', $advising_school_year->school_year)->where('period', $advising_school_year->period)->where('is_advising', 1)->get(); ?>
-<?php $lec = \App\GradeCollege::distinct()->where('course_code', $course_code)->first(['lec'])->lec; ?>
-<?php $lab = \App\GradeCollege::distinct()->where('course_code', $course_code)->first(['lab'])->lab; ?>
-<?php $details = \App\GradeCollege::where('course_code', $course_code)->where('school_year', $advising_school_year->school_year)->where('period', $advising_school_year->period)->where('is_advising', 1)->get(); ?>
-<?php $student_lists = \App\GradeCollege::where('course_code', $course_code)->where('school_year', $advising_school_year->school_year)->where('period', $advising_school_year->period)->where('is_advising', 1)->get(); ?>
+<?php $student_lists = \App\GradeCollege::where('course_code', $course_code)->where('school_year', $advising_school_year->school_year)->where('period', $advising_school_year->period)->get(); ?>
 
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -54,27 +49,15 @@
                     <!--students list-->
                     <div class="col-sm-6" id='studentlist'>
                         <h4>Student List</h4>
-                        <table class="table table-condensed">
-                            <tr>
-                                <th>No.</th>
-                                <th>ID Number</th>
-                                <th>Name</th>
-                                <th>Program</th>
-                                <th></th>
-                            </tr>
-                            <?php $counter = 1; ?>
-                            @foreach ($student_lists as $student_list)
-                            <?php $user = \App\User::where('idno', $student_list->idno)->first(); ?>
-                            <?php $status = \App\Status::where('idno', $student_list->idno)->first(); ?>
-                            <tr>
-                                <td>{{$counter}} <?php $counter = $counter + 1; ?></td>
-                                <td>{{$student_list->idno}}</td>
-                                <td>{{$user->lastname}}, {{$user->firstname}}</td>
-                                <td>{{$status->program_code}}</td>
-                                <td><button onclick='addtosection("{{$student_list->idno}}","{{$course_code}}", schedule_id.value, section.value)'><i class="fa fa-arrow-right"></i></button></td>
-                            </tr>
-                            @endforeach
-                        </table>
+<table class="table table-condensed">
+    <tr>
+        <th>No.</th>
+        <th>ID Number</th>
+        <th>Name</th>
+        <th>Program</th>
+        <th></th>
+    </tr>
+</table>
                     </div>
                     <!--assigned section-->
                     <div class="col-sm-6" id='student_schedule_list'>
@@ -131,28 +114,12 @@
 @endsection
 @section('footerscript')
 <script>
-    function addtosection(idno, course_code, schedule_id, section) {
-        array = {};
-        array['course_code'] = course_code;
-        array['idno'] = idno;
-        array['schedule_id'] = schedule_id;
-        array['section'] = section;
-        $.ajax({
-            type: "GET",
-            url: "/ajax/registrar_college/advising/addtosection",
-            data: array,
-            success: function (data) {
-                get_schedule_student_list(course_code, schedule_id, section);
-            }
-
-        });
-    }
     function getsection(schedule_id){
         array = {};
         array['schedule_id'] = schedule_id;
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/advising/get_section",
+            url: "/ajax/registrar_college/advising/getsection",
             data: array,
             success: function (data) {
                 $('#section').html(data);
@@ -174,6 +141,39 @@
             }
 
         });
+        studentlist(course_code, schedule_id, section)
+    }
+    function studentlist(course_code, schedule_id, section){
+        array = {};
+        array['course_code'] = course_code;
+        array['schedule_id'] = schedule_id;
+        array['section'] = section;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/advising/getstudentlist",
+            data: array,
+            success: function (data) {
+                $('#studentlist').html(data);
+            }
+
+        });
+    }
+    function addtosection(idno, course_code, schedule_id, section) {
+        array = {};
+        array['course_code'] = course_code;
+        array['idno'] = idno;
+        array['schedule_id'] = schedule_id;
+        array['section'] = section;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/advising/addtosection",
+            data: array,
+            success: function (data) {
+                get_schedule_student_list(course_code, schedule_id, section);
+            }
+
+        });
+        studentlist(course_code, schedule_id, section)
     }
     function removetosection(idno, course_code, schedule_id, section){
         array = {};
@@ -188,6 +188,7 @@
             }
 
         });
+        studentlist(course_code, schedule_id, section)
     }
 </script>
 @endsection
