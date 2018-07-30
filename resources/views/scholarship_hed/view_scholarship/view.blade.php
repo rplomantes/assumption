@@ -88,7 +88,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <div class="box">
                 <div class="box-body">
                     @if (count($scholar)>0)
-                    <form method="post" action="{{url('scholarship_college','update_scholar')}}">
+                    <form method="post" action="{{url('scholarship_college','update_scholar')}}" onsubmit="return confirm('Do you really want to udpate the scholarship?');">
                         {{ csrf_field() }}
                         <input type='hidden' value='{{$idno}}' name='idno'>
                         <div class="form-group">
