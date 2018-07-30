@@ -197,7 +197,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                <td align="right"><span class="payment">{{number_format($main_misc->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach    
-           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_switch', 1)->get();
 ?>
@@ -232,7 +232,7 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($main_other->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_switch', 2)->get();
 ?>
@@ -268,7 +268,7 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <td align="right"><span class="payment">{{number_format($main_depo->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_switch', 3)->get();
 ?>
@@ -281,7 +281,12 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
            @endforeach
            @endif
-           
+           <tr style="background-color: lightgray;"><td>Total School Fees</td>
+               <td align="right">{{number_format($totalamount,2)}}</td>
+               <td align="right">{{number_format($totaldiscount,2)}}</td>
+               <td align="right">{{number_format($totaldm,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
+               <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
            
            
            
@@ -320,7 +325,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', 
            @endif
            
            
-               <tr><td>Total</td>
+               <tr style="background-color: silver;"><td>Total</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
                <td align="right">{{number_format($totaldm,2)}}</td>
