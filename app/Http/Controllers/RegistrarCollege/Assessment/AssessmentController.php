@@ -159,6 +159,8 @@ class AssessmentController extends Controller {
         $this->getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype);
         //populate srf//
         $this->getSRF($idno, $program_code, $school_year, $period, $level);
+        //populate lab fee//
+        $this->getLABFEE($idno, $program_code, $school_year, $period, $level);
         //populate due dates//
         $this->computeLedgerDueDate($idno, $school_year, $period, $plan);
         //change status///
@@ -399,7 +401,8 @@ class AssessmentController extends Controller {
     function getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype) {
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
 
-        $interest = $this->getInterest($plan);
+//        $interest = $this->getInterest($plan);
+        $interest = 1;
         $tuitionfee = 0;
         $tobediscount = 0;
         foreach ($grades as $grade) {
@@ -475,6 +478,29 @@ class AssessmentController extends Controller {
                 $addledger->accounting_name = env("SRF_NAME");
                 $addledger->category_switch = env("SRF_FEE");
                 $addledger->amount = $grade->srf;
+                $addledger->save();
+            }
+        }
+    }
+
+    function getLABFEE($idno, $program_code, $school_year, $period, $level) {
+        $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('lab_fee', '>', '0')->get();
+        if (count($grades) > 0) {
+            foreach ($grades as $grade) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = "SRF";
+                $addledger->subsidiary = "Lab Fee-".$grade->course_code;
+                $addledger->receipt_details = "SRF";
+                $addledger->accounting_code = env("LAB_FEE_CODE");
+                $addledger->accounting_name = env("LAB_FEE_NAME");
+                $addledger->category_switch = env("SRF_FEE");
+                $addledger->amount = $grade->lab_fee;
                 $addledger->save();
             }
         }

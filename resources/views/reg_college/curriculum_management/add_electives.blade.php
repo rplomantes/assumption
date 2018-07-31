@@ -107,15 +107,21 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                                 <input type="text" id="lab" class="form-control" value="0">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <div class="form form-group">
-                                <label>Subject Related Fee</label>
+                                <label>SRF</label>
                                 <input type="text" id="srf" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form form-group">
+                                <label>Lab Fee</label>
+                                <input type="text" id="lab_fee" class="form-control" value="0">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form form-group">
-                                <button class="col-sm-12 btn btn-success" onclick="addElectives(course_code.value, course_name.value, lec.value, lab.value, curriculum_year.value, program_code.value, srf.value)">Add Electives</button>
+                                <button class="col-sm-12 btn btn-success" onclick="addElectives(course_code.value, course_name.value, lec.value, lab.value, curriculum_year.value, program_code.value, srf.value, lab_fee.value)">Add Electives</button>
                             </div>
                         </div>
                     </div>
@@ -146,13 +152,14 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
         });
     }
 
-    function addElectives(course_code, course_name, lec, lab, curriculum_year, program_code, srf) {
+    function addElectives(course_code, course_name, lec, lab, curriculum_year, program_code, srf, lab_fee) {
         array = {};
         array['course_code'] = course_code;
         array['course_name'] = course_name;
         array['lec'] = lec;
         array['lab'] = lab;
         array['srf'] = srf;
+        array['lab_fee'] = lab_fee;
         array['curriculum_year'] = curriculum_year;
         array['program_code'] = program_code;
         $.ajax({

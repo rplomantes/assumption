@@ -19,7 +19,7 @@ class electives_ajax extends Controller {
                     . "<table class='table table-striped'>"
                     . "<thead>"
                     . "<tr>"
-                    . "<th>Curriculum Year</th><th>Course Code</th><th>Course Name</th><th>Lec</th><th>Lab</th><th>SRF</th><th>Remove</th>"
+                    . "<th>Curriculum Year</th><th>Course Code</th><th>Course Name</th><th>Lec</th><th>Lab</th><th>SRF</th><th>Lab Fee</th><th>Remove</th>"
                     . "</tr>"
                     . "</thead><tbody>"; 
             
@@ -31,6 +31,7 @@ class electives_ajax extends Controller {
                         . "<td>". $elective->lec ."</td>"
                         . "<td>". $elective->lab ."</td>"
                         . "<td>". $elective->srf ."</td>"
+                        . "<td>". $elective->lab_fee ."</td>"
                         . "<td><a href='javascript:void(0)' onclick='remove_electives(". $elective->id .", program_code.value)'>Remove</a></td>"
                         . "</tr>";
             }
@@ -48,6 +49,7 @@ class electives_ajax extends Controller {
             $curriculum_year = Input::get("curriculum_year");
             $program_code = Input::get("program_code");
             $srf = Input::get("srf");
+            $lab_fee = Input::get("lab_fee");
             
             $program_name = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->program_name;
             
@@ -58,6 +60,7 @@ class electives_ajax extends Controller {
             $addelectives->lec = $lec;
             $addelectives->lab = $lab;
             $addelectives->srf = $srf;
+            $addelectives->lab_fee = $lab_fee;
             $addelectives->program_code = $program_code;
             $addelectives->program_name = $program_name;
             $addelectives->save();

@@ -35,6 +35,7 @@ class CreateGradeCollegesTable extends Migration
             $table->string('school_year');
             $table->string('period');
             $table->decimal('srf',10,2);
+            $table->decimal('lab_fee', 10,2)->default(0.00);
             $table->integer('percent_tuition');
             $table->integer('prelim_status')->default(0);
             $table->integer('midterm_status')->default(0);

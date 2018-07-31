@@ -26,6 +26,7 @@ class CreateCurriculaTable extends Migration
             $table->string('level');
             $table->string('period');
             $table->decimal('srf', 10,2)->default(0.00);
+            $table->decimal('lab_fee', 10,2)->default(0.00);
             $table->integer('percent_tuition')->default(100);
             $table->timestamps();
         });

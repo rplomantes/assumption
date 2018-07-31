@@ -205,7 +205,8 @@ class ChangePlan extends Controller {
         $changeplan = $request->plan;
         $orginalamount = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('category_switch', env('TUITION_FEE'))->first();
 //        $tuition = \App\CtrBedFee::where('level', $request->level)->where('category_switch', env("TUITION_FEE"))->first()->amount;
-        $changeamount = $tuition + ($tuition * ($this->addPercentage($request->plan) / 100));
+//        $changeamount = $tuition + ($tuition * ($this->addPercentage($request->plan) / 100));
+        $changeamount = $tuition + ($tuition * (0 / 100));
         $addchange = new \App\ChangePlan;
         $addchange->idno = $request->idno;
         $addchange->change_date = Date('Y-m-d');

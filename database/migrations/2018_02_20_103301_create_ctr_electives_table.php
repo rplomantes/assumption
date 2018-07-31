@@ -24,6 +24,7 @@ class CreateCtrElectivesTable extends Migration
             $table->integer('lab')->nullable();
             $table->decimal('hours',5,2)->nullable();
             $table->decimal('srf', 10,2)->default(0.00);
+            $table->decimal('lab_fee', 10,2)->default(0.00);
             $table->integer('percent_tuition')->default(100);
             $table->timestamps();
         });

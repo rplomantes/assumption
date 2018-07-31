@@ -49,6 +49,7 @@ class advising_ajax extends Controller {
                 $newgrade->school_year = $school_year;
                 $newgrade->period = $period;
                 $newgrade->srf = $curriculum->srf;
+                $newgrade->lab_fee = $curriculum->lab_fee;
                 $newgrade->percent_tuition = $curriculum->percent_tuition;
                 $newgrade->save();
             }else{
@@ -65,7 +66,7 @@ class advising_ajax extends Controller {
                         $newgrade->hours = $curriculum->hours;
                         $newgrade->school_year = $school_year;
                         $newgrade->period = $period;
-                        $newgrade->srf = $curriculum->srf;
+                        $newgrade->lab_fee = $curriculum->lab_fee;
                         $newgrade->percent_tuition = $curriculum->percent_tuition;
                         $newgrade->save();
                     } 
@@ -117,6 +118,7 @@ class advising_ajax extends Controller {
                 $newgrade->school_year = $school_year;
                 $newgrade->period = $period;
                 $newgrade->srf = $curriculum->srf;
+                $newgrade->lab_fee = $curriculum->lab_fee;
                 $newgrade->percent_tuition = $curriculum->percent_tuition;
                 $newgrade->save();
             }
@@ -235,7 +237,7 @@ class advising_ajax extends Controller {
                         $newgrade->lec = $offering->lec;
                         $newgrade->lab = $offering->lab;
                         $newgrade->hours = $offering->hours;
-                        $newgrade->srf = $offering->srf;
+                        $newgrade->lab_fee = $curriculum->lab_fee;
                         $newgrade->percent_tuition = $offering->percent_tuition;
                         $newgrade->save();
                     }
