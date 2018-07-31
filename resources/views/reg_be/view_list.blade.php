@@ -1,7 +1,7 @@
 <?php
 function get_name($idno){
     $names = \App\User::where('idno',$idno)->first();
-    return strtoupper($names->lastname).", ".ucwords($names->firstname)." (".ucwords($names->middlename).")";
+    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." (".ucwords(strtolower($names->middlename)).")";
 }
 function get_ns($idno){
     $is_new = \App\BedLevel::where('idno',$idno)->first();
