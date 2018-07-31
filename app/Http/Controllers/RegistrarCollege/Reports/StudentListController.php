@@ -25,7 +25,7 @@ class StudentListController extends Controller {
     }
 
     function print_search($school_years, $periods, $levels, $program_codes) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
 
             $school_year = $school_years;
             $period = $periods;

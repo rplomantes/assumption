@@ -332,13 +332,13 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{$gr11total1 = $gr11total1 + gettotal('Grade 11','ABM',$school_year)}}</td>
             </tr>
             <tr>
-             <td>Grade 11 HUMMS</td>
-             <td>{{getCount('Grade 11','1','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 11','2','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 11','3','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 11','4','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 11','5','HUMMS',$school_year)}}</td>
-             <td>{{$gr11total2 = $gr11total2 + gettotal('Grade 11','HUMMS',$school_year)}}</td>
+             <td>Grade 11 HUMSS</td>
+             <td>{{getCount('Grade 11','1','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 11','2','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 11','3','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 11','4','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 11','5','HUMSS',$school_year)}}</td>
+             <td>{{$gr11total2 = $gr11total2 + gettotal('Grade 11','HUMSS',$school_year)}}</td>
             </tr>
             <tr>
              <td>Grade 11 STEM</td>
@@ -376,13 +376,13 @@ function getTotal($getlevel,$getstrand,$schoolyear){
              <td>{{$gr12total1 = $gr12total1 + gettotal('Grade 12','ABM',$school_year)}}</td>
             </tr>
             <tr>
-             <td>Grade 12 HUMMS</td>
-             <td>{{getCount('Grade 12','1','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 12','2','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 12','3','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 12','4','HUMMS',$school_year)}}</td>
-             <td>{{getCount('Grade 12','5','HUMMS',$school_year)}}</td>
-             <td>{{$gr12total2 = $gr12total2 + gettotal('Grade 12','HUMMS',$school_year)}}</td>
+             <td>Grade 12 HUMSS</td>
+             <td>{{getCount('Grade 12','1','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 12','2','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 12','3','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 12','4','HUMSS',$school_year)}}</td>
+             <td>{{getCount('Grade 12','5','HUMSS',$school_year)}}</td>
+             <td>{{$gr12total2 = $gr12total2 + gettotal('Grade 12','HUMSS',$school_year)}}</td>
             </tr>
             <tr>
              <td>Grade 12 STEM</td>

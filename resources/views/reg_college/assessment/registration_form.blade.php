@@ -1,6 +1,6 @@
 <?php
 $ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$user->idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch', '<', 10)->where('idno',$user->idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
 $totaldm=0;
 ?>
 @foreach ($ledger as $main)
