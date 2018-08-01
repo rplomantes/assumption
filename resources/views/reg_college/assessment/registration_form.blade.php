@@ -357,7 +357,7 @@ foreach ($discounts as $discount) {
         <li>Students are advised to accomplish within 1 day</li>
         <li>In the event this form was not accomplished within 1 day, students are advised to verify with Registering Officer for availability of the schedules listed above.</li>
         <li>This form remains valid as long as ALL schedule of classess listed above are still OPEN.</li>
-        <li>15 units and below FULL PAYMENTS.</li>
+        <li>12 units and below FULL PAYMENTS.</li>
     </ol>
 </div>
 
@@ -681,7 +681,7 @@ foreach ($discounts as $discount) {
         <li>Students are advised to accomplish within 1 day</li>
         <li>In the event this form was not accomplished within 1 day, students are advised to verify with Registering Officer for availability of the schedules listed above.</li>
         <li>This form remains valid as long as ALL schedule of classess listed above are still OPEN.</li>
-        <li>15 units and below FULL PAYMENTS.</li>
+        <li>12 units and below FULL PAYMENTS.</li>
     </ol>
 </div>
 

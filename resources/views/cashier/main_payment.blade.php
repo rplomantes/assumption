@@ -95,8 +95,9 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
                         <span class="label_collected">Previous Balance :</span>
                     </div> 
                      <div class="col-md-6">
-                         <input type="hidden" id="previous_balance" name="previous_balance" value="{{$previous_total->balance}}">
-                         <div class="form form-control number">{{number_format($previous_total->balance,2)}}</div>
+                        <input type="text" class="form form-control number" name="previous_balance" id="previous_balance" value="{{$previous_total->balance}}" >
+<!--                         <input type="hidden" id="previous_balance" name="previous_balance" value="{{$previous_total->balance}}">-->
+                         <!--<div class="form form-control number">{{number_format($previous_total->balance,2)}}</div>-->
                      </div>
                      </div>   
                     @else
@@ -386,6 +387,13 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
         $("#payment_pad").fadeOut(300);
         $("#main_due").focus();
         computeSubaccount();
+        
+        $("#previous_balance").on('keypress',function(e){
+            if(e.keyCode==13){
+                $("#main_due").focus();
+                e.preventDefault();
+            }
+        });
         $("#main_due").on('keypress',function(e){
             if(e.keyCode==13){
                 if($("#main_due").val()==""){
@@ -407,6 +415,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
                     alert("Please Fillup Details");
                 }else{
                     computeToBePaid()
+                    $("#previous_balance").attr('readonly', true);
                     $("#main_due").attr('readonly', true);
                     $("#payment_pad").fadeIn();
                     $("#cash_receive").focus();
