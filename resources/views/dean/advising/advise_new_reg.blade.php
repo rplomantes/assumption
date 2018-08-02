@@ -82,6 +82,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
                     <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
+                    <li><a href="#">Admission Status <span class="pull-right">{{$admission_hed->admission_status}}</span></a></li>
                 </ul>
             </div>
         </div>

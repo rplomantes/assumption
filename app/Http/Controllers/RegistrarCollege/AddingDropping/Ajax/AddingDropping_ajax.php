@@ -39,6 +39,7 @@ class AddingDropping_ajax extends Controller {
             $add->lab = $add_to_grade->lab;
             $add->course_name = $add_to_grade->course_name;
             $add->srf = $add_to_grade->srf;
+            $add->lab_fee = $add_to_grade->lab_fee;
             $add->percent_tuition = $add_to_grade->percent_tuition;
             $add->action = "ADD";
             $add->posted_by = Auth::user()->idno;
@@ -63,6 +64,7 @@ class AddingDropping_ajax extends Controller {
             $add->lab = $remove_to_grade->lab;
             $add->course_name = $remove_to_grade->course_name;
             $add->srf = $remove_to_grade->srf;
+            $add->lab_fee = $remove_to_grade->lab_fee;
             $add->percent_tuition = $remove_to_grade->percent_tuition;
             $add->action = "DROP";
             $add->posted_by = Auth::user()->idno;

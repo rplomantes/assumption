@@ -114,10 +114,14 @@ class AddingDroppingController extends Controller {
                 $new_grade->school_year = $school_year->school_year;
                 $new_grade->period = $school_year->period;
                 $new_grade->srf = $grade->srf;
+                $new_grade->lab_fee = $grade->lab_fee;
                 $new_grade->save();
                 
                 if($grade->srf>0){
                 $this->getSRF($idno, $status->program_code, $school_year->school_year, $school_year->period, $grade->level, $grade->id);
+                }
+                if($grade->lab_fee>0){
+                $this->getLABFEE($idno, $status->program_code, $school_year->school_year, $school_year->period, $grade->level, $grade->id);
                 }
                 
                 if($is_practicum_only == 1){
@@ -175,6 +179,29 @@ class AddingDroppingController extends Controller {
             }
         }
     }
+    
+    function getLABFEE($idno, $program_code, $school_year,$period,$level,$id) {
+        $grades = \App\AddingDropping::distinct()->where('id', $id)->where('srf', '>', '0')->get();
+        if (count($grades) > 0) {
+            foreach ($grades as $grade) {
+                $addledger = new \App\ledger;
+                $addledger->idno = $idno;
+                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                $addledger->program_code = $program_code;
+                $addledger->level = $level;
+                $addledger->school_year = $school_year;
+                $addledger->period = $period;
+                $addledger->category = "SRF";
+                $addledger->subsidiary = "Lab Fee-".$grade->course_code;
+                $addledger->receipt_details = "SRF";
+                $addledger->accounting_code = env("LAB_FEE_CODE");
+                $addledger->accounting_name = env("LAB_FEE_NAME");
+                $addledger->category_switch = env("SRF_FEE");
+                $addledger->amount = $grade->lab_fee;
+                $addledger->save();
+            }
+        }
+    }
 
     function processDropping($idno, $school_year, $status, $user) {
         $tuitionfee = 0;
@@ -194,6 +221,11 @@ class AddingDroppingController extends Controller {
                 if (count($deletesrf) > 0) {
                     $deletesrf->amount = 0;
                     $deletesrf->save();
+                }
+                $deletelab = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('subsidiary', 'Lab Fee-'.$grade->course_code)->first();
+                if (count($deletelab) > 0) {
+                    $deletelab->amount = 0;
+                    $deletelab->save();
                 }
                 $drop_grade = \App\GradeCollege::where('id', $grade->course_id)->first();
                 $drop_grade->delete();

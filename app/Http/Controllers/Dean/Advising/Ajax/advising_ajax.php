@@ -54,7 +54,7 @@ class advising_ajax extends Controller {
                 $newgrade->save();
             }else{
                 foreach ($checkcourse as $check){
-                    if ($check->finals == "FAILED" || $check->finals == "4.00" || $check->finals == "FA" || $check->finals == "INC" || $check->finals == "NA" || $check->finals == "NG" || $check->finals == "UD" || $check->finals == "W" || $check->finals == "AUDIT"){
+                    if ($check->finals == "2.70" || $check->finals == "3.00" || $check->finals == "3.50" ||  $check->finals == "FAILED" || $check->finals == "4.00" || $check->finals == "FA" || $check->finals == "INC" || $check->finals == "NA" || $check->finals == "NG" || $check->finals == "UD" || $check->finals == "W" || $check->finals == "AUDIT"){
                         $newgrade = new \App\GradeCollege;
                         $newgrade->idno = $idno;
                         $newgrade->course_offering_id = NULL;

@@ -1,6 +1,7 @@
 <?php
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
+$admission_hed = \App\AdmissionHed::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 //$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->where('department', $status->department)->get(['program_code', 'program_name']);
 $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
@@ -85,6 +86,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
                         <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                         <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Admission Status <span class="pull-right">{{$admission_hed->admission_status}}</span></a></li>
                         <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @else
                         <li><a href="#">Status <span class="pull-right">New Student</span></a></li>

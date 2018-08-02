@@ -25,6 +25,7 @@ class CreateAddingDroppingsTable extends Migration
             $table->string('hours')->nullable();
             $table->string('percent_tuition')->nullable();
             $table->string('srf')->nullable();
+            $table->string('lab_fee')->nullable();
             $table->string('action');
             $table->integer('is_done')->default(0);
             $table->string('posted_by');
