@@ -107,6 +107,7 @@ Route::post('/registrar_college/curriculum_management/edit_room_schedule', 'Regi
 Route::get('/registrar_college/curriculum_management/merge_schedule/{schedule_id}/{course_id}','RegistrarCollege\CurriculumManagement\CourseScheduleController@merge_schedule');
 Route::get('/registrar_college/curriculum_management/unmerged_schedule/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@unmerged_schedule');
 Route::get('/registrar_college/curriculum_management/add_tba/{course_offering_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@add_tba');
+Route::get('/registrar_college/curriculum_management/delete_schedule/{schedule_id}/{course_id}', 'RegistrarCollege\CurriculumManagement\CourseScheduleController@remove_schedule');
 //Ajax Course Schedule
 Route::get('/ajax/registrar_college/curriculum_management/course_to_schedule/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@listcourse_to_schedule');
 Route::get('/ajax/registrar_college/curriculum_management/show_available_rooms/', 'RegistrarCollege\CurriculumManagement\Ajax\coursescheduling_ajax@show_available_rooms');
