@@ -160,4 +160,11 @@ class CourseScheduleController extends Controller {
         return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
     }
 
+    function remove_schedule($id, $course_id) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $delete_sched = \App\ScheduleCollege::where('schedule_id', $id)->first();
+            $delete_sched->delete();
+            return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_id");        }
+    }
+
 }

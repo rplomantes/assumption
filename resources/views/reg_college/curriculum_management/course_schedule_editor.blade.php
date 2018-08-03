@@ -182,6 +182,7 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                 <th>Schedule</th>
                                 <th>Room</th>
                                 <th>Action</th>
+                                <th>Remove</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -189,6 +190,7 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                             $distincts = \App\ScheduleCollege::distinct()->where('course_code', $course_offering->course_code)->where('schedule_id', '!=', $course_offering->schedule_id)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['schedule_id']);
                             ?>
                             @foreach($distincts as $distinct)
+                            <?php $is_remove = \App\CourseOffering::where('schedule_id', $distinct->schedule_id )->get(); ?>
                             <tr>
                                 <td>
                                     <?php
@@ -221,6 +223,12 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     @endforeach
                                 </td>
                                 <td><a href="{{url('registrar_college',array('curriculum_management','merge_schedule',$distinct->schedule_id,$course_offering->id))}}"><button class="btn btn-success"><span class="fa fa-compress"></span></button></a></td>
+                                <td>
+                                    @if(count($is_remove)>0)
+                                    @else
+                                    <a href="{{url('registrar_college', array('curriculum_management','delete_schedule', $distinct->schedule_id, $course_offering->id))}}">Remove</a>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

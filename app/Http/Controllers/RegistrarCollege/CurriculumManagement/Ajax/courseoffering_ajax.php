@@ -154,6 +154,13 @@ class courseoffering_ajax extends Controller {
 
             $removesubject = \App\CourseOffering::find($id);
             $removesubject->delete();
+            
+            $check_grade_colleges = \App\GradeCollege::where('course_offering_id', $id)->get();
+            if(count($check_grade_colleges)>0){
+                $check_grade_colleges->course_offering_id = NULL;
+                $check_grade_colleges->save();
+            }else{
+            }
 
             return view('reg_college.curriculum_management.ajax.course_offered', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
