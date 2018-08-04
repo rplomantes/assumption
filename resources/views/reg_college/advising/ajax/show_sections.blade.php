@@ -11,6 +11,7 @@
                     <input type="hidden" name="idno" value="{{$idno}}">
                     <select class='form form-control' name="section">
                         <option>Select Section</option>
+                        <option value = "dna">Do not Assign</option>
                         @foreach ($sections as $section)
                         <option value='{{$section->id}}'>{{$section->section_name}}</option>
                         @endforeach

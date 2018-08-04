@@ -100,6 +100,7 @@ class Advising extends Controller {
                 $updatestatus->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
                 $updatestatus->school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->school_year;
                 $updatestatus->period = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->period;
+                $updatestatus->advised_by = Auth::user()->idno;
                 $updatestatus->save();
 
 //                $updatestatus_level = \App\CollegeLevel::where('idno', $idno)->first();

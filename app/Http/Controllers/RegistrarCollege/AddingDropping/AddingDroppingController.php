@@ -306,6 +306,12 @@ class AddingDroppingController extends Controller {
         }
     }
 
+    function update_due_dates($idno, $total_decimal, $downpaymentamount) {
+        $update = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+        $update->amount = $downpaymentamount + $total_decimal;
+        $update->save();
+    }
+
     function computeplan($downpaymentamount, $totalFees, $due_dates, $tf) {
         $planpayment = $tf;
 //        $planpayment = ($totalFees - $downpaymentamount) / count($due_dates);

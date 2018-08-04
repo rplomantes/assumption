@@ -73,6 +73,7 @@
                                     @if(count($schedule_ids)>0)
                                     <select id='schedule{{$i}}' class='form form-control'>
                                         <option>Select Available Schedule</option>
+                                        <option value="dna">Do not Assign</option>
                                         @foreach ($schedule_ids as $schedule_id)
                                         @if(count($course)>0)
                                         <?php $grade_schedule_id = \App\CourseOffering::where('id', $grade->course_offering_id)->first();?>
