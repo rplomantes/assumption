@@ -26,8 +26,16 @@
         <td><a href="{{url('registrar_college', array('view_info', $list->idno))}}">View Info</a></td>
         <td><a href="{{url('registrar_college', array('student_record', $list->idno))}}">Student Record</a></td>
         <td><a href="{{url('registrar_college', array('assessment',$list->idno))}}">Assessment</a></td>
+        @if($status->status > 0)
         <td><a href="{{url('registrar_college', array('advising','assigning_of_schedules',$list->idno))}}">Schedule</a></td>
+        @else
+        <td>Schedule</td>
+        @endif
+        @if($status->status == 3)
         <td><a href="{{url('registrar_college', array('adding_dropping',$list->idno))}}">Adding/Dropping</a></td>
+        @else
+        <td>Adding/Dropping</td>
+        @endif
     </tr>
     @endif
     @endforeach

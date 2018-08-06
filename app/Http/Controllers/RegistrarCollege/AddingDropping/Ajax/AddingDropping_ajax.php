@@ -16,7 +16,7 @@ class AddingDropping_ajax extends Controller {
             $search = Input::get("search");
             $idno = Input::get("idno");
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
-            $courses = \App\CourseOffering::distinct()->where('course_name', 'like', "%$search%")->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(array('course_code', 'course_name', 'lec', 'lab', 'srf', 'lab_fee', 'percent_tuition'));
+            $courses = \App\CourseOffering::distinct()->whereRaw("course_name like '%$search%' or course_code = '$search'")->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(array('course_code', 'course_name', 'lec', 'lab', 'srf', 'lab_fee', 'percent_tuition'));
 
             return view('reg_college.adding_dropping.ajax.show_courses', compact('courses', 'school_year', 'idno'));
         }

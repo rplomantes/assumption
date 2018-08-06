@@ -34,6 +34,7 @@ class AssigningOfSchedules extends Controller {
             if($section_id == "dna"){
                 $update_grade_college->course_offering_id = NULL;
             }else{
+                $update_grade_college->course_offering_id = $section_id;
             }
             $update_grade_college->save();
 
