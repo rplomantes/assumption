@@ -47,45 +47,18 @@
    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 145px;'>
         <tr>
             <td class='no-border td' width='4%'>Section:</td>
-            <td class='underline td' width='30%'>{{$section_name}}</td>
+            <td class='underline td' width='30%'></td>
             <td class='no-border td' width='12%'>Course:</td>
-            <td class='underline td'>{{$course_code}}({{$course_name}})</td>
+            <td class='underline td'></td>
         </tr>
         <tr>
             <td class='no-border td'>Schedule:</td>
             <td class='underline td'>
                 
-                    <?php
-                    $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_id)->get(['time_start', 'time_end', 'room']);
-                    ?>
-                    @foreach ($schedule2s as $schedule2)
-                    <?php
-                    $days = \App\ScheduleCollege::where('schedule_id', $schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
-                    ?>
-                    <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                    @foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}
-                    @endforeach
-                    <?php
-                    $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_id)->get(['time_start', 'time_end', 'room']);
-                    ?>
-                    @foreach ($schedule3s as $schedule3)
-                    {{$schedule3->room}}
-                    @endforeach
-                
             </td>
             <td class='no-border td'>Professor: </td>
             <td class='underline td'> 
             
-                <?php
-                $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_id)->get(['instructor_id']);
-                ?>
-                @foreach($schedule_instructor as $get)
-                    @if ($get->instructor_id != NULL)
-                    <?php $instructor = \App\User::where('idno', $get->instructor_id)->first(); ?>
-                    {{$instructor->firstname}} {{$instructor->lastname}} {{$instructor->extensionname}}
-                    @endif
-                @endforeach
-                
             </td>
         </tr>
     </table>

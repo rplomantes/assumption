@@ -42,6 +42,7 @@ $i=1;
     
 </table>    
 <div class ="form form-group">
-    <a href="javascript:void(0)" onclick = "print_student_list()" class="form btn btn-primary"> Print Student List</a>
+    <a href="javascript:void(0)" onclick = "print_student_list('w')" class="form btn btn-primary"> Print Student List w/ ID Numbers</a>
+    <a href="javascript:void(0)" onclick = "print_student_list('wo')" class="form btn btn-success"> Print Student List w/o ID Numbers</a>
 </div>    
 @endif

@@ -84,7 +84,7 @@ Route::get('/bedregistrar/reassess/{idno}','BedRegistrar\Assess@reassess');
 Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
 Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
 Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updateinfo');
-Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_year}','BedRegistrar\Ajax\GetStudentList@print_student_list');
+Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_year}/{value}','BedRegistrar\Ajax\GetStudentList@print_student_list');
 Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
 //update
 //Route::get('updatebedlevel','Updater@updateBedLevel');

@@ -190,8 +190,8 @@ if(Auth::user()->accesslevel == env('REG_BE')){
        
     });
     
-    function print_student_list(){
-        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val())
+    function print_student_list(value){
+        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + value)
     }
 </script>    
 @endsection

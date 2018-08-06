@@ -89,7 +89,7 @@
                         </div>
                         <div class='form form-group'>
                             <div class='col-sm-12'>
-                                <button class='col-sm-12 btn btn-success' style="width: 100%" onclick='select_section(school_year.value, period.value, level.value, academic_program.value)' data-toggle="modal" data-target="#show_modal"><span class='fa fa-search'></span> SELECT COURSE</button>
+                                <button class='col-sm-12 btn btn-success' style="width: 100%" onclick='select_course(school_year.value, period.value, level.value, academic_program.value)' data-toggle="modal" data-target="#show_modal"><span class='fa fa-search'></span> SELECT COURSE</button>
                             </div>
                         </div>
                     </div>
@@ -111,35 +111,16 @@
     $('#display_search').hide();
 </script>
 <script>
-    function select_section(school_year, period, level, program_code) {
+    function select_section(school_year, period, level, program_code,course_code) {
         array = {};
         array['school_year'] = school_year;
         array['period'] = period;
         array['level'] = level;
         array['program_code'] = program_code;
+        array['course_code'] = course_code;
         $.ajax({
             type: "GET",
             url: "/ajax/registrar_college/reports/student_list/select_section",
-            data: array,
-            success: function (data) {
-                $('#show_modal').fadeIn().html(data);
-            }
-
-        });
-    }
-    
-    function select_course(school_year, period, level, program_code, section, section_name) {
-        array = {};
-        array['school_year'] = school_year;
-        array['period'] = period;
-        array['level'] = level;
-        array['program_code'] = program_code;
-        array['section'] = section;
-        array['section_name'] = section_name;
-        
-        $.ajax({
-            type: "GET",
-            url: "/ajax/registrar_college/reports/student_list/select_course",
             data: array,
             success: function (data) {
                 $('#show_courses').fadeIn().html(data);
@@ -148,9 +129,33 @@
         });
     }
     
-    function get_student_list(course_id) {
+    function select_course(school_year, period, level, program_code) {
         array = {};
-        array['course_id'] = course_id;
+        array['school_year'] = school_year;
+        array['period'] = period;
+        array['level'] = level;
+        array['program_code'] = program_code;
+        
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/reports/student_list/select_course",
+            data: array,
+            success: function (data) {
+                $('#show_modal').fadeIn().html(data);
+            }
+
+        });
+    }
+    
+    function get_student_list(course,section,section_name,school_year,period, level,program_code) {
+        array = {};
+        array['course'] = course;
+        array['section'] = section;
+        array['section_name'] = section_name;
+        array['school_year'] = school_year;
+        array['period'] = period;
+        array['level'] = level;
+        array['program_code'] = program_code;
         $.ajax({
             type: "GET",
             url: "/ajax/registrar_college/reports/student_list/list_per_course",
@@ -162,9 +167,9 @@
         });
     }
     
-    function print_per_course(course_id, section, section_name,school_year, period, level, program_code) {
+    function print_per_course(course, section, section_name,school_year, period, level, program_code) {
         array = {};
-        array['course_id'] = course_id;
+        array['course'] = course;
         array['section'] = section;
         array['section_name'] = section_name;
         array['school_year'] = school_year;
@@ -172,7 +177,7 @@
         array['level'] = level;
         array['program_code'] = program_code;
         
-        window.open('/registrar_college/reports/student_list/print_per_course/' + array['course_id'] + '/' + array['section'] + '/' + array['section_name'] + '/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
+        window.open('/registrar_college/reports/student_list/print_per_course/' + array['course'] + '/' + array['section'] + '/' + array['section_name'] + '/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
     }
 </script>
 @endsection

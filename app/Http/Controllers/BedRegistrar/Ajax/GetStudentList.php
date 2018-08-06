@@ -78,7 +78,7 @@ function view_list(){
      }
  }
  
- function print_student_list($level,$strand,$section,$schoolyear){
+ function print_student_list($level,$strand,$section,$schoolyear,$value){
      if($level=="Grade 11" || $level=="Grade 12"){
                 if($section=="All"){
               
@@ -106,7 +106,7 @@ function view_list(){
 
             
          }}
-         $pdf = PDF::loadView("reg_be.view_list",compact("status","level","section",'strand'));
+         $pdf = PDF::loadView("reg_be.view_list",compact("status","level","section",'strand', 'value'));
          $pdf->setPaper(array(0,0,612,936));
          return $pdf->stream();
          

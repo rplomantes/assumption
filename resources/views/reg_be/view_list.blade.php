@@ -33,7 +33,12 @@ $i=1;
 <table border="1" cellspacing="0" cellpadding="3" width="100%">
     <tr>
         <th width="5%">#</th>
-        <th colspan="2"><center>
+        @if($value == 'wo')
+        <th>
+        @else
+        <th colspan="2">
+        @endif
+        <center>
             {{$level}}
                 @if($level=="Grade 11" || $level=="Grade 12")
                     ({{$strand}})
@@ -57,7 +62,9 @@ $i=1;
     @foreach($status as $name)
     <tr>
         <td>{{$i++}}.</td>
+        @if($value == 'w')
         <td width="1%">{{$name->idno}}</td>
+        @endif
         <td width="50%">{{get_name($name->idno)}}{{get_ns($name->idno)}}</td>
         <td align="center">{{$name->section}}</td>
         <td></td>
@@ -91,7 +98,12 @@ $i=1;
 <table border="1" cellspacing="0" cellpadding="3" width="100%" style="font-size: 9pt">
     <tr>
         <th width="5%">#</th>
-        <th colspan="2"><center>
+        @if($value == 'wo')
+        <th>
+        @else
+        <th colspan="2">
+        @endif
+        <center>
             {{$level}}
                 @if($level=="Grade 11" || $level=="Grade 12")
                     ({{$strand}})
@@ -113,7 +125,9 @@ $i=1;
     @foreach($status as $name)
     <tr>
         <td>{{$i++}}.</td>
+        @if($value == 'w')
         <td width="1%">{{$name->idno}}</td>
+        @endif
         <td width="40%">{{get_name($name->idno)}}{{get_ns($name->idno)}}</td>
         <td></td>
         <td></td>
