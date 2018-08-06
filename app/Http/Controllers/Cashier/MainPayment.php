@@ -441,6 +441,7 @@ class MainPayment extends Controller {
                 $addbed->registration_no = $status->registration_no;
                 $addbed->remarks = $status->remarks;
                 $addbed->is_new = $status->is_new;
+                $addbed->advised_by = $status->advised_by;
                 $addbed->save();
             }
         }
