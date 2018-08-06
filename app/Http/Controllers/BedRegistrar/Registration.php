@@ -82,7 +82,7 @@ class Registration extends Controller {
     }
 
     function student_list() {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED')) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();
             return view("reg_be.student_list", compact('students'));
         }

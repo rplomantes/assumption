@@ -117,6 +117,11 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </ul>
                         </li>
                         <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-bar-chart"></i> <span>Enrollment Reports</span></a></li>
+                                <?php 
+                                $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
+                                $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
+                                ?>                        
+                        <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
                 </section>
             </aside>
             <div class="content-wrapper">

@@ -3,7 +3,14 @@ $levels = DB::Select("SELECT distinct level, sort_by from ctr_academic_programs 
 $strands = DB::Select("Select distinct strand from ctr_academic_programs where academic_type='BED'");
 $school_years = DB::Select("Select distinct school_year from bed_levels");
 ?>
-@extends('layouts.appbedregistrar')
+<?php 
+if(Auth::user()->accesslevel == env('REG_BE')){
+    $layout = "layouts.appbedregistrar";
+}else{
+    $layout = "layouts.appadmission-bed";
+}
+?>
+@extends($layout)
 @section('messagemenu')
 
  <li class="dropdown messages-menu">
