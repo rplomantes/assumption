@@ -79,6 +79,27 @@ class AssessmentController extends Controller {
 
             $status = \App\Status::where('idno', $idno)->first();
             $status->status = 0;
+            $assignlevel = $status->level;
+            if ($status->period == "1st Semester") {
+                switch ($status->level) {
+                    case "5th Year":
+                        $assignlevel = "4th Year";
+                        break;
+                    case "4th Year":
+                        $assignlevel = "3rd Year";
+                        break;
+                    case "3rd Year":
+                        $assignlevel = "2nd Year";
+                        break;
+                    case "2nd Year":
+                        $assignlevel = "1st Year";
+                        break;
+                    case "1st Year":
+                        $assignlevel = "1st Year";
+                        break;
+                }
+            }
+            $status->level = $assignlevel;
             $status->save();
 
             return redirect("/registrar_college/assessment/$idno");
@@ -122,10 +143,10 @@ class AssessmentController extends Controller {
         if (!is_null($discount_code)) {
             $discounttype = \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->discount_type;
             if ($discounttype == 0) {
-                $discounttf = $this->getdiscountrate('tf', $discount_code,$idno);
-                $discountof = $this->getdiscountrate('of', $discount_code,$idno);
+                $discounttf = $this->getdiscountrate('tf', $discount_code, $idno);
+                $discountof = $this->getdiscountrate('of', $discount_code, $idno);
             } else if ($discounttype == 1) {
-                $discounttf = $this->getdiscount('tf', $discount_code,$idno);
+                $discounttf = $this->getdiscount('tf', $discount_code, $idno);
             }
         }
 
@@ -238,7 +259,7 @@ class AssessmentController extends Controller {
         }
     }
 
-    function getdiscountrate($type, $discount_code,$idno) {
+    function getdiscountrate($type, $discount_code, $idno) {
         if ($type == 'tf') {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;
         } elseif ($type == 'of') {
@@ -246,7 +267,7 @@ class AssessmentController extends Controller {
         }
     }
 
-    function getdiscount($type, $discount_code,$idno) {
+    function getdiscount($type, $discount_code, $idno) {
         if ($type == 'tf') {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->amount;
         }
@@ -495,7 +516,7 @@ class AssessmentController extends Controller {
                 $addledger->school_year = $school_year;
                 $addledger->period = $period;
                 $addledger->category = "SRF";
-                $addledger->subsidiary = "Lab Fee-".$grade->course_code;
+                $addledger->subsidiary = "Lab Fee-" . $grade->course_code;
                 $addledger->receipt_details = "SRF";
                 $addledger->accounting_code = env("LAB_FEE_CODE");
                 $addledger->accounting_name = env("LAB_FEE_NAME");
@@ -505,8 +526,8 @@ class AssessmentController extends Controller {
             }
         }
     }
-    
-    function get_percentage_now($plan){
+
+    function get_percentage_now($plan) {
         if ($plan == "Cash") {
             $interest = 1;
         } else if ($plan == "Plan B") {
@@ -524,7 +545,7 @@ class AssessmentController extends Controller {
         $status = \App\Status::where('idno', $idno)->first();
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
         $percentage_now = $this->get_percentage_now($plan);
-        
+
         $totalTuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('amount');
         $totalOtherFees = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('amount');
         $totalTuitionDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', 6)->sum('discount');
@@ -550,8 +571,8 @@ class AssessmentController extends Controller {
             $addledgerduedates->amount = $downpaymentamount;
             $addledgerduedates->save();
             foreach ($due_dates as $paln) {
-                $totalFees_percentage = (($totalTuition*($paln->percentage/100)) + $totalOtherFees) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount);
-                $tf_percentage = (($totalTuition*($paln->percentage/100)) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount));
+                $totalFees_percentage = (($totalTuition * ($paln->percentage / 100)) + $totalOtherFees) - (($totalTuitionDiscount * ($paln->percentage / 100)) + $totalOtherFeesDiscount);
+                $tf_percentage = (($totalTuition * ($paln->percentage / 100)) - (($totalTuitionDiscount * ($paln->percentage / 100)) + $totalOtherFeesDiscount));
 
                 $addledgerduedates = new \App\LedgerDueDate;
                 $addledgerduedates->idno = $idno;
@@ -625,7 +646,7 @@ class AssessmentController extends Controller {
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
             $this->postDebit($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period);
-            
+
 //            $changestatus = \App\Status::where('idno', $idno)->first();
 //            $changestatus->status = env("ENROLLED");
 //            $changestatus->update();
@@ -644,7 +665,7 @@ class AssessmentController extends Controller {
         $change->update();
     }
 
-    function postDebit($idno, $reference_id, $totalpayment,$levels_reference_id, $school_year, $period) {
+    function postDebit($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $reservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
         $department = \App\Status::where('idno', $idno)->first()->department;
@@ -749,10 +770,8 @@ class AssessmentController extends Controller {
     function roundOff($amount) {
         return round($amount);
     }
-    
-    
 
-    function reassess_reservations($idno, $levels_reference_id,$schoolyear, $period) {
+    function reassess_reservations($idno, $levels_reference_id, $schoolyear, $period) {
         if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
             $status = \App\Status::where('idno', $idno)->first();
             $user = \App\User::where('idno', $idno)->first();

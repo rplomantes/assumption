@@ -26,8 +26,8 @@ class AjaxViewRoomSchedule extends Controller {
             $period = Input::get("period");
             $selected_room = Input::get("room");
 
-            $rooms = \App\ScheduleCollege::where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('schedule_colleges.room', $selected_room)->join('course_offerings', 'course_offerings.schedule_id', '=', 'schedule_colleges.schedule_id')->get();
-            
+            $rooms = \App\ScheduleCollege::distinct()->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('schedule_colleges.room', $selected_room)->join('course_offerings', 'course_offerings.schedule_id', '=', 'schedule_colleges.schedule_id')->get(array('schedule_colleges.course_code', 'schedule_colleges.schedule_id', 'room', 'day','time_start','time_end','instructor_id'));
+
             foreach ($rooms as $key=>$room){
                 switch ($room->day) {
                     case "M": $room->day = "monday"; break;
@@ -39,10 +39,16 @@ class AjaxViewRoomSchedule extends Controller {
                     case "Su": $room->day = "sunday"; break;
                 }
                 $color_now = "#".substr($room->schedule_id, -6);
+                if($room->instructor_id != NULL){
+                $instructor = \App\User::where('idno', $room->instructor_id)->first();
+                    $instructor_name = $instructor->lastname. ', '. $instructor->firstname;
+                } else {
+                    $instructor_name = "";
+                }
                 
                 $date = date( 'Y-m-d', strtotime( $room->day.' this week' ) );
                 $events[$key] = \Calendar::event(
-                        $room->course_code.$room->section_name,
+                        $room->course_code. ' '.$instructor_name,
                         false,
                         $date.'T'.$room->time_start,
                         $date.'T'.$room->time_end,
@@ -62,7 +68,7 @@ class AjaxViewRoomSchedule extends Controller {
                                 'allDaySlot' => false,
                                 'defaultView' => 'agendaWeek',
                                 'minTime' => '07:00:00',
-                                'maxTime' => '19:00:00'
+                                'maxTime' => '20:00:00'
                             ])->setCallbacks([
             ]);
 
