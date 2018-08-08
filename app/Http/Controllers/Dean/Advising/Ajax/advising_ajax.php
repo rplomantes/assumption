@@ -238,6 +238,7 @@ class advising_ajax extends Controller {
                         $newgrade->lec = $offering->lec;
                         $newgrade->lab = $offering->lab;
                         $newgrade->hours = $offering->hours;
+                        $newgrade->srf = $offering->srf;
                         $newgrade->lab_fee = $offering->lab_fee;
                         $newgrade->percent_tuition = $offering->percent_tuition;
                         $newgrade->save();

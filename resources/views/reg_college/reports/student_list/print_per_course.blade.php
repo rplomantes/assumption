@@ -44,25 +44,21 @@
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>LIST OF STUDENTS</b><br><small>@if($school_years == "all") All Years @else{{$school_years}}-{{$school_years+1}}@endif - @if($periods == "all") All Periods @else{{$periods}} @endif</small></div>
 </div>
 <div>
-   <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 145px;'>
+   <table class='table' border="1" width="80%" cellspacing='0' cellpadding='0' style='margin-top: 145px;'>
         <tr>
-            <td class='no-border td' width='4%'>Section:</td>
-            <td class='underline td' width='30%'></td>
-            <td class='no-border td' width='12%'>Course:</td>
-            <td class='underline td'></td>
+            <td class='no-border td' width='20%'>Level / Program:</td>
+            <td class='underline td' width='60%'>
+                {{$levels}} / {{$program_codes}}
+            </td>
         </tr>
         <tr>
-            <td class='no-border td'>Schedule:</td>
+            <td class='no-border td'>Course / Section:</td>
             <td class='underline td'>
-                
-            </td>
-            <td class='no-border td'>Professor: </td>
-            <td class='underline td'> 
-            
+                {{$course_codes}} - {{$course_names}} / {{$section_names}}
             </td>
         </tr>
     </table>
-    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='3px' style='margin-top: 50px;'>
+    <table class='table' border="1" width="100%" cellspacing='0' cellpadding='3px' style='margin-top: 10px;'>
         <thead>
             <tr>
                 <th width='3%' align='center'>#</th>

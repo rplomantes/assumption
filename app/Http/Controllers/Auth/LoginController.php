@@ -76,7 +76,7 @@ class LoginController extends Controller
         }
     }
     public function generatePassword(){
-        $prof = \App\User::where('accesslevel', 1)->get();
+        $prof = \App\User::where('accesslevel', 1)->where('is_first_login', 1)->get();
         foreach ($prof as $profs){
             $password = strtolower($profs->lastname);
             $pass = bcrypt($password);

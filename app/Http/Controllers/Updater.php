@@ -12,20 +12,31 @@ class Updater extends Controller
     //
     
     function updateBedLevel(){
-        $users =  \App\User::where('accesslevel',0)->where('level','Grade 12')->get();
+        $users =  \App\User::where('accesslevel',0)->where('is_first_login',1)->where('academic_type','BED')->get();
         foreach($users as $user){
             $update = \App\User::find($user->id);
-            $update->password = bcrypt($user->idno);
+            $update->password = bcrypt(strtolower($user->idno));
             $update->update();
         }
         return "Done";
     }
     
     function updateCollege(){
-        $users =  \App\User::where('accesslevel',0)->where('academic_type','College')->get();
+        $users =  \App\User::where('accesslevel',0)->where('is_first_login',1)->where('academic_type','College')->get();
         foreach($users as $user){
             $update = \App\User::find($user->id);
-            $update->password = bcrypt($user->idno);
+            $update->password = bcrypt(strtolower($user->idno));
+            $update->status = 1;
+            $update->update();
+        }
+        return "Done";
+    }
+    
+    function updateInstructor(){
+        $users =  \App\User::where('accesslevel',1)->where('is_first_login',1)->get();
+        foreach($users as $user){
+            $update = \App\User::find($user->id);
+            $update->password = bcrypt(strtolower($user->idno));
             $update->update();
         }
         return "Done";

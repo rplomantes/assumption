@@ -102,6 +102,11 @@ class Advising extends Controller {
                 $updatestatus->period = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->period;
                 $updatestatus->advised_by = Auth::user()->idno;
                 $updatestatus->save();
+                
+                $updateadmission_hed = \App\AdmissionHed::where('idno', $idno)->first();
+                $updateadmission_hed->program_code = "$program_code";
+                $updateadmission_hed->program_name = "$program_name";
+                $updateadmission_hed->save();
 
 //                $updatestatus_level = \App\CollegeLevel::where('idno', $idno)->first();
 //                $updatestatus_level->status = 1;

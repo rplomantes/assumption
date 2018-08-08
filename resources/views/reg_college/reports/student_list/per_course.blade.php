@@ -167,7 +167,7 @@
         });
     }
     
-    function print_per_course(course, section, section_name,school_year, period, level, program_code) {
+    function print_per_course(course,section,section_name,school_year,period, level,program_code) {
         array = {};
         array['course'] = course;
         array['section'] = section;

@@ -3,7 +3,7 @@
             @if (count($list_per_courses)>0)
         <div class='box-header'>
             <h3 class="box-title">Search Results</h3>
-            <a onclick='print_per_course(course.value,section.value, $(section).find(":selected").data("name"), school_year.value, period.value, level.value, academic_program.value)'><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
+            <a onclick="print_per_course(course.value, section.value, $('#section option:selected').text(), school_year.value, period.value, level.value, academic_program.value)"><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
         </div>
         <div class="box-body">
                     <div class='table-responsive'>

@@ -21,7 +21,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" value="View List" data-dismiss="modal" onclick="get_student_list(course.value, section.value, $(section).find(':selected').data('name'), school_year.value, period.value, level.value, academic_program.value)">View List</button>
+                <button type="submit" class="btn btn-primary" value="View List" data-dismiss="modal" onclick="get_student_list(course.value, section.value, $('#section option:selected').text(), school_year.value, period.value, level.value, academic_program.value)">View List</button>
             </div>
     </div>
 </div>
