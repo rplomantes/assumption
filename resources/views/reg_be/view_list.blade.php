@@ -1,11 +1,25 @@
 <?php
 function get_name($idno){
     $names = \App\User::where('idno',$idno)->first();
-    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." (".ucwords(strtolower($names->middlename)).")";
-}
+    $is_new = \App\BedLevel::where('idno',$idno)->first();
+    
+    if($names->middlename == NULL){
+        $names->middlename = "";
+    }else{
+        $names->middlename = "(".ucwords(strtolower($names->middlename)).")";
+    }
+    
+    if ($is_new->is_new == 1){
+    return strtoupper($names->lastname).", ".strtoupper($names->firstname)." ".strtoupper($names->middlename);
+    } else {
+    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename;
+    }
+
+    
+    }
 function get_ns($idno){
     $is_new = \App\BedLevel::where('idno',$idno)->first();
-    if ($is_new->is_new == 1){
+    if ($is_new->is_new == 1 && $is_new->level != "Pre-Kinder"){
     return " NS";
     } else {
         return "";
@@ -30,22 +44,18 @@ $i=1;
         <td style="border-bottom: 1px solid" width="40%"></td>
     </tr>
 </table>
-<table border="1" cellspacing="0" cellpadding="3" width="100%">
+<table border="1" cellspacing="0" cellpadding="3" width="100%" style="font-size: 9pt">
     <tr>
         <th width="5%">#</th>
-        @if($value == 'wo')
         <th>
-        @else
-        <th colspan="2">
-        @endif
         <center>
             {{$level}}
                 @if($level=="Grade 11" || $level=="Grade 12")
                     ({{$strand}})
                 @endif
-                - {{$section}}
+                
         </center></th>
-        <th width="5%">Sect</th>
+        <th width="5%" align="center">Sect</th>
         <th></th>
         <th></th>
         <th></th>
