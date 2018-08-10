@@ -112,6 +112,40 @@ function view_list(){
          
  }
  
+ function print_new_student_list($level,$strand,$section,$schoolyear,$value){
+     if($level=="Grade 11" || $level=="Grade 12"){
+                if($section=="All"){
+              
+                 $status=DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
+                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' and bed_levels.is_new = 1 "
+                         . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                }else{
+               
+                 $status=DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
+                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' and bed_levels.is_new = 1  "
+                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+            }}
+         else {
+            if($section=="All"){
+                
+                 $status=DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
+                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.is_new = 1"
+                         . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                
+            } else {
+           
+             $status=DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
+                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.is_new = 1  "
+                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+
+            
+         }}
+         $pdf = PDF::loadView("reg_be.view_list",compact("status","level","section",'strand', 'value'));
+         $pdf->setPaper(array(0,0,612,936));
+         return $pdf->stream();
+         
+ }
+ 
  function studentlevel(){
    if(Request::ajax()){
       $school_year = \App\CtrAcademicSchoolYear::where('academic_type','BED')->first(); 

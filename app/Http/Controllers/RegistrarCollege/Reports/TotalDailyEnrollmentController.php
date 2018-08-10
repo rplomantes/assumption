@@ -15,6 +15,7 @@ class TotalDailyEnrollmentController extends Controller
 
     function index($date_start, $date_end){
         if(Auth::user()->accesslevel == env('REG_COLLEGE')){
+
             $academic_programs = \App\CtrAcademicProgram::distinct()->where('academic_type','College')->get(['program_code','program_name']);
             
             return view('reg_college.reports.total_daily_enrollment_statistics', compact('date_start','date_end','academic_programs'));
