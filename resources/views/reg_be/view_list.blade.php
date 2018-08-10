@@ -9,11 +9,7 @@ function get_name($idno){
         $names->middlename = "(".ucwords(strtolower($names->middlename)).")";
     }
     
-    if ($is_new->is_new == 1){
-    return strtoupper($names->lastname).", ".strtoupper($names->firstname)." ".strtoupper($names->middlename);
-    } else {
     return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename;
-    }
 
     
     }
@@ -70,12 +66,19 @@ $i=1;
    
     @if(count($status)>0)
     @foreach($status as $name)
+    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->first(); ?>
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w')
         <td width="1%">{{$name->idno}}</td>
         @endif
-        <td width="50%">{{get_name($name->idno)}}{{get_ns($name->idno)}}</td>
+        <td width="50%">
+            @if ($is_new->is_new == 1)
+            <strong><i>{{get_name($name->idno)}}{{get_ns($name->idno)}}</i></strong>
+            @else
+            {{get_name($name->idno)}}{{get_ns($name->idno)}}
+            @endif
+        </td>
         <td align="center">{{$name->section}}</td>
         <td></td>
         <td></td>
@@ -133,12 +136,19 @@ $i=1;
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
+    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->first(); ?>
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w')
         <td width="1%">{{$name->idno}}</td>
         @endif
-        <td width="40%">{{get_name($name->idno)}}{{get_ns($name->idno)}}</td>
+        <td width="40%">
+            @if ($is_new->is_new == 1)
+            <strong><i>{{get_name($name->idno)}}{{get_ns($name->idno)}}</i></strong>
+            @else
+            {{get_name($name->idno)}}{{get_ns($name->idno)}}
+            @endif
+        </td>
         <td></td>
         <td></td>
         <td></td>
