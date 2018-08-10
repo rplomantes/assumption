@@ -52,6 +52,7 @@
                             <th>Lec</th>
                             <th>Lab</th>
                             <th>SRF</th>
+                            <th>Lab Fee</th>
                             <th>Action</th>
                             <th>Remove</th>
                         </tr>
@@ -64,6 +65,7 @@
                             <td>{{$course->lec}}</td>
                             <td>{{$course->lab}}</td>
                             <td>{{$course->srf}}</td>
+                            <td>{{$course->lab_fee}}</td>
                             <td>{{$course->action}}</td>
                             <td><a href="{{url('registrar_college',array('remove_adding_dropping',$idno,$course->id))}}">Remove</a></td>
                         </tr>

@@ -181,7 +181,7 @@ class AddingDroppingController extends Controller {
     }
     
     function getLABFEE($idno, $program_code, $school_year,$period,$level,$id) {
-        $grades = \App\AddingDropping::distinct()->where('id', $id)->where('srf', '>', '0')->get();
+        $grades = \App\AddingDropping::distinct()->where('id', $id)->where('lab_fee', '>', '0')->get();
         if (count($grades) > 0) {
             foreach ($grades as $grade) {
                 $addledger = new \App\ledger;
