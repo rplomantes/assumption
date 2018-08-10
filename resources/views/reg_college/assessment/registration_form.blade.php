@@ -216,8 +216,8 @@ $srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
 }
-$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->get();
-
+$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->where('amount','>',0)->get();
+$discount_names = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('discount','>',0)->get();
 $discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->get();
 foreach ($discounts as $discount) {
     $dfee = $dfee + ($discount->discount);
@@ -268,6 +268,15 @@ foreach ($discounts as $discount) {
             <td>:</td>
             <td class='bottomline-right'>({{number_format($dfee,2)}})</td>
         </tr>
+        @if(count($discount_names) > 0)
+        @foreach ($discount_names as $dname )
+        <tr>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$dname->discount_code}}</td>
+            <td>:</td>
+            <td class='bottomline-right'>{{number_format($dname->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        @endforeach
+        @endif
         @if($status->academic_type=="Senior High School")
         <tr>
             <td>Voucher</td>

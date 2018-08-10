@@ -43,7 +43,7 @@ $i=1;
 <table border="1" cellspacing="0" cellpadding="3" width="100%" style="font-size: 9pt">
     <tr>
         <th width="5%">#</th>
-        <th>
+        <th style="font-size: 12pt">
         <center>
             {{$level}}
                 @if($level=="Grade 11" || $level=="Grade 12")
@@ -112,9 +112,9 @@ $i=1;
     <tr>
         <th width="5%">#</th>
         @if($value == 'wo')
-        <th>
+        <th style="font-size: 12pt">
         @else
-        <th colspan="2">
+        <th colspan="2" style="font-size: 12pt">
         @endif
         <center>
             {{$level}}

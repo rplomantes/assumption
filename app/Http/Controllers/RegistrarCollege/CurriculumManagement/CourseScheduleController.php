@@ -95,6 +95,7 @@ class CourseScheduleController extends Controller {
             $updateSchedule->day = "$day";
             $updateSchedule->time_start = "$final_start";
             $updateSchedule->time_end = "$final_end";
+            $updateSchedule->is_tba = 0;
             $updateSchedule->update();
 
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
