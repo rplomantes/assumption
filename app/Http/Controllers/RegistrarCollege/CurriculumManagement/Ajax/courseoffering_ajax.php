@@ -157,8 +157,10 @@ class courseoffering_ajax extends Controller {
             
             $check_grade_colleges = \App\GradeCollege::where('course_offering_id', $id)->get();
             if(count($check_grade_colleges)>0){
-                $check_grade_colleges->course_offering_id = NULL;
-                $check_grade_colleges->save();
+                foreach ($check_grade_colleges as $colleges){
+                $colleges->course_offering_id = NULL;
+                $colleges->save();
+                }
             }else{
             }
 
