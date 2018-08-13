@@ -76,7 +76,8 @@ if(Auth::user()->accesslevel==env("CASHIER")){
              
      <table id="example1" class="table table-responsive table-striped">
          <thead>
-             <tr><th>Date</th>
+             <tr>
+                 <th>Date</th>
                  <th>OR No</th>
                  <th>ID No</th>
                  <th>Name</th>
@@ -95,11 +96,22 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                  @if(Auth::user()->accesslevel == env("ACCTNG_STAFF"))
                  <th>Posted By</th>
                  @endif
-                 <th>View</th></tr>
+                 <th>View</th>
+                 <th>Discrepancy</th></tr>
          </thead>
          <tbody>
              @if(count($payments)>0)
                 @foreach($payments as $payment)
+                
+                <?php 
+                
+                $totalcredit_per = 0;
+                $totaldebit_per = 0;
+                
+            $credits_per = \App\Accounting::selectRaw('sum(credit) as credit')->where('credit','>','0')->where('reference_id', $payment->reference_id)->where('accounting_type','1')->groupBy('reference_id')->get();
+            $debits_per  = \App\Accounting::selectRaw('sum(debit) as debit')->where('debit','>','0')->where('reference_id', $payment->reference_id)->where('accounting_type','1')->groupBy('reference_id')->get();
+                
+                ?>
                     <?php
                     if($payment->is_reverse==0){
                     $totalcash=$totalcash+$payment->cash_amount;
@@ -157,7 +169,17 @@ if(Auth::user()->accesslevel==env("CASHIER")){
                     @if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
                     <td>{{$payment->posted_by}}</td>
                     @endif
-                    <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View</a></td></tr>
+                    <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View</a></td>
+                    <td>
+                        @foreach($credits_per as $credits_pers)
+            <?php $totalcredit_per = $totalcredit_per + $credits_pers->credit; ?>
+                        @endforeach
+                        @foreach($debits_per as $debits_pers)
+            <?php $totaldebit_per = $totaldebit_per + $debits_pers->debit; ?>
+                        @endforeach
+                        {{$totaldebit_per-$totalcredit_per}}
+</td>
+                </tr>
                 @endforeach
              @else
              @endif

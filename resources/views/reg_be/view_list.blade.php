@@ -69,7 +69,7 @@ $i=1;
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->first(); ?>
     <tr>
         <td>{{$i++}}.</td>
-        @if($value == 'w')
+        @if($value == 'w' || $value == 'new')
         <td width="1%">{{$name->idno}}</td>
         @endif
         <td width="50%">
@@ -139,7 +139,7 @@ $i=1;
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->first(); ?>
     <tr>
         <td>{{$i++}}.</td>
-        @if($value == 'w')
+        @if($value == 'w' || $value == 'new')
         <td width="1%">{{$name->idno}}</td>
         @endif
         <td width="40%">
@@ -162,7 +162,7 @@ $i=1;
     </tr>
     @endforeach
     @else
-    <tr><td colspan="8">No List For This Level</td></tr>
+    <tr><td colspan="13">No List For This Level</td></tr>
     @endif
     
 </table>    

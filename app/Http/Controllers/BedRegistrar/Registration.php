@@ -77,6 +77,7 @@ class Registration extends Controller {
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
             $user->update();
+            \App\Http\Controllers\Accounting\SetReceiptController::log("Reset Password of $idno.");
             return redirect(url('/bedregistrar', array('info', $request->idno)));
         }
     }

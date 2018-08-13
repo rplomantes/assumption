@@ -1,4 +1,4 @@
-@extends('layouts.appreg_college')
+@extends('layouts.appbedregistrar')
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
