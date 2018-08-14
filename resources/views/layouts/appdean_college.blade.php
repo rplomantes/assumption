@@ -148,6 +148,37 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('instructor','add_instructor'))}}"><i class="fa fa-circle-o"></i> <span>Add Instructor</span></a></li>
                             </ul>
                         </li>
+                        <?php 
+                        $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
+                        $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
+                        ?>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-bar-chart"></i> <span>Reports</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="treeview">
+                                    <a href="#"><i class="fa fa-circle-o"></i> Student List<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-circle-o"></i> <span>Search</span></a></li>
+                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'per_course'))}}"><i class="fa fa-circle-o"></i> <span>Per Course</span></a></li>
+                                        <li><a href="{{url('registrar_college', array('reports','student_list', 'per_instructor'))}}"><i class="fa fa-circle-o"></i> <span>Per Instructor</span></a></li>
+<!--                                        <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>-->
+                                    </ul>
+                                </li>
+                                <?php $date_today = date('Y-m-d'); ?>
+                                <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'total_daily_enrollment_statistics', $date_today, $date_today))}}"><i class="fa fa-circle-o"></i> <span>Daily Enrollment Statistics</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'ched_enrollment_reports'))}}"><i class="fa fa-circle-o"></i> <span>CHED Enrollment Report</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'list_transfer_student'))}}"><i class="fa fa-circle-o"></i> <span>List of Transfer Student</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'list_unofficially_enrolled'))}}"><i class="fa fa-circle-o"></i> <span>List of Unofficially Enrolled</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'list_freshmen_student'))}}"><i class="fa fa-circle-o"></i> <span>List of Freshmen Student</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('reports', 'nstp_reports'))}}"><i class="fa fa-circle-o"></i> <span>NSTP Reports</span></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </section>
             </aside>
