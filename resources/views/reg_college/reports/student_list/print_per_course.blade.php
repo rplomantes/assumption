@@ -71,7 +71,7 @@
         <tbody>
             <?php $counter = 0; ?>
             @foreach ($list_per_courses as $list)
-            <?php $status = \App\CollegeLevel::where('idno', $list->idno)->where('status',3)->first(); ?>
+            <?php $status = \App\CollegeLevel::where('school_year', $school_years)->where('period',$periods)->where('idno', $list->idno)->where('status',3)->first(); ?>
             @if (count($status)>0)
             <?php $counter = $counter + 1; ?>
             <?php $user = \App\User::where('idno', $list->idno)->first(); ?>

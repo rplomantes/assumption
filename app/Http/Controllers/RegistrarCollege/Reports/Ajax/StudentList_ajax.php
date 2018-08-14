@@ -116,7 +116,7 @@ class StudentList_ajax extends Controller {
             if ($level == "all") {
                 $level = "";
             } else {
-                $level = "and level = '" . $level . "'";
+                $level = "";
             }
 
             if ($program_code == "all") {
@@ -144,13 +144,15 @@ class StudentList_ajax extends Controller {
             if ($school_year == "all") {
                 $school_year = "";
             } else {
-                $school_year = "and statuses.school_year = '" . $school_year . "'";
+                $school_year = "and grade_colleges.school_year = '" . $school_year . "'";
+                $sy = Input::get("school_year");
             }
 
             if ($period == "all") {
                 $period = "";
             } else {
-                $period = "and statuses.period = '" . $period . "'";
+                $period = "and grade_colleges.period = '" . $period . "'";
+                $pr = Input::get("period");
             }
 
             if ($course_code == "all") {
@@ -173,8 +175,10 @@ class StudentList_ajax extends Controller {
 
             if ($section_name == "all") {
                 $section_name = "";
+                $join = "";
             } else {
                 $section_name = "and course_offerings.section_name = '" . $section_name . "'";
+                $join = "join course_offerings on course_offerings.id = grade_colleges.course_offering_id ";
             }
 
             if ($program_code == "all") {
@@ -184,11 +188,12 @@ class StudentList_ajax extends Controller {
             }
             
             
-            $list_per_courses = DB::Select("Select distinct users.idno, users.lastname, users.firstname, users.middlename from grade_colleges join users on users.idno = grade_colleges.idno join statuses on statuses.idno = grade_colleges.idno join course_offerings on course_offerings.id = grade_colleges.course_offering_id where grade_colleges.id is not null $school_year $period $level $program_code $course_code $section_name $section and statuses.status = 3 order by users.lastname");
+//            $list_per_courses = DB::Select("Select distinct users.idno, users.lastname, users.firstname, users.middlename from grade_colleges join users on users.idno = grade_colleges.idno join statuses on statuses.idno = grade_colleges.idno join course_offerings on course_offerings.id = grade_colleges.course_offering_id where grade_colleges.id is not null $school_year $period $level $program_code $course_code $section_name $section and statuses.status = 3 order by users.lastname");
+            $list_per_courses = DB::Select("Select distinct users.idno, users.lastname, users.firstname, users.middlename from grade_colleges join users on users.idno = grade_colleges.idno join statuses on statuses.idno = grade_colleges.idno $join where grade_colleges.id is not null $school_year $period $level $program_code $course_code $section_name $section and statuses.status = 3 order by users.lastname");
             
 //            $list_per_courses = \App\GradeCollege::where('course_code', $course_code)->where('section_name', $section)->join('users', 'users.idno', '=', 'grade_colleges.idno')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->where('statuses.school_year', $school_year)->where('statuses.period', $period)->orderBy('users.lastname')->get();
 
-            return view('reg_college.reports.student_list.ajax.display_per_course', compact('list_per_courses'));
+            return view('reg_college.reports.student_list.ajax.display_per_course', compact('list_per_courses','pr','sy'));
         }
     }
     
