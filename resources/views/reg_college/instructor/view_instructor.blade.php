@@ -1,7 +1,15 @@
 <?php
 $instructors = \App\User::where('accesslevel', 1)->orderBy('lastname', 'ASC')->get();
 ?>
-@extends('layouts.appreg_college')
+<?php
+if(Auth::user()->accesslevel == env('DEAN')){
+$layout = "layouts.appdean_college";
+} else {
+$layout = "layouts.appreg_college";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

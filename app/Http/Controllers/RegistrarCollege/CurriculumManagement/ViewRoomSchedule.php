@@ -16,7 +16,7 @@ class ViewRoomSchedule extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             return view('reg_college.curriculum_management.view_room_schedules');
         }
     }

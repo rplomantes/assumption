@@ -15,19 +15,19 @@ class ViewInstructorsController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             return view('reg_college.instructor.view_instructor');
         }
     }
 
     function view_add() {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             return view('reg_college.instructor.view_add_instructor');
         }
     }
 
     function add(Request $request) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             $this->validate($request, [
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -93,7 +93,7 @@ class ViewInstructorsController extends Controller {
     }
 
     function view_modify($idno) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             $user_info = \App\User::where('idno', $idno)->first();
             $instructor_info = \App\InstructorsInfo::where('idno', $idno)->first();
             
@@ -108,7 +108,7 @@ class ViewInstructorsController extends Controller {
     }
 
     function modify(Request $request) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             $this->validate($request, [
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -174,7 +174,7 @@ class ViewInstructorsController extends Controller {
     }
 
     function reset_password(Request $request){
-        if(Auth::user()->accesslevel == env('REG_COLLEGE')){
+        if(Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')){
             
             $user_info = \App\User::where('idno', $request->idno)->first();
             $user_info->password = bcrypt($request->password);

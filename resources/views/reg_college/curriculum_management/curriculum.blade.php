@@ -1,7 +1,15 @@
 <?php
 $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(array('program_code', 'program_name'));
 ?>
-@extends('layouts.appreg_college')
+<?php
+if(Auth::user()->accesslevel == env('DEAN')){
+$layout = "layouts.appdean_college";
+} else {
+$layout = "layouts.appreg_college";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
