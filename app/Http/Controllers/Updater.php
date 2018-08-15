@@ -11,6 +11,189 @@ class Updater extends Controller
 {
     //
     
+    function updateReservation(){
+        $updates = \App\UpdateReservations::all();
+        DB::beginTransaction();
+        foreach ($updates as $update){
+            $status = \App\Status::where('idno', $update->idno)->first();
+            
+            $idno = $update->idno;
+            $school_year = $status->school_year;
+            $period = $status->period;
+            
+            $this->checkReservations($idno, $school_year, $period);
+            $update->is_done = 1;
+            $update->save();
+        }
+        DB::Commit();
+        
+        return "DONE";
+    }
+    
+    function checkReservations($idno, $school_year, $period) {
+        $levels_reference_id = uniqid();
+        $checkreservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->selectRaw('sum(amount) as amount')->first();
+        if ($checkreservations->amount > 0) {
+            $totalpayment = $checkreservations->amount;
+            $reference_id = uniqid();
+            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
+
+            $this->processAccounting($reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            $this->postDebit($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period);
+
+//            $changestatus = \App\Status::where('idno', $idno)->first();
+//            $changestatus->status = env("ENROLLED");
+//            $changestatus->update();
+            $changereservation = \App\Reservation::where('idno', $idno)->get();
+            if (count($changereservation) > 0) {
+                foreach ($changereservation as $change) {
+                    $change->levels_reference_id = $levels_reference_id;
+                    $change->is_consumed = '1';
+                    $change->consume_sy = $school_year;
+                    $change->update();
+                }
+            }
+        }
+    }
+    
+    function processAccounting($reference_id, $totalpayment, $ledgers, $accounting_type) {
+        $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
+        if (count($ledgers) > 0) {
+            foreach ($ledgers as $ledger) {
+                if ($totalpayment > 0) {
+                    if ($totalpayment >= $ledger->amount - $ledger->discount - $ledger->debit_memo - $ledger->payment) {
+                        $amount = $ledger->amount - $ledger->discount - $ledger->debit_memo - $ledger->payment;
+                        if ($accounting_type == env("DEBIT_MEMO")) {
+                            $ledger->debit_memo = $ledger->debit_memo + $amount;
+                        } else {
+                            $ledger->payment = $ledger->payment + $amount;
+                        }
+                        $ledger->update();
+
+                        $addacct = new \App\Accounting;
+                        $addacct->transaction_date = date('Y-m-d');
+                        $addacct->reference_id = $reference_id;
+                        $addacct->reference_number = $ledger->id;
+                        $addacct->accounting_type = $accounting_type;
+                        $addacct->category = $ledger->category;
+                        $addacct->subsidiary = $ledger->subsidiary;
+                        $addacct->receipt_details = $ledger->receipt_details;
+                        $addacct->particular = $ledger->receipt_details;
+                        $addacct->accounting_code = $ledger->accounting_code;
+                        $addacct->accounting_name = $ledger->accounting_name;
+                        $addacct->department = $ledger->department;
+                        $addacct->fiscal_year = $fiscal_year;
+                        $addacct->credit = $amount;
+                        $addacct->posted_by = 999991;
+                        $addacct->save();
+                        $totalpayment = $totalpayment - $amount;
+                    } else {
+                        if ($totalpayment > 0) {
+                            if ($accounting_type == env("DEBIT_MEMO")) {
+                                $ledger->debit_memo = $ledger->debit_memo + $totalpayment;
+                            } else {
+                                $ledger->payment = $ledger->payment + $totalpayment;
+                            }
+                            $ledger->update();
+                            $addacct = new \App\Accounting;
+                            $addacct->transaction_date = date('Y-m-d');
+                            $addacct->reference_id = $reference_id;
+                            $addacct->reference_number = $ledger->id;
+                            $addacct->accounting_type = $accounting_type;
+                            $addacct->category = $ledger->category;
+                            $addacct->subsidiary = $ledger->subsidiary;
+                            $addacct->receipt_details = $ledger->receipt_details;
+                            $addacct->particular = $ledger->receipt_details;
+                            $addacct->accounting_code = $ledger->accounting_code;
+                            $addacct->accounting_name = $ledger->accounting_name;
+                            $addacct->fiscal_year = $fiscal_year;
+                            $addacct->credit = $totalpayment;
+                            $addacct->posted_by = 999991;
+                            $addacct->save();
+                            $totalpayment = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    function postDebit($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period) {
+        $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
+        $reservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
+        $department = \App\Status::where('idno', $idno)->first()->department;
+        $totalReserved = 0;
+        if (count($reservations) > 0) {
+            foreach ($reservations as $ledger) {
+                $addacct = new \App\Accounting;
+                $addacct->transaction_date = date('Y-m-d');
+                $addacct->reference_id = $reference_id;
+                //$addacct->reference_number=$ledger->id;
+                $addacct->accounting_type = env("DEBIT_MEMO");
+                $addacct->subsidiary = $ledger->idno;
+                $dept = \App\Status::where('idno', $idno)->first();
+                if (count($dept) > 0) {
+                    $department = $dept->department;
+                } else {
+                    $department = "None";
+                }
+                $addacct->department = $department;
+                if ($ledger->reservation_type == 1) {
+                    $category = "Reservation";
+                    $accounting_code = env("RESERVATION_CODE");
+                    $accounting_name = env("RESERVATION_NAME");
+                } else if ($ledger->reservation_type == 2) {
+                    $category = "Student Deposit";
+                    $accounting_code = env("STUDENT_DEPOSIT_CODE");
+                    $accounting_name = env("STUDENT_DEPOSIT_NAME");
+                }
+                $addacct->category = $category;
+                $addacct->receipt_details = $category;
+                $addacct->particular = $category;
+                $addacct->accounting_code = $accounting_code;
+                $addacct->accounting_name = $accounting_name;
+                $addacct->department = $department;
+                $addacct->fiscal_year = $fiscal_year;
+                $addacct->debit = $ledger->amount;
+                $addacct->posted_by = 999991;
+                $addacct->save();
+                $ledger->is_consumed = 1;
+                $totalReserved = $totalReserved + $ledger->amount;
+            }
+            $this->postDebitMemo($idno, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period);
+        }
+    }
+
+    function postDebitMemo($idno, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period) {
+
+        $debit_memo = new \App\DebitMemo;
+        $debit_memo->idno = $idno;
+        $debit_memo->levels_reference_id = $levels_reference_id;
+        $debit_memo->transaction_date = date("Y-m-d");
+        $debit_memo->reference_id = $reference_id;
+        $debit_memo->dm_no = $this->getDMNumber();
+        $debit_memo->explanation = "Reversal of Reservation/Student Deposit";
+        $debit_memo->amount = $totalReserved;
+        $debit_memo->reservation_sy = $school_year;
+        $debit_memo->posted_by = "999991";
+        $debit_memo->save();
+    }
+
+    function getDMNumber() {
+        $id = \App\ReferenceId::where('idno', 999991)->first()->id;
+        $number = \App\ReferenceId::where('idno', 999991)->first()->dm_no;
+        $receipt = "";
+        for ($i = strlen($number); $i <= 6; $i++) {
+            $receipt = $receipt . "0";
+        }
+
+        $update = \App\ReferenceId::where('idno', 999991)->first();
+        $update->dm_no = $update->dm_no + 1;
+        $update->update();
+
+        return $id . $receipt . $number;
+    }
+    
     function updateBedLevel(){
         $users =  \App\User::where('accesslevel',0)->where('is_first_login',1)->where('academic_type','BED')->get();
         foreach($users as $user){

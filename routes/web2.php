@@ -90,6 +90,7 @@ Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
 Route::get('updatebedlevel','Updater@updateBedLevel');
 Route::get('updateCollege','Updater@updateCollege');
 Route::get('updateInstructor','Updater@updateInstructor');
+Route::get('updateReservation','Updater@updateReservation');
 
 //bookstore ajax
 

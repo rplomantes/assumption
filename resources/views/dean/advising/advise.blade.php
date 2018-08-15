@@ -344,10 +344,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             </div>
         </div>
     </div>
-    <div class="col-sm-6 course_offered">
+    <div class="col-sm-6 course_offered" id="courses_advised">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Courses Advised</h3>
+                <h3 class="box-title"">Courses Advised</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -528,5 +528,28 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
     function confirm_advised(idno, program_code, level, curriculum_year, section){
         window.location = "/dean/advising/confirm_advised/" + idno + "/" + program_code + "/" + level + "/" + curriculum_year + "/" + section; 
     }
+    
+    
+    $(function() {
+
+    var $sidebar   = $("#courses_advised"), 
+        $window    = $(window),
+        offset     = $sidebar.offset(),
+        topPadding = 15;
+
+    $window.scroll(function() {
+        if ($window.scrollTop() > offset.top) {
+            $sidebar.stop().animate({
+                marginTop: $window.scrollTop() - offset.top + topPadding
+            });
+        } else {
+            $sidebar.stop().animate({
+                marginTop: 0
+            });
+        }
+    });
+    
+});
+    
 </script>
 @endsection
