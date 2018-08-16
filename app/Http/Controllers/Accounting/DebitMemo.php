@@ -94,6 +94,7 @@ class DebitMemo extends Controller
     }
     
     function post_debit_memo(Request $request){
+        return $request;
         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){    
         DB::beginTransaction();
         $reference_id = uniqid();
