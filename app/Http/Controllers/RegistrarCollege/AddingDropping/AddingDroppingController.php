@@ -89,17 +89,39 @@ class AddingDroppingController extends Controller {
         }
     }
 
+    function getdiscountrate($type, $discount_code, $idno) {
+        if ($type == 'tf') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;
+        } elseif ($type == 'of') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
+        }
+    }
+    
     function processAdding($idno, $school_year, $status, $user, $is_practicum_only) {
         $tuitionfee = 0;
+        $tobediscount = 0;
+        $discounttf = 0;
         $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
         $tuitionrate = $tfr->per_unit;
         $checktuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('category_switch', 6)->first();
         $adds = \App\AddingDropping::distinct()->where('idno', $idno)->where('is_done', 0)->where('action', 'ADD')->get();
         foreach ($adds as $grade) {
             if (count($checktuition) > 0) {
-                $tuitionfee = ((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100));
+                
+                if (!is_null($checktuition->discount_code)) {
+                    $discounttype = \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $checktuition->discount_code)->first()->discount_type;
+                    if ($discounttype == 0) {
+                        $discounttf = $this->getdiscountrate('tf', $checktuition->discount_code, $idno);
+                    } else if ($discounttype == 1) {
+                        $discounttf = $this->getdiscount('tf', $checktuition->discount_code, $idno);
+                    }
+                }
+                
+                $tuitionfee   = ((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100));
+                $tobediscount = (((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100)) * ($discounttf / 100));
 
                 $checktuition->amount = $checktuition->amount + $tuitionfee;
+                $checktuition->discount = $checktuition->discount + $tobediscount;
                 $checktuition->save();
 
                 $new_grade = new \App\GradeCollege();
@@ -205,15 +227,28 @@ class AddingDroppingController extends Controller {
 
     function processDropping($idno, $school_year, $status, $user) {
         $tuitionfee = 0;
+        $tobediscount = 0;
+        $discounttf = 0;
         $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
         $tuitionrate = $tfr->per_unit;
         $checktuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('category_switch', 6)->first();
         $adds = \App\AddingDropping::distinct()->where('idno', $idno)->where('is_done', 0)->where('action', 'DROP')->get();
         foreach ($adds as $grade) {
             if (count($checktuition) > 0) {
-                $tuitionfee = ((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100));
+                if (!is_null($checktuition->discount_code)) {
+                    $discounttype = \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $checktuition->discount_code)->first()->discount_type;
+                    if ($discounttype == 0) {
+                        $discounttf = $this->getdiscountrate('tf', $checktuition->discount_code, $idno);
+                    } else if ($discounttype == 1) {
+                        $discounttf = $this->getdiscount('tf', $checktuition->discount_code, $idno);
+                    }
+                }
+                
+                $tuitionfee   = ((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100));
+                $tobediscount = (((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100)) * ($discounttf / 100));
 
                 $checktuition->amount = $checktuition->amount - $tuitionfee;
+                $checktuition->discount = $checktuition->discount - $tobediscount;
                 $checktuition->save();
 
 
