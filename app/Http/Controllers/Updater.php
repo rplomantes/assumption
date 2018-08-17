@@ -86,7 +86,7 @@ class Updater extends Controller {
     }
 
     function updateReservation() {
-        $updates = \App\UpdateReservations::all();
+        $updates = \App\UpdateReservations::where('is_done', 0)->get();
         DB::beginTransaction();
         foreach ($updates as $update) {
             $status = \App\Status::where('idno', $update->idno)->first();

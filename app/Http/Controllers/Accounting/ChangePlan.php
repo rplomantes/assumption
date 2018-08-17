@@ -75,7 +75,22 @@ class ChangePlan extends Controller {
         $addchange->posted_by = Auth::user()->idno;
         $addchange->save();
 
+        $discount = \App\CtrDiscount::where('discount_code', $orginalamount->discount_code)->first();
+        if (count($discount) > 0) {
+            $discount_code = $discount->discount_code;
+            $discount_description = $discount->discount_description;
+            $discount_tuition = $discount->tuition_fee;
+        }
+        
         $orginalamount->amount = $this->roundOff($changeamount);
+        
+        if (count($discount) > 0) {
+        $amount = $orginalamount->amount;
+        $discount_amount = $amount * $discount_tuition / 100;
+        $orginalamount->discount_code = $discount_code;
+        $orginalamount->discount = $discount_amount;
+        }
+        
         $orginalamount->update();
     }
 

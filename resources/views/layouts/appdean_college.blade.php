@@ -10,7 +10,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Assumption College - Dean College</title>
+        <title>Assumption College - Academic College</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="stylesheet" href="{{ asset ('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{ asset ('bower_components/font-awesome/css/font-awesome.min.css')}}">
@@ -27,7 +27,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
             <header class="main-header">
                 <a href="{{url('/')}}" class="logo">
                     <span class="logo-mini"><b>A</b>CS</span>
-                    <span class="logo-lg"><b>Dean</b>COLLEGE</span>
+                    <span class="logo-lg"><b>Acad</b>COLLEGE</span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -57,7 +57,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
                                         <p>
                                             {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                                            <small>Dean - College</small>
+                                            <small>Academic - College</small>
                                         </p>
                                     </li>
 

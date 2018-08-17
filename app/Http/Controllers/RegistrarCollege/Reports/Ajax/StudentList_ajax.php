@@ -197,4 +197,47 @@ class StudentList_ajax extends Controller {
         }
     }
     
+    function get_course(){
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $instructor_id = Input::get("instructor_id");
+            
+            $courses = \App\ScheduleCollege::distinct()->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('schedule_colleges.instructor_id',$instructor_id)->join('course_offerings', 'course_offerings.schedule_id', '=', 'schedule_colleges.schedule_id')->get(['course_offerings.course_code']);
+            
+            return view('reg_college.reports.student_list.ajax.get_course', compact('courses'));
+        }
+    }
+    
+    function get_schedule(){
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $instructor_id = Input::get("instructor_id");
+            $course_code = Input::get("course_code");
+            
+            $scheds = \App\ScheduleCollege::distinct()->where('instructor_id', $instructor_id)->where('school_year', $school_year)->where('period', $period)->where('course_code', $course_code)->get(['schedule_id']);
+            
+            return view('reg_college.reports.student_list.ajax.get_sched', compact('scheds'));
+        }
+    }
+    
+    function getstudentlist(){
+        if (Request::ajax()) {
+            $schedule_id = Input::get("schedule_id");
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $instructor_id = Input::get("instructor_id");
+            $course_code = Input::get("course_code");
+            
+            $confirm_instructor = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
+        
+            
+            $courses_id = \App\CourseOffering::where('schedule_id',$schedule_id)->get();
+            $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
+            
+            return view('reg_college.reports.student_list.ajax.getstudentlist', compact('courses_id','schedule_id','course_name', 'school_year','period'));
+        }
+    }
+    
 }

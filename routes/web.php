@@ -168,11 +168,15 @@ Route::get('/registrar_college/reports/student_list/print_search/{school_year}/{
 Route::get('/registrar_college/reports/student_list/per_course','RegistrarCollege\Reports\StudentListController@per_course');
 Route::get('/registrar_college/reports/student_list/print_per_course/{course}/{section}/{section_name}/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_per_course');
 Route::get('/registrar_college/reports/student_list/per_instructor','RegistrarCollege\Reports\StudentListController@per_instructor');
+Route::get('/registrar_college/reports/student_list/print_per_instructor/{instructor_id}/{school_year}/{period}/{schedule_id}/{course_code}','RegistrarCollege\Reports\StudentListController@print_per_instructor');
 //Ajax Student List
 Route::get('/ajax/registrar_college/reports/student_list/search','RegistrarCollege\Reports\Ajax\StudentList_ajax@search');
 Route::get('/ajax/registrar_college/reports/student_list/select_section','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_section');
 Route::get('/ajax/registrar_college/reports/student_list/select_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@select_course');
 Route::get('/ajax/registrar_college/reports/student_list/list_per_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@list_per_course');
+Route::get('/ajax/registrar_college/reports/student_list/list_per_instructor/get_course','RegistrarCollege\Reports\Ajax\StudentList_ajax@get_course');
+Route::get('/ajax/registrar_college/reports/student_list/list_per_instructor/get_schedule','RegistrarCollege\Reports\Ajax\StudentList_ajax@get_schedule');
+Route::get('/ajax/registrar_college/reports/student_list/list_per_instructor/getstudentlist','RegistrarCollege\Reports\Ajax\StudentList_ajax@getstudentlist');
 //Enrollment Statistics
 Route::get('/registrar_college/reports/enrollment_statistics/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@index');
 Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_statistics/{school_year}/{period}','RegistrarCollege\Reports\EnrollmentStatisticsController@print_statistics');

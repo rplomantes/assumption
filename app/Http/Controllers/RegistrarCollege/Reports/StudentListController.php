@@ -140,9 +140,19 @@ class StudentListController extends Controller {
 
     function per_instructor() {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel==env('DEAN')) {
-            
-            return view('reg_college.reports.student_list.per_instructor', compact('school_years', 'programs'));
+            $instructors = \App\User::where('accesslevel', env('INSTRUCTOR'))->get();
+            return view('reg_college.reports.student_list.per_instructor', compact('instructors'));
         }
+    }
+    
+    function print_per_instructor($instructor_id, $school_year, $period, $schedule_id, $course_code){
+        
+            $courses_id = \App\CourseOffering::where('schedule_id',$schedule_id)->get();
+            $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
+        
+        $pdf = PDF::loadView('reg_college.reports.student_list.print_per_instructor', compact('courses_id','course_code','schedule_id','course_name', 'school_year','period', 'instructor_id'));
+        $pdf->setPaper(array(0, 0, 612.00, 792.0));
+        return $pdf->stream("student_list_.pdf");
     }
     
 }

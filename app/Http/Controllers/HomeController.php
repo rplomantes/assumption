@@ -95,6 +95,7 @@ class HomeController extends Controller {
             $user->password = bcrypt($request->password);
             $user->is_first_login = 0;
             $user->update();
+            \App\Http\Controllers\Accounting\SetReceiptController::log("Reset my password - ". Auth::user()->idno);
             return redirect(url('/'));
         }
     }
