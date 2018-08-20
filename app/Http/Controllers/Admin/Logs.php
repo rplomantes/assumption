@@ -18,4 +18,11 @@ class Logs extends Controller
         $logs = \App\Log::orderBy('id', 'desc')->get();
         return view('admin.logs', compact('logs'));
     }
+    public static function log($action){
+        $log = new \App\Log();
+        $log->action = "$action";
+        $log->idno = Auth::user()->idno;
+        $log->datetime = date("Y-m-d H:i:s");
+        $log->save();
+    }
 }

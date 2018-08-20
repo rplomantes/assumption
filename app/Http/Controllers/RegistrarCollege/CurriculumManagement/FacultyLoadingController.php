@@ -35,6 +35,8 @@ class FacultyLoadingController extends Controller {
             $updatesched->instructor_id = "$instructor_id";
             $updatesched->save();
             }
+            
+            \App\Http\Controllers\Admin\Logs::log("Assign loading this schedule:$schedule_id to $instructor_id");
             return redirect("/registrar_college/curriculum_management/edit_faculty_loading/$instructor_id");
         }
     }
@@ -46,6 +48,7 @@ class FacultyLoadingController extends Controller {
             $updatesched->instructor_id = NULL;
             $updatesched->save();
             }
+            \App\Http\Controllers\Admin\Logs::log("Remove loading this schedule:$schedule_id");
             
             return redirect("/registrar_college/curriculum_management/edit_faculty_loading/$idno");
         }

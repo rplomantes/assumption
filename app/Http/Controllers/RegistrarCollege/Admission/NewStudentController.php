@@ -56,6 +56,8 @@ class NewStudentController extends Controller {
             $this->admission_hed($request, $reference_no);
             $this->admissionchecklist($request, $reference_no);
             $this->scholarship($request, $reference_no);
+            
+            \App\Http\Controllers\Admin\Logs::log("Add new student in HED with reference number [$reference_no], $request->lastname, $request->firstname $request->middlenmae");
             DB::commit();
 
             return redirect(url('/'));

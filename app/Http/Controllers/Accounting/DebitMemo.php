@@ -94,7 +94,7 @@ class DebitMemo extends Controller
     }
     
     function post_debit_memo(Request $request){
-        return $request;
+
         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){    
         DB::beginTransaction();
         $reference_id = uniqid();
@@ -181,6 +181,7 @@ class DebitMemo extends Controller
     function postDebitEntry($request, $reference_id){
         $accounting = $request->accounting;
         $debit_amount = $request->debit_amount;
+        $debit_particular = $request->debit_particular;
         $department=  \App\Status::where('idno',$request->idno)->first()->department;
         $fiscal_year=  \App\CtrFiscalYear::first()->fiscal_year;
         for($i=0;$i<count($accounting);$i++){
@@ -189,7 +190,7 @@ class DebitMemo extends Controller
             $addacct->reference_id=$reference_id;
             $addacct->accounting_type = env("DEBIT_MEMO");
             $addacct->category=$this->getAccounitngName($accounting[$i]);
-            $addacct->subsidiary=$request->idno;
+            $addacct->subsidiary=$debit_particular[$i];
             $addacct->receipt_details=$this->getAccounitngName($accounting[$i]);
             $addacct->particular=$request->remark;
             $addacct->accounting_code=$accounting[$i];
@@ -215,8 +216,8 @@ class DebitMemo extends Controller
      
      function view_debit_memo($reference_id){
          $debit_memo = \App\DebitMemo::where('reference_id',$reference_id)->first();
-         $accountings =  \App\Accounting::selectRaw("accounting_code, accounting_name, sum(debit) as debit, sum(credit) as credit")
-                 ->where('reference_id',$reference_id)->groupBy('accounting_name','accounting_code')->get();
+         $accountings =  \App\Accounting::selectRaw("accounting_code, accounting_name, subsidiary,sum(debit) as debit, sum(credit) as credit")
+                 ->where('reference_id',$reference_id)->groupBy('accounting_name','accounting_code','subsidiary')->get();
          $user = \App\User::where('idno',$debit_memo->idno)->first();
          $status=  \App\Status::where('idno',$debit_memo->idno)->first();
          return view('accounting.view_debit_memo',compact('debit_memo','accountings','user','status'));

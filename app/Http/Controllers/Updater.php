@@ -32,9 +32,9 @@ class Updater extends Controller {
                 $this->processAccounting($reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
                 $this->postDebitEntry($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period, $delete_ledger);
 
-                foreach ($delete_ledger as $del) {
-                    $del->delete();
-                }
+//                foreach ($delete_ledger as $del) {
+//                    $del->delete();
+//                }
 
                 $update->is_done = 1;
                 $update->save();

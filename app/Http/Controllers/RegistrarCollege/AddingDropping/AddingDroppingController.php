@@ -43,6 +43,7 @@ class AddingDroppingController extends Controller {
         $this->processDropping($idno, $school_year, $status, $user);
         $this->deleteLedgerduedate($idno, $school_year->school_year, $school_year->period);
         $this->computeLedgerDueDate($idno, $school_year->school_year, $school_year->period, $status->type_of_plan);
+            \App\Http\Controllers\Admin\Logs::log("Process adding/dropping of $idno for S.Y. $school_year->school_year, $school_year->period");
         DB::Commit();
         return redirect("registrar_college/assessment/$idno");
     }

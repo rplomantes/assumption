@@ -58,6 +58,8 @@ class Registration extends Controller {
                 $addstatus->status = 0;
                 $addstatus->academic_type = "BED";
                 $addstatus->save();
+                
+                \App\Http\Controllers\Admin\Logs::log("Register new student - [$request->referenceid]: $request->lastname, $request->firstname $request->middlename.");
                 DB::Commit();
                 return view('reg_be.successfull');
             }
@@ -77,7 +79,7 @@ class Registration extends Controller {
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
             $user->update();
-            \App\Http\Controllers\Accounting\SetReceiptController::log("Reset Password of $request->idno.");
+            \App\Http\Controllers\Accounting\SetReceiptController::log("Reset password of $request->idno.");
             return redirect(url('/bedregistrar', array('info', $request->idno)));
         }
     }
@@ -118,6 +120,7 @@ class Registration extends Controller {
                 $addpro->parent_email = $request->parent_email;
                 $addpro->save();
             }
+            \App\Http\Controllers\Admin\Logs::log("Update student information of $request->referenceid.");
             return redirect(url('/bedregistrar', array('info', $request->idno)));
         }
     }

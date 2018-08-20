@@ -37,6 +37,8 @@ class PromotionsController extends Controller
                 $update_promotions->level = $level;
                 $update_promotions->strand = $strand;
                 $update_promotions->save();
+                
+            \App\Http\Controllers\Admin\Logs::log("Update promotions of $idno");
             }
             return redirect("/guidance_bed/promotions/$idno");
         }

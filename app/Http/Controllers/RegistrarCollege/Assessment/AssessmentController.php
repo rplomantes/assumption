@@ -102,6 +102,8 @@ class AssessmentController extends Controller {
             $status->level = $assignlevel;
             $status->save();
 
+            \App\Http\Controllers\Admin\Logs::log("Re-advise student $idno");
+            
             return redirect("/registrar_college/assessment/$idno");
             //return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
         }
@@ -190,6 +192,8 @@ class AssessmentController extends Controller {
         $this->checkReservations($request, $idno, $school_year, $period);
         //check if no payment will be made
         $this->checkLedger($request, $idno, $school_year, $period);
+        
+        \App\Http\Controllers\Admin\Logs::log("Process assessment of student $idno for S.Y. $school_year, $period");
         /*
           $totalFee = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('amount');
           $totalDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->sum('discount');
@@ -211,6 +215,7 @@ class AssessmentController extends Controller {
         $updatestatus->status = 1;
         $updatestatus->save();
 
+            \App\Http\Controllers\Admin\Logs::log("Re-assess assessment of student $idno");
         return redirect("/registrar_college/assessment/$idno");
     }
 
@@ -228,6 +233,7 @@ class AssessmentController extends Controller {
         $ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('due_switch', 1)->get();
         $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('due_switch', 0)->first();
 
+            \App\Http\Controllers\Admin\Logs::log("Print Registration Form of student: $idno");
         $pdf = PDF::loadView('reg_college.assessment.registration_form', compact('student_info', 'grades', 'user', 'status', 'school_year', 'period', 'ledger_due_dates', 'downpayment', 'y_year', 'y_period'));
         $pdf->setPaper(array(0, 0, 612.00, 936.0));
         return $pdf->stream("registration_form_$status->registration_no.pdf");

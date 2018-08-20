@@ -40,6 +40,7 @@ class OtherPayment extends Controller
         $this->postAccounting($request, $reference_id);
         StudentReservation::postCashDebit($request, $reference_id);
         StudentLedger::updatereceipt();
+        \App\Http\Controllers\Admin\Logs::log("Post other payment for - $request->idno with reference id:$reference_id.");
         DB::commit();
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }
@@ -100,6 +101,7 @@ class OtherPayment extends Controller
             $this->postAccounting($request, $reference_id);
             StudentReservation::postCashDebit($request, $reference_id);
             StudentLedger::updatereceipt();
+            \App\Http\Controllers\Admin\Logs::log("Post non-student payment to - $request->paid_by.");
             DB::Commit();
             return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }

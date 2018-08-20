@@ -73,15 +73,15 @@
         <tr><th></th><td align="right"></td></tr>
         </table>
        <table class="table table-responsive">
-       <tr><th>Accounting Code</th><th>Accounting Name</th><th>Debit</th><th>Credit</th></tr>
+           <tr><th>Accounting Code</th><th>Accounting Name</th><th>Particular</th><th>Debit</th><th>Credit</th></tr>
        <?php $total_debit=0;$total_credit=0;?>
        @foreach($accountings as $accounting)
        <?php $total_debit=$total_debit+$accounting->debit;
             $total_credit=$total_credit+$accounting->credit;?>
-       <tr><td>{{$accounting->accounting_code}}</td><td>{{$accounting->accounting_name}}</td>
+       <tr><td>{{$accounting->accounting_code}}</td><td>{{$accounting->accounting_name}}</td><td>{{$accounting->subsidiary}}</td>
            <td>{{number_format($accounting->debit,2)}}</td><td>{{number_format($accounting->credit,2)}}</td></tr>
        @endforeach
-       <tr><td colspan="2"> Total</td><td><b>{{number_format($total_debit,2)}}</b></td><td><b>{{number_format($total_credit,2)}}</b></td></tr>
+       <tr><td colspan="3"> Total</td><td><b>{{number_format($total_debit,2)}}</b></td><td><b>{{number_format($total_credit,2)}}</b></td></tr>
        </table>
       <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
         <b>Explanation:</b><br>{{$debit_memo->explanation}}

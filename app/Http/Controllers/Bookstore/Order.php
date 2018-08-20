@@ -67,6 +67,7 @@ class Order extends Controller
         //return $request;
         DB::beginTransaction();
         $this->addOptionalFee($request);
+        \App\Http\Controllers\Admin\Logs::log("Place order in bookstore for - $request->idno.");
         DB::Commit();
         
         $pdf = PDF::loadView('bookstore.print_place_order', compact('idno','request'));

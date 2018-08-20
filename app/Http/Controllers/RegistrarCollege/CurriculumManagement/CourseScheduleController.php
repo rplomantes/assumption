@@ -98,6 +98,8 @@ class CourseScheduleController extends Controller {
             $updateSchedule->is_tba = 0;
             $updateSchedule->update();
 
+            \App\Http\Controllers\Admin\Logs::log("Edit schedule of schedule_id $request->schedule_id to $room $day $final_start-$final_end");
+            
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
             
         }
@@ -110,6 +112,7 @@ class CourseScheduleController extends Controller {
             $deleteSchedule = \App\CourseOffering::where('id', $course_offering_id)->first();
             $deleteSchedule->schedule_id = NULL;
             $deleteSchedule->save();
+            \App\Http\Controllers\Admin\Logs::log("Unmerged schedule course_offering_id: $course_offering_id");
 
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
         }
@@ -121,6 +124,8 @@ class CourseScheduleController extends Controller {
             $course = \App\CourseOffering::where('id', $course_id)->first();
             $course->schedule_id = "$schedule_id";
             $course->save();
+            
+            \App\Http\Controllers\Admin\Logs::log("Merge schedule_id:$schedule_id to course_id: $course_id");
 
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_id");
         }
@@ -157,6 +162,9 @@ class CourseScheduleController extends Controller {
         $addSchedule->time_end = 'TBA';
         $addSchedule->is_tba = 1;
         $addSchedule->save();
+        
+        
+            \App\Http\Controllers\Admin\Logs::log("Set schedule_id:$schedule_id to TBA");
 
         return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_offering_id");
     }
@@ -165,6 +173,7 @@ class CourseScheduleController extends Controller {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $delete_sched = \App\ScheduleCollege::where('schedule_id', $id)->first();
             $delete_sched->delete();
+            \App\Http\Controllers\Admin\Logs::log("Delete this schedule_id:$id because no courses attached to this.");
             return redirect("/registrar_college/curriculum_management/edit_course_schedule/$course_id");        }
     }
 

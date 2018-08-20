@@ -41,6 +41,8 @@ class ViewInfoController extends Controller {
             $this->updateFamilyBackground($request);
             $this->updateEducBackground($request);
             $this->updateUser($request);
+            
+            \App\Http\Controllers\Admin\Logs::log("Update information of student: $idno");
             DB::Commit();
             
             Session::flash('message', 'Information Updated!');
@@ -133,6 +135,8 @@ class ViewInfoController extends Controller {
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
             $user->update();
+            
+            \App\Http\Controllers\Admin\Logs::log("Reset password of student: $idno");
             return redirect(url('/registrar_college', array('view_info', $request->idno)));
         }
     }

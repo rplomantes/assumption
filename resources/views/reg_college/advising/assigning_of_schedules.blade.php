@@ -42,6 +42,9 @@
             @if (Session::has('message'))
             <div class="alert alert-success">{{ Session::get('message') }}</div>
         @endif
+            @if (Session::has('danger'))
+            <div class="alert alert-danger">{{ Session::get('danger') }}</div>
+        @endif
             <div class="box">
                 <div class="box-header">
                     <div class="box-tools pull-right">

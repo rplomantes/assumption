@@ -57,6 +57,8 @@ class StudentRecordController extends Controller
             $level = \App\CollegeLevel::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
             
+            \App\Http\Controllers\Admin\Logs::log("Print transcript of student: $idno");
+            
             $pdf = PDF::loadView('reg_college.view_record.print_transcript', compact('idno','user','info','level'));
             $pdf->setPaper(array(0,0,612,936));
 //            return $request;
@@ -68,6 +70,8 @@ class StudentRecordController extends Controller
             $user = \App\User::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
+            
+            \App\Http\Controllers\Admin\Logs::log("Print True copy of grades for student: $idno");
             
             $pdf = PDF::loadView('reg_college.view_record.print_true_copy_of_grades', compact('idno','user','info','level'));
             $pdf->setPaper(array(0,0,612,792));

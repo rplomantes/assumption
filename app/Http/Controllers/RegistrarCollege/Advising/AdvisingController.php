@@ -39,6 +39,9 @@ class AdvisingController extends Controller
                 $message = "CLOSED!";
             }
             
+            
+            \App\Http\Controllers\Admin\Logs::log("Set advising school year to $school_year-$period:$message");
+            
             Session::flash('message', "Advising is now $message");
             return redirect('registrar_college/advising/set_up');
             

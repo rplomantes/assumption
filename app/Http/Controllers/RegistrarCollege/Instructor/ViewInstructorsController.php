@@ -48,6 +48,8 @@ class ViewInstructorsController extends Controller {
         DB::beginTransaction();
         $this->adduser($request);
         $this->addinstructorinfo($request);
+        
+            \App\Http\Controllers\Admin\Logs::log("Create new instructor idno: $request->idno");
         DB::commit();
 
         return redirect(url('/registrar_college/instructor/view_instructor'));
@@ -129,6 +131,7 @@ class ViewInstructorsController extends Controller {
         DB::beginTransaction();
         $this->modifyuser($request);
         $this->modifyinstructorinfo($request);
+            \App\Http\Controllers\Admin\Logs::log("Update information of instructor $request->idno");
         DB::commit();
 
         return redirect(url('registrar_college', array('instructor', 'view_instructor')));
@@ -180,6 +183,7 @@ class ViewInstructorsController extends Controller {
             $user_info->password = bcrypt($request->password);
             $user_info->is_first_login = 1;
             $user_info->update();  
+            \App\Http\Controllers\Admin\Logs::log("Reset password of instructor $request->idno");
             
             return redirect(url('/registrar_college/instructor/modify_instructor', array($request->idno)));
         }

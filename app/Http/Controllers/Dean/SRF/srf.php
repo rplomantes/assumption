@@ -38,6 +38,8 @@ class srf extends Controller
                 $set->srf = $request->srf;
                 $set->save();
             }
+            
+            \App\Http\Controllers\Admin\Logs::log("Set SRF of $course_code to PHP $request->srf");
             return redirect("dean/srf/modify/$course_code");
         }
     }

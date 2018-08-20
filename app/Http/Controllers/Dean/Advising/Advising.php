@@ -103,6 +103,9 @@ class Advising extends Controller {
                 $updatestatus->advised_by = Auth::user()->idno;
                 $updatestatus->save();
                 
+                $sy = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->school_year;
+                $pr = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first()->period;
+                
                 $updateadmission_hed = \App\AdmissionHed::where('idno', $idno)->first();
                 $updateadmission_hed->program_code = "$program_code";
                 $updateadmission_hed->program_name = "$program_name";
@@ -126,6 +129,9 @@ class Advising extends Controller {
                 $updatestudentinfo->program_name = "$program_name";
                 $updatestudentinfo->save();
 
+                
+            \App\Http\Controllers\Admin\Logs::log("Confirm adivsing of student $idno for S.Y. $sy, $pr.");
+                
                 return view('dean.advising.confirmed_advised', compact('idno'));
             }
         }

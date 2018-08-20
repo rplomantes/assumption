@@ -97,6 +97,7 @@ class MainPayment extends Controller {
             StudentReservation::postCashDebit($request, $reference_id);
             StudentLedger::updatereceipt();
             $this->checkStatus($request, $reference_id);
+            \App\Http\Controllers\Admin\Logs::log("Post main payment for  - $request->idno with reference id:$reference_id.");
             DB::commit();
             return redirect(url('/cashier', array('viewreceipt', $reference_id)));
         }

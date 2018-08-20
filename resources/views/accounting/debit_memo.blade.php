@@ -171,7 +171,8 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
        <div  id="dynamic_field">
                         <!--div class="top-row"-->
                         <div class="form form-group">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
+                            <label>Accounting</label>
                             <select name="accounting[]" id="accounting1" class="form form-control select2" onkeypress="gotoother_amount(1,event)">
                             <option>Select Accounting Name</option>
                             @if(count($accountings)>0)
@@ -183,10 +184,16 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                             
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label>Particular</label>
+                            <input class="form form-control"        type="text" name="debit_particular[]" id='debit_particular1'/>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Amount</label>
                             <input class="form form-control number" type="text" onkeypress="totalOther(event)" name="debit_amount[]" id="debit_amount1"/>
                         </div>
                         <div class="col-md-2">
+                            <label class='col-sm-12'>&nbsp;</label>
                         <button type="button" name="add" id="add" class="btn btn-success"> + </button></td>
                         </div>
                         </div>    
@@ -278,11 +285,12 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                
         i++;
         $('#dynamic_field').append('<div id="row'+i+'" class="form form-group">\n\
-        <div class="col-md-5">\n\
+        <div class="col-md-4">\n\
         <select class="form form-control select2" onkeypress = "gotoother_amount('+i+',event)" name="accounting[]" id="accounting'+i+'">'
          @foreach($accountings as $accounting) + '<option value="{{$accounting->accounting_code}}">{{$accounting->accounting_name}}</option>'  @endforeach 
          + '</select></div>\n\
-        <div class="col-md-5"><input class="form form-control number" type="text" onkeypress="totalOther(event)"  name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
+        <div class="col-md-3"><input class="form form-control"        type="text" name="debit_particular[]" id="debit_particular'+i+'"/></div>\n\
+        <div class="col-md-3"><input class="form form-control number" type="text" onkeypress="totalOther(event)"  name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
         <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
         
         //$("#donereg").fadeOut();

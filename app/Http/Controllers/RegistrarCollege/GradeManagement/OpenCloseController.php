@@ -28,6 +28,8 @@ class OpenCloseController extends Controller
             $update->finals = $request->finals;
             $update->save();
             
+            \App\Http\Controllers\Admin\Logs::log("Setup grading for HED midterms: $request->midterm and finals:$request->finals");
+            
             return redirect('/registrar_college/grade_management/open_close');
         }
     }

@@ -73,6 +73,7 @@ class Assess extends Controller {
                         $this->addDueDates($request, $schoolyear->school_year, $schoolyear->period);
                         $this->modifyStatus($request, $schoolyear->school_year, $schoolyear->period);
                         $this->checkReservations($request, $schoolyear->school_year, $schoolyear->period);
+                        \App\Http\Controllers\Admin\Logs::log("Assess for Enrollment S.Y. $schoolyear->school_year - $idno.");
 
                         $cut_off = \App\CtrEnrollmentCutOff::where('academic_type', $user->academic_type)->first();
                         if (date('Y-m-d') > $cut_off->cut_off) {
@@ -550,7 +551,7 @@ class Assess extends Controller {
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
-                \App\Http\Controllers\Accounting\SetReceiptController::log("Reassess $idno.");
+                \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year.");
                 DB::commit();
             }
         }
@@ -573,7 +574,7 @@ class Assess extends Controller {
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
-                \App\Http\Controllers\Accounting\SetReceiptController::log("Reassess $idno.");
+                \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year and reversed reservations.");
                 DB::commit();
             }
         }
@@ -880,8 +881,8 @@ class Assess extends Controller {
     function changeStatusStrand($request){
         $changeStatus = \App\Status::where('idno', $request->idno)->first();
         $changeStatus->strand = $request->strand;
-       $school_year =  $changeStatus->school_year;
-       $period = $changeStatus->period;
+        $school_year =  $changeStatus->school_year;
+        $period = $changeStatus->period;
         $changeStatus->save();
         
         $changeBedLevels = \App\BedLevel::where('idno', $request->idno)->where('school_year', $school_year)->where('period',$period)->first();

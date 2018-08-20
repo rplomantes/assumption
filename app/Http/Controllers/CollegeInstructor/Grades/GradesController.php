@@ -38,6 +38,7 @@ class GradesController extends Controller
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering, $request);
                     $this->updateStatus($course_offering, $request);
+            \App\Http\Controllers\Admin\Logs::log("Save and Submit grades for course_offering_id: $course_offering->id.");
                 DB::commit();
             }
             return redirect(url('college_instructor', array('grades',$request->schedule_id)));

@@ -142,7 +142,7 @@ $ledger_main_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amoun
             $this->reverserestore_entries(\App\Payment::where('reference_id',$reference_id)->get(), $reference_id);
             $this->reverserestore_entries(\App\Accounting::where('reference_id',$reference_id)->get(), $reference_id);
             $this->reverserestore_entries(\App\Reservation::where('reference_id',$reference_id)->get(), $reference_id);
-            
+            \App\Http\Controllers\Admin\Logs::log("Reverse/Restore receipt with reference no: $reference_id.");
             DB::commit();
             return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         }
