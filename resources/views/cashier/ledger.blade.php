@@ -84,7 +84,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                     } else {
                     
                     if($levels->academic_type=="SHS"){
-                        echo "<tr><td>Strand : </td><td>".$levels->track."</td><tr>";    
+                        echo "<tr><td>Strand : </td><td>".$levels->strand."</td><tr>";    
                     }
                     echo "<tr><td>Level/Section : </td><td>".$levels->level ." - ".$levels->section."</td><tr>";
                     
@@ -94,6 +94,9 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 break;
             case env("ENROLLED"):
                  echo "<tr><td>Status : </td><td>Enrolled</td><tr>";
+                if($levels->academic_type=="SHS"){
+                        echo "<tr><td>Strand : </td><td>".$levels->strand."</td><tr>";    
+                    }
                 if($status->academic_type=="College"){
                  echo "<tr><td>Level/Section : </td><td>".$levels->program_code ." - ".$levels->level."</td><tr>";
                 } elseif($status->academic_type=="BED" || $status->academic_type=="SHS") {
@@ -110,6 +113,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             @endif
             @if ($status->status == env('ASSESSED') || $status->status == env('ENROLLED'))
             @if($status->academic_type == "BED" || $status->academic_type == "SHS")
+            
             <tr>
                 <td colspan="2"><a href="{{url('/bedregistrar',array('print_assessment',$user->idno))}}" class="btn btn-success form form-control">Print Assessment Form</a></td>
             </tr>

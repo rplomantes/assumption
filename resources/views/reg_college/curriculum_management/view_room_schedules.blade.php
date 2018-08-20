@@ -8,21 +8,21 @@ $layout = "layouts.appreg_college";
 
 @extends($layout)
 @section('messagemenu')
-<li class="dropdown messages-menu">
+<li class="dropdown messages-menu no-print">
     <!-- Menu toggle button -->
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-envelope-o"></i>
         <span class="label label-success"></span>
     </a>
 </li>
-<li class="dropdown notifications-menu">
+<li class="dropdown notifications-menu no-print">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell-o"></i>
         <span class="label label-warning"></span>
     </a>
 </li>
 
-<li class="dropdown tasks-menu">
+<li class="dropdown tasks-menu no-print">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-flag-o"></i>
         <span class="label label-danger"></span>
@@ -30,7 +30,7 @@ $layout = "layouts.appreg_college";
 </li>
 @endsection
 @section('header')
-<section class="content-header">
+<section class="content-header no-print">
     <h1>
         View Room Schedules
         <small></small>
@@ -44,7 +44,7 @@ $layout = "layouts.appreg_college";
 @endsection
 @section('maincontent')
 <div class="box">
-    <div class="box-body">
+    <div class="box-body no-print">
         <div class="col-md-2">
             <div class="form-group">
                 <label>School Year</label>
@@ -83,7 +83,7 @@ $layout = "layouts.appreg_college";
         <div class="col-md-2" id="room-form">
             <div class="form-group">
                 <label>&nbsp;</label>
-                <button class="col-sm-12 btn btn-warning">Print Now</button>
+                <button class="col-sm-12 btn btn-warning" onclick="print_now()">Print Now</button>
             </div>
         </div>
     </div>
@@ -124,6 +124,10 @@ $layout = "layouts.appreg_college";
                 }
 
         });
+    }
+    
+    function print_now(){
+        window.open("/registrar_college/curriculum_management/print_room_schedule/" +$("#school_year").val() + "/" + $("#period").val() + "/" + $("#room").val())
     }
 </script>
 @endsection

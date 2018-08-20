@@ -136,7 +136,7 @@ class ViewInfoController extends Controller {
             $user->is_first_login = 1;
             $user->update();
             
-            \App\Http\Controllers\Admin\Logs::log("Reset password of student: $idno");
+            \App\Http\Controllers\Admin\Logs::log("Reset password of student: $request->idno");
             return redirect(url('/registrar_college', array('view_info', $request->idno)));
         }
     }

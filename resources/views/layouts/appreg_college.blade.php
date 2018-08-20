@@ -7,7 +7,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
 <!DOCTYPE html>
 <html>
-    <head>
+    <head class="no-print">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Assumption College - Registrar</title>
@@ -24,7 +24,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
-            <header class="main-header">
+            <header class="main-header no-print">
                 <a href="{{url('/')}}" class="logo">
                     <span class="logo-mini"><b>A</b>CS</span>
                     <span class="logo-lg"><b>Registrar</b>COLLEGE</span>
@@ -86,7 +86,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     </div>
                 </nav>
             </header>
-            <aside class="main-sidebar">
+            <aside class="main-sidebar no-print">
 
                 <section class="sidebar">
 
@@ -214,22 +214,22 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     @yield('maincontent')
                 </section>
             </div>
-            <footer class="main-footer">
+            <footer class="main-footer no-print">
                 <div class="pull-right hidden-xs">
                     In partnership with <a href="http://nephilaweb.com.ph">Nephila Web Technology, Inc.</a>
                 </div>
                 <strong>Copyright &copy; 2018 <a href="http://assumption.edu.ph">Assumption College - San Lorenzo</a>.</strong> All rights reserved.
             </footer>
 
-            <aside class="control-sidebar control-sidebar-dark">
+            <aside class="control-sidebar control-sidebar-dark no-print">
                 <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
                     <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
                     <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content no-print">
                 </div>
             </aside>
-            <div class="control-sidebar-bg"></div>
+            <div class="control-sidebar-bg no-print"></div>
         </div>
         <script src="{{ asset ('bower_components/jquery/dist/jquery.min.js')}}"></script>
         <script src="{{ asset ('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
