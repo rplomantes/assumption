@@ -251,22 +251,30 @@ class GetStudentList extends Controller {
         })->download('csv');
     }
 
-// function print_to_excel(){
-//     $student_data = \App\User::where('academic_type', "College")->get();
-//     $student_array[] = array('ID Number', 'Name');
-//     foreach ($student_data as $student){
-//         $student_array[] = array(
-//             'ID Number'=>$student->idno,
-//             'Name'=>$student->lastname . ", " . $student->firstname
-//         );
-//     }
-//     Excel::create('Student Data', function($excel) use ($student_data){
-//       $excel->setTitle('StudentData');
-//       
-//       $excel->sheet('sheet', function ($sheet) use ($student_data){
-//           $sheet->loadView('reg_be.sample', compact('student_data'));
-////           $sheet->fromArray($student_array, null,'A1',false,false);
-//       });
-//     })->download('csv');
-// }
+//    function print_to_excel() {
+//        $row = 10;
+//        $ctr = 0;
+//        $student_data = \App\User::where('academic_type', "College")->get();
+//        $student_array[] = array('ID Number', 'Name');
+//        foreach ($student_data as $student) {
+//            $student_array[] = array(
+//                'ID Number' => $student->idno,
+//                'Name' => $student->lastname . ", " . $student->firstname
+//            );
+//        }
+//        Excel::load('public/myFile.csv', function($excel) {
+//            $excel->sheet('Sheet1', function ($sheet) use ($excel) {
+//                $sheet->appendRow(1,[
+//                    'test1',
+//                ]);
+////             foreach ($student_data as $key => $value){
+////                   $sheet->setCellValue('A'.$row, $student_data[$ctr]->idno);
+////                   $row++;
+////                   $ctr++;
+////             }
+////           $sheet->fromArray($student_data);
+//            });
+//        })->download('csv');
+//    }
+
 }

@@ -102,7 +102,7 @@ class coursescheduling_ajax extends Controller {
                     ->where('schedule_colleges.period', $school_year->period)
                     ->where('schedule_colleges.day', $day)
                     ->where('course_offerings.id',"!=" ,$course_offering_id)
-                    ->where('course_offerings.schedule_id',"!=" ,$schedule_id)
+                    ->where('schedule_colleges.id',"!=" ,$schedule_id)
                     ->where(function($q) use ($time_start, $time_end) {
                         $q->whereBetween('time_start', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))))
                         ->orwhereBetween('time_end', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))));
@@ -113,7 +113,7 @@ class coursescheduling_ajax extends Controller {
                     ->where('school_year', $school_year->school_year)
                     ->where('period', $school_year->period)
                     ->where('day', $day)
-                    ->where('schedule_id',"!=", $schedule_id)
+                    ->where('id',"!=", $schedule_id)
                     ->where('course_offering_id',"!=", $course_offering_id)
                     ->where(function($q) use ($time_start, $time_end) {
                         $q->whereBetween('time_start', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))))

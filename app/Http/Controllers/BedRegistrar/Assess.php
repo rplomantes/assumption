@@ -891,6 +891,7 @@ class Assess extends Controller {
     }
     function updateLedgerStrand($request){
         $level = \App\Status::where('idno', $request->idno)->first()->level;
+        $request->level = $level;
         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first()->school_year;
         $period = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first()->period;
         $ledger = \App\Ledger::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->where('category', 'SRF')->first();

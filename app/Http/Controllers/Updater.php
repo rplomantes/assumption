@@ -15,7 +15,7 @@ class Updater extends Controller {
         DB::beginTransaction();
         foreach ($updates as $update) {
             $status = \App\Status::where('idno', $update->idno)->first();
-            if ($status->type_of_plan != 'Plan A') {
+           // if ($status->type_of_plan != 'Plan A') {
                 $delete_ledger = \App\Ledger::where('idno', $update->idno)->where('subsidiary', $update->subsidiary)->get();
 
                 $idno = $update->idno;
@@ -36,9 +36,9 @@ class Updater extends Controller {
 //                    $del->delete();
 //                }
 
-                $update->is_done = 1;
+                $update->is_done = 10;
                 $update->save();
-            }
+           // }
         }
         DB::Commit();
 

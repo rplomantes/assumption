@@ -38,39 +38,54 @@ class ViewRoomSchedule extends Controller {
                 $color_now = "#".substr($room->schedule_id, -6);
                 if($room->instructor_id != NULL){
                 $instructor = \App\User::where('idno', $room->instructor_id)->first();
-                    $instructor_name = $instructor->lastname. ', '. $instructor->firstname;
+                    $instructor_name = '<br>'.$instructor->firstname.' '. $instructor->lastname;
                 } else {
                     $instructor_name = "";
                 }
                 
                 $date = date( 'Y-m-d', strtotime( $room->day.' this week' ) );
-                $events[$key] = \Calendar::event(
-                        $room->course_code. ' '.$instructor_name,
-                        false,
-                        $date.'T'.$room->time_start,
-                        $date.'T'.$room->time_end,
-                        $room->schedule_id,
-                            [
-                                'color' => "$color_now",
-                                'textColor' => "black",
-                            ]
+                
+                $event_array[] = array(
+                    'title' => $room->course_code.' '.$instructor_name,
+                    'start' => $date.'T'.$room->time_start,
+                    'end' => $date.'T'.$room->time_end,
+                    'color' => $color_now,
+                    "textEscape"=> 'false' ,
+                    'textColor' => 'black'
                 );
+
+//                $events[$key] = \Calendar::event(
+//                        $room->course_code. ' '.$instructor_name,
+//                        false,
+//                        $date.'T'.$room->time_start,
+//                        $date.'T'.$room->time_end,
+//                        $room->schedule_id,
+//                            [
+//                                'color' => "$color_now",
+//                                'textColor' => "black",
+//                                'textEscape' => 'false'
+//                            ]
+//                );
             }
 
-            $calendar = \Calendar::addEvents($events)
-                            ->setOptions([
-                                'firstDay' => 0,
-                                'header' => false,
-                                'columnFormat' => 'dddd',
-                                'allDaySlot' => false,
-                                'defaultView' => 'agendaWeek',
-                                'minTime' => '07:00:00',
-                                'maxTime' => '20:00:00',
-                                'height' => 650,
-                            ])->setCallbacks([
-            ]);
-        
-            return view('reg_college.curriculum_management.ajax.generateRoom2', array('calendar' => $calendar), compact('selected_room'));
+            $event_json = json_encode($event_array);
+            
+            return view('reg_college.curriculum_management.ajax.generateRoom2',compact('selected_room', 'event_json'));
+
+//            $calendar = \Calendar::addEvents($events)
+//                            ->setOptions([
+//                                'firstDay' => 0,
+//                                'header' => false,
+//                                'columnFormat' => 'ddd',
+//                                'allDaySlot' => false,
+//                                'defaultView' => 'agendaWeek',
+//                                'minTime' => '07:00:00',
+//                                'maxTime' => '20:00:00',
+//                                'height' => 650,
+//                            ])->setCallbacks([
+//            ]);
+//        
+//            return view('reg_college.curriculum_management.ajax.generateRoom2', array('calendar' => $calendar), compact('selected_room', 'event_json'));
     }
 
 }
