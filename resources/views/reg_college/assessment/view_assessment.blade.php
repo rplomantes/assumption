@@ -152,7 +152,7 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
                                     <label>Plan</label>
                                     <select id="plan" name="plan" class='form-control'>
                                         <option>Select Plan</option>
-                                        <option value='Cash'>Plan A - Cash</option>
+                                        <option value='Plan A'>Plan A - Cash</option>
                                         @if($period != "Summer")
                                         @foreach ($plans as $plan)
                                         <option value='{{$plan->plan}}'>{{$plan->plan}}</option>

@@ -46,7 +46,7 @@ $ledger_main_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amoun
       
       if(count($ledger_main)>0){
          foreach($ledger_main as $payment){
-             $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
+             $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment + $payment->discount;
          } 
       }
       

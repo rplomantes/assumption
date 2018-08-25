@@ -534,7 +534,7 @@ class AssessmentController extends Controller {
     }
 
     function get_percentage_now($plan) {
-        if ($plan == "Cash") {
+        if ($plan == "Plan A") {
             $interest = 1;
         } else if ($plan == "Plan B") {
             $interest = .5;
@@ -558,7 +558,7 @@ class AssessmentController extends Controller {
         $totalOtherFeesDiscount = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<', 6)->sum('discount');
         $totalFees = ($totalTuition + $totalOtherFees) - ($totalTuitionDiscount + $totalOtherFeesDiscount);
         $downpaymentamount = (($totalTuition - $totalTuitionDiscount) * $percentage_now) + ($totalOtherFees - $totalOtherFeesDiscount);
-        if ($plan == 'Cash') {
+        if ($plan == 'Plan A') {
             $addledgerduedates = new \App\LedgerDueDate;
             $addledgerduedates->idno = $idno;
             $addledgerduedates->school_year = $school_year;
@@ -608,7 +608,7 @@ class AssessmentController extends Controller {
 
     function getInterest($plan) {
 
-        if ($plan == "Cash") {
+        if ($plan == "Plan A") {
             $interest = 1;
         } else if ($plan == "Plan B") {
             $interest = 1.01;

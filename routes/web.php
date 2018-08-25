@@ -212,6 +212,9 @@ Route::get('/dean/srf/print_srf_now/{program_code}/{level}/{period}/{curriculum_
 Route::get('/ajax/dean/srf/get_list','Dean\SRF\Ajax\setup@get_list');
 Route::get('/ajax/dean/srf/print_get_list','Dean\SRF\Ajax\setup@print_list');
 
+//Academic/DEAN/////////////////////////////////////////////////////////////////
+Route::get('/academic/view_info/{idno}');
+
 
 //COLLEGE INSTRUCTOR - MAIN/////////////////////////////////////////////////////
 Route::get('/college_instructor/grades/{schedule_id}', 'CollegeInstructor\Grades\GradesController@index');
@@ -299,3 +302,13 @@ Route::post('/scholarship_college/update_scholar', 'ScholarshipCollege\ViewSchol
 Route::get('/accounting/set_up_summary','Accounting\SetUpController@set_up_summary');
 Route::post('/accounting/print_setupsummary','Accounting\SetUpController@print_set_up_summary');
 Route::get('/accounting/ajax/getsetupsummary','Accounting\Ajax\AjaxSetUpController@getsetupsummary');
+
+//Accounting Statement of Account///////////////////////////////////////////////
+Route::get('/accounting/statement_of_account/bed','Accounting\StatementOfAccount@indexSOA_BED');
+Route::get('/accounting/statement_of_account/print/bed/{remarks}/{due_date}/{idno}','Accounting\StatementOfAccount@printSOA_BED');
+Route::post('/accounting/statement_of_account/print_all/bed/','Accounting\StatementOfAccount@printallSOA_BED');
+
+
+//AJAX Accounting Statement of Account//////////////////////////////////////////
+Route::get('/ajax/accounting/statement_of_account/bed/get_section','Accounting\Ajax\AjaxStatementOfAccount@get_section');
+Route::get('/ajax/accounting/statement_of_account/bed/get_soa','Accounting\Ajax\AjaxStatementOfAccount@get_soa');
