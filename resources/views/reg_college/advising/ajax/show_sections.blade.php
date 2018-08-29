@@ -3,7 +3,8 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Available Rooms</h4>
+            @if($value == 0)
+            <h4 class="modal-title">Available Sections{{$count}}</h4>
             <form method="post" action="{{url ('registrar_college', array('advising','assign_schedule'))}}">
                 {{ csrf_field() }}
                 <div class="modal-body">
@@ -23,5 +24,9 @@
                     <input type="submit" class="btn btn-primary" value="Save Schedule"></input>
                 </div>
             </form>
+            @else
+            <h4>There is a conflict in schedule.</h4>
+            @endif
         </div>
     </div>
+</div>

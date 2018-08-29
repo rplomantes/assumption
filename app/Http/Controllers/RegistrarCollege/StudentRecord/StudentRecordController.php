@@ -79,4 +79,18 @@ class StudentRecordController extends Controller
             return $pdf->stream("true_copy_of_grades".$idno.".pdf");            
         }
     }    
+    
+    function print_curriculum_record($idno){
+        
+            $user = \App\User::where('idno', $idno)->first();     
+            $status = \App\Status::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('idno', $idno)->first();
+            
+            \App\Http\Controllers\Admin\Logs::log("Print curriculum record of student: $idno");
+            
+            $pdf = PDF::loadView('reg_college.view_record.print_curriculum_record', compact('idno','user','info','status'));
+            $pdf->setPaper(array(0,0,612,936));
+//            return $request;
+            return $pdf->stream("curriculum_record_".$idno.".pdf");
+    }
 }

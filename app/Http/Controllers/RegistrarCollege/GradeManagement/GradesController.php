@@ -14,7 +14,7 @@ class GradesController extends Controller
     }
 
     function view_grades($school_year, $period) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env("DEAN")) {
             return view('reg_college.grade_management.view_grades', compact('school_year', 'period'));
         }
     }

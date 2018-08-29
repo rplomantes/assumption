@@ -61,6 +61,8 @@ $allsection = $allsection. "/$course_id->section_name";
 $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
 $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
 $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$checkstatus = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.is_lock', 2)->get();
+$checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.is_lock', 3)->get();
 ?>
 @if (count($students)>0)
 
@@ -98,6 +100,10 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
                             </td>
                             <td>
                                 <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, {{$student->idno}})"
+                                @if($student->is_lock == 3)
+                                disabled=''>
+                                @else
+                                
                                 @if($student->midterm_status == 0 && $close->midterm == 0)
                                 
                                 @elseif($student->midterm_status == 1 && $close->midterm >= 0)
@@ -106,8 +112,11 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
                                 disabled=''
                                 @elseif($student->midterm_status == 2 && $close->midterm >= 0)
                                 disabled='' style="color:blue"
+                                @elseif($student->midterm_status == 3 && $close->midterm >= 0)
+                                disabled=''
                                 @endif
                                 >
+                                @endif
                                     <option></option>
                                     <option @if ($student->midterm == "PASSED") selected='' @endif>PASSED</option>
                                     <option @if ($student->midterm == 1.00) selected='' @endif>1.00</option>
@@ -135,6 +144,7 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
                             </td>
                             <td>
                                 <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, {{$student->idno}})"
+                                
                                 @if($student->finals_status == 0 && $close->finals == 0)
                                 
                                 @elseif($student->finals_status == 1 && $close->finals >= 0)
@@ -143,6 +153,8 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
                                 disabled=''
                                 @elseif($student->finals_status == 2 && $close->finals >= 0)
                                 disabled='' style="color:blue"
+                                @elseif($student->finals_status == 3 && $close->finals >= 0)
+                                disabled=''
                                 @endif      
                                 >
                                     <option></option>
@@ -184,19 +196,29 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
     <div class="col-sm-2">
         <a href='{{url('college_instructor', array('print_grade', $schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Grade Record</div></a>
     </div>
+    @if (count($checkstatus3) == count($students))
     
-    @if ($close->midterm != 1 || $close->finals != 1)
-    <div class="col-sm-2">
-        <a href='{{url('college_instructor', array('grades', $schedule_id))}}'><div class="btn btn-primary col-sm-12">Save</div></a>
-    </div>
-    <div class="col-sm-4">
-        <input type='submit' onclick="if (confirm('Do you really want to save and submit grades?'))
+    @else
+    @if ($close->midterm == 0 || $close->finals == 0)
+    @if (count($checkstatus) == count($students))
+        <div class="col-sm-6">
+            
+        <input type='submit' name="submit" onclick="if (confirm('Do you really want to forward and finalize grades?'))
                     return true;
                 else
-                    return false;" class='btn btn-success col-sm-12' value="Save & Submit">
-    </div>
-    @else <div class="col-sm-6"></div>
-        @endif
+                    return false;" class='btn btn-warning col-sm-12' value="Forward to Records and Finalize">
+        </div>
+    @else
+        <div class="col-sm-6">
+            <input type='submit' name="submit" onclick="if (confirm('Do you really want to save and submit grades?'))
+                        return true;
+                    else
+                        return false;" class='btn btn-success col-sm-12' value="Save & Submit for Checking to Dean">
+        </div>
+    @endif
+    @else
+    @endif
+    @endif
 </form>
 @endsection
 @section('footerscript')  

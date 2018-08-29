@@ -33,33 +33,38 @@ class GradesController extends Controller
     
     function save_submit(Request $request) {
         if (Auth::user()->accesslevel == env('INSTRUCTOR')) {
-            $course_offerings = \App\CourseOffering::where('schedule_id', $request->schedule_id)->get();
+            if($request->submit == "Save & Submit for Checking to Dean"){
+                $value=1;
+            }else{
+                $value=3;
+            }
             
+            $course_offerings = \App\CourseOffering::where('schedule_id', $request->schedule_id)->get();
+
             foreach ($course_offerings as $course_offering){
-                DB::beginTransaction($course_offering, $request);
-                    $this->updateStatus($course_offering, $request);
-            \App\Http\Controllers\Admin\Logs::log("Save and Submit grades for course_offering_id: $course_offering->id.");
+                DB::beginTransaction($course_offering, $request, $value);
+                    $this->updateStatus($course_offering, $request, $value);
+            \App\Http\Controllers\Admin\Logs::log("$request->submit for course_offering_id: $course_offering->id.");
                 DB::commit();
             }
+            
             return redirect(url('college_instructor', array('grades',$request->schedule_id)));
         }
     }
     
-    function updateStatus($course_offering,$request){
+    function updateStatus($course_offering,$request, $value){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
         if ($request->midterm_status == 0){
-            $update->midterm_status = 1;
+            $update->midterm_status = $value;
             $update->save();
         }
         if ($request->finals_status == 0){
-            $update->finals_status = 1;
+            $update->finals_status = $value;
             $update->save();
         }
-        if ($request->grade_point_status == 0){
-            $update->grade_point_status = 1;
-            $update->save();
-        }
+        $update->is_lock = $value;
+        $update->save();
         }
     }
     

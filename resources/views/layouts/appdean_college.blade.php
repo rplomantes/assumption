@@ -152,6 +152,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
                         $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
                         ?>
+                        <li><a href="{{url('/registrar_college', array('grade_management','view_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>View Grades</span></a></li>
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-bar-chart"></i> <span>Reports</span>

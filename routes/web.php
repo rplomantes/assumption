@@ -37,6 +37,7 @@ Route::post('registrar_college/save_info/{idno}','RegistrarCollege\ViewInfo\View
 //Registrar College - Student Record////////////////////////////////////////////
 Route::get('registrar_college/student_record/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@view_record');
 Route::get('registrar_college/view_transcript/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@view_transcript');
+Route::get('registrar_college/print_curriculum_record/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@print_curriculum_record');
 
 //Registrar College Advising
 //Set Up
@@ -213,7 +214,7 @@ Route::get('/ajax/dean/srf/get_list','Dean\SRF\Ajax\setup@get_list');
 Route::get('/ajax/dean/srf/print_get_list','Dean\SRF\Ajax\setup@print_list');
 
 //Academic/DEAN/////////////////////////////////////////////////////////////////
-Route::get('/academic/view_info/{idno}');
+Route::get('/academic/view_info/{idno}','Dean\Record@view_info');
 
 
 //COLLEGE INSTRUCTOR - MAIN/////////////////////////////////////////////////////

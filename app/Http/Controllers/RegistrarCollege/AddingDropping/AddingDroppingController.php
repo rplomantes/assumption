@@ -282,7 +282,7 @@ class AddingDroppingController extends Controller {
     }
     
     function get_percentage_now($plan){
-        if ($plan == "Cash") {
+        if ($plan == "Plan A") {
             $interest = 1;
         } else if ($plan == "Plan B") {
             $interest = .5;

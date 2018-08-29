@@ -65,6 +65,7 @@ class ChangePlan extends Controller {
         $orginalamount = \App\Ledger::where('idno', $request->idno)->where('category_switch', env("TUITION_FEE"))->first();
         $tuition = \App\CtrBedFee::where('level', $request->level)->where('category_switch', env("TUITION_FEE"))->first()->amount;
         $changeamount = $tuition + ($tuition * ($this->addPercentage($request->plan) / 100));
+        $notchangeamount = $tuition;
         $addchange = new \App\ChangePlan;
         $addchange->idno = $request->idno;
         $addchange->change_date = Date('Y-m-d');
@@ -83,9 +84,10 @@ class ChangePlan extends Controller {
         }
         
         $orginalamount->amount = $this->roundOff($changeamount);
+        $notorginalamount = $this->roundOff($notchangeamount);
         
         if (count($discount) > 0) {
-        $amount = $orginalamount->amount;
+        $amount = $notorginalamount;
         $discount_amount = $amount * $discount_tuition / 100;
         $orginalamount->discount_code = $discount_code;
         $orginalamount->discount = $discount_amount;

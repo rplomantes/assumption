@@ -117,12 +117,34 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
 <?php $old_grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->orderBy('id', 'desc')->first(); ?>
 <?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->orderBy('created_at', 'desc')->first(); ?>
+                    <?php
+                    $style="";
+                    if(count($old_grades)>0){
+                        if($old_grades->finals=="Failed" ||$old_grades->finals=="4.00"){
+                            $style="style='color:red; font-weight:bold'";
+                        }else if($old_grades->finals=="FA"){
+                            $style="style='color:orange; font-weight:bold'";
+                        }
+                    }else{
+                        if(count($grades)>0){
+                            if($grades->finals=="Failed" || $grades->finals="4.00"){
+                                $style="style='color:red; font-weight:bold'";
+                            }else if ($grades->finals == "FA"){
+                                $style="style='color:orange; font-weight:bold'";
+                            }
+                        }else{
+                            $style="style='color:green; font-weight:bold'";
+                        }
+                    }
+                    
+                    ?>
+                    
                     <tr>
-                        <td>{{$curriculum->course_code}}</td>
-                        <td>{{$curriculum->course_name}}</td>
-                        <td>{{$curriculum->lec}}</td>
-                        <td>{{$curriculum->lab}}</td>
-                        <td>@if(count($old_grades)>0)
+                        <td {!!$style!!}>{{$curriculum->course_code}}</td>
+                        <td {!!$style!!}>{{$curriculum->course_name}}</td>
+                        <td {!!$style!!}>{{$curriculum->lec}}</td>
+                        <td {!!$style!!}>{{$curriculum->lab}}</td>
+                        <td {!!$style!!}>@if(count($old_grades)>0)
                                 {{$old_grades->finals}}
                             @else
                                 @if(count($grades)>0)
@@ -132,7 +154,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @endif
                             @endif
                         </td>
-                        <td>@if(count($old_grades)>0)
+                        <td {!!$style!!}>@if(count($old_grades)>0)
                                 {{$old_grades->completion}}
                             @else
                                 @if(count($grades)>0)
@@ -147,6 +169,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     @endforeach
                 </tbody>
             </table>
+            <a target='_blank' href='{{url('registrar_college', array('print_curriculum_record',$idno))}}'><button class='col-sm-12 btn btn-warning'>Print Curriculum Record</button></a>
         </div>
     </div>
 </section>

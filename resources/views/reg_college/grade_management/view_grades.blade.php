@@ -2,7 +2,16 @@
 //$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
 //$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
 ?>
-@extends('layouts.appreg_college')
+    
+<?php
+if(Auth::user()->accesslevel == env('DEAN')){
+$layout = "layouts.appdean_college";
+} else {
+$layout = "layouts.appreg_college";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

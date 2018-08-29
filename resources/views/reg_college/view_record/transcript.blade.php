@@ -170,7 +170,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             </table>
             @endforeach
             @endforeach
-            <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+            <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($grades_sy)>0)
             @foreach($grades_sy as $sy)
             <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
@@ -249,7 +249,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endif
             @else
             
-            <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+            <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($grades_sy)>0)
             @foreach($grades_sy as $sy)
             <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>

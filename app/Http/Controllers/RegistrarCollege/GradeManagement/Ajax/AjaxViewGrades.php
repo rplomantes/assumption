@@ -52,8 +52,14 @@ class AjaxViewGrades extends Controller {
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
             
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
-            $update_grades->midterm_status = 2;
-            $update_grades->finals_status = 2;
+            $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+            
+            if($close->midterm == 0){
+                $update_grades->midterm_status = 2;
+            }else if ($close->finals == 0){
+                $update_grades->finals_status = 2;
+            }
+            $update_grades->is_lock = 2;
             $update_grades->save();
             
             return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
@@ -68,8 +74,14 @@ class AjaxViewGrades extends Controller {
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
             
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
-            $update_grades->midterm_status = 0;
-            $update_grades->finals_status = 0;
+            $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+            
+            if($close->midterm == 0){
+                $update_grades->midterm_status = 0;
+            }else if ($close->finals == 0){
+                $update_grades->finals_status = 0;
+            }
+            $update_grades->is_lock = 0;
             $update_grades->save();
             
             return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
@@ -99,8 +111,14 @@ class AjaxViewGrades extends Controller {
         foreach ($updateStatus as $update){
             $checkstatus = \App\Status::where('idno', $update->idno)->first()->status;
             if ($checkstatus == 3){
-            $update->midterm_status = 2;
-            $update->finals_status = 2;
+            $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+            
+            if($close->midterm == 0){
+                $update->midterm_status = 2;
+            }else if ($close->finals == 0){
+                $update->finals_status = 2;
+            }    
+            $update->is_lock = 2;
             $update->save();
             }
         }
