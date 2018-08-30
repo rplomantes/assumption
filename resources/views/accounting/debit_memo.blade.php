@@ -2,11 +2,15 @@
 $other=0;
 $miscellaneous=0;
 $depository=0;
+$optional=0;
 $srf=0;
 $tuition=0;
 
 if($other_fee_total->balance>0)
     $other = $other_fee_total->balance;
+
+if($optional_fee_total->balance>0)
+    $optional = $optional_fee_total->balance;
 
 if($miscellaneous_fee_total->balance>0)
     $miscellaneous=$miscellaneous_fee_total->balance;
@@ -20,7 +24,7 @@ if($srf_total->balance>0)
 if($tuition_fee_total->balance>0)
     $tuition=$tuition_fee_total->balance;
 
-$total_max = $other+$miscellaneous+$depository+$srf+$tuition;
+$total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
 $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
 ?>
 @extends('layouts.appaccountingstaff')
@@ -119,7 +123,8 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                             <tr><td align="right">Miscellaneous Fee</td><td align="right">{{number_format($miscellaneous_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$miscellaneous_fee_total->balance}},this.value,this)" type="text" name="miscellaneous" id="miscellaneous" class="form form-control number"></tr>
                             <tr><td align="right">Other Fee</td><td align="right">{{number_format($other_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$other_fee_total->balance}},this.value,this)" type="text" name="other_fee" id="other_fee" class="form form-control number"></tr>
                             <tr><td align="right">Depository Fee</td><td align="right">{{number_format($depository_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$depository_fee_total->balance}},this.value,this)" type="text" name="depository" id="depository" class="form form-control number"></tr>
-                            <tr><td align="right">Subject Related Fee</td><td align="right">{{number_format($srf_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$srf_total->balance}},this.value,this)" type="text" name="srf" id="srf" class="form form-control number"></tr>
+                            <tr><td align="right">Additional Fee</td><td align="right">{{number_format($srf_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$srf_total->balance}},this.value,this)" type="text" name="srf" id="srf" class="form form-control number"></tr>
+                            <tr><td align="right">Optional Fee</td><td align="right">{{number_format($optional_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$optional_fee_total->balance}},this.value,this)" type="text" name="optional" id="optional" class="form form-control number"></tr>
                             <tr><td align="right">Tuition Fee</td><td align="right">{{number_format($tuition_fee_total->balance,2)}}</td><td><input onkeypress="do_main(event,{{$tuition_fee_total->balance}},this.value,this)" type="text" name="tuition" id="tuition" class="form form-control number"></tr>
                         </table>        
                     </div>  
@@ -265,6 +270,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
     var other_total_max={{$other}};
     var misc_total_max={{$miscellaneous}};
     var depository_total_max={{$depository}};
+    var optional_total_max={{$optional}};
     var srf_total_max={{$srf}};
     var tuition_total_max={{$tuition}};
     
@@ -386,6 +392,14 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         total = total - srf_total_max
         } else {
          $("#srf").val(total.toFixed(2))
+         total=0;
+        }
+        
+        if(total >= optional_total_max){
+        $("#optional").val(optional_total_max)
+        total = total - optional_total_max
+        } else {
+         $("#optional").val(total.toFixed(2))
          total=0;
         }
         

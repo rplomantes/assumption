@@ -45,6 +45,10 @@ class DebitMemo extends Controller
         $tuition_fee_total =  \App\Ledger::where('idno',$idno)->where('category_switch',env("TUITION_FEE"))
                 ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
                 ->first();
+        //Optional Fee Total
+        $optional_fee_total = \App\Ledger::where('idno', $idno)->where('category_switch', env("OPTIONAL_FEE"))
+                ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+                ->first();
        //Previous Balances
         $previous_total =  \App\Ledger::where('idno',$idno)->where('category_switch','>=','10')
                 ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
@@ -76,7 +80,7 @@ class DebitMemo extends Controller
         $deposit =  \App\Reservation::where('idno',$idno)->where('reservation_type','2')
                 ->where('is_consumed','0')->selectRaw('sum(amount) as amount')->first();
         
-        return view('accounting.debit_memo',compact('user','other_fee_total','miscellaneous_fee_total','depository_fee_total','srf_total','tuition_fee_total','previous_total','other_misc','reservation','deposit','receipt_number','due_total'));
+        return view('accounting.debit_memo',compact('user','other_fee_total','miscellaneous_fee_total','depository_fee_total','srf_total','tuition_fee_total','previous_total','other_misc','reservation','deposit','receipt_number','due_total','optional_fee_total'));
     
         }
  }   
