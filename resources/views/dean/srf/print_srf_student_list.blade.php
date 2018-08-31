@@ -44,7 +44,7 @@
         <tr>
             <td>{{$number++}}</td>
             <td>{{$list->idno}}</td>
-            <td>{{$list->lastname}}, {{$list->firstname}}{{$list->middlename}}</td>
+            <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
             <td>{{$list->srf}}</td>
             <td>{{$list->lab_fee}}</td>
             <td>{{$totalbalance}}</td>
