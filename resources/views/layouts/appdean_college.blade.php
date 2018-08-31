@@ -112,7 +112,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('dean', array('srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Set SRF</span></a></li>
-                                <li><a href="{{url('dean', array('srf', 'print_srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>*Print SRF</span></a></li>
+                                <li><a href="{{url('dean', array('srf', 'print_srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Print SRF</span></a></li>
+                                <li><a href="{{url('dean', array('srf', 'student_srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Student List</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -124,16 +125,17 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','curriculum'))}}"><i class="fa fa-circle-o"></i> <span>Curriculum</span></a></li>
                                 <!--<li><a href="{{url('/registrar_college', array('curriculum_management','upload_curriculum'))}}"><i class="fa fa-circle-o"></i> <span>*Upload Curriculum</span></a></li>-->
-                        <li class="treeview">
-                            <a href="#"><i class="fa fa-circle-o"></i> View Course Offering<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering_general'))}}"><i class="fa fa-circle-o"></i> <span>General Schedule</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering'))}}"><i class="fa fa-circle-o"></i> <span>Per Section</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering_room'))}}"><i class="fa fa-circle-o"></i> <span>Per Room</span></a></li>
-<!--                                        <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>-->
-                            </ul>
-                                <li><a href="{{url('/registrar_college', array('curriculum_management','view_room_schedule'))}}"><i class="fa fa-circle-o"></i> <span>View Room Schedules</span></a></li>
-                        </li>    
+                                <li class="treeview">
+                                    <a href="#"><i class="fa fa-circle-o"></i> View Course Offering<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering_general'))}}"><i class="fa fa-circle-o"></i> <span>General Schedule</span></a></li>
+                                        <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering'))}}"><i class="fa fa-circle-o"></i> <span>Per Section</span></a></li>
+                                        <li><a href="{{url('/registrar_college', array('curriculum_management','view_course_offering_room'))}}"><i class="fa fa-circle-o"></i> <span>Per Room</span></a></li>
+        <!--                                        <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i> <span>*Section List</span></a></li>-->
+                                    </ul>
+                                        <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}"><i class="fa fa-circle-o"></i> <span>Faculty Loading</span></a></li>
+                                        <li><a href="{{url('/registrar_college', array('curriculum_management','view_room_schedule'))}}"><i class="fa fa-circle-o"></i> <span>View Room Schedules</span></a></li>
+                                </li>    
                             </ul>
                         </li>
                         

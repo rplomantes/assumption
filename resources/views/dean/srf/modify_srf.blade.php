@@ -45,12 +45,19 @@
             </div>
         </div>
         <div class="box-body">
+            @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif
             <div class="col-sm-4">
                 <form class="form-horizontal" method="post" action="{{url('dean', array('srf','set_srf'))}}">
                     <div class="form-group">
                         <label>Set Subject Related Fee</label>
                         {{ csrf_field() }}
                         <input type="text" class="form-control" name="srf" value="{{$srf}}">
+                        <input type="hidden" name="course_code" value="{{$course_code}}">
+                    
+                        <label>Laboratory Fee</label>
+                        <input type="text" class="form-control" name="lab_fee" value="{{$lab_fee}}">
                         <input type="hidden" name="course_code" value="{{$course_code}}">
                     </div>
                     <div class="form-group">

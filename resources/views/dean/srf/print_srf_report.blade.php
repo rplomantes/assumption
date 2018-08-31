@@ -27,19 +27,24 @@
            <th>Code</th>
            <th>Subject Description</th>
            <th><div align="center">SRF</div></th>
+           <th><div align="center">Lab Fee</div></th>
        </tr>
        <?php $totalsrf = 0; ?>
+       <?php $totallabfee = 0; ?>
        @foreach ($programs as $program)
        <?php $totalsrf = $totalsrf + $program->srf; ?>
+       <?php $totallabfee = $totallabfee + $program->lab_fee; ?>
        <tr>
            <td>{{$program->course_code}}</td>
            <td>{{$program->course_name}}</td>
-           <td>{{$program->srf}}</td>
+           <td>{{number_format($program->srf,2)}}</td>
+           <td>{{number_format($program->lab_fee,2)}}</td>
        </tr>
        @endforeach
        <tr>
            <td colspan="2"><b>Total</b></td>
            <td><b>{{number_format($totalsrf,2)}}</b></td>
+           <td><b>{{number_format($totallabfee,2)}}</b></td>
        </tr>
    </table>
 </div>

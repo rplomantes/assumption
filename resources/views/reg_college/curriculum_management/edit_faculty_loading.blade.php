@@ -3,7 +3,15 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->
 $faculty = \App\User::where('idno', $idno)->first();
 ?>
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
-@extends('layouts.appreg_college')
+<?php
+if(Auth::user()->accesslevel == env('DEAN')){
+$layout = "layouts.appdean_college";
+} else {
+$layout = "layouts.appreg_college";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -68,7 +76,9 @@ $faculty = \App\User::where('idno', $idno)->first();
                         <th class="col-sm-4">Sections</th>
                         <th class="col-sm-3">Schedule</th>
                         <th class="col-sm-2">Room</th>
+                        @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
                         <th class="col-sm-1"></th>
+                        @endif
                         </thead>
                         <tbody>
                             @foreach($loads as $load)
@@ -111,7 +121,10 @@ $faculty = \App\User::where('idno', $idno)->first();
                                     {{$schedule3->room}}<br>
                                     @endforeach
                                 </td>
+                                
+                        @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
                                 <td><a href="{{url ('registrar_college',array('curriculum_management','remove_faculty_loading',$load->schedule_id, $idno))}}"><button class="btn btn-danger"><span class="fa fa-minus"></span></button></td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
@@ -124,6 +137,7 @@ $faculty = \App\User::where('idno', $idno)->first();
             </div>
         </div>
     </div>
+                        @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
     <div class="row">
         <div class="col-sm-12">
             <div class="box">
@@ -157,6 +171,7 @@ $faculty = \App\User::where('idno', $idno)->first();
             </div>
         </div>
     </div>
+                        @endif
 </div>
 </section>
 

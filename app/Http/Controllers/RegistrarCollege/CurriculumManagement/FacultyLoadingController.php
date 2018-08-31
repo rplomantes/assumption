@@ -14,13 +14,13 @@ class FacultyLoadingController extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             return view('reg_college.curriculum_management.faculty_loading');
         }
     }
 
     function edit_faculty_loading($idno) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             return view('reg_college.curriculum_management.edit_faculty_loading', compact('idno'));
         }
     }
