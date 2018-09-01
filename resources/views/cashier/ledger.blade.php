@@ -464,6 +464,27 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', 
          @else
          <h5>No Debit Memo For This Account</h5>
          @endif
+         </div>
+         
+         <a class="accordion-section-title" href="javascript:void(0)">Added as Student Deposit</a>
+         <div class="history">
+         @if(count($student_deposits)>0)
+        
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>SD No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View SD</td></tr>
+          @foreach($student_deposits as $payment)
+          <tr><td>{{$payment->transaction_date}}</td>
+              <td>{{$payment->sd_no}}</td>
+              <td>{{$payment->explanation}}</td>
+              <td align='right'>{{number_format($payment->amount,2)}}</td>
+              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
+              <td><a  href="{{url('/accounting',array('view_add_to_student_deposit',$payment->reference_id))}}">View SD</a></td>
+              </tr>
+          @endforeach
+         </table>    
+         
+         @else
+         <h5>No Added to Student Deposit For This Account</h5>
+         @endif
      </div>  
     </div>  
     </div>
@@ -486,11 +507,14 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', 
         <a href="{{url('/cashier',array('other_payment',$user->idno))}}" class="form form-control btn btn-success">Other Payment</a>
         </div>
          <div class="form-group">
-        <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation</a>
+        <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation/Student Deposit</a>
         </div>
         @elseif(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
         <div class="form-group">
         <a href="{{url('/accounting',array('debit_memo',$user->idno))}}" class="form form-control btn btn-primary">DEBIT MEMO</a>
+        </div>
+        <div class="form-group">
+        <a href="{{url('/accounting',array('add_to_student_deposit',$user->idno))}}" class="form form-control btn btn-primary">ADD TO STUDENT DEPOSIT</a>
         </div>
         <div class="form-group">
         <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">OTHER PAYMENT</a>
@@ -531,6 +555,59 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', 
             @endforeach
             </table>    
         </div>
+        @endif
+        
+        @if(count($reservations)>0)
+        <label>Reservation</label>
+        <table class="table table-striped">
+            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
+            @foreach($reservations as $reservation)
+            <tr><td>{{$reservation->transaction_date}}</td>
+                <td align="right">{{number_format($reservation->amount,2)}}</td>
+                <td>@if($reservation->is_reverse=="1")
+                    <i class="fa fa-close"></i> Canceled
+                    @else
+                    @if($reservation->is_consumed=="1")
+                    <i class="fa fa-times"></i>
+                    @else
+                    <i class="fa fa-check"></i>
+                    @endif
+                    @endif
+                    </td>
+                </tr>
+            @endforeach
+        </table>    
+        @else
+        <label>Reservation</label>
+        <table class="table table-striped">
+            <tr><td><i class="label label-danger">No Reservation Has Been Made Yet!!!!!</i></td></tr>
+        </table>
+        
+        
+        @endif
+        
+        @if(count($deposits)>0)
+        <label>Student Deposit</label>
+        <table class="table table-striped">
+            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
+            @foreach($deposits as $reservation)
+            <tr><td>{{$reservation->transaction_date}}</td>
+                <td align="right">{{number_format($reservation->amount,2)}}</td>
+                <td>@if($reservation->is_consumed=="1")
+                    <i class="fa fa-times"></i>
+                    @else
+                    <i class="fa fa-check"></i>
+                    @endif
+                    </td>
+                </tr>
+            @endforeach
+        </table>    
+        @else
+        <label>Student Deposit</label><table class="table table-striped">
+            <tr><td><i class="label label-danger">No Student Deposit Has Been Made Yet!!!!!</i></td></tr>
+            
+        </table>
+        <hr>
         @endif
     </div>
      

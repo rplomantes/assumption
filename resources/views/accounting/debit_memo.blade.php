@@ -191,15 +191,15 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
 
                         <div class="col-md-3">
                             <label>Particular</label>
-                            <input class="form form-control"        type="text" name="debit_particular[]" id='debit_particular1'/>
+                            <input class="form form-control debit_particular" type="text" name="debit_particular[]" id='debit_particular1'/>
                         </div>
                         <div class="col-md-3">
                             <label>Amount</label>
-                            <input class="form form-control number" type="text" onkeypress="totalOther(event)" name="debit_amount[]" id="debit_amount1"/>
+                            <input class="form form-control number debit_amount" type="text" onkeypress="totalOther(event)" name="debit_amount[]" id="debit_amount1"/>
                         </div>
                         <div class="col-md-2">
                             <label class='col-sm-12'>&nbsp;</label>
-                        <button type="button" name="add" id="add" class="btn btn-success"> + </button></td>
+                        <button type="button" name="add" id="add" class="btn btn-success"> + </button>
                         </div>
                         </div>    
             </div>
@@ -282,6 +282,18 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         $("#submit").fadeOut(300);
         computeSubaccount();
         
+        $(".debit_particular").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                if ($(".debit_particular").val() == "") {
+                    alert("Please enter Particular!!!")
+                    $(".debit_particular").focus();
+                } else {
+                    $(".debit_amount").focus();
+                }
+                e.preventDefault();
+            }
+        });
+        
         //var i = 1;
         $('.select2').select2();
         $('#add').click(function(){
@@ -295,8 +307,8 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         <select class="form form-control select2" onkeypress = "gotoother_amount('+i+',event)" name="accounting[]" id="accounting'+i+'">'
          @foreach($accountings as $accounting) + '<option value="{{$accounting->accounting_code}}">{{$accounting->accounting_name}}</option>'  @endforeach 
          + '</select></div>\n\
-        <div class="col-md-3"><input class="form form-control"        type="text" name="debit_particular[]" id="debit_particular'+i+'"/></div>\n\
-        <div class="col-md-3"><input class="form form-control number" type="text" onkeypress="totalOther(event)"  name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
+        <div class="col-md-3"><input class="form form-control debit_particular"        type="text" name="debit_particular[]" id="debit_particular'+i+'"/></div>\n\
+        <div class="col-md-3"><input class="form form-control number debit_amount" type="text" onkeypress="totalOther(event)"  name="debit_amount[]" id="debit_amount'+i+'"/></div>\n\
         <div class="col-md-2"><a href="javascript:void()" name="remove"  id="'+i+'" class="btn btn-danger btn_remove">X</a></div></div>');
         
         //$("#donereg").fadeOut();
@@ -415,6 +427,17 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
     }
     
     function updatefunction(){
+        $(".debit_particular").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                if ($(".debit_particular").val() == "") {
+                    alert("Please enter Particular!!!")
+                    $(".debit_particular").focus();
+                } else {
+                    $(".debit_amount").focus();
+                }
+                e.preventDefault();
+            }
+        });
     $('.select2').select2();
     $(".number").on('keypress',function(e){
         var theEvent = e || window.event;

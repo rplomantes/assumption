@@ -16,6 +16,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 
 $check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
 $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->get();
+$check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('reservation_type',2)->where('is_consumed', 0)->get();
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -70,6 +71,14 @@ $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reser
     <?php $reservation = $reservation + $check_reservation->amount; ?>
     @endforeach
     <div class="alert alert-info">Student placed a reservation fee with the amount of <b>Php {{number_format($reservation)}}</b>.</div>
+    @endif
+    
+    <?php $student_deposit = 0; ?>
+    @if(count($check_student_deposits)>0)
+    @foreach ($check_student_deposits as $check_student_deposit)
+    <?php $student_deposit = $student_deposit + $check_student_deposit->amount; ?>
+    @endforeach
+    <div class="alert alert-info    ">Student have a student deposit with the amount of <b>Php {{number_format($student_deposit)}}</b>.</div>
     @endif
         <div class="col-md-4">
             <!-- Widget: user widget style 1 -->

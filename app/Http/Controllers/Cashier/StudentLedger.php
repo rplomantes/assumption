@@ -83,13 +83,18 @@ $ledger_main_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amoun
       } else if($status->academic_type=="College"){
       $levels=  \App\Status::where('idno',$idno)->where('school_year',$status->school_year)->where('period',$status->period)->first();    
       }
+
+      
+        $reservations = \App\Reservation::where('idno',$idno)->where('reservation_type','1')->orderBy('transaction_date')->get();
+        $deposits = \App\Reservation::where('idno',$idno)->where('reservation_type','2')->orderBy('transaction_date')->get();
       
       $payments =  \App\Payment::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
       
       $debit_memos =  \App\DebitMemo::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
+      $student_deposits = \App\AddToStudentDeposit::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
       
       $due_dates = \App\LedgerDueDate::where('idno',$idno)->orderBy('due_switch')->orderBy('due_date')->get();
-      return view("cashier.ledger",compact('levels','user','ledger_main','ledger','ledger_main_tuition','ledger_main_misc','ledger_main_other','ledger_main_depo','ledger_others','ledger_optional','previous','status','payments',"debit_memos",'due_dates','totalmainpayment','totaldue'));
+      return view("cashier.ledger",compact('levels','user','ledger_main','ledger','ledger_main_tuition','ledger_main_misc','ledger_main_other','ledger_main_depo','ledger_others','ledger_optional','previous','status','payments',"debit_memos",'due_dates','totalmainpayment','totaldue','student_deposits', 'reservations', 'deposits'));
       //return $levels;
       }       
     }

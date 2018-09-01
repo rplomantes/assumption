@@ -147,17 +147,21 @@ $units = 0;
                                     [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
                                     @endforeach
                                 </td>
-                                <?php
-                                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
-                                $instructor = \App\User::where('idno', $offering_id->instructor_id)->first();
+                                <td>
+                                    <?php
+                $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
+                    $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
 
-                                if (count($instructor) > 0) {
-                                    $data = $instructor->firstname . " " . $instructor->lastname . " " . $instructor->extensionname;
-                                } else {
-                                    $data = "";
-                                }
-                                ?>
-                                <td >{{$data}}</td>
+                    foreach($schedule_instructor as $get){
+                        if ($get->instructor_id != NULL){
+                            $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                            echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                        } else {
+                        echo "";
+                        }
+                    }
+                ?>
+                                </td>
                 @else
                 <td>TBA</td>
                 <td>TBA</td>

@@ -313,6 +313,10 @@ Route::get('/accounting/statement_of_account/bed','Accounting\StatementOfAccount
 Route::get('/accounting/statement_of_account/print/bed/{remarks}/{due_date}/{idno}','Accounting\StatementOfAccount@printSOA_BED');
 Route::post('/accounting/statement_of_account/print_all/bed/','Accounting\StatementOfAccount@printallSOA_BED');
 
+//Accounting Add to Student Deposit
+Route::get('/accounting/add_to_student_deposit/{idno}','Accounting\AddToStudentDeposit@add_to_student_deposit');
+Route::get('/accounting/view_add_to_student_deposit/{reference_id}','Accounting\AddToStudentDeposit@view_add_to_student_deposit');
+Route::post('/accounting/post_add_to_student_deposit','Accounting\AddToStudentDeposit@post_add_to_student_deposit');
 
 //AJAX Accounting Statement of Account//////////////////////////////////////////
 Route::get('/ajax/accounting/statement_of_account/bed/get_section','Accounting\Ajax\AjaxStatementOfAccount@get_section');

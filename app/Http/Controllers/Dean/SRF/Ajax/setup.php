@@ -22,7 +22,7 @@ class setup extends Controller
                     . "<table class='table table-striped'><thead><tr><th>Code</th><th>Description</th><th>SRF</th><th>Lab Fee</th><th>Modify</th></tr></thead>"
                     . "<tbody>";
             foreach($years as $year){
-                $data = $data."<tr><td align='center' colspan='4'><strong>".$year->curriculum_year."</strong></td>";
+                $data = $data."<tr><td align='center' colspan='5'><strong>".$year->curriculum_year."</strong></td>";
                 
             $lists = \App\Curriculum::distinct()->where('program_code', $program_code)->where('level', $level)->where('period', $period)->where('curriculum_year', $year->curriculum_year)->get(['course_code','course_name', 'srf','lab_fee']);
                 foreach($lists as $list){
