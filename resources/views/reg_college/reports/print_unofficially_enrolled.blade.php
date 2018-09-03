@@ -22,17 +22,13 @@
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>LIST OF UNOFFICIAL ENROLLED STUDENT</b><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b><br></div>
 </div>
 <div>
-    <table class="table table-condensed" width="100%"  style='margin-top: 155px;'>
-        <tr>
-            <th style="font-size:15px" align='center'> <?php $program_name = \App\CtrAcademicProgram::where('program_code', $request->program_code)->first()->program_name; ?>{{strtoupper($program_name)}}</th><br>
-        </tr>    
-    </table>
-    <table class='table' border="1" width="100%">
+    <table class='table' border="1" width="100%" style='margin-top: 155px;'>
         <thead>
             <tr>
                 <th width='1%'>#</th>
                 <th width='5%'>ID Number</th>
                 <th width='25%'>Student Name</th>
+                <th width='25%'>Program</th>
                 <th width='8%'>Level</th>
             </tr>
         </thead>
@@ -47,6 +43,7 @@
                 <td>{{$count}}.</td>
                 <td >{{$student->idno}}</td>
                 <td >{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
+                <td >{{$student->program_code}}</td>
                 <td >{{$student->level}}</td>
             </tr>
             @endforeach

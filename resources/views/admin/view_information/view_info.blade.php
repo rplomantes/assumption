@@ -54,6 +54,14 @@
                     <label>ID Number</label>
                     <input type='text' name="idno" id="idno" class='form form-control' value='{{$idno}}' readonly="">
                 </div>
+                <div class="col-md-3 pull-right">
+                     <label>User Status</label>
+                     <select class="form form-control" name="user_status" id="user_status">
+                         <option value="0" @if ($user->status == 0) selected=''@endif>0 - Not Active</option>
+                         <option value="1" @if ($user->status == 1) selected=''@endif>1 - Active</option>
+                         <option value="2" @if ($user->status == 2) selected=''@endif>2 - See Registrar</option>
+                     </select>
+                </div>
                 <div class="col-sm-3 pull-right">
                     <label><br><br></label>
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">

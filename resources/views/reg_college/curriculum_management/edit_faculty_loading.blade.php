@@ -92,7 +92,7 @@ $layout = "layouts.appreg_college";
                                 </td>
                                 <td>
                                     @foreach ($details as $detail)
-                                    {{$detail->program_code}} - {{$detail->level}}  - {{$detail->section}}<br>
+                                    {{$detail->program_code}} - {{$detail->level}}  - {{$detail->section_name}}<br>
                                     @endforeach
                                 </td>
                                 <td>

@@ -51,6 +51,7 @@ class viewInfoController extends Controller {
                 $update->extensionname = $request->extensionname;
                 $update->email = $request->email;
                 $update->accesslevel = $request->accesslevel;
+                $update->status = $request->user_status;
                 $update->save();
                 DB::Commit();
             }

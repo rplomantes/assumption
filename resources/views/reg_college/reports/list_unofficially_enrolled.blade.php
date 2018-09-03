@@ -65,16 +65,7 @@ $layout = "layouts.appreg_college";
                     </div>
                     <div class="box-body">
                         <div class='form-horizontal'>
-                            <div class='form-group'>    
-                                <div class='col-sm-4'>       
-                                    <label>Program Name</label>
-                                    <select class="form form-control select2" name="program_code" id='program_code'>
-                                        <option value="">Select Program</option>
-                                        @foreach ($programs as $program)
-                                        <option value="{{$program->program_code}}">{{$program->program_name}}</option>
-                                        @endforeach
-                                    </select>    
-                                </div>     
+                            <div class='form-group'>
                                 <div class='col-sm-2'>
                                     <label>School Year</label>
                                     <select class="form form-control select2" name="school_year" id='school_year'>
