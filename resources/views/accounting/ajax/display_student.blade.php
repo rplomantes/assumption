@@ -78,13 +78,13 @@ $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw(
         
         
         <?php $due_amount = ($ledger_amount-$less)+$others+$previous; ?>
-        @if($due_amount > 0)
+        @if($due_amount >= 0)
         <tr>
             <td>{{$student->idno}}</td>
             <td>{{$student->lastname}}, {{$student->firstname}}</td>
             <td>{{$student->type_of_plan}}</td>
             <td style="color:red; font-weight: bold" align="right">{{number_format(($ledger_amount-$less)+$others+$previous,2)}}</td>
-            <td align="center"><a onclick='print_soa_student(due_date.value, remarks.value,"{{$student->idno}}")'>Print</a></td>
+            <td align="center"><a href="javascript:void(0)" onclick='print_soa_student(due_date.value, remarks.value,"{{$student->idno}}")'>Print</a></td>
         </tr>
         @endif
         @endforeach

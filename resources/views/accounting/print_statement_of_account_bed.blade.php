@@ -123,7 +123,7 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
         </tr>
     </table>
 
-    <table width="45%" border="1" cellpadding="0" cellspacing="0">
+<!--    <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="2" style="background-color: silver"><strong>MAIN FEES</strong></td>
         </tr>
@@ -146,7 +146,9 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
             <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format($main_totalamount-($totaldm+$totaldiscount+$totalpayment),2)}}</td>
         </tr>
     </table>
-    <br>
+    <br>-->
+    
+    @if($other_totalamount-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="2" style="background-color: silver"><strong>OTHER FEES</strong></td>
@@ -171,7 +173,8 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
         </tr>
     </table>
     <br>
-    <table width="45%" border="1" cellpadding="0" cellspacing="0">
+    @endif
+    <!--<table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="2" style="background-color: silver"><strong>PREVIOUS BALANCE</strong></td>
         </tr>
@@ -194,7 +197,7 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
             <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format($previous_totalamount-($previous_totaldm+$previous_totaldiscount+$previous_totalpayment),2)}}</td>
         </tr>
     </table>
-    <br>
+    <br>-->
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="3" style="background-color: silver"><strong>SCHEDULE OF PAYMENT</strong></td>
@@ -256,7 +259,7 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
 
                 Please fax DEPOSIT SLIP/CONFIRMATION - (02) 817-0757 to<br> validate payments made through:<br>
 
-                -BPI Bank(Over the counter) Account No.: <u>1811-0005-54</u><br>
+                -BPI Bank(Over the counter) Account No.: <u>1811-0005-54</u> Ref No.: <u>{{$student->idno}}</u><br>
                 -BPI Expresslink(online payment)<br>
                 -Email: <i><u>finance@assumption.edu.ph</u></i>
             </td>

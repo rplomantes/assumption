@@ -9,13 +9,128 @@ $tdcounter=1;
     #bold {
         font-weight: bold;
     }
-
+    .page_break { page-break-before: always; }
 </style>
 <style>
-    @page { margin: 0px; }
-    body { margin: 0px; }
+    body { margin: -1.2cm; }
 </style>
 <body>
+    <?php $number=1; ?>
+    <div style="margin:1.2cm;">
+        
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td colspan="4" align="center"><strong>Assumption College</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">Statement of Account</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">Basic Education Department</td>
+                    </tr>
+        </table>
+        <br>
+        <br>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="border-bottom: 1px solid black">#</th>
+                <th style="border-bottom: 1px solid black">ID Number</th>
+                <th style="border-bottom: 1px solid black">Name</th>
+                <th style="border-bottom: 1px solid black">Plan</th>
+                <th style="border-bottom: 1px solid black; text-align: right">Due Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($students as $student)
+            <?php 
+            $totaldiscount=0;
+            $totaldm=0;
+            $totalpayment=0;
+            $ledger_amount=0;
+            $due_amount=0;
+            $ledger_main_tuition = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->where('category_switch','<=','6')
+              ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get(); 
+            $ledger_others = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->whereRaw('category_switch = 7')
+              ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get(); 
+            $previouses=  \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->where('category_switch','>','9')
+              ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+            ?>
+            <?php
+    $final_date = date('Y-m-31',strtotime($due_date));
+    $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw("due_date <= '$final_date'")->get();
+            ?>
+            @foreach($ledger_due_dates as $ledger_due_date)
+                <?php $ledger_amount = $ledger_amount + $ledger_due_date->amount;?>
+            @endforeach
+            @foreach($ledger_main_tuition as $main_tuition)
+               <?php
+               $totaldiscount=$totaldiscount+$main_tuition->discount;
+               $totaldm=$totaldm+$main_tuition->debit_memo;
+               $totalpayment=$totalpayment+$main_tuition->payment;
+               $less=$totaldiscount+$totaldm+$totalpayment;
+               ?>
+            @endforeach
+
+            <?php 
+            $totaldiscount=0;
+            $totaldm=0;
+            $totalpayment=0;
+            $totalamount=0;
+            $less2=0;
+            ?>
+            @foreach($ledger_others as $other_tuition)
+               <?php
+               $totaldiscount=$totaldiscount+$other_tuition->discount;
+               $totaldm=$totaldm+$other_tuition->debit_memo;
+               $totalpayment=$totalpayment+$other_tuition->payment;
+               $totalamount=$totalamount+$other_tuition->amount;
+               $less2=$totaldiscount+$totaldm+$totalpayment;
+               ?>
+            @endforeach
+            <?php $others=$totalamount-$less2 ?>
+
+            <?php 
+            $totaldiscount=0;
+            $totaldm=0;
+            $totalpayment=0;
+            $totalamount=0;
+            $less3=0;
+            ?>
+            @foreach($previouses as $previous_tuition)
+               <?php
+               $totaldiscount=$totaldiscount+$previous_tuition->discount;
+               $totaldm=$totaldm+$previous_tuition->debit_memo;
+               $totalpayment=$totalpayment+$previous_tuition->payment;
+               $totalamount=$totalamount+$previous_tuition->amount;
+               $less3=$totaldiscount+$totaldm+$totalpayment;
+               ?>
+            @endforeach
+            <?php $previous=$totalamount-$less3 ?>
+
+
+            <?php $due_amount = ($ledger_amount-$less)+$others+$previous; ?>
+            @if($due_amount >= 0)
+            <tr>
+                <td style="border-bottom: 1px solid black">{{$number}}.<?php $number++; ?></td>
+                <td style="border-bottom: 1px solid black">{{$student->idno}}</td>
+                <td style="border-bottom: 1px solid black">{{$student->lastname}}, {{$student->firstname}}</td>
+                <td style="border-bottom: 1px solid black">{{$student->type_of_plan}}</td>
+                <td style="border-bottom: 1px solid black" style="color:red; font-weight: bold" align="right">{{number_format(($ledger_amount-$less)+$others+$previous,2)}}</td>
+            </tr>
+            @endif
+            @endforeach
+        </tbody>
+    </table>
+    </div>
+    
+    
+    
+    <div class="page_break"></div>
+    
+    
+    
+    
     <table width="100%" cellpadding="30" border="0">
         @foreach($students as $student)
         <?php 
@@ -103,7 +218,6 @@ $tdcounter=1;
                 @else
                     <td width="50%" valign="top">
                 @endif
-
                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="4" align="center"><strong>Assumption College</strong></td>
@@ -134,7 +248,7 @@ $tdcounter=1;
                     </tr>
                 </table>
 
-                <table width="100%" border="1" cellpadding="0" cellspacing="0">
+<!--                <table width="100%" border="1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="2" style="background-color: silver"><strong>MAIN FEES</strong></td>
                     </tr>
@@ -157,7 +271,8 @@ $tdcounter=1;
                         <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format($main_totalamount-($totaldm+$totaldiscount+$totalpayment),2)}}</td>
                     </tr>
                 </table>
-                <br>
+                <br>-->
+                @if($other_totalamount-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
                 <table width="100%" border="1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="2" style="background-color: silver"><strong>OTHER FEES</strong></td>
@@ -182,7 +297,8 @@ $tdcounter=1;
                     </tr>
                 </table>
                 <br>
-                <table width="100%" border="1" cellpadding="0" cellspacing="0">
+                @endif
+<!--                <table width="100%" border="1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="2" style="background-color: silver"><strong>PREVIOUS BALANCE</strong></td>
                     </tr>
@@ -205,7 +321,7 @@ $tdcounter=1;
                         <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format($previous_totalamount-($previous_totaldm+$previous_totaldiscount+$previous_totalpayment),2)}}</td>
                     </tr>
                 </table>
-                <br>
+                <br>-->
                 <table width="100%" border="1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="3" style="background-color: silver"><strong>SCHEDULE OF PAYMENT</strong></td>
@@ -267,7 +383,7 @@ $tdcounter=1;
 
                             Please fax DEPOSIT SLIP/CONFIRMATION - (02) 817-0757 to<br> validate payments made through:<br>
 
-                            -BPI Bank(Over the counter) Account No.: <u>1811-0005-54</u><br>
+                            -BPI Bank(Over the counter) Account No.: <u>1811-0005-54</u> Ref No.: <u>{{$student->idno}}</u><br>
                             -BPI Expresslink(online payment)<br>
                             -Email: <i><u>finance@assumption.edu.ph</u></i>
                         </td>
