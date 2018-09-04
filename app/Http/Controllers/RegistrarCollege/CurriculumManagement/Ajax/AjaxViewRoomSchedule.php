@@ -14,7 +14,7 @@ class AjaxViewRoomSchedule extends Controller {
             $school_year = Input::get("school_year");
             $period = Input::get("period");
 
-            $rooms = \App\ScheduleCollege::distinct()->where('school_year', $school_year)->where('period', $period)->get(['room']);
+            $rooms = \App\ScheduleCollege::distinct()->where('school_year', $school_year)->where('period', $period)->orderBy('room', 'asc')->get(['room']);
 
             return view('reg_college.curriculum_management.ajax.show_rooms', compact('rooms', 'school_year', 'period'));
         }

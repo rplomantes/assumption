@@ -200,32 +200,51 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
     <br>-->
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="3" style="background-color: silver"><strong>SCHEDULE OF PAYMENT</strong></td>
+            <td colspan="2" style="background-color: silver"><strong>SCHEDULE OF PAYMENT</strong></td>
         </tr>
 
         @foreach($due_dates as $due)
+            @if($due->due_switch=="0")
+            <?php $duedate = "Upon Enrollment";?>
+            @else
+            <?php $duedate = date('F d, Y',strtotime($due->due_date)); ?>
+            @endif
+
+            <?php 
+            if($less >= $due->amount){
+                $less = $less - $due->amount;
+            } else {
+                $date = $duedate;
+                $display = "Php ".number_format($due->amount-$less,2);
+                $less=0;
+                $remark="";
+            echo "<tr><td>".$date."</td><td align=\"right\">".$display."</td></tr>";
+            }
+            ?>
+        @endforeach
+<!--        @foreach($due_dates as $due)
         @if($due->due_switch=="0")
-        <?php $duedate = "Upon Enrollment"; ?>
+        <?php //$duedate = "Upon Enrollment"; ?>
         @else
-        <?php $duedate = date('F Y', strtotime($due->due_date)); ?>
+        <?php //$duedate = date('F Y', strtotime($due->due_date)); ?>
         @endif
 
         <?php
-        if ($less >= $due->amount) {
-            $date = "<span style=\"font-style: italic ;text-decoration: line-through\">" . $duedate . "<span>";
-            $display = "<span style=\"font-style: italic; text-decoration: line-through\">Php " . number_format($due->amount, 2) . "<span>";
-            $less = $less - $due->amount;
-            $remark = "<span style=\"font-style: italic; font-style:italic;color:#f00\">paid</span>";
-        } else {
-            $date = $duedate;
-            $display = "Php " . number_format($due->amount - $less, 2);
-            $less = 0;
-            $remark = "";
-        }
+//        if ($less >= $due->amount) {
+//            $date = "<span style=\"font-style: italic ;text-decoration: line-through\">" . $duedate . "<span>";
+//            $display = "<span style=\"font-style: italic; text-decoration: line-through\">Php " . number_format($due->amount, 2) . "<span>";
+//            $less = $less - $due->amount;
+//            $remark = "<span style=\"font-style: italic; font-style:italic;color:#f00\">paid</span>";
+//        } else {
+//            $date = $duedate;
+//            $display = "Php " . number_format($due->amount - $less, 2);
+//            $less = 0;
+//            $remark = "";
+//        }
         ?>
 
         <tr><td>{!!$date!!}</td><td align="right">{!!$display!!}</td><td align="center">{!!$remark!!}</td></tr>
-        @endforeach
+        @endforeach-->
 
     </table>
     <br>
@@ -239,30 +258,36 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
     </table>
     <strong>Reminder:</strong><br> {{$remarks}}<br>
     <br>
-    <table width="45%" style="font-size: 7pt">
+    <table width="45%" style="font-size: 8pt">
         <tr>
-            <td>
-                PLEASE PRESENT THIS BILL WHEN PAYING<br><br>
+                <td>
+                    ADVISORY:<br>
+                        -Surcharge of Php 100.00 every month of late payment.<br>
+                        -Succeeding Statement of Account from now on will only be available in digital form at <i><u>portal.assumption.edu.ph</u></i><br><br><br><br>
 
-                Kindly disregard this notice if payment has been made.<br>
 
-                For Inquiries, please contact Ms. Joy Aggabao<br>
-                Tel.: (02) 817-0757 loc. 1056<br><br>
 
-                Please pay ON or BEFORE<br>
-                Due Date: <strong>{{date('F j, Y',strtotime($due_date))}}</strong><br><br>
+                        PLEASE PRESENT THIS BILL WHEN PAYING<br><br>
+                    Kindly disregard this notice if payment has been made.<br><br>
 
-                Certified by:<br><br>
 
-                Ms. Joy Aggabao<br>
-                Student Fees Officer<br><br>
+                    For Inquiries, please contact Ms. Joy Aggabao<br>
+                    Tel.: (02) 817-0757 loc. 1056<br><br>
 
-                Please fax DEPOSIT SLIP/CONFIRMATION - (02) 817-0757 to<br> validate payments made through:<br>
+                    Please pay ON or BEFORE<br>
+                    Due Date: <strong>{{date('F j, Y',strtotime($due_date))}}</strong><br><br><br><br><br>
 
-                -BPI Bank(Over the counter) Account No.: <u>1811-0005-54</u> Ref No.: <u>{{$student->idno}}</u><br>
-                -BPI Expresslink(online payment)<br>
-                -Email: <i><u>finance@assumption.edu.ph</u></i>
-            </td>
-        </tr>
+                    Certified by:<br><br>
+
+                    <strong>Ms. Joy Aggabao</strong><br>
+                    Student Fees Officer<br><br>
+
+                    Please fax DEPOSIT SLIP/CONFIRMATION - (02) 817-0757 to<br> validate payments made through:<br>
+
+                    -BPI Bank(Over the counter)<br>&nbsp;&nbsp;&nbsp;Account No.: <u>1811-0005-54</u><br>&nbsp;&nbsp;&nbsp;Ref No.: <u>{{$student->idno}}</u>(Student ID Number)<br>
+                    -BPI Expresslink(online payment)<br>
+                    -Email: <i><u>finance@assumption.edu.ph</u></i>
+                </td>
+            </tr>
     </table>
 </body>

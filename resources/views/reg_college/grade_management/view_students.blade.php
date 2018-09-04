@@ -40,7 +40,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             <th>Name</th>
                             <th width="5%">Midterm</th>
                             <th width="5%">Finals</th>
-                            <th>Lock/Unlock</th>
+                            @if(auth::user()->accesslevel == env('DEAN'))<th>Lock/Unlock</th>@endif
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +51,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
                             <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=1 readonly=""></td>
                             <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=1 readonly=""></td>
-                            <td>
+                            @if(auth::user()->accesslevel == env('DEAN'))<td>
                                 @if($student->is_lock == 0)
                                 <div class="btn btn-warning col-sm-12" onclick="lock({{$student->idno}}, schedule_id.value, {{$student->id}})">Lock</div>
                                 @elseif ($student->is_lock == 1)
@@ -61,7 +61,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                                 @else
                                 <i class="label label-danger">Grade Submitted to the Records</i>
                                 @endif
-                            </td>
+                            </td>@endif
                         </tr>
                         @endforeach
                     </tbody>
@@ -71,11 +71,14 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
     </div>
     @endif
 @if (count($checkstatus3) == count($students))
-@else    <div class="col-sm-12">
+@else    
+@if(auth::user()->accesslevel == env('DEAN'))
+    <div class="col-sm-12">
         <span onclick="if (confirm('Do you really want to approve all grades?'))
                     return approveall(schedule_id.value);
                 else
                     return false;" class='btn btn-success col-sm-12' >Lock all and Approve</span>
     </div>
+@endif
 @endif
 </form>
