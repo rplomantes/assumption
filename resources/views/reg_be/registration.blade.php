@@ -92,20 +92,46 @@
     @endif
      </div>
      <div class="col-md-3">
-      <input type="text" name='extensionname'id="extensionname" class="formr form-control" placeholder="Extension Name">
+      <input type="text" name='extensionname'id="extensionname" class="form form-control" placeholder="Extension Name">
      </div>
      </div>
      
         
      <div class="form-group">
        <div class="col-md-12">
-         <label>Address and Contact Number</label>
+         <label>Address</label>
          </div>   
-         <div class="col-md-8">
-             <input type="text" class="form form-control" placeholder="Address" id="address">
+         <div class="col-md-6">
+             <input type="text" class="form form-control" placeholder="Street" name="street" id="address">
+         </div>   
+         <div class="col-md-6">
+             <input type="text" class="form form-control" placeholder="Barangay" name="barangay" id="address">
+         </div>   
+     </div> 
+     
+     <div class="form-group">
+       <div class="col-md-12">
+         </div>     
+         <div class="col-md-5">
+             <input type="text" class="form form-control" placeholder="Municipality/City" name="municipality" id="address">
+         </div>   
+         <div class="col-md-5">
+             <input type="text" class="form form-control" placeholder="Province" name="province" id="address">
          </div>  
+         <div class="col-md-2">
+             <input type="text" class="form form-control" placeholder="Zip Code" name="zip" id="address">
+         </div>
+     </div>
+     
+     <div class="form-group">
+       <div class="col-md-12">
+         <label>Contact Numbers</label>
+         </div> 
          <div class="col-md-4">
-             <input type="text" class="form form-control" placeholder="Contact Number" id="address">
+             <input type="text" class="form form-control" placeholder="Telephone Number" name='tel_no' id="tel_no">
+         </div>
+         <div class="col-md-4">
+             <input type="text" class="form form-control" placeholder="Cellphone Number" name='cell_no' id="cell_no">
          </div>
      </div> 
      
@@ -125,32 +151,14 @@
              <input type="text" class="form form-control" name="lrn" id="lrn" placeholder="LRN">
          </div>  
          <div class="col-md-3">
-             <label>Loca/Foreign</label>
+             <label>Local/Foreign</label>
              <select class="form form-control" name='is_foreign' value="{{old('is_foreign')}}" type="text">
                 <option value="">Select Local/Foreign</option>
                 <option value="0" @if ( old('is_foreign') == 0) selected='' @endif >Local</option>
                 <option value="1" @if ( old('is_foreign') == 1) selected='' @endif >Foreign</option>
             </select>
          </div>
-     </div> 
-     
-     <div class="col-md-12">
-         <hr />
-     </div> 
-     <div class="form form-group">
-         <div class="col-md-6">
-             <input type ="text" class="form form-control" name="parent_name" id='parent_name' placeholder="Parent's Name">
-          </div>   
-         <div class="col-md-6">
-             <input type ="text" class="form form-control" name="parent_email" id='parent_email' placeholder="Parent's Email">
-             @if ($errors->has('parent_email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('parent_email') }}</strong>
-                        </span>
-                        @endif
-         
-         </div>
-     </div>    
+     </div>  
      <div class="form form-group">
          <div class="col-md-12">
          <input type="submit" name="submit" class="btn btn-primary" value="Register student">
@@ -159,23 +167,6 @@
      </form>    
     </div>
  </div>
-     <div class="box">   
-     <div class="box-body">
-         <div class="col-md-12">
-             <label>Search For Registered Students</label>
-             <div class="input-group date">
-                  <div class="input-group-addon">
-                     <i class="fa fa-search"></i> 
-                  </div>
-           <input type="text" id="search" class="form form-control search-form">
-           </div>
-         </div>   
-         <div class="col-md-12">
-             <div id="display_search">
-             </div>    
-         </div>    
-     </div>    
- </div>  
  </div>    
 @endsection
 @section('footerscript')

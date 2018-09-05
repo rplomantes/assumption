@@ -46,10 +46,13 @@ class Registration extends Controller {
                 $addprofile = new \App\BedProfile;
                 $addprofile->idno = $request->referenceid;
                 $addprofile->date_of_birth = $request->date_of_birth;
-                $addprofile->address = $request->address;
-                $addprofile->contact_no = $request->contact_no;
-                $addprofile->parent_name = $request->parent_name;
-                $addprofile->parent_email = $request->parent_email;
+                $addprofile->street = $request->street;
+                $addprofile->barangay = $request->barangay;
+                $addprofile->municipality = $request->municipality;
+                $addprofile->province = $request->province;
+                $addprofile->zip = $request->zip;
+                $addprofile->tel_no = $request->tel_no;
+                $addprofile->cell_no = $request->cell_no;
                 $addprofile->save();
 
                 $addstatus = new \App\Status;
@@ -69,7 +72,8 @@ class Registration extends Controller {
     function info($idno) {
         if (Auth::user()->accesslevel == env("REG_BE")) {
             $student = \App\User::where("idno", $idno)->first();
-            return view("reg_be.info", compact('student'));
+            $bed_profile = \App\BedProfile::where("idno", $idno)->first();
+            return view("reg_be.info", compact('student','bed_profile'));
         }
     }
 
@@ -106,18 +110,24 @@ class Registration extends Controller {
             $addprofile = \App\BedProfile::where('idno', $request->referenceid)->first();
             if (count($addprofile) > 0) {
                 $addprofile->date_of_birth = $request->date_of_birth;
-                $addprofile->address = $request->address;
-                $addprofile->contact_no = $request->contact_no;
-                $addprofile->parent_name = $request->parent_name;
-                $addprofile->parent_email = $request->parent_email;
+                $addprofile->street = $request->street;
+                $addprofile->barangay = $request->barangay;
+                $addprofile->municipality = $request->municipality;
+                $addprofile->province = $request->province;
+                $addprofile->zip = $request->zip;
+                $addprofile->tel_no = $request->tel_no;
+                $addprofile->cell_no = $request->cell_no;
                 $addprofile->save();
             } else {
                 $addpro = new \App\BedProfile;
                 $addpro->idno = $request->referenceid;
-                $addpro->address = $request->address;
-                $addpro->contact_no = $request->contact_no;
-                $addpro->parent_name = $request->parent_name;
-                $addpro->parent_email = $request->parent_email;
+                $addpro->street = $request->street;
+                $addpro->barangay = $request->barangay;
+                $addpro->municipality = $request->municipality;
+                $addpro->province = $request->province;
+                $addpro->zip = $request->zip;
+                $addpro->tel_no = $request->tel_no;
+                $addpro->cell_no = $request->cell_no;
                 $addpro->save();
             }
             \App\Http\Controllers\Admin\Logs::log("Update student information of $request->referenceid.");

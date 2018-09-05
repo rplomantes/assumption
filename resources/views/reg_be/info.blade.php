@@ -112,15 +112,40 @@
         
      <div class="form-group">
        <div class="col-md-12">
-         <label>Address and Contact Number</label>
+         <label>Address</label>
          </div>   
-         <div class="col-md-8">
-             <input type="text" class="form form-control" name='address' placeholder="Address" id="address">
+         <div class="col-md-6">
+             <input type="text" class="form form-control" placeholder="Street" name="street" id="address" value="{{$bed_profile->street}}">
+         </div>   
+         <div class="col-md-6">
+             <input type="text" class="form form-control" placeholder="Barangay" name="barangay" id="address" value="{{$bed_profile->barangay}}">
          </div>  
-         <div class="col-md-4">
-             <input type="text" class="form form-control" name='contact_no' placeholder="Contact Number" id="contact_no">
+     </div> 
+     <div class="form-group">
+       <div class="col-md-12">
+         </div>   
+         <div class="col-md-5">
+             <input type="text" class="form form-control" placeholder="Municipality/City" name="municipality" id="address" value="{{$bed_profile->municipality}}">
+         </div>   
+         <div class="col-md-5">
+             <input type="text" class="form form-control" placeholder="Province" name="province" id="address" value="{{$bed_profile->province}}">
+         </div>  
+         <div class="col-md-2">
+             <input type="text" class="form form-control" placeholder="Zip Code" name="zip" id="address" value="{{$bed_profile->zip}}">
          </div>
      </div> 
+     
+     <div class="form-group">
+       <div class="col-md-12">
+         <label>Contact Numbers</label>
+         </div> 
+         <div class="col-md-4">
+             <input type="text" class="form form-control" placeholder="Telephone Number" name='tel_no' id="tel_no" value="{{$bed_profile->tel_no}}">
+         </div>
+         <div class="col-md-4">
+             <input type="text" class="form form-control" placeholder="Cellphone Number" name='cell_no' id="cell_no" value="{{$bed_profile->cell_no}}">
+         </div>
+     </div>  
      
      <div class="form form-group">
          
@@ -130,12 +155,12 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="date" name="date_of_birth" class="form-control pull-right" id="datepicker">
+                  <input type="date" name="date_of_birth" class="form-control pull-right" id="datepicker"  value="{{$bed_profile->date_of_birth}}">
                 </div>
          </div>  
          <div class="col-md-5">
              <label>LRN</label>
-             <input type="text" class="form form-control" name="lrn" id="lrn" placeholder="LRN">
+             <input type="text" class="form form-control" name="lrn" id="lrn" placeholder="LRN"  value="{{$student->lrn}}">
          </div> 
          <div class="col-md-3">
              <label>Local/Foreign</label>
@@ -144,25 +169,7 @@
                 <option value="1" @if ($student->is_foreign) == 1) selected='' @endif >Foreign</option>
             </select>
          </div>
-     </div> 
-     
-     <div class="col-md-12">
-         <hr />
-     </div> 
-     <div class="form form-group">
-         <div class="col-md-6">
-             <input type ="text" class="form form-control" name="parent_name" id='parent_name' placeholder="Parent's Name">
-          </div>   
-         <div class="col-md-6">
-             <input type ="text" class="form form-control" name="parent_email" id='parent_email' placeholder="Parent's Email">
-             @if ($errors->has('parent_email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('parent_email') }}</strong>
-                        </span>
-                        @endif
-         
-         </div>
-     </div>    
+     </div>     
      <div class="form form-group">
          <div class="col-md-12">
          <input type="submit" name="submit" class="btn btn-primary" value="Update Record">
