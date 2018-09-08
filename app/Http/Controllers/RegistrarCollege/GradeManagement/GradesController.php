@@ -18,4 +18,10 @@ class GradesController extends Controller
             return view('reg_college.grade_management.view_grades', compact('school_year', 'period'));
         }
     }
+    
+    function report_card(){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            return view('reg_college.grade_management.report_card');
+        }
+    }
 }

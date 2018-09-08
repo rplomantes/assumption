@@ -8,11 +8,25 @@
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
+            @elseif($status->status == 10) Pre-Registered
+            @elseif($status->status == 11) For Approval
             @else Not Yet Enrolled @endif
         </td>
-        <td><a  href="{{url('/bedregistrar',array('assess',$list->idno))}}">Assess</a></td>
+        
+        @if($status->status == 3)<td><a  href="{{url('/bedregistrar',array('assess',$list->idno))}}">Assess</a></td>
+            @elseif($status->status == 2) <td><a  href="{{url('/bedregistrar',array('assess',$list->idno))}}">Assess</a></td>
+            @elseif($status->status == 10) <td>Assess</td>
+            @elseif($status->status == 11) <td>Assess</td>
+            @else <td><a  href="{{url('/bedregistrar',array('assess',$list->idno))}}">Assess</a></td> @endif
+        
         <td><a  href="{{url('/bedregistrar',array('info',$list->idno))}}">View Info</a></td>
-        <td><a  href="{{url('/bedregistrar',array('grades',$list->idno))}}">View Grades</a></td>
+        
+        @if($status->status == 3)<td><a  href="{{url('/bedregistrar',array('grades',$list->idno))}}">View Grades</a></td>
+            @elseif($status->status == 2) <td><a  href="{{url('/bedregistrar',array('grades',$list->idno))}}">View Grades</a></td>
+            @elseif($status->status == 10) <td>View Grades</td>
+            @elseif($status->status == 11) <td>View Grades</td>
+            @else <td><a  href="{{url('/bedregistrar',array('grades',$list->idno))}}">View Grades</a></td> @endif
+        
     </tr>
     @endif
     @endforeach

@@ -161,6 +161,8 @@ Route::get('/ajax/registrar_college/grade_management/approve_all/{school_year}/{
 Route::get('/ajax/registrar_college/grades/change_midterm/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_midterm');
 Route::get('/ajax/registrar_college/grades/change_finals/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_finals');
 Route::get('/ajax/registrar_college/grades/change_completion/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_completion');
+//Report Cards
+Route::get('/registrar_college/grade_management/report_card', 'RegistrarCollege\GradeManagement\GradesController@report_card');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
@@ -249,7 +251,14 @@ Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\N
 
 //BED Admission///////////////////////////////////////////////////
 Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
-Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@index');
+Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
+Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');
+Route::get('/admissionbed/approve_application/{idno}','AdmissionBED\info@approve_application');
+//BED TESTING SCHEDULES/////////////////////////////////////////////////////////
+Route::get('/admissionbed/testing_schedules', 'AdmissionBED\TestingSchedules@view');
+Route::post('/admissionbed/add_testing_schedule', 'AdmissionBED\TestingSchedules@add');
+Route::get('/admissionbed/edit_testing_schedule/{id}', 'AdmissionBED\TestingSchedules@edit');
+
 
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////
 Route::get('/accounting/breakdown_of_fees/{idno}', 'Accounting\BreakdownOfFees@index');

@@ -13,7 +13,7 @@ class CreatePreRegistrationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pre_registrations', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('pre_registrations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idno')->unique();
             $table->string('applying_for');
@@ -31,9 +31,9 @@ class CreatePreRegistrationsTable extends Migration
             $table->string('zip')->nullable();
             $table->string('tel_no')->nullable();
             $table->string('cell_no')->nullable();
-            $table->string('email')->unique();
-            $table->string('date_of_birth');
-            $table->string('lrn');
+            $table->string('email');
+            $table->string('date_of_birth')->nullable();
+            $table->string('lrn')->nullable();
             $table->integer('is_foreign')->default(0);
             $table->integer('is_complete')->default(0);
             $table->timestamps();

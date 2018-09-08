@@ -28,6 +28,8 @@ class Assess extends Controller {
                 if (count($status) > 0) {
                     if ($status->status < env("ASSESSED")) {
                         return view('reg_be.assess', compact('user', 'status', 'ledgers', 'level'));
+                    } else if($status->status >= env("PRE_REGISTERED")){
+                        return redirect('/');
                     } else {
                         return view('reg_be.assessed_enrolled', compact('idno'));
                     }

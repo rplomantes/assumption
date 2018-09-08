@@ -46,6 +46,11 @@ Route::post('/cashier/deposit_slip','Cashier\CollectionReport@post_deposit_slip'
 Route::get('/cashier/remove_deposit/{id}','Cashier\CollectionReport@remove_deposit');
 Route::get('/cashier/printreceipt/{reference_id}', 'Cashier\PrintController@printreceipt');
 Route::get('/cashier/print_collection_report/{datefrom}/{dateto}','Cashier\PrintController@print_collection_report');
+
+//Pre Registration Payment//////////////////////////////////////////////////////
+Route::get('/cashier/pre_registration_payment','Cashier\PreRegistration@pre_registration_payment');
+Route::post('/cashier/pre_registration_payment','Cashier\PreRegistration@post_pre_registration_payment');
+
 //Registrar College Assessment//////////////////////////////////////////////////
 //Assessment/////
 

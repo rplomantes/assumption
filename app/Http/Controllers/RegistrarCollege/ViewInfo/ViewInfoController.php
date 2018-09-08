@@ -42,7 +42,7 @@ class ViewInfoController extends Controller {
             $this->updateEducBackground($request);
             $this->updateUser($request);
             
-            \App\Http\Controllers\Admin\Logs::log("Update information of student: $idno");
+            \App\Http\Controllers\Admin\Logs::log("Update information of student: $request->idno");
             DB::Commit();
             
             Session::flash('message', 'Information Updated!');

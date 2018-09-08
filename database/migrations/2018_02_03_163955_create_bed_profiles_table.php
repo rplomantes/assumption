@@ -40,52 +40,6 @@ class CreateBedProfilesTable extends Migration
             $table->string('acr_date_issued')->nullable();
             $table->string('acr_place_issued')->nullable();
             
-            //parent info
-            $table->string('father')->nullable();
-            $table->integer('f_citizenship')->nullable();
-            $table->integer('f_is_living')->nullable();
-            $table->integer('f_religion')->nullable();
-            $table->integer('f_education')->nullable();
-            $table->integer('f_school')->nullable();
-            $table->string('f_occupation')->nullable();
-            $table->integer('f_company_name')->nullable();
-            $table->integer('f_company_address')->nullable();
-            $table->integer('f_company_number')->nullable();
-            $table->string('f_phone')->nullable();
-            $table->integer('f_cell_no')->nullable();
-            $table->string('f_email')->nullable();
-            $table->integer('f_any_org')->nullable();
-            $table->integer('f_type_of_org')->nullable();
-            $table->integer('f_expertise')->nullable();
-            
-            $table->string('mother')->nullable();
-            $table->integer('m_citizenship')->nullable();
-            $table->integer('m_is_living')->nullable();
-            $table->integer('m_religion')->nullable();
-            $table->integer('m_education')->nullable();
-            $table->integer('m_school')->nullable();
-            $table->string('m_occupation')->nullable();
-            $table->integer('m_company_name')->nullable();
-            $table->integer('m_company_address')->nullable();
-            $table->integer('m_company_number')->nullable();
-            $table->string('m_phone')->nullable();
-            $table->integer('m_cell_no')->nullable();
-            $table->string('m_email')->nullable();
-            $table->integer('m_any_org')->nullable();
-            $table->integer('m_type_om_org')->nullable();
-            $table->integer('m_expertise')->nullable();
-            $table->integer('m_alumna_gradeschool_year')->nullable();
-            $table->integer('m_alumna_highschool_year')->nullable();
-            $table->integer('m_alumna_college_year')->nullable();
-            
-            $table->integer('parents_civil_status')->nullable();
-            
-            $table->string('guardian')->nullable();
-            $table->integer('g_relation')->nullable();
-            $table->integer('g_address')->nullable();
-            $table->integer('g_contact_no')->nullable();
-            
-            
             $table->string('present_school')->nullable();
             $table->string('present_school_address')->nullable();
             $table->string('present_principal')->nullable();

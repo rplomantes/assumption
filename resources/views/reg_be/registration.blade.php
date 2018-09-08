@@ -133,6 +133,9 @@
          <div class="col-md-4">
              <input type="text" class="form form-control" placeholder="Cellphone Number" name='cell_no' id="cell_no">
          </div>
+         <div class="col-md-4">
+             <input type="email" class="form form-control" placeholder="Email*" name='email' id="email">
+         </div>
      </div> 
      
      <div class="form form-group">

@@ -31,7 +31,8 @@ class OtherPayment extends Controller
         }else{
                 return view('cashier.ORUsed');
         }
-    }}
+    }
+    }
     function post_other_payment(Request $request){
         if(Auth::user()->accesslevel==env("CASHIER")){    
         DB::beginTransaction();

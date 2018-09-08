@@ -28,6 +28,9 @@ $tdcounter=1;
                     <tr>
                         <td colspan="4" align="center">Basic Education Department</td>
                     </tr>
+                    <tr>
+                        <td colspan="4" align="center"><strong>As of {{date('F d, Y',strtotime($due_date))}}</strong></td>
+                    </tr>
         </table>
         <br>
         <br>
@@ -229,22 +232,36 @@ $tdcounter=1;
                         <td colspan="4" align="center">Basic Education Department</td>
                     </tr>
                     <tr>
+                        <td colspan="4" align="center">S.Y. {{$status->school_year}}-{{$status->school_year+1}} {{$status->period}}</td>
+                    </tr>
+                    <tr>
                         <td colspan="4">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2">ID NUMBER:</td><td colspan="2">{{$student->idno}}</td>
+                        <td colspan="4">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2">NAME:</td><td colspan="2">{{$student->lastname}}, {{$student->firstname}} {{$student->middlename}}</td>
+                        <td colspan="2">ID NUMBER:</td><td colspan="2"><strong>{{$student->idno}}</strong></td>
                     </tr>
                     <tr>
-                        <td width="30%" colspan="2">PLAN:</td><td colspan="2">{{$status->type_of_plan}}</td>
+                        <td colspan="2">NAME:</td><td colspan="2"><strong>{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} {{strtoupper($student->middlename)}}</strong></td>
                     </tr>
                     <tr>
-                        <td>LEVEL:</td><td>{{$status->level}}</td><td width="15%">SECTION:</td><td>{{$status->section}}</td>
+                        <td width="30%" colspan="2">PLAN:</td><td colspan="2"><strong>@if($status->type_of_plan=="Plan A")A @elseif($status->type_of_plan=="Plan B")B @elseif($status->type_of_plan=="Plan C")C @elseif($status->type_of_plan=="Plan D")D @endif</strong></td>
                     </tr>
+                    <tr>
+                        <td>LEVEL:</td><td><strong>{{$status->level}}</strong></td><td width="15%">SECTION:</td><td><strong>{{$status->section}}</strong></td>
+                    </tr>
+                    @if($status->level == "Grade 11" || $status->level == "Grade 12")
+                    <tr>
+                        <td>STRAND:</td><td><strong>{{$status->strand}}</strong></td>
+                    </tr>
+                    @endif
                     <tr>
                         <td colspan="4"><hr></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
                     </tr>
                 </table>
 
@@ -326,13 +343,20 @@ $tdcounter=1;
                 @endif
                 <table width="100%" border="1" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td colspan="2" style="background-color: silver"><strong>SCHEDULE OF PAYMENT</strong></td>
+                        <td colspan="3" style="background-color: silver"><strong>SCHEDULE OF PAYMENT</strong></td>
+                    </tr>
+                    <tr>
+                        <th align="center">Month</th>
+                        <th align="center">Due Date</th>
+                        <th align="center">Amount</th>
                     </tr>
                     @foreach($due_dates as $due)
                         @if($due->due_switch=="0")
                         <?php $duedate = "Upon Enrollment";?>
+                        <?php $month = "";?>
                         @else
                         <?php $duedate = date('F d, Y',strtotime($due->due_date)); ?>
+                        <?php $month = date('F Y',strtotime($due->due_date)); ?>
                         @endif
 
                         <?php 
@@ -340,13 +364,18 @@ $tdcounter=1;
                             $less = $less - $due->amount;
                         } else {
                             $date = $duedate;
-                            $display = "Php ".number_format($due->amount-$less,2);
+                            $duemonth = $month;
+                            $display = number_format($due->amount-$less,2);
                             $less=0;
                             $remark="";
-                        echo "<tr><td>".$date."</td><td align=\"right\">".$display."</td></tr>";
+                        echo "<tr><td>".$month."</td><td>".$date."</td><td align=\"right\">".$display."</td></tr>";
                         }
                         ?>
                     @endforeach
+                    <tr>
+                        <th align="left" colspan="2">Total Tuition Fee</th>
+                        <th align="right">Php {{number_format($main_totalamount-($totaldm+$totaldiscount+$totalpayment),2)}}</th>
+                    </tr>
 <!--                    @foreach($due_dates as $due)
                         @if($due->due_switch=="0")
                         <?php //$duedate = "Upon Enrollment";?>
@@ -374,22 +403,23 @@ $tdcounter=1;
                 </table>
                 <br>
                 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-                    <tr>
+<!--                    <tr>
                         <td width="30%"><strong>Due Date</strong></td><td align="right"><strong>{{date('F j, Y',strtotime($due_date))}}</strong></td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td><strong style="color: red;">Due Amount</strong></td><td align="right"><strong style="color: red;">Php {{number_format($due_amount,2)}}</strong></td>
                     </tr>
                 </table>
                 <br>
-                <strong>Reminder:</strong><br> {{$remarks}}<br>
+                <strong>REMINDER:</strong><br> {{$remarks}}<br>
                 <br>
-                <table width="100%" style="font-size: 8pt">
+                <table width="100%" style="font-size: 8pt" border="0" cellpadding="0" cellspacing=0>
                     <tr>
-                        <td>
+                        <td><strong>
+                                <div style='border: 1px solid black'><div style="margin: .2cm">
                             ADVISORY:<br>
-                                -Surcharge of Php 100.00 every month of late payment.<br>
-                                -Succeeding Statement of Account from now on will only be available in digital form at <i><u>portal.assumption.edu.ph</u></i><br><br><br><br>
+                                &nbsp;&nbsp;&nbsp;-Surcharge of Php 100.00 every month of late payment.<br>
+                                &nbsp;&nbsp;&nbsp;<strong>-Succeeding Statement of Account from here on will only be <br>&nbsp;&nbsp;&nbsp;available in digital form at <i><u>portal.assumption.edu.ph</u></i></strong></div></div><br>
                                 
                                 
                                 
@@ -399,20 +429,20 @@ $tdcounter=1;
 
                             For Inquiries, please contact Ms. Joy Aggabao<br>
                             Tel.: (02) 817-0757 loc. 1056<br><br>
-
-                            Please pay ON or BEFORE<br>
-                            Due Date: <strong>{{date('F j, Y',strtotime($due_date))}}</strong><br><br><br><br><br>
-
-                            Certified by:<br><br>
+                            </strong>
+<!--                            Please pay ON or BEFORE<br>
+                            Due Date: {{date('F j, Y',strtotime($due_date))}}</strong><br><br>-->
+<br>
+                            <strong>Certified by:</strong><br><br><br><br><br>
 
                             <strong>Ms. Joy Aggabao</strong><br>
                             Student Fees Officer<br><br>
 
-                            Please fax DEPOSIT SLIP/CONFIRMATION - (02) 817-0757 to<br> validate payments made through:<br>
+                           <div style='border: 1px solid black'><div style="margin: .2cm"><strong> Please fax DEPOSIT SLIP/CONFIRMATION-(02)817-7893 to<br> validate payments made through:<br>
 
-                            -BPI Bank(Over the counter)<br>&nbsp;&nbsp;&nbsp;Account No.: <u>1811-0005-54</u><br>&nbsp;&nbsp;&nbsp;Ref No.: <u>{{$student->idno}}</u>(Student ID Number)<br>
-                            -BPI Expresslink(online payment)<br>
-                            -Email: <i><u>finance@assumption.edu.ph</u></i>
+                            &nbsp;&nbsp;&nbsp;-BPI Bank(Online Payment)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Account No.: <u>1811-0005-54</u><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reference No.(Student ID Number): <u>{{$student->idno}}</u><br>
+<br>
+&nbsp;&nbsp;&nbsp;-Email: <i><u>finance@assumption.edu.ph</u></i></strong></div></div>
                         </td>
                     </tr>
                 </table>

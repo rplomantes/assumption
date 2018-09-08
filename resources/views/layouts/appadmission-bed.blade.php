@@ -21,9 +21,12 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
   <link rel="stylesheet" href="{{url("/bower_components", array("datatables.net-bs","css","dataTables.bootstrap.min.css"))}}">
   <link rel="stylesheet" href="{{url('/dist',array('css','skins','_all-skins.min.css'))}}">
   <link rel="stylesheet" href="{{url('/dist',array('css','AdminLTE.min.css'))}}">
+   <link rel="stylesheet" type="text/css" href="{{asset ('jquery.datetimepicker.css')}}">
   <link rel="stylesheet" href="{{url('/bower_components',array('select2','dist','css','select2.min.css'))}}">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  
+    <script src="{{ asset('js/jquery.js') }}"></script> 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -119,6 +122,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
         <li><a href="{{url('/bedregistrar','registration')}}"><i class="fa fa-link"></i> Registration</a></li>
+        <li><a href="{{url('/admissionbed','testing_schedules')}}"><i class="fa fa-link"></i> Testing Schedules</a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Student List</span>
             <span class="pull-right-container">

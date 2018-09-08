@@ -1,10 +1,10 @@
 <div class="form-group">
     <label>Select Schedule</label>
     <select class="form form-control select2" id="schedule_id">
-        <option value="">Select Schedule</option>
+        <option value="NULL">Select Schedule</option>
         @foreach ($schedules as $sched)
-        
-                <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $sched->schedule_id)->first()->is_tba; ?>
+        @if($sched->schedule_id!=NULL)
+        <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $sched->schedule_id)->first()->is_tba; ?>
         @if ($is_tba == 0)
         <option value="{{$sched->schedule_id}}">
             <?php
@@ -26,6 +26,7 @@
         </option>
         @else
         <option value="{{$sched->schedule_id}}">TBA</option>
+        @endif
         @endif
         @endforeach
     </select>

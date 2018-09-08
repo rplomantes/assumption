@@ -5,7 +5,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 }
 ?>
 
-@extends('layouts.appbedregistrar')
+@extends('layouts.appadmission-bed')
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -54,29 +54,42 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 </section>
 @endsection
 @section('maincontent')
-<form action="{{url('/bedregistrar', array('updateinfo', $user->idno))}}" method="post" class="form-horizontal">
+<div class="form-horizontal">
+    @if($status->status == env("FOR_APPROVAL"))
     {{ csrf_field() }}
     <div class="col-md-12">
         
          <div class="col-md-3 pull-right">
              <div class="form form-group">
-                 <label>User Status</label>
-                 <select class="form form-control" name="user_status" id="user_status">
-                     <option value="0" @if ($user->status == 0) selected=''@endif>0 - Not Active</option>
-                     <option value="1" @if ($user->status == 1) selected=''@endif>1 - Active</option>
-                     <option value="2" @if ($user->status == 2) selected=''@endif>2 - See Registrar</option>
+                 <label>Admission Status: </label><button class="form form-control btn btn-success" style="color: white">FOR APPROVAL</button>
+             </div>
+          </div>
+        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->get(); ?>
+        <?php $testing = \App\TestingStudent::where('idno',$user->idno)->first(); ?>
+        <div class="col-md-3 pull-right">
+             <div class="form form-group">
+                 <label>Testing Schedule:</label>
+                 <select class="form form-control" onchange='update_testing(this.value)'>
+                     <option>Select Schedule</option>
+                     @foreach($testing_schedules as $sched)
+                     <option value='{{$sched->id}}' @if($testing->schedule_id == $sched->id)selected @endif>{{$sched->datetime}}-{{$sched->room}}</option>
+                     @endforeach
                  </select>
              </div>
           </div>
-         <div class="col-md-2 pull-right">
+    </div>
+    @elseif($status->status == env("PRE_REGISTERED"))
+    {{ csrf_field() }}
+    <div class="col-md-12">
+        
+         <div class="col-md-3 pull-right">
              <div class="form form-group">
-                 <label><br><br></label>
-                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">
-                Reset Password
-              </button>
+                 <label>Admission Status: </label><button class="form form-control btn btn-success" style="color: white">PRE-REGISTERED</button>
              </div>
           </div>
     </div>
+    
+    @endif
     <div class="col-sm-12">
         @if (Session::has('message'))
             <div class="alert alert-success">{{ Session::get('message') }}</div>
@@ -557,34 +570,26 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-        <input type="submit" value='Save' class='form-control btn btn-success'>
+        @if($status->status == env("FOR_APPROVAL"))
+        <a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button class='btn btn-warning col-sm-12'>Approve Application Status</button></a>
+        @endif
     </div>
-</form>
-
-<div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Enter New Password : </h4>
-              </div>
-                <form method="post" action="{{url('/registrar_college', array('resetpassword'))}}">
-                     {{csrf_field()}} 
-                     <input type="hidden" name="idno" value="{{$user->idno}}">
-              <div class="modal-body">
-                  <input type="text" name="password" class="form form-control">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Reset Password">
-              </div>
-                </form>     
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
+</div>
 @endsection
 @section('footerscript')
+<script>
+function update_testing(id){
+    array = {};
+    array['idno'] = "{{$user->idno}}";
+    array['testing_id'] = id;
+    $.ajax({
+        type: "GET",
+        url: "/ajax/admissionbed/update_schedule",
+        data: array,
+        success: function (data) {
+        }
+
+    });
+}
+</script>
 @endsection
