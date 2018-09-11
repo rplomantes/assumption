@@ -36,7 +36,7 @@ $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw(
            $totaldiscount=$totaldiscount+$main_tuition->discount;
            $totaldm=$totaldm+$main_tuition->debit_memo;
            $totalpayment=$totalpayment+$main_tuition->payment;
-           $less=$totaldiscount+$totaldm+$totalpayment;
+           $less=$totaldm+$totalpayment;
            ?>
         @endforeach
         
@@ -53,7 +53,7 @@ $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw(
            $totaldm=$totaldm+$other_tuition->debit_memo;
            $totalpayment=$totalpayment+$other_tuition->payment;
            $totalamount=$totalamount+$other_tuition->amount;
-           $less2=$totaldiscount+$totaldm+$totalpayment;
+           $less2=$totaldm+$totalpayment;
            ?>
         @endforeach
         <?php $others=$totalamount-$less2 ?>
@@ -71,7 +71,7 @@ $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw(
            $totaldm=$totaldm+$previous_tuition->debit_memo;
            $totalpayment=$totalpayment+$previous_tuition->payment;
            $totalamount=$totalamount+$previous_tuition->amount;
-           $less3=$totaldiscount+$totaldm+$totalpayment;
+           $less3=$totaldm+$totalpayment;
            ?>
         @endforeach
         <?php $previous=$totalamount-$less3 ?>

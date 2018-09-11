@@ -90,7 +90,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
             </div>
             <div class="col-sm-3">
-                <a href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
+                <a target='_blank' href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
             </div>
         <div class="col-sm-12">
             <?php $pinnacle_sy = \App\CollegeGrades2018::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
@@ -170,7 +170,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             </table>
             @endforeach
             @endforeach
-            <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+            <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($grades_sy)>0)
             @foreach($grades_sy as $sy)
             <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
@@ -190,7 +190,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
-                        <td>
+                        <td>@if($grade->finals_status == 3)
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
                                 <option @if ($grade->finals == "PASSED") selected='' @endif>PASSED</option>
@@ -214,8 +214,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->finals == "W") selected='' @endif>W</option>
                                 <option @if ($grade->finals == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
+                            @endif
                         </td>
-                        <td>
+                        <td>@if($grade->finals_status == 3)
                             <select class="grade" name="completion[{{$grade->id}}]" id="completion" onchange="change_completion(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
                                 <option @if ($grade->completion == "PASSED") selected='' @endif>PASSED</option>
@@ -239,6 +240,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->completion == "W") selected='' @endif>W</option>
                                 <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -249,7 +251,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endif
             @else
             
-            <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+            <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($grades_sy)>0)
             @foreach($grades_sy as $sy)
             <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
@@ -269,7 +271,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
-                        <td>
+                        <td>@if($grade->finals_status == 3)
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
                                 <option @if ($grade->finals == "PASSED") selected='' @endif>PASSED</option>
@@ -293,8 +295,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->finals == "W") selected='' @endif>W</option>
                                 <option @if ($grade->finals == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
+                            @endif
                         </td>
-                        <td>
+                        <td>@if($grade->finals_status == 3)
                             <select class="grade" name="completion[{{$grade->id}}]" id="completion" onchange="change_completion(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
                                 <option @if ($grade->completion == "PASSED") selected='' @endif>PASSED</option>
@@ -318,6 +321,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->completion == "W") selected='' @endif>W</option>
                                 <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

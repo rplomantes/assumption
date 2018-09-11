@@ -47,7 +47,7 @@ $totaldiscount = $totaldiscount + $main_tuition->discount;
 $totaldm = $totaldm + $main_tuition->debit_memo;
 $totalpayment = $totalpayment + $main_tuition->payment;
 $main_totalamount = $main_totalamount + $main_tuition->amount;
-$less = $totaldiscount + $totaldm + $totalpayment;
+$less = $totaldm + $totalpayment;
 ?>
 @endforeach
 
@@ -89,40 +89,40 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
 
 </style>
 <style>
-    @page { margin: .5cm; }
-    body { margin: .5cm; }
+    @page { margin: .2cm; }
+    body { margin: .2cm; }
 </style>
 <body>
     <table width="45%" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="4" align="center"><strong>Assumption College</strong></td>
+            <td style="font-size:10pt" colspan="4" align="center"><strong>Assumption College</strong></td>
         </tr>
         <tr>
-            <td colspan="4" align="center">Statement of Account</td>
+            <td style="font-size:10pt" colspan="4" align="center">Statement of Account</td>
         </tr>
         <tr>
-            <td colspan="4" align="center">Basic Education Department</td>
+            <td style="font-size:10pt" colspan="4" align="center">Basic Education Department</td>
         </tr>
         <tr>
-            <td colspan="4" align="center">S.Y. {{$status->school_year}}-{{$status->school_year+1}} {{$status->period}}</td>
-        </tr>
-        <tr>
-            <td colspan="4">&nbsp;</td>
+            <td style="font-size:10pt" colspan="4" align="center">S.Y. {{$status->school_year}}-{{$status->school_year+1}} {{$status->period}}</td>
         </tr>
         <tr>
             <td colspan="4">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="2">ID NUMBER:</td><td colspan="2"><strong>{{$student->idno}}</strong></td>
+            <td colspan="4">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="2">NAME:</td><td colspan="2"><strong>{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} {{strtoupper($student->middlename)}}</strong></td>
+            <td colspan="1">ID NUMBER:</td><td colspan="3"><strong>{{$student->idno}}</strong></td>
         </tr>
         <tr>
-            <td width="30%" colspan="2">PLAN:</td><td colspan="2"><strong>@if($status->type_of_plan=="Plan A")A @elseif($status->type_of_plan=="Plan B")B @elseif($status->type_of_plan=="Plan C")C @elseif($status->type_of_plan=="Plan D")D @endif</strong></td>
+            <td colspan="1">NAME:</td><td colspan="3"><strong>{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} {{strtoupper($student->middlename)}}</strong></td>
         </tr>
         <tr>
-            <td>LEVEL:</td><td><strong>{{$status->level}}</strong></td><td width="15%">SECTION:</td><td><strong>{{$status->section}}</strong></td>
+            <td width="20%" colspan="1">PLAN:</td><td colspan="3"><strong>@if($status->type_of_plan=="Plan A")A @elseif($status->type_of_plan=="Plan B")B @elseif($status->type_of_plan=="Plan C")C @elseif($status->type_of_plan=="Plan D")D @endif</strong></td>
+        </tr>
+        <tr>
+            <td>LEVEL:</td><td width="20%"><strong>{{$status->level}}</strong></td><td width="15%">SECTION:</td><td><strong>{{$status->section}}</strong></td>
         </tr>
         @if($status->level == "Grade 11" || $status->level == "Grade 12")
         <tr>
@@ -273,28 +273,28 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
                             @endforeach-->
 
     </table>
-    <br>
+    <br><br>
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
 <!--                    <tr>
             <td width="30%"><strong>Due Date</strong></td><td align="right"><strong>{{date('F j, Y',strtotime($due_date))}}</strong></td>
         </tr>-->
         <tr>
-            <td><strong style="color: red;">Due Amount</strong></td><td align="right"><strong style="color: red;">Php {{number_format($due_amount,2)}}</strong></td>
+            <td><div style="margin: .1cm"><strong style="color: red;">Due Amount</strong></td><td align="right"><strong style="color: red; border-bottom: 4px double">Php {{number_format($due_amount,2)}}</strong></td></td>
         </tr>
     </table>
-    <br>
-    <strong>REMINDER:</strong><br> {{$remarks}}<br>
+    <br><br>
+    <strong>REMINDER:</strong><br> {{$remarks}}<br><br>
     <br>
     <table width="45%" style="font-size: 8pt" border="0" cellpadding="0" cellspacing=0>
         <tr>
             <td><strong>
                     <div style='border: 1px solid black'><div style="margin: .2cm">
                             ADVISORY:<br>
-                            &nbsp;&nbsp;&nbsp;-Surcharge of Php 100.00 every month of late payment.<br>
-                            &nbsp;&nbsp;&nbsp;<strong>-Succeeding Statement of Account from here on will only be <br>&nbsp;&nbsp;&nbsp;available in digital form at <i><u>portal.assumption.edu.ph</u></i></strong></div></div><br>
+                            &nbsp;&nbsp;&nbsp;--Surcharge of Php 100.00 every month of late payment.<br><br>
+                            &nbsp;&nbsp;&nbsp;<strong style="color:red">--Succeeding Statement of Account from here on will only <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;be available in digital form at <i><u>portal.assumption.edu.ph</u></i></strong></div></div><br>
 
 
-
+<br>
                     PLEASE PRESENT THIS BILL WHEN PAYING<br><br>
                     Kindly disregard this notice if payment has been made.<br><br>
 
@@ -305,13 +305,13 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
                 <!--                            Please pay ON or BEFORE<br>
                                             Due Date: {{date('F j, Y',strtotime($due_date))}}</strong><br><br>-->
                 <br>
-                <strong>Certified by:</strong><br><br><br><br><br>
+                <strong>Certified by:</strong><br><br><br><br>
 
                 <strong>Ms. Joy Aggabao</strong><br>
-                Student Fees Officer<br><br>
+                Student Fees Officer<br><br><br>
 
                 <div style='border: 1px solid black'><div style="margin: .2cm"><strong> Please fax DEPOSIT SLIP/CONFIRMATION-(02)817-7893 to<br> validate payments made through:<br>
-
+<br>
                             &nbsp;&nbsp;&nbsp;-BPI Bank(Online Payment)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Account No.: <u>1811-0005-54</u><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reference No.(Student ID Number): <u>{{$student->idno}}</u><br>
                             <br>
                             &nbsp;&nbsp;&nbsp;-Email: <i><u>finance@assumption.edu.ph</u></i></strong></div></div>

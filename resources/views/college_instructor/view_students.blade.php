@@ -213,7 +213,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
             <input type='submit' name="submit" onclick="if (confirm('Do you really want to save and submit grades?'))
                         return true;
                     else
-                        return false;" class='btn btn-success col-sm-12' value="Save & Submit for Checking to Dean">
+                        return false;" class='btn btn-success col-sm-12' value="Save & Submit for Checking of Dean">
         </div>
     @endif
     @else

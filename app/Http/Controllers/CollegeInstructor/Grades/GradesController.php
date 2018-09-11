@@ -33,7 +33,7 @@ class GradesController extends Controller
     
     function save_submit(Request $request) {
         if (Auth::user()->accesslevel == env('INSTRUCTOR')) {
-            if($request->submit == "Save & Submit for Checking to Dean"){
+            if($request->submit == "Save & Submit for Checking of Dean"){
                 $value=1;
             }else{
                 $value=3;
@@ -91,22 +91,18 @@ class GradesController extends Controller
     }
     
     function print_grade($schedule_id) {
-        if (Auth::user()->accesslevel == env('INSTRUCTOR')) {
+        if (Auth::user()->accesslevel == env('INSTRUCTOR') || Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
             
             $confirm_instructor = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
-            
-            if ($confirm_instructor == Auth::user()->idno){
+            $instructor = \App\User::where('idno', $confirm_instructor)->first();
             
             $courses_id = \App\CourseOffering::where('schedule_id',$schedule_id)->get();
             $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
             
-            $pdf = PDF::loadView('college_instructor.print_grade', compact('courses_id','schedule_id','course_name'));
+            $pdf = PDF::loadView('college_instructor.print_grade', compact('courses_id','schedule_id','course_name','instructor'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("student_list_.pdf");
             
-            } else {
-                
-            }
             
         }
     }

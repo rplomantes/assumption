@@ -146,6 +146,7 @@ Route::post('/registrar_college/instructor/modify_old_instructor', 'RegistrarCol
 
 
 //Registrar Grade Management
+Route::get('/registrar_college/print_grade_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
 //Close/Open Grade Module
 Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\GradeManagement\OpenCloseController@setup');
 Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
@@ -187,13 +188,17 @@ Route::get('/registrar_college/reports/enrollment_statistics/print_enrollment_of
 
 
 //Dean - MAIN///////////////////////////////////////////////////////////////////
-Route::get('/college/view_grades/{idno}','Dean\Record@view');
 Route::get('/ajax/dean/getstudentlist','Dean\Ajax\GetStudentList_ajax@getstudentlist');
+//DEAN - Student Record////////////////////////////////////////////
+Route::get('college/student_record/{idno}','Dean\StudentRecord\StudentRecordController@view_record');
+Route::get('college/view_transcript/{idno}','Dean\StudentRecord\StudentRecordController@view_transcript');
+Route::get('college/print_curriculum_record/{idno}','Dean\StudentRecord\StudentRecordController@print_curriculum_record');
+Route::get('college/true_copy_of_grades/{idno}','Dean\StudentRecord\StudentRecordController@true_copy_of_grades');
 //Assessment////////////////////////////////////////////////////////////////////
 Route::get('/dean/advising/{idno}','Dean\Advising\Advising@advising');
 Route::get('/dean/advising/confirm_advised/{idno}/{program_code}/{level}/{curriculum_year}/{period}','Dean\Advising\Advising@confirm_advised');
 Route::get('/dean/advising/print_advising_slip/{idno}','Dean\Advising\Advising@print_advising_slip');
-Route::get('/college/view_grades/{idno}', 'Dean\Advising\Advising@view_grades');
+Route::get('/college/view_grades/{idno}', 'Dean\StudentRecord\StudentRecordController@view_record');
 //Ajax Assessment
 Route::get('/ajax/dean/advising/get_section', 'Dean\Advising\Ajax\advising_ajax@get_section');
 Route::get('/ajax/dean/advising/get_curricula', 'Dean\Advising\Ajax\advising_ajax@get_curricula');

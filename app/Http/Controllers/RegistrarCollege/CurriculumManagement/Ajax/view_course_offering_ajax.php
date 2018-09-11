@@ -83,5 +83,28 @@ class view_course_offering_ajax extends Controller
             return view('reg_college.curriculum_management.ajax.show_offerings_general', compact('courses', 'school_year', 'period'));
             
         }
-    }       
+    }        
+
+    function get_courses() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $courses = \App\CourseOffering::distinct()->where('school_year', $school_year)->where('period', $period)->orderBy('course_code')->get(['course_code','course_name']);
+            return view('reg_college.curriculum_management.ajax.show_courses', compact('courses'));
+            
+        }
+    }  
+
+    function get_offerings_per_course() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $course_code = Input::get("course_code");
+            
+            $courses = \App\ScheduleCollege::distinct()->where('course_code', $course_code)->where('school_year', $school_year)->where('period', $period)->get(['schedule_id','course_code']);
+            
+            return view('reg_college.curriculum_management.ajax.show_offerings_course', compact('courses', 'school_year', 'period','course_code'));
+            
+        }
+    }    
 }

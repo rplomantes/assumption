@@ -86,7 +86,7 @@ $count = 0;
     <header>    
         <div>    
             <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-            <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b style="border:1px solid black;">&nbsp;TRUE COPY OF GRADES&nbsp;</b><br></div>
+            <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b style="border:1px solid black;">&nbsp;GRADE FILE&nbsp;</b><br></div>
         </div>
 <br><br><br><br><br><br><br><br>
         <table class="table table-condensed" width="100%" border="0">
@@ -202,12 +202,12 @@ $count = 0;
     
     
     
-    <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+    <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
     @if(count($grades_sy)>0)
     @foreach($grades_sy as $sy)
     <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
     @foreach ($grades_pr as $pr)
-    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
     <tr>
         <td></td>
         <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
@@ -244,7 +244,7 @@ $count = 0;
             <tr>
                 <td valign='top'>{{strtoupper($grade->course_code)}}</td>
                 <td valign='top'>{{strtoupper($grade->course_name)}}</td>
-                <td valign='top' align='center'>{{$display_final_grade}}</td>
+                <td valign='top' align='center'>@if($grade->finals_status == 3){{$display_final_grade}}@endif</td>
                 <td valign='top' align='center'>{{$grade->completion}}</td>
                 <td valign='top' align='center'>{{$credit}}</td>
             </tr>
@@ -254,12 +254,12 @@ $count = 0;
     @endif
     @else
 
-    <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+    <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
     @if(count($grades_sy)>0)
     @foreach($grades_sy as $sy)
     <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
     @foreach ($grades_pr as $pr)
-    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
+    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
     <tr>
         <td></td>
         <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
@@ -296,7 +296,7 @@ $count = 0;
             <tr>
                 <td valign='top'>{{strtoupper($grade->course_code)}}</td>
                 <td valign='top'>{{strtoupper($grade->course_name)}}</td>
-                <td valign='top' align='center'>{{$display_final_grade}}</td>
+                <td valign='top' align='center'>@if($grade->finals_status == 3){{$display_final_grade}}@endif</td>
                 <td valign='top' align='center'>{{$grade->completion}}</td>
                 <td valign='top' align='center'>{{$credit}}</td>
             </tr>

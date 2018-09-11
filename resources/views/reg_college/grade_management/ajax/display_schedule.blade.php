@@ -22,6 +22,18 @@
             ?>
             <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
             [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+        <?php
+                        $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $sched->schedule_id)->get(['instructor_id']);
+
+                        foreach ($schedule_instructor as $get) {
+                            if ($get->instructor_id != NULL) {
+                                $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                                echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                            } else {
+                                echo "";
+                            }
+                        }
+                        ?>
         @endforeach
         </option>
         @else

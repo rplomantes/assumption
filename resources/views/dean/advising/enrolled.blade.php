@@ -2,6 +2,7 @@
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
+$admission_hed = \App\AdmissionHed::where('idno', $idno)->first();
 ?>
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
@@ -87,12 +88,14 @@ $units = 0;
                                 <li><a href="#">Status <span class="pull-right">Old Student</span></a></li>
                                 <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                                 <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Admission Status <span class="pull-right">{{$admission_hed->admission_status}}</span></a></li>
                                 <!--<li><a href="#">Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                             @else    
                                 <li><a href="#">Enrollment Status <span class="pull-right">Enrolled</span></a></li>
                                 <li><a href="#">Status <span class="pull-right">New Student</span></a></li>
                                 <li><a href="#">Program <span class="pull-right">{{$status->program_code}}</span></a></li>
                                 <li><a href="#">Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Admission Status <span class="pull-right">{{$admission_hed->admission_status}}</span></a></li>
                             @endif
                         @endif
                     </ul>

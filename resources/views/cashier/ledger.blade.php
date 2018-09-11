@@ -83,7 +83,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                         
                     } else {
                     
-                    if($levels->academic_type=="SHS"){
+                    if($levels->level=="Grade 11" || $levels->level=="Grade 12"){
                         echo "<tr><td>Strand : </td><td>".$levels->strand."</td><tr>";    
                     }
                     echo "<tr><td>Level/Section : </td><td>".$levels->level ." - ".$levels->section."</td><tr>";
@@ -94,7 +94,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 break;
             case env("ENROLLED"):
                  echo "<tr><td>Status : </td><td>Enrolled</td><tr>";
-                if($levels->academic_type=="SHS"){
+                if($levels->level=="Grade 11" || $levels->level=="Grade 12"){
                         echo "<tr><td>Strand : </td><td>".$levels->strand."</td><tr>";    
                     }
                 if($status->academic_type=="College"){

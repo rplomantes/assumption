@@ -191,15 +191,17 @@ $count = 0;
             <?php
             $display_final_grade = $pin_grades->finals;
             if($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" ||$pin_grades->finals == "NA" ||$pin_grades->finals == "NG" ||$pin_grades->finals == "W" ||$pin_grades->finals == "FAILED" ||$pin_grades->finals == "PASSED"){
-             $gpa = $gpa;
+                $gpa = $gpa;
+                $count = $count;
+                $credit = $credit;
             }else if($pin_grades->finals == "INC" ){
-                $gpa=$gpa+($pin_grades->completion* $pin_grades->lec + $pin_grades->lab);
+                $gpa=$gpa+($pin_grades->completion * ($pin_grades->lec + $pin_grades->lab));
                 $count = $count +  $pin_grades->lec + $pin_grades->lab;
             } else {
                 if($pin_grades->finals == "FA" ||$pin_grades->finals == "UD"){
                     $pin_grades->finals = "4.00";
                 }
-                $gpa = $gpa + ($pin_grades->finals* $pin_grades->lec + $pin_grades->lab);
+                $gpa = $gpa + ($pin_grades->finals * ($pin_grades->lec + $pin_grades->lab));
                 $count = $count + $pin_grades->lec + $pin_grades->lab;
             }
             ?>
@@ -226,12 +228,12 @@ $count = 0;
     
     
     
-    <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+    <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
     @if(count($grades_sy)>0)
     @foreach($grades_sy as $sy)
     <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
     @foreach ($grades_pr as $pr)
-    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
     <tr>
         <td></td>
         <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
@@ -246,6 +248,7 @@ $count = 0;
             if($grade->finals == "" || $grade->finals == "AUDIT" ||$grade->finals == "NA" ||$grade->finals == "NG" ||$grade->finals == "W" ||$grade->finals == "FAILED" ||$grade->finals == "PASSED"){
                 $gpa=$gpa;
                 $credit = $credit;
+                $count = $count;
             }else if($grade->finals == "INC" ){
                 $gpa=$gpa+($grade->completion * ($grade->lec+$grade->lab));
                 $count = $count + $grade->lec + $grade->lab;
@@ -278,12 +281,12 @@ $count = 0;
     @endif
     @else
 
-    <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+    <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
     @if(count($grades_sy)>0)
     @foreach($grades_sy as $sy)
     <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
     @foreach ($grades_pr as $pr)
-    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+    <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
     <tr>
         <td></td>
         <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
@@ -298,6 +301,8 @@ $count = 0;
             $display_final_grade = $grade->finals;
             if($grade->finals == "" || $grade->finals == "AUDIT" ||$grade->finals == "NA" ||$grade->finals == "NG" ||$grade->finals == "W" ||$grade->finals == "FAILED" ||$grade->finals == "PASSED"){
                 $gpa=$gpa;
+                $credit = $credit;
+                $count = $count;
             }else if($grade->finals == "INC" ){
                 $gpa=$gpa+($grade->completion * ($grade->lec+$grade->lab));
                 $count = $count + $grade->lec + $grade->lab;

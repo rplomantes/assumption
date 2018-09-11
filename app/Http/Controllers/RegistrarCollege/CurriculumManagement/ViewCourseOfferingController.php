@@ -32,6 +32,12 @@ class ViewCourseOfferingController extends Controller
         }
     }
     
+    function index4() {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
+            return view('reg_college.curriculum_management.view_full_course_offering_course');
+        }
+    }
+    
     function print_offerings(Request $request){
  
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')){
@@ -62,5 +68,15 @@ class ViewCourseOfferingController extends Controller
             $pdf->setPaper('letter','landscape');
           return $pdf->stream('course_offerings_general.pdf');           
         }        
-    }       
+    }   
+    
+    function print_offerings_course(Request $request){
+ 
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')){
+            $courses = \App\ScheduleCollege::distinct()->where('course_code', $request->course_code)->where('school_year', $request->school_year)->where('period', $request->period)->get(['schedule_id','course_code']);
+            $pdf = PDF::loadView('reg_college.curriculum_management.print_show_offerings_course',compact('courses','request'));
+            $pdf->setPaper('letter','landscape');
+          return $pdf->stream('course_offerings.pdf');           
+        }        
+    }    
 }

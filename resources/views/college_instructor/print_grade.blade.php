@@ -123,7 +123,7 @@
                     <td width="11%">Course:</td>
                     <td width="50%">{{$infos->course_code}}</td>
                     <td width="10%" align="right">Professor:</td>
-                    <td>{{strtoupper(Auth::user()->lastname)}}, {{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}}</td>
+                    <td>{{strtoupper($instructor->lastname)}}, {{strtoupper($instructor->firstname)}} {{strtoupper($instructor->middlename)}}</td>
                 </tr>
                 <tr>
                     <td>Desc. Title:</td>
