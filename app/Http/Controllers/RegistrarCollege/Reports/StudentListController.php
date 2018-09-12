@@ -72,11 +72,10 @@ class StudentListController extends Controller {
         }
     }
 
-    function print_per_course($course_codes, $sections, $section_names, $school_years, $periods, $levels, $program_codes) {
+    function print_per_course($course_codes, $schedule_ids, $school_years, $periods, $levels, $program_codes) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel==env('DEAN')) {
             $course_code = $course_codes;
-            $section = $sections;
-            $section_name = $section_names;
+            $schedule_id = $schedule_ids;
             $school_year = $school_years;
             $period = $periods;
             $level = $levels;
@@ -108,17 +107,11 @@ class StudentListController extends Controller {
                 $level = "and statuses.level = '" . $level . "'";
             }
 
-            if ($section == "all") {
-                $section = "";
-            } else {
-                $section = "and course_offerings.section = '" . $section . "'";
-            }
-
-            if ($section_name == "all") {
-                $section_name = "";
+            if ($schedule_id == "all") {
+                $schedule_id = "";
                 $join = "";
             } else {
-                $section_name = "and course_offerings.section_name = '" . $section_name . "'";
+                $schedule_id = "and course_offerings.schedule_id = '" . $schedule_id . "'";
                 $join = "join course_offerings on course_offerings.id = grade_colleges.course_offering_id ";
             }
 
@@ -130,9 +123,9 @@ class StudentListController extends Controller {
             
             
 //            $list_per_courses = DB::Select("Select distinct users.idno, users.lastname, users.firstname, users.middlename from grade_colleges join users on users.idno = grade_colleges.idno join statuses on statuses.idno = grade_colleges.idno join course_offerings on course_offerings.id = grade_colleges.course_offering_id where grade_colleges.id is not null $school_year $period $level $program_code $course_code $section_name $section and statuses.status = 3 order by users.lastname");
-            $list_per_courses = DB::Select("Select distinct users.idno, users.lastname, users.firstname, users.middlename from grade_colleges join users on users.idno = grade_colleges.idno join statuses on statuses.idno = grade_colleges.idno $join where grade_colleges.id is not null $school_year $period $level $program_code $course_code $section_name $section and statuses.status = 3 order by users.lastname");
+            $list_per_courses = DB::Select("Select distinct users.idno, users.lastname, users.firstname, users.middlename from grade_colleges join users on users.idno = grade_colleges.idno join statuses on statuses.idno = grade_colleges.idno $join where grade_colleges.id is not null $school_year $period $level $program_code $course_code $schedule_id and statuses.status = 3 order by users.lastname");
 
-            $pdf = PDF::loadView('reg_college.reports.student_list.print_per_course', compact('course_codes','course_names','list_per_courses', 'sections','section_names','school_years', 'periods', 'levels', 'program_codes'));
+            $pdf = PDF::loadView('reg_college.reports.student_list.print_per_course', compact('course_codes','course_names','list_per_courses', 'schedule_ids','school_years', 'periods', 'levels', 'program_codes'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("student_list_.pdf");
         }

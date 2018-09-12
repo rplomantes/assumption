@@ -52,9 +52,46 @@
             </td>
         </tr>
         <tr>
-            <td class='no-border td'>Course / Section:</td>
+            <td class='no-border td'>Course / Schedule:</td>
             <td class='underline td'>
-                {{$course_codes}} - {{$course_names}} / {{$section_names}}
+                {{$course_codes}} / 
+                @if($schedule_ids != "all")
+    <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $schedule_ids)->first()->is_tba; ?>
+            @if($is_tba == 0)
+                <?php
+                $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_ids)->get(['time_start', 'time_end', 'room']);
+                ?>   
+                @foreach ($schedule3s as $schedule3)
+                {{$schedule3->room}}
+                @endforeach
+                <?php
+                $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_ids)->get(['time_start', 'time_end', 'room']);
+                ?>
+                @foreach ($schedule2s as $schedule2)
+                <?php
+                $days = \App\ScheduleCollege::where('schedule_id', $schedule_ids)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                ?>
+                <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]
+                <?php
+                        $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_ids)->get(['instructor_id']);
+
+                        foreach ($schedule_instructor as $get) {
+                            if ($get->instructor_id != NULL) {
+                                $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                                echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                            } else {
+                                echo "";
+                            }
+                        }
+                        ?>
+                @endforeach
+            @else
+            TBA
+            @endif
+                @else
+                {{$schedule_ids}}
+                @endif
             </td>
         </tr>
     </table>

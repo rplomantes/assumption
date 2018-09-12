@@ -569,7 +569,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Enter New Password : </h4>
               </div>
-                <form method="post" action="{{url('/registrar_college', array('resetpassword'))}}">
+                <form method="post" action="{{url('/bedregistrar', array('resetpassword'))}}">
                      {{csrf_field()}} 
                      <input type="hidden" name="idno" value="{{$user->idno}}">
               <div class="modal-body">

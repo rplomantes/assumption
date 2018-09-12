@@ -64,10 +64,14 @@ $layout = "layouts.appreg_college";
                     <div class='form-horizontal'>
                         <div class='form-group'>
                             <div class="col-sm-3">
+                                <label>School Year</label>
                                 <select id='school_year' class='form-control select2'>
                                     <option value="">Select School Year</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
+                                    <option value="2017">2017-2018</option>
+                                    <option value="2018">2018-2019</option>
+                                    <option value="2019">2019-2020</option>
+                                    <option value="2020">2020-2021</option>
+                                    <option value="2021">2021-2022</option>
                                 </select> 
                             </div> 
                         </div>        

@@ -78,10 +78,23 @@ class Registration extends Controller {
 
     function info($idno) {
         if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
-
-
+            
+            $addprofile = \App\BedProfile::where('idno', $idno)->first();
+            if (count($addprofile) == 0) {
+                $addpro = new \App\BedProfile;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+            $addparent = \App\BedParentInfo::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedParentInfo;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            
             $user = \App\User::where('idno', $idno)->first();
             $info = \App\BedProfile::where('bed_profiles.idno', $idno)->join('bed_parent_infos', 'bed_parent_infos.idno','=','bed_profiles.idno')->first();
+            
             return view("reg_be.info", compact('user', 'info'));
         }
     }

@@ -58,7 +58,7 @@ $layout = "layouts.appreg_college";
                     <div class='form-horizontal'>
                         <div class='form-group'>
                             <div class='col-sm-2'>
-                                <label>Academic Year</label>
+                                <label>School Year</label>
                                 <select id='school_year' class='form-control select2'>
                                     <option value='all'>All</option>
                                     @foreach ($school_years as $school_year)
@@ -155,11 +155,10 @@ $layout = "layouts.appreg_college";
         });
     }
     
-    function get_student_list(course,section,section_name,school_year,period, level,program_code) {
+    function get_student_list(course,schedule_id,school_year,period, level,program_code) {
         array = {};
         array['course'] = course;
-        array['section'] = section;
-        array['section_name'] = section_name;
+        array['schedule_id'] = schedule_id;
         array['school_year'] = school_year;
         array['period'] = period;
         array['level'] = level;
@@ -175,17 +174,16 @@ $layout = "layouts.appreg_college";
         });
     }
     
-    function print_per_course(course,section,section_name,school_year,period, level,program_code) {
+    function print_per_course(course,schedule_id,school_year,period, level,program_code) {
         array = {};
         array['course'] = course;
-        array['section'] = section;
-        array['section_name'] = section_name;
+        array['schedule_id'] = schedule_id;
         array['school_year'] = school_year;
         array['period'] = period;
         array['level'] = level;
         array['program_code'] = program_code;
         
-        window.open('/registrar_college/reports/student_list/print_per_course/' + array['course'] + '/' + array['section'] + '/' + array['section_name'] + '/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
+        window.open('/registrar_college/reports/student_list/print_per_course/' + array['course'] + '/' + array['schedule_id'] + '/' + array['school_year'] + "/" + array['period'] + "/" + array['level'] + "/" + array['program_code'], "_blank") ;
     }
 </script>
 @endsection

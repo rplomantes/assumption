@@ -170,7 +170,7 @@ Route::get('/registrar_college/grade_management/report_card', 'RegistrarCollege\
 Route::get('/registrar_college/reports/student_list/search','RegistrarCollege\Reports\StudentListController@search');
 Route::get('/registrar_college/reports/student_list/print_search/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_search');
 Route::get('/registrar_college/reports/student_list/per_course','RegistrarCollege\Reports\StudentListController@per_course');
-Route::get('/registrar_college/reports/student_list/print_per_course/{course}/{section}/{section_name}/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_per_course');
+Route::get('/registrar_college/reports/student_list/print_per_course/{course}/{schedule_id}/{school_year}/{level}/{period}/{program_code}','RegistrarCollege\Reports\StudentListController@print_per_course');
 Route::get('/registrar_college/reports/student_list/per_instructor','RegistrarCollege\Reports\StudentListController@per_instructor');
 Route::get('/registrar_college/reports/student_list/print_per_instructor/{instructor_id}/{school_year}/{period}/{schedule_id}/{course_code}','RegistrarCollege\Reports\StudentListController@print_per_instructor');
 //Ajax Student List

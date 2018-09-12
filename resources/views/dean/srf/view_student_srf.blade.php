@@ -50,10 +50,11 @@
                         <label>School Year</label>
                         <select class="form form-control select2" id="school_year" style="width: 100%;" onchange='get_courses(this.value, period.value)'>
                             <option value="">Select Level</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
+                            <option value="2017">2017-2018</option>
+                                    <option value="2018">2018-2019</option>
+                                    <option value="2019">2019-2020</option>
+                                    <option value="2020">2020-2021</option>
+                                    <option value="2021">2021-2022</option>
                         </select>
                     </div>
                 </div>

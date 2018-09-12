@@ -67,10 +67,11 @@ if (Auth::user()->accesslevel == env('DEAN')) {
                                 <label>School Year</label>
                                 <select class="form form-control select2" name="school_year" id="school_year" onchange="get_course(instructor_id.value,this.value,period.value)">
                                     <option value="">School Year</option>
-                                    <option>2018</option>
-                                    <option>2019</option>
-                                    <option>2021</option>
-                                    <option>2022</option>
+                                    <option value="2017">2017-2018</option>
+                                    <option value="2018">2018-2019</option>
+                                    <option value="2019">2019-2020</option>
+                                    <option value="2020">2020-2021</option>
+                                    <option value="2021">2021-2022</option>
                                 </select>
                             </div>
                             <div class='col-sm-2'>
