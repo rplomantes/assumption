@@ -71,7 +71,7 @@ $tdcounter=1;
                $totaldiscount=$totaldiscount+$main_tuition->discount;
                $totaldm=$totaldm+$main_tuition->debit_memo;
                $totalpayment=$totalpayment+$main_tuition->payment;
-               $less=$totaldiscount+$totaldm+$totalpayment;
+               $less=$totaldm+$totalpayment;
                ?>
             @endforeach
 
@@ -352,8 +352,8 @@ $tdcounter=1;
                     </tr>
                     @foreach($due_dates as $due)
                         @if($due->due_switch=="0")
-                        <?php $duedate = "Upon Enrollment";?>
-                        <?php $month = "";?>
+                        <?php $duedate = date('F d, Y',strtotime($due_date));?>
+                        <?php $month = "Upon Enrollment";?>
                         @else
                         <?php $duedate = date('F d, Y',strtotime($due->due_date)); ?>
                         <?php $month = date('F Y',strtotime($due->due_date)); ?>

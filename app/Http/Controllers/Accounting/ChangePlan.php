@@ -211,16 +211,47 @@ class ChangePlan extends Controller {
         $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
         $tfr = \App\CtrCollegeTuitionFee::where('program_code', $stat->program_code)->where('period', $period)->where('level', $stat->level)->first();
         $tuitionrate = $tfr->per_unit;
+        $tobediscount = 0;
         
         $grades = \App\GradeCollege::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->get();
 
+            $discounttype = \App\CollegeScholarship::where('idno', $request->idno)->first();
+            
+            if($discounttype->discount_code != NULL){
+                if ($discounttype->discount_type == 0) {
+                    $discounttf = $this->getdiscountrate('tf', $discounttype->discount_code, $request->idno);
+                } else if ($discounttype->discount_type == 1) {
+                    $discounttf = $this->getdiscount('tf', $discounttype->discount_code, $request->idno);
+                }
+            }
+        
+        
         foreach ($grades as $grade) {
+            if($discounttype->discount_code != NULL){
+                if ($discounttype->discount_type == 0) {
+                    $tobediscount = $tobediscount + ((((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100)) * ($discounttf / 100)));
+                } else if ($discounttype->discount_type == 1) {
+                    $tobediscount = $tobediscount + $discounttf;
+                }
+            }
+            
             $tuition = $tuition + (((($grade->lec + $grade->lab) * $tuitionrate * $grade->percent_tuition / 100)));
         }
         
         $originalplan = \App\Status::where('idno', $request->idno)->first()->type_of_plan;
         $changeplan = $request->plan;
         $orginalamount = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('category_switch', env('TUITION_FEE'))->first();
+        
+        $add_payment = 0;
+        $add_debit = 0;
+        $oldamount = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('amount','<=', 300)->where('category_switch', env('TUITION_FEE'))->get();
+        if(count($oldamount)>0){
+            foreach($oldamount as $del){
+                $add_payment = $del->payment + $add_payment;
+                $add_debit = $del->debit_memo + $add_debit;
+                $del->delete();
+            }
+        }
 //        $tuition = \App\CtrBedFee::where('level', $request->level)->where('category_switch', env("TUITION_FEE"))->first()->amount;
 //        $changeamount = $tuition + ($tuition * ($this->addPercentage($request->plan) / 100));
         $changeamount = $tuition + ($tuition * (0 / 100));
@@ -235,6 +266,9 @@ class ChangePlan extends Controller {
         $addchange->save();
 
         $orginalamount->amount = $this->roundOff($changeamount);
+        $orginalamount->discount = $this->roundOff($tobediscount);
+        $orginalamount->payment = $orginalamount->payment + $add_payment;
+        $orginalamount->debit_memo = $orginalamount->debit_memo + $add_debit;
         $orginalamount->update();
         
         $addamount = 0; 
@@ -328,7 +362,7 @@ class ChangePlan extends Controller {
             $addledgerduedates->save();
             foreach ($due_dates as $paln) {
                 $totalFees_percentage = (($totalTuition*($paln->percentage/100)) + $totalOtherFees) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount);
-                $tf_percentage = (($totalTuition*($paln->percentage/100)) - (($totalTuitionDiscount*($paln->percentage/100)) + $totalOtherFeesDiscount));
+                $tf_percentage =        (($totalTuition*($paln->percentage/100))                    - (($totalTuitionDiscount*($paln->percentage/100))));
 
                 $addledgerduedates = new \App\LedgerDueDate;
                 $addledgerduedates->idno = $idno;
@@ -363,6 +397,20 @@ class ChangePlan extends Controller {
         $log->idno = Auth::user()->idno;
         $log->datetime = date("Y-m-d H:i:s");
         $log->save();
+    }
+    
+    function getdiscountrate($type, $discount_code, $idno) {
+        if ($type == 'tf') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;
+        } elseif ($type == 'of') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
+        }
+    }
+
+    function getdiscount($type, $discount_code, $idno) {
+        if ($type == 'tf') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->amount;
+        }
     }
 
 }

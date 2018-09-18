@@ -318,7 +318,7 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
            @endforeach
            @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
-$ledger_list = \App\Ledger::where('idno',$user->idno)->where('category_switch', env('SRF_FEE'))->get();
+$ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')->get();
 ?>
            @foreach($ledger_list as $list)
            <?php $balance=+$list->amount-$list->discount-$list->debit_memo-$list->payment; ?>

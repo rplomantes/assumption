@@ -578,7 +578,7 @@ class AssessmentController extends Controller {
             $addledgerduedates->save();
             foreach ($due_dates as $paln) {
                 $totalFees_percentage = (($totalTuition * ($paln->percentage / 100)) + $totalOtherFees) - (($totalTuitionDiscount * ($paln->percentage / 100)) + $totalOtherFeesDiscount);
-                $tf_percentage = (($totalTuition * ($paln->percentage / 100)) - (($totalTuitionDiscount * ($paln->percentage / 100)) + $totalOtherFeesDiscount));
+                $tf_percentage        = (($totalTuition * ($paln->percentage / 100))                    - (($totalTuitionDiscount * ($paln->percentage / 100))));
 
                 $addledgerduedates = new \App\LedgerDueDate;
                 $addledgerduedates->idno = $idno;

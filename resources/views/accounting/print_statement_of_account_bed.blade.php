@@ -224,8 +224,8 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
         </tr>
         @foreach($due_dates as $due)
         @if($due->due_switch=="0")
-        <?php $duedate = "Upon Enrollment"; ?>
-        <?php $month = ""; ?>
+        <?php $duedate = date('F d, Y', strtotime($due_date)); ?>
+        <?php $month = "Upon Enrollment"; ?>
         @else
         <?php $duedate = date('F d, Y', strtotime($due->due_date)); ?>
         <?php $month = date('F Y', strtotime($due->due_date)); ?>
