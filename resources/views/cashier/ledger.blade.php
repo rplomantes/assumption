@@ -316,6 +316,24 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
+           
+           @foreach($ledger_srf as $srf)
+           <?php
+               $totalamount=$totalamount+$srf->amount;
+               $totaldiscount=$totaldiscount+$srf->discount;
+               $totaldm=$totaldm+$srf->debit_memo;
+               $totalpayment=$totalpayment+$srf->payment;
+               $balance=+$srf->amount-$srf->discount-$srf->debit_memo-$srf->payment;
+               $totalbalance=$totalbalance+$balance;
+               ?>
+               <tr><td>{{$srf->category}}</td>
+               <td align="right">{{number_format($srf->amount,2)}}</td>
+               <td align="right">{{number_format($srf->discount,2)}}</td>
+               <td align="right">{{number_format($srf->debit_memo,2)}}</td>
+               <td align="right"><span class="payment">{{number_format($srf->payment,2)}}</span></td>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+           @endforeach
+           
            @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
 <?php
 $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')->get();

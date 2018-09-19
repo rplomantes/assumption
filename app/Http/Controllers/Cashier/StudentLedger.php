@@ -32,8 +32,15 @@ class StudentLedger extends Controller
         ->where(function($query){
             $query->where('category_switch', 4)
                     ->orWhere('category_switch', 5);
-            })->groupBy('category','category_switch')->orderBy('category_switch')->get();
-      
+            })->groupBy('category','category_switch')->where('category','!=', 'SRF')->orderBy('category_switch')->get();
+
+      $ledger_srf = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)
+        ->where(function($query){
+            $query->where('category_switch', 4)
+                    ->orWhere('category_switch', 5);
+            })->groupBy('category','category_switch')->where('category', 'SRF')->orderBy('category_switch')->get();
+            
       $ledger_main_tuition = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 6)->groupBy('category','category_switch')->orderBy('category_switch')->get();
 $ledger_main_misc = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
@@ -94,7 +101,7 @@ $ledger_main_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amoun
       $student_deposits = \App\AddToStudentDeposit::where('idno',$idno)->where('is_current','1')->orderBy('transaction_date')->get();
       
       $due_dates = \App\LedgerDueDate::where('idno',$idno)->orderBy('due_switch')->orderBy('due_date')->get();
-      return view("cashier.ledger",compact('levels','user','ledger_main','ledger','ledger_main_tuition','ledger_main_misc','ledger_main_other','ledger_main_depo','ledger_others','ledger_optional','previous','status','payments',"debit_memos",'due_dates','totalmainpayment','totaldue','student_deposits', 'reservations', 'deposits'));
+      return view("cashier.ledger",compact('levels','user','ledger_main','ledger','ledger_main_tuition','ledger_main_misc','ledger_main_other','ledger_main_depo','ledger_others','ledger_optional','previous','status','payments',"debit_memos",'due_dates','totalmainpayment','totaldue','student_deposits', 'reservations', 'deposits','ledger_srf'));
       //return $levels;
       }       
     }

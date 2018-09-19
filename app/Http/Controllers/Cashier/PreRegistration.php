@@ -91,7 +91,7 @@ class PreRegistration extends Controller {
         Mail::send('cashier.pre_registration.mail',compact('request','reference_id','applicant_details'), function($message) use($applicant_details) {
          $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
                  ->subject('Assumption College Payment Confirmation');
-         $message->from('support@assumption.edu.ph',"AC Treasurer's Office");
+         $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
         });
     }
     
