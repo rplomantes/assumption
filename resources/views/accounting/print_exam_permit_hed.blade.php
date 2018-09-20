@@ -19,10 +19,11 @@
     <br>
 <center>
     HED DEPARTMENT<br>
-    San Lorenzo Village, Makati City<br>
+    San Lorenzo Village, Makati City<br><br>
+{{strtoupper($exam_period)}}
 </center>
 
-<table border="0" width="100%" style="margin-top: 2.5cm;">
+<table border="0" width="100%" style="margin-top: 1.8cm;">
     <tr>
         <th colspan="3">{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}} {{strtoupper($user->extensionname)}}</th>
     </tr>
@@ -33,7 +34,7 @@
     <tr>
         <td>LEVEL: {{$status->level}}</td>
         <td>PROGRAM: {{$status->program_code}}</td>
-        <td>PAYMENT PLAN: {{$status->type_of_plan}}</td>
+        <td>PAYMENT: {{$status->type_of_plan}}</td>
     </tr>
     <tr>
         <td colspan="3">DATE ISSUED: {{date('Y/m/d')}}</td>
@@ -51,8 +52,8 @@
     @endforeach
 </table>
 
-<p style="position: fixed; bottom: 1cm;" align="center">
+<!--<p style="position: fixed; bottom: 1cm;" align="center">
     {{strtoupper($exam_period)}}
-</p>
+</p>-->
 
 </body>
