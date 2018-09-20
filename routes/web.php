@@ -335,3 +335,10 @@ Route::post('/accounting/post_add_to_student_deposit','Accounting\AddToStudentDe
 //AJAX Accounting Statement of Account//////////////////////////////////////////
 Route::get('/ajax/accounting/statement_of_account/bed/get_section','Accounting\Ajax\AjaxStatementOfAccount@get_section');
 Route::get('/ajax/accounting/statement_of_account/bed/get_soa','Accounting\Ajax\AjaxStatementOfAccount@get_soa');
+
+
+//ACCOUNTING EXAMINATION PERMIT
+Route::get('/accounting/examination_permit_hed','Accounting\ExamPermit@index');
+Route::get('/accounting/print_exam_permit/{school_year}/{period}/{exam_period}/{idno}','Accounting\ExamPermit@print_now');
+Route::post('/accounting/examination_permit_hed/print_all','Accounting\ExamPermit@print_all');
+Route::get('/accounting/ajax/getstudentpermit','Accounting\Ajax\AjaxExamPermit@getstudentpermit');
