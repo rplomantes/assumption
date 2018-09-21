@@ -5,6 +5,7 @@
         <th>Student ID</th>
         <th>Student Name</th>
         <th>Status</th>
+        <th>Level/Program</th>
         <th>View Info</th>
         <th>Student Record</th>
         <th>Assessment</th>
@@ -23,6 +24,7 @@
             @elseif($status->status == 1) Advised
             @else Not Yet Enrolled @endif
         </td>
+        <td>{{$status->level}} - {{$status->program_code}}</td>
         <td><a href="{{url('registrar_college', array('view_info', $list->idno))}}">View Info</a></td>
         <td><a href="{{url('registrar_college', array('student_record', $list->idno))}}">Student Record</a></td>
         <td><a href="{{url('registrar_college', array('assessment',$list->idno))}}">Assessment</a></td>

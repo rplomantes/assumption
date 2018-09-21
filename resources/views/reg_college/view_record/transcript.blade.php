@@ -77,6 +77,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         }
                         ?>
                     </h5>
+                    <h5 class="widget-user-desc">{{$status->level}} - {{$status->program_code}}</h5>
                 </div>
             </div>
         </div>
