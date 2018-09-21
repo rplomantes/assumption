@@ -31,7 +31,6 @@ class ViewInfoController extends Controller {
             'province' => 'required',
             'birthdate' => 'required',
             'gender' => 'required',
-            'email' => 'required',
         ]);
 
         if ($validate) {
