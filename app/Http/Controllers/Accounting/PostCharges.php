@@ -17,7 +17,7 @@ class PostCharges extends Controller
     function index(){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
         $indic = 0;
-        $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('level', 'asc')->get(['level']);
+        $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
         $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
         return view('accounting.post_charges',compact('levels','plans','indic'));
       }

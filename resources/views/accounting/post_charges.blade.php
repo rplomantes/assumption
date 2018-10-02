@@ -66,7 +66,7 @@
                 <div class="col-sm-3" id="strand_control">
                     <label>Select Plan</label>
                     <select name="plan" id="plan" class="form form-control" onchange="getdues()">
-                        <option value="">Select Strand</option>    
+                        <option value=""></option>    
                         @foreach($plans as $plan)
                         <option value="{{$plan->plan}}">{{$plan->plan}}</option>
                         @endforeach

@@ -15,6 +15,15 @@ class CreatePostedChargesTable extends Migration
     {
         Schema::create('posted_charges', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('idno');
+            $table->string('due_date');
+            $table->date('date_posted');
+            $table->decimal('amount', 10,2);
+            $table->integer('is_reversed')->default(0);
+            $table->string('posted_by');
+            $table->foreign('idno')
+                    ->references('idno')->on('users')
+                    ->onUpdate('cascade');
             $table->timestamps();
         });
     }
