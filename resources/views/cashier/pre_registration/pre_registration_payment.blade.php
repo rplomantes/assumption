@@ -192,6 +192,15 @@
             <input type="text" name="deposit_amount" id="deposit_amount" class="form form-control number" />
             </div>
         </div>    
+    </div> 
+    <div class="over_payment">
+        <div class="form form-group">
+        
+        <div class="col-md-12">
+            <label>Over Payment</label>
+            <input type="text" name="over_payment" id="over_payment" class="form form-control number" value="0" readonly="redonly">
+        </div>
+        </div>
     </div>    
      <div class="submit_button">
         <div class="form form-group">
@@ -200,7 +209,7 @@
             </div>
         </div>
      </div>    
-   </div>   
+   </div> 
    </div>
 </form>
 
@@ -210,6 +219,13 @@
 @section('footerscript')
 <link rel="stylesheet" href="{{url('/',array('bower_components','select2','dist','css','select2.min.css'))}}">
 <style>
+    .fees td input{
+        background-color: #ccc;
+    }
+    .label_collected{
+        font-size:15pt;
+        font-weight: bold;
+    }
     .submit_button{
         padding-top:10px;
     }
@@ -242,13 +258,29 @@
         color:#f00;
         font-weight: bold;
     }
-   
+    #collected_amount{
+        color:#f00;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    .over_payment{
+        background-color: #B995A9;
+        padding: 10px
+    }
 </style>
 
 <script src="{{url('/',array('bower_components','select2','dist','js','select2.full.min.js'))}}"></script>
 
 <script>
     $(document).ready(function(){
+        jQuery('input[type=submit]').click(function(){
+            if(jQuery.data(this, 'clicked')){
+                return false;
+            } else{
+                jQuery.data(this, 'clicked', true);
+                return true;
+            }
+        });
         
          var i = 1;
          $('.select2').select2();
@@ -360,7 +392,7 @@
        $("#check_amount").on("keypress",function(e){
            if(e.keyCode==13){
                if($("#check_amount").val()==""){
-                   alert("Inavlid amount")
+                   alert("Invalid amount")
                }else{
                    if(computechange()<0){
                      $("#credit_card_bank").focus();  
@@ -446,23 +478,29 @@
          totalamount = 0;
          amountreceive= 0;
          noncash=0;
+         check_amount=0;
+         deposit_amount=0;
          if($("#other_total").val()!=""){
             totalamount = totalamount + eval($("#other_total").val())
         }
          
          if($("#check_amount").val()!=""){
+            check_amount= eval($("#check_amount").val());
             noncash = noncash + eval($("#check_amount").val())
         }
          if($("#credit_card_amount").val()!=""){
             noncash = noncash + eval($("#credit_card_amount").val())
         }
         if($("#deposit_amount").val()!=""){
+            deposit_amount= eval($("#deposit_amount").val());
             noncash = noncash + eval($("#deposit_amount").val())
         }
          
         if(noncash > totalamount){
-             alert("Invalid Amount !!!!!")     
-         } else {
+            if(noncash-(check_amount+deposit_amount)>totalamount){
+             alert("Invalid Amount !!!!!")
+            } else {
+             $("#over_payment").val((check_amount+deposit_amount)-totalamount)
              if($("#cash_receive").val()!=""){
                    amountreceive = eval($("#cash_receive").val());
                } 
@@ -472,7 +510,23 @@
               }else{
                   $("#submit_button").fadeOut(300)
               }
-               totalchange=amountreceive+noncash-totalamount;
+              $('#cash_receive').val(0);
+              $('#credit_card_amount').val(0);
+              $("#change").val(0)
+              return "0.00";
+            }
+            } else {
+                $("#over_payment").val(0)
+             if($("#cash_receive").val()!=""){
+                   amountreceive = eval($("#cash_receive").val());
+               } 
+              if(amountreceive+noncash-totalamount >= 0){
+                  $("#submit_button").fadeIn(300)
+                  $("#submit_button").focus();
+              }else{
+                  $("#submit_button").fadeOut(300)
+              }
+              totalchange = amountreceive+noncash-totalamount
                $("#change").val(totalchange.toFixed(2));
                return totalchange.toFixed(2);
          }

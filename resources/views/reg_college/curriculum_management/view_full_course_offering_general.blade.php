@@ -49,7 +49,7 @@ $layout = "layouts.appreg_college";
 <section class="content">
     <div class="row">  
         <div class="col-sm-12">
-            <h4>Per Room</h4>
+            <h4>General Schedule</h4>
             <div class="box">
                 <div class="box-body">
                     <div class="row">

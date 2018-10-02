@@ -55,6 +55,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 @endsection
 @section('maincontent')
 <div class="form-horizontal">
+    <form action="{{url('/bedregistrar', array('updateinfo', $user->idno))}}" method="post" class="form-horizontal">
     @if($status->status == env("FOR_APPROVAL"))
     {{ csrf_field() }}
     <div class="col-md-12">
@@ -72,7 +73,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                  <select class="form form-control" onchange='update_testing(this.value)'>
                      <option>Select Schedule</option>
                      @foreach($testing_schedules as $sched)
-                     <option value='{{$sched->id}}' @if($testing->schedule_id == $sched->id)selected @endif>{{$sched->datetime}}-{{$sched->room}}</option>
+                     <option value='{{$sched->id}}' @if($testing->schedule_id == $sched->id)selected @endif>{{$sched->datetime}}</option>
                      @endforeach
                  </select>
              </div>
@@ -107,7 +108,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 <h3 class="widget-user-username">{{$user->firstname}} {{$user->middlename}} {{$user->lastname}}</h3>
                 <h5 class="widget-user-desc">{{$user->idno}}</h5>
             </div>
-            <div class="box-footer no-padding">
+            <div class="box-footer">
                 <ul class="nav nav-stacked">
                     <li>
                         <div class="row">
@@ -154,8 +155,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Personal Information</a></li>
                 <li><a href="#tab_2" data-toggle="tab">Family Background</a></li>
-                <li><a href="#tab_3" data-toggle="tab">Educational Background</a></li>
-                <!--<li><a href="#tab_4" data-toggle="tab">Admission Credentials</a></li>-->
+                <li><a href="#tab_3" data-toggle="tab">Academic Background</a></li>
+                <li><a href="#tab_4" data-toggle="tab">Medical History / Physical Fitness</a></li>
+                <li><a href="#tab_5" data-toggle="tab">Other Requirements</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -485,6 +487,151 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='g_contact_no' value="{{old('g_contact_no',$info->g_contact_no)}}" type="text">
                         </div>
                     </div>
+                    
+                    <hr>
+                    
+                    <label>Siblings (brothers and sisters)</label>
+                    <?php $i=0; ?>
+                        <div  id="dynamic_field_sibling">
+                            <!--div class="top-row"-->
+                                <?php $siblings = \App\BedSiblings::where('idno', $user->idno)->get(); ?>
+                                @if(count($siblings)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label>Age</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Level/Occupation</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>School/Work</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($siblings as $sibling)
+                            <div id='row_sibling{{$i}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control limitation" type="text" name="sibling[{{$i}}]" id='sibling{{$i}}' value='{{$sibling->sibling}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <input class="form form-control limitation" type="text" name="sibling_age[{{$i}}]" id='sibling_age{{$i}}' value='{{$sibling->age}}'/>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form form-control limitation" type="text" name="sibling_level[{{$i}}]" id='sibling_level{{$i}}' value='{{$sibling->level}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control limitation" type="text" name="sibling_school[{{$i}}]" id='sibling_school{{$i}}' value='{{$sibling->school}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($i == 0)
+                                    <button type="button" name="add_sibling" id="add_sibling" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_sibling" id="{{$i}}" class="btn btn-danger btn_remove btn_remove_sibling">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $i = $i+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Name</label>
+                                    <input class="form form-control sibling" type="text" name="sibling[]" id='sibling1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label>Age</label>
+                                    <input class="form form-control sibling_age" type="text" name="sibling_age[]" id='sibling_age1'/>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Level/Occupation</label>
+                                    <input class="form form-control sibling_level" type="text" name="sibling_level[]" id='sibling_level1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>School/Work</label>
+                                    <input class="form form-control sibling_school" type="text" name="sibling_school[]" id='sibling_school1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="sibling" id="add_sibling" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    <hr>
+                    <label>Is your mother and Alumna of Assumption College? If yes, year graduated:</label>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Grade School</label>
+                            <input class="form form-control" name='m_alumna_gradeschool_year' value="{{old('m_alumna_gradeschool_year',$info->m_alumna_gradeschool_year)}}" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>High School</label>
+                            <input class="form form-control" name='m_alumna_highschool_year' value="{{old('m_alumna_highschool_year',$info->m_alumna_highschool_year)}}" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>College</label>
+                            <input class="form form-control" name='m_alumna_college_year' value="{{old('m_alumna_college_year',$info->m_alumna_college_year)}}" type="text">
+                        </div>
+                    </div>
+                    <label>Aside from mother, are there other members of your family who are almunae of Assumption? If yes, please fill out the spaces below</label>
+                    <?php $j=0; ?>
+                        <div  id="dynamic_field_alumni">
+                            <!--div class="top-row"-->
+                                <?php $alumnis = \App\BedOtherAlumni::where('idno', $user->idno)->get(); ?>
+                                @if(count($alumnis)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <label>Relationship</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($alumnis as $alumni)
+                            <div id='row_alumni{{$j}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control alumni" type="text" name="alumni[{{$j}}]" id='alumni{{$j}}' value='{{$alumni->alumni}}'/>
+                                </div>
+                                <div class="col-md-5">
+                                    <input class="form form-control alumni_relationship" type="text" name="alumni_relationship[{{$j}}]" id='alumni_relationship{{$j}}' value='{{$alumni->relationship}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($j == 0)
+                                    <button type="button" name="add_alumni" id="add_alumni" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_alumni" id="{{$j}}" class="btn btn-danger btn_remove btn_remove_alumni">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $i = $i+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Name</label>
+                                    <input class="form form-control alumni" type="text" name="alumni[]" id='alumni1'/>
+                                </div>
+                                <div class="col-md-5">
+                                    <label>Relationship</label>
+                                    <input class="form form-control alumni_relationship" type="text" name="alumni_relationship[]" id='alumni_relationship1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="alumni" id="add_alumni" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
                     <label>Present School</label>
@@ -558,22 +705,526 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='highschool_year' value="{{old('highschool_year',$info->highschool_year)}}" type="text">
                         </div>
                     </div>
+                    
+                    
+                    
+                    
+                    
+                    <label>List any honors that the applicant received</label>
+                    <?php $a=0; ?>
+                        <div  id="dynamic_field_achievement">
+                            <!--div class="top-row"-->
+                                <?php $awards = \App\BedReceivedHonor::where('idno', $user->idno)->get(); ?>
+                                @if(count($awards)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Achievement Awards</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Name of Event</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($awards as $award)
+                            <div id='row_achievement{{$a}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control achievement" type="text" name="achievement[{{$a}}]" id='achievement1{{$a}}' value='{{$award->achievement}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control achievement_level" type="text" name="achievement_level[{{$a}}]" id='achievement_level{{$a}}' value='{{$award->level}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control number achievement_event" type="text"  name="achievement_event[{{$a}}]" id="achievement_event{{$a}}" value='{{$award->event}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($a == 0)
+                                    <button type="button" name="add_achievement" id="add_achievement" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_achievement" id="{{$a}}" class="btn btn-danger btn_remove btn_remove_achievement">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $a = $a+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Achievement Awards</label>
+                                        <input class="form form-control achievement" type="text" name="achievement[]" id='achievement1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                    <input class="form form-control achievement_level" type="text" name="achievement_level[]" id='achievement_level1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Name of Event</label>
+                                    <input class="form form-control number achievement_event" type="text"  name="achievement_event[]" id="achievement_event1"/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_achievement" id="add_achievement" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                    <hr>
+                    
+                    <label>Did the applicant fail in any subject/s in school?</label>
+                    <?php $b=0; ?>
+                        <div  id="dynamic_field_fail">
+                            <!--div class="top-row"-->
+                                <?php $fails = \App\BedApplicantFail::where('idno', $user->idno)->get(); ?>
+                                @if(count($fails)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Subject</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($fails as $fail)
+                            <div id='row_fail{{$b}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control fail" type="text" name="fail[{{$b}}]" id='fail1{{$b}}' value='{{$fail->subject}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control fail_level" type="text" name="fail_level[{{$b}}]" id='fail_level{{$b}}' value='{{$fail->level}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($b == 0)
+                                    <button type="button" name="add_fail" id="add_fail" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_fail" id="{{$b}}" class="btn btn-danger btn_remove btn_remove_fail">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $b = $b+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Subject</label>
+                                        <input class="form form-control fail" type="text" name="fail[]" id='fail1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                    <input class="form form-control fail_level" type="text" name="fail_level[]" id='fail_level1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_fail" id="add_fail" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                    <hr>
+                    
+                    <label>Did the applicant repeat grade/level?</label>
+                    <?php $c=0; ?>
+                        <div  id="dynamic_field_repeat">
+                            <!--div class="top-row"-->
+                                <?php $repeats = \App\BedRepeat::where('idno', $user->idno)->get(); ?>
+                                @if(count($repeats)>0)
+                            <div class="form form-group">
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($repeats as $repeat)
+                            <div id='row_repeat{{$c}}' class="form form-group">
+                                <div class="col-md-3">
+                                    <input class="form form-control repeat_level" type="text" name="repeat_level[{{$c}}]" id='repeat_level{{$c}}' value='{{$repeat->level}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($c == 0)
+                                    <button type="button" name="add_repeat" id="add_repeat" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_repeat" id="{{$c}}" class="btn btn-danger btn_remove btn_remove_repeat">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $c = $c+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                    <input class="form form-control repeat_level" type="text" name="repeat_level[]" id='repeat_level1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_repeat" id="add_repeat" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                        <hr>
+                        
+                        <label>Was the applicant ever placed on probation, suspended, dismissed by any school?</label>
+                        <?php $d=0; ?>
+                        <div  id="dynamic_field_probation">
+                            <!--div class="top-row"-->
+                                <?php $probations = \App\BedProbation::where('idno', $user->idno)->get(); ?>
+                                @if(count($probations)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Specify Offense/s</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Date</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Penalty</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($probations as $probation)
+                            <div id='row_probation{{$d}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control probation" type="text" name="probation[{{$d}}]" id='probation1{{$d}}' value='{{$probation->offense}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control probation_date" type="text" name="probation_date[{{$d}}]" id='probation_date{{$d}}' value='{{$probation->date}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control number probation_penalty" type="text"  name="probation_penalty[{{$d}}]" id="probation_penalty{{$d}}" value='{{$probation->penalty}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($d == 0)
+                                    <button type="button" name="add_probation" id="add_probation" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_probation" id="{{$d}}" class="btn btn-danger btn_remove btn_remove_probation">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $d = $d+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Offense</label>
+                                        <input class="form form-control probation" type="text" name="probation[]" id='probation1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Date</label>
+                                    <input class="form form-control probation_date" type="text" name="probation_date[]" id='probation_date1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Penalty</label>
+                                    <input class="form form-control number probation_penalty" type="text"  name="probation_penalty[]" id="probation_penalty1"/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_probation" id="add_probation" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                    <hr>
+                    
+                    <label>List applicant's extra-curricular activites, including club/organization and specify grade/level(e.g. class president, glee club, etc.)</label>
+                    <?php $e=0; ?>
+                        <div  id="dynamic_field_club">
+                            <!--div class="top-row"-->
+                                <?php $clubs = \App\BedExtraActivity::where('idno', $user->idno)->get(); ?>
+                                @if(count($clubs)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Club/Organization</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($clubs as $club)
+                            <div id='row_club{{$e}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control club" type="text" name="club[{{$e}}]" id='club{{$e}}' value='{{$club->club}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control club_level" type="text" name="club_level[{{$e}}]" id='club_level{{$e}}' value='{{$club->level}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($e == 0)
+                                    <button type="button" name="add_club" id="add_club" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_club" id="{{$e}}" class="btn btn-danger btn_remove btn_remove_club">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $e = $e+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Club/Organization</label>
+                                    <input class="form form-control club" type="text" name="club[]" id='club1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Grade/Level</label>
+                                    <input class="form form-control club_level" type="text" name="club_level[]" id='club_level1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_club" id="add_club" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                        <hr>
+                    
+                    <label>List applicant's community or Church involvement: (if any)</label>
+                    <?php $f=0; ?>
+                        <div  id="dynamic_field_involvement">
+                            <!--div class="top-row"-->
+                                <?php $involvements = \App\BedChurchInvolvement::where('idno', $user->idno)->get(); ?>
+                                @if(count($involvements)>0)
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Community/Church Involvement</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Year</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($involvements as $involvement)
+                            <div id='row_involvement{{$f}}' class="form form-group">
+                                <div class="col-md-5">
+                                    <input class="form form-control involvement" type="text" name="involvement[{{$f}}]" id='involvement{{$f}}' value='{{$involvement->involvement}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control involvement_year" type="text" name="involvement_year[{{$f}}]" id='involvement{{$f}}' value='{{$involvement->year}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($f == 0)
+                                    <button type="button" name="add_involvement" id="add_involvement" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_involvement" id="{{$f}}" class="btn btn-danger btn_remove btn_remove_involvement">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $f = $f+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-5">
+                                    <label>Community/Church Involvement</label>
+                                    <input class="form form-control involvement" type="text" name="involvement[]" id='involvement1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Year</label>
+                                    <input class="form form-control involvement_year" type="text" name="involvement_year[]" id='involvement_year1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_involvement" id="add_involvement" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                    
+                    
+                    
+                    
                 </div>
                 <div class="tab-pane" id="tab_4">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    It has survived not only five centuries, but also the leap into electronic typesetting,
-                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                    like Aldus PageMaker including versions of Lorem Ipsum.
+                    
+                    <label>Has the applicant undergone any form of therapy?</label>
+                    <?php $g=0; ?>
+                        <div  id="dynamic_field_therapy">
+                            <!--div class="top-row"-->
+                                <?php $therapys = \App\BedUndergoneTherapy::where('idno', $user->idno)->get(); ?>
+                                @if(count($therapys)>0)
+                            <div class="form form-group">
+                                <div class="col-md-8">
+                                    <label>Kind of Therapy</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Period of Treatment</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($therapys as $therapy)
+                            <div id='row_therapy{{$g}}' class="form form-group">
+                                <div class="col-md-8">
+                                    <input class="form form-control therapy" type="text" name="therapy[{{$g}}]" id='therapy{{$g}}' value='{{$therapy->therapy}}'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form form-control therapy_period" type="text" name="therapy_period[{{$g}}]" id='therapy_period{{$g}}' value='{{$therapy->treatment}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($g == 0)
+                                    <button type="button" name="add_therapy" id="add_therapy" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_therapy" id="{{$g}}" class="btn btn-danger btn_remove btn_remove_therapy">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $g = $g+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-8">
+                                    <label>Kind of Therapy</label>
+                                    <input class="form form-control therapy" type="text" name="therapy[]" id='therapy1'/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Period of Treatment</label>
+                                    <input class="form form-control therapy_period" type="text" name="therapy_period[]" id='therapy_period1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_therapy" id="add_therapy" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                    <hr>
+                    
+                    <label>List any health/physical limitations which should be taken into consideration in carrying out school activities:</label>
+                    <?php $h=0; ?>
+                        <div  id="dynamic_field_limitation">
+                            <!--div class="top-row"-->
+                                <?php $limitations = \App\BedLimitations::where('idno', $user->idno)->get(); ?>
+                                @if(count($limitations)>0)
+                            <div class="form form-group">
+                                <div class="col-md-11">
+                                    <label>&nbsp;</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                </div>
+                            </div>
+                                @foreach($limitations as $limitation)
+                            <div id='row_limitation{{$h}}' class="form form-group">
+                                <div class="col-md-11">
+                                    <input class="form form-control limitation" type="text" name="limitation[{{$h}}]" id='limitation{{$h}}' value='{{$limitation->limitations}}'/>
+                                </div>
+                                <div class="col-md-1">
+                                    @if($h == 0)
+                                    <button type="button" name="add_limitation" id="add_limitation" class="btn btn-success"> + </button>
+                                    @else
+                                    <button type='button' name="remove_limitation" id="{{$h}}" class="btn btn-danger btn_remove btn_remove_limitation">X</button>
+                                    @endif
+                                </div>
+                            </div>
+                                
+                                <?php $h = $h+1; ?>
+                                @endforeach
+                                @else
+                            <div class="form form-group">
+                                <div class="col-md-11">
+                                    <label>&nbsp;</label>
+                                    <input class="form form-control limitation" type="text" name="limitation[]" id='limitation1'/>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <button type="button" name="add_limitation" id="add_limitation" class="btn btn-success"> + </button>
+                                </div>
+                            </div>
+                                @endif
+                        </div>
+                    
+                </div>
+                <div class="tab-pane" id="tab_5">
+                    <?php $ctrrequirements = \App\CtrBedRequirement::where('level', $status->level)->first(); ?>
+                    <?php $bedrequirements = \App\BedRequirement::where('idno', $user->idno)->first(); ?>
+                    <div class="form-group">
+                        @if($ctrrequirements->psa == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='psa' @if($bedrequirements->psa == 1)checked=''@endif><label>&nbsp;Original copy and two (2) clear photocopies of Philippine Statistics Authority (PSA) Birth Certificate</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->recommendation_form == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='recommedation_form' @if($bedrequirements->recommedation_form == 1)checked=''@endif><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->baptismal_certificate == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='baptismal_certificate' @if($bedrequirements->baptismal_certificate == 1)checked=''@endif><label>&nbsp;One (1) clear photocopy of Baptismal Certificate</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->passport_size_photo == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='passport_size_photo' @if($bedrequirements->passport_size_photo == 1)checked=''@endif><label>&nbsp;Four (4) passport size recent colored photos (computer printed & cut-outs are not accepted)</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->progress_report_card == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='progress_report_card' @if($bedrequirements->progress_report_card == 1)checked=''@endif><label>&nbsp;Progress Report Cards</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->currentprevious_report_card == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='currentprevious_report_card' @if($bedrequirements->currentprevious_report_card == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of PREVIOUS and CURRENT report cards</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->narrative_assessment_report == 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='narrative_assessment_report' @if($bedrequirements->narrative_assessment_report == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of either Certificate of Attendance or Narrative Assessment Report.</label>
+                        </div>
+                        @endif
+                        <div class="col-sm-12"><hr><strong>For Foreign Students</strong><br>
+                            <input type='checkbox' name='acr' @if($bedrequirements->acr == 1)checked=''@endif><label>&nbsp;Alien Certificate of Registration (ACR)</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='photocopy_passport' @if($bedrequirements->passport == 1)checked=''@endif><label>&nbsp;Photocopy of Passport</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='visa_parent' @if($bedrequirements->visa_parent == 1)checked=''@endif><label>&nbsp;Visa/ Working Permit of Parents</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type='checkbox' name='photocopy_of_dual' @if($bedrequirements->photocopy_of_dual == 1)checked=''@endif><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         @if($status->status == env("FOR_APPROVAL"))
-        <a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button class='btn btn-warning col-sm-12'>Approve Application Status</button></a>
+        <div class="col-sm-3">
+        <input type="submit" value='Save' class='form-control btn btn-primary'></div>
+        <div class="col-sm-3"><a href="{{url('admissionbed', array('disapprove_application', $user->idno))}}"><button type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
+        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
         @endif
     </div>
+    </form>
 </div>
 @endsection
 @section('footerscript')
@@ -591,5 +1242,180 @@ function update_testing(id){
 
     });
 }
+</script>
+<script>
+    var a="{{$a-1}}";
+    var b="{{$b-1}}";
+    var c="{{$c-1}}";
+    var d="{{$d-1}}";
+    var e="{{$e-1}}";
+    var f="{{$f-1}}";
+    var g="{{$g-1}}";
+    var h="{{$h-1}}";
+    var i="{{$i-1}}";
+    var j="{{$j-1}}";
+    $(document).ready(function () {
+        $('#add_achievement').click(function(){
+
+           a++;
+           $('#dynamic_field_achievement').append('<div id="row_achievment'+a+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control achievement"       type="text" name="achievement[]"       id="achievement'+a+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control achievement_level" type="text" name="achievement_level[]" id="achievement_level'+a+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control achievement_event" type="text" name="achievement_event[]" id="achievement_event'+a+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_achievement"  id="'+a+'" class="btn btn-danger btn_remove btn_remove_achievement">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_achievement').on('click','.btn_remove_achievement', function(){
+            var button_id = $(this).attr("id");
+            $("#row_achievement"+button_id+"").remove();
+            a--;
+        });
+        
+        $('#add_fail').click(function(){
+
+           b++;
+           $('#dynamic_field_fail').append('<div id="row_fail'+b+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control fail"       type="text" name="fail[]"       id="fail'+b+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control fail_level" type="text" name="fail_level[]" id="fail_level'+b+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_fail"  id="'+b+'" class="btn btn-danger btn_remove btn_remove_fail">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_fail').on('click','.btn_remove_fail', function(){
+            var button_id = $(this).attr("id");
+            $("#row_fail"+button_id+"").remove();
+            b--;
+        });
+        
+        $('#add_repeat').click(function(){
+
+           c++;
+           $('#dynamic_field_repeat').append('<div id="row_repeat'+c+'" class="form form-group">\n\
+           <div class="col-md-3"><input class="form form-control repeat_level" type="text" name="repeat_level[]" id="fail_level'+c+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_repeat"  id="'+c+'" class="btn btn-danger btn_remove btn_remove_repeat">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_repeat').on('click','.btn_remove_repeat', function(){
+            var button_id = $(this).attr("id");
+            $("#row_repeat"+button_id+"").remove();
+            c--;
+        });
+        
+        $('#add_probation').click(function(){
+
+           d++;
+           $('#dynamic_field_probation').append('<div id="row_probation'+d+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control probation"       type="text" name="probation[]"       id="probation'+d+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control probation_date" type="text" name="probation_date[]" id="probation_date'+d+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control probation_penalty" type="text" name="probation_penalty[]" id="probation_penalty'+d+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_probation"  id="'+d+'" class="btn btn-danger btn_remove btn_remove_probation">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_probation').on('click','.btn_remove_probation', function(){
+            var button_id = $(this).attr("id");
+            $("#row_probation"+button_id+"").remove();
+            d--;
+        });
+        
+        $('#add_club').click(function(){
+
+           e++;
+           $('#dynamic_field_club').append('<div id="row_club'+e+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control club"       type="text" name="club[]"       id="club'+e+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control club_level" type="text" name="club_level[]" id="club_level'+e+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_club"  id="'+e+'" class="btn btn-danger btn_remove btn_remove_club">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_club').on('click','.btn_remove_club', function(){
+            var button_id = $(this).attr("id");
+            $("#row_club"+button_id+"").remove();
+            e--;
+        });
+        
+        $('#add_involvement').click(function(){
+
+           f++;
+           $('#dynamic_field_involvement').append('<div id="row_involvement'+f+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control involvement"       type="text" name="involvement[]"       id="involvement'+f+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control involvement_year" type="text" name="involvement_year[]" id="involvement_year'+f+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_involvement"  id="'+f+'" class="btn btn-danger btn_remove btn_remove_involvement">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_involvement').on('click','.btn_remove_involvement', function(){
+            var button_id = $(this).attr("id");
+            $("#row_involvement"+button_id+"").remove();
+            f--;
+        });
+        
+        $('#add_therapy').click(function(){
+
+           g++;
+           $('#dynamic_field_therapy').append('<div id="row_therapy'+g+'" class="form form-group">\n\
+           <div class="col-md-8"><input class="form form-control therapy"       type="text" name="therapy[]"       id="therapy'+g+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control therapy_period" type="text" name="therapy_period[]" id="therapy_period'+g+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_therapy"  id="'+g+'" class="btn btn-danger btn_remove btn_remove_therapy">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_therapy').on('click','.btn_remove_therapy', function(){
+            var button_id = $(this).attr("id");
+            $("#row_therapy"+button_id+"").remove();
+            g--;
+        });
+        
+        $('#add_limitation').click(function(){
+
+           h++;
+           $('#dynamic_field_limitation').append('<div id="row_limitation'+h+'" class="form form-group">\n\
+           <div class="col-md-11"><input class="form form-control limitation"       type="text" name="limitation[]"       id="limitation'+h+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_limitation"  id="'+h+'" class="btn btn-danger btn_remove btn_remove_limitation">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_limitation').on('click','.btn_remove_limitation', function(){
+            var button_id = $(this).attr("id");
+            $("#row_limitation"+button_id+"").remove();
+            h--;
+        });
+        
+        $('#add_sibling').click(function(){
+
+           i++;
+           $('#dynamic_field_sibling').append('<div id="row_sibling'+i+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control sibling"       type="text" name="sibling[]"       id="sibling'+i+'"/></div>\n\
+           <div class="col-md-1"><input class="form form-control sibling_age"       type="text" name="sibling_age[]"       id="sibling_age'+i+'"/></div>\n\
+           <div class="col-md-2"><input class="form form-control sibling_level"       type="text" name="sibling_level[]"       id="sibling_level'+i+'"/></div>\n\
+           <div class="col-md-3"><input class="form form-control sibling_school"       type="text" name="sibling_school[]"       id="sibling_school'+i+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_sibling"  id="'+i+'" class="btn btn-danger btn_remove btn_remove_sibling">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_sibling').on('click','.btn_remove_sibling', function(){
+            var button_id = $(this).attr("id");
+            $("#row_sibling"+button_id+"").remove();
+            i--;
+        });
+        
+        $('#add_alumni').click(function(){
+
+           j++;
+           $('#dynamic_field_alumni').append('<div id="row_alumni'+j+'" class="form form-group">\n\
+           <div class="col-md-5"><input class="form form-control alumni"       type="text" name="alumni[]"       id="alumni'+j+'"/></div>\n\
+           <div class="col-md-5"><input class="form form-control alumni_relationship"       type="text" name="alumni_relationship[]"       id="alumni_relationship'+j+'"/></div>\n\
+           <div class="col-md-1"><a href="javascript:void()" name="remove_alumni"  id="'+j+'" class="btn btn-danger btn_remove btn_remove_alumni">X</a></div></div>');
+
+
+           });
+        $('#dynamic_field_alumni').on('click','.btn_remove_alumni', function(){
+            var button_id = $(this).attr("id");
+            $("#row_alumni"+button_id+"").remove();
+            j--;
+        });
+    })
 </script>
 @endsection

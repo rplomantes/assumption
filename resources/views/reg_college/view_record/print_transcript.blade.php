@@ -55,7 +55,7 @@ $count = 0;
                 </tr>
                 <tr>
                     <td valign='bottom'>{{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->lastname)}}</td>
-                    <td valign='bottom'>MA. IMELDA T. VALBUENA</td>
+                    <td valign='bottom'>MA. IMELDA T. VILLABONA</td>
                 </tr>
                 <tr>
                     <td  valign='top' colspan='2' rowspan="2">

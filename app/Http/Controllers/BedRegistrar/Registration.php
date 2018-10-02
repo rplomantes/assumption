@@ -64,7 +64,7 @@ class Registration extends Controller {
                 $addstatus->status = 0;
                 $addstatus->academic_type = "BED";
                 $addstatus->save();
-                
+
                 $addParent = new \App\BedParentInfo;
                 $addParent->idno = $request->referenceid;
                 $addParent->save();
@@ -78,7 +78,7 @@ class Registration extends Controller {
 
     function info($idno) {
         if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
-            
+
             $addprofile = \App\BedProfile::where('idno', $idno)->first();
             if (count($addprofile) == 0) {
                 $addpro = new \App\BedProfile;
@@ -91,11 +91,78 @@ class Registration extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
-            
+            $addparent = \App\BedReceivedHonor::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedReceivedHonor;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedApplicantFail::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedApplicantFail;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedRepeat::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedRepeat;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedProbation::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedProbation;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedExtraActivity::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedExtraActivity;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedChurchInvolvement::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedChurchInvolvement;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedUndergoneTherapy::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedUndergoneTherapy;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedLimitations::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedLimitations;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedRequirement::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedRequirement;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedSiblings::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedSiblings;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedOtherAlumni::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedOtherAlumni;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+
             $user = \App\User::where('idno', $idno)->first();
-            $info = \App\BedProfile::where('bed_profiles.idno', $idno)->join('bed_parent_infos', 'bed_parent_infos.idno','=','bed_profiles.idno')->first();
-            
-            return view("reg_be.info", compact('user', 'info'));
+            $status = \App\Status::where('idno', $idno)->first();
+            $info = \App\BedProfile::where('bed_profiles.idno', $idno)->join('bed_parent_infos', 'bed_parent_infos.idno', '=', 'bed_profiles.idno')->first();
+
+            return view("reg_be.info", compact('user', 'info', 'status'));
         }
     }
 
@@ -118,8 +185,8 @@ class Registration extends Controller {
     }
 
     function updateinfo(Request $request) {
-
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+//        return $request;
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
             $validate = $request->validate([
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -136,29 +203,46 @@ class Registration extends Controller {
                 $this->updateFamilyBackground($request);
                 $this->updateEducBackground($request);
                 $this->updateUser($request);
+                $this->updateBedAchievement($request);
+                $this->updateBedFail($request);
+                $this->updateRepeat($request);
+                $this->updateProbation($request);
+                $this->updateClub($request);
+                $this->updateInvolvement($request);
+                $this->updateTherapy($request);
+                $this->updateLimitation($request);
+                $this->updateSibling($request);
+                $this->updateAlumni($request);
+                $this->updateRequirements($request);
 
                 \App\Http\Controllers\Admin\Logs::log("Update student information of $request->idno.");
-                $status= \App\Status::where('idno', $request->idno)->first();
-                if($status->status == env("PRE_REGISTERED")){
+                $status = \App\Status::where('idno', $request->idno)->first();
+                if ($status->status == env("PRE_REGISTERED")) {
                     $status->status = env("FOR_APPROVAL");
                     $status->save();
-                    
+
                     $testing = new \App\TestingStudent;
                     $testing->idno = $request->idno;
                     $testing->save();
-                    
-                \App\Http\Controllers\Admin\Logs::log("Update student'status to REGISTERED of $request->idno.");
+
+                    \App\Http\Controllers\Admin\Logs::log("Update student'status to REGISTERED of $request->idno.");
                 }
-                
+
                 DB::Commit();
 
                 Session::flash('message', 'Information Updated!');
-                return redirect(url('/bedregistrar', array('info', $request->idno)));
+
+
+                if (Auth::user()->accesslevel == env("REG_BE")) {
+                    return redirect(url('/bedregistrar', array('info', $request->idno)));
+                } else {
+                    return redirect(url('/admissionbed', array('info', $request->idno)));
+                }
             }
         }
     }
-    
-    function updateFamilyBackground($request){
+
+    function updateFamilyBackground($request) {
         $updatefamilybackground = \App\BedParentInfo::where('idno', $request->idno)->first();
         $updatefamilybackground->father = $request->father;
         $updatefamilybackground->f_citizenship = $request->f_citizenship;
@@ -177,8 +261,8 @@ class Registration extends Controller {
         $updatefamilybackground->f_any_org = $request->f_any_org;
         $updatefamilybackground->f_type_of_org = $request->f_type_of_org;
         $updatefamilybackground->f_expertise = $request->f_expertise;
-        
-        
+
+
         $updatefamilybackground->mother = $request->mother;
         $updatefamilybackground->m_citizenship = $request->m_citizenship;
         $updatefamilybackground->m_is_living = $request->m_is_living;
@@ -196,26 +280,31 @@ class Registration extends Controller {
         $updatefamilybackground->m_any_org = $request->m_any_org;
         $updatefamilybackground->m_type_om_org = $request->m_type_om_org;
         $updatefamilybackground->m_expertise = $request->m_expertise;
-        
-        
+
+
+        $updatefamilybackground->m_alumna_gradeschool_year = $request->m_alumna_gradeschool_year;
+        $updatefamilybackground->m_alumna_highschool_year = $request->m_alumna_highschool_year;
+        $updatefamilybackground->m_alumna_college_year = $request->m_alumna_college_year;
+
+
         $updatefamilybackground->parents_civil_status = $request->parents_civil_status;
         $updatefamilybackground->guardian = $request->guardian;
         $updatefamilybackground->g_relation = $request->g_relation;
         $updatefamilybackground->g_address = $request->g_address;
         $updatefamilybackground->g_contact_no = $request->g_contact_no;
-        
+
         $updatefamilybackground->save();
     }
-    
-    function updateEducBackground($request){
+
+    function updateEducBackground($request) {
         $updateEducbackground = \App\BedProfile::where('idno', $request->idno)->first();
-        
+
         $updateEducbackground->present_school = $request->present_school;
         $updateEducbackground->present_school_address = $request->present_school_address;
         $updateEducbackground->present_principal = $request->present_principal;
         $updateEducbackground->present_tel_no = $request->present_tel_no;
         $updateEducbackground->present_guidance = $request->present_guidance;
-        
+
         $updateEducbackground->primary = $request->primary;
         $updateEducbackground->primary_address = $request->primary_address;
         $updateEducbackground->primary_year = $request->primary_year;
@@ -228,8 +317,8 @@ class Registration extends Controller {
 //        
         $updateEducbackground->save();
     }
-    
-    function updateInfoNow($request){  
+
+    function updateInfoNow($request) {
         $updateInfo = \App\BedProfile::where('idno', $request->idno)->first();
         $updateInfo->street = $request->street;
         $updateInfo->barangay = $request->barangay;
@@ -243,7 +332,7 @@ class Registration extends Controller {
         $updateInfo->gender = $request->gender;
         $updateInfo->nationality = $request->nationality;
         $updateInfo->religion = $request->religion;
-        
+
         $updateInfo->immig_status = $request->immig_status;
         $updateInfo->auth_stay = $request->auth_stay;
         $updateInfo->passport = $request->passport;
@@ -254,16 +343,298 @@ class Registration extends Controller {
         $updateInfo->acr_place_issued = $request->acr_place_issued;
         $updateInfo->save();
     }
-    
-    function updateUser($request){
-        $updateUser = \App\User::where('idno',$request->idno)->first();
+
+    function updateUser($request) {
+        $updateUser = \App\User::where('idno', $request->idno)->first();
         $updateUser->firstname = $request->firstname;
         $updateUser->middlename = $request->middlename;
         $updateUser->lastname = $request->lastname;
         $updateUser->extensionname = $request->extensionname;
         $updateUser->is_foreign = $request->is_foreign;
-        $updateUser->status = $request->user_status;
         $updateUser->save();
+    }
+
+    function log($action) {
+        $log = new \App\Log();
+        $log->action = "$action";
+        $log->idno = Auth::user()->idno;
+        $log->datetime = date("Y-m-d H:i:s");
+        $log->save();
+    }
+
+    function view_dpa() {
+        $path = public_path('/AC Student Privacy Notice and Consent Form v2018.pdf');
+        return response()->file($path);
+    }
+
+    function updateBedAchievement($request) {
+
+        $idno = $request->idno;
+        $achievement = $request->achievement;
+        $achievement_level = $request->achievement_level;
+        $achievement_event = $request->achievement_event;
+
+        $updates = \App\BedReceivedHonor::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($achievement[$i])) {
+
+                $add = new \App\BedReceivedHonor;
+                $add->idno = $idno;
+                $add->achievement = $achievement[$i];
+                $add->level = $achievement_level[$i];
+                $add->event = $achievement_event[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateBedFail($request) {
+
+        $idno = $request->idno;
+        $fail = $request->fail;
+        $fail_level = $request->fail_level;
+
+        $updates = \App\BedApplicantFail::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($fail[$i])) {
+
+                $add = new \App\BedApplicantFail;
+                $add->idno = $idno;
+                $add->subject = $fail[$i];
+                $add->level = $fail_level[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateRepeat($request) {
+
+        $idno = $request->idno;
+        $repeat_level = $request->repeat_level;
+
+        $updates = \App\BedRepeat::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($repeat_level[$i])) {
+
+                $add = new \App\BedRepeat;
+                $add->idno = $idno;
+                $add->level = $repeat_level[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateProbation($request) {
+
+        $idno = $request->idno;
+        $probation = $request->probation;
+        $probation_date = $request->probation_date;
+        $probation_penalty = $request->probation_penalty;
+
+        $updates = \App\BedProbation::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($probation[$i])) {
+
+                $add = new \App\BedProbation;
+                $add->idno = $idno;
+                $add->offense = $probation[$i];
+                $add->date = $probation_date[$i];
+                $add->penalty = $probation_penalty[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateClub($request) {
+
+        $idno = $request->idno;
+        $club = $request->club;
+        $club_level = $request->club_level;
+
+        $updates = \App\BedExtraActivity::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($club[$i])) {
+
+                $add = new \App\BedExtraActivity;
+                $add->idno = $idno;
+                $add->club = $club[$i];
+                $add->level = $club_level[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateInvolvement($request) {
+
+        $idno = $request->idno;
+        $involvement = $request->involvement;
+        $involvement_year = $request->involvement_year;
+
+        $updates = \App\BedChurchInvolvement::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($involvement[$i])) {
+
+                $add = new \App\BedChurchInvolvement;
+                $add->idno = $idno;
+                $add->involvement = $involvement[$i];
+                $add->year = $involvement_year[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateTherapy($request) {
+
+        $idno = $request->idno;
+        $therapy = $request->therapy;
+        $therapy_period = $request->therapy_period;
+
+        $updates = \App\BedUndergoneTherapy::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($therapy[$i])) {
+
+                $add = new \App\BedUndergoneTherapy;
+                $add->idno = $idno;
+                $add->therapy = $therapy[$i];
+                $add->treatment = $therapy_period[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateLimitation($request) {
+
+        $idno = $request->idno;
+        $limitation = $request->limitation;
+
+        $updates = \App\BedLimitations::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($limitation[$i])) {
+                $add = new \App\BedLimitations;
+                $add->idno = $idno;
+                $add->limitations = $limitation[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateSibling($request) {
+
+        $idno = $request->idno;
+        $sibling = $request->sibling;
+        $sibling_age = $request->sibling_age;
+        $sibling_level = $request->sibling_level;
+        $sibling_school = $request->sibling_school;
+
+        $updates = \App\BedSiblings::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($sibling[$i])) {
+                $add = new \App\BedSiblings;
+                $add->idno = $idno;
+                $add->sibling = $sibling[$i];
+                $add->age = $sibling_age[$i];
+                $add->level = $sibling_level[$i];
+                $add->school = $sibling_school[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateAlumni($request) {
+
+        $idno = $request->idno;
+        $alumni = $request->alumni;
+        $alumni_relationship = $request->alumni_relationship;
+
+        $updates = \App\BedOtherAlumni::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($alumni[$i])) {
+                $add = new \App\BedOtherAlumni;
+                $add->idno = $idno;
+                $add->alumni = $alumni[$i];
+                $add->relationship = $alumni_relationship[$i];
+                $add->save();
+            }
+        }
+    }
+
+    function updateRequirements($request) {
+        
+        $idno = $request->idno;
+        if($request->psa=="on"){ $request->psa = 1; }else{ $request->psa=0; }
+        if($request->recommendation_form=="on"){ $request->recommendation_form = 1; }else{ $request->recommendation_form=0; }
+        if($request->baptismal_certificate=="on"){ $request->baptismal_certificate = 1; }else{ $request->baptismal_certificate=0; }
+        if($request->passport_size_photo=="on"){ $request->passport_size_photo = 1; }else{ $request->passport_size_photo=0; }
+        if($request->progress_report_card=="on"){ $request->progress_report_card = 1; }else{ $request->progress_report_card=0; }
+        if($request->currentprevious_report_card=="on"){ $request->currentprevious_report_card = 1; }else{ $request->currentprevious_report_card=0; }
+        if($request->narrative_assessment_report=="on"){ $request->narrative_assessment_report = 1; }else{ $request->narrative_assessment_report=0; }
+        if($request->acr=="on"){ $request->acr = 1; }else{ $request->acr=0; }
+        if($request->photocopy_passport=="on"){ $request->photocopy_passport = 1; }else{ $request->photocopy_passport=0; }
+        if($request->visa_parent=="on"){ $request->visa_parent = 1; }else{ $request->visa_parent=0; }
+        if($request->photocopy_of_dual=="on"){ $request->photocopy_of_dual = 1; }else{ $request->photocopy_of_dual=0; }
+        if($request->citizenship_passport=="on"){ $request->citizenship_passport = 1; }else{ $request->citizenship_passport=0; }
+        
+        $update = \App\BedRequirement::where('idno', $idno)->first();
+        $update->psa = $request->psa;
+        $update->recommendation_form = $request->recommendation_form;
+        $update->baptismal_certificate = $request->baptismal_certificate;
+        $update->passport_size_photo = $request->passport_size_photo;
+        $update->progress_report_card = $request->progress_report_card;
+        $update->currentprevious_report_card = $request->currentprevious_report_card;
+        $update->narrative_assessment_report = $request->narrative_assessment_report;
+        $update->acr = $request->acr;
+        $update->passport = $request->photocopy_passport;
+        $update->visa_parent = $request->visa_parent;
+        $update->photocopy_of_dual = $request->photocopy_of_dual;
+        $update->citizenship_passport = $request->citizenship_passport;
+        $update->save();
     }
 
     function sectioning() {

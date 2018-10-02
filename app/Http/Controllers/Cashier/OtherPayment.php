@@ -56,6 +56,28 @@ class OtherPayment extends Controller
         } else {
         $department="None";    
         }
+        
+        
+        
+        if($request->over_payment > 0){
+            $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
+            $addacct = new \App\Accounting;
+            $addacct->transaction_date = date('Y-m-d');
+            $addacct->reference_id = $reference_id;
+            $addacct->accounting_type = env("CASH");
+            $addacct->category = "Overpayment";
+            $addacct->subsidiary = "Overpayment";
+            $addacct->receipt_details = "Overpayment";
+            $addacct->particular = "Overpayment";
+            $addacct->accounting_code = env("OVER_PAYMENT_CODE");
+            $addacct->accounting_name = env("OVER_PAYMENT_NAME");
+            $addacct->department = "NONE";
+            $addacct->fiscal_year = $fiscal_year;
+            $addacct->credit = $request->over_payment;
+            $addacct->posted_by = Auth::user()->idno;
+            $addacct->save();
+        }
+        
         if(count($request->particular)>0){
             for($i=0;$i<count($request->particular);$i++){
                 $addaccounting = new \App\Accounting;

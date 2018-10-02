@@ -42,6 +42,7 @@ class PreRegistration extends Controller {
             DB::beginTransaction();
                 
             $reference_id = uniqid();
+            $six_digit_random_number = mt_rand(100000, 999999);
             
             //for bed and shs
             if($applicant_details->level!="1st Year" || $applicant_details->level!="2nd Year" || $applicant_details->level!="3rd Year" || $applicant_details->level!="4th Year" || $applicant_details->level!="5th Year"){
@@ -50,7 +51,7 @@ class PreRegistration extends Controller {
                 }else{
                     $academic_type = "BED";
                 }
-                $this->addUser($request,$reference_id, $applicant_details, $academic_type);
+                $this->addUser($request,$reference_id, $applicant_details, $academic_type,$six_digit_random_number);
                 $this->addBedProfile($request,$reference_id, $applicant_details, $academic_type);
                 $this->addParent($request,$reference_id, $applicant_details, $academic_type);
                 $this->addBEDStatus($request,$reference_id, $applicant_details, $academic_type);
@@ -73,7 +74,7 @@ class PreRegistration extends Controller {
             StudentLedger::updatereceipt();
             
             $this->updatePreRegStatus($request);
-            $this->sendPaymentEmail($request,$reference_id, $applicant_details);
+            $this->sendPaymentEmail($request,$reference_id, $applicant_details,$six_digit_random_number);
             \App\Http\Controllers\Admin\Logs::log("Post Pre-Registration payment to - $request->paid_by.");
             DB::Commit();
             return redirect(url('/cashier',array('viewreceipt',$reference_id)));
@@ -86,11 +87,11 @@ class PreRegistration extends Controller {
                     'is_complete' => 1
                 ]);
     }
-    function sendPaymentEmail($request,$reference_id, $applicant_details){
+    function sendPaymentEmail($request,$reference_id, $applicant_details, $six_number){
         $data=array('name'=>$applicant_details->firstname." ".$applicant_details->lastname, 'email'=>$applicant_details->email);
-        Mail::send('cashier.pre_registration.mail',compact('request','reference_id','applicant_details'), function($message) use($applicant_details) {
+        Mail::send('cashier.pre_registration.mail',compact('request','reference_id','applicant_details','six_number'), function($message) use($applicant_details) {
          $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
-                 ->subject('Assumption College Payment Confirmation');
+                 ->subject('AC Payment Confirmation');
          $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
         });
     }
@@ -103,6 +104,26 @@ class PreRegistration extends Controller {
         } else {
         $department="None";    
         }
+        
+        if($request->over_payment > 0){
+            $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
+            $addacct = new \App\Accounting;
+            $addacct->transaction_date = date('Y-m-d');
+            $addacct->reference_id = $reference_id;
+            $addacct->accounting_type = env("CASH");
+            $addacct->category = "Overpayment";
+            $addacct->subsidiary = "Overpayment";
+            $addacct->receipt_details = "Overpayment";
+            $addacct->particular = "Overpayment";
+            $addacct->accounting_code = env("OVER_PAYMENT_CODE");
+            $addacct->accounting_name = env("OVER_PAYMENT_NAME");
+            $addacct->department = "NONE";
+            $addacct->fiscal_year = $fiscal_year;
+            $addacct->credit = $request->over_payment;
+            $addacct->posted_by = Auth::user()->idno;
+            $addacct->save();
+        }
+        
         if(count($request->particular)>0){
             for($i=0;$i<count($request->particular);$i++){
                 $addaccounting = new \App\Accounting;
@@ -167,7 +188,7 @@ class PreRegistration extends Controller {
         $adddpayment->save();
     }
     
-    function addUser($request,$reference_id, $applicant_details, $academic_type){
+    function addUser($request,$reference_id, $applicant_details, $academic_type,$six_digit_random_number){
         
         $add_new_user = new \App\User;
         $add_new_user->idno = $applicant_details->idno;
@@ -178,7 +199,7 @@ class PreRegistration extends Controller {
         $add_new_user->accesslevel = 0;
         $add_new_user->status = 1; //active or not
         $add_new_user->email = $applicant_details->email;
-        $password = $applicant_details->idno;
+        $password = $six_digit_random_number;
         $add_new_user->password = bcrypt($password);
         $add_new_user->is_foreign = $applicant_details->is_foreign;
         $add_new_user->academic_type = $academic_type;
@@ -202,6 +223,7 @@ class PreRegistration extends Controller {
         $addstatus = new \App\Status;
         $addstatus->idno = $applicant_details->idno;
         $addstatus->section = "";
+        $addstatus->level = $applicant_details->level;
         $addstatus->status = env("PRE_REGISTERED");
         $addstatus->academic_type = "BED";
         $addstatus->save();

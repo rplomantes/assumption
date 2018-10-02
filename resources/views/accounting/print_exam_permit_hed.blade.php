@@ -47,7 +47,7 @@
 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin-top:1.3cm;">
     @foreach ($grade_colleges as $grade)
     <tr>
-        <td><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$grade->course_code}}</small></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$grade->course_code}}</td>
     </tr>
     @endforeach
 </table>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 use Session;
+use Mail;
 
 class info extends Controller
 {
@@ -20,6 +21,85 @@ class info extends Controller
     function info($idno) {
         if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
 
+            
+            $addprofile = \App\BedProfile::where('idno', $idno)->first();
+            if (count($addprofile) == 0) {
+                $addpro = new \App\BedProfile;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+            $addparent = \App\BedParentInfo::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedParentInfo;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedReceivedHonor::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedReceivedHonor;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedApplicantFail::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedApplicantFail;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedRepeat::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedRepeat;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedProbation::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedProbation;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedExtraActivity::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedExtraActivity;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedChurchInvolvement::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedChurchInvolvement;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedUndergoneTherapy::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedUndergoneTherapy;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedLimitations::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedLimitations;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedRequirement::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedRequirement;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedSiblings::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedSiblings;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\BedOtherAlumni::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedOtherAlumni;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
 
             $user = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
@@ -33,7 +113,27 @@ class info extends Controller
             $status = \App\Status::where('idno', $idno)->first();
             $status->status=0;
             $status->save();
+            $this->sendEmail($idno, "Approved");
+            \App\Http\Controllers\Admin\Logs::log("Approved admission status application of $idno.");
             return redirect('admissionbed/info/'.$idno);
         }
+    }
+    
+    function disapprove_application($idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+
+            $this->sendEmail($idno, "Regret");
+            \App\Http\Controllers\Admin\Logs::log("Disapproved admission status application of $idno.");
+            return redirect('admissionbed/info/'.$idno);
+        }
+    }
+    
+    function sendEmail($idno, $type){
+        $applicant_details = \App\User::where('idno', $idno)->first();
+        Mail::send('admission-bed.mail-result-application',compact('applicant_details','type'), function($message) use($applicant_details) {
+         $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
+                 ->subject('AC Admission Application Status');
+         $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
+        });
     }
 }

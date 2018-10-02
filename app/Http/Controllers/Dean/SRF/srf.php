@@ -35,12 +35,20 @@ class srf extends Controller
         if (Auth::user()->accesslevel == env('DEAN')) {
             $course_code = $request->course_code;
             $sets = \App\Curriculum::where('course_code', $course_code)->get();
+            $elects = \App\CtrElective::where('course_code', $course_code)->get();
             
             foreach ($sets as $set){
                 $set->srf = $request->srf;
                 $set->lab_fee = $request->lab_fee;
                 $set->save();
             }
+            
+            foreach ($elects as $elect){
+                $elect->srf = $request->srf;
+                $elect->lab_fee = $request->lab_fee;
+                $elect->save();
+            }
+            
             Session::flash('message', "SRF and Laboratory Fee Updated!");
             \App\Http\Controllers\Admin\Logs::log("Set SRF of $course_code to PHP $request->srf and Lab Fee to PHP $request->lab_fee");
             return redirect("dean/srf/modify/$course_code");

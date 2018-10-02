@@ -64,44 +64,34 @@
                                     <td align='left' style='padding: 0 56px 28px 56px;' valign='top'>
                                         <div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333 !important;'>
                                             <span style="color: #333">
-                                                Thank you for pre-registering in Assumption College<br><br>
-                                                This email is to notify you that your payment for application & testing fee has been received. This will served as your acknowledgment receipt.<br><br>
-                                                <?php $payment_details = \App\Payment::where('reference_id', $reference_id)->first(); ?>
-                                                <table border="1">
-                                                    <tr>
-                                                        <td><strong>Date</strong></td>
-                                                        <td>{{$payment_details->transaction_date}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Receipt Number</strong></td>
-                                                        <td>{{$payment_details->receipt_no}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Name</strong></td>
-                                                        <td>{{$payment_details->paid_by}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Description</strong></td>
-                                                        <td>Application & Testing Fee</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Amount</strong></td>
-                                                        <td>{{$payment_details->check_amount+$payment_details->cash_amount+$payment_details->credit_card_amount+$payment_details->deposit_amount}}</td>
-                                                    </tr>
-                                                </table><br><br>
-                                                
-                                                    You can now access your Student Portal Account in <a href='portal.assumption.edu.ph'><i>portal.assumption.edu.ph</i></a> to complete your application. Your credential is:<br><br>
-                                                <small>
-                                                    Username:&nbsp;<strong>{{$applicant_details->idno}}</strong><br>
-                                                    Password:&nbsp;<strong>{{$six_number}}</strong></small><br><br>
-                                                    <?php $date = strtotime($payment_details->transaction_date); ?>
-                                                    <?php $date = strtotime("+14 days", $date); ?>
-                                                    
-                                                    <strong>Note:</strong> Failure to submit your requirements <strong>on or before {{date("F j, Y",$date)}}</strong> would mean
-            that you will have to fill out the application form again and wait for the next
-            available schedule.<br><br>
+                                                Dear Parents,<br>
+                                                <br>
+                                                @if($type == "Regret")
 
-                                                If you have questions kindly call Admission's Office(817-0757).
+                                                
+                                                Greetings of Peace!<br><br>
+                                                
+                                                We would like to thank you for having considered Assumption College as the school for your daughter. However, it is with regret to inform you that your daughter did not successfully meet the initial requirements for Admission of Assumption Basic Education Division.<br><br>
+                                                
+                                                Please know that all decisions arrived at by the Committee on Admissions are final.  The decisions were seen in the light of what is life-giving for your daughter.<br><br>
+                                                
+                                                We hope that you will be able to find the right learning environment that can best nurture your daughter’s needs.<br><br>
+                                                
+                                                Once again, thank you!<br><br>
+                                                
+                                                @else
+                                                
+                                                We are pleased to inform you that your daughter has been successfully admitted to Assumption College Basic Education Division<br><br>
+                                                
+                                                Kindly claim the hard copy of your <strong>ACCEPTANCE LETTER</strong> at the BED Admissions Office. <br><br>
+                                                
+                                                You need to present this letter in paying the Reservation Fee of your daughter.<br><br>
+                                                
+                                                Thank you. <br><br>
+                                                @endif
+                                                
+                                                Sincerely yours,<br>
+                                                BED Admissions Head
                                             </span>
                                         </div>
                                     </td>

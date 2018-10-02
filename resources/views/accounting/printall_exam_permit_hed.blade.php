@@ -19,7 +19,26 @@ $tbcounter = 1;
     body { margin: .2cm; }
 </style>
 <body>
-        @foreach ($lists as $list)
+        @foreach ($lists as $c => $list)
+        
+        <?php $odd_even = count($lists)%2; ?>
+        
+        @if($odd_even == 0)
+            <?php $is_odd = 0; ?>
+        @else
+            <?php $is_odd = 1; ?>
+        @endif
+        
+        @if ((count($lists)-1)==$c)
+            @if($is_odd == 0)
+                <?php $width='width="100%"';?>
+            @else
+                <?php $width='width="47%"';?>
+            @endif
+        @else
+            <?php $width='width="100%"';?>
+        @endif
+        
         <?php
         $user = \App\User::where('idno',$list->idno)->first();
         $status = \App\Status::where('idno',$list->idno)->first();
@@ -27,7 +46,7 @@ $tbcounter = 1;
         ?>
             @if($tbcounter == 1)
                     @if($tdcounter == 1)
-            <table width="100%" border="0">
+            <table {!!$width!!} border="1" style="height: 13.8cm; overflow-y: scroll;">
                 <tr>
                     <td valign="top">
                     @elseif($tdcounter == 2)
@@ -35,7 +54,7 @@ $tbcounter = 1;
                     @endif
             @elseif($tbcounter == 2)
                     @if($tdcounter == 1)
-            <table width="100%" border="0" style="margin-top:2.5cm" border="0">
+            <table {!!$width!!} border="1" style="margin-top:0cm" border="0">
                 <tr>
                     <td valign="top">
                     @elseif($tdcounter == 2)
@@ -77,7 +96,7 @@ $tbcounter = 1;
         <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin-top:1.3cm;">
             @foreach ($grade_colleges as $grade)
             <tr>
-                <td><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$grade->course_code}}</small></td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$grade->course_code}}</td>
             </tr>
             @endforeach
         </table>

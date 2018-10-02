@@ -74,6 +74,7 @@ $layout = "layouts.appreg_college";
                         <thead>
                         <th class="col-sm-2">Course Code</th>
                         <th class="col-sm-4">Sections</th>
+                        <th class="col-sm-1" align="center">Units</th>
                         <th class="col-sm-3">Schedule</th>
                         <th class="col-sm-2">Room</th>
                         @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
@@ -87,6 +88,7 @@ $layout = "layouts.appreg_college";
                                     <?php
                                     $schedules = \App\ScheduleCollege::where('schedule_id', $load->schedule_id)->get();
                                     $details = \App\CourseOffering::where('schedule_id', $load->schedule_id)->get();
+                                    $unitss = \App\CourseOffering::where('schedule_id', $load->schedule_id)->first();
                                     ?>
                                     {{$load->course_code}}
                                 </td>
@@ -94,6 +96,9 @@ $layout = "layouts.appreg_college";
                                     @foreach ($details as $detail)
                                     {{$detail->program_code}} - {{$detail->level}}  - {{$detail->section_name}}<br>
                                     @endforeach
+                                </td>
+                                <td align="center">
+                                    {{$unitss->lec+$unitss->lab}}
                                 </td>
                                 <td>
                                     <?php

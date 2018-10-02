@@ -52,18 +52,16 @@ class GetStudentList extends Controller {
             if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
                 $idno = Input::get('idno');
                 $testing_id = Input::get('testing_id');
-                
-                $update = \App\TestingStudent::where('idno', $idno)->first();
-                $update->schedule_id = $testing_id;
-                $update->save();
-                
-                $data=array('name'=>$applicant_details->firstname." ".$applicant_details->lastname, 'email'=>$applicant_details->email);
-                Mail::send('cashier.pre_registration.mail',compact('request','reference_id','applicant_details'), function($message) use($applicant_details) {
-                 $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
-                         ->subject('Assumption College Payment Confirmation');
-                 $message->from('support@assumption.edu.ph',"AC Treasurer's Office");
-                });
-                
+
+                if ($testing_id == "Select Schedule") {
+                    $update = \App\TestingStudent::where('idno', $idno)->first();
+                    $update->schedule_id = NULL;
+                    $update->save();
+                } else {
+                    $update = \App\TestingStudent::where('idno', $idno)->first();
+                    $update->schedule_id = $testing_id;
+                    $update->save();
+                }
             }
         }
     }
