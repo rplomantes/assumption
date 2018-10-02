@@ -178,7 +178,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
                                 <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
                             </ul>
-                        </li>         
+                        </li>  
+                        <li><a href="{{url('accounting',array('post_charges'))}}"><i class="fa fa-check-square"></i> <span>Post Charges</span></a></li>
                         <?php
                         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
                         $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;

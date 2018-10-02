@@ -1,0 +1,116 @@
+<?php $ctr = 0;?>
+<div class="container-fluid">
+<h3>Listed below are the unpaid students for this due date.</h3>
+<h4>Simply <strong>UNCHECK</strong> the student if you <strong>DO NOT WISH</strong> to post their charges. To post late payment charges: Simply hit the [Post Charges] button</h4>
+<form class="form-horizontal" action="{{url('accounting', 'save_charges')}}" method="POST">
+    {{ csrf_field()}}
+    <table id="example" class="table table-bordered table-responsive table-condensed">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Student Number</th>
+                <th>Full Name</th>
+                <th>Level</th>
+                <th>Section</th>
+                <th>Balance</th>
+                <th>Selected</th>
+                <th>Posted / Unpaid</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php $x = 0; ?>
+        <input type="hidden" name="plan" value="{{$plan}}">
+        <input type="hidden" name="date" value="{{$dates}}">
+        <input type="hidden" name="level" value="{{$level}}">
+        @foreach($unpaid as $un)
+        <?php $check = checkLedger($un->idno, $dates);?>
+        @if($check != 2)
+        <?php $ctr++;?>
+        <tr>
+            <td>{{++$x}}</td>
+            <td>{{$un->idno}}</td>
+            <td>{{strtoupper($un->lastname)}}, {{$un->firstname}} {{$un->middlename}}</td>
+            <td>{{$un->level}}</td>
+            <td>{{$un->section}}</td>
+            <td><?php getBalance($un->idno,$dates)?></td>
+            <td>
+                @if($check == 1)  
+                    <a type="button" id="reverse{{$un->idno}}" value="Reverse" onclick="reversePost('{{$un->idno}}')">Reverse</a> 
+                @else 
+                    <input type="checkbox" name="post[]" value="{{$un->idno}}" checked/> 
+                @endif</td>
+            <td>@if($check == 1) Posted and unpaid @else Not yet posted. @endif</td>
+        </tr>
+        @endif
+        @endforeach
+        @if($ctr == 0)
+        <tr><td colspan="7" align="center" style="font-size:15pt"><strong>Nothing to show.</strong></td></tr>
+        @endif
+        </tbody>
+    </table>
+    <div class="form form-group">
+        <div class="col-sm-12">
+            <input type="submit" class="col-sm-12 btn btn-success" value="Post Charges">
+        </div>
+    </div>
+</form>
+</div>
+<?php
+
+function checkLedger($idno, $date) {
+    $mainledgers = \App\Ledger::where('idno', $idno)->where('category_switch','<=','6')->get();
+    $duedates = \App\LedgerDueDate::where('idno', $idno)->get();
+    $mainpayment = 0;
+    $result = 0;
+    $due = 0;
+    
+//    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
+    $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
+    
+    foreach ($mainledgers as $payment) {
+        $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
+    }
+    
+    foreach ($duedates as $duedate) {
+    $due = $due + $duedate->amount; 
+    $monthdate = date_format(date_create($duedate->due_date),'m');
+        if ($monthdate == $date) {
+            if ($mainpayment >= $due) {
+                $result = 2;
+            } 
+            else {
+                if(count($is_posted) > 0){
+                    $result = 1;
+                }
+                else{
+                    $result = 0;
+                }
+            }
+            break;
+        }
+    } 
+    return $result;
+}
+
+function getBalance($idno,$date){
+    $mainledgers = \App\Ledger::where('idno', $idno)->where('category_switch','<=','6')->get();
+    $duedates = \App\LedgerDueDate::where('idno', $idno)->get();
+    $mainpayment = 0;
+    $due = 0;
+    
+    foreach ($mainledgers as $payment) {
+        $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
+    }
+    
+    $bal = 0;
+    foreach ($duedates as $duedate) {
+    $due = $due + $duedate->amount; 
+    $monthdate = date_format(date_create($duedate->due_date),'m');
+        if ($monthdate == $date) {
+            $bal = $due - $mainpayment;
+        }
+    } 
+    echo number_format($bal,2);
+}
+?>
+

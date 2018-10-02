@@ -112,4 +112,11 @@ Route::get('/bookstore/print_order/{idno}','Bookstore\Order@print_order');
 //bookstor ajax
 Route::get('/bookstore/ajax/change_remarks','Bookstore\Ajax\BookMaterial@change_remarks');
 
+//accounting - post charges
+Route::get('/accounting/post_charges','Accounting\PostCharges@index');
+Route::get('/accounting/ajax/get_due_dates','Accounting\Ajax\AjaxPostCharges@getDueDates');
+Route::get('/accounting/ajax/get_unpaid','Accounting\Ajax\AjaxPostCharges@getUnpaid');
+Route::post('/accounting/save_charges','Accounting\PostCharges@postCharges');
+Route::get('/accounting/ajax/reverse_post/{idno}','Accounting\Ajax\AjaxPostCharges@reversePost');
+
 ?>
