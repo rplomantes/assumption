@@ -121,10 +121,15 @@ class info extends Controller
     
     function disapprove_application($idno){
         if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
-
+            $status = \App\Status::where('idno', $idno)->first();
+            $status->status=env("REGRET_FINAL");
+            $status->save();
+            $user = \App\User::where('idno', $idno)->first();
+            $user->status=0;
+            $user->save();
             $this->sendEmail($idno, "Regret");
             \App\Http\Controllers\Admin\Logs::log("Disapproved admission status application of $idno.");
-            return redirect('admissionbed/info/'.$idno);
+            return redirect('/');
         }
     }
     

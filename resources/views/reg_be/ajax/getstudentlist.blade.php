@@ -3,7 +3,7 @@
     <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>Assess</th><th>View Info</th><th>View Grades<th></tr>
     @foreach($lists as $list)
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
-    @if($list->accesslevel == '0' && $list->academic_type=="BED" || $list->academic_type=="SHS")
+    @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status<=3 || $list->academic_type=="SHS")
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
         <td>
             @if($status->status == 3)Enrolled

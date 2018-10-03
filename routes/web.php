@@ -259,6 +259,7 @@ Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentLis
 Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
 Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');
 Route::get('/admissionbed/approve_application/{idno}','AdmissionBED\info@approve_application');
+Route::get('/admissionbed/disapprove_application/{idno}','AdmissionBED\info@disapprove_application');
 //BED TESTING SCHEDULES/////////////////////////////////////////////////////////
 Route::get('/admissionbed/testing_schedules', 'AdmissionBED\TestingSchedules@view');
 Route::post('/admissionbed/add_testing_schedule', 'AdmissionBED\TestingSchedules@add');

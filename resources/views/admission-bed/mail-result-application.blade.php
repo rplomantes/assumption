@@ -64,8 +64,6 @@
                                     <td align='left' style='padding: 0 56px 28px 56px;' valign='top'>
                                         <div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333 !important;'>
                                             <span style="color: #333">
-                                                Dear Parents,<br>
-                                                <br>
                                                 @if($type == "Regret")
 
                                                 

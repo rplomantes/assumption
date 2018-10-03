@@ -4,13 +4,21 @@
     <tr>
         <th>Student ID</th>
         <th>Student Name</th>
+        <th>Status</th>
         <th>Promotions</th>
     </tr>
-    @foreach($lists as $list)
-    @if($list->accesslevel == '0')
+    <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
+    @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status<=3)
     <tr>
         <td>{{$list->idno}}</td>
         <td>{{$list->lastname}}, {{$list->firstname}}</td>
+        <td>
+            @if($status->status == 3)Enrolled
+            @elseif($status->status == 2) Assessed
+            @elseif($status->status == 10) Pre-Registered
+            @elseif($status->status == 11) For Approval
+            @else Not Yet Enrolled @endif
+        </td>
         <td><a href="{{url('/guidance_bed', array('promotions',$list->idno))}}">Promotions</a></td>
     </tr>
     @endif
