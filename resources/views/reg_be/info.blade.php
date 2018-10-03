@@ -1171,11 +1171,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input type='checkbox' disabled="" name='passport_size_photo' @if($bedrequirements->passport_size_photo == 1)checked=''@endif><label>&nbsp;Four (4) passport size recent colored photos (computer printed & cut-outs are not accepted)</label>
                         </div>
                         @endif
-                        @if($ctrrequirements->progress_report_card == 1)
+<!--                        @if($ctrrequirements->progress_report_card == 1)
                         <div class="col-sm-12">
                             <input type='checkbox' disabled="" name='progress_report_card' @if($bedrequirements->progress_report_card == 1)checked=''@endif><label>&nbsp;Progress Report Cards</label>
                         </div>
-                        @endif
+                        @endif-->
                         @if($ctrrequirements->currentprevious_report_card == 1)
                         <div class="col-sm-12">
                             <input type='checkbox' disabled="" name='currentprevious_report_card' @if($bedrequirements->currentprevious_report_card == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of PREVIOUS and CURRENT report cards</label>
@@ -1247,7 +1247,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         $('#add_achievement').click(function(){
 
            a++;
-           $('#dynamic_field_achievement').append('<div id="row_achievment'+a+'" class="form form-group">\n\
+           $('#dynamic_field_achievement').append('<div id="row_achievement'+a+'" class="form form-group">\n\
            <div class="col-md-5"><input class="form form-control achievement"       type="text" name="achievement[]"       id="achievement'+a+'"/></div>\n\
            <div class="col-md-3"><input class="form form-control achievement_level" type="text" name="achievement_level[]" id="achievement_level'+a+'"/></div>\n\
            <div class="col-md-3"><input class="form form-control achievement_event" type="text" name="achievement_event[]" id="achievement_event'+a+'"/></div>\n\
