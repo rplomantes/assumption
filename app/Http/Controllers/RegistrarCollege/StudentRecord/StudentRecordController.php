@@ -93,4 +93,46 @@ class StudentRecordController extends Controller
 //            return $request;
             return $pdf->stream("curriculum_record_".$idno.".pdf");
     }
+    
+    function edit_college_grades2018($id){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $grade = \App\CollegeGrades2018::where('id',$id)->first();
+            
+            return view('reg_college.view_record.edit_college_grades2018', compact('grade', 'id'));
+        }
+    }
+    
+    function edit_now_college_grades2018(Request $request){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $grade = \App\CollegeGrades2018::where('id',$request->id)->first();
+            $grade->school_year = $request->school_year;
+            $grade->period = $request->period;
+            $grade->course_code = $request->course_code;
+            $grade->course_name = $request->course_name;
+            $grade->save();
+            
+            return redirect('/registrar_college/view_transcript/'.$grade->idno);
+        }
+    }
+    
+    function edit_college_grades($id){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $grade = \App\GradeCollege::where('id',$id)->first();
+            
+            return view('reg_college.view_record.edit_college_grades', compact('grade', 'id'));
+        }
+    }
+    
+    function edit_now_college_grades(Request $request){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $grade = \App\GradeCollege::where('id',$request->id)->first();
+            $grade->school_year = $request->school_year;
+            $grade->period = $request->period;
+            $grade->course_code = $request->course_code;
+            $grade->course_name = $request->course_name;
+            $grade->save();
+            
+            return redirect('/registrar_college/view_transcript/'.$grade->idno);
+        }
+    }
 }

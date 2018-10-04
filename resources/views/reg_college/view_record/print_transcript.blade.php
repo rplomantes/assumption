@@ -13,49 +13,54 @@ $count = 0;
         font-size: 8pt;
     }
 </style>  
-<style>
-@page {
-                margin: 0cm 0cm;
-            }
+<style type="text/css">
+    @page {
+        margin: 0cm 0cm;
+    }
+    body {
+        margin-top: 4.5cm;
+        margin-left: 1cm;
+        margin-right: 1cm;
+        margin-bottom: 6.4cm;
+    }
+    footer {
+        position: fixed; 
+        bottom: 6.3cm; 
+        left: 0px; 
+        right: 0px;
+        height: 0px; 
+        margin: 0cm 1cm cm 1cm;
+    }
+    header{
+        position: fixed; 
+        top: 4cm; 
+        left: 0px; 
+        right: 0px;
+        height: 0px; 
+        margin: 0cm 1cm cm 1cm;
+    }
 
-            /** Define now the real margins of every page in the PDF **/
-            body {
-                margin-top: 4cm;
-                margin-left: 1cm;
-                margin-right: 1cm;
-                margin-bottom: 6.4cm;
-            }
-            footer {
-                position: fixed; 
-                bottom: 6.3cm; 
-                left: 0px; 
-                right: 0px;
-                height: 0px; 
-                
-                margin: 0cm 1cm cm 1cm;
-
-            }
-            img {
+    img {
         display: block;
         max-width:3.5cm;
         max-height:3.5cm;
         width: auto;
         height: auto;
     }
-        </style>
+</style>
 <body>
         <footer>
             <table width='100%'>
                 <tr>
                     <td valign='top' width='30%'><i>PREPARED BY</i></td>
                     <td valign='top' width='30%'><i>VERIFIED BY</i></td>
-                    <td valign='top' width='40%' rowspan="2" colspan="2">
+                    <td style="text-align:justify" valign='top' width='40%' rowspan="2" colspan="2">
                         <b>I HEREBY CERTIFY THAT THE FOREGOING RECORDS HAVE BEEN DULY VERIFIED BY ME AND THAT THE TRUE COPIES OF THE OFFICIAL RECORDS SUBSTANTIATING THE SAME ARE KEPT IN THE FILES OF THE COLLEGE.</b>
                     </td>
                 </tr>
                 <tr>
-                    <td valign='bottom'>{{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->lastname)}}</td>
-                    <td valign='bottom'>MA. IMELDA T. VILLABONA</td>
+                    <td valign='middle'>{{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->lastname)}}</td>
+                    <td valign='middle'>MA. IMELDA T. VILLABONA</td>
                 </tr>
                 <tr>
                     <td  valign='top' colspan='2' rowspan="2">
@@ -68,6 +73,9 @@ $count = 0;
                 </tr>
             </table>
         </footer>
+<!--        <header>
+            STUDENT NAME: {{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}
+        </header>-->
 <!--    
     <div style='float: left; margin-left:630px; margin-top:-110px;'></div>-->
     
@@ -146,6 +154,7 @@ $count = 0;
     </table>
     <hr>
     <table width='100%' cellpadding="2" style=" border-collapse: collapse">
+        <thead>
         <tr>
             <th width='12%' align='center' style="border:2px solid black;"><b>COURSE CODE</b></th>
             <th width='60%' align='center' style="border:2px solid black;"><b>DESCRIPTIVE TITLE</b></th>
@@ -153,6 +162,7 @@ $count = 0;
             <th width='10%' align='center' style="border:2px solid black;"><b>COMPLETION</b></th>
             <th width='10%' align='center' style="border:2px solid black;"><b>CREDITS</b></th>
         </tr>
+        </thead>
         
         
         

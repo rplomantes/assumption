@@ -108,6 +108,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
+                        <th width="1%">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,6 +166,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($pin_grades->completion == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
                         </td>
+                        <td><a target='_blank' href="{{url('registrar_college', array('edit','college_grades', $pin_grades->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -184,6 +186,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
+                        <th width="1%">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -243,6 +246,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             </select>
                             @endif
                         </td>
+                        <td><a target='_blank' href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -265,6 +269,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
+                        <th width="1%">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -324,6 +329,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             </select>
                             @endif
                         </td>
+                        <td><a target='_blank' href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>

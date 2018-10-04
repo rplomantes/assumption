@@ -65,7 +65,7 @@
                                         <div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333 !important;'>
                                             <span style="color: #333">
                                                 Thank you for pre-registering in Assumption College<br><br>
-                                                This email is to notify you that your payment for application & testing fee has been received. This will served as your acknowledgment receipt.<br><br>
+                                                This email is to notify you that your payment for application and testing fee has been received. This will served as your acknowledgment receipt.<br><br>
                                                 <?php $payment_details = \App\Payment::where('reference_id', $reference_id)->first(); ?>
                                                 <table border="1">
                                                     <tr>

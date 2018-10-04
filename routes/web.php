@@ -38,6 +38,10 @@ Route::post('registrar_college/save_info/{idno}','RegistrarCollege\ViewInfo\View
 Route::get('registrar_college/student_record/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@view_record');
 Route::get('registrar_college/view_transcript/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@view_transcript');
 Route::get('registrar_college/print_curriculum_record/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@print_curriculum_record');
+Route::get('registrar_college/edit/college_grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@edit_college_grades2018');
+Route::post('registrar_college/edit_now/college_grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_college_grades2018');
+Route::get('registrar_college/edit/grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@edit_college_grades');
+Route::post('registrar_college/edit_now/grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_college_grades');
 
 //Registrar College Advising
 //Set Up

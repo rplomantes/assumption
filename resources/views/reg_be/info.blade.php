@@ -549,7 +549,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @endif
                         </div>
                     <hr>
-                    <label>Is your mother and Alumna of Assumption College? If yes, year graduated:</label>
+                    <label>Is your mother an Alumna of Assumption College? If yes, year graduated:</label>
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>Grade School</label>

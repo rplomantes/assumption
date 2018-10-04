@@ -145,12 +145,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach($pinnacle_grades as $pin_grades)
+                    @if (stripos($pin_grades->course_code, "+") !== FALSE)
+
+                    @else
                     <tr>
                         <td>{{$pin_grades->course_code}}</td>
                         <td>{{$pin_grades->course_name}}</td>
                         <td>{{$pin_grades->finals}}</td>
                         <td>{{$pin_grades->completion}}</td>
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>
@@ -173,12 +177,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach ($grades as $grade)
+                    @if (stripos($grade->course_code, "+") !== FALSE)
+
+                    @else
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
                         <td>@if($grade->finals_status == 3){{$grade->finals}}@endif</td>
                         <td>@if($grade->finals_status == 3){{$grade->completion}}@endif</td>
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>
@@ -204,12 +212,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach ($grades as $grade)
+                    @if (stripos($grade->course_code, "+") !== FALSE)
+
+                    @else
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
                         <td>@if($grade->finals_status == 3){{$grade->finals}}@endif</td>
                         <td>@if($grade->finals_status == 3){{$grade->completion}}@endif</td>
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>

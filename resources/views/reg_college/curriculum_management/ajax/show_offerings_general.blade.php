@@ -8,6 +8,7 @@
                     <th>Section</th>                    
                     <th>Course Name</th>
                     <th>Unit</th>
+                    <th>Students Enrolled</th>
                     <th>Schedule</th>
                     <th>Room</th>
                     <th>Instructor</th>
@@ -30,7 +31,11 @@
                     </td>
                     <td>
                         {{$units = $course->lab + $course->lec}}
-                    </td>                    
+                    </td>
+                    <td>
+                        <?php $no = \App\CourseOffering::where('schedule_id', $course->schedule_id)->leftJoin('grade_colleges', 'grade_colleges.course_offering_id','=','course_offerings.id')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->where('statuses.school_year', $school_year)->where('statuses.period',$period)->get(['grade_colleges.id']); ?>
+                        {{count($no)}}
+                    </td>
                         <?php $totalunits = $totalunits + $units?>
                     <td>
                         <?php

@@ -120,19 +120,19 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 <?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->where('finals_status', 3)->orderBy('created_at', 'asc')->first(); ?>
                     <?php
                     $style="";
-                    if(count($old_grades)>0){
-                        if($old_grades->finals=="Failed" ||$old_grades->finals=="4.00"){
-                            $style="style='color:red; font-weight:bold'";
-                        }else if($old_grades->finals=="FA"){
-                            $style="style='color:orange; font-weight:bold'";
-                        }
-                    }else{
-                        if(count($grades)>0){
+                    if(count($grades)>0){
                             if($grades->finals=="Failed" || $grades->finals=="4.00"){
                                 $style="style='color:red; font-weight:bold'";
                             }else if ($grades->finals == "FA"){
                                 $style="style='color:orange; font-weight:bold'";
                             }
+                    }else{
+                        if(count($old_grades)>0){
+                        if($old_grades->finals=="Failed" ||$old_grades->finals=="4.00"){
+                            $style="style='color:red; font-weight:bold'";
+                        }else if($old_grades->finals=="FA"){
+                            $style="style='color:orange; font-weight:bold'";
+                        }
                         }else{
                             $style="style='color:green; font-weight:bold'";
                         }
@@ -145,21 +145,22 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <td {!!$style!!}>{{$curriculum->course_name}}</td>
                         <td {!!$style!!}>{{$curriculum->lec}}</td>
                         <td {!!$style!!}>{{$curriculum->lab}}</td>
-                        <td {!!$style!!}>@if(count($old_grades)>0)
-                                {{$old_grades->finals}}
-                            @else
-                                @if(count($grades)>0)
+                        <td {!!$style!!}>
+                            @if(count($grades)>0)
                                 {{$grades->finals}}
+                            @else
+                                @if(count($old_grades)>0)
+                                {{$old_grades->finals}}
                                 @else
                                 Not Yet Taken
                                 @endif
                             @endif
                         </td>
-                        <td {!!$style!!}>@if(count($old_grades)>0)
-                                {{$old_grades->completion}}
-                            @else
-                                @if(count($grades)>0)
+                        <td {!!$style!!}>@if(count($grades)>0)
                                 {{$grades->completion}}
+                            @else
+                                @if(count($old_grades)>0)
+                                {{$old_grades->completion}}
                                 @else
                                 @endif
                             @endif
