@@ -17,6 +17,7 @@ class CreateBedProfilesTable extends Migration
             $table->increments('id');
             $table->string('idno');
             $table->date('date_of_birth')->nullable();
+            $table->string('applied_for')->nullable();
             $table->string('place_of_birth')->nullable();
             $table->string('street')->nullable();
             $table->string('barangay')->nullable();

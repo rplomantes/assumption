@@ -65,7 +65,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                  <label>Admission Status: </label><button class="form form-control btn btn-success" style="color: white">FOR APPROVAL</button>
              </div>
           </div>
-        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->get(); ?>
+        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $testing = \App\TestingStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-right">
              <div class="form form-group">
@@ -153,11 +153,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab_1" data-toggle="tab">Personal Information</a></li>
-                <li><a href="#tab_2" data-toggle="tab">Family Background</a></li>
-                <li><a href="#tab_3" data-toggle="tab">Academic Background</a></li>
-                <li><a href="#tab_4" data-toggle="tab">Medical History / Physical Fitness</a></li>
-                <li><a href="#tab_5" data-toggle="tab">Other Requirements</a></li>
+                <li class="active"><a href="#tab_1" data-toggle="tab"><strong>PERSONAL INFORMATION</strong></a></li>
+                <li><a href="#tab_2" data-toggle="tab"><strong>FAMILY BACKGROUND</strong></a></li>
+                <li><a href="#tab_3" data-toggle="tab"><strong>ACADEMIC BACKGROUND</strong></a></li>
+                <li><a href="#tab_4" data-toggle="tab"><strong>MEDICAL HISTORY/PHYSICAL FITNESS</strong></a></li>
+                <li><a href="#tab_5" data-toggle="tab"><strong>OTHER REQUIREMENTS</strong></a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -199,7 +199,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <hr>
                     <div class="form-group">
                         <div class="col-sm-3">
-                            <label>Birthday</label>
+                            <label>Date of Birth</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-birthday-cake"></i>
@@ -208,13 +208,12 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <label>Birth Place</label>
+                            <label>Place of Birth</label>
                             <input class="form form-control" name='place_of_birth' value="{{old('place_of_birth',$info->place_of_birth)}}" placeholder='Place of Birth' type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Gender</label>
                             <select class="form form-control" name='gender' type="text">
-                                <option value=''>Select Gender*</option>
                                 <option value='Female' @if ($info->gender == 'Female') selected='' @endif>Female</option>
                             </select>
                         </div>
@@ -229,10 +228,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='religion' placeholder='Religion' value="{{old('religion',$info->religion)}}" type="text">
                         </div>
                         <div class="col-sm-4">
-                            <label>Local/Foreigner</label>
+                            <label>Citizenship</label>
                             <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
                                 <option value="">Select Local/Foreign</option>
-                                <option value="0" @if ($user->is_foreign == 0) selected='' @endif>Local</option>
+                                <option value="0" @if ($user->is_foreign == 0) selected='' @endif>Filipino</option>
                                 <option value="1" @if ($user->is_foreign == 1) selected='' @endif >Foreign</option>
                             </select>
                         </div>
@@ -241,7 +240,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <label>For Non-Filipinos and Filipinos Born Abroad</label>
                     <div class="form-group">
                         <div class="col-sm-8">
-                            <label>Immig. Status/Visa Classification</label>
+                            <label>Immigration Status/Visa Classification</label>
                             <input class="form form-control" name='immig_status' value="{{old('immig_status',$info->immig_status)}}" type="text">
                         </div>
                         <div class="col-sm-4">
@@ -251,7 +250,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
-                            <label>Passport No.</label>
+                            <label>Passport Number</label>
                             <input class="form form-control" name='passport' value="{{old('passport',$info->passport)}}" type="text">
                         </div>
                         <div class="col-sm-4">
@@ -265,7 +264,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
-                            <label>ACR No.</label>
+                            <label>ACR I-Card No.</label>
                             <input class="form form-control" name='acr_no' value="{{old('acr_no',$info->acr_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
@@ -279,7 +278,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_2">
-                    <label>Father</label>
+<!--                    <label>Father</label>-->
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Father's Name</label>
@@ -313,7 +312,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                     <div class='form-group'>
                         <div class="col-sm-3">
-                            <label>Occupation</label>
+                            <label>Occupation/Profession</label>
                             <input class="form form-control" name='f_occupation' value="{{old('f_occupation',$info->f_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-3">
@@ -325,31 +324,31 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='f_company_address' value="{{old('f_company_address',$info->f_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
-                            <label>Phone Number</label>
+                            <label>Office Telephone Number</label>
                             <input class="form form-control" name='f_company_number' value="{{old('f_company_number',$info->f_phone)}}" type="text">
                         </div>
                     </div>
                     <div class='form-group'>
                         <div class="col-sm-3">
-                            <label>Telephone Number</label>
+                            <label>Home Telephone Number</label>
                             <input class="form form-control" name='f_phone' value="{{old('f_phone',$info->f_phone)}}" type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Cellphone Number</label>
                             <input class="form form-control" name='f_cell_no' value="{{old('f_cell_no',$info->f_cell_no)}}" type="text">
                         </div>
-                        <div class="col-sm-3">
+<!--                        <div class="col-sm-3">
                             <label>Address</label>
                             <input class="form form-control" name='f_address' value="{{old('f_address',$info->f_address)}}" type="text">
-                        </div>
+                        </div>-->
                         <div class="col-sm-3">
-                            <label>Email</label>
+                            <label>Email Address</label>
                             <input class="form form-control" name='f_email' value="{{old('f_email',$info->f_email)}}" type="email">
                         </div>
                     </div>
                     <div class='form-group'>
                         <div class="col-sm-3">
-                            <label>Member in Any Organization</label>
+                            <label>Membership in Any Organization</label>
                             <div class='radio'>
                                 <label><input name='f_any_org' @if($info->f_any_org==1)checked @endif value="1" type="radio">Yes</label>
                                 <label><input name='f_any_org' @if($info->f_any_org==0)checked @endif value="0" type="radio">No</label>
@@ -360,12 +359,12 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='f_type_of_org' value="{{old('f_type_of_org',$info->f_type_of_org)}}" type="text">
                         </div>
                         <div class="col-sm-6">
-                            <label>Area of expertise you can share with us</label>
+                            <label>Area of expertise you can share with the school</label>
                             <input class="form form-control" name='f_expertise' value="{{old('f_expertise',$info->f_expertise)}}" type="text">
                         </div>
                     </div>
                     <hr>
-                    <label>Mother</label>
+<!--                    <label>Mother</label>-->
                     <div class="form-group">
                         <div class="col-sm-8">
                             <label>Mother's Name</label>
@@ -399,7 +398,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                     <div class='form-group'>
                         <div class="col-sm-3">
-                            <label>Occupation</label>
+                            <label>Occupation/Profession</label>
                             <input class="form form-control" name='m_occupation' value="{{old('m_occupation',$info->m_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-3">
@@ -411,31 +410,31 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='m_company_address' value="{{old('m_company_address',$info->m_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
-                            <label>Phone Number</label>
+                            <label>Office Telephone Number</label>
                             <input class="form form-control" name='m_company_number' value="{{old('m_company_number',$info->m_phone)}}" type="text">
                         </div>
                     </div>
                     <div class='form-group'>
                         <div class="col-sm-3">
-                            <label>Telephone Number</label>
+                            <label>Home Telephone Number</label>
                             <input class="form form-control" name='m_phone' value="{{old('m_phone',$info->m_phone)}}" type="text">
                         </div>
                         <div class="col-sm-3">
                             <label>Cellphone Number</label>
                             <input class="form form-control" name='m_cell_no' value="{{old('m_cell_no',$info->m_cell_no)}}" type="text">
                         </div>
-                        <div class="col-sm-3">
+<!--                        <div class="col-sm-3">
                             <label>Address</label>
                             <input class="form form-control" name='m_address' value="{{old('m_address',$info->m_address)}}" type="text">
-                        </div>
+                        </div>-->
                         <div class="col-sm-3">
-                            <label>Email</label>
+                            <label>Email Address</label>
                             <input class="form form-control" name='m_email' value="{{old('m_email',$info->m_email)}}" type="email">
                         </div>
                     </div>
                     <div class='form-group'>
                         <div class="col-sm-3">
-                            <label>Member in Any Organization</label>
+                            <label>Membership in Any Organization</label>
                             <div class='radio'>
                                 <label><input name='m_any_org' @if($info->m_any_org==1)checked @endif value="1" type="radio">Yes</label>
                                 <label><input name='m_any_org' @if($info->m_any_org==0)checked @endif value="0" type="radio">No</label>
@@ -446,7 +445,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='m_type_of_org' value="{{old('m_type_of_org',$info->m_type_of_org)}}" type="text">
                         </div>
                         <div class="col-sm-6">
-                            <label>Area of expertise you can share with us</label>
+                            <label>Area of expertise you can share with the school</label>
                             <input class="form form-control" name='m_expertise' value="{{old('m_expertise',$info->m_expertise)}}" type="text">
                         </div>
                     </div>
@@ -579,7 +578,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='m_alumna_college_year' value="{{old('m_alumna_college_year',$info->m_alumna_college_year)}}" type="text">
                         </div>
                     </div>
-                    <label>Aside from mother, are there other members of your family who are almunae of Assumption? If yes, please fill out the spaces below</label>
+                    <label>Aside from mother, are there other members of your family who are alumnae of Assumption? If yes, please fill out the spaces below</label>
                     <?php $j=0; ?>
                         <div  id="dynamic_field_alumni">
                             <!--div class="top-row"-->
@@ -613,7 +612,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 </div>
                             </div>
                                 
-                                <?php $i = $i+1; ?>
+                                <?php $j = $j+1; ?>
                                 @endforeach
                                 @else
                             <div class="form form-group">
@@ -634,10 +633,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <label>Present School</label>
+<!--                    <label>Present School N</label>-->
                     <div class='form-group'>
                         <div class="col-sm-7">
-                            <label>School</label>
+                            <label>Present School Name</label>
                             <input class="form form-control" name='present_school' value="{{old('present_school',$info->present_school)}}" type="text">
                         </div>
                         <div class="col-sm-5">
@@ -660,10 +659,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                     </div>
                     <hr>
-                    <label>Primary School</label>
+<!--                    <label>Primary School</label>-->
                     <div class='form-group'>
                         <div class="col-sm-7">
-                            <label>School</label>
+                            <label>Preschool</label>
                             <input class="form form-control" name='primary' value="{{old('primary',$info->primary)}}" type="text">
                         </div>
                         <div class="col-sm-3">
@@ -675,10 +674,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='primary_year' value="{{old('primary_year',$info->primary_year)}}" type="text">
                         </div>
                     </div>
-                    <label>Grade School</label>
+<!--                    <label>Grade School</label>-->
                     <div class='form-group'>
                         <div class="col-sm-7">
-                            <label>School</label>
+                            <label>Elementary</label>
                             <input class="form form-control" name='gradeschool' value="{{old('gradeschool',$info->gradeschool)}}" type="text">
                         </div>
                         <div class="col-sm-3">
@@ -690,10 +689,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='gradeschool_year' value="{{old('gradeschool_year',$info->gradeschool_year)}}" type="text">
                         </div>
                     </div>
-                    <label>High School</label>
+<!--                    <label>High School</label>-->
                     <div class='form-group'>
                         <div class="col-sm-7">
-                            <label>School</label>
+                            <label>High School</label>
                             <input class="form form-control" name='highschool' value="{{old('highschool',$info->highschool)}}" type="text">
                         </div>
                         <div class="col-sm-3">
@@ -721,7 +720,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Achievement Awards</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Name of Event</label>
@@ -759,7 +758,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                         <input class="form form-control achievement" type="text" name="achievement[]" id='achievement1'/>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                     <input class="form form-control achievement_level" type="text" name="achievement_level[]" id='achievement_level1'/>
                                 </div>
                                 <div class="col-md-3">
@@ -776,7 +775,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     
                     <hr>
                     
-                    <label>Did the applicant fail in any subject/s in school?</label>
+                    <label>Did the applicant fail in any subject/s in school? If <u>yes</u>, specify the grade level:</label>
                     <?php $b=0; ?>
                         <div  id="dynamic_field_fail">
                             <!--div class="top-row"-->
@@ -787,7 +786,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Subject</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                 </div>
                                 <div class="col-md-1">
                                     <label class='col-sm-12'>&nbsp;</label>
@@ -819,7 +818,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                         <input class="form form-control fail" type="text" name="fail[]" id='fail1'/>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                     <input class="form form-control fail_level" type="text" name="fail_level[]" id='fail_level1'/>
                                 </div>
                                 <div class="col-md-1">
@@ -832,7 +831,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     
                     <hr>
                     
-                    <label>Did the applicant repeat grade/level?</label>
+                    <label>Did the applicant repeat grade/level? If <u>yes</u>, please provide details below:</label>
                     <?php $c=0; ?>
                         <div  id="dynamic_field_repeat">
                             <!--div class="top-row"-->
@@ -840,7 +839,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @if(count($repeats)>0)
                             <div class="form form-group">
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                 </div>
                                 <div class="col-md-1">
                                     <label class='col-sm-12'>&nbsp;</label>
@@ -865,7 +864,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @else
                             <div class="form form-group">
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                     <input class="form form-control repeat_level" type="text" name="repeat_level[]" id='repeat_level1'/>
                                 </div>
                                 <div class="col-md-1">
@@ -878,7 +877,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     
                         <hr>
                         
-                        <label>Was the applicant ever placed on probation, suspended, dismissed by any school?</label>
+                        <label>Was the applicant ever placed on probation, suspended, dismissed by any school? If <u>yes</u>, specify offense/s, dates and penalties:</label>
                         <?php $d=0; ?>
                         <div  id="dynamic_field_probation">
                             <!--div class="top-row"-->
@@ -944,7 +943,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     
                     <hr>
                     
-                    <label>List applicant's extra-curricular activites, including club/organization and specify grade/level(e.g. class president, glee club, etc.)</label>
+                    <label>List applicant's extra-curricular activites, including club/organization and specify grade level(e.g. class president, glee club, etc.)</label>
                     <?php $e=0; ?>
                         <div  id="dynamic_field_club">
                             <!--div class="top-row"-->
@@ -955,7 +954,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Club/Organization</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                 </div>
                                 <div class="col-md-1">
                                     <label class='col-sm-12'>&nbsp;</label>
@@ -987,7 +986,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control club" type="text" name="club[]" id='club1'/>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade/Level</label>
+                                    <label>Grade Level</label>
                                     <input class="form form-control club_level" type="text" name="club_level[]" id='club_level1'/>
                                 </div>
                                 <div class="col-md-1">
@@ -1061,7 +1060,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </div>
                 <div class="tab-pane" id="tab_4">
                     
-                    <label>Has the applicant undergone any form of therapy?</label>
+                    <label>Has the applicant undergone any form of therapy? If <u>yes</u>, provide details below and specify the kind of therapy received:</label>
                     <?php $g=0; ?>
                         <div  id="dynamic_field_therapy">
                             <!--div class="top-row"-->
@@ -1163,65 +1162,64 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     
                 </div>
                 <div class="tab-pane" id="tab_5">
-                    <?php $ctrrequirements = \App\CtrBedRequirement::where('level', $status->level)->first(); ?>
+                    <?php $ctrrequirements = \App\CtrBedRequirement::where('level', $info->applied_for)->first(); ?>
                     <?php $bedrequirements = \App\BedRequirement::where('idno', $user->idno)->first(); ?>
                     <div class="form-group">
-                        @if($ctrrequirements->psa == 1)
+                        @if($ctrrequirements->psa >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='psa' @if($bedrequirements->psa == 1)checked=''@endif><label>&nbsp;Original copy and two (2) clear photocopies of Philippine Statistics Authority (PSA) Birth Certificate</label>
+                            <input type='checkbox'  name='psa' @if($bedrequirements->psa == 1)checked=''@endif><label>&nbsp;Original copy and two (2) clear photocopies of Philippine Statistics Authority (PSA) Birth Certificate</label>
                         </div>
                         @endif
-                        @if($ctrrequirements->recommendation_form == 1)
+                        @if($ctrrequirements->recommendation_form >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='recommedation_form' @if($bedrequirements->recommedation_form == 1)checked=''@endif><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
+                            <input type='checkbox'  name='recommedation_form' @if($bedrequirements->recommedation_form == 1)checked=''@endif><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
                         </div>
                         @endif
-                        @if($ctrrequirements->baptismal_certificate == 1)
+                        @if($ctrrequirements->baptismal_certificate >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='baptismal_certificate' @if($bedrequirements->baptismal_certificate == 1)checked=''@endif><label>&nbsp;One (1) clear photocopy of Baptismal Certificate</label>
+                            <input type='checkbox'  name='baptismal_certificate' @if($bedrequirements->baptismal_certificate == 1)checked=''@endif><label>&nbsp;One (1) clear photocopy of Baptismal Certificate</label>
                         </div>
                         @endif
-                        @if($ctrrequirements->passport_size_photo == 1)
+                        @if($ctrrequirements->passport_size_photo >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='passport_size_photo' @if($bedrequirements->passport_size_photo == 1)checked=''@endif><label>&nbsp;Four (4) passport size recent colored photos (computer printed & cut-outs are not accepted)</label>
+                            <input type='checkbox'  name='passport_size_photo' @if($bedrequirements->passport_size_photo == 1)checked=''@endif><label>&nbsp;Four (4) passport size recent colored photos (computer printed & cut-outs are not accepted)</label>
                         </div>
                         @endif
-<!--                        @if($ctrrequirements->progress_report_card == 1)
+<!--                        @if($ctrrequirements->progress_report_card >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='progress_report_card' @if($bedrequirements->progress_report_card == 1)checked=''@endif><label>&nbsp;Progress Report Cards</label>
+                            <input type='checkbox'  name='progress_report_card' @if($bedrequirements->progress_report_card == 1)checked=''@endif><label>&nbsp;Progress Report Cards</label>
                         </div>
                         @endif-->
-                        @if($ctrrequirements->currentprevious_report_card == 1)
+                        @if($ctrrequirements->currentprevious_report_card >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='currentprevious_report_card' @if($bedrequirements->currentprevious_report_card == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of PREVIOUS and CURRENT report cards</label>
+                            <input type='checkbox'  name='currentprevious_report_card' @if($bedrequirements->currentprevious_report_card == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of PREVIOUS and CURRENT report cards</label>
                         </div>
                         @endif
-                        @if($ctrrequirements->narrative_assessment_report == 1)
+                        @if($ctrrequirements->narrative_assessment_report >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox' name='narrative_assessment_report' @if($bedrequirements->narrative_assessment_report == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of either Certificate of Attendance or Narrative Assessment Report.</label>
+                            <input type='checkbox'  name='narrative_assessment_report' @if($bedrequirements->narrative_assessment_report == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of either Certificate of Attendance or Narrative Assessment Report.</label>
                         </div>
                         @endif
                         <div class="col-sm-12"><hr><strong>For Foreign Students</strong><br>
-                            <input type='checkbox' name='acr' @if($bedrequirements->acr == 1)checked=''@endif><label>&nbsp;Alien Certificate of Registration (ACR)</label>
+                            <input type='checkbox'  name='acr' @if($bedrequirements->acr == 1)checked=''@endif><label>&nbsp;Alien Certificate of Registration (ACR)</label>
                         </div>
                         <div class="col-sm-12">
-                            <input type='checkbox' name='photocopy_passport' @if($bedrequirements->passport == 1)checked=''@endif><label>&nbsp;Photocopy of Passport</label>
+                            <input type='checkbox'  name='photocopy_passport' @if($bedrequirements->passport == 1)checked=''@endif><label>&nbsp;Photocopy of Passport</label>
                         </div>
                         <div class="col-sm-12">
-                            <input type='checkbox' name='visa_parent' @if($bedrequirements->visa_parent == 1)checked=''@endif><label>&nbsp;Visa/ Working Permit of Parents</label>
+                            <input type='checkbox'  name='visa_parent' @if($bedrequirements->visa_parent == 1)checked=''@endif><label>&nbsp;Visa/ Working Permit of Parents</label>
                         </div>
                         <div class="col-sm-12">
-                            <input type='checkbox' name='photocopy_of_dual' @if($bedrequirements->photocopy_of_dual == 1)checked=''@endif><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
+                            <input type='checkbox'  name='photocopy_of_dual' @if($bedrequirements->photocopy_of_dual == 1)checked=''@endif><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         @if($status->status == env("FOR_APPROVAL"))
-        <div class="col-sm-3">
-        <input type="submit" value='Save' class='form-control btn btn-primary'></div>
-        <div class="col-sm-3"><a href="{{url('admissionbed', array('disapprove_application', $user->idno))}}"><button type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
-        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+        <div class="col-sm-3"><a href="{{url('admissionbed', array('update_information', $user->idno))}}"><button class='btn btn-primary col-sm-12'>Save Information</button></a></div>
+        <div class="col-sm-3"><a href="{{url('admissionbed', array('disapprove_application', $user->idno))}}"><button class='btn btn-danger col-sm-12'>Disapprove Application</button></a></div>
+        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button class='btn btn-success col-sm-12'>Approve Application</button></a></div>
         @endif
     </div>
     </form>

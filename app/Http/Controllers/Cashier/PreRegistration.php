@@ -209,6 +209,7 @@ class PreRegistration extends Controller {
     function addBedProfile($request,$reference_id, $applicant_details, $academic_type){
         $addprofile = new \App\BedProfile;
         $addprofile->idno = $applicant_details->idno;
+        $addprofile->applied_for = $applicant_details->level;
         $addprofile->date_of_birth = $applicant_details->date_of_birth;
         $addprofile->street = $applicant_details->street;
         $addprofile->barangay = $applicant_details->barangay;
