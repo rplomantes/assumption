@@ -153,7 +153,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab_1" data-toggle="tab"><strong>PERSONAL INFORMATION</strong></a></li>
+                <li class="active nav"><a href="#tab_1" data-toggle="tab"><strong>PERSONAL INFORMATION</strong></a></li>
                 <li><a href="#tab_2" data-toggle="tab"><strong>FAMILY BACKGROUND</strong></a></li>
                 <li><a href="#tab_3" data-toggle="tab"><strong>ACADEMIC BACKGROUND</strong></a></li>
                 <li><a href="#tab_4" data-toggle="tab"><strong>MEDICAL HISTORY/PHYSICAL FITNESS</strong></a></li>
@@ -324,7 +324,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='f_company_address' value="{{old('f_company_address',$info->f_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
-                            <label>Office Telephone Number</label>
+                            <label>Office Tel. No.</label>
                             <input class="form form-control" name='f_company_number' value="{{old('f_company_number',$info->f_phone)}}" type="text">
                         </div>
                     </div>
@@ -356,7 +356,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Type of Organization</label>
-                            <input class="form form-control" name='f_type_of_org' value="{{old('f_type_of_org',$info->f_type_of_org)}}" type="text">
+                            <select class="form form-control" name='f_type_of_org' value="{{old('f_type_of_org',$info->f_type_of_org)}}" type="text">
+                                <option value="" @if($info->f_type_of_org != "Religious" or $info->f_type_of_org != "Civic") selected="" @endif>Select Type of Organization</option>
+                                <option @if($info->f_type_of_org == "Religious") selected="" @endif>Religious</option>
+                                <option @if($info->f_type_of_org == "Civic") selected="" @endif>Civic</option>
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <label>Area of expertise you can share with the school</label>
@@ -410,7 +414,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='m_company_address' value="{{old('m_company_address',$info->m_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
-                            <label>Office Telephone Number</label>
+                            <label>Office Tel. No.</label>
                             <input class="form form-control" name='m_company_number' value="{{old('m_company_number',$info->m_phone)}}" type="text">
                         </div>
                     </div>
@@ -442,7 +446,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Type of Organization</label>
-                            <input class="form form-control" name='m_type_of_org' value="{{old('m_type_of_org',$info->m_type_of_org)}}" type="text">
+                            <select class="form form-control" name='m_type_of_org' value="{{old('m_type_of_org',$info->m_type_of_org)}}" type="text">
+                                <option value="" @if($info->m_type_of_org != "Religious" or $info->f_type_of_org != "Civic") selected="" @endif>Select Type of Organization</option>
+                                <option @if($info->m_type_of_org == "Religious") selected="" @endif>Religious</option>
+                                <option @if($info->m_type_of_org == "Civic") selected="" @endif>Civic</option>
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <label>Area of expertise you can share with the school</label>
@@ -509,7 +517,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>School/Work</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($siblings as $sibling)
@@ -556,7 +564,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control sibling_school" type="text" name="sibling_school[]" id='sibling_school1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="sibling" id="add_sibling" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -592,7 +600,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Relationship</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($alumnis as $alumni)
@@ -625,7 +633,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control alumni_relationship" type="text" name="alumni_relationship[]" id='alumni_relationship1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="alumni" id="add_alumni" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -720,13 +728,13 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Achievement Awards</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Name of Event</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($awards as $award)
@@ -758,7 +766,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                         <input class="form form-control achievement" type="text" name="achievement[]" id='achievement1'/>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                     <input class="form form-control achievement_level" type="text" name="achievement_level[]" id='achievement_level1'/>
                                 </div>
                                 <div class="col-md-3">
@@ -766,7 +774,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control number achievement_event" type="text"  name="achievement_event[]" id="achievement_event1"/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_achievement" id="add_achievement" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -786,10 +794,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Subject</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($fails as $fail)
@@ -818,11 +826,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                         <input class="form form-control fail" type="text" name="fail[]" id='fail1'/>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                     <input class="form form-control fail_level" type="text" name="fail_level[]" id='fail_level1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_fail" id="add_fail" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -839,10 +847,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @if(count($repeats)>0)
                             <div class="form form-group">
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($repeats as $repeat)
@@ -864,11 +872,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @else
                             <div class="form form-group">
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                     <input class="form form-control repeat_level" type="text" name="repeat_level[]" id='repeat_level1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_repeat" id="add_repeat" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -894,7 +902,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Penalty</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($probations as $probation)
@@ -934,7 +942,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control number probation_penalty" type="text"  name="probation_penalty[]" id="probation_penalty1"/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_probation" id="add_probation" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -957,7 +965,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Grade Level</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($clubs as $club)
@@ -986,11 +994,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control club" type="text" name="club[]" id='club1'/>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Grade Level</label>
+                                    <label>Grade/Level</label>
                                     <input class="form form-control club_level" type="text" name="club_level[]" id='club_level1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_club" id="add_club" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -1013,7 +1021,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Year</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($involvements as $involvement)
@@ -1046,7 +1054,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control involvement_year" type="text" name="involvement_year[]" id='involvement_year1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_involvement" id="add_involvement" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -1074,7 +1082,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>Period of Treatment</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($therapys as $therapy)
@@ -1107,7 +1115,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control therapy_period" type="text" name="therapy_period[]" id='therapy_period1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_therapy" id="add_therapy" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -1127,7 +1135,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <label>&nbsp;</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                 </div>
                             </div>
                                 @foreach($limitations as $limitation)
@@ -1153,7 +1161,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                     <input class="form form-control limitation" type="text" name="limitation[]" id='limitation1'/>
                                 </div>
                                 <div class="col-md-1">
-                                    <label class='col-sm-12'>&nbsp;</label>
+                                    <label>Add</label>
                                     <button type="button" name="add_limitation" id="add_limitation" class="btn btn-success"> + </button>
                                 </div>
                             </div>
@@ -1217,9 +1225,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             </div>
         </div>
         @if($status->status == env("FOR_APPROVAL"))
-        <div class="col-sm-3"><a href="{{url('admissionbed', array('update_information', $user->idno))}}"><button class='btn btn-primary col-sm-12'>Save Information</button></a></div>
-        <div class="col-sm-3"><a href="{{url('admissionbed', array('disapprove_application', $user->idno))}}"><button class='btn btn-danger col-sm-12'>Disapprove Application</button></a></div>
-        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+        <div class="col-sm-3"><a href="{{url('admissionbed', array('update_information', $user->idno))}}"><button type="button" class='btn btn-primary col-sm-12'>Save Information</button></a></div>
+        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button type="button"  class='btn btn-danger col-sm-12'>Disapprove Application</button></a></div>
+        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button type="button"  class='btn btn-success col-sm-12'>Approve Application</button></a></div>
         @endif
     </div>
     </form>

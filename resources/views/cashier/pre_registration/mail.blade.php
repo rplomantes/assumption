@@ -64,8 +64,11 @@
                                     <td align='left' style='padding: 0 56px 28px 56px;' valign='top'>
                                         <div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333 !important;'>
                                             <span style="color: #333">
-                                                Thank you for pre-registering in Assumption College<br><br>
-                                                This email is to notify you that your payment for application and testing fee has been received. This will served as your acknowledgment receipt.<br><br>
+
+                                            Greetings of Peace!<br><br>
+                                            
+                                            We have received your payment for your daughter's application & test fee. This serves as your acknowledgment receipt.<br><br>
+                                            
                                                 <?php $payment_details = \App\Payment::where('reference_id', $reference_id)->first(); ?>
                                                 <table border="1">
                                                     <tr>
@@ -90,16 +93,19 @@
                                                     </tr>
                                                 </table><br><br>
                                                 
-                                                    You can now access your Student Portal Account in <a href='portal.assumption.edu.ph'><i>portal.assumption.edu.ph</i></a> to complete your application. Your credential is:<br><br>
+                                                To complete your daughter's application, you may now use the username and password assigned to you to access the Assumption College Student Portal.<br><br>
+                                                
                                                 <small>
                                                     Username:&nbsp;<strong>{{$applicant_details->idno}}</strong><br>
                                                     Password:&nbsp;<strong>{{$six_number}}</strong></small><br><br>
                                                     <?php $date = strtotime($payment_details->transaction_date); ?>
                                                     <?php $date = strtotime("+14 days", $date); ?>
+                                                   
+                                                    Kindly submit the complete requirement indicated on the page to the BED Admission's Office not later than {{date("F j, Y",$date)}}. You will then receive an e-mail indicating the schedule of your daughter's test and interview. 
                                                     
-                                                    <strong>Note:</strong> Failure to submit your requirements <strong>on or before {{date("F j, Y",$date)}}</strong> would mean
-            that you will have to fill out the application form again and wait for the next
-            available schedule.<br><br>
+                                                    <strong>Note:</strong> Failure to submit your requirements by the given date will temporarily end your access to the Assumption College Student Portal until the requirements are completed.<br><br>
+                                                    
+                                                    Thank you very much.<br><br>
 
                                                 If you have questions kindly call Admission's Office(817-0757).
                                             </span>

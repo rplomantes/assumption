@@ -103,7 +103,9 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-8">
-
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                Forgot Your Password?
+                            </a>
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-4">
