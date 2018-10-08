@@ -104,4 +104,44 @@ class setup extends Controller
             return view('dean.srf.ajax_get_courses', compact('students'));
         }
     }
+    
+    
+    function get_srf_balances(){
+        if(Request::ajax()){
+            $school_year = Input::get('school_year');
+            $period = Input::get('period');
+            $number=1;
+            
+            
+            
+            $lists = \App\Ledger::distinct('ledgers.idno', 'users.lastname', 'users.firstname', 'users.middlename')
+                    ->selectRaw("sum(payment) as total_payment, sum(amount) as total_amount, ledgers.idno, users.lastname, users.firstname, users.middlename")
+                    ->where('ledgers.school_year', $school_year)
+                    ->where('ledgers.period', $period)
+                    ->where('ledgers.program_code', '!=', null)
+                    ->where('ledgers.category','SRF')
+                    ->groupBy('ledgers.idno')
+                    ->join('users', 'users.idno','=','ledgers.idno')
+                    ->orderBy('users.lastname', 'asc')
+                    ->get(array('ledgers.idno','users.firstname','users.lastname','users.middlename','total_payment','total_amount'));
+            
+            $data = "<table class='table table-condensed'><thead><tr><th>#</th><th>ID Number</th><th>Name</th><th>Amount to Collect</th><th>Payment Rendered</th><th>Balance</th></tr></thead>"
+                    . "<tbody>";
+            foreach($lists as $list){
+                $balance = $list->total_amount - $list->total_payment;
+                
+                $data = $data."<tr>"
+                        . "<td>".$number++."</td>"
+                        . "<td>".$list->idno."</td>"
+                        . "<td>".$list->lastname.", ".$list->firstname." ".$list->middlename."</td>"
+                        . "<td>".$list->total_amount."</td>"
+                        . "<td>".$list->total_payment."</td>"
+                        . "<td>".$balance."</td>"
+                        . "</tr>";
+            }
+            $data = $data."</tbody></table>";
+            
+            return ($data);
+        }
+    }
 }

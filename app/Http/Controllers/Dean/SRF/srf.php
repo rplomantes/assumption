@@ -94,4 +94,35 @@ class srf extends Controller
             
         }
     }
+    
+    function srf_balances(){
+        if (Auth::user()->accesslevel == env('DEAN')) {
+            $programs = \App\Curriculum::distinct()->get(['program_code', 'program_name']);
+            return view('dean.srf.srf_balances', compact('programs'));
+        }
+    }
+    
+    
+    
+    function print_srf_balances($school_year, $period){
+        if (Auth::user()->accesslevel == env('DEAN')) {
+            
+            $number=1;
+            $lists = \App\Ledger::distinct('ledgers.idno', 'users.lastname', 'users.firstname', 'users.middlename')
+                    ->selectRaw("sum(payment) as total_payment, sum(amount) as total_amount, ledgers.idno, users.lastname, users.firstname, users.middlename")
+                    ->where('ledgers.school_year', $school_year)
+                    ->where('ledgers.period', $period)
+                    ->where('ledgers.program_code', '!=', null)
+                    ->where('ledgers.category','SRF')
+                    ->groupBy('ledgers.idno')
+                    ->join('users', 'users.idno','=','ledgers.idno')
+                    ->orderBy('users.lastname', 'asc')
+                    ->get(array('ledgers.idno','users.firstname','users.lastname','users.middlename','total_payment','total_amount'));
+            
+            $pdf = PDF::loadView('dean.srf.print_srf_balances', compact('lists', 'school_year', 'period','number'));
+            $pdf->setPaper(array(0, 0, 612.00, 792.0));
+            return $pdf->stream("srf_balances_report.pdf");
+            
+        }
+    }
 }

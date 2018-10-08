@@ -114,6 +114,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('dean', array('srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Set SRF</span></a></li>
                                 <li><a href="{{url('dean', array('srf', 'print_srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Print SRF</span></a></li>
                                 <li><a href="{{url('dean', array('srf', 'student_srf'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>Student List</span></a></li>
+                                <li><a href="{{url('dean', array('srf', 'srf_balances'))}}"><i class="fa fa-circle-o" aria-hidden="true"></i> <span>SRF Balance Report</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">

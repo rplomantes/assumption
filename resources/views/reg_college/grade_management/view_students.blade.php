@@ -14,7 +14,7 @@ $allsection = $allsection. "/$course_id->section_name";
 ?>
 @endforeach
 <?php
-$students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels','college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
+$students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels','college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.midterm_absences','grade_colleges.finals', 'grade_colleges.finals_absences','grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 $checkstatus = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.is_lock', 2)->get();
 $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.is_lock', 3)->get();
 ?>
@@ -38,8 +38,10 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             <th width="3%">#</th>
                             <th width="8%">ID number</th>
                             <th>Name</th>
-                            <th width="5%">Midterm</th>
-                            <th width="5%">Finals</th>
+                            <th width="10%">Midterm Absences</th>
+                            <th width="10%">Midterm</th>
+                            <th width="10%">Finals Absences</th>
+                            <th width="10%">Finals</th>
                             @if(auth::user()->accesslevel == env('DEAN'))<th>Lock/Unlock</th>@endif
                         </tr>
                     </thead>
@@ -49,8 +51,10 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             <td>{{$number}}<?php $number = $number + 1; ?></td>
                             <td>{{$student->idno}}</td>
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
-                            <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=1 readonly=""></td>
-                            <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=1 readonly=""></td>
+                            <td><input class='grade' type="text" value="{{$student->midterm_absences}}" size=3 readonly=""></td>
+                            <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=3 readonly=""></td>
+                            <td><input class='grade' type="text" value="{{$student->finals_absences}}" size=3 readonly=""></td>
+                            <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=3 readonly=""></td>
                             @if(auth::user()->accesslevel == env('DEAN'))<td>
                                 @if($student->is_lock == 0)
                                 <div class="btn btn-warning col-sm-12" onclick="lock({{$student->idno}}, schedule_id.value, {{$student->id}})">Lock</div>
