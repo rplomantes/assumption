@@ -16,6 +16,8 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idno');
+            $table->date('date_application_finish')->nullable();
+            $table->date('date_admission_finish')->nullable();
             $table->date('date_advised')->nullable();
             $table->date('date_registered')->nullable();
             $table->date('date_enrolled')->nullable();

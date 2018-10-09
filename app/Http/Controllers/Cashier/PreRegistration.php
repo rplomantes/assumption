@@ -82,9 +82,11 @@ class PreRegistration extends Controller {
     }
     function updatePreRegStatus($request){
         $db_ext = DB::connection('mysql2');
+        $date = date('Y-m-d');
         $applicant_details = $db_ext->table('pre_registrations')->where('idno', $request->paid_by)
                 ->update([
-                    'is_complete' => 1
+                    'is_complete' => 1,
+                    'date_completed' => $date
                 ]);
     }
     function sendPaymentEmail($request,$reference_id, $applicant_details, $six_number){

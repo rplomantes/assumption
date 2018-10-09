@@ -350,3 +350,10 @@ Route::get('/accounting/examination_permit_hed','Accounting\ExamPermit@index');
 Route::get('/accounting/print_exam_permit/{school_year}/{period}/{exam_period}/{idno}','Accounting\ExamPermit@print_now');
 Route::post('/accounting/examination_permit_hed/print_all','Accounting\ExamPermit@print_all');
 Route::get('/accounting/ajax/getstudentpermit','Accounting\Ajax\AjaxExamPermit@getstudentpermit');
+
+
+//REPORTS BED ADMISSION
+Route::get('/bedadmission/reports/pre_registered/{date_start}/{date_end}','AdmissionBED\reportsController@pre_registered');
+Route::get('/bedadmission/reports/for_approval/{date_start}/{date_end}','AdmissionBED\reportsController@for_approval');
+Route::get('/bedadmission/reports/approved/{date_start}/{date_end}','AdmissionBED\reportsController@approved');
+Route::get('/bedadmission/reports/regrets/{date_start}/{date_end}','AdmissionBED\reportsController@regrets');

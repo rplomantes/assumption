@@ -303,11 +303,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Company Name</label>
-                            <input class="form form-control" name='f_company_name' value="{{old('f_company_name',$info->f_occupation)}}" type="text">
+                            <input class="form form-control" name='f_company_name' value="{{old('f_company_name',$info->f_company_name)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Company Address</label>
-                            <input class="form form-control" name='f_company_address' value="{{old('f_company_address',$info->f_occupation)}}" type="text">
+                            <input class="form form-control" name='f_company_address' value="{{old('f_company_address',$info->f_company_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>
@@ -393,11 +393,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Company Name</label>
-                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_occupation)}}" type="text">
+                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_company_name}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Company Address</label>
-                            <input class="form form-control" name='m_company_address' value="{{old('m_company_address',$info->m_occupation)}}" type="text">
+                            <input class="form form-control" name='m_company_address' value="{{old('m_company_address',$info->m_company_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>

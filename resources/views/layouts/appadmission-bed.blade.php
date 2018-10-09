@@ -1,4 +1,4 @@
-<?php
+ <?php
 $file_exist=0;
 if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
     $file_exist=1;
@@ -133,7 +133,20 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('student_list'))}}">Per Grade Level and Section </a></li>
             <li><a href="">Per Class </a></li>
           </ul>
-        </li>        
+        </li>   
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Reports</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/bedadmission',array('reports','pre_registered',date('Y-m-d'),date('Y-m-d')))}}">Pre-Registered </a></li>
+            <li><a href="{{url('/bedadmission',array('reports','for_approval',date('Y-m-d'),date('Y-m-d')))}}">For Approval </a></li>
+            <li><a href="{{url('/bedadmission',array('reports','approved',date('Y-m-d'),date('Y-m-d')))}}">Approved </a></li>
+            <li><a href="{{url('/bedadmission',array('reports','regrets',date('Y-m-d'),date('Y-m-d')))}}">Regrets </a></li>
+          </ul>
+        </li>
      
         
       </ul>

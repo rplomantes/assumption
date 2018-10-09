@@ -317,11 +317,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Company Name</label>
-                            <input class="form form-control" name='f_company_name' value="{{old('f_company_name',$info->f_occupation)}}" type="text">
+                            <input class="form form-control" name='f_company_name' value="{{old('f_company_name',$info->f_company_name)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Company Address</label>
-                            <input class="form form-control" name='f_company_address' value="{{old('f_company_address',$info->f_occupation)}}" type="text">
+                            <input class="form form-control" name='f_company_address' value="{{old('f_company_address',$info->f_company_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>
@@ -1225,9 +1225,17 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             </div>
         </div>
         @if($status->status == env("FOR_APPROVAL"))
-        <div class="col-sm-3"><a href="{{url('admissionbed', array('update_information', $user->idno))}}"><button type="button" class='btn btn-primary col-sm-12'>Save Information</button></a></div>
-        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button type="button"  class='btn btn-danger col-sm-12'>Disapprove Application</button></a></div>
-        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button type="button"  class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+        <div class="col-sm-3">
+        <input type="submit" value='Save' class='form-control btn btn-primary'>
+        </div>
+<!--        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
+                        return true;
+                    else
+                        return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
+        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to APPROVED Applicant?'))
+                        return true;
+                    else
+                        return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>-->
         @endif
     </div>
     </form>

@@ -93,7 +93,7 @@
                                                     </tr>
                                                 </table><br><br>
                                                 
-                                                To complete your daughter's application, you may now use the username and password assigned to you to access the Assumption College Student Portal.<br><br>
+                                                To complete your daughter's application, you may now use the username and password assigned to you to access the <a href="https://portal.assumption.edu.ph/">Assumption College Student Portal.</a><br><br>
                                                 
                                                 <small>
                                                     Username:&nbsp;<strong>{{$applicant_details->idno}}</strong><br>

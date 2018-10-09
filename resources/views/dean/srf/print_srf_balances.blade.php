@@ -30,6 +30,8 @@
                <th>#</th>
                <th>ID Number</th>
                <th>Name</th>
+               <th>Program</th>
+               <th>Level</th>
                <th>Amount to Collect</th>
                <th>Payment Rendered</th>
                <th>Balance</th>
@@ -37,11 +39,15 @@
        </thead>
        <tbody>
            @foreach($lists as $list)
-           <?php $balance = $list->total_amount - $list->total_payment; ?>
+           <?php $balance = $list->total_amount - $list->total_payment; 
+                $other_info = \App\Status::where('idno', $list->idno)->first();
+           ?>
            <tr>
                <td>{{$number++}}</td>
                <td>{{$list->idno}}</td>
                <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
+               <td>{{$other_info->program_code}}</td>
+               <td>{{$other_info->level}}</td>
                <td>{{$list->total_amount}}</td>
                <td>{{$list->total_payment}}</td>
                <td>{{$balance}}</td>

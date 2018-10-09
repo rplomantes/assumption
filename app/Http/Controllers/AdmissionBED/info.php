@@ -112,6 +112,7 @@ class info extends Controller
         if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
             $status = \App\Status::where('idno', $idno)->first();
             $status->status=0;
+            $status->date_admission_finish=date('Y-m-d');
             $status->save();
             $this->sendEmail($idno, "Approved");
             \App\Http\Controllers\Admin\Logs::log("Approved admission status application of $idno.");
@@ -123,6 +124,7 @@ class info extends Controller
         if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
             $status = \App\Status::where('idno', $idno)->first();
             $status->status=env("REGRET_FINAL");
+            $status->date_admission_finish=date('Y-m-d');
             $status->save();
             $user = \App\User::where('idno', $idno)->first();
             $user->status=0;

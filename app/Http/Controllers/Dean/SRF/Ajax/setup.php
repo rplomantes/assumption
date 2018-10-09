@@ -125,15 +125,18 @@ class setup extends Controller
                     ->orderBy('users.lastname', 'asc')
                     ->get(array('ledgers.idno','users.firstname','users.lastname','users.middlename','total_payment','total_amount'));
             
-            $data = "<table class='table table-condensed'><thead><tr><th>#</th><th>ID Number</th><th>Name</th><th>Amount to Collect</th><th>Payment Rendered</th><th>Balance</th></tr></thead>"
+            $data = "<table class='table table-condensed'><thead><tr><th>#</th><th>ID Number</th><th>Name</th><th>Program</th><th>Level</th><th>Amount to Collect</th><th>Payment Rendered</th><th>Balance</th></tr></thead>"
                     . "<tbody>";
             foreach($lists as $list){
                 $balance = $list->total_amount - $list->total_payment;
+                $other_info = \App\Status::where('idno', $list->idno)->first();
                 
                 $data = $data."<tr>"
                         . "<td>".$number++."</td>"
                         . "<td>".$list->idno."</td>"
                         . "<td>".$list->lastname.", ".$list->firstname." ".$list->middlename."</td>"
+                        . "<td>".$other_info->program_code."</td>"
+                        . "<td>".$other_info->level."</td>"
                         . "<td>".$list->total_amount."</td>"
                         . "<td>".$list->total_payment."</td>"
                         . "<td>".$balance."</td>"

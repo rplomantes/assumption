@@ -36,6 +36,7 @@ class CreatePreRegistrationsTable extends Migration
             $table->string('lrn')->nullable();
             $table->integer('is_foreign')->default(0);
             $table->integer('is_complete')->default(0);
+            $table->string('date_completed')->nullable();
             $table->timestamps();
         });
     }
