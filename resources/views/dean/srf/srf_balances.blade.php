@@ -1,5 +1,13 @@
 <link rel="stylesheet" href="{{ asset ('bower_components/select2/dist/css/select2.min.css')}}">
-@extends('layouts.appdean_college')
+<?php
+if(Auth::user()->accesslevel == env('DEAN')){
+$layout = "layouts.appdean_college";
+} else {
+$layout = "layouts.appreg_college";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -69,10 +77,21 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group" id="program-form">
+                        <label>Program</label>
+                        <select class="form form-control select2" id="program" style="width: 100%;">
+                            <option value="">Select Program</option>
+                            @foreach ($programs as $program)
+                            <option value="{{$program->program_code}}">{{$program->program_code}}-{{$program->program_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="col-md-2">
                     <div class="form-group" id="submit-form">
                         <label><br></label>
-                        <button type="submit" class="btn btn-success col-sm-12" onclick="displayResult(school_year.value,period.value)">Search</button>
+                        <button type="submit" class="btn btn-success col-sm-12" onclick="displayResult(school_year.value,period.value, program.value)">Search</button>
                     </div>
                 </div>
             </div>
@@ -83,7 +102,7 @@
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"><span class='fa fa-edit'></span> Result</h3>
-            <a onclick='print_result(school_year.value,period.value)'><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
+            <a onclick='print_result(school_year.value,period.value, program.value)'><button class='btn btn-default pull-right'><span class='fa fa-print'></span> Print</button></a>
             <div class="box-tools pull-right">
             </div>
         </div>
@@ -93,13 +112,18 @@
         </div>   
     </div>        
 </div>
+
+<div class="modal fade" id="show_subjects">
+
+</div>
 @endsection
 @section('footerscript')
 <script>
-    function displayResult(school_year,period) {
+    function displayResult(school_year,period,program) {
         array = {};
         array['school_year'] = school_year;
         array['period'] = period;
+        array['program'] = program;
         $.ajax({
             type: "GET",
             url: "/ajax/dean/srf/get_srf_balances/",
@@ -111,12 +135,30 @@
         });
     }
     
-    function print_result(school_year,period) {
+    function get_subjects(idno,school_year,period,program) {
         array = {};
         array['school_year'] = school_year;
         array['period'] = period;
+        array['program'] = program;
+        array['idno'] = idno;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/dean/srf/get_subjects/",
+            data: array,
+            success: function (data) {
+                $('#show_subjects').html(data);
+            }
+
+        });
+    }
+    
+    function print_result(school_year,period,program) {
+        array = {};
+        array['school_year'] = school_year;
+        array['period'] = period;
+        array['program'] = program;
         
-        window.open('/dean/srf/print_srf_balances/' + array['school_year'] + "/" + array['period'], "_blank") ;
+        window.open('/dean/srf/print_srf_balances/' + array['school_year'] + "/" + array['period'] + "/" + array['program'], "_blank") ;
     }
 </script>
 @endsection

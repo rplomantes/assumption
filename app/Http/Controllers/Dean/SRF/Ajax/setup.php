@@ -110,6 +110,7 @@ class setup extends Controller
         if(Request::ajax()){
             $school_year = Input::get('school_year');
             $period = Input::get('period');
+            $program_code = Input::get('program');
             $number=1;
             
             
@@ -120,12 +121,15 @@ class setup extends Controller
                     ->where('ledgers.period', $period)
                     ->where('ledgers.program_code', '!=', null)
                     ->where('ledgers.category','SRF')
+                    ->where('statuses.program_code', $program_code)
+                    ->where('statuses.status', 3)
                     ->groupBy('ledgers.idno')
                     ->join('users', 'users.idno','=','ledgers.idno')
+                    ->join('statuses', 'statuses.idno','=','ledgers.idno')
                     ->orderBy('users.lastname', 'asc')
                     ->get(array('ledgers.idno','users.firstname','users.lastname','users.middlename','total_payment','total_amount'));
             
-            $data = "<table class='table table-condensed'><thead><tr><th>#</th><th>ID Number</th><th>Name</th><th>Program</th><th>Level</th><th>Amount to Collect</th><th>Payment Rendered</th><th>Balance</th></tr></thead>"
+            $data = "<table class='table table-condensed'><thead><tr><th>#</th><th>ID Number</th><th>Name</th><th>Program</th><th>Level</th><th>Amount to Collect</th><th>Payment Rendered</th><th>Balance</th><th>View Subjects</th></tr></thead>"
                     . "<tbody>";
             foreach($lists as $list){
                 $balance = $list->total_amount - $list->total_payment;
@@ -140,11 +144,24 @@ class setup extends Controller
                         . "<td>".$list->total_amount."</td>"
                         . "<td>".$list->total_payment."</td>"
                         . "<td>".$balance."</td>"
+                        . "<td><a href=\"javascript:void(0)\"  onclick=\"get_subjects('".$list->idno."', '".$school_year."','".$period."','".$program_code."')\" data-toggle=\"modal\" data-target=\"#show_subjects\">View</a></td>"
                         . "</tr>";
             }
             $data = $data."</tbody></table>";
             
             return ($data);
+        }
+    }
+    
+    function get_subjects(){
+        if(Request::ajax()){
+            $idno = Input::get('idno');
+            $school_year = Input::get('school_year');
+            $period = Input::get('period');
+            $program_code = Input::get('program');
+            
+            $srfs = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period',$period)->where('category', 'SRF')->get();
+            return view('dean.srf.ajax_get_subjects', compact('srfs'));
         }
     }
 }

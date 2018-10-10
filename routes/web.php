@@ -229,7 +229,8 @@ Route::get('/ajax/dean/srf/get_courses','Dean\SRF\Ajax\setup@get_courses');
 Route::get('/ajax/dean/srf/get_student_list','Dean\SRF\Ajax\setup@get_student_list');
 Route::get('/ajax/dean/srf/print_get_list','Dean\SRF\Ajax\setup@print_list');
 Route::get('/ajax/dean/srf/get_srf_balances','Dean\SRF\Ajax\setup@get_srf_balances');
-Route::get('/dean/srf/print_srf_balances/{school_year}/{period}','Dean\SRF\srf@print_srf_balances');
+Route::get('/dean/srf/print_srf_balances/{school_year}/{period}/{program_code}','Dean\SRF\srf@print_srf_balances');
+Route::get('/ajax/dean/srf/get_subjects','Dean\SRF\Ajax\setup@get_subjects');
 
 //Academic/DEAN/////////////////////////////////////////////////////////////////
 Route::get('/academic/view_info/{idno}','Dean\Record@view_info');
