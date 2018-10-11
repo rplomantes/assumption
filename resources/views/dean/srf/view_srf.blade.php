@@ -53,7 +53,8 @@ $layout = "layouts.appreg_college";
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-md-3">
+                <input type="hidden" value="all" id="program">
+<!--                <div class="col-md-3">
                     <div class="form-group" id="program-form">
                         <label>Program</label>
                         <select class="form form-control select2" id="program" style="width: 100%;">
@@ -63,7 +64,7 @@ $layout = "layouts.appreg_college";
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div>-->
                 <div class="col-md-3">
                     <div class="form-group" id="level-form">
                         <label>Level</label>
@@ -113,7 +114,7 @@ $layout = "layouts.appreg_college";
 </div>
 @endsection
 @section('footerscript')
-<script>
+<!--<script>
     $("#level-form").hide();
     $("#period-form").hide();
     $("#submit-form").hide();
@@ -130,7 +131,7 @@ $layout = "layouts.appreg_college";
     $("#period-form").change(function () {
         $("#submit-form").fadeIn();
     });
-</script>  
+</script>  -->
 <script>
     function displayResult(program,level,period) {
         array = {};

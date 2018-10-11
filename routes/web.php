@@ -215,7 +215,7 @@ Route::get('/ajax/dean/advising/get_curriculum','Dean\Advising\Ajax\advising_aja
 
 //SRF
 Route::get('/dean/srf','Dean\SRF\srf@index');
-Route::get('/dean/srf/modify/{course_code}','Dean\SRF\srf@modify_srf');
+Route::get('/dean/srf/modify/{period}/{course_code}','Dean\SRF\srf@modify_srf');
 Route::post('/dean/srf/set_srf','Dean\SRF\srf@set_srf');
 Route::get('/dean/srf/student_srf','Dean\SRF\srf@student_list');
 Route::get('/dean/srf/srf_balances','Dean\SRF\srf@srf_balances');

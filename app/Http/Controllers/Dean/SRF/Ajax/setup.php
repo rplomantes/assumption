@@ -16,22 +16,24 @@ class setup extends Controller
             $level = Input::get('level');
             $period = Input::get('period');
             
-            $years = \App\Curriculum::distinct()->where('program_code', $program_code)->where('level', $level)->where('period', $period)->orderBy('curriculum_year', 'asc')->get(['curriculum_year']);
+//            $years = \App\Curriculum::distinct()->where('program_code', $program_code)->where('level', $level)->where('period', $period)->orderBy('curriculum_year', 'asc')->get(['curriculum_year']);
+            $years = \App\Curriculum::distinct()->where('level', $level)->where('period', $period)->orderBy('curriculum_year', 'asc')->get(['curriculum_year']);
             
-            $data = "<b>Note:</b> All modified subjects with the same subject code will also be modified."
+            $data = "<b>Note:</b> All modified SRF in the same period with the same subject code will also be modified."
                     . "<table class='table table-striped'><thead><tr><th>Code</th><th>Description</th><th>SRF</th><th>Lab Fee</th><th>Modify</th></tr></thead>"
                     . "<tbody>";
             foreach($years as $year){
-                $data = $data."<tr><td align='center' colspan='5'><strong>".$year->curriculum_year."</strong></td>";
+                $data = $data."<tr><td align='center' colspan='5'><strong> Curriculum Year: ".$year->curriculum_year."</strong></td>";
                 
-            $lists = \App\Curriculum::distinct()->where('program_code', $program_code)->where('level', $level)->where('period', $period)->where('curriculum_year', $year->curriculum_year)->get(['course_code','course_name', 'srf','lab_fee']);
+//            $lists = \App\Curriculum::distinct()->where('program_code', $program_code)->where('level', $level)->where('period', $period)->where('curriculum_year', $year->curriculum_year)->get(['course_code','course_name', 'srf','lab_fee']);
+            $lists = \App\Curriculum::distinct()->where('level', $level)->where('period', $period)->where('curriculum_year', $year->curriculum_year)->orderBy('course_name','asc')->get(['course_code','course_name', 'srf','lab_fee']);
                 foreach($lists as $list){
                     $data = $data."<tr>"
                             . "<td>".$list->course_code."</td>"
                             . "<td>".$list->course_name."</td>"
                             . "<td>".$list->srf."</td>"
                             . "<td>".$list->lab_fee."</td>"
-                            . "<td><a target='_blank' href='".url('dean', array('srf','modify',$list->course_code))."'>Modify</a></td>"
+                            . "<td><a target='_blank' href='".url('dean', array('srf','modify',$period,$list->course_code))."'>Modify</a></td>"
                             . "</tr>";
                 }
             }

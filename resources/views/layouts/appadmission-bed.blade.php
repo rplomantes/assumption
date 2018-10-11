@@ -123,7 +123,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
         <li><a href="{{url('/bedregistrar','registration')}}"><i class="fa fa-link"></i> Registration</a></li>
         <li><a href="{{url('/admissionbed','testing_schedules')}}"><i class="fa fa-link"></i> Testing Schedules</a></li>
-        <li class="treeview">
+<!--        <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Student List</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -133,7 +133,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('student_list'))}}">Per Grade Level and Section </a></li>
             <li><a href="">Per Class </a></li>
           </ul>
-        </li>   
+        </li>   -->
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Reports</span>
             <span class="pull-right-container">

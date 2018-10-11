@@ -47,7 +47,7 @@ $layout = "layouts.appreg_college";
 <div class="col-md-12">
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">{{$course_code}} - {{$course_name}}</h3>
+            <h3 class="box-title">{{$course_code}} - {{$course_name}} - {{$period}}</h3>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
@@ -63,6 +63,7 @@ $layout = "layouts.appreg_college";
                         {{ csrf_field() }}
                         <input type="text" class="form-control" name="srf" value="{{$srf}}">
                         <input type="hidden" name="course_code" value="{{$course_code}}">
+                        <input type="hidden" name="period" value="{{$period}}">
                     
                         <label>Laboratory Fee</label>
                         <input type="text" class="form-control" name="lab_fee" value="{{$lab_fee}}">

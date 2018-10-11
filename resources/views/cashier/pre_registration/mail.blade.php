@@ -101,7 +101,7 @@
                                                     <?php $date = strtotime($payment_details->transaction_date); ?>
                                                     <?php $date = strtotime("+14 days", $date); ?>
                                                    
-                                                    Kindly submit the complete requirement indicated on the page to the BED Admission's Office not later than {{date("F j, Y",$date)}}. You will then receive an e-mail indicating the schedule of your daughter's test and interview. 
+                                                    Kindly submit the complete requirement indicated on the page to the BED Admission's Office not later than {{date("F j, Y",$date)}}. You will then receive an e-mail indicating the schedule of your daughter's test and interview. <br><br>
                                                     
                                                     <strong>Note:</strong> Failure to submit your requirements by the given date will temporarily end your access to the Assumption College Student Portal until the requirements are completed.<br><br>
                                                     

@@ -69,19 +69,26 @@
                                                 
                                                 Greetings of Peace!<br><br>
                                                 
-                                                We would like to thank you for having considered Assumption College as the school for your daughter. However, it is with regret to inform you that your daughter did not successfully meet the initial requirements for Admission of Assumption Basic Education Division.<br><br>
+                                                We would like to thank you for having considered Assumption College as the 
+                                                school for your daughter. However, it is with regret to inform you that your
+                                                daughter did not successfully meet the initial requirements for Admission of
+                                                Assumption Basic Education Division.<br><br>
                                                 
-                                                Please know that all decisions arrived at by the Committee on Admissions are final.  The decisions were seen in the light of what is life-giving for your daughter.<br><br>
+                                                Please know that all decisions arrived at by the Committee on Admissions are final.
+                                                The decisions were seen in the light of what is life-giving for your daughter.<br><br>
                                                 
-                                                We hope that you will be able to find the right learning environment that can best nurture your daughter’s needs.<br><br>
+                                                We hope that you will be able to find the right learning environment that can best
+                                                nurture your daughter’s needs.<br><br>
                                                 
                                                 Once again, thank you!<br><br>
                                                 
                                                 @else
                                                 
-                                                We are pleased to inform you that your daughter has been successfully admitted to Assumption College Basic Education Division<br><br>
+                                                We are pleased to inform you that your daughter has been successfully admitted to
+                                                Assumption College Basic Education Division<br><br>
                                                 
-                                                Kindly claim the hard copy of your <strong>ACCEPTANCE LETTER</strong> at the BED Admissions Office. <br><br>
+                                                Kindly claim the hard copy of your <strong>ACCEPTANCE LETTER</strong> at the BED
+                                                Admissions Office. <br><br>
                                                 
                                                 You need to present this letter in paying the Reservation Fee of your daughter.<br><br>
                                                 

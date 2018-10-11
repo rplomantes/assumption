@@ -22,19 +22,19 @@ class srf extends Controller
         }
     }
     
-    function modify_srf($course_code){
+    function modify_srf($period,$course_code){
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $course_name = \App\Curriculum::where('course_code', $course_code)->first()->course_name;
             $srf = \App\Curriculum::where('course_code', $course_code)->first()->srf;
             $lab_fee = \App\Curriculum::where('course_code', $course_code)->first()->lab_fee;
-            return view('dean.srf.modify_srf', compact('course_code', 'course_name', 'srf','lab_fee'));
+            return view('dean.srf.modify_srf', compact('course_code', 'course_name', 'srf','lab_fee','period'));
         }
     }
     
     function set_srf(Request $request){
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $course_code = $request->course_code;
-            $sets = \App\Curriculum::where('course_code', $course_code)->get();
+            $sets = \App\Curriculum::where('course_code', $course_code)->where('period', $request->period)->get();
             $elects = \App\CtrElective::where('course_code', $course_code)->get();
             
             foreach ($sets as $set){
@@ -51,7 +51,7 @@ class srf extends Controller
             
             Session::flash('message', "SRF and Laboratory Fee Updated!");
             \App\Http\Controllers\Admin\Logs::log("Set SRF of $course_code to PHP $request->srf and Lab Fee to PHP $request->lab_fee");
-            return redirect("dean/srf/modify/$course_code");
+            return redirect("dean/srf/modify/$request->period/$course_code");
         }
     }
     

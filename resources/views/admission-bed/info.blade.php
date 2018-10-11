@@ -5,6 +5,18 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 }
 ?>
 
+<style>
+.nav-tabs-custom > .nav-tabs > li.active > a, .nav-tabs-custom > .nav-tabs > li.active:hover > a {
+    background-color: white !important;
+    color: #333 !important;
+}
+.nav-tabs-custom > .nav-tabs > li > a:hover {
+    color: white !important;
+}
+.nav-tabs-custom > .nav-tabs > li > a {
+    color: whitesmoke !important;
+}
+</style>
 @extends('layouts.appadmission-bed')
 @section('messagemenu')
  <li class="dropdown messages-menu">
@@ -153,11 +165,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active nav"><a href="#tab_1" data-toggle="tab"><strong>PERSONAL INFORMATION</strong></a></li>
-                <li><a href="#tab_2" data-toggle="tab"><strong>FAMILY BACKGROUND</strong></a></li>
-                <li><a href="#tab_3" data-toggle="tab"><strong>ACADEMIC BACKGROUND</strong></a></li>
-                <li><a href="#tab_4" data-toggle="tab"><strong>MEDICAL HISTORY/PHYSICAL FITNESS</strong></a></li>
-                <li><a href="#tab_5" data-toggle="tab"><strong>OTHER REQUIREMENTS</strong></a></li>
+                <li class="active nav" style="border-top-color: #3c8dbc;background-color:#3c8dbc"><a href="#tab_1" data-toggle="tab"><strong>PERSONAL INFORMATION</strong></a></li>
+                <li style="border-top-color: #3c8dbc;background-color:#3c8dbc"><a href="#tab_2" data-toggle="tab"><strong>FAMILY BACKGROUND</strong></a></li>
+                <li style="border-top-color: #3c8dbc;background-color:#3c8dbc"><a href="#tab_3" data-toggle="tab"><strong>ACADEMIC BACKGROUND</strong></a></li>
+                <li style="border-top-color: #3c8dbc;background-color:#3c8dbc"><a href="#tab_4" data-toggle="tab"><strong>MEDICAL HISTORY/PHYSICAL FITNESS</strong></a></li>
+                <li style="border-top-color: #3c8dbc;background-color:#3c8dbc"><a href="#tab_5" data-toggle="tab"><strong>OTHER REQUIREMENTS</strong></a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -325,7 +337,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>
-                            <input class="form form-control" name='f_company_number' value="{{old('f_company_number',$info->f_phone)}}" type="text">
+                            <input class="form form-control" name='f_company_number' value="{{old('f_company_number',$info->f_company_number}}" type="text">
                         </div>
                     </div>
                     <div class='form-group'>
@@ -407,15 +419,15 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Company Name</label>
-                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_occupation)}}" type="text">
+                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_company_name)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Company Address</label>
-                            <input class="form form-control" name='m_company_address' value="{{old('m_company_address',$info->m_occupation)}}" type="text">
+                            <input class="form form-control" name='m_company_address' value="{{old('m_company_address',$info->m_company_address)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>
-                            <input class="form form-control" name='m_company_number' value="{{old('m_company_number',$info->m_phone)}}" type="text">
+                            <input class="form form-control" name='m_company_number' value="{{old('m_company_number',$info->m_company_number)}}" type="text">
                         </div>
                     </div>
                     <div class='form-group'>

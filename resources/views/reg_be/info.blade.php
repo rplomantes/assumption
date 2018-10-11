@@ -311,7 +311,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>
-                            <input class="form form-control" name='f_company_number' value="{{old('f_company_number',$info->f_phone)}}" type="text">
+                            <input class="form form-control" name='f_company_number' value="{{old('f_company_number',$info->f_company_number)}}" type="text">
                         </div>
                     </div>
                     <div class='form-group'>
@@ -401,7 +401,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-2">
                             <label>Office Tel. No.</label>
-                            <input class="form form-control" name='m_company_number' value="{{old('m_company_number',$info->m_phone)}}" type="text">
+                            <input class="form form-control" name='m_company_number' value="{{old('m_company_number',$info->m_company_number)}}" type="text">
                         </div>
                     </div>
                     <div class='form-group'>
