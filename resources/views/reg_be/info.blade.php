@@ -393,7 +393,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-3">
                             <label>Company Name</label>
-                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_company_name}}" type="text">
+                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_company_name)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Company Address</label>

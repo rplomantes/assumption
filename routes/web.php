@@ -272,6 +272,7 @@ Route::get('/admissionbeds/disapprove_application/{idno}','AdmissionBED\info@dis
 Route::get('/admissionbed/testing_schedules', 'AdmissionBED\TestingSchedules@view');
 Route::post('/admissionbed/add_testing_schedule', 'AdmissionBED\TestingSchedules@add');
 Route::get('/admissionbed/edit_testing_schedule/{id}', 'AdmissionBED\TestingSchedules@edit');
+Route::post('/admissionbed/edit_testing_schedule_now', 'AdmissionBED\TestingSchedules@edit_now');
 
 
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////

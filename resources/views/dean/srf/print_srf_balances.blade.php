@@ -33,13 +33,17 @@
                <th>Program</th>
                <th>Level</th>
                <th>Amount to Collect</th>
+               <th>Discount</th>
+               <th>Debit Memo</th>
                <th>Payment Rendered</th>
                <th>Balance</th>
            </tr>
        </thead>
        <tbody>
            @foreach($lists as $list)
-           <?php $balance = $list->total_amount - $list->total_payment; 
+           <?php 
+           $deduct = $list->total_payment + $list->total_dm + $list->total_discount;
+           $balance = $list->total_amount - $deduct; 
                 $other_info = \App\Status::where('idno', $list->idno)->first();
            ?>
            <tr>
@@ -48,9 +52,11 @@
                <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
                <td>{{$other_info->program_code}}</td>
                <td>{{$other_info->level}}</td>
-               <td>{{$list->total_amount}}</td>
+               <td><p style="color:blue;">{{$list->total_amount}}</p></td>
+               <td>{{$list->total_discount}}</td>
+               <td>{{$list->total_dm}}</td>
                <td>{{$list->total_payment}}</td>
-               <td>{{$balance}}</td>
+               <td><p style="color:red;"><strong>{{$balance}}</strong></p></td>
            </tr>
            @endforeach
        </tbody>

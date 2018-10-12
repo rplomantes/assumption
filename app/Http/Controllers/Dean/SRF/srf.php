@@ -109,7 +109,7 @@ class srf extends Controller
             
             $number=1;
             $lists = \App\Ledger::distinct('ledgers.idno', 'users.lastname', 'users.firstname', 'users.middlename')
-                    ->selectRaw("sum(payment) as total_payment, sum(amount) as total_amount, ledgers.idno, users.lastname, users.firstname, users.middlename")
+                    ->selectRaw("sum(payment) as total_payment,sum(discount) as total_discount,sum(debit_memo) as total_dm, sum(amount) as total_amount, ledgers.idno, users.lastname, users.firstname, users.middlename")
                     ->where('ledgers.school_year', $school_year)
                     ->where('ledgers.period', $period)
                     ->where('ledgers.program_code', '!=', null)
@@ -120,7 +120,7 @@ class srf extends Controller
                     ->join('users', 'users.idno','=','ledgers.idno')
                     ->join('statuses', 'statuses.idno','=','ledgers.idno')
                     ->orderBy('users.lastname', 'asc')
-                    ->get(array('ledgers.idno','users.firstname','users.lastname','users.middlename','total_payment','total_amount'));
+                    ->get(array('ledgers.idno','users.firstname','users.lastname','users.middlename','total_dm','total_discount','total_payment','total_amount'));
             
             $pdf = PDF::loadView('dean.srf.print_srf_balances', compact('lists', 'school_year', 'period','number'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));

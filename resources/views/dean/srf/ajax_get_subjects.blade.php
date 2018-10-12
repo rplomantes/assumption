@@ -7,7 +7,9 @@
             <table class="table table-bordered">
                 <tr>
                     <th>Particular</th>
-                    <th>Amount</th>
+                    <th>Amount to Collect</th>
+                    <th>Discount</th>
+                    <th>Debit Memo</th>
                     <th>Payment</th>
                 </tr>
                 @foreach ($srfs as $srf)
@@ -17,6 +19,8 @@
                 <tr>
                     <td>{{$srf->subsidiary}}</td>
                     <td>{{$srf->amount}}</td>
+                    <td>{{$srf->discount}}</td>
+                    <td>{{$srf->debit_memo}}</td>
                     <td>{{$totalpayment}}</td>
                 </tr>
                 @endforeach

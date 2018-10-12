@@ -37,7 +37,23 @@ class TestingSchedules extends Controller
     }
     
     function edit($id){
-        return $id;
-        
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $schedule = \App\TestingSchedule::find($id);
+            
+            return view('admission-bed.modify_sched', compact('id','schedule'));
+        }
+    }
+    
+    function edit_now(Request $request){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $schedule = \App\TestingSchedule::find($request->id);
+            $schedule->datetime = $request->datetime;
+            $schedule->save();
+            
+            
+            Session::flash('message', 'Schedule Updated!');
+            
+            return redirect('/admissionbed/testing_schedules');
+        }
     }
 }

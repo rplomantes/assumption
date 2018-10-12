@@ -51,6 +51,10 @@
 @section('maincontent')
 <?php $counter = 1; ?>
 <div class="col-md-12 box box-body">
+    
+        @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif  
     <button class="btn btn-success" data-toggle="modal" data-target="#show_adding_schedule">Create New Schedule</button>
     <table class="table table-condensed">
         <thead>
