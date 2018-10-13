@@ -97,7 +97,7 @@
                                     <label for="idno" class="col-md-4 col-form-label text-md-right">User ID.</label>
 
                                     <div class="col-md-6">
-                                        <input id="idno" type="idno" class="form-control{{ $errors->has('idno') ? ' is-invalid' : '' }}" name="idno" value="{{ $idno or old('idno') }}" required autofocus>
+                                        <input id="idno" type="idno" class="form-control{{ $errors->has('idno') ? ' is-invalid' : '' }}" name="idno" value="{{ $request->email or old('idno') }}" required autofocus>
 
                                         @if ($errors->has('idno'))
                                         <span class="invalid-feedback">
@@ -106,7 +106,7 @@
                                         @endif
                                     </div>
                                 </div>
-
+                                
                                 <div class="form-group row">
                                     <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 

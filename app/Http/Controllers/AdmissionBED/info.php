@@ -100,6 +100,18 @@ class info extends Controller
                 $addpar->idno = $idno;
                 $addpar->save();
             }
+            $addparent = \App\InterviewStudent::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\InterviewStudent;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\GroupStudent::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\GroupStudent;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
 
             $user = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();

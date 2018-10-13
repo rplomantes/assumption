@@ -66,4 +66,42 @@ class GetStudentList extends Controller {
         }
     }
 
+    function updateSchedInterview() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+                $idno = Input::get('idno');
+                $interview_id = Input::get('interview_id');
+
+                if ($interview_id == "Select Schedule") {
+                    $update = \App\InterviewStudent::where('idno', $idno)->first();
+                    $update->schedule_id = NULL;
+                    $update->save();
+                } else {
+                    $update = \App\InterviewStudent::where('idno', $idno)->first();
+                    $update->schedule_id = $interview_id;
+                    $update->save();
+                }
+            }
+        }
+    }
+
+    function updateSchedGroup() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+                $idno = Input::get('idno');
+                $interview_id = Input::get('interview_id');
+
+                if ($interview_id == "Select Schedule") {
+                    $update = \App\GroupStudent::where('idno', $idno)->first();
+                    $update->schedule_id = NULL;
+                    $update->save();
+                } else {
+                    $update = \App\GroupStudent::where('idno', $idno)->first();
+                    $update->schedule_id = $interview_id;
+                    $update->save();
+                }
+            }
+        }
+    }
+
 }

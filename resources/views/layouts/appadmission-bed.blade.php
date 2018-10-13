@@ -122,7 +122,18 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
         <li><a href="{{url('/bedregistrar','registration')}}"><i class="fa fa-link"></i> Registration</a></li>
-        <li><a href="{{url('/admissionbed','testing_schedules')}}"><i class="fa fa-link"></i> Testing Schedules</a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Schedules</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/admissionbed','testing_schedules')}}"><i class="fa fa-link"></i> Testing Schedules</a></li>
+            <li><a href="{{url('/admissionbed','interview_schedules')}}"><i class="fa fa-link"></i> Parent Interview Schedules</a></li>
+            <li><a href="{{url('/admissionbed','group_schedules')}}"><i class="fa fa-link"></i> Group Interview Schedules</a></li>
+          </ul>
+        </li>
 <!--        <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Student List</span>
             <span class="pull-right-container">

@@ -259,13 +259,15 @@ Route::get('/admin/logs','Admin\Logs@view_logs');
 //College Admission///////////////////////////////////////////////////
 Route::get('/ajax/admission-hed/getstudentlist', 'AdmissionHED\Ajax\GetStudentList_ajax@getstudentlist');
 //New Student
-Route::get('/admission/admission-hed/new_student','AdmissionHED\Admission\NewStudentController@index');
-Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\NewStudentController@add_new_student');
+//Route::get('/admission/admission-hed/new_student','AdmissionHED\Admission\NewStudentController@index');
+//Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\NewStudentController@add_new_student');
 
 //BED Admission///////////////////////////////////////////////////
 Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
 Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
 Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');
+Route::get('/ajax/admissionbed/update_interview','AdmissionBED\Ajax\GetStudentList@updateSchedInterview');
+Route::get('/ajax/admissionbed/update_group','AdmissionBED\Ajax\GetStudentList@updateSchedGroup');
 Route::get('/admissionbed/approve_application/{idno}','AdmissionBED\info@approve_application');
 Route::get('/admissionbeds/disapprove_application/{idno}','AdmissionBED\info@disapprove_application');
 //BED TESTING SCHEDULES/////////////////////////////////////////////////////////
@@ -273,6 +275,16 @@ Route::get('/admissionbed/testing_schedules', 'AdmissionBED\TestingSchedules@vie
 Route::post('/admissionbed/add_testing_schedule', 'AdmissionBED\TestingSchedules@add');
 Route::get('/admissionbed/edit_testing_schedule/{id}', 'AdmissionBED\TestingSchedules@edit');
 Route::post('/admissionbed/edit_testing_schedule_now', 'AdmissionBED\TestingSchedules@edit_now');
+//BED INTERVIEW SCHEDULES/////////////////////////////////////////////////////////
+Route::get('/admissionbed/interview_schedules', 'AdmissionBED\InterviewSchedules@view');
+Route::post('/admissionbed/add_interview_schedule', 'AdmissionBED\InterviewSchedules@add');
+Route::get('/admissionbed/edit_interview_schedule/{id}', 'AdmissionBED\InterviewSchedules@edit');
+Route::post('/admissionbed/edit_interview_schedule_now', 'AdmissionBED\InterviewSchedules@edit_now');
+//BED GROUP INTERVIEW SCHEDULES/////////////////////////////////////////////////////////
+Route::get('/admissionbed/group_schedules', 'AdmissionBED\GroupSchedules@view');
+Route::post('/admissionbed/add_group_schedule', 'AdmissionBED\GroupSchedules@add');
+Route::get('/admissionbed/edit_group_schedule/{id}', 'AdmissionBED\GroupSchedules@edit');
+Route::post('/admissionbed/edit_group_schedule_now', 'AdmissionBED\GroupSchedules@edit_now');
 
 
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////
