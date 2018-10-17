@@ -79,7 +79,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
           </div>
         
         
-        <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
         <?php $group = \App\GroupStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-right">
              <div class="form form-group">
@@ -93,7 +94,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
              </div>
         </div>
         
-        <?php $interview_schedules = \App\InterviewSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php //$interview_schedules = \App\InterviewSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php $interview_schedules = \App\InterviewSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
         <?php $interview = \App\InterviewStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-right">
              <div class="form form-group">
@@ -106,7 +108,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                  </select>
              </div>
         </div>
-        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php //$testing_schedules = \App\TestingSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
         <?php $testing = \App\TestingStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-right">
              <div class="form form-group">
@@ -1269,14 +1272,16 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <div class="col-sm-3">
         <input type="submit" value='Save' class='form-control btn btn-primary'>
         </div>
-<!--        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
+        @if(Auth::user()->idno != "acruz")
+        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
                         return true;
                     else
                         return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
         <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to APPROVED Applicant?'))
                         return true;
                     else
-                        return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>-->
+                        return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+        @endif
         @endif
     </div>
     </form>

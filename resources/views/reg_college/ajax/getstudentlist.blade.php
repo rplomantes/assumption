@@ -17,7 +17,7 @@
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
     <tr>
         <td>{{$list->idno}}</td>
-        <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
+        <td>{{$status->getFullNameAttribute()}}</td>
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed

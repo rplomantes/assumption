@@ -82,21 +82,29 @@
                                                 
                                                 Once again, thank you!<br><br>
                                                 
-                                                @else
-                                                
-                                                We are pleased to inform you that your daughter has been successfully admitted to
-                                                Assumption College Basic Education Division<br><br>
-                                                
-                                                Kindly claim the hard copy of your <strong>ACCEPTANCE LETTER</strong> at the BED
-                                                Admissions Office. <br><br>
-                                                
-                                                You need to present this letter in paying the Reservation Fee of your daughter.<br><br>
-                                                
-                                                Thank you. <br><br>
-                                                @endif
                                                 
                                                 Sincerely yours,<br>
                                                 BED Admissions Head
+                                                
+                                                @else
+                                                
+                                                Greetings of Peace!<br><br>
+                                                
+                                                On behalf of Assumption College, San Lorenzo-Basic Education Division, I am pleased to inform you that your daughter has been accepted to the level that she applied for. <br><br>
+                                                
+                                                In order to ensure your daughter’s slot, kindly claim the hardcopy of your daughter’s <strong>ACCEPTANCE LETTER</strong> at the BED Admissions Office at 8:00am to 4:00pm from Monday to Friday. The acceptance letter needs to be presented as you pay for the Reservation Fee.<br><br>
+
+                                                Thank you for choosing Assumption College.<br><br>
+
+                                                Sincerely yours,<br>
+                                                BED Admissions Head<br><br>
+                                                
+                                                <strong><i>Note:<br>
+                                                Should you wish to have your letter be claimed by a representative, kindly provide a photocopy of your ID and an authorization letter. Thank you!</i></strong>
+                                                
+                                                
+                                                
+                                                @endif
                                             </span>
                                         </div>
                                     </td>

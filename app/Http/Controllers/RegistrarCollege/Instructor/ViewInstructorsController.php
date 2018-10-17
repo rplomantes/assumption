@@ -31,9 +31,6 @@ class ViewInstructorsController extends Controller {
             $this->validate($request, [
                 'firstname' => 'required',
                 'lastname' => 'required',
-                'municipality' => 'required',
-                'province' => 'required',
-                'birthdate' => 'required',
                 'gender' => 'required',
                 'email' => 'required',
                 'employment_status' => 'required',

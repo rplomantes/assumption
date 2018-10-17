@@ -46,7 +46,7 @@ $tbcounter = 1;
         ?>
             @if($tbcounter == 1)
                     @if($tdcounter == 1)
-            <table {!!$width!!} border="1" style="height: 13.8cm; overflow-y: scroll;">
+            <table {!!$width!!} border="0" style="height: 13.8cm; overflow-y: scroll;">
                 <tr>
                     <td valign="top">
                     @elseif($tdcounter == 2)
@@ -54,7 +54,7 @@ $tbcounter = 1;
                     @endif
             @elseif($tbcounter == 2)
                     @if($tdcounter == 1)
-            <table {!!$width!!} border="1" style="margin-top:0cm" border="0">
+            <table {!!$width!!} border="0" style="margin-top:0cm" border="0">
                 <tr>
                     <td valign="top">
                     @elseif($tdcounter == 2)
