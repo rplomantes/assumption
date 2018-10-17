@@ -241,6 +241,7 @@ Route::get('/college_instructor/grades/{schedule_id}', 'CollegeInstructor\Grades
 Route::post('/college_instructor/grades/save_submit', 'CollegeInstructor\Grades\GradesController@save_submit');
 Route::get('/college_instructor/print_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_list');
 Route::get('/college_instructor/print_grade/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
+Route::get('/college_instructor/export_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@export_list');
 
 //Ajax COLLEGE INSTRUCTOR///////////////////////////////////////////////////////
 Route::get('/ajax/college_instructor/grades/change_midterm/{idno}', 'CollegeInstructor\Grades\Ajax\GradesAjaxController@change_midterm');

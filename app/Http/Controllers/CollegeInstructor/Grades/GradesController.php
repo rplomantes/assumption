@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use PDF;
+use Excel;
 
 class GradesController extends Controller
 {
@@ -103,6 +104,35 @@ class GradesController extends Controller
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("student_list_.pdf");
             
+            
+        }
+    }
+    
+    
+    function export_list($schedule_id) {
+        if (Auth::user()->accesslevel == env('INSTRUCTOR')) {
+            
+            $confirm_instructor = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
+            
+            if ($confirm_instructor == Auth::user()->idno){
+            
+            $courses_id = \App\CourseOffering::where('schedule_id',$schedule_id)->get();
+            $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
+            $course_code = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_code; 
+            
+            
+            ob_end_clean();
+            Excel::create('Student List-'.$course_code, function($excel) use ($courses_id,$schedule_id,$course_name,$course_code) {
+                $excel->setTitle($course_code);
+
+                $excel->sheet($course_code, function ($sheet) use ($courses_id,$schedule_id,$course_name,$course_code) {
+                    $sheet->loadView('college_instructor.export_list', compact('courses_id','schedule_id','course_name','course_code'));
+                });
+            })->download('xlsx');
+            
+            } else {
+                
+            }
             
         }
     }

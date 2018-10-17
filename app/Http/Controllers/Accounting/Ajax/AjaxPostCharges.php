@@ -27,7 +27,7 @@ class AjaxPostCharges extends Controller {
             foreach ($dues as $due) {
                 $due_date = date_create($due->due_date);
                 $month = date_format(date_create($due->due_date),'m');
-                $data = $data . "<option value='" . $month . "'>" . date_format($due_date, "F") . "</option>";
+                $data = $data . "<option value='" . $month . "'>" . date_format($due_date, "F Y") . "</option>";
             }
             return $data;
         }

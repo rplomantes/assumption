@@ -242,13 +242,14 @@ class GetStudentList extends Controller {
                                 . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
             }
         }
-        Excel::create('Student Data', function($excel) use ($status, $level, $section, $strand, $value) {
-            $excel->setTitle('StudentData');
+        ob_end_clean();
+        Excel::create('Student List-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $value) {
+            $excel->setTitle($level."-".$section);
 
-            $excel->sheet('sheet', function ($sheet) use ($status, $level, $section, $strand, $value) {
+            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $value) {
                 $sheet->loadView('reg_be.view_list_export', compact('status', 'level', 'section', 'strand', 'value'));
             });
-        })->download('csv');
+        })->download('xlsx');
     }
 
 //    function print_to_excel() {

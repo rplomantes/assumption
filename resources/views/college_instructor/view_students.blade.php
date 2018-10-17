@@ -188,7 +188,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
     </div>
     @endif
     <div class="col-sm-2">
-        <a href='{{url('/')}}'><div class="btn btn-warning col-sm-12">Return Dashboard</div></a>
+        <a targe="_blank" href='{{url('college_instructor', array('export_list',$schedule_id))}}'><div class="btn btn-warning col-sm-12">Export in Excel</div></a>
     </div>
     <div class="col-sm-2">
         <a href='{{url('college_instructor', array('print_list', $schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Class List</div></a>
