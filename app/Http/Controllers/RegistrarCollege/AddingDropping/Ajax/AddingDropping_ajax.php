@@ -30,13 +30,13 @@ class AddingDropping_ajax extends Controller {
 
             $add_to_grade = \App\CourseOffering::where('course_code', $course_code)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->first();
 
-            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $add_to_grade->course_code)
+//            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $add_to_grade->course_code)
 //                    ->where(function ($query){
 //                        $query->whereRaw('finals NOT LIKE "FAILED" or finals NOT LIKE "4.00" or finals NOT LIKE "FA" or finals NOT LIKE "INC" or finals NOT LIKE "NA" or finals NOT LIKE "NG" or finals NOT LIKE "UD" or finals NOT LIKE "W" or finals NOT LIKE "AUDIT"');
 //                    })
-                            ->get();
+//                            ->get();
             
-            if (count($checkcourse) == 0) {
+//            if (count($checkcourse) == 0) {
             $add = new \App\AddingDropping();
             $add->idno = $idno;
             $add->course_code = $course_code;
@@ -51,9 +51,9 @@ class AddingDropping_ajax extends Controller {
             $add->action = "ADD";
             $add->posted_by = Auth::user()->idno;
             $add->save();
-            }else{
+//            }else{
                 
-            }
+//            }
         }
     }
 

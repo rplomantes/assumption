@@ -89,6 +89,28 @@
        <p class="" style="margin-top: 10px;">
             Posted by: <b>{{\App\User::where('idno',$debit_memo->posted_by)->first()->firstname}} {{\App\User::where('idno',$debit_memo->posted_by)->first()->lastname}}</b>
         </p>  
+        
+        
+        <div class="col-md-12">
+            <div class="form form-group">
+            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD'))
+            <a class="btn btn-primary" id="cancelrestore" href="{{url("/accounting",array("reverserestore",$debit_memo->reference_id))}}">
+            @if($debit_memo->is_reverse=="0")    
+                Cancel
+            @else
+                Restore
+            @endif
+            </a>
+            @endif
+            
+            @if($debit_memo->idno != 999999)
+            <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$debit_memo->idno))}}">Back To Ledger</a>
+            @endif
+            </div>
+            
+            </div>
+        
+        
   <div class="form form-group">
       <div class="col-md-10">
           <a href="{{url('/accounting', array(''))}}">

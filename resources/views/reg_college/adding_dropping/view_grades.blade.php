@@ -121,7 +121,12 @@
         </div>
     </div>
     <div class="col-sm-12">
-        <a href="{{url('/registrar_college', array('process_adding_dropping', $idno))}}"><button class="btn btn-success col-sm-12">Process Adding/Dropping</button></a>
+        <div class="col-sm-6">
+        <a href="{{url('/registrar_college', array('process_adding_dropping','wo', $idno))}}"><button class="btn btn-warning col-sm-12">Process without Adding/Dropping Fee</button></a>
+        </div>
+        <div class="col-sm-6">
+        <a href="{{url('/registrar_college', array('process_adding_dropping','w', $idno))}}"><button class="btn btn-success col-sm-12">Process with Adding/Dropping Fee</button></a>
+        </div>
     </div>
 </section>
 

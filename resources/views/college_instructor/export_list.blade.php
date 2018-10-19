@@ -20,13 +20,13 @@ $instructor = \App\User::where('idno', Auth::user()->idno)->first();
 
 <table width="100%">
     <tr>
-        <td width="10%">Course:</td><td style="border-bottom:1px solid black">{{$course_code}} - {{$course_name}}</td>
+        <td></td><td width="10%">Course:</td><td style="border-bottom:1px solid black">{{$course_code}} - {{$course_name}}</td>
     </tr>
     <tr>
-        <td>Instructor:</td><td style="border-bottom:1px solid black">{{$instructor->firstname}} {{$instructor->lastname}}</td>
+        <td></td><td>Instructor:</td><td style="border-bottom:1px solid black">{{$instructor->firstname}} {{$instructor->lastname}}</td>
     </tr>
     <tr>
-        <td>Schedule:</td>
+        <td></td><td>Schedule:</td>
         <td style="border-bottom:1px solid black">
             
             <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->is_tba; ?>
@@ -46,7 +46,7 @@ $instructor = \App\User::where('idno', Auth::user()->idno)->first();
                 $days = \App\ScheduleCollege::where('schedule_id', $schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
                 ?>
                 <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
-                [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]<br>
+                [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:iA', strtotime($schedule2->time_start))}}-{{date('g:iA', strtotime($schedule2->time_end))}}]
                 @endforeach
             @else
             TBA
@@ -62,8 +62,8 @@ $instructor = \App\User::where('idno', Auth::user()->idno)->first();
     <table class='table' border="1" width="100%" cellspacing='1' cellpadding='1'>
         <thead>
             <tr>
-                <th width="3%"><div align="center">#</div></th>
-                <th width="10%">ID number</th>
+                <th width="3%">#</th>
+                <th width="12%">ID Number</th>
                 <th width="50%">Name</th>
                 <th></th>
                 <th></th>

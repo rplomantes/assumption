@@ -66,7 +66,7 @@ Route::get('/ajax/registrar_college/advising/get_section', 'RegistrarCollege\Adv
 //Adding/Dropping///////////////////////////////////////////////////////////////
 Route::get('/registrar_college/adding_dropping/{idno}','RegistrarCollege\AddingDropping\AddingDroppingController@index');
 Route::get('/registrar_college/remove_adding_dropping/{idno}/{id}','RegistrarCollege\AddingDropping\AddingDroppingController@remove');
-Route::get('/registrar_college/process_adding_dropping/{idno}','RegistrarCollege\AddingDropping\AddingDroppingController@process');
+Route::get('/registrar_college/process_adding_dropping/{status}/{idno}','RegistrarCollege\AddingDropping\AddingDroppingController@process');
 //Ajax
 Route::get('/ajax/registrar_college/adding_dropping/search_offer/','RegistrarCollege\AddingDropping\Ajax\AddingDropping_ajax@index');
 Route::get('/ajax/registrar_college/adding_dropping/adding/','RegistrarCollege\AddingDropping\Ajax\AddingDropping_ajax@adding');

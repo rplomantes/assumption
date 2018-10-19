@@ -80,6 +80,7 @@
                         <th>Name</th>
                         <th>Level</th>
                         <th>Date of Birth</th>
+                        <th>Date of Application Submitted</th>
                         <th>Testing Schedule</th>
                     </tr>
                 </thead>
@@ -87,6 +88,7 @@
                     <?php $number = 1; ?>
                     @foreach ($for_approval_sched as $p)
                     <?php $dob = \App\BedProfile::where('idno', $p->idno)->first()->date_of_birth; ?>
+                    <?php $daf = \App\Status::where('idno', $p->idno)->first()->date_application_finish; ?>
                     <?php $testing = \App\TestingStudent::where('idno', $p->idno)->first(); ?>
                     @if($testing->schedule_id != null)
                     <?php $testing_schedule = \App\TestingSchedule::where('id', $testing->schedule_id)->first()->datetime; ?>
@@ -99,6 +101,7 @@
                         <td>{{$p->lastname}}, {{$p->firstname}} {{$p->middlename}} {{$p->extensionname}}</td>
                         <td>{{$p->level}}</td>
                         <td>{{$dob}}</td>
+                        <td>{{$daf}}</td>
                         <td>{{$testing_schedule}}</td>
                         
                     </tr>

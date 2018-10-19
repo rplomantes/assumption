@@ -27,6 +27,7 @@ $i=1;
 @if($section=="All")
 <table width="100%">
     <tr>
+        <td></td>
         <td>Subject</td>
         <td style="border-bottom: 1px solid" width="30%"></td>
         <td>Quarter</td>
@@ -65,7 +66,7 @@ $i=1;
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w' || $value == 'new')
-        <td width="1%">{{$name->idno}}</td>
+        <td width="10%">{{$name->idno}}</td>
         @endif
         <td width="50%">
             @if ($is_new->is_new == 1)
@@ -95,6 +96,7 @@ $i=1;
 @else
 <table width="100%">
     <tr>
+        <td></td>
         <td>Subject</td>
         <td style="border-bottom: 1px solid" width="30%"></td>
         <td>Quarter</td>
@@ -135,7 +137,7 @@ $i=1;
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w' || $value == 'new')
-        <td width="1%">{{$name->idno}}</td>
+        <td width="10%">{{$name->idno}}</td>
         @endif
         <td width="40%">
             @if ($is_new->is_new == 1)

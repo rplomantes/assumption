@@ -32,13 +32,15 @@ class AddingDroppingController extends Controller {
         return redirect("/registrar_college/adding_dropping/$idno");
     }
 
-    function process($idno) {
+    function process($fee,$idno) {
         $status = \App\Status::where('idno', $idno)->first();
         $user = \App\User::where('idno', $idno)->first();
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
         DB::beginTransaction();
         $is_practicum_only = $this->checkPracticumOnly($idno, $school_year->school_year, $school_year->period);
+        if ($fee == "w"){
         $this->addSurcharge($idno, $school_year, $status, $user);
+        }
         $this->processAdding($idno, $school_year, $status, $user, $is_practicum_only);
         $this->processDropping($idno, $school_year, $status, $user);
         $this->deleteLedgerduedate($idno, $school_year->school_year, $school_year->period);
@@ -184,7 +186,7 @@ class AddingDroppingController extends Controller {
         $grades = \App\AddingDropping::distinct()->where('id', $id)->where('srf', '>', '0')->get();
         if (count($grades) > 0) {
             foreach ($grades as $grade) {
-                $addledger = new \App\ledger;
+                $addledger = new \App\Ledger;
                 $addledger->idno = $idno;
                 $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
                 $addledger->program_code = $program_code;

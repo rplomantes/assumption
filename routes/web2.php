@@ -78,6 +78,7 @@ Route::get('/accounting/cash_receipt/{date_start}/{date_end}','Accounting\BookOf
 Route::get('/accounting/schedule_of_plan', 'Accounting\ScheduleOfFees@plan');
 ROUTE::GET('/accounting/change_plan/{idno}','Accounting\ChangePlan@index');
 Route::post('/accounting/change_plan','Accounting\ChangePlan@post_plan');
+Route::get('/accounting/reverserestore/{reference_id}', 'Cashier\StudentLedger@reverserestore_dm');
 //BED registrar
 Route::get('/bedregistrar/info/{idno}','BedRegistrar\Registration@info');
 Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
