@@ -163,6 +163,7 @@ Route::get('/ajax/registrar_college/grade_management/get_oldlist_students', 'Reg
 Route::get('/ajax/registrar_college/grade_management/lock/{idno}/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@lock');
 Route::get('/ajax/registrar_college/grade_management/unlock/{idno}/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@unlock');
 Route::get('/ajax/registrar_college/grade_management/approve_all/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@approve_all');
+Route::get('/ajax/registrar_college/grade_management/cancel_all/{school_year}/{period}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@cancel_all');
 Route::get('/ajax/registrar_college/grades/change_midterm/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_midterm');
 Route::get('/ajax/registrar_college/grades/change_finals/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_finals');
 Route::get('/ajax/registrar_college/grades/change_completion/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_completion');
@@ -372,3 +373,7 @@ Route::get('/bedadmission/reports/pre_registered/{date_start}/{date_end}','Admis
 Route::get('/bedadmission/reports/for_approval/{date_start}/{date_end}','AdmissionBED\reportsController@for_approval');
 Route::get('/bedadmission/reports/approved/{date_start}/{date_end}','AdmissionBED\reportsController@approved');
 Route::get('/bedadmission/reports/regrets/{date_start}/{date_end}','AdmissionBED\reportsController@regrets');
+
+
+//ACCOUNTING EDIT LEDGER
+Route::get('/accounting/edit_ledger/{idno}','Accounting\EditLedger@index');

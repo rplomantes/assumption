@@ -99,14 +99,32 @@ class AjaxViewGrades extends Controller {
             
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
-                    $this->updateStatus($course_offering);
+                    $this->updateStatus($course_offering,2);
                 DB::commit();
             }
                     return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
         }
     }
     
-    function updateStatus($course_offering){
+    function cancel_all($school_year, $period){
+        if (Request::ajax()) {
+            
+            $schedule_id = Input::get("schedule_id");
+            $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
+            
+            $course_offerings = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            
+            foreach ($course_offerings as $course_offering){
+                DB::beginTransaction($course_offering);
+                    $this->updateStatus($course_offering,1);
+                DB::commit();
+            }
+                    return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+        }
+    }
+    
+    function updateStatus($course_offering, $status){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
             $checkstatus = \App\Status::where('idno', $update->idno)->first()->status;
@@ -114,11 +132,11 @@ class AjaxViewGrades extends Controller {
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
             
             if($close->midterm == 0){
-                $update->midterm_status = 2;
+                $update->midterm_status = $status;
             }else if ($close->finals == 0){
-                $update->finals_status = 2;
+                $update->finals_status = $status;
             }    
-            $update->is_lock = 2;
+            $update->is_lock = $status;
             $update->save();
             }
         }

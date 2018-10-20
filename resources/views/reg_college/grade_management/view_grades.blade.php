@@ -194,6 +194,20 @@ $layout = "layouts.appreg_college";
             }
         });
     }
+    function cancelall(schedule_id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/cancel_all" + '/' + school_year + '/'+ period,
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
+        });
+    }
     
     function change_midterm(grade, grade_id, idno,stat) {
         array = {};
