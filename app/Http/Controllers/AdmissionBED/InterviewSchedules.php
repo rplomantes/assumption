@@ -56,4 +56,23 @@ class InterviewSchedules extends Controller
             return redirect('/admissionbed/interview_schedules');
         }
     }
+    
+    function view_list($id){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $lists = \App\InterviewStudent::where('schedule_id',$id)->get();
+            
+            return view('admission-bed.view_sched_list_interview', compact('id','lists'));
+        }
+    }
+    
+    function remove_list($id,$idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $lists = \App\InterviewStudent::where('idno',$idno)->first();
+            $lists->schedule_id = "";
+            $lists->update();
+            
+            Session::flash('message', 'Applicant Remove!');
+            return redirect('/admissionbed/view_interview_list/'.$id);
+        }
+    }
 }

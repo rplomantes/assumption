@@ -62,6 +62,7 @@
                 <th>#</th>
                 <th>Schedule</th>
                 <th>Status</th>
+                <th>View List</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -71,6 +72,7 @@
                 <td>{{$counter++}}</td>
                 <td>{{date('l, F j, Y - g:i A',strtotime($schedule->datetime))}}</td>
                 <td>@if ($schedule->is_remove==1) Inactive @else Active @endif</td>
+                <td><a href='{{url('/admissionbed', array('view_testing_list', $schedule->id))}}'>View List</a></td>
                 <td><a href="{{url('/admissionbed', array('edit_testing_schedule', $schedule->id))}}">Edit</a></td>
             </tr>
             @endforeach

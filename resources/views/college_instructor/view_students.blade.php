@@ -96,10 +96,10 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             <td>{{$student->idno}}</td>
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
                             <td>
-                                <input value="{{$student->midterm_absences}}" name="midterm_absences[{{$student->id}}]" id="midterm_absences" onchange="change_midterm_absences(this.value, {{$student->id}}, {{$student->idno}})"
+                                <input value="{{$student->midterm_absences}}" name="midterm_absences[{{$student->id}}]" id="midterm_absences" onchange="change_midterm_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
                             </td>
                             <td>
-                                <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, {{$student->idno}})"
+                                <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, '{{$student->idno}}')"
                                 @if($student->is_lock == 3)
                                 disabled=''>
                                 @else
@@ -140,10 +140,10 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                                 </select>
                             </td>
                             <td>
-                                <input value="{{$student->finals_absences}}" name="finals_absences[{{$student->id}}]" id="finals_absences" onchange="change_finals_absences(this.value, {{$student->id}}, {{$student->idno}})"
+                                <input value="{{$student->finals_absences}}" name="finals_absences[{{$student->id}}]" id="finals_absences" onchange="change_finals_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
                             </td>
                             <td>
-                                <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, {{$student->idno}})"
+                                <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, '{{$student->idno}}')"
                                 
                                 @if($student->finals_status == 0 && $close->finals == 0)
                                 

@@ -39,7 +39,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        Group Interview Schedules
+        Testing Schedules
         <small></small>
     </h1>
     <ol class="breadcrumb">
@@ -51,62 +51,38 @@
 @section('maincontent')
 <?php $counter = 1; ?>
 <div class="col-md-12 box box-body">
-    
-        @if (Session::has('message'))
+    @if (Session::has('message'))
             <div class="alert alert-success">{{ Session::get('message') }}</div>
-        @endif  
-    <button class="btn btn-success" data-toggle="modal" data-target="#show_adding_schedule">Create New Schedule</button>
+        @endif 
     <table class="table table-condensed">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Schedule</th>
-                <th>Status</th>
-                <th>View List</th>
-                <th>Action</th>
+                <th>Reference No.</th>
+                <th>Name</th>
+                <th>Birthday</th>
+                <th>Remove</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($schedules as $schedule)
+            @foreach($lists as $list)
+            <?php $dob = \App\BedProfile::where('idno', $list->idno)->first()->date_of_birth; ?>
+            <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
             <tr>
                 <td>{{$counter++}}</td>
-                <td>{{date('l, F j, Y - g:i A',strtotime($schedule->datetime))}}</td>
-                <td>@if ($schedule->is_remove==1) Inactive @else Active @endif</td>
-                <td><a href='{{url('/admissionbed', array('view_group_list', $schedule->id))}}'>View List</a></td>
-                <td><a href="{{url('/admissionbed', array('edit_group_schedule', $schedule->id))}}">Edit</a></td>
+                <td>{{$list->idno}}</td>
+                <td>{{$status->getFullNameAttribute()}}</td>
+                <td>{{$dob}}</td>
+                @if($status->status == env('FOR_APPROVAL'))
+                <td><a href="{{url('/admissionbed', array('remove_interview_list_student', $id,$list->idno))}}">Remove</a></td>
+                @else
+                <td>Cannot Remove</td>
+                @endif
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>    
-<div class="modal fade" id="show_adding_schedule">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New Group Interview Schedule</h4>
-            </div>
-        
-        <form method="post" action="{{url('admissionbed',array('add_group_schedule'))}}">
-            <div class="modal-body">
-                {{ csrf_field() }}
-                    <label>Date & Time</label>
-                    <div class="input-group stylish-input-group">
-                        <input name="datetime" type='text' id='datetimepicker' class='form form-control' placeholder='yyyy-mm-dd hh:mm:ss'>
-                        <span class="input-group-addon">
-                            <span class="fa fa-calendar"></span> 
-                        </span>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Save schedule">
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
 @endsection
 @section('footerscript')
 <script src="{{ asset('build/jquery.datetimepicker.full.js')}}"></script>

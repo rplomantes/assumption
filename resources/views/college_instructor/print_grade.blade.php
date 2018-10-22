@@ -241,8 +241,8 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
                     <td style="border-bottom:1px solid black" align='center'>{{$student->midterm}}</td>
                     <td style="border-bottom:1px solid black" align='center'>{{$student->finals}}</td>
                     <td style="border-bottom:1px solid black"></td>
-                    <td style="border-bottom:1px solid black" align='center'>{{$student->midterm_absences}}</td>
-                    <td style="border-bottom:1px solid black" align='center'>{{$student->finals_absences}}</td>
+                    <td style="border-bottom:1px solid black" align='center'>@if($student->midterm_absences != 0){{$student->midterm_absences}}@endif</td>
+                    <td style="border-bottom:1px solid black" align='center'>@if($student->finals_absences != 0){{$student->finals_absences}}@endif</td>
                 </tr>
                 @endforeach
             </tbody>

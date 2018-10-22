@@ -56,4 +56,23 @@ class TestingSchedules extends Controller
             return redirect('/admissionbed/testing_schedules');
         }
     }
+    
+    function view_list($id){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $lists = \App\TestingStudent::where('schedule_id',$id)->get();
+            
+            return view('admission-bed.view_sched_list', compact('id','lists'));
+        }
+    }
+    
+    function remove_list($id,$idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $lists = \App\TestingStudent::where('idno',$idno)->first();
+            $lists->schedule_id = "";
+            $lists->update();
+            
+            Session::flash('message', 'Applicant Remove!');
+            return redirect('/admissionbed/view_testing_list/'.$id);
+        }
+    }
 }

@@ -56,4 +56,23 @@ class GroupSchedules extends Controller
             return redirect('/admissionbed/group_schedules');
         }
     }
+    
+    function view_list($id){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $lists = \App\GroupStudent::where('schedule_id',$id)->get();
+            
+            return view('admission-bed.view_sched_list_group', compact('id','lists'));
+        }
+    }
+    
+    function remove_list($id,$idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $lists = \App\GroupStudent::where('idno',$idno)->first();
+            $lists->schedule_id = "";
+            $lists->update();
+            
+            Session::flash('message', 'Applicant Remove!');
+            return redirect('/admissionbed/view_group_list/'.$id);
+        }
+    }
 }

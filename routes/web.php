@@ -277,16 +277,22 @@ Route::get('/admissionbed/testing_schedules', 'AdmissionBED\TestingSchedules@vie
 Route::post('/admissionbed/add_testing_schedule', 'AdmissionBED\TestingSchedules@add');
 Route::get('/admissionbed/edit_testing_schedule/{id}', 'AdmissionBED\TestingSchedules@edit');
 Route::post('/admissionbed/edit_testing_schedule_now', 'AdmissionBED\TestingSchedules@edit_now');
+Route::get('/admissionbed/view_testing_list/{id}', 'AdmissionBED\TestingSchedules@view_list');
+Route::get('/admissionbed/remove_testing_list_student/{id}/{idno}', 'AdmissionBED\TestingSchedules@remove_list');
 //BED INTERVIEW SCHEDULES/////////////////////////////////////////////////////////
 Route::get('/admissionbed/interview_schedules', 'AdmissionBED\InterviewSchedules@view');
 Route::post('/admissionbed/add_interview_schedule', 'AdmissionBED\InterviewSchedules@add');
 Route::get('/admissionbed/edit_interview_schedule/{id}', 'AdmissionBED\InterviewSchedules@edit');
 Route::post('/admissionbed/edit_interview_schedule_now', 'AdmissionBED\InterviewSchedules@edit_now');
+Route::get('/admissionbed/view_interview_list/{id}', 'AdmissionBED\InterviewSchedules@view_list');
+Route::get('/admissionbed/remove_interview_list_student/{id}/{idno}', 'AdmissionBED\InterviewSchedules@remove_list');
 //BED GROUP INTERVIEW SCHEDULES/////////////////////////////////////////////////////////
 Route::get('/admissionbed/group_schedules', 'AdmissionBED\GroupSchedules@view');
 Route::post('/admissionbed/add_group_schedule', 'AdmissionBED\GroupSchedules@add');
 Route::get('/admissionbed/edit_group_schedule/{id}', 'AdmissionBED\GroupSchedules@edit');
 Route::post('/admissionbed/edit_group_schedule_now', 'AdmissionBED\GroupSchedules@edit_now');
+Route::get('/admissionbed/view_group_list/{id}', 'AdmissionBED\GroupSchedules@view_list');
+Route::get('/admissionbed/remove_group_list_student/{id}/{idno}', 'AdmissionBED\GroupSchedules@remove_list');
 
 
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////
