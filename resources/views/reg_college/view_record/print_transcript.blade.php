@@ -3,6 +3,7 @@ $credit = 0;
 $gpa = 0;
 $count = 0;
 ?>
+
 <style>
     body {
         font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
