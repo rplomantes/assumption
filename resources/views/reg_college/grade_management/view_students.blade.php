@@ -61,7 +61,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                                 <i class="label label-info">Grade is not yet submitted by instructor for checking</i>
                                 <!--<div class="btn btn-warning col-sm-12" onclick="lock({{$student->idno}}, schedule_id.value, {{$student->id}})">Lock</div>-->
                                 @elseif ($student->is_lock == 1)
-                                <div class="btn btn-danger col-sm-12" onclick="unlock({{$student->idno}}, schedule_id.value, {{$student->id}})">Back this grade to Instructor</div>
+                                <div class="btn btn-danger col-sm-12" onclick="unlock('{{$student->idno}}', schedule_id.value, '{{$student->id}}')">Back this grade to Instructor</div>
                                 @elseif ($student->is_lock == 2)
                                 <i class="label label-warning">For Submission to Records by the Instructor</i>
                                 @else

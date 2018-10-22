@@ -75,7 +75,7 @@ class AjaxViewGrades extends Controller {
             
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
-            
+
             if($close->midterm == 0){
                 $update_grades->midterm_status = 0;
             }else if ($close->finals == 0){
