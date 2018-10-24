@@ -17,6 +17,23 @@ class Registration extends Controller {
     public function __construct() {
         $this->middleware('auth');
     }
+    
+    function withdraw($idno) {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            $status = \App\Status::where('idno', $idno)->first();
+            $status->date_dropped = date('Y-m-d');
+            $status->status = env('WITHDRAWN');
+            $status->save();
+            
+            $bedlevel = \App\BedLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
+            $bedlevel->date_dropped = date('Y-m-d');
+            $bedlevel->status = env('WITHDRAWN');
+            $bedlevel->save();
+            
+            \App\Http\Controllers\Accounting\SetReceiptController::log("Widthdraw student $idno.");
+            return redirect(url('/bedregistrar', array('info', $idno)));
+        }
+    }
 
     function register() {
         if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {

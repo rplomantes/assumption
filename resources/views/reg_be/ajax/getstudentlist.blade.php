@@ -1,15 +1,16 @@
 @if(count($lists)>0)
 <table class="table table-responsive table-striped">
-    <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>Assess</th><th>View Info</th><th>View Grades<th></tr>
+    <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>Assess</th><th>View Info</th><th>View Grades</th></tr>
     @foreach($lists as $list)
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
-    @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status<=3 || $list->academic_type=="SHS")
+    @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status<=4 || $list->academic_type=="SHS")
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
             @elseif($status->status == 10) Pre-Registered
             @elseif($status->status == 11) For Approval
+            @elseif($status->status == 4) Withdrawn-{{$status->date_dropped}}
             @else Not Yet Enrolled @endif
         </td>
         

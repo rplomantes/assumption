@@ -1,7 +1,7 @@
 <?php
 function get_name($idno){
     $names = \App\User::where('idno',$idno)->first();
-    $is_new = \App\BedLevel::where('idno',$idno)->first();
+    $is_widthraw = \App\Status::where('idno',$idno)->first();
     
     if($names->middlename == NULL){
         $names->middlename = "";
@@ -9,7 +9,13 @@ function get_name($idno){
         $names->middlename = "(".ucwords(strtolower($names->middlename)).")";
     }
     
-    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename;
+    if ($is_widthraw->status == 4){
+        $print = "Withdrawn-". $is_widthraw->date_dropped;
+    } else {
+        $print = "";
+    }
+    
+    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename." ".$print;
 
     
     }

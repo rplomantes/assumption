@@ -104,7 +104,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 }
                  break;
             case 4:
-                 echo "<tr><td>Status : </td><td>Dropped</td><tr>";
+                 echo "<tr><td>Status : </td><td>Dropped/Withdraw</td><tr>";
             }
             ?></b>
             

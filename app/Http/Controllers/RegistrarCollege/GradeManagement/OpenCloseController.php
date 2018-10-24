@@ -15,7 +15,7 @@ class OpenCloseController extends Controller
 
     function setup() {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $status = \App\CtrCollegeGrading::where('academic_type', 'College')->first();
+            $status = \App\CtrCollegeGrading::where('academic_type', 'College')->where('idno', 999991)->first();
             
             return view('reg_college.grade_management.open_close', compact('status'));
         }

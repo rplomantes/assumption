@@ -9,7 +9,13 @@ function get_name($idno){
         $names->middlename = "(".ucwords(strtolower($names->middlename)).")";
     }
     
-    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename;
+    if ($is_widthraw->status == 4){
+        $print = "Withdrawn-". $is_widthraw->date_dropped;
+    } else {
+        $print = "";
+    }
+    
+    return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename." ".$print;
 
     
     }

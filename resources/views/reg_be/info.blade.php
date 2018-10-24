@@ -58,6 +58,27 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     {{ csrf_field() }}
     <div class="col-md-12">
         
+         <div class="col-md-2 pull-lef">
+             <div class="form form-group">
+                 <label><br><br></label>
+              <a href='{{url('/bedregistrar',array('widthdraw_student',$user->idno))}}'><button type="button" class="btn btn-danger">
+                Tag as Withdrawn
+              </button>
+              </a>
+             </div>
+          </div>
+        <div class="col-md-2 pull-right">
+             <div class="form form-group">
+                 <label>Enrollment Status: </label><button class="form form-control btn btn-success" style="color: white">
+                     @if($status->status == 3)Enrolled
+            @elseif($status->status == 2) Assessed
+            @elseif($status->status == 10) Pre-Registered
+            @elseif($status->status == 11) For Approval
+            @elseif($status->status == 4) Withdrawn
+            @else Not Yet Enrolled @endif
+                 </button>
+             </div>
+          </div>
          <div class="col-md-3 pull-right">
              <div class="form form-group">
                  <label>User Status</label>
