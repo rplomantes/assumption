@@ -163,11 +163,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
-                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cel_no',$info->cel_no)}}" type="text">
+                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cell_no',$info->cell_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Email</label>
-                            <input class="form form-control" name='email' placeholder='Email Address*' readonly="" value="{{old('email',$user->email)}}" type="email">
+                            <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email',$user->email)}}" type="email">
                         </div>
                     </div>
                     <hr>
