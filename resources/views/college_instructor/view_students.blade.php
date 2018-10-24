@@ -23,7 +23,16 @@
 @endsection
 @section('header')
 <?php
-$close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+
+            $addparent = \App\CtrCollegeGrading::where('idno', Auth::user()->idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\CtrCollegeGrading;
+                $addpar->idno = Auth::user()->idno;
+                $addpar->academic_type = "College";
+                $addpar->save();
+            }
+            
+$close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',Auth::user()->idno)->first();
 ?>
 <section class="content-header">
     <h1>
@@ -96,7 +105,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             <td>{{$student->idno}}</td>
                             <td>{{$student->lastname}}, {{$student->firstname}}</td>
                             <td>
-                                <input value="{{$student->midterm_absences}}" name="midterm_absences[{{$student->id}}]" id="midterm_absences" onchange="change_midterm_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
+                                <input @if($close->midterm == 1) readonly="" @endif value="{{$student->midterm_absences}}" name="midterm_absences[{{$student->id}}]" id="midterm_absences" onchange="change_midterm_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
                             </td>
                             <td>
                                 <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, '{{$student->idno}}')"
@@ -140,7 +149,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                                 </select>
                             </td>
                             <td>
-                                <input value="{{$student->finals_absences}}" name="finals_absences[{{$student->id}}]" id="finals_absences" onchange="change_finals_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
+                                <input @if($close->finals == 1) readonly="" @endif value="{{$student->finals_absences}}" name="finals_absences[{{$student->id}}]" id="finals_absences" onchange="change_finals_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
                             </td>
                             <td>
                                 <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, '{{$student->idno}}')"

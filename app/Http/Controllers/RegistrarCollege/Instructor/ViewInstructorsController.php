@@ -45,6 +45,7 @@ class ViewInstructorsController extends Controller {
         DB::beginTransaction();
         $this->adduser($request);
         $this->addinstructorinfo($request);
+        $this->addCtrCollegeGrading($request);
         
             \App\Http\Controllers\Admin\Logs::log("Create new instructor idno: $request->idno");
         DB::commit();
@@ -89,6 +90,13 @@ class ViewInstructorsController extends Controller {
         $add_info->degree_status = $request->degree_status;
         $add_info->program_graduated = $request->program_graduated;
         $add_info->save();
+    }
+    
+    function addCtrCollegeGrading($request){
+        $addGrading = new \App\CtrCollegeGrading;
+        $addGrading->idno = $request->idno;
+        $addGrading->academic_type = "College";
+        $addGrading->save();
     }
 
     function view_modify($idno) {

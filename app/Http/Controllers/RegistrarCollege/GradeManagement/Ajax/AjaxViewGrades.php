@@ -50,16 +50,18 @@ class AjaxViewGrades extends Controller {
             $schedule_id = Input::get("schedule_id");
             $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
+            $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
             
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
-            $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+            $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
             
             if($close->midterm == 0){
                 $update_grades->midterm_status = 2;
+                $update_grades->is_lock = 2;
             }else if ($close->finals == 0){
                 $update_grades->finals_status = 2;
+                $update_grades->is_lock = 2;
             }
-            $update_grades->is_lock = 2;
             $update_grades->save();
             
             return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
@@ -72,16 +74,19 @@ class AjaxViewGrades extends Controller {
             $schedule_id = Input::get("schedule_id");
             $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
+            $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
+            
             
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
-            $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+            $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
 
             if($close->midterm == 0){
                 $update_grades->midterm_status = 0;
+                $update_grades->is_lock = 0;
             }else if ($close->finals == 0){
                 $update_grades->finals_status = 0;
+                $update_grades->is_lock = 0;
             }
-            $update_grades->is_lock = 0;
             $update_grades->save();
             
             return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
@@ -96,10 +101,11 @@ class AjaxViewGrades extends Controller {
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
             
             $course_offerings = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
             
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
-                    $this->updateStatus($course_offering,2);
+                    $this->updateStatus($course_offering, $instructor_idno, 2);
                 DB::commit();
             }
                     return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
@@ -114,29 +120,31 @@ class AjaxViewGrades extends Controller {
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
             
             $course_offerings = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
             
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
-                    $this->updateStatus($course_offering,1);
+                    $this->updateStatus($course_offering, $instructor_idno, 1);
                 DB::commit();
             }
                     return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
         }
     }
     
-    function updateStatus($course_offering, $status){
+    function updateStatus($course_offering, $instructor_idno, $status){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
             $checkstatus = \App\Status::where('idno', $update->idno)->first()->status;
             if ($checkstatus == 3){
-            $close = \App\CtrCollegeGrading::where('academic_type', "College")->first();
+            $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$instructor_idno)->first();
             
             if($close->midterm == 0){
                 $update->midterm_status = $status;
+                $update->is_lock = $status;
             }else if ($close->finals == 0){
                 $update->finals_status = $status;
-            }    
-            $update->is_lock = $status;
+                $update->is_lock = $status;
+            }
             $update->save();
             }
         }
@@ -193,6 +201,26 @@ class AjaxViewGrades extends Controller {
             $update_grades->completion = $grade;
             $update_grades->save();
             }
+        }
+    }
+    function update_midterm(){
+        if (Request::ajax()) {
+            $idno = Input::get("idno");
+            $close = Input::get("close");
+            
+            $update = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$idno)->first();
+            $update->midterm = $close;
+            $update->save();
+        }
+    }
+    function update_finals(){
+        if (Request::ajax()) {
+            $idno = Input::get("idno");
+            $close = Input::get("close");
+            
+            $update = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$idno)->first();
+            $update->finals = $close;
+            $update->save();
         }
     }
 

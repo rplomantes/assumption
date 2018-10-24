@@ -154,6 +154,8 @@ Route::get('/registrar_college/print_grade_list/{schedule_id}', 'CollegeInstruct
 //Close/Open Grade Module
 Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\GradeManagement\OpenCloseController@setup');
 Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
+Route::get('/ajax/registrar_college/grade_management/update_open_close/midterm', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@update_midterm');
+Route::get('/ajax/registrar_college/grade_management/update_open_close/finals', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@update_finals');
 //View Grades
 Route::get('/registrar_college/grade_management/view_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@view_grades');
 //Ajax View Grades

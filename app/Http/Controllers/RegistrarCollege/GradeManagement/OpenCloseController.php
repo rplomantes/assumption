@@ -23,10 +23,12 @@ class OpenCloseController extends Controller
     
     function submit(Request $request){
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $update = \App\CtrCollegeGrading::where('academic_type', 'College')->first();
-            $update->midterm = $request->midterm;
-            $update->finals = $request->finals;
-            $update->save();
+            $update = \App\CtrCollegeGrading::where('academic_type', 'College')->get();
+            foreach($update as $u){
+            $u->midterm = $request->midterm;
+            $u->finals = $request->finals;
+            $u->save();
+            }
             
             \App\Http\Controllers\Admin\Logs::log("Setup grading for HED midterms: $request->midterm and finals:$request->finals");
             
