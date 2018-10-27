@@ -1283,6 +1283,13 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
         @endif
         @endif
+        <br/>
+        <br/>
+        <div class="col-md-6 col-md-offset-6">
+            <a href="{{url('admissionbed', array('print_info', $user->idno))}}">
+                <button type='button' class='btn btn-warning col-sm-12'>Print Student Information</button></a>
+        </div>
+        
     </div>
     </form>
 </div>

@@ -121,4 +121,6 @@ Route::get('/accounting/ajax/get_unpaid','Accounting\Ajax\AjaxPostCharges@getUnp
 Route::post('/accounting/save_charges','Accounting\PostCharges@postCharges');
 Route::get('/accounting/ajax/reverse_post/{idno}','Accounting\Ajax\AjaxPostCharges@reversePost');
 
+//admission - print info
+Route::get('/admissionbed/print_info/{idno}', 'AdmissionBED\info@printInfo');
 ?>

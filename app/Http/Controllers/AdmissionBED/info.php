@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 use Session;
 use Mail;
+use PDF;
 
 class info extends Controller
 {
@@ -154,5 +155,15 @@ class info extends Controller
                  ->subject('AC Admission Application Status');
          $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
         });
+    }
+    
+    function printInfo($idno){
+        $user = \App\User::where('idno', $idno)->first();
+        $status = \App\Status::where('idno', $idno)->first();
+        $info = \App\BedProfile::where('bed_profiles.idno', $idno)->join('bed_parent_infos', 'bed_parent_infos.idno','=','bed_profiles.idno')->first();
+//        return view("admission-bed.print_info", compact('user', 'info','status'));
+        $pdf = PDF::loadView("admission-bed.print_info", compact('user', 'info','status'));
+        $pdf->setPaper('letter','portrait');
+        return $pdf->stream('information-sheet-'.$idno.'.pdf');
     }
 }
