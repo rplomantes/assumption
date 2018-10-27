@@ -1,9 +1,11 @@
 <?php
 $layout="";
-if(Auth::user()->accesslevel==env("CASHIER")){
-    $layout="layouts.appcashier";
-} else if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+if(Auth::user()->accesslevel == env("CASHIER")){
+    $layout = "layouts.appcashier";
+} else if (Auth::user()->accesslevel == env("ACCTNG_STAFF")){
     $layout="layouts.appaccountingstaff";
+} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")){
+    $layout="layouts.appaccountinghead";
 }
 ?>
 @extends($layout)

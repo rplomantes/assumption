@@ -16,7 +16,7 @@ class ChangePlan extends Controller {
 
     //
     function index($idno) {
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             $student = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where("idno", $idno)->first();
             $duedates = \App\LedgerDueDate::where("idno", $idno)->where("school_year", $status->school_year)->get();
@@ -222,14 +222,14 @@ class ChangePlan extends Controller {
                     $discounttf = $this->getdiscountrate('tf', $discounttype->discount_code, $request->idno);
                     
                     //remove this after updating
-                    $discountof = $this->getdiscountrate('of', $discounttype->discount_code, $request->idno);
-                    $otherfees = \App\CtrCollegeOtherFee::where('program_code', $stat->program_code)->where('level', $stat->level)->where('period', $period)->get();
-                    foreach ($otherfees as $of){
-                        $getofledger = \App\Ledger::where('school_year', $school_year)->where('period', $period)->where('idno', $request->idno)->where('subsidiary',$of->subsidiary)->first();
-                        $getofledger->discount = $getofledger->amount * ($discountof / 100);
-                        $getofledger->discount_code = $discounttype->discount_code;
-                        $getofledger->save();
-                    }
+//                    $discountof = $this->getdiscountrate('of', $discounttype->discount_code, $request->idno);
+//                    $otherfees = \App\CtrCollegeOtherFee::where('program_code', $stat->program_code)->where('level', $stat->level)->where('period', $period)->get();
+//                    foreach ($otherfees as $of){
+//                        $getofledger = \App\Ledger::where('school_year', $school_year)->where('period', $period)->where('idno', $request->idno)->where('subsidiary',$of->subsidiary)->first();
+//                        $getofledger->discount = $getofledger->amount * ($discountof / 100);
+//                        $getofledger->discount_code = $discounttype->discount_code;
+//                        $getofledger->save();
+//                    }
                     //up to here
                     
                 } else if ($discounttype->discount_type == 1) {

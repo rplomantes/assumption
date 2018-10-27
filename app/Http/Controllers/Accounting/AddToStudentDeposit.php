@@ -16,7 +16,7 @@ class AddToStudentDeposit extends Controller {
     }
 
     function add_to_student_deposit($idno) {
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             $user = \App\User::where('idno', $idno)->first();
             $receipt_no = $this->getreceipt();
             $ending_receipt_number = \App\Http\Controllers\Cashier\StudentLedger::getending_receipt();
@@ -27,7 +27,7 @@ class AddToStudentDeposit extends Controller {
     
     function post_add_to_student_deposit(Request $request) {
        // return $request;
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             DB::beginTransaction();
             $reference_id = uniqid();
             $this->postAccounting($request, $reference_id);
@@ -59,7 +59,7 @@ class AddToStudentDeposit extends Controller {
     }
     
     function getReceipt(){
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $id = \App\ReferenceId::where('idno',Auth::user()->idno)->first()->id;
             $number =  \App\ReferenceId::where('idno',Auth::user()->idno)->first()->sd_no;
             $receipt="";

@@ -3,7 +3,14 @@ $levels = \App\CtrAcademicProgram::distinct()->orderBy('level', 'asc')->get(['le
 $strands = \App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code', 'SHS')->get();
 $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_code")->where('academic_type', 'College')->get();
 ?>
-@extends('layouts.appaccountingstaff')
+<?php 
+    if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        $layout = "layouts.appaccountingstaff";    
+    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+        $layout = "layouts.appaccountinghead";    
+    }
+?>
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

@@ -26,7 +26,7 @@ class CollectionReport extends Controller
                     ->where('posted_by',Auth::user()->idno)->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
         }
         
-         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                         ->orderBy('posted_by')->get();
             $credits =  \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
@@ -44,7 +44,7 @@ class CollectionReport extends Controller
                     ->where('posted_by',Auth::user()->idno)->where('check_amount','>','0')->get();
             }
             
-            if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+            if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->orderBy('posted_by')->where('check_amount','>','0')->get();
             }
@@ -58,7 +58,7 @@ class CollectionReport extends Controller
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('posted_by',Auth::user()->idno)->where('credit_card_amount','>','0')->get();
          }
-         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->orderBy('posted_by')->where('credit_card_amount','>','0')->get();
          }
@@ -72,7 +72,7 @@ class CollectionReport extends Controller
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('posted_by',Auth::user()->idno)->where('deposit_amount','>','0')->get();
          }  
-         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->orderBy('posted_by')->where('deposit_amount','>','0')->get();
          }

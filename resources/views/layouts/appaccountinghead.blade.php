@@ -27,7 +27,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
             <header class="main-header">
                 <a href="{{url('/')}}" class="logo">
                     <span class="logo-mini"><b>A</b>CS</span>
-                    <span class="logo-lg"><b>Accounting</b>STAFF</span>
+                    <span class="logo-lg"><b>Accounting</b>HEAD</span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -57,7 +57,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
                                         <p>
                                             {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                                            <small>Accounting Staff</small>
+                                            <small>Accounting Head</small>
                                         </p>
                                     </li>
 
@@ -126,8 +126,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
-                            <?php $date_start = date('Y-m-d');
-                            $date_end = date('Y-m-d'); ?>
+                            <?php
+                            $date_start = date('Y-m-d');
+                            $date_end = date('Y-m-d');
+                            ?>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>
                             </ul>
@@ -180,6 +182,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </ul>
                         </li>  
                         <li><a href="{{url('accounting',array('post_charges'))}}"><i class="fa fa-check-square"></i> <span>Post Charges</span></a></li>
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" onclick="getPasscode('{{Auth::user()->idno}}')"><i class="fa fa-code"></i> <span>Generate Passcode</span></a></li>
                         <?php
                         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
                         $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
@@ -240,18 +243,54 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <script src="{{ asset ('dist/js/adminlte.min.js')}}"></script>
         <script src="{{ asset ('bower_components/PACE/pace.min.js')}}"></script>
         <script>
-           $(document).ajaxStart(function () {
-               Pace.restart()
-           })
+                            $(document).ajaxStart(function () {
+                                Pace.restart()
+                            })
         </script>
         <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
         <script>
-           $(function () {
-               $('.select2').select2();
-           });
+                            $(function () {
+                                $('.select2').select2();
+                            });
         </script>
         <script src="{{asset('bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
         @yield('footerscript')
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Generated Passcode</h4>
+                    </div>
+                    <h1>
+                    <div class="modal-body" style="text-align: center">
+                        
+                    </div>
+                    </h1>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valid only for 3 minutes.
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <a href="javascript:void(0)" onclick="getPasscode('{{Auth::user()->idno}}')"><button type="button" class="btn btn-success">Generate Another Passcode</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function getPasscode(idno) {
+                var array = {};
+                array['idno'] = idno;
+                $.ajax({
+                    type: "get",
+                    url: "/accounting/ajax/get_passcode",
+                    data: array,
+                    success: function (data) {
+                        $(".modal-body").html(data);
+                    }
+                })
+            }
+        </script>
     </body>
 </html>
 

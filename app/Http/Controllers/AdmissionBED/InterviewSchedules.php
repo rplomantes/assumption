@@ -32,6 +32,7 @@ class InterviewSchedules extends Controller
             $new_schedule->room = "";
             $new_schedule->save();
             
+            \App\Http\Controllers\Admin\Logs::log("Add interview schedule: $request->datetime.");
             return redirect('/admissionbed/interview_schedules');
         }
     }
@@ -49,6 +50,8 @@ class InterviewSchedules extends Controller
             $schedule = \App\InterviewSchedule::find($request->id);
             $schedule->datetime = $request->datetime;
             $schedule->save();
+            
+            \App\Http\Controllers\Admin\Logs::log("Edit interview schedule of $request->id.");
             
             
             Session::flash('message', 'Schedule Updated!');
@@ -70,6 +73,8 @@ class InterviewSchedules extends Controller
             $lists = \App\InterviewStudent::where('idno',$idno)->first();
             $lists->schedule_id = "";
             $lists->update();
+            
+            \App\Http\Controllers\Admin\Logs::log("Remove applicant number $idno in interview schedule id $id.");
             
             Session::flash('message', 'Applicant Remove!');
             return redirect('/admissionbed/view_interview_list/'.$id);

@@ -226,7 +226,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setReceipt()">Save changes</button>
               </div>
             </div>
-  </div>            
+  </div>
    <style>
     .example-modal .modal {
       position: relative;

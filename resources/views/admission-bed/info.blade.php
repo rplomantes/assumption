@@ -74,7 +74,13 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         
          <div class="col-md-3 pull-right">
              <div class="form form-group">
-                 <label>Admission Status: </label><button class="form form-control btn btn-success" style="color: white">FOR APPROVAL</button>
+                 <label>Admission Status: </label><br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     
+        @if(Auth::user()->idno == "acruz")
+                     FOR TESTING/INTERVIEW
+                     @else
+                     FOR APPROVAL
+                 @endif</b>
              </div>
           </div>
         

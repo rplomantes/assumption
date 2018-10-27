@@ -23,7 +23,6 @@ class BookOfAccount extends Controller {
             }
         return view('accounting.test', compact('cash_receipt', 'date_start', 'date_end'));
         }else{
-            return "HELLO";
         }
     }
 

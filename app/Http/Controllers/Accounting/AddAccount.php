@@ -17,7 +17,7 @@ class AddAccount extends Controller
     }
     
     function add_to_account($idno){
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $other_accounts = \App\Ledger::where('idno',$idno)->where('category_switch',env("OTHER_MISC"))->get();
             $user =  \App\User::where('idno',$idno)->first();
             $status = \App\Status::where('idno',$idno)->first();
@@ -47,7 +47,7 @@ class AddAccount extends Controller
          
      }
      function post_add_to_account(Request $request){
-         if(Auth::user()->accesslevel==env('ACCTNG_STAFF'))
+         if(Auth::user()->accesslevel==env('ACCTNG_STAFF') || Auth::user()->accesslevel==env("ACCTNG_HEAD"))
          $addledger = new \App\Ledger;
          $addledger->idno = $request->idno;
          $status = \App\Status::where('idno',$request->idno)->first();
@@ -95,7 +95,7 @@ class AddAccount extends Controller
             }
          
      function remove_other_payment($id){
-         if(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD"))
          $remove = \App\Ledger::find($id);
          $idno = $remove->idno;
          if($remove->category_switch==env('OTHER_MISC')){
@@ -105,7 +105,7 @@ class AddAccount extends Controller
      }
      
     function remove_set_other_payment($id){
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $remove = \App\OtherPayment::find($id);
             $remove->delete();
             return redirect(url('/accounting','set_other_payment'));

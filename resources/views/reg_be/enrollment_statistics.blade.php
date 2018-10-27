@@ -1,8 +1,11 @@
+
 <?php 
     if(Auth::user()->accesslevel == env('REG_BE')){
         $layout = "layouts.appbedregistrar";
-    }else{
+    }else if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
         $layout = "layouts.appaccountingstaff";    
+    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+        $layout = "layouts.appaccountinghead";    
     }
 ?>
 <?php

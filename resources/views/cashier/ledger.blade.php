@@ -2,8 +2,10 @@
 $layout="";
 if(Auth::user()->accesslevel == env("CASHIER")){
     $layout = "layouts.appcashier";
-} else if(Auth::user()->accesslevel == env("ACCTNG_STAFF")){
+} else if (Auth::user()->accesslevel == env("ACCTNG_STAFF")){
     $layout="layouts.appaccountingstaff";
+} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")){
+    $layout="layouts.appaccountinghead";
 }
 ?>
 @extends($layout)
@@ -122,7 +124,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         </table> 
         </div>
     <div class="col-md-12">
-        @if($status->academic_type == 'College' && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+        @if($status->academic_type == 'College' && Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
         <div class="accordion">
     <div class="accordion-section">
         <a class="accordion-section-title active" href="#accordion-0">Courses Enrolled</a>
@@ -160,10 +162,18 @@ if(Auth::user()->accesslevel == env("CASHIER")){
          
         <div id="accordion-1" class="accordion-section-content open">
             @if(count($ledger_main)>0)
+            
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th><th>Edit</th></tr>
+                @else
             <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
+                @endif
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
+                
+                
+                
            @foreach($ledger_main_tuition as $main_tuition)
            <?php
                $totalamount=$totalamount+$main_tuition->amount;
@@ -178,7 +188,16 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                <td align="right">{{number_format($main_tuition->discount,2)}}</td>
                <td align="right">{{number_format($main_tuition->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main_tuition->payment,2)}}</span></td>
-               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td>
+               
+<!--           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<?php
+$ledger_list_tuition = \App\Ledger::where('idno',$user->idno)->where('category_switch', 6)->first();
+?>
+               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $ledger_list_tuition->id))}}">Edit</a></td>
+               <td>Remove</td>
+               @endif-->
+               </tr>
            @endforeach
            
            
@@ -201,7 +220,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                <td align="right"><span class="payment">{{number_format($main_misc->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach    
-           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
 <?php
 $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_switch', 1)->get();
 ?>
@@ -212,7 +231,10 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right">{{number_format($list_misc->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
+               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list_misc->id))}}">Edit</a></td>
+               </tr>
            @endforeach  
            @endif
            
@@ -237,7 +259,7 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($main_other->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
 <?php
 $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_switch', 2)->get();
 ?>
@@ -248,7 +270,10 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <td align="right">{{number_format($list_other->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
+               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list_other->id))}}">Edit</a></td>
+               </tr>
            @endforeach
            @endif
            
@@ -274,7 +299,7 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <td align="right"><span class="payment">{{number_format($main_depo->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
-           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
 <?php
 $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_switch', 3)->get();
 ?>
@@ -285,7 +310,10 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right">{{number_format($list_depo->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
+               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list_depo->id))}}">Edit</a></td>
+               </tr>
            @endforeach
            @endif
            <tr style="background-color: lightgray;"><td>Total School Fees</td>
@@ -314,8 +342,16 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right">{{number_format($main->discount,2)}}</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
-               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td>
+               
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+               
+               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>
+               @endif
+               </tr>
            @endforeach
+           
+           
            
            @foreach($ledger_srf as $srf)
            <?php
@@ -331,10 +367,14 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right">{{number_format($srf->discount,2)}}</td>
                <td align="right">{{number_format($srf->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($srf->payment,2)}}</span></td>
-               <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}</b></td>
+               </tr>
            @endforeach
            
-           @if($status->academic_type == "College" && Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+           
+           
+           
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
 <?php
 $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')->where('category_switch', env("SRF_FEE"))->get();
 ?>
@@ -345,10 +385,16 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td></tr>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
+               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>
+               </tr>
            @endforeach
            
            @endif
+           
+           
+           
            
            
                <tr style="background-color: silver;"><td>Total</td>
@@ -527,10 +573,10 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
          <div class="form-group">
         <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation/Student Deposit</a>
         </div>
-        @elseif(Auth::user()->accesslevel==env("ACCTNG_STAFF"))
-        <div class="form-group">
+        @elseif(Auth::user()->accesSTAFFslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<!--        <div class="form-group">
         <a href="{{url('/accounting',array('edit_ledger',$user->idno))}}" class="form form-control btn btn-primary">EDIT LEDGER</a>
-        </div>
+        </div>-->
         <div class="form-group">
         <a href="{{url('/accounting',array('debit_memo',$user->idno))}}" class="form form-control btn btn-primary">DEBIT MEMO</a>
         </div>

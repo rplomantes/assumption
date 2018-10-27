@@ -32,6 +32,8 @@ class TestingSchedules extends Controller
             $new_schedule->room = "";
             $new_schedule->save();
             
+            \App\Http\Controllers\Admin\Logs::log("Add testing schedule: $request->datetime.");
+            
             return redirect('/admissionbed/testing_schedules');
         }
     }
@@ -49,6 +51,8 @@ class TestingSchedules extends Controller
             $schedule = \App\TestingSchedule::find($request->id);
             $schedule->datetime = $request->datetime;
             $schedule->save();
+            
+            \App\Http\Controllers\Admin\Logs::log("Edit testing schedule of $request->id.");
             
             
             Session::flash('message', 'Schedule Updated!');
@@ -70,6 +74,8 @@ class TestingSchedules extends Controller
             $lists = \App\TestingStudent::where('idno',$idno)->first();
             $lists->schedule_id = "";
             $lists->update();
+            
+            \App\Http\Controllers\Admin\Logs::log("Remove applicant number $idno in testing schedule id $id.");
             
             Session::flash('message', 'Applicant Remove!');
             return redirect('/admissionbed/view_testing_list/'.$id);

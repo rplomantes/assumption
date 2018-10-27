@@ -16,7 +16,7 @@ class StudentLedger extends Controller {
     }
 
     function view($idno) {
-        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("")) {
+        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             $due_others = 0.00;
             $due_previous = 0.00;
             $totalmainpayment = 0.00;

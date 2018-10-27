@@ -27,7 +27,14 @@ if($tuition_fee_total->balance>0)
 $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
 $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
 ?>
-@extends('layouts.appaccountingstaff')
+<?php 
+    if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        $layout = "layouts.appaccountingstaff";    
+    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+        $layout = "layouts.appaccountinghead";    
+    }
+?>
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

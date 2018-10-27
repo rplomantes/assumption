@@ -43,7 +43,7 @@ class PrintController extends Controller
                     ->where('posted_by',Auth::user()->idno)->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
         }
         
-         if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                         ->orderBy('posted_by')->get();
             $credits =  \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
@@ -65,7 +65,7 @@ class PrintController extends Controller
             $pdf->setPaper('letter','portrait');
             return $pdf->stream();        
         }
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('check_amount','>','0')
                     ->where('is_reverse','0')->get();

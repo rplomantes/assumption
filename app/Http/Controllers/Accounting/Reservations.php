@@ -16,8 +16,10 @@ class Reservations extends Controller
         $this->middleware('auth');
     }
     function index(){
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
            $reservations = \App\Reservation::where('reservation_type', 1)->where('is_consumed', 0)->join('users', 'users.idno','=','reservations.idno')->orderBy('users.lastname', 'asc')->orderBy('reservations.transaction_date', 'asc')->get();
+           
+            \App\Http\Controllers\Admin\Logs::log("Print reservation report");
            
            $pdf = PDF::loadView('accounting.print_reservations', compact('reservations'));           
            $pdf->setPaper('letter','portrait');

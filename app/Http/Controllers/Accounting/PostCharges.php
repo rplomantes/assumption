@@ -60,6 +60,8 @@ class PostCharges extends Controller
             DB::commit();
             $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('level', 'asc')->get(['level']);
             $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
+            
+            \App\Http\Controllers\Admin\Logs::log("Post late payment charges.");
             return view('accounting.post_charges',compact('levels','plans','indic'));
         }
     }

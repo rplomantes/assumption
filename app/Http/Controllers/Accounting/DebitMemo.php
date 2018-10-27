@@ -19,7 +19,7 @@ class DebitMemo extends Controller
     }
     
  function index($idno){
-     if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+     if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
         $user = \App\User::where('idno',$idno)->first();
         $receipt_number=  $this->getReceipt();
         $total_other=0.00;
@@ -85,7 +85,7 @@ class DebitMemo extends Controller
         }
  }   
     function getReceipt(){
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $id = \App\ReferenceId::where('idno',Auth::user()->idno)->first()->id;
             $number =  \App\ReferenceId::where('idno',Auth::user()->idno)->first()->dm_no;
             $receipt="";
@@ -99,7 +99,7 @@ class DebitMemo extends Controller
     
     function post_debit_memo(Request $request){
 
-        if(Auth::user()->accesslevel==env("ACCTNG_STAFF")){    
+        if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){    
         DB::beginTransaction();
         $reference_id = uniqid();
         $this->checkStatus($request,$reference_id);
