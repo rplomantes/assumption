@@ -43,7 +43,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 
 <section class="content">
     <div class="row">
-       <div class="col-md-12">
+        <div class="col-md-12">
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -81,18 +81,24 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
-            <div class="col-sm-3">
-                <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
-            </div>
-            <div class="col-sm-3">
-                <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
-            </div>
-            <div class="col-sm-3">
-                <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
-            </div>
-            <div class="col-sm-3">
-                <a target='_blank' href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
-            </div>
+        <div class="col-sm-3">
+            <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
+        </div>
+        <div class="col-sm-3">
+            <a target='_blank' href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
+        </div>
+        <div class="col-sm-3"><br>
+            <a href="{{url('registrar_college', array('add_record', $user->idno))}}" class="btn btn-success col-sm-12">Add Record</a>
+        </div>
+        <div class="col-sm-3"><br>
+            <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credit a Course</a>
+        </div>
         <div class="col-sm-12">
             <?php $pinnacle_sy = \App\CollegeGrades2018::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($pinnacle_sy)>0)
@@ -255,7 +261,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endforeach
             @endif
             @else
-            
+
             <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($grades_sy)>0)
             @foreach($grades_sy as $sy)
@@ -340,7 +346,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endif
             <!--<button class="col-sm-12 btn btn-success "><span></span>PRINT TRANSCRIPT OF RECORD</button>-->
             <a target='_blank' href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
-            
+
         </div>    
     </div>
 </section>

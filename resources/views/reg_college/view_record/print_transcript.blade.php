@@ -50,6 +50,16 @@ $count = 0;
     }
 </style>
 <body>
+    <script type="text/php">
+        if ( isset($pdf) ) {
+            $x = 515;
+            $y = 880;
+            $text = "** Page {PAGE_NUM} of {PAGE_COUNT} **";
+            $font = $fontMetrics->get_font("courier new");
+            $size = 7;
+            $pdf->page_text($x, $y, $text, $font, $size);
+        }
+    </script>
     <footer>
         <table width='100%'>
             <tr>
@@ -74,13 +84,10 @@ $count = 0;
             </tr>
         </table>
     </footer>
-    <!--        <header>
-                STUDENT NAME: {{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}
-            </header>-->
-    <!--    
-        <div style='float: left; margin-left:630px; margin-top:-110px;'></div>-->
-
-    <table class="table table-condensed" width="100%">
+<!--    <header>
+        STUDENT NAME: {{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}
+    </header>-->
+    <table class="table table-condensed hide" width="100%">
         <tr>
             <td valign='top' width='24%'>STUDENT NAME:</td>
             <td><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></td>
@@ -156,6 +163,10 @@ $count = 0;
     <hr>
     <table width='100%' cellpadding="2" style=" border-collapse: collapse">
         <thead>
+<!--            <tr>
+                <th width='12%'><b>Name:</b></th>
+                <th width='60%'><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></th>
+            </tr>-->
             <tr>
                 <th width='12%' align='center' style="border:2px solid black;"><b>COURSE CODE</b></th>
                 <th width='60%' align='center' style="border:2px solid black;"><b>DESCRIPTIVE TITLE</b></th>
@@ -245,10 +256,10 @@ $count = 0;
 
 
 
-        <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+        <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->where('finals_status', 3)->get(['school_year']); ?>
         @if(count($grades_sy)>0)
         @foreach($grades_sy as $sy)
-        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->where('finals_status', 3)->get(['period']); ?>
         @foreach ($grades_pr as $pr)
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
@@ -303,10 +314,10 @@ $count = 0;
         @endif
         @else
 
-        <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+        <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->where('finals_status', 3)->get(['school_year']); ?>
         @if(count($grades_sy)>0)
         @foreach($grades_sy as $sy)
-        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->where('finals_status', 3)->get(['period']); ?>
         @foreach ($grades_pr as $pr)
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>

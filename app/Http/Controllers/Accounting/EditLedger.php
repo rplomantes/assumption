@@ -78,10 +78,12 @@ class EditLedger extends Controller {
                         DB::beginTransaction();
                         $this->update($request);
                         $this->change_due_date($request);
+                        $this->updatePasscode($checkpasscode);
                         DB::Commit();
                     }
                 } else {
                     $this->remove_ledger($request->id);
+                    $this->updatePasscode($checkpasscode);
                 }
             } else {
                 Session::flash('warning', 'Passcode Timeout!');

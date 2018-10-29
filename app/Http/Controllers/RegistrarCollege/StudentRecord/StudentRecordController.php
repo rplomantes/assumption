@@ -61,7 +61,6 @@ class StudentRecordController extends Controller
             
             $pdf = PDF::loadView('reg_college.view_record.print_transcript', compact('idno','user','info','level'));
             $pdf->setPaper(array(0,0,612,936));
-//            return $request;
             return $pdf->stream("transcript_".$idno.".pdf");
     }
     
@@ -133,6 +132,32 @@ class StudentRecordController extends Controller
             $grade->save();
             
             return redirect('/registrar_college/view_transcript/'.$grade->idno);
+        }
+    }
+    
+    function add_record($idno){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $user = \App\User::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('idno', $idno)->first();
+            $status = \App\Status::where('idno', $idno)->first();
+            $courses = \App\Curriculum::distinct()->get(['course_code', 'course_name']);
+            return view('reg_college.view_record.add_record', compact('idno', 'user', 'info', 'status', 'courses'));
+        }
+    }
+    
+    function add_record_now(Request $request){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $add_new = new \App\CollegeGrades2018;
+            $add_new->idno = $request->idno;
+            $add_new->school_year = $request->school_year;
+            $add_new->period = $request->period;
+            $add_new->course_code = $request->course_code;
+            $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name;
+            $add_new->course_name = $course_name;
+            $add_new->finals = $request->finals;
+            $add_new->save();
+            
+            return redirect (url('/registrar_college/view_transcript/'.$request->idno));
         }
     }
 }

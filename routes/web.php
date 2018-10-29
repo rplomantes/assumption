@@ -42,6 +42,8 @@ Route::get('registrar_college/edit/college_grades/{id}','RegistrarCollege\Studen
 Route::post('registrar_college/edit_now/college_grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_college_grades2018');
 Route::get('registrar_college/edit/grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@edit_college_grades');
 Route::post('registrar_college/edit_now/grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_college_grades');
+Route::get('registrar_college/add_record/{id}','RegistrarCollege\StudentRecord\StudentRecordController@add_record');
+Route::post('registrar_college/add_record_now','RegistrarCollege\StudentRecord\StudentRecordController@add_record_now');
 
 //Registrar College Advising
 //Set Up

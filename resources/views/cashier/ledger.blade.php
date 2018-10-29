@@ -194,7 +194,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
 <?php
 $ledger_list_tuition = \App\Ledger::where('idno',$user->idno)->where('category_switch', 6)->first();
 ?>
-               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $ledger_list_tuition->id))}}">Edit</a></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $ledger_list_tuition->id))}}">Edit</a></td>
                <td>Remove</td>
                @endif-->
                </tr>
@@ -233,7 +233,7 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
-               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list_misc->id))}}">Edit</a></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $list_misc->id))}}">Edit</a></td>
                </tr>
            @endforeach  
            @endif
@@ -272,7 +272,7 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
-               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list_other->id))}}">Edit</a></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $list_other->id))}}">Edit</a></td>
                </tr>
            @endforeach
            @endif
@@ -312,7 +312,7 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
-               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list_depo->id))}}">Edit</a></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $list_depo->id))}}">Edit</a></td>
                </tr>
            @endforeach
            @endif
@@ -346,7 +346,7 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
                
-               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>
                @endif
                </tr>
            @endforeach
@@ -387,7 +387,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
-               <td><a target="_blank" href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>
                </tr>
            @endforeach
            
