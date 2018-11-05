@@ -50,4 +50,12 @@ class reportsController extends Controller
             return view('admission-bed.reports.regrets', compact('date_start','date_end', 'regret_finals', 'regret_retreives'));
         }
     }
+
+    function reservations() {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+           $reservations = \App\Reservation::where('reservation_type', 1)->where('is_consumed', 0)->join('statuses', 'statuses.idno','=','reservations.idno')->join('users', 'users.idno','=','reservations.idno')->where('statuses.academic_type', '!=', 'College')->where('is_new', '1')->where('date_admission_finish', '!=', NULL)->orderBy('users.lastname', 'asc')->orderBy('reservations.transaction_date', 'asc')->get();
+           
+            return view('admission-bed.reports.reservations', compact('reservations'));
+        }
+    }
 }

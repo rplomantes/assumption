@@ -178,10 +178,15 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\CollegeGrades2018::where('id', $grade_id)->where('idno', $idno)->first();
             $update_grades->finals = $grade;
             $update_grades->save();
-            }else {
+            }else if($stat == "new") {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $update_grades->finals = $grade;
             $update_grades->save();
+            }else if ($stat == "credit"){
+            $update_grades = \App\CollegeCredit::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->finals = $grade;
+            $update_grades->save();
+                
             }
         }
     }
@@ -196,8 +201,12 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\CollegeGrades2018::where('id', $grade_id)->where('idno', $idno)->first();
             $update_grades->completion = $grade;
             $update_grades->save();
-            }else {
+            }else if($stat == "new"){
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
+            $update_grades->completion = $grade;
+            $update_grades->save();
+            }else if($stat == "credit"){
+            $update_grades = \App\CollegeCredit::where('id', $grade_id)->where('idno', $idno)->first();
             $update_grades->completion = $grade;
             $update_grades->save();
             }

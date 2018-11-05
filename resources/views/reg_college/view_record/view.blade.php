@@ -128,13 +128,18 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             }
                     }else{
                         if(count($old_grades)>0){
-                        if($old_grades->finals=="Failed" ||$old_grades->finals=="4.00"){
-                            $style="style='color:red; font-weight:bold'";
-                        }else if($old_grades->finals=="FA"){
-                            $style="style='color:orange; font-weight:bold'";
-                        }
+                            if($old_grades->finals=="Failed" ||$old_grades->finals=="4.00"){
+                                $style="style='color:red; font-weight:bold'";
+                            }else if($old_grades->finals=="FA"){
+                                $style="style='color:orange; font-weight:bold'";
+                            }
                         }else{
+                            $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get();
+                            if(count ($checkcredit) == 0){
                             $style="style='color:green; font-weight:bold'";
+                            }else{
+                            $style="style='color:brown; font-weight:bold'";
+                            }
                         }
                     }
                     
@@ -152,7 +157,12 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @if(count($old_grades)>0)
                                 {{$old_grades->finals}}
                                 @else
-                                Not Yet Taken
+                                    <?php $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get(); ?>
+                                    @if(count($checkcredit)==0)
+                                    Not Yet Taken
+                                    @else
+                                    Credited
+                                    @endif
                                 @endif
                             @endif
                         </td>

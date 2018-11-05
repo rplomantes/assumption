@@ -94,12 +94,95 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <a target='_blank' href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
         </div>
         <div class="col-sm-3"><br>
-            <a href="{{url('registrar_college', array('add_record', $user->idno))}}" class="btn btn-success col-sm-12">Add Record</a>
+            <a href="{{url('registrar_college', array('add_record', $user->idno))}}" class="btn btn-success col-sm-12">Add Record(Pinnacle/Nephila)</a>
         </div>
         <div class="col-sm-3"><br>
-            <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credit a Course</a>
+            <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credited Courses(Transferee)</a>
         </div>
         <div class="col-sm-12">
+            <?php $credit_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+            @if(count($credit_sy)>0)
+            @foreach($credit_sy as $sy)
+            <?php $credit_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+            @foreach ($credit_pr as $pr)
+            <?php $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
+            @foreach ($credit_school as $sr)
+            <?php $credit = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?><h4>@if($sr->school_name != ""){{$sr->school_name}} : @endif{{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}}</h4>
+            <table class="table table-striped table-condensed" width="100%">
+                <thead>
+                    <tr>
+                        <th width='5%'>Course Codes</th>
+                        <th width='40%'>Course Name</th>
+                        <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
+                        <th width="1%">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($credit as $grade)
+                    <tr>
+                        <td>{{$grade->course_code}}</td>
+                        <td>{{$grade->course_name}}</td>
+                        <td>
+                            <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'credit')">
+                                <option></option>
+                                <option @if ($grade->finals == "PASSED") selected='' @endif>PASSED</option>
+                                <option @if ($grade->finals == 1.00) selected='' @endif>1.00</option>
+                                <option @if ($grade->finals == 1.20) selected='' @endif>1.20</option>
+                                <option @if ($grade->finals == 1.50) selected='' @endif>1.50</option>
+                                <option @if ($grade->finals == 1.70) selected='' @endif>1.70</option>
+                                <option @if ($grade->finals == 2.00) selected='' @endif>2.00</option>
+                                <option @if ($grade->finals == 2.20) selected='' @endif>2.20</option>
+                                <option @if ($grade->finals == 2.50) selected='' @endif>2.50</option>
+                                <option @if ($grade->finals == 2.70) selected='' @endif>2.70</option>
+                                <option @if ($grade->finals == 3.00) selected='' @endif>3.00</option>
+                                <option @if ($grade->finals == 3.50) selected='' @endif>3.50</option>
+                                <option @if ($grade->finals == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($grade->finals == "FAILED") selected='' @endif>FAILED</option>
+                                <option @if ($grade->finals == "FA") selected='' @endif>FA</option>
+                                <option @if ($grade->finals == "INC") selected='' @endif>INC</option>
+                                <option @if ($grade->finals == "NA") selected='' @endif>NA</option>
+                                <option @if ($grade->finals == "NG") selected='' @endif>NG</option>
+                                <option @if ($grade->finals == "UD") selected='' @endif>UD</option>
+                                <option @if ($grade->finals == "W") selected='' @endif>W</option>
+                                <option @if ($grade->finals == "AUDIT") selected='' @endif>AUDIT</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="grade" name="completion[{{$grade->id}}]" id="completion" onchange="change_completion(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'credit')">
+                                <option></option>
+                                <option @if ($grade->completion == "PASSED") selected='' @endif>PASSED</option>
+                                <option @if ($grade->completion == 1.00) selected='' @endif>1.00</option>
+                                <option @if ($grade->completion == 1.20) selected='' @endif>1.20</option>
+                                <option @if ($grade->completion == 1.50) selected='' @endif>1.50</option>
+                                <option @if ($grade->completion == 1.70) selected='' @endif>1.70</option>
+                                <option @if ($grade->completion == 2.00) selected='' @endif>2.00</option>
+                                <option @if ($grade->completion == 2.20) selected='' @endif>2.20</option>
+                                <option @if ($grade->completion == 2.50) selected='' @endif>2.50</option>
+                                <option @if ($grade->completion == 2.70) selected='' @endif>2.70</option>
+                                <option @if ($grade->completion == 3.00) selected='' @endif>3.00</option>
+                                <option @if ($grade->completion == 3.50) selected='' @endif>3.50</option>
+                                <option @if ($grade->completion == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($grade->completion == "FAILED") selected='' @endif>FAILED</option>
+                                <option @if ($grade->completion == "FA") selected='' @endif>FA</option>
+                                <option @if ($grade->completion == "INC") selected='' @endif>INC</option>
+                                <option @if ($grade->completion == "NA") selected='' @endif>NA</option>
+                                <option @if ($grade->completion == "NG") selected='' @endif>NG</option>
+                                <option @if ($grade->completion == "UD") selected='' @endif>UD</option>
+                                <option @if ($grade->completion == "W") selected='' @endif>W</option>
+                                <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
+                            </select>
+                        </td>
+                        <td><a target='_blank' href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @endforeach
+            @endforeach
+            @endforeach
+            @endif
+            
             <?php $pinnacle_sy = \App\CollegeGrades2018::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($pinnacle_sy)>0)
             @foreach ($pinnacle_sy as $pin_sy)

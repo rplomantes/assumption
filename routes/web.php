@@ -42,8 +42,12 @@ Route::get('registrar_college/edit/college_grades/{id}','RegistrarCollege\Studen
 Route::post('registrar_college/edit_now/college_grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_college_grades2018');
 Route::get('registrar_college/edit/grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@edit_college_grades');
 Route::post('registrar_college/edit_now/grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_college_grades');
+Route::get('registrar_college/edit/credit_grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@edit_credit_grades');
+Route::post('registrar_college/edit_now/credit_grades','RegistrarCollege\StudentRecord\StudentRecordController@edit_now_credit_grades');
 Route::get('registrar_college/add_record/{id}','RegistrarCollege\StudentRecord\StudentRecordController@add_record');
 Route::post('registrar_college/add_record_now','RegistrarCollege\StudentRecord\StudentRecordController@add_record_now');
+Route::get('registrar_college/credit_course/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@credit_course');
+Route::post('registrar_college/add_now/credit_course','RegistrarCollege\StudentRecord\StudentRecordController@add_now_credit_course');
 
 //Registrar College Advising
 //Set Up
@@ -383,6 +387,7 @@ Route::get('/bedadmission/reports/pre_registered/{date_start}/{date_end}','Admis
 Route::get('/bedadmission/reports/for_approval/{date_start}/{date_end}','AdmissionBED\reportsController@for_approval');
 Route::get('/bedadmission/reports/approved/{date_start}/{date_end}','AdmissionBED\reportsController@approved');
 Route::get('/bedadmission/reports/regrets/{date_start}/{date_end}','AdmissionBED\reportsController@regrets');
+Route::get('/bedadmission/reports/reservations','AdmissionBED\reportsController@reservations');
 
 
 //ACCOUNTING EDIT LEDGER

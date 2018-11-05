@@ -17,20 +17,36 @@ class Registration extends Controller {
     public function __construct() {
         $this->middleware('auth');
     }
-    
-    function withdraw($idno) {
+
+    function withdraw($value, $idno) {
         if (Auth::user()->accesslevel == env("REG_BE")) {
+            if ($value == "w") {
+                $v = env('WITHDRAWN');
+            } else if ($value == "e") {
+                $v = env('ENROLLED');
+            }
             $status = \App\Status::where('idno', $idno)->first();
-            $status->date_dropped = date('Y-m-d');
-            $status->status = env('WITHDRAWN');
+            if ($value == "w") {
+                $status->date_dropped = date('Y-m-d');
+                $mes = "Withdraw";
+            } else if ($value == "e") {
+                $status->date_dropped = NULL;
+                $mes = "Enrolled";
+            }
+            $status->status = $v;
             $status->save();
-            
+
             $bedlevel = \App\BedLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
-            $bedlevel->date_dropped = date('Y-m-d');
-            $bedlevel->status = env('WITHDRAWN');
+            $status = \App\Status::where('idno', $idno)->first();
+            if ($value == "w") {
+                $status->date_dropped = date('Y-m-d');
+            } else if ($value == "e") {
+                $status->date_dropped = NULL;
+            }
+            $bedlevel->status = $v;
             $bedlevel->save();
-            
-            \App\Http\Controllers\Accounting\SetReceiptController::log("Widthdraw student $idno.");
+
+            \App\Http\Controllers\Accounting\SetReceiptController::log("$mes student $idno.");
             return redirect(url('/bedregistrar', array('info', $idno)));
         }
     }
@@ -623,21 +639,69 @@ class Registration extends Controller {
     }
 
     function updateRequirements($request) {
-        
+
         $idno = $request->idno;
-        if($request->psa=="on"){ $request->psa = 1; }else{ $request->psa=0; }
-        if($request->recommendation_form=="on"){ $request->recommendation_form = 1; }else{ $request->recommendation_form=0; }
-        if($request->baptismal_certificate=="on"){ $request->baptismal_certificate = 1; }else{ $request->baptismal_certificate=0; }
-        if($request->passport_size_photo=="on"){ $request->passport_size_photo = 1; }else{ $request->passport_size_photo=0; }
-        if($request->progress_report_card=="on"){ $request->progress_report_card = 1; }else{ $request->progress_report_card=0; }
-        if($request->currentprevious_report_card=="on"){ $request->currentprevious_report_card = 1; }else{ $request->currentprevious_report_card=0; }
-        if($request->narrative_assessment_report=="on"){ $request->narrative_assessment_report = 1; }else{ $request->narrative_assessment_report=0; }
-        if($request->acr=="on"){ $request->acr = 1; }else{ $request->acr=0; }
-        if($request->photocopy_passport=="on"){ $request->photocopy_passport = 1; }else{ $request->photocopy_passport=0; }
-        if($request->visa_parent=="on"){ $request->visa_parent = 1; }else{ $request->visa_parent=0; }
-        if($request->photocopy_of_dual=="on"){ $request->photocopy_of_dual = 1; }else{ $request->photocopy_of_dual=0; }
-        if($request->citizenship_passport=="on"){ $request->citizenship_passport = 1; }else{ $request->citizenship_passport=0; }
-        
+        if ($request->psa == "on") {
+            $request->psa = 1;
+        } else {
+            $request->psa = 0;
+        }
+        if ($request->recommendation_form == "on") {
+            $request->recommendation_form = 1;
+        } else {
+            $request->recommendation_form = 0;
+        }
+        if ($request->baptismal_certificate == "on") {
+            $request->baptismal_certificate = 1;
+        } else {
+            $request->baptismal_certificate = 0;
+        }
+        if ($request->passport_size_photo == "on") {
+            $request->passport_size_photo = 1;
+        } else {
+            $request->passport_size_photo = 0;
+        }
+        if ($request->progress_report_card == "on") {
+            $request->progress_report_card = 1;
+        } else {
+            $request->progress_report_card = 0;
+        }
+        if ($request->currentprevious_report_card == "on") {
+            $request->currentprevious_report_card = 1;
+        } else {
+            $request->currentprevious_report_card = 0;
+        }
+        if ($request->narrative_assessment_report == "on") {
+            $request->narrative_assessment_report = 1;
+        } else {
+            $request->narrative_assessment_report = 0;
+        }
+        if ($request->acr == "on") {
+            $request->acr = 1;
+        } else {
+            $request->acr = 0;
+        }
+        if ($request->photocopy_passport == "on") {
+            $request->photocopy_passport = 1;
+        } else {
+            $request->photocopy_passport = 0;
+        }
+        if ($request->visa_parent == "on") {
+            $request->visa_parent = 1;
+        } else {
+            $request->visa_parent = 0;
+        }
+        if ($request->photocopy_of_dual == "on") {
+            $request->photocopy_of_dual = 1;
+        } else {
+            $request->photocopy_of_dual = 0;
+        }
+        if ($request->citizenship_passport == "on") {
+            $request->citizenship_passport = 1;
+        } else {
+            $request->citizenship_passport = 0;
+        }
+
         $update = \App\BedRequirement::where('idno', $idno)->first();
         $update->psa = $request->psa;
         $update->recommendation_form = $request->recommendation_form;

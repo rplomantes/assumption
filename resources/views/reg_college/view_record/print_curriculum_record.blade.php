@@ -154,7 +154,12 @@
                                 $style="style='color:orange; font-weight:bold'";
                             }
                         }else{
+                            $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get();
+                            if(count ($checkcredit) == 0){
                             $style="style='color:green; font-weight:bold'";
+                            }else{
+                            $style="style='color:brown; font-weight:bold'";
+                            }
                         }
                     }
                     
@@ -170,7 +175,12 @@
                     @if(count($grades)>0)
                     {{$grades->finals}}
                     @else
-                    NYT
+                        <?php $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get(); ?>
+                        @if(count($checkcredit)==0)
+                        NYT
+                        @else
+                        CR
+                        @endif
                     @endif
                     @endif
                 </td>

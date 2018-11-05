@@ -284,7 +284,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     @else
                     @endif
                 @else
+                
+                <?php $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get(); ?>
+                @if(count($checkcredit)==0)
+                        
                 <button class="btn btn-primary" onclick="add_to_course_offered('{{$curriculum->id}}')"><span class="fa fa-plus-circle"></span></button>
+                        @else
+                        Credited
+                        @endif
                 @endif
                 @endif
             </td>

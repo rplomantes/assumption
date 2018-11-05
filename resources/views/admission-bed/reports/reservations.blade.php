@@ -46,67 +46,35 @@
     </ol>
 </section>
 @endsection
-@section('maincontent')
-<div class="col-md-12">  
-    <div class="form-group">
-        <label>Date range button:</label>
-        <div class="input-group">
-            <button type="button" class="btn btn-default pull-left" id="daterange">
-                <span>
-                    <i class="fa fa-calendar"></i> <span id='range'>{{$date_start}} , {{$date_end}}</span>
-                </span>
-                <i class="fa fa-caret-down"></i>
-
-            </button>
-
-            <a href="javascript:void(0)" class="btn btn-primary" id="view-button">View Summary</a>
-
-            <input id="date_to" class="form-control" type="hidden" value="{{$date_start}}">
-            <input id="date_from" class="form-control" type="hidden" value="{{$date_end}}">
-        </div>
-    </div>
-</div> 
+@section('maincontent') 
 <div class="col-md-12">  
     <div class="box">
         <div class="box-header">
             <div class="box-title">Result</div>
         </div>
+<?php $counter = 1; ?>
         <div class="box-body">
             <table id="example1" class="table table-condensed">
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>ID Number</th>
-                        <th>Name</th>
-                        <th>Level</th>
-                        <th>Date of Birth</th>
-                        <th>Date of Application Submitted</th>
-                        <th>Testing Schedule</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $number = 1; ?>
-                    @foreach ($for_approval_sched as $p)
-                    <?php $dob = \App\BedProfile::where('idno', $p->idno)->first()->date_of_birth; ?>
-                    <?php $daf = \App\Status::where('idno', $p->idno)->first()->date_application_finish; ?>
-                    <?php $testing = \App\TestingStudent::where('idno', $p->idno)->first(); ?>
-                    @if($testing->schedule_id != null)
-                    <?php $testing_schedule = \App\TestingSchedule::where('id', $testing->schedule_id)->first()->datetime; ?>
-                    @else
-                    <?php $testing_schedule = "No Assigned Schedule"; ?>
-                    @endif
-                    <tr>
-                        <td>{{$number++}}</td>
-                        <td>{{$p->idno}}</td>
-                        <td>{{$p->lastname}}, {{$p->firstname}} {{$p->middlename}} {{$p->extensionname}}</td>
-                        <td>{{$p->level}}</td>
-                        <td>{{$dob}}</td>
-                        <td>{{$daf}}</td>
-                        <td>{{$testing_schedule}}</td>
-                        
-                    </tr>
-                    @endforeach
-                </tbody>
+                <tr>
+                    <th width="5%">#</th>
+                    <th width="10%">ID Number</th>
+                    <th>Name</th>
+                    <th width="20%">Transaction Date</th>
+                    <th width="10%">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($reservations as $reservation)
+                <tr>
+                    <td>{{$counter}}. <?php $counter++; ?></td>
+                    <td>{{$reservation->idno}}</td>
+                    <td>{{strtoupper($reservation->lastname)}}, {{$reservation->firstname}} {{$reservation->middlename}}</td>
+                    <td>{{$reservation->transaction_date}}</td>
+                    <td>{{number_format($reservation->amount,2)}}</td>
+                </tr>
+                @endforeach
+            </tbody>
             </table>
         </div>
     </div> 

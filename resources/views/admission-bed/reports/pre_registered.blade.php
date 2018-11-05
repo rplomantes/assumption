@@ -72,7 +72,7 @@
             <div class="box-title">Not Yet Paid Applicants</div>
         </div>
         <div class="box-body">
-            <table class="table table-condensed">
+            <table id='example3' class="table table-condensed">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -102,7 +102,7 @@
             <div class="box-title">Paid Applicants</div>
         </div>
         <div class="box-body">
-            <table class="table table-condensed">
+            <table id='example1' class="table table-condensed">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -170,5 +170,22 @@ $(document).ready(function () {
 
 });
 
+</script>
+<!-- DataTables -->
+<script src="{{url('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+    $('#example3').DataTable()
+  })
 </script>
 @endsection

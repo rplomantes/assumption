@@ -31,8 +31,8 @@ $count = 0;
     footer {
         position: fixed; 
         bottom: 6cm; 
-        left: 0px; 
-        right: 0px;
+        left: 0px;  
+       right: 0px;
         height: 0px; 
 
         margin: 0cm 1cm 0cm 1cm;
@@ -119,7 +119,6 @@ $count = 0;
                 </tr>       
             </tbody>
         </table>
-        <hr>
     </header> 
     <table width='100%' cellpadding="2" style=" border-collapse: collapse" border="1">
         <tr>
@@ -129,6 +128,68 @@ $count = 0;
             <th width='10%' align='center' style="border:1px solid black;"><b>COMPLETION</b></th>
             <th width='10%' align='center' style="border:1px solid black;"><b>CREDITS</b></th>
         </tr>
+
+        <?php $grades_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+        @if(count($grades_sy)>0)
+        @foreach($grades_sy as $sy)
+        <?php $grades_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+        @foreach ($grades_pr as $pr)
+        <?php $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
+        @foreach ($credit_school as $sr)
+        <?php $grades = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+        <tr>
+            <td></td>
+            <td align='center'><b>@if($sr->school_name != ""){{strtoupper($sr->school_name)}} : @endif {{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach ($grades as $grade)
+
+        <?php
+        $display_final_grade = $grade->finals;
+        if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "FAILED" || $grade->finals == "PASSED") {
+            $gpa = $gpa;
+            $credit = $credit;
+            $count = $count;
+        } else if ($grade->finals == "INC") {
+            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FAILED" || $grade->completion == "PASSED") {
+                $gpa = $gpa;
+                $credit = $credit;
+                $count = $count;
+            } else {
+                $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+                $count = $count + $grade->lec + $grade->lab;
+            }
+        } else {
+            if ($grade->finals == "FA" || $grade->finals == "UD") {
+                $grade->finals = "4.00";
+            }
+            $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+            $count = $count + $grade->lec + $grade->lab;
+        }
+        ?>
+        <?php
+        if (stripos($grade->course_code, "MME") !== FALSE || stripos($grade->course_code, "THEO") !== FALSE || stripos($grade->course_code, "NSTP") !== FALSE || stripos($grade->course_code, "PE") !== FALSE) {
+            $credit = $grade->lec + $grade->lab;
+            $credit = "(" . $credit . ")";
+        } else {
+            $credit = $grade->lec + $grade->lab;
+        }
+        ?>
+        <tr>
+            <td valign='top'>{{strtoupper($grade->course_code)}}</td>
+            <td valign='top'>{{strtoupper($grade->course_name)}}</td>
+            <td valign='top' align='center'>{{$display_final_grade}}</td>
+            <td valign='top' align='center'>{{$grade->completion}}</td>
+            <td valign='top' align='center'>{{$credit}}</td>
+        </tr>
+        @endforeach
+        @endforeach
+        @endforeach
+        @endforeach
+        @endif
+
 
 
 
@@ -213,9 +274,9 @@ $count = 0;
         <?php $grades_sy = \App\GradeCollege::distinct()->where('finals_status', 3)->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
         @if(count($grades_sy)>0)
         @foreach($grades_sy as $sy)
-        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('finals_status', 3)->orderBy('period', 'asc')->get(['period']); ?>
         @foreach ($grades_pr as $pr)
-        <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+        <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
             <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
@@ -268,10 +329,10 @@ $count = 0;
         @endif
         @else
 
-        <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+        <?php $grades_sy = \App\GradeCollege::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->where('finals_status', 3)->get(['school_year']); ?>
         @if(count($grades_sy)>0)
         @foreach($grades_sy as $sy)
-        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+        <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->where('finals_status', 3)->get(['period']); ?>
         @foreach ($grades_pr as $pr)
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>

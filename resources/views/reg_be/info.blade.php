@@ -61,22 +61,28 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
          <div class="col-md-2 pull-lef">
              <div class="form form-group">
                  <label><br><br></label>
-              <a href='{{url('/bedregistrar',array('widthdraw_student',$user->idno))}}'><button type="button" class="btn btn-danger">
-                Tag as Withdrawn
-              </button>
+                 @if($status->status == 3)
+              <a href='{{url('/bedregistrar',array('withdraw_enrolled_student','w',$user->idno))}}'>
+                  <button type="button" class="btn btn-danger">Tag as Withdrawn</button>
               </a>
+                  <!--<input type="text" class="form form-control" name="date_today">-->
+                 @elseif($status->status == 4)
+              <a href='{{url('/bedregistrar',array('withdraw_enrolled_student','e',$user->idno))}}'>
+                  <button type="button" class="btn btn-success">Tag as Enrolled</button>
+              </a>
+                 @endif
              </div>
           </div>
         <div class="col-md-2 pull-right">
              <div class="form form-group">
-                 <label>Enrollment Status: </label><button class="form form-control btn btn-success" style="color: white">
+                 <label>Enrollment Status: </label><br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
             @elseif($status->status == 10) Pre-Registered
             @elseif($status->status == 11) For Approval
             @elseif($status->status == 4) Withdrawn
             @else Not Yet Enrolled @endif
-                 </button>
+                 </b>
              </div>
           </div>
          <div class="col-md-3 pull-right">

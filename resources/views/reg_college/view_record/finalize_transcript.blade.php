@@ -127,6 +127,39 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             </div>
         </div>
         <div class="col-sm-12">
+            <?php $credit_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+            @if(count($credit_sy)>0)
+            @foreach($credit_sy as $sy)
+            <?php $credit_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+            @foreach ($credit_pr as $pr)
+            <?php $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
+            @foreach ($credit_school as $sr)
+            <?php $credit = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?><h4>@if($sr->school_name != ""){{$sr->school_name}} : @endif{{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}}</h4>
+            <table class="table table-striped table-condensed" width="100%">
+                <thead>
+                    <tr>
+                        <th width='5%'>Course Codes</th>
+                        <th width='40%'>Course Name</th>
+                        <th width='10%'>Final Grade</th>
+                        <th width='10%'>Completion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($credit as $grade)
+                    <tr>
+                        <td>{{$grade->course_code}}</td>
+                        <td>{{$grade->course_name}}</td>
+                        <td>{{$grade->finals}}</td>
+                        <td>{{$grade->completion}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @endforeach
+            @endforeach
+            @endforeach
+            @endif
+            
             <?php $pinnacle_sy = \App\CollegeGrades2018::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($pinnacle_sy)>0)
             @foreach ($pinnacle_sy as $pin_sy)

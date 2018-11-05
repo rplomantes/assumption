@@ -134,7 +134,12 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 $style="style='color:orange; font-weight:bold'";
                             }
                         }else{
+                            $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get();
+                            if(count ($checkcredit) == 0){
                             $style="style='color:green; font-weight:bold'";
+                            }else{
+                            $style="style='color:brown; font-weight:bold'";
+                            }
                         }
                     }
                     
@@ -151,7 +156,12 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 @if(count($grades)>0)
                                 {{$grades->finals}}
                                 @else
-                                Not Yet Taken
+                                    <?php $checkcredit = \App\CollegeCredit::where('credit_code', $curriculum->course_code)->get(); ?>
+                                    @if(count($checkcredit)==0)
+                                    Not Yet Taken
+                                    @else
+                                    Credited
+                                    @endif
                                 @endif
                             @endif
                         </td>
