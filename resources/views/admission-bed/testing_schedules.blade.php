@@ -56,7 +56,7 @@
             <div class="alert alert-success">{{ Session::get('message') }}</div>
         @endif  
     <button class="btn btn-success" data-toggle="modal" data-target="#show_adding_schedule">Create New Schedule</button>
-    <table class="table table-condensed">
+    <table id='example1' class="table table-condensed">
         <thead>
             <tr>
                 <th>#</th>
@@ -117,5 +117,22 @@ $('#datetimepicker').datetimepicker({
 });
 $('#datetimepicker').datetimepicker();
 
+</script>
+<!-- DataTables -->
+<script src="{{url('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+    $('#example3').DataTable()
+  })
 </script>
 @endsection

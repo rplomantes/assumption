@@ -18,7 +18,7 @@ class Registration extends Controller {
         $this->middleware('auth');
     }
 
-    function withdraw($value, $idno) {
+    function withdraw($value, $date_today,$idno) {
         if (Auth::user()->accesslevel == env("REG_BE")) {
             if ($value == "w") {
                 $v = env('WITHDRAWN');
@@ -27,7 +27,7 @@ class Registration extends Controller {
             }
             $status = \App\Status::where('idno', $idno)->first();
             if ($value == "w") {
-                $status->date_dropped = date('Y-m-d');
+                $status->date_dropped = $date_today;
                 $mes = "Withdraw";
             } else if ($value == "e") {
                 $status->date_dropped = NULL;
@@ -39,7 +39,7 @@ class Registration extends Controller {
             $bedlevel = \App\BedLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
             $status = \App\Status::where('idno', $idno)->first();
             if ($value == "w") {
-                $status->date_dropped = date('Y-m-d');
+                $status->date_dropped = $date_today;
             } else if ($value == "e") {
                 $status->date_dropped = NULL;
             }

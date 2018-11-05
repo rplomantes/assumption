@@ -60,14 +60,16 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         
          <div class="col-md-2 pull-lef">
              <div class="form form-group">
-                 <label><br><br></label>
                  @if($status->status == 3)
-              <a href='{{url('/bedregistrar',array('withdraw_enrolled_student','w',$user->idno))}}'>
+                 <label><input type="text" class="form form-control" id='date_today' placeholder="YYYY-MM-DD" value="{{date('Y-m-d')}}" name="date_today"></label>
+              <!--<a onclick='withdraw(date_today.value)' href='{{url('/bedregistrar',array('withdraw_enrolled_student','w',$user->idno))}}'>-->
+              <a onclick='withdraw(date_today.value,"w","{{$user->idno}}")'>
                   <button type="button" class="btn btn-danger">Tag as Withdrawn</button>
               </a>
-                  <!--<input type="text" class="form form-control" name="date_today">-->
                  @elseif($status->status == 4)
-              <a href='{{url('/bedregistrar',array('withdraw_enrolled_student','e',$user->idno))}}'>
+                 <label><br><br></label>
+              <!--<a href='{{url('/bedregistrar',array('withdraw_enrolled_student','e',$user->idno))}}'>-->
+              <a onclick='withdraw("NULL","e","{{$user->idno}}")'>
                   <button type="button" class="btn btn-success">Tag as Enrolled</button>
               </a>
                  @endif
@@ -1441,5 +1443,13 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             j--;
         });
     })
+    function withdraw(date_today,value,idno) {
+        array = {};
+        array['date_today'] = date_today;
+        array['value'] = value;
+        array['idno'] = idno;
+        
+        window.location.replace('/bedregistrar/withdraw_enrolled_student/' + array['value'] + "/" + array['date_today'] + "/" + array['idno']) ;
+    }
 </script>
 @endsection
