@@ -573,7 +573,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
          <div class="form-group">
         <a class="form form-control btn btn-success" href="{{url('cashier',array('reservation',$user->idno))}}">Reservation/Student Deposit</a>
         </div>
-        @elseif(Auth::user()->accesSTAFFslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+        @elseif(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
 <!--        <div class="form-group">
         <a href="{{url('/accounting',array('edit_ledger',$user->idno))}}" class="form form-control btn btn-primary">EDIT LEDGER</a>
         </div>-->

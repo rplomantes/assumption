@@ -112,6 +112,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Payment Plan</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Discount</span></a></li>
                         <li><a href="{{url('/admin/logs')}}"><i class="fa fa-home"></i> <span>Logs</span></a></li>
+                        <li><a href="{{url('/sms')}}"><i class="fa fa-home"></i> <span>SEND SMS</span></a></li>
                 </section>
             </aside>
             <div class="content-wrapper">

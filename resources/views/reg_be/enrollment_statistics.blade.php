@@ -28,6 +28,18 @@ function getCount($getlevel,$getsection,$getstrand,$schoolyear){
  
 }
 
+function getWithdrawn($schoolyear){
+     $count = \App\BedLevel::selectRaw("count(*) as count")
+             ->whereRaw("status = '4' AND school_year = '$schoolyear'")->first();
+
+  if(count($count)>0){
+         return $count->count;
+     } else {
+         return "0";
+     }   
+ 
+}
+
 function getTotal($getlevel,$getstrand,$schoolyear){
     
     if($getlevel == "Grade 11" || $getlevel == "Grade 12"){
@@ -425,7 +437,22 @@ function getTotal($getlevel,$getstrand,$schoolyear){
             </tr> 
      </table>     
      </div>
-     </div>    
+     </div>        
+     <div class="box">    
+     <div class="box-body">
+     <table id="example2" class="table table-responsive table-striped">
+            <tr>
+             <td><div align="left"><strong>WITHDRAWN:</strong></div</td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td><strong>{{getWithdrawn($school_year)}}</strong></td>          
+            </tr>         
+     </table>
+     </div>
+     </div>   
      <div class="box">    
      <div class="box-body">
      <table id="example2" class="table table-responsive table-striped">

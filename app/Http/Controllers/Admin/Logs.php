@@ -25,4 +25,10 @@ class Logs extends Controller
         $log->datetime = date("Y-m-d H:i:s");
         $log->save();
     }
+    function sms(){
+        return view('admin.sms');
+    }
+    function send_sms(Request $request){
+        return $request;
+    }
 }

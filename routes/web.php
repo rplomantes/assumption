@@ -265,6 +265,9 @@ Route::post('/admin/resetpassword', 'Admin\ViewInformation\viewInfoController@re
 Route::post('/admin/update_info/', 'Admin\ViewInformation\viewInfoController@update_info');
 Route::get('/ajax/admin/getstudentlist','Admin\Ajax\GetStudentList_ajax@getstudentlist');
 Route::get('/admin/logs','Admin\Logs@view_logs');
+//send sms
+Route::get('/sms','Admin\Logs@sms');
+Route::post('/send_sms','Admin\Logs@send_sms');
 
 //College Admission///////////////////////////////////////////////////
 Route::get('/ajax/admission-hed/getstudentlist', 'AdmissionHED\Ajax\GetStudentList_ajax@getstudentlist');

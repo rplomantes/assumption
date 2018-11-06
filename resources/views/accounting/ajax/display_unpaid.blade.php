@@ -24,8 +24,10 @@
         <input type="hidden" name="level" value="{{$level}}">
         @foreach($unpaid as $un)
         <?php $check = checkLedger($un->idno, $dates);?>
+        <?php $countLedger = countLedger($un->idno, $dates);?>
         @if($check != 2)
         <?php $ctr++;?>
+        
         <tr>
             <td>{{++$x}}</td>
             <td>{{$un->idno}}</td>
@@ -37,6 +39,7 @@
                 @if($check == 1)  
                     <a type="button" id="reverse{{$un->idno}}" value="Reverse" onclick="reversePost('{{$un->idno}}')">Reverse</a> 
                 @else 
+                    <input type="hidden" name="count[]" value="{{$countLedger}}">
                     <input type="checkbox" name="post[]" value="{{$un->idno}}" checked/> 
                 @endif</td>
             <td>@if($check == 1) Posted and unpaid @else Not yet posted. @endif</td>
@@ -90,6 +93,55 @@ function checkLedger($idno, $date) {
         }
     } 
     return $result;
+}
+function countLedger($idno, $date) {
+    $mainledgers = \App\Ledger::where('idno', $idno)->where('category_switch','<=','6')->get();
+    $duedates = \App\LedgerDueDate::where('idno', $idno)->get();
+    $mainpayment = 0;
+    $result = 0;
+    $due = 0;
+    $count = 0;
+    
+//    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
+    $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
+    
+    foreach ($mainledgers as $payment) {
+        $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
+    }
+    
+    foreach ($duedates as $duedate) {
+    $due = $due + $duedate->amount; 
+    $monthdate = date_format(date_create($duedate->due_date),'m');
+        if ($monthdate == $date) {
+            if ($mainpayment >= $due) {
+                $result = 2;
+            } 
+            else {
+                if(count($is_posted) > 0){
+                    $result = 1;
+                }
+                else{
+                    $result = 0;
+                }
+            }
+                    $count = $count+1;
+            break;
+        }else{
+            if ($mainpayment >= $due) {
+                $result = 2;
+            } 
+            else {
+                if(count($is_posted) > 0){
+                    $result = 1;
+                }
+                else{
+                    $result = 0;
+                    $count = $count+1;
+                }
+            }
+        }
+    } 
+    return $count;
 }
 
 function getBalance($idno,$date){

@@ -64,7 +64,7 @@
                         <thead>
                             <tr>              
                                 <th>#</th>
-                                <th>Id Number</th>
+                                <th>ID Number</th>
                                 <th>Last Name</th>
                                 <th>First Name</th>
                                 <th>Level</th>

@@ -44,7 +44,7 @@ class PostCharges extends Controller
                 $ledger->accounting_code = env('SURCHARGE_CODE');
                 $ledger->accounting_name = env('SURCHARGE_NAME');
                 $ledger->category_switch = "7";
-                $ledger->amount = env('SURCHARGE_AMOUNT');
+                $ledger->amount = env('SURCHARGE_AMOUNT')*$request->count[$indic];
                 $ledger->save();
                 $indic++;
                 
@@ -58,7 +58,7 @@ class PostCharges extends Controller
                 $posted->save();
             }
             DB::commit();
-            $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('level', 'asc')->get(['level']);
+            $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
             $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
             
             \App\Http\Controllers\Admin\Logs::log("Post late payment charges.");
