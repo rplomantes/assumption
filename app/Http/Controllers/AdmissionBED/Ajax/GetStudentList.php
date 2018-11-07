@@ -104,4 +104,25 @@ class GetStudentList extends Controller {
         }
     }
 
+    function change_applied_for() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+                $idno = Input::get('idno');
+                $level = Input::get('level');
+                
+                $status = \App\Status::where('idno', $idno)->first();
+                $status->level = $level;
+                $status->save();
+                
+                $bedinfo = \App\BedProfile::where('idno', $idno)->first();
+                $bedinfo->applied_for = $level;
+                $bedinfo->save();
+                
+                $promotion = \App\Promotion::where('idno', $idno)->first();
+                $promotion->level = $level;
+                $promotion->save();
+            }
+        }
+    }
+
 }

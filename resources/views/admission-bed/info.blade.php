@@ -76,7 +76,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
              <div class="form form-group">
                  <label>Admission Status: </label><br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      
-        @if(Auth::user()->idno == "acruz")
+                 @if(Auth::user()->idno == "acruz")
                      FOR TESTING/INTERVIEW
                      @else
                      FOR APPROVAL
@@ -199,6 +199,32 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </div>
         @endif
     </div>
+    @if($status->status == env("FOR_APPROVAL"))
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-3">
+                <label>Level Applied For</label>
+                <select onchange="change_applied_for(this.value,'{{$user->idno}}')">
+                    <option @if($info->applied_for == "Pre-Kinder") selected="" @endif>Pre-Kinder</option>
+                    <option @if($info->applied_for == "Kinder") selected="" @endif>Kinder</option>
+                    <option @if($info->applied_for == "Grade 1") selected="" @endif>Grade 1</option>
+                    <option @if($info->applied_for == "Grade 2") selected="" @endif>Grade 2</option>
+                    <option @if($info->applied_for == "Grade 3") selected="" @endif>Grade 3</option>
+                    <option @if($info->applied_for == "Grade 4") selected="" @endif>Grade 4</option>
+                    <option @if($info->applied_for == "Grade 5") selected="" @endif>Grade 5</option>
+                    <option @if($info->applied_for == "Grade 6") selected="" @endif>Grade 6</option>
+                    <option @if($info->applied_for == "Grade 7") selected="" @endif>Grade 7</option>
+                    <option @if($info->applied_for == "Grade 8") selected="" @endif>Grade 8</option>
+                    <option @if($info->applied_for == "Grade 9") selected="" @endif>Grade 9</option>
+                    <option @if($info->applied_for == "Grade 10") selected="" @endif>Grade 10</option>
+                    <option @if($info->applied_for == "Grade 11") selected="" @endif>Grade 11</option>
+                    <option @if($info->applied_for == "Grade 12") selected="" @endif>Grade 12</option>
+                </select>
+            </div>
+        </div>
+        <br>
+    </div>
+    @endif
     <div class="col-md-12">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
@@ -1351,6 +1377,19 @@ function update_group(id){
     $.ajax({
         type: "GET",
         url: "/ajax/admissionbed/update_group",
+        data: array,
+        success: function (data) {
+        }
+
+    });
+}
+function change_applied_for(level,idno){
+    array = {};
+    array['idno'] = "{{$user->idno}}";
+    array['level'] = level;
+    $.ajax({
+        type: "GET",
+        url: "/ajax/admissionbed/change_applied_for",
         data: array,
         success: function (data) {
         }

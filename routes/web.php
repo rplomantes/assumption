@@ -281,6 +281,7 @@ Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
 Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');
 Route::get('/ajax/admissionbed/update_interview','AdmissionBED\Ajax\GetStudentList@updateSchedInterview');
 Route::get('/ajax/admissionbed/update_group','AdmissionBED\Ajax\GetStudentList@updateSchedGroup');
+Route::get('/ajax/admissionbed/change_applied_for','AdmissionBED\Ajax\GetStudentList@change_applied_for');
 Route::get('/admissionbed/approve_application/{idno}','AdmissionBED\info@approve_application');
 Route::get('/admissionbeds/disapprove_application/{idno}','AdmissionBED\info@disapprove_application');
 //BED TESTING SCHEDULES/////////////////////////////////////////////////////////
