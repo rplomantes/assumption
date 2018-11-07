@@ -40,7 +40,7 @@ class PostCharges extends Controller
                 }
                 $ledger->category = "Other Miscellaneous";
                 $ledger->subsidiary = "Late Payment Charge";
-                $ledger->receipt_details = "Late Payment Charge";
+                $ledger->receipt_details = "Late Payment Charge for the month of ". date('F', strtotime("0000-$request->date-$request->date"));
                 $ledger->accounting_code = env('SURCHARGE_CODE');
                 $ledger->accounting_name = env('SURCHARGE_NAME');
                 $ledger->category_switch = "7";
