@@ -1291,10 +1291,22 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @endif
         <br/>
         <br/>
+        @if($status->status == env("FOR_APPROVAL"))
+        <div class="col-md-6">
+            <a href="{{url('admissionbed', array('not_yet_approval', $user->idno))}}">
+                <button type='button' class='btn btn-info col-sm-12'>Not Yet for Approval</button></a>
+        </div>
+        <div class="col-md-6">
+            <a href="{{url('admissionbed', array('print_info', $user->idno))}}">
+                <button type='button' class='btn btn-warning col-sm-12'>Print Student Information</button></a>
+        </div>
+        
+        @else
         <div class="col-md-6 col-md-offset-6">
             <a href="{{url('admissionbed', array('print_info', $user->idno))}}">
                 <button type='button' class='btn btn-warning col-sm-12'>Print Student Information</button></a>
         </div>
+        @endif
         
     </div>
     </form>

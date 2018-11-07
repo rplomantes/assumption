@@ -123,4 +123,5 @@ Route::get('/accounting/ajax/reverse_post/{idno}','Accounting\Ajax\AjaxPostCharg
 
 //admission - print info
 Route::get('/admissionbed/print_info/{idno}', 'AdmissionBED\info@printInfo');
+Route::get('/admissionbed/not_yet_approval/{idno}', 'AdmissionBED\info@notyetapproval');
 ?>

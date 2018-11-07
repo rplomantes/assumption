@@ -166,4 +166,14 @@ class info extends Controller
         $pdf->setPaper('letter','portrait');
         return $pdf->stream('information-sheet-'.$idno.'.pdf');
     }
+    
+    function notyetapproval($idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $status = \App\Status::where('idno', $idno)->first();
+            $status->status=10;
+            $status->save();
+            \App\Http\Controllers\Admin\Logs::log("Revert admission status application of $idno to not yet for approval.");
+            return redirect('admissionbed/info/'.$idno);
+        }
+    }
 }
