@@ -130,7 +130,6 @@ class MainPayment extends Controller {
         $addacct->accounting_type = env("COMPUTER");
         $addacct->category = env("AR_TUITION_NAME");
         $addacct->subsidiary = $request->idno;
-        ;
         $addacct->receipt_details = env("AR_TUITION_NAME");
         $addacct->particular = "Unrealized Tuition Fee For " . $request->idno;
         $addacct->accounting_code = env("AR_TUITION_CODE");

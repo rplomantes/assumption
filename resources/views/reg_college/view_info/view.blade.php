@@ -72,7 +72,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @endif  
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
+                        
             <div class="widget-user-header bg-yellow">
+                <div>
+                    <a href="{{url('/upload_user_image', $user->idno)}}"><button type="button" class="btn btn-primary pull-right">Upload User Image</button></a>
+                </div>
                 <div class="widget-user-image">
                     @if($file_exist==1)
                         <img src="/images/PICTURES/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">

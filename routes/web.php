@@ -401,3 +401,8 @@ Route::post('/accounting/edit_ledger_now','Accounting\EditLedger@update_ledger')
 
 //ACCOUNTING GENERATE PASSCODE
 Route::get('/accounting/ajax/get_passcode','Accounting\Ajax\AjaxGeneratePasscode@generatePasscode');
+
+
+//Upload User Image
+Route::get('/upload_user_image/{idno}','Uploader\ImageUpload@view_upload');
+Route::post('/save_image','Uploader\ImageUpload@save_upload');
