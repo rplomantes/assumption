@@ -232,11 +232,12 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
 ?>
            @foreach($ledger_list_misc as $list_misc)
            <?php $balance=+$list_misc->amount-$list_misc->discount-$list_misc->debit_memo-$list_misc->payment; ?>
+           <?php $listnet = $list_misc->amount - ($list_misc->discount + $list_misc->debit_memo); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_misc->subsidiary}}</td>
                <td align="right">{{number_format($list_misc->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_misc->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><span class="net">{{number_format($net,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -275,11 +276,12 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
 ?>
            @foreach($ledger_list_other as $list_other)
            <?php $balance=+$list_other->amount-$list_other->discount-$list_other->debit_memo-$list_other->payment; ?>
+           <?php $listnet = $list_other->amount - ($list_other->discount + $list_other->debit_memo); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_other->subsidiary}}</td>
                <td align="right">{{number_format($list_other->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_other->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><span class="net">{{number_format($net,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -319,11 +321,12 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
 ?>
            @foreach($ledger_list_depo as $list_depo)
            <?php $balance=+$list_depo->amount-$list_depo->discount-$list_depo->debit_memo-$list_depo->payment; ?>
+           <?php $listnet = $list_depo->amount - ($list_depo->discount + $list_depo->debit_memo); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_depo->subsidiary}}</td>
                <td align="right">{{number_format($list_depo->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_depo->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><span class="net">{{number_format($net,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -402,11 +405,12 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
 ?>
            @foreach($ledger_list as $list)
            <?php $balance=+$list->amount-$list->discount-$list->debit_memo-$list->payment; ?>
+           <?php $listnet = $list->amount - ($list->discount + $list->debit_memo); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list->subsidiary}}</td>
                <td align="right">{{number_format($list->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right"><span class="net">{{number_format($net,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
