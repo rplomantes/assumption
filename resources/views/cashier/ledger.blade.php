@@ -164,9 +164,9 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             @if(count($ledger_main)>0)
             
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
-            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Net</th><th>Payment</th><th>Balance</th><th>Edit</th></tr>
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th><th>Edit</th></tr>
                 @else
-            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Net</th><th>Payment</th><th>Balance</th></tr>
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
                 @endif
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;$totalnet=0;
@@ -188,8 +188,8 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                <tr><td>{{$main_tuition->category}}</td>
                <td align="right">{{number_format($main_tuition->amount,2)}}</td>
                <td align="right">{{number_format($main_tuition->discount,2)}}</td>
-               <td align="right">{{number_format($main_tuition->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($main_tuition->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main_tuition->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
                
@@ -221,8 +221,8 @@ $ledger_list_tuition = \App\Ledger::where('idno',$user->idno)->where('category_s
                <tr><td>{{$main_misc->category}}</td>
                <td align="right">{{number_format($main_misc->amount,2)}}</td>
                <td align="right">{{number_format($main_misc->discount,2)}}</td>
-               <td align="right">{{number_format($main_misc->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($main_misc->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main_misc->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach    
@@ -236,8 +236,8 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_misc->subsidiary}}</td>
                <td align="right">{{number_format($list_misc->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_misc->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -265,8 +265,8 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <tr><td>{{$main_other->category}}</td>
                <td align="right">{{number_format($main_other->amount,2)}}</td>
                <td align="right">{{number_format($main_other->discount,2)}}</td>
-               <td align="right">{{number_format($main_other->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($main_other->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main_other->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
@@ -280,8 +280,8 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_other->subsidiary}}</td>
                <td align="right">{{number_format($list_other->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_other->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -310,8 +310,8 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                <tr><td>{{$main_depo->category}}</td>
                <td align="right">{{number_format($main_depo->amount,2)}}</td>
                <td align="right">{{number_format($main_depo->discount,2)}}</td>
-               <td align="right">{{number_format($main_depo->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($main_depo->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main_depo->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
@@ -325,8 +325,8 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_depo->subsidiary}}</td>
                <td align="right">{{number_format($list_depo->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_depo->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -337,8 +337,8 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
            <tr style="background-color: lightgray;"><td>Total School Fees</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
-               <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="net">{{number_format($totalnet,2)}}</span></td>
+               <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
            
@@ -361,8 +361,8 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
-               <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
                
@@ -389,8 +389,8 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                <tr><td>{{$srf->category}}</td>
                <td align="right">{{number_format($srf->amount,2)}}</td>
                <td align="right">{{number_format($srf->discount,2)}}</td>
-               <td align="right">{{number_format($srf->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($srf->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($srf->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
                </tr>
@@ -409,8 +409,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list->subsidiary}}</td>
                <td align="right">{{number_format($list->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-               <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
                
@@ -427,8 +427,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <tr style="background-color: silver;"><td>Total</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
-               <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="net">{{number_format($totalnet,2)}}</span></td>
+               <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table> 
@@ -443,7 +443,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
          
         <div id="accordion-2" class="accordion-section-content open">
             @if(count($ledger_others)>0)
-            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Net</th><th>Payment</th><th>Balance</th></tr>
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;$totalnet=0;
            ?>
@@ -461,16 +461,16 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <tr><td>{{$main->receipt_details}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
-               <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="net">{{number_format($net,2)}}</span></td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
                <tr><td>Total</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
-               <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="net">{{number_format($totalnet,2)}}</span></td>
+               <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table>  
