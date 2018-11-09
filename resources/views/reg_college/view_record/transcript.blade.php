@@ -111,7 +111,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
                     <tr>
-                        <th width='5%'>Course Codes</th>
+                        <th width='7%'>Course Code</th>
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
@@ -193,7 +193,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
                     <tr>
-                        <th width='5%'>Course Code</th>
+                        <th width='7%'>Course Code</th>
                         <th width='40%'>Course Name</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
@@ -271,8 +271,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
                     <tr>
-                        <th width='5%'>Course Codes</th>
+                        <th width='7%'>Course Code</th>
                         <th width='40%'>Course Name</th>
+                        <th width='10%'>Midterm Grade</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
                         <th width="1%">Edit</th>
@@ -283,6 +284,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
+                        <td>@if($grade->midterm_status == 3){{$grade->midterm}}@endif</td>
                         <td>@if($grade->finals_status == 3)
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
@@ -354,8 +356,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
                     <tr>
-                        <th width='5%'>Course Codes</th>
+                        <th width='7%'>Course Code</th>
                         <th width='40%'>Course Name</th>
+                        <th width='10%'>Midterm Grade</th>
                         <th width='10%'>Final Grade</th>
                         <th width='10%'>Completion</th>
                         <th width="1%">Edit</th>
@@ -366,6 +369,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
+                        <td>@if($grade->midterm_status == 3){{$grade->midterm}}@endif</td>
                         <td>@if($grade->finals_status == 3)
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
