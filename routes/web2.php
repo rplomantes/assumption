@@ -124,4 +124,21 @@ Route::get('/accounting/ajax/reverse_post/{idno}','Accounting\Ajax\AjaxPostCharg
 //admission - print info
 Route::get('/admissionbed/print_info/{idno}', 'AdmissionBED\info@printInfo');
 Route::get('/admissionbed/not_yet_approval/{idno}', 'AdmissionBED\info@notyetapproval');
+
+//accounting - outstanding balances
+Route::get('/accounting/outstanding_balances','Accounting\OutstandingBalanceController@outstanding_balance');
+Route::post('/accounting/print_outstanding_balances_pdf','Accounting\OutstandingBalanceController@print_outstanding_balancePDF');
+Route::post('/accounting/print_outstanding_balances_excel','Accounting\OutstandingBalanceController@print_outstanding_balanceEXCEL');
+Route::get('/accounting/ajax/getoutstanding_balance','Accounting\Ajax\AjaxAccoReportsController@getoustanding_balance');
+
+Route::get('/accounting/student_per_account','Accounting\StudentsAccountController@students_account');
+Route::post('/accounting/print_student_account_pdf','Accounting\StudentsAccountController@print_students_accountPDF');
+Route::post('/accounting/print_student_account_excel','Accounting\StudentsAccountController@print_students_accountEXCEL');
+Route::get('/accounting/ajax/get_per_student_account','Accounting\Ajax\AjaxAccoReportsController@get_student_per_account');
+
+Route::get('/accounting/sibling_discount','Accounting\SiblingDiscountListController@sibling_discount');
+Route::post('/accounting/print_sibling_discount_pdf','Accounting\SiblingDiscountListController@print_sibling_discountPDF');
+Route::post('/accounting/print_sibling_discount_excel','Accounting\SiblingDiscountListController@print_sibling_discountEXCEL');
+Route::get('/accounting/ajax/getsibling_discount','Accounting\Ajax\AjaxAccoReportsController@get_sibling_discount_list');
+
 ?>
