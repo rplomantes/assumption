@@ -406,3 +406,4 @@ Route::get('/accounting/ajax/get_passcode','Accounting\Ajax\AjaxGeneratePasscode
 //Upload User Image
 Route::get('/upload_user_image/{idno}','Uploader\ImageUpload@view_upload');
 Route::post('/save_image','Uploader\ImageUpload@save_upload');
+Route::get('/remove_image/{idno}','Uploader\ImageUpload@remove_image');

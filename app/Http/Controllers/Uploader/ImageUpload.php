@@ -8,6 +8,7 @@ use Auth;
 use PDF;
 use App\Http\Controllers\Cashier\MainPayment;
 use DB;
+use File;
 
 class ImageUpload extends Controller {
 
@@ -36,6 +37,15 @@ class ImageUpload extends Controller {
         $image->move($destinationPath, $request->idno.".jpg");
 
         return back()->with('success', 'Image Upload successful');
+    }
+
+    function remove_image($idno) {
+        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
+        $destinationPath = public_path("images/PICTURES/$idno".".jpg");
+        
+        File::delete($destinationPath);
+        return back()->with('warning', 'Image Remove successful');
+        }
     }
 
 }

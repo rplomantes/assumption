@@ -180,7 +180,11 @@ class StudentRecordController extends Controller {
                     $add_new->period = $request->period;
                     $add_new->course_code = $request->course_code;
                     $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name;
+                    $lec = \App\Curriculum::where('course_code', $request->course_code)->first()->lec;
+                    $lab = \App\Curriculum::where('course_code', $request->course_code)->first()->lab;
                     $add_new->course_name = $course_name;
+                    $add_new->lec = $lec;
+                    $add_new->lab = $lab;
                     $add_new->finals = $request->finals;
                     $add_new->save();
                 } else if ($request->period == "2nd Semester" || $request->period == "Summer") {
@@ -195,7 +199,11 @@ class StudentRecordController extends Controller {
                     $add_new->is_lock = 3;
                     $add_new->course_code = $request->course_code;
                     $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name;
+                    $lec = \App\Curriculum::where('course_code', $request->course_code)->first()->lec;
+                    $lab = \App\Curriculum::where('course_code', $request->course_code)->first()->lab;
                     $add_new->course_name = $course_name;
+                    $add_new->lec = $lec;
+                    $add_new->lab = $lab;
                     $add_new->finals = $request->finals;
                     $add_new->save();
                 }
@@ -206,7 +214,11 @@ class StudentRecordController extends Controller {
                 $add_new->period = $request->period;
                 $add_new->course_code = $request->course_code;
                 $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name;
+                $lec = \App\Curriculum::where('course_code', $request->course_code)->first()->lec;
+                $lab = \App\Curriculum::where('course_code', $request->course_code)->first()->lab;
                 $add_new->course_name = $course_name;
+                $add_new->lec = $lec;
+                $add_new->lab = $lab;
                 $add_new->finals = $request->finals;
                 $add_new->save();
             } else {
@@ -221,7 +233,11 @@ class StudentRecordController extends Controller {
                 $add_new->finals_status = 3;
                 $add_new->is_lock = 3;
                 $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name;
+                $lec = \App\Curriculum::where('course_code', $request->course_code)->first()->lec;
+                $lab = \App\Curriculum::where('course_code', $request->course_code)->first()->lab;
                 $add_new->course_name = $course_name;
+                $add_new->lec = $lec;
+                $add_new->lab = $lab;
                 $add_new->finals = $request->finals;
                 $add_new->save();
             }

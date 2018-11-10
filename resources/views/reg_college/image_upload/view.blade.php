@@ -60,6 +60,13 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </ul>
     </div>
     @endif
+    @if (\Session::has('warning'))
+    <div class="alert alert-warning">
+        <ul>
+            <li>{!! \Session::get('warning') !!}</li>
+        </ul>
+    </div>
+    @endif
 </div>
 <div class="col-sm-6">
     <div class="box box-widget widget-user-2">
@@ -77,6 +84,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <label for="image">Upload Image</label>
                     <input type="hidden" name="idno" value="{{$user->idno}}">
                     <input name="image" type="file" id="image">
+                    <a href="{{url('remove_image', $user->idno)}}"><button type="button">Remove Image</button></a>
                     <p class="help-block">Image must be in .jpg format</p>
                 </div>
                 <div class="form-group">
