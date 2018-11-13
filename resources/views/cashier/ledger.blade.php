@@ -124,7 +124,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         </table> 
         </div>
     <div class="col-md-12">
-        @if($status->academic_type == 'College' && Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+        @if($status->academic_type == 'College' && (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD")))
         <div class="accordion">
     <div class="accordion-section">
         <a class="accordion-section-title active" href="#accordion-0">Courses Enrolled</a>
