@@ -55,39 +55,6 @@
 @section('maincontent')
 
 <div class="box">
-    <div class="box-header">
-        <div class="box-title">Search</div>
-    </div>
-    <form method="post" action="{{url('/accounting/')}}">
-        {{ csrf_field() }}
-        <div class="box-body form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label>Select Level</label>
-                    <select name="level" id="level" class="form form-control" onchange="getdues()">
-                        @foreach ($levels as $level)
-                        <option value="{{$level->level}}">{{$level->level}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-3" id="strand_control">
-                    <label>Select Plan</label>
-                    <select name="plan" id="plan" class="form form-control" onchange="getdues()">
-                        <option value=""></option>    
-                        @foreach($plans as $plan)
-                        <option value="{{$plan->plan}}">{{$plan->plan}}</option>
-                        @endforeach
-                    </select> 
-                </div>
-                <div class="col-sm-3" id="section_control">
-                    <label>Select Due Date</label>
-                    <select name="dates" id="dates" class="form form-control" onchange="getUnpaid()">
-                        <option></option>
-                    </select> 
-                </div>
-            </div>
-        </div>
-    </form>
     <div class="container-fluid" id="unpaid">
         @if($indic != 0)
         <h4>Successfully posted late payment charges for <strong>{{$indic}}</strong> student/s</h4>
@@ -97,6 +64,21 @@
 @endsection
 @section('footerscript')
 <script>
+    
+    $(document).ready(function(){
+        $.ajax({
+            type: "GET",
+            url: "/accounting/ajax/get_unpaid/",
+            success: function (data) {
+                $('#unpaid').html(data);
+            },
+            error: function () {
+                $('#unpaid').html("Nothing to show.");
+            }
+        });
+    });
+
+
     function getdues() {
         array = {};
         array['level'] = $("#level").val();
@@ -111,6 +93,8 @@
         }
         );
     }
+    
+    
     
     function getUnpaid() {
         array = {};
@@ -130,14 +114,12 @@
         });
     }
     
-    function reversePost($idno) {
+    function reversePost(idno) {
         array = {};
-        array['level'] = $("#level").val();
-        array['plan'] = $("#plan").val();
         array['dates'] = $("#dates").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/reverse_post/" + $idno ,
+            url: "/accounting/ajax/reverse_post/" + idno ,
             data: array,
             success: function (data) {
                 $('#unpaid').html(data);

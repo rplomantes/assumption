@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon;
 
 class PostCharges extends Controller
 {
@@ -17,6 +18,13 @@ class PostCharges extends Controller
     function index(){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
         $indic = 0;
+        
+        
+//        $dateToday = Carbon\Carbon::now();
+//        $dates = date_format($dateToday,'m') - 1;
+//        $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY s.program_code,s.level,s.section");
+//        return view('accounting.post_charges',compact('unpaid','dates','indic'));
+      
         $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
         $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
         return view('accounting.post_charges',compact('levels','plans','indic'));

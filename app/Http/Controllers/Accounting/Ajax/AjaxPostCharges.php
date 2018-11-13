@@ -39,23 +39,22 @@ class AjaxPostCharges extends Controller {
         if (Request::ajax()) {
          if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             
-//            $dateToday = Carbon\Carbon::now();
-//            $dates = date_format($dateToday,'m');
-//            $unpaid = DB::select("SELECT * FROM statuses s,users u WHERE s.status = '".env('ENROLLED')." and s.idno = u.idno' ORDER BY u.lastname ASC");
-            $level = Input::get("level");
-            $plan = Input::get("plan");
-            $dates = Input::get('dates');
-        
-            $unpaid = DB::select("SELECT * FROM statuses s,users u WHERE s.level = '".$level."' AND s.idno = u.idno AND s.type_of_plan = '".$plan."' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname ASC");
-            return view('accounting.ajax.display_unpaid', compact('unpaid', 'level', 'plan', 'dates'));
+            $dateToday = Carbon\Carbon::now();
+            $dates = date_format($dateToday,'m');
+            $dates = $dates - 1;
+            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY u.lastname,s.program_code,s.level,s.section");
+             
+//            $level = Input::get("level");
+//            $plan = Input::get("plan");
+//            $dates = Input::get('dates');
+//            $unpaid = DB::select("SELECT * FROM statuses s,users u WHERE s.level = '".$level."' AND s.idno = u.idno AND s.type_of_plan = '".$plan."' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname ASC");
+            return view('accounting.ajax.display_unpaid', compact('unpaid', 'dates'));
         }
       }
     }
     
       function reversePost($idno) {
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-                $level = Input::get('level');
-                $plan = Input::get('plan');
                 $dates = Input::get('dates');
                 
                 DB::beginTransaction();
@@ -68,8 +67,10 @@ class AjaxPostCharges extends Controller {
                 $delLed->delete();
                 DB::commit();
                 
-                $unpaid = DB::select("SELECT * FROM statuses s,users u WHERE s.level = '".$level."' AND s.idno = u.idno AND s.type_of_plan = '".$plan."' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname ASC");
-                return view('accounting.ajax.display_unpaid', compact('unpaid', 'level', 'plan', 'dates'));
+//                $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY s.program_code,s.level,s.section");
+                $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY u.lastname,s.program_code,s.level,s.section");
+            
+                return view('accounting.ajax.display_unpaid', compact('unpaid','dates'));
             }
     }
 

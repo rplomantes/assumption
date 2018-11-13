@@ -1,9 +1,18 @@
 <?php $ctr = 0;?>
 <div class="container-fluid">
-<h3>Listed below are the unpaid students for this due date.</h3>
-<h4>Simply <strong>UNCHECK</strong> the student if you <strong>DO NOT WISH</strong> to post their charges. To post late payment charges: Simply hit the [Post Charges] button</h4>
 <form class="form-horizontal" action="{{url('accounting', 'save_charges')}}" method="POST">
     {{ csrf_field()}}
+    <input type="hidden" name="date" value="{{$dates}}" id="dates">
+    <div class="form form-group">
+        <div class="col-sm-6">
+            <h3>Listed below are the unpaid students for this month.</h3>
+            <h4>Simply <strong>UNCHECK</strong> the student if you <strong>DO NOT WISH</strong> to post their charges. To post late payment charges: Simply hit the [Post Charges] button</h4>
+        </div>
+        <div class="col-sm-6">
+            <br>
+            <input type="submit" class="col-sm-12 btn btn-success" value="Post Charges">
+        </div>
+    </div>
     <table id="example" class="table table-bordered table-responsive table-condensed">
         <thead>
             <tr>
@@ -19,9 +28,6 @@
         </thead>
         <tbody>
         <?php $x = 0; ?>
-        <input type="hidden" name="plan" value="{{$plan}}">
-        <input type="hidden" name="date" value="{{$dates}}">
-        <input type="hidden" name="level" value="{{$level}}">
         @foreach($unpaid as $un)
         <?php $check = checkLedger($un->idno, $dates);?>
         <?php $countLedger = countLedger($un->idno, $dates);?>
@@ -51,11 +57,6 @@
         @endif
         </tbody>
     </table>
-    <div class="form form-group">
-        <div class="col-sm-12">
-            <input type="submit" class="col-sm-12 btn btn-success" value="Post Charges">
-        </div>
-    </div>
 </form>
 </div>
 <?php
@@ -90,6 +91,9 @@ function checkLedger($idno, $date) {
                 }
             }
             break;
+        }
+        else{
+            $result = 2;
         }
     } 
     return $result;

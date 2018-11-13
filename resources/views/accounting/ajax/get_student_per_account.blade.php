@@ -10,7 +10,9 @@
 </style>
 
 <strong>Assumption College</strong><br>
-    List of Students per Account ({{date("F d, Y")}})
+    List of Students per Account ({{date("F d, Y")}})<br/>
+    {{$department}}  ({{$school_year}} - {{$school_year + 1}})</br>
+{{$period}}
     <h4>Account No. : {{$info->accounting_code}} - {{$info->accounting_name}} </br>
         ( TOTAL: {{count($lists)}} student/s )
     </h4>
@@ -24,7 +26,9 @@
             <th style='border-bottom: 1px solid black'>ID No.</th>
             <th style='border-bottom: 1px solid black'>Name</th>
             <th style='border-bottom: 1px solid black'>Year Level</th>
+            @if($department != 'College Department')
             <th style='border-bottom: 1px solid black'>Section</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -35,7 +39,7 @@
             <td align='left'>{{$list->idno}}</td>
             <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
             <td>{{$list->program_code}} {{$list->level}}</td>
-            @if($list->academic_type != "College")
+            @if($department != 'College Department')
             <td>{{$list->section}}</td>
             @endif
         </tr>
