@@ -77,4 +77,8 @@
             @endforeach
         </tbody>
     </table>
+<br><br>
+
+Prepared by:<br><br>
+<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong>
 </div>

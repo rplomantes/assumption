@@ -67,6 +67,7 @@ Route::get('/bed_registrar/reports/print_total_daily_enrollment_statistics/{date
 // Accounting Staff - Student List
 Route::get('/accounting/student_list','Accounting\StudentList@search');
 Route::get('/accounting/print_search/{school_year}/{level}/{period}','Accounting\StudentList@print_search');
+Route::get('/accounting/print_search_excel/{school_year}/{level}/{period}','Accounting\StudentList@print_search_EXCEL');
 Route::get('/ajax/accounting/student_list','Accounting\Ajax\AjaxStudentList@search');
 ?>
 

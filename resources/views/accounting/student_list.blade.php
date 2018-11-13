@@ -55,7 +55,7 @@
                 <div class="box-body">
                     <div class='form-horizontal'>
                         <div class='form-group'>
-                            <div class='col-sm-2'>
+                            <div class='col-sm-3'>
                                 <label>School Year</label>
                                 <select id='school_year' class='form-control select2'>
                                     <option value='all'>All</option>
@@ -69,7 +69,7 @@
                                     @endforeach-->
                                 </select>
                             </div>
-                            <div class='col-sm-2'>
+                            <div class='col-sm-3'>
                                 <label>Level</label>
                                 <select id='level' class='form-control select2'>
                                     <option value='all'>All</option>
@@ -94,7 +94,7 @@
                                     <option value='5th Year'>5th Year</option>                                    
                                 </select>
                             </div>
-                            <div class='col-sm-2' id='period_control'>
+                            <div class='col-sm-3' id='period_control'>
                                 <label>Period</label>
                                 <select id='period' class='form-control select2'>
                                     <option value='all'>All</option>
@@ -105,8 +105,14 @@
                             </div>
                         </div>
                         <div class='form form-group'>
-                            <div class='col-sm-12'>
-                                <button class='col-sm-12 btn btn-success' onclick='search(school_year.value, level.value, period.value)'>SEARCH</button>
+                            <div class='col-sm-3'>
+                                <button class='col-sm-12 btn btn-primary' onclick='search(school_year.value, level.value, period.value)'>SEARCH</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="submit" class="btn btn-success form-control" onclick="print_search(school_year.value, level.value, period.value)" value="Generate PDF" >
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="submit" class="btn btn-warning form-control" onclick="print_search_excel(school_year.value, level.value, period.value)" value="Generate EXCEL" >
                             </div>
                         </div>
                     </div>
@@ -124,18 +130,6 @@
     $('#display_studentlist').hide();
 </script>
 <script>
-$("#period_control").hide();
-    $("#level").on('change', function (e) {
-        if ($("#level").val() == "Grade 11" || $("#level").val() == "Grade 12") {
-            $("#period_control").fadeIn(300);
-        } else if ($("#level").val() == "1st Year" || $("#level").val() == "2nd Year" || $("#level").val() == "3rd Year" || $("#level").val() == "4th Year" || $("#level").val() == "5th Year") {
-            $("#period_control").fadeIn(300);            
-        }
-        else {
-            $("#period_control").fadeOut(300);
-        }
-    });
-    
     function search(school_year, level, period) {
         array = {};
         array['school_year'] = school_year;
@@ -159,6 +153,15 @@ $("#period_control").hide();
         array['period'] = period;
 
         window.open('/accounting/print_search/' + array['school_year'] + "/" + array['level'] + "/" + array['period'], "_blank") ;
+    }
+    
+    function print_search_excel(school_year, level, period) {
+        array = {};
+        array['school_year'] = school_year;
+        array['level'] = level;
+        array['period'] = period;
+
+        window.open('/accounting/print_search_excel/' + array['school_year'] + "/" + array['level'] + "/" + array['period'], "_blank") ;
     }
 </script>
 @endsection

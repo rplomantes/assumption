@@ -31,9 +31,7 @@ class AjaxStudentList extends Controller {
                 $level = "and level = '" . $level . "'";
             }
             
-            if ($period == "") {
-                $period = "";
-            }else if ($period == "all") {
+            if ($period == "all") {
                 $period = "";
             } else {
                 $period = "and period = '" . $period . "'";
