@@ -203,6 +203,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <li><a href="{{url('/accounting',array('student_list'))}}"><span>Student List</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><span>HED Statistics</span></a></li>
                                 <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><span>BED Statistics</span></a></li>
                                 <li><a href="{{url('/accounting',array('unused_reservations'))}}"><span>Unused Reservations</span></a></li>

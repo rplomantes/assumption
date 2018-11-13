@@ -63,6 +63,11 @@ Route::get('/bed_registrar/reports/total_daily_enrollment_statistics/{date_start
 Route::get('/bed_registrar/reports/print_total_daily_enrollment_statistics/{date_start}/{date_end}', 'BedRegistrar\TotalDailyEnrollment@print_daily_enrollment');
 //chagne idno script
 //Route::get('/admin/changeid','Admin\ViewInformation\viewInfoController@changeIDNO');
+
+// Accounting Staff - Student List
+Route::get('/accounting/student_list','Accounting\StudentList@search');
+Route::get('/accounting/print_search/{school_year}/{level}/{period}','Accounting\StudentList@print_search');
+Route::get('/ajax/accounting/student_list','Accounting\Ajax\AjaxStudentList@search');
 ?>
 
 
