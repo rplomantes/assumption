@@ -194,6 +194,7 @@ $defee = 0;
 $mfee = 0;
 $dfee = 0;
 $srffee = 0;
+$tutorialfee = 0;
 $esc = 0;
 $oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('OTHER_MISC'))->get();
 $tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('TUITION_FEE'))->get();
@@ -212,11 +213,15 @@ $mfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)-
 foreach ($mfs as $mf) {
     $mfee = $mfee + $mf->amount;
 }
-$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->get();
+$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'SRF')->get();
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
 }
-$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->where('amount','>',0)->get();
+$tutorials = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'Tutorial Fee')->get();
+foreach ($tutorials as $tutorial) {
+    $tutorialfee = $tutorialfee + $tutorial->amount;
+}
+$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category','SRF')->where('amount','>',0)->get();
 $discount_names = \App\Ledger::distinct()->where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('discount','>',0)->get(array('discount_code'));
 $discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->get();
 foreach ($discounts as $discount) {
@@ -263,6 +268,14 @@ foreach ($discounts as $discount) {
             <td>:</td>
             <td class='bottomline-right'>{{number_format($srffee,2)}}</td>
         </tr>
+        @if($tutorialfee > 0)
+        <tr>
+            <td>Tutorial Fee</td>
+            <td>:</td>
+            <td class='bottomline-right'>{{number_format($tutorialfee,2)}}</td>
+        </tr>
+        @endif
+        @if($dfee > 0)
         <tr>
             <td>Discounts
             @if(count($discount_names) > 0)
@@ -274,17 +287,11 @@ foreach ($discounts as $discount) {
             <td>:</td>
             <td class='bottomline-right'>({{number_format($dfee,2)}})</td>
         </tr>
-        @if($status->academic_type=="Senior High School")
-        <tr>
-            <td>Voucher</td>
-            <td>:</td>
-            <td class='bottomline-right'>({{number_format($esc,2)}})</td>
-        </tr>
         @endif
         <tr>
             <td><strong>Total Tuition Fee</strong></td>
             <td><strong>:</strong></td>
-            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee)-$dfee)-$esc,2)}}</strong></td>
+            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee+$tutorialfee)-$dfee)-$esc,2)}}</strong></td>
         </tr>
         @if ($totaldm>0)
         <tr>
@@ -524,6 +531,7 @@ $defee = 0;
 $mfee = 0;
 $dfee = 0;
 $srffee = 0;
+$tutorialfee = 0;
 $esc = 0;
 $oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('OTHER_MISC'))->get();
 $tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('TUITION_FEE'))->get();
@@ -542,10 +550,15 @@ $mfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)-
 foreach ($mfs as $mf) {
     $mfee = $mfee + $mf->amount;
 }
-$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->get();
+$srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'SRF')->get();
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
-}$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->where('amount','>',0)->get();
+}
+$tutorials = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'Tutorial Fee')->get();
+foreach ($tutorials as $tutorial) {
+    $tutorialfee = $tutorialfee + $tutorial->amount;
+}
+$subjects = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('SRF_FEE'))->where('amount','>',0)->get();
 $discount_names = \App\Ledger::distinct()->where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('discount','>',0)->get(array('discount_code'));
 $discounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->get();
 foreach ($discounts as $discount) {
@@ -592,6 +605,14 @@ foreach ($discounts as $discount) {
             <td>:</td>
             <td class='bottomline-right'>{{number_format($srffee,2)}}</td>
         </tr>
+        @if($tutorialfee > 0)
+        <tr>
+            <td>Tutorial Fee</td>
+            <td>:</td>
+            <td class='bottomline-right'>{{number_format($tutorialfee,2)}}</td>
+        </tr>
+        @endif
+        @if($dfee > 0)
         <tr>
             <td>Discounts
             @if(count($discount_names) > 0)
@@ -603,17 +624,11 @@ foreach ($discounts as $discount) {
             <td>:</td>
             <td class='bottomline-right'>({{number_format($dfee,2)}})</td>
         </tr>
-        @if($status->academic_type=="Senior High School")
-        <tr>
-            <td>Voucher</td>
-            <td>:</td>
-            <td class='bottomline-right'>({{number_format($esc,2)}})</td>
-        </tr>
         @endif
         <tr>
             <td><strong>Total Tuition Fee</strong></td>
             <td><strong>:</strong></td>
-            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee)-$dfee)-$esc,2)}}</strong></td>
+            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee+$tutorialfee)-$dfee)-$esc,2)}}</strong></td>
         </tr>
         @if ($totaldm>0)
         <tr>

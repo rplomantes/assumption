@@ -182,7 +182,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                $totalpayment=$totalpayment+$main_tuition->payment;
                $balance=+$main_tuition->amount-$main_tuition->discount-$main_tuition->debit_memo-$main_tuition->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $main_tuition->amount - ($main_tuition->discount + $main_tuition->debit_memo);
+               $net = $main_tuition->amount - ($main_tuition->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$main_tuition->category}}</td>
@@ -215,7 +215,7 @@ $ledger_list_tuition = \App\Ledger::where('idno',$user->idno)->where('category_s
                $totalpayment=$totalpayment+$main_misc->payment;
                $balance=+$main_misc->amount-$main_misc->discount-$main_misc->debit_memo-$main_misc->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $main_misc->amount - ($main_misc->discount + $main_misc->debit_memo);
+               $net = $main_misc->amount - ($main_misc->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$main_misc->category}}</td>
@@ -259,7 +259,7 @@ $ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_swit
                $totalpayment=$totalpayment+$main_other->payment;
                $balance=+$main_other->amount-$main_other->discount-$main_other->debit_memo-$main_other->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $main_other->amount - ($main_other->discount + $main_other->debit_memo);
+               $net = $main_other->amount - ($main_other->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$main_other->category}}</td>
@@ -304,7 +304,7 @@ $ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_swi
                $totalpayment=$totalpayment+$main_depo->payment;
                $balance=+$main_depo->amount-$main_depo->discount-$main_depo->debit_memo-$main_depo->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $main_depo->amount - ($main_depo->discount + $main_depo->debit_memo);
+               $net = $main_depo->amount - ($main_depo->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$main_depo->category}}</td>
@@ -355,7 +355,7 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                $totalpayment=$totalpayment+$main->payment;
                $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $main->amount - ($main->discount + $main->debit_memo);
+               $net = $main->amount - ($main->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$main->category}}</td>
@@ -383,7 +383,7 @@ $ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_swit
                $totalpayment=$totalpayment+$srf->payment;
                $balance=+$srf->amount-$srf->discount-$srf->debit_memo-$srf->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $srf->amount - ($srf->discount + $srf->debit_memo);
+               $net = $srf->amount - ($srf->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$srf->category}}</td>
@@ -455,7 +455,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                $totalpayment=$totalpayment+$main->payment;
                $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
                $totalbalance=$totalbalance+$balance;
-               $net = $main->amount - ($main->discount + $main->debit_memo);
+               $net = $main->amount - ($main->discount);
                $totalnet = $totalnet + $net;
                ?>
                <tr><td>{{$main->receipt_details}}</td>
@@ -498,19 +498,23 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
                $totalbalance=$totalbalance+$balance;
                ?>
+           @if(!$balance == 0)
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
+               @endif
            @endforeach
+           @if(!$totalbalance == 0)
                <tr><td>Total</td>
                <td align="right">{{number_format($totalamount,2)}}</td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
                <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
+               @endif
             </table>  
             @else
             <h5>No Previous Balance</h5>

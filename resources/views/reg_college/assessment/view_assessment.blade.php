@@ -55,6 +55,7 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
 </section>
 @endsection
 @section('maincontent')
+<form method="POST" action="{{url('/registrar_college',array('assessment','save_assessment'))}}">    
 <section class="content">
     <div class="row">
     <?php $balance = 0; ?>
@@ -123,7 +124,8 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
                 </div>
             </div>
             
-                            @if(count($grade_colleges)>0)
+            @if(count($grade_colleges)>0)
+            <!--For audit-->
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Is Audit?</h3>
@@ -132,10 +134,25 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
                     </div>
                 </div>
                 <div class='box-body'>
-                    <form method="POST" action="{{url('/registrar_college',array('assessment','save_assessment'))}}">    
                         {{ csrf_field() }}
                             <input type="radio" name="is_audit" value='1'> Yes<br>
                             <input type="radio" name="is_audit" value='0' checked> No
+                        
+                </div>
+            </div>
+            <!--for tutorial-->
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Add Tutorial Fee</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class='box-body'>
+                    <form method="POST" action="{{url('/registrar_college',array('assessment','save_assessment'))}}">    
+                        {{ csrf_field() }}
+                        <input type="text" class="form form-control" name="tutorial_amount" placeholder="Amount">
+                        <input type="text" class="form form-control" name="tutorial_units" placeholder="Number of Units">
                         
                 </div>
             </div>
@@ -193,8 +210,7 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
                             <div class="col-sm-12 box-body" id="display_result">
 
                             </div>
-                        </div>
-                    </form>        
+                        </div>        
                 </div>
             </div>
                             
@@ -290,12 +306,96 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
                 </div>
             </div>
         </div>
+    
+    
+    @if(count($grade_colleges) > 1)
+        <?php
+            $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+            $addfee = \App\CtrCollegeForeignFee::where('id', NULL);
+            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+        ?>
+    @else
+        <?php
+            $check_practicum = \App\GradeCollege::where('idno', $user->idno)->where('school_year', $status->school_year)->where('period', $status->period)
+                    ->where(function($q) {
+                        $q->where('course_name', 'like', '%practicum%')
+                        ->orWhere('course_code', 'like', '%prac%');
+                    })
+                    ->get();
+
+            if (count($check_practicum) == 1) {
+                    $otherfees = \App\CtrCollegePracticumFee::get();
+                    $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+                    $is_foreign = \App\User::where('idno', $idno)->first();
+                    if (count($is_foreign) > 0) {
+                        if ($is_foreign->is_foreign == '1') {
+                            $addfee = \App\CtrCollegePracticumForeignFee::get();
+                        }
+                    }
+            } else {
+                $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+                $is_foreign = \App\User::where('idno', $idno)->first();
+                    if (count($is_foreign) > 0) {
+                        if ($is_foreign->is_foreign == '1') {
+                            $addfee = \App\CtrCollegeForeignFee::get();
+                    }
+                }
+            }
+        ?>
+    @endif
+    <div class="col-md-8">   
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">Other Fees</div>
+            </div>
+            <div class="box-body">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Subsidiary</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        @foreach($otherfees as $other)
+                        <tr>
+        <td>
+        <input type="checkbox" name="other[{{$other->id}}]" checked=""><td>{{$other->subsidiary}}</td>
+        </td>
+        <td>{{$other->amount}}</td>
+                        </tr>
+        @endforeach
+        @foreach($nondiscountotherfees as $nodiscountother)
+                        <tr>
+        <td>
+        <input type="checkbox" name="nodiscountother[{{$nodiscountother->id}}]" checked=""><td>{{$nodiscountother->subsidiary}}</td>
+        </td>
+        <td>{{$nodiscountother->amount}}</td>
+                        </tr>
+        @endforeach
+        @if(count($addfee)>0)
+        @foreach($addfee as $add)
+                        <tr>
+        <td>
+        <input type="checkbox" name="add[{{$add->id}}]" checked=""><td>{{$add->subsidiary}}</td>
+        </td>
+        <td>{{$add->amount}}</td>
+                        </tr>
+        @endforeach
+        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
         
                             @else
                                 No Courses Advised!
                             @endif
     </div>
 </section>
+</form>
 
 @endsection
 @section('footerscript')

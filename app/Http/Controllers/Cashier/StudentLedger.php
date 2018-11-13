@@ -22,6 +22,7 @@ class StudentLedger extends Controller {
             $totalmainpayment = 0.00;
             $totalmaindue = 0;
             $user = \App\User::where('idno', $idno)->first();
+            $status = \App\Status::where('idno', $idno)->first();
 
             $ledger_main = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->where('category_switch', '<=', '6')
                             ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
@@ -56,8 +57,8 @@ class StudentLedger extends Controller {
                 }
             }
 
-            $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
-            $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('due_date', '<=', date('Y-m-d'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
+            $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
+            $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_date', '<=', date('Y-m-d'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
             $ledger_others = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->get();
             //$ledger_optional = \App\Ledger::where('idno',$idno)->where('category_switch',env("OPTIONAL_FEE"))->get();
@@ -99,7 +100,7 @@ class StudentLedger extends Controller {
             $debit_memos = \App\DebitMemo::where('idno', $idno)->where('is_current', '1')->orderBy('transaction_date')->get();
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('is_current', '1')->orderBy('transaction_date')->get();
 
-            $due_dates = \App\LedgerDueDate::where('idno', $idno)->orderBy('due_switch')->orderBy('due_date')->get();
+            $due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->orderBy('due_switch')->orderBy('due_date')->get();
             return view("cashier.ledger", compact('levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf'));
             //return $levels;
         }
