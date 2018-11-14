@@ -200,6 +200,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting',array('outstanding_balances'))}}"><span>Outstanding Balances</span></a></li>
                                 <li><a href="{{url('/accounting',array('student_per_account'))}}"><span>Student per Account List</span></a></li>
                                 <!--<li><a href="{{url('/accounting',array('sibling_discount'))}}"><span>Students with Sibling Discount List</span></a></li>-->
+                                <li><a href="{{url('/accounting',array('student_list'))}}"><span>Student List</span></a></li>
                             </ul>
                         </li>       
                         <li class="treeview">

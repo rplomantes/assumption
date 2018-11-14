@@ -205,7 +205,7 @@
         
         <div class="col-md-12">
             <label>Over Payment</label>
-            <input type="text" name="over_payment" id="over_payment" class="form form-control number" value="0" readonly="redonly">
+            <input type="text" name="over_payment" id="over_payment" class="form form-control number" value="0" readonly="readonly">
         </div>
         </div>
     </div>    
