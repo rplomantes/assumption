@@ -37,6 +37,7 @@ class CreateLedgersTable extends Migration
             $table->string('discount_code')->nullable();
             $table->integer('qty')->default(1);
             $table->integer('is_served')->default(0);
+            $table->integer('is_returned_check')->default(0);
             $table->date('date_served')->nullable();
             $table->string('received_by')->nullable();
             $table->foreign('idno')

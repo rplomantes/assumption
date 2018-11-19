@@ -20,6 +20,8 @@ class StudentLedger extends Controller {
             $due_others = 0.00;
             $due_previous = 0.00;
             $totalmainpayment = 0.00;
+            $totalpay = 0.00;
+            $plus = 0.00;
             $totalmaindue = 0;
             $user = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
@@ -50,10 +52,20 @@ class StudentLedger extends Controller {
             $ledger_main_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)->where('category_switch', 3)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
 
+            
+            $ledger_return = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->where('category_switch', '7')->where('is_returned_check', 1)
+                ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 
             if (count($ledger_main) > 0) {
                 foreach ($ledger_main as $payment) {
                     $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
+                    $totalpay = $totalpay + $payment->debit_memo + $payment->payment;
+                }
+            }
+            if (count($ledger_return) > 0) {
+                foreach ($ledger_return as $payment) {
+                    $totalpay = $totalpay - ($payment->amount - ($payment->debit_memo + $payment->payment));
+//                    $totalmainpayment = $totalmainpayment + $payment->debit_memo + $payment->payment;
                 }
             }
 
@@ -61,10 +73,11 @@ class StudentLedger extends Controller {
             $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_date', '<=', date('Y-m-d'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
             $ledger_others = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->get();
+            $ledger_others_noreturn = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('is_returned_check',0)->get();
             //$ledger_optional = \App\Ledger::where('idno',$idno)->where('category_switch',env("OPTIONAL_FEE"))->get();
 
-            if (count($ledger_others) > 0) {
-                foreach ($ledger_others as $ledger_other) {
+            if (count($ledger_others_noreturn) > 0) {
+                foreach ($ledger_others_noreturn as $ledger_other) {
                     $due_others = $due_others + $ledger_other->amount - $ledger_other->discount - $ledger_other->debit_memo - $ledger_other->payment;
                 }
             }
@@ -81,7 +94,8 @@ class StudentLedger extends Controller {
             if ($totalmaindue < 0) {
                 $totalmaindue = 0;
             }
-            $totaldue = $totalmaindue + $due_others + $due_previous;
+            $plus = ($duetoday->amount + $downpayment->amount) - $totalpay; 
+            $totaldue = $totalmaindue + $due_others + $due_previous + $plus;
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->academic_type == "BED") {
                 $levels = \App\Status::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
@@ -101,7 +115,7 @@ class StudentLedger extends Controller {
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('is_current', '1')->orderBy('transaction_date')->get();
 
             $due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->orderBy('due_switch')->orderBy('due_date')->get();
-            return view("cashier.ledger", compact('levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf'));
+            return view("cashier.ledger", compact('levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay'));
             //return $levels;
         }
     }

@@ -1,12 +1,10 @@
-<?php
+<html>
+    <?php
 $file_exist = 0;
 if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
-
-<!DOCTYPE html>
-<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

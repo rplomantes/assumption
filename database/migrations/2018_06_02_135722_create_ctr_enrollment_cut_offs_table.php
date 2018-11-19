@@ -16,6 +16,7 @@ class CreateCtrEnrollmentCutOffsTable extends Migration
         Schema::create('ctr_enrollment_cut_offs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('academic_type');
+            $table->date('enrollment_start');
             $table->date('cut_off');
             $table->timestamps();
         });

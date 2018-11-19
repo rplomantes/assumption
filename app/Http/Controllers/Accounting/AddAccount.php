@@ -87,6 +87,7 @@ class AddAccount extends Controller
          $addledger->accounting_code = $request->accounting_code;
          $addledger->accounting_name = \App\ChartOfAccount::where('accounting_code',$request->accounting_code)->first()->accounting_name;
          $addledger->category_switch = env("OTHER_MISC");
+         $addledger->is_returned_check = $request->is_return;
          $addledger->amount=$request->amount;
          $addledger->save();
          return redirect(url('/accounting',array('add_to_account',$request->idno)));

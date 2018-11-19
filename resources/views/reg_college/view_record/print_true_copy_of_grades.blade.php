@@ -24,7 +24,7 @@ $count = 0;
     body {
         margin-left: 1cm;
         margin-right: 1cm;
-        margin-bottom: 6.4cm;
+        margin-bottom: 1cm;
         margin-top: 6.3cm;
 
     }
@@ -56,29 +56,18 @@ $count = 0;
         height: auto;
     }
 </style>           
-<body>     
+<body>
+    <script type="text/php">
+        if ( isset($pdf) ) {
+        $x = 515;
+        $y = 760;
+        $text = "** Page {PAGE_NUM} of {PAGE_COUNT} **";
+        $font = $fontMetrics->get_font("courier new");
+        $size = 7;
+        $pdf->page_text($x, $y, $text, $font, $size);
+        }
+    </script>
     <footer>
-        <table width='100%'>
-            <tr>
-                <td valign='top' width='30%'><i><b>- FOR EVALUATION PURPOSES -</b></i></td>
-                <td valign='top' width='30%'><i></i></td>
-                <td valign='top' width='40%' rowspan="2" colspan="2">
-                </td>
-            </tr>
-            <tr>
-                <td valign='bottom'></td>
-                <td valign='bottom'></td>
-            </tr>
-            <tr>
-                <td  valign='top' colspan='2' rowspan="2">
-                </td>
-                <td valign='bottom' colspan='2'><i><br>CERTIFIED BY:<br><br><br></i></td>
-            </tr>
-            <tr>
-                <td align='center'>{{strtoupper(env("HED_REGISTRAR"))}}<br>REGISTRAR</td>
-                <td align='center'><small>DATE PRINTED</small><br>{{date('F d, Y')}}</td>
-            </tr>
-        </table>
     </footer>    
     <!--    
         <div style='float: left; margin-left:630px; margin-top:-110px;'></div>-->
@@ -93,7 +82,20 @@ $count = 0;
             <tbody>
                 <tr>
                     <td width='15%'>PROGRAM NAME:</td>
-                    <td width="52%" colspan="2"><div style="border-bottom: 1px solid black">{{$info->program_name}}</div></td>
+                    <td width="52%" colspan="2">
+                        <div style="border-bottom: 1px solid black">
+                            <?php $array = explode(' ', $info->program_name) ;?>
+                            @foreach ($array as $key=>$k)
+                                @if($array[$key] == "Major")
+                                    <br>{{$array[$key]}}
+                                @elseif($array[$key] == "Specialization")
+                                    <br>{{$array[$key]}}
+                                @else
+                                    {{$array[$key]}}
+                                @endif
+                            @endforeach
+                        </div>
+                    </td>
                     <td width='13%' align='right'>STUDENT NO.:</td>
                     <td width='20%'><div style="border-bottom: 1px solid black">{{$user->idno}}&nbsp;</div></td> 
                 </tr>
@@ -145,43 +147,63 @@ $count = 0;
             <td></td>
         </tr>
         @foreach ($grades as $grade)
-
         <?php
+        $is_x=0;
         $display_final_grade = $grade->finals;
-        if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "FAILED" || $grade->finals == "PASSED") {
+        $display_final_completion = $grade->completion;
+        if(stripos($grade->course_code, "NSTP") !== FALSE){
             $gpa = $gpa;
-            $credit = $credit;
             $count = $count;
-        } else if ($grade->finals == "INC") {
-            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FAILED" || $grade->completion == "PASSED") {
+            $credit = $credit;
+        }else{
+            if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
-                $credit = $credit;
                 $count = $count;
+                $credit = $credit;
+            } else if ($grade->finals == "INC") {
+                if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+                    $gpa = $gpa;
+                    $credit = $credit;
+                    $count = $count;
+                } else {
+
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED") {
+                        $grade->completion = "4.00";
+                        $is_x = 1;
+                    }
+
+                    $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+                    $count = $count + $grade->lec + $grade->lab;
+                }
             } else {
-                $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $grade->lab;
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED") {
+                    $grade->finals = "4.00";
+                        $is_x = 1;
+                }
+                $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+                $count = $count + $grade->lec + $pin_grades->lab;
             }
-        } else {
-            if ($grade->finals == "FA" || $grade->finals == "UD") {
-                $grade->finals = "4.00";
-            }
-            $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-            $count = $count + $grade->lec + $grade->lab;
         }
         ?>
         <?php
         if (stripos($grade->course_code, "MME") !== FALSE || stripos($grade->course_code, "THEO") !== FALSE || stripos($grade->course_code, "NSTP") !== FALSE || stripos($grade->course_code, "PE") !== FALSE) {
             $credit = $grade->lec + $grade->lab;
             $credit = "(" . $credit . ")";
+                    if($is_x == 1){
+                        $credit = "(x)";
+                    }
         } else {
             $credit = $grade->lec + $grade->lab;
+                    if($is_x == 1){
+                        $credit = "x";
+                    }
         }
         ?>
         <tr>
             <td valign='top'>{{strtoupper($grade->course_code)}}</td>
             <td valign='top'>{{strtoupper($grade->course_name)}}</td>
             <td valign='top' align='center'>{{$display_final_grade}}</td>
-            <td valign='top' align='center'>{{$grade->completion}}</td>
+            <td valign='top' align='center'>{{$display_final_completion}}</td>
             <td valign='top' align='center'>{{$credit}}</td>
         </tr>
         @endforeach
@@ -226,40 +248,61 @@ $count = 0;
 
         @else
         <?php
+        $is_x=0;
         $display_final_grade = $pin_grades->finals;
-        if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "FAILED" || $pin_grades->finals == "PASSED") {
+        $display_final_completion = $pin_grades->completion;
+        if(stripos($pin_grades->course_code, "NSTP") !== FALSE){
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
-        } else if ($pin_grades->finals == "INC") {
-            if ($pin_grades->completion == "" || $pin_grades->completion == "AUDIT" || $pin_grades->completion == "NA" || $pin_grades->completion == "NG" || $pin_grades->completion == "W" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "PASSED") {
+        }else{
+            if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "PASSED") {
                 $gpa = $gpa;
-                $credit = $credit;
                 $count = $count;
+                $credit = $credit;
+            } else if ($pin_grades->finals == "INC") {
+                if ($pin_grades->completion == "" || $pin_grades->completion == "AUDIT" || $pin_grades->completion == "NA" || $pin_grades->completion == "NG" || $pin_grades->completion == "W" || $pin_grades->completion == "PASSED") {
+                    $gpa = $gpa;
+                    $credit = $credit;
+                    $count = $count;
+                } else {
+
+                    if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED") {
+                        $pin_grades->completion = "4.00";
+                        $is_x = 1;
+                    }
+
+                    $gpa = $gpa + ($pin_grades->completion * ($pin_grades->lec + $pin_grades->lab));
+                    $count = $count + $pin_grades->lec + $pin_grades->lab;
+                }
             } else {
-                $gpa = $gpa + ($pin_grades->completion * ($pin_grades->lec + $pin_grades->lab));
+                if ($pin_grades->finals == "FA" || $pin_grades->finals == "UD" || $pin_grades->finals == "FAILED") {
+                    $pin_grades->finals = "4.00";
+                    $is_x = 1;
+                }
+                $gpa = $gpa + ($pin_grades->finals * ($pin_grades->lec + $pin_grades->lab));
                 $count = $count + $pin_grades->lec + $pin_grades->lab;
             }
-        } else {
-            if ($pin_grades->finals == "FA" || $pin_grades->finals == "UD") {
-                $pin_grades->finals = "4.00";
-            }
-            $gpa = $gpa + ($pin_grades->finals * ($pin_grades->lec + $pin_grades->lab));
-            $count = $count + $pin_grades->lec + $pin_grades->lab;
         }
         ?>
         <tr>
             <td valign='top'>{{strtoupper($pin_grades->course_code)}}</td>
             <td valign='top'>{{strtoupper($pin_grades->course_name)}}</td>
             <td valign='top' align='center'>{{$display_final_grade}}</td>
-            <td valign='top' align='center'>{{$pin_grades->completion}}</td>
+            <td valign='top' align='center'>{{$display_final_completion}}</td>
             <td valign='top' align='center'>
                 <?php
                 if (stripos($pin_grades->course_code, "MME") !== FALSE || stripos($pin_grades->course_code, "THEO") !== FALSE || stripos($pin_grades->course_code, "NSTP") !== FALSE || stripos($pin_grades->course_code, "PE") !== FALSE) {
                     $credit = $pin_grades->lec + $pin_grades->lab;
                     $credit = "(" . $credit . ")";
+                    if($is_x == 1){
+                        $credit = "(x)";
+                    }
                 } else {
                     $credit = $pin_grades->lec + $pin_grades->lab;
+                    if($is_x == 1){
+                        $credit = "x";
+                    }
                 }
                 ?>
                 {{$credit}}</td>
@@ -286,41 +329,62 @@ $count = 0;
         </tr>
         @foreach ($grades as $grade)
         <?php
+        $is_x=0;
         $display_final_grade = $grade->finals;
-        if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "FAILED" || $grade->finals == "PASSED") {
+        $display_final_completion = $grade->completion;
+        if(stripos($grade->course_code, "NSTP") !== FALSE){
             $gpa = $gpa;
-            $credit = $credit;
             $count = $count;
-        } else if ($grade->finals == "INC") {
-            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FAILED" || $grade->completion == "PASSED") {
+            $credit = $credit;
+        }else{
+            if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
-                $credit = $credit;
                 $count = $count;
+                $credit = $credit;
+            } else if ($grade->finals == "INC") {
+                if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+                    $gpa = $gpa;
+                    $credit = $credit;
+                    $count = $count;
+                } else {
+
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED") {
+                        $grade->completion = "4.00";
+                        $is_x = 1;
+                    }
+
+                    $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+                    $count = $count + $grade->lec + $grade->lab;
+                }
             } else {
-                $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $grade->lab;
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED") {
+                    $grade->finals = "4.00";
+                        $is_x = 1;
+                }
+                $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+                $count = $count + $grade->lec + $pin_grades->lab;
             }
-        } else {
-            if ($grade->finals == "FA" || $grade->finals == "UD") {
-                $grade->finals = "4.00";
-            }
-            $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-            $count = $count + $grade->lec + $grade->lab;
         }
         ?>
         <?php
         if (stripos($grade->course_code, "MME") !== FALSE || stripos($grade->course_code, "THEO") !== FALSE || stripos($grade->course_code, "NSTP") !== FALSE || stripos($grade->course_code, "PE") !== FALSE) {
             $credit = $grade->lec + $grade->lab;
             $credit = "(" . $credit . ")";
+                    if($is_x == 1){
+                        $credit = "(x)";
+                    }
         } else {
             $credit = $grade->lec + $grade->lab;
+                    if($is_x == 1){
+                        $credit = "x";
+                    }
         }
         ?>
         <tr>
             <td valign='top'>{{strtoupper($grade->course_code)}}</td>
             <td valign='top'>{{strtoupper($grade->course_name)}}</td>
             <td valign='top' align='center'>{{$display_final_grade}}</td>
-            <td valign='top' align='center'>{{$grade->completion}}</td>
+            <td valign='top' align='center'>{{$display_final_completion}}</td>
             <td valign='top' align='center'>{{$credit}}</td>
         </tr>
         @endforeach
@@ -343,43 +407,63 @@ $count = 0;
             <td></td>
         </tr>
         @foreach ($grades as $grade)
-
         <?php
+        $is_x=0;
         $display_final_grade = $grade->finals;
-        if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "FAILED" || $grade->finals == "PASSED") {
+        $display_final_completion = $grade->completion;
+        if(stripos($grade->course_code, "NSTP") !== FALSE){
             $gpa = $gpa;
-            $credit = $credit;
             $count = $count;
-        } else if ($grade->finals == "INC") {
-            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FAILED" || $grade->completion == "PASSED") {
+            $credit = $credit;
+        }else{
+            if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
-                $credit = $credit;
                 $count = $count;
+                $credit = $credit;
+            } else if ($grade->finals == "INC") {
+                if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+                    $gpa = $gpa;
+                    $credit = $credit;
+                    $count = $count;
+                } else {
+
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED") {
+                        $grade->completion = "4.00";
+                        $is_x = 1;
+                    }
+
+                    $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+                    $count = $count + $grade->lec + $grade->lab;
+                }
             } else {
-                $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $grade->lab;
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED") {
+                    $grade->finals = "4.00";
+                        $is_x = 1;
+                }
+                $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+                $count = $count + $grade->lec + $pin_grades->lab;
             }
-        } else {
-            if ($grade->finals == "FA" || $grade->finals == "UD") {
-                $grade->finals = "4.00";
-            }
-            $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-            $count = $count + $grade->lec + $grade->lab;
         }
         ?>
         <?php
         if (stripos($grade->course_code, "MME") !== FALSE || stripos($grade->course_code, "THEO") !== FALSE || stripos($grade->course_code, "NSTP") !== FALSE || stripos($grade->course_code, "PE") !== FALSE) {
             $credit = $grade->lec + $grade->lab;
             $credit = "(" . $credit . ")";
+                    if($is_x == 1){
+                        $credit = "(x)";
+                    }
         } else {
             $credit = $grade->lec + $grade->lab;
+                    if($is_x == 1){
+                        $credit = "x";
+                    }
         }
         ?>
         <tr>
             <td valign='top'>{{strtoupper($grade->course_code)}}</td>
             <td valign='top'>{{strtoupper($grade->course_name)}}</td>
             <td valign='top' align='center'>{{$display_final_grade}}</td>
-            <td valign='top' align='center'>{{$grade->completion}}</td>
+            <td valign='top' align='center'>{{$display_final_completion}}</td>
             <td valign='top' align='center'>{{$credit}}</td>
         </tr>
         @endforeach
@@ -398,4 +482,26 @@ $count = 0;
             <td></td>
         </tr>
     </table> 
+    
+        <table width='100%'>
+            <tr>
+                <td valign='top' width='30%'><i><b>- FOR EVALUATION PURPOSES -</b></i></td>
+                <td valign='top' width='30%'><i></i></td>
+                <td valign='top' width='40%' rowspan="2" colspan="2">
+                </td>
+            </tr>
+            <tr>
+                <td valign='bottom'></td>
+                <td valign='bottom'></td>
+            </tr>
+            <tr>
+                <td  valign='top' colspan='2' rowspan="2">
+                </td>
+                <td valign='bottom' colspan='2'><i><br>CERTIFIED BY:<br><br><br></i></td>
+            </tr>
+            <tr>
+                <td align='center'>{{strtoupper(env("HED_REGISTRAR"))}}<br>REGISTRAR</td>
+                <td align='center'><small>DATE PRINTED</small><br>{{date('F d, Y')}}</td>
+            </tr>
+        </table>
 </body>

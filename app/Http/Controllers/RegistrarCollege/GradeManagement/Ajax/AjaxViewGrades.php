@@ -55,7 +55,11 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
             
-            if($close->midterm == 0){
+            if($close->midterm == 0 && $close->finals == 0){
+                $update_grades->midterm_status = 2;
+                $update_grades->finals_status = 2;
+                $update_grades->is_lock = 2;
+            }else if($close->midterm == 0){
                 $update_grades->midterm_status = 2;
                 $update_grades->is_lock = 2;
             }else if ($close->finals == 0){
@@ -80,7 +84,11 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
 
-            if($close->midterm == 0){
+            if($close->midterm == 0 && $close->finals == 0){
+                $update_grades->midterm_status = 0;
+                $update_grades->finals_status = 0;
+                $update_grades->is_lock = 0;
+            }else if($close->midterm == 0){
                 $update_grades->midterm_status = 0;
                 $update_grades->is_lock = 0;
             }else if ($close->finals == 0){
@@ -135,10 +143,14 @@ class AjaxViewGrades extends Controller {
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
             $checkstatus = \App\Status::where('idno', $update->idno)->first()->status;
-            if ($checkstatus == 3){
+//            if ($checkstatus == 3){
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$instructor_idno)->first();
             
-            if($close->midterm == 0){
+            if($close->midterm == 0 && $close->finals == 0){
+                $update->midterm_status = $status;
+                $update->finals_status = $status;
+                $update->is_lock = $status;
+            }else if($close->midterm == 0){
                 $update->midterm_status = $status;
                 $update->is_lock = $status;
             }else if ($close->finals == 0){
@@ -147,7 +159,7 @@ class AjaxViewGrades extends Controller {
             }
             $update->save();
             }
-        }
+//        }
     }
     
     function change_midterm($idno){

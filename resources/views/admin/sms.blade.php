@@ -36,14 +36,15 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <form method="post" action="{{url('https://start.engagespark.com/api/v1/messages/sms')}}">
-                <!--{{ csrf_field() }}-->
+            <form method="post" action="https://start.engagespark.com/api/v1/messages/sms">
+            <!--<form method="post" action="{{url('send_sms')}}">-->
+                {{ csrf_field() }}
                 <input type="text" name="token" value="b2b48b24624ad811f47632de4155de9b9a98c95b">
                 <input type="text" name="organization_id" value="7405">
                 <input type="text" name="recepient_type" value="mobile_number">
                 <input type="text" name="mobile_numbers" value="639150438781">
-                <input type="text" name="message" value="I love you Karla!">
-                <input type="text" name="sender_id" value="sronquillo">
+                <input type="text" name="message" value="TEST!">
+                <input type="text" name="sender_id" value="TEST">
                 <input type="submit" value="send test">
             </form>
         </div>

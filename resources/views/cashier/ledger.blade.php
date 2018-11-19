@@ -405,7 +405,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
 ?>
            @foreach($ledger_list as $list)
            <?php $balance=+$list->amount-$list->discount-$list->debit_memo-$list->payment; ?>
-           <?php $listnet = $list->amount - ($list->discount + $list->debit_memo); ?>
+           <?php $listnet = $list->amount - ($list->discount); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list->subsidiary}}</td>
                <td align="right">{{number_format($list->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -635,7 +635,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         @if(count($due_dates)>0)
         <label>Schedule of Payment</label>
         <div class="form-group">
-            <?php $totalpay = $totalmainpayment; $display=""; $remark="";?>
+            <?php $totalpay = $totalpay; $display=""; $remark="";?>
             <table class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td><td>Remarks</td></tr>
             @foreach($due_dates as $due_date)
             <?php 

@@ -85,8 +85,12 @@ class srf extends Controller
     function print_srf_list_now($school_year, $period, $course_code){
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
             
-            $lists = \App\GradeCollege::where('grade_colleges.school_year', $school_year)->where('grade_colleges.period', $period)->where('grade_colleges.course_code', $course_code)->join('users', 'users.idno','=','grade_colleges.idno')->join('statuses', 'statuses.idno','=','grade_colleges.idno')->where('statuses.status', 3)->orderBy('users.lastname', 'asc')->get();
-            $course_name = \App\Curriculum::where('course_code', $course_code)->first()->course_name;
+            $lists = \App\GradeCollege::where('grade_colleges.school_year', $school_year)->where('grade_colleges.period', $period)->where('grade_colleges.course_code', $course_code)->join('users', 'users.idno','=','grade_colleges.idno')->join('statuses', 'statuses.idno','=','grade_colleges.idno')->orderBy('users.lastname', 'asc')->get();
+            $course_name = \App\Curriculum::where('course_code', $course_code)->first();
+            if(count($course_name) == 0){
+                $course_name = \App\CtrElective::where('course_code', $course_code)->first();
+            }
+            $course_name = $course_name->course_name;
 
             $pdf = PDF::loadView('dean.srf.print_srf_student_list', compact('lists', 'school_year','period','course_code','course_name'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
@@ -115,7 +119,6 @@ class srf extends Controller
                     ->where('ledgers.program_code', '!=', null)
                     ->where('ledgers.category','SRF')
                     ->where('statuses.program_code', $program_code)
-                    ->where('statuses.status', 3)
                     ->groupBy('ledgers.idno')
                     ->join('users', 'users.idno','=','ledgers.idno')
                     ->join('statuses', 'statuses.idno','=','ledgers.idno')

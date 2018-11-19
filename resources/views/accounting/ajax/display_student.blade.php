@@ -19,18 +19,34 @@
         $due_amount=0;
         $ledger_main_tuition = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->where('category_switch','<=','6')
           ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get(); 
-        $ledger_others = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->whereRaw('category_switch = 7')
-          ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get(); 
+        $ledger_others = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 0)->where('idno', $student->idno)->whereRaw('category_switch = 7')
+          ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+        $ledger_others_return = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 1)->where('idno', $student->idno)->whereRaw('category_switch = 7')
+          ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
         $previouses=  \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->where('category_switch','>','9')
           ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
         ?>
         <?php
-$final_date = date('Y-m-31',strtotime($due_date));
-$ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw("due_date <= '$final_date'")->get();
+        $final_date = date('Y-m-31',strtotime($due_date));
+        $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->where('school_year', $status->school_year)->where('period', $status->period)->whereRaw("due_date <= '$final_date'")->get();
+        $due_dates = \App\LedgerDueDate::where('idno', $student->idno)->where('school_year', $status->school_year)->where('period', $status->period)->orderBy('due_switch')->orderBy('due_date')->get();
         ?>
         @foreach($ledger_due_dates as $ledger_due_date)
             <?php $ledger_amount = $ledger_amount + $ledger_due_date->amount;?>
         @endforeach
+
+        <!--Returned Checks-->
+        @foreach($ledger_others_return as $main_return)
+        <?php
+        //$totaldiscount = $totaldiscount + $main_return->discount;
+        //$totaldm = $totaldm + $main_return->debit_memo;
+        //$totalpayment = $totalpayment + $main_return->payment;
+        //$main_totalamount = $main_totalamount + $main_return->amount;
+        $less_return = $main_return->amount - ($main_return->debit_memo + $main_return->payment);
+        $less_return1 = $main_return->amount - ($main_return->debit_memo + $main_return->payment);
+        ?>
+        @endforeach
+
         @foreach($ledger_main_tuition as $main_tuition)
            <?php
            $totaldiscount=$totaldiscount+$main_tuition->discount;
@@ -75,9 +91,7 @@ $ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->whereRaw(
            ?>
         @endforeach
         <?php $previous=$totalamount-$less3 ?>
-        
-        
-        <?php $due_amount = ($ledger_amount-$less)+$others+$previous; ?>
+        <?php $due_amount = ($ledger_amount - ($less-$less_return)) + $others + $previous; ?>
         @if($due_amount >= 0)
         <tr>
             <td>{{$student->idno}}</td>

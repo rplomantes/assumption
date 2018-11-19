@@ -2,6 +2,8 @@
 $student = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
 
+$less_return=0;
+$less_return1=0;
 $totaldiscount = 0;
 $totaldm = 0;
 $totalpayment = 0;
@@ -22,21 +24,44 @@ $previous_totalpayment = 0;
 $previous_totalamount = 0;
 $previous_less = 0;
 
-$ledger_main_tuition = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->where('category_switch', '<=', '6')
+$late_totaldiscount = 0;
+$late_totaldm = 0;
+$late_totalpayment = 0;
+$late_totalamount = 0;
+$late_less = 0;
+
+$ledger_main_tuition = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->where('category_switch', '<=', '6')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
-$ledger_others = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->whereRaw('category_switch = 7')
+$ledger_others = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 0)->where('idno', $student->idno)->whereRaw('category_switch = 7')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
-$previouses = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->where('category_switch', '>', '9')
+$ledger_others_return = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 1)->where('idno', $student->idno)->whereRaw('category_switch = 7')
+                ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+$previouses = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->where('category_switch', '>', '9')
+                ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+
+$ledger_late = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->whereRaw('category_switch = 7')->where('subsidiary', '%late%')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 
 $final_date = date('Y-m-31', strtotime($due_date));
-$ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->whereRaw("due_date <= '$final_date'")->get();
-$due_dates = \App\LedgerDueDate::where('idno', $idno)->get();
+$ledger_due_dates = \App\LedgerDueDate::where('idno', $student->idno)->where('school_year', $status->school_year)->where('period', $status->period)->whereRaw("due_date <= '$final_date'")->get();
+$due_dates = \App\LedgerDueDate::where('idno', $student->idno)->where('school_year', $status->school_year)->where('period', $status->period)->orderBy('due_switch')->orderBy('due_date')->get();
 ?>
 
 @foreach($ledger_due_dates as $ledger_due_date)
 <?php
 $ledger_amount = $ledger_amount + $ledger_due_date->amount;
+?>
+@endforeach
+
+<!--Returned Checks-->
+@foreach($ledger_others_return as $main_return)
+<?php
+//$totaldiscount = $totaldiscount + $main_return->discount;
+//$totaldm = $totaldm + $main_return->debit_memo;
+//$totalpayment = $totalpayment + $main_return->payment;
+//$main_totalamount = $main_totalamount + $main_return->amount;
+$less_return = $main_return->amount - ($main_return->debit_memo + $main_return->payment);
+$less_return1 = $main_return->amount - ($main_return->debit_memo + $main_return->payment);
 ?>
 @endforeach
 
@@ -73,9 +98,20 @@ $previous_totalamount = $previous_totalamount + $previous_tuition->amount;
 $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpayment;
 ?>
 @endforeach
-<?php $previous = $previous_totalamount - $previous_less ?>
 
-<?php $due_amount = ($ledger_amount - $less) + $others + $previous; ?>
+<!--Late Payment-->
+@foreach($ledger_late as $other_late)
+<?php
+$late_totaldiscount = $late_totaldiscount + $other_late->discount;
+$late_totaldm = $late_totaldm + $other_late->debit_memo;
+$late_totalpayment = $late_totalpayment + $other_late->payment;
+$late_totalamount = $late_totalamount + $other_late->amount;
+$late_less = $late_totaldiscount + $late_totaldm + $late_totalpayment;
+?>
+@endforeach
+
+<?php $previous = $previous_totalamount - $previous_less ?>
+<?php $due_amount = ($ledger_amount - ($less-$less_return)) + $others + $previous; ?>
 
 
 <style>
@@ -136,31 +172,6 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
             <td colspan="4">&nbsp;</td>
         </tr>
     </table>
-
-<!--                <table width="100%" border="1" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td colspan="2" style="background-color: silver"><strong>MAIN FEES</strong></td>
-                    </tr>
-                    <tr>
-                        <td width="30%">Total Fees:</td><td align="right">{{number_format($main_totalamount,2)}}</td>
-                    </tr>
-                    <tr>
-                        <td>Less:</td><td align="right"></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;&nbsp;&nbsp;Debit Memo:</td><td align="right">({{number_format($totaldm,2)}})</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;&nbsp;&nbsp;Discount:</td><td align="right">({{number_format($totaldiscount,2)}})</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;&nbsp;&nbsp;Payment:</td><td align="right">({{number_format($totalpayment,2)}})</td>
-                    </tr>
-                    <tr>
-                        <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format($main_totalamount-($totaldm+$totaldiscount+$totalpayment),2)}}</td>
-                    </tr>
-                </table>
-                <br>-->
     @if($other_totalamount-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
@@ -168,6 +179,9 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
         </tr>
         <tr>
             <td width="30%">Total Fees:</td><td align="right">{{number_format($other_totalamount,2)}}</td>
+        </tr>
+        <tr>
+            <td>Late Payment:</td><td align="right">{{number_format($late_totalamount,2)}}</td>
         </tr>
         <tr>
             <td>Less:</td><td align="right"></td>
@@ -222,6 +236,7 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
             <th align="center">Due Date</th>
             <th align="center">Amount</th>
         </tr>
+        <?php $final_less=$less-$less_return1; ?>
         @foreach($due_dates as $due)
         @if($due->due_switch=="0")
         <?php $duedate = date('F d, Y', strtotime($due_date)); ?>
@@ -230,15 +245,14 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
         <?php $duedate = date('F d, Y', strtotime($due->due_date)); ?>
         <?php $month = date('F Y', strtotime($due->due_date)); ?>
         @endif
-
         <?php
-        if ($less >= $due->amount) {
-            $less = $less - $due->amount;
+        if ($final_less >= $due->amount) {
+            $final_less = $final_less - $due->amount;
         } else {
             $date = $duedate;
             $duemonth = $month;
-            $display = number_format($due->amount - $less, 2);
-            $less = 0;
+            $display = number_format($due->amount - $final_less, 2);
+            $final_less = 0;
             $remark = "";
             echo "<tr><td>" . $month . "</td><td>" . $date . "</td><td align=\"right\">" . $display . "</td></tr>";
         }
@@ -246,32 +260,8 @@ $previous_less = $previous_totaldiscount + $previous_totaldm + $previous_totalpa
         @endforeach
         <tr>
             <th align="left" colspan="2">Total Tuition Fee</th>
-            <th align="right">Php {{number_format($main_totalamount-($totaldm+$totaldiscount+$totalpayment),2)}}</th>
+            <th align="right">Php {{number_format(($main_totalamount+$less_return)-($totaldm+$totaldiscount+$totalpayment),2)}}</th>
         </tr>
-        <!--                    @foreach($due_dates as $due)
-                                @if($due->due_switch=="0")
-        <?php //$duedate = "Upon Enrollment";?>
-                                @else
-        <?php //$duedate = date('F d, Y',strtotime($due->due_date)); ?>
-                                @endif
-        
-        <?php
-//                        if($less >= $due->amount){
-//                            $date = "<span style=\"font-style: italic ;text-decoration: line-through\">".$duedate."<span>";  
-//                            $display = "<span style=\"font-style: italic; text-decoration: line-through\">Php ".number_format($due->amount,2)."<span>";  
-//                            $less = $less - $due->amount;
-//                            $remark = "<span style=\"font-style: italic; font-style:italic;color:#f00\">paid</span>";
-//                        } else {
-//                            $date = $duedate;
-//                            $display = "Php ".number_format($due->amount-$less,2);
-//                            $less=0;
-//                            $remark="";
-//                        }
-        ?>
-        
-                                <tr><td>{!!$date!!}</td><td align="right">{!!$display!!}</td><td align="center">{!!$remark!!}</td></tr>
-                            @endforeach-->
-
     </table>
     <br><br>
     <table width="45%" border="1" cellpadding="0" cellspacing="0">

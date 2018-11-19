@@ -97,6 +97,13 @@
                     </select>    
                 </div> 
                 <div class="form form-group">
+                    <label>Is Returned Check?</label>
+                    <select name="is_return" id="is_return" class="form form-control select2">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>    
+                </div> 
+                <div class="form form-group">
                     <label>Amount :</label>
                     <input type="text" name="amount" id="amount" class="form form-control number">
                 </div>  

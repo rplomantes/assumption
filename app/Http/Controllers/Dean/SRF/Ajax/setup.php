@@ -74,7 +74,7 @@ class setup extends Controller
             $period = Input::get('period');
             $number=1;
             
-            $lists = \App\GradeCollege::where('grade_colleges.school_year', $school_year)->where('grade_colleges.period', $period)->where('grade_colleges.course_code', $course_code)->join('users', 'users.idno','=','grade_colleges.idno')->join('statuses', 'statuses.idno','=','grade_colleges.idno')->where('statuses.status', 3)->orderBy('users.lastname', 'asc')->get();
+            $lists = \App\GradeCollege::where('grade_colleges.school_year', $school_year)->where('grade_colleges.period', $period)->where('grade_colleges.course_code', $course_code)->join('users', 'users.idno','=','grade_colleges.idno')->join('statuses', 'statuses.idno','=','grade_colleges.idno')->orderBy('users.lastname', 'asc')->get();
             
             $data = "<table class='table table-condensed'><thead><tr><th>#</th><th>ID Number</th><th>Name</th><th>SRF</th><th>Lab Fee</th><th>Balance</th></tr></thead>"
                     . "<tbody>";
@@ -124,7 +124,6 @@ class setup extends Controller
                     ->where('ledgers.program_code', '!=', null)
                     ->where('ledgers.category','SRF')
                     ->where('statuses.program_code', $program_code)
-                    ->where('statuses.status', 3)
                     ->groupBy('ledgers.idno')
                     ->join('users', 'users.idno','=','ledgers.idno')
                     ->join('statuses', 'statuses.idno','=','ledgers.idno')

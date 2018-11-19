@@ -152,7 +152,7 @@ function updatemidtermclose(idno, close){
 
     });
 }
-function updatefinalsclose(idno, close){
+function updatefinalclose(idno, close){
     array = {};
     array['idno'] = idno;
     array['close'] = close;
