@@ -55,14 +55,11 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
             
-            if($close->midterm == 0 && $close->finals == 0){
-                $update_grades->midterm_status = 2;
-                $update_grades->finals_status = 2;
-                $update_grades->is_lock = 2;
-            }else if($close->midterm == 0){
+            if($close->midterm == 0){
                 $update_grades->midterm_status = 2;
                 $update_grades->is_lock = 2;
-            }else if ($close->finals == 0){
+            }
+            if ($close->finals == 0){
                 $update_grades->finals_status = 2;
                 $update_grades->is_lock = 2;
             }
@@ -84,14 +81,11 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
 
-            if($close->midterm == 0 && $close->finals == 0){
-                $update_grades->midterm_status = 0;
-                $update_grades->finals_status = 0;
-                $update_grades->is_lock = 0;
-            }else if($close->midterm == 0){
+            if($close->midterm == 0){
                 $update_grades->midterm_status = 0;
                 $update_grades->is_lock = 0;
-            }else if ($close->finals == 0){
+            }
+            if ($close->finals == 0){
                 $update_grades->finals_status = 0;
                 $update_grades->is_lock = 0;
             }
@@ -146,14 +140,11 @@ class AjaxViewGrades extends Controller {
 //            if ($checkstatus == 3){
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$instructor_idno)->first();
             
-            if($close->midterm == 0 && $close->finals == 0){
-                $update->midterm_status = $status;
-                $update->finals_status = $status;
-                $update->is_lock = $status;
-            }else if($close->midterm == 0){
+            if($close->midterm == 0){
                 $update->midterm_status = $status;
                 $update->is_lock = $status;
-            }else if ($close->finals == 0){
+            }
+            if ($close->finals == 0){
                 $update->finals_status = $status;
                 $update->is_lock = $status;
             }
