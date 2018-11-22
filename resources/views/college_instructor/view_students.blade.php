@@ -153,6 +153,9 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             </td>
                             <td>
                                 <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, '{{$student->idno}}')"
+                                @if($student->is_lock == 3)
+                                disabled=''>
+                                @else
                                 
                                 @if($student->finals_status == 0 && $close->finals == 0)
                                 
@@ -166,6 +169,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                                 disabled=''
                                 @endif      
                                 >
+                                @endif
                                     <option></option>
                                     <option @if ($student->finals == "PASSED") selected='' @endif>PASSED</option>
                                     <option @if ($student->finals == 1.00) selected='' @endif>1.00</option>

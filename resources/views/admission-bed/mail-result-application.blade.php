@@ -77,7 +77,7 @@
                                                 Please know that all decisions arrived at by the Committee on Admissions are final.
                                                 The decisions were seen in the light of what is life-giving for your daughter.<br><br>
                                                 
-                                                We hope that you will be able to find the right learning environment that can best
+                                                Although we must regretfully send you an unfavorable response to your daughter's application, we hope that you will be able to find the right learning environment that can best
                                                 nurture your daughter’s needs.<br><br>
                                                 
                                                 Once again, thank you!<br><br>

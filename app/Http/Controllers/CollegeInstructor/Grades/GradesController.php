@@ -45,7 +45,11 @@ class GradesController extends Controller
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering, $request, $value);
                     $this->updateStatus($course_offering, $request, $value);
-            \App\Http\Controllers\Admin\Logs::log("$request->submit for course_offering_id: $course_offering->id.");
+                    if($value == 3){
+                    \App\Http\Controllers\Admin\Logs::log("$request->submit for course_offering_id: $course_offering->id.");
+                    }else{
+                    \App\Http\Controllers\Admin\Logs::log("Submit to Records to Finalize for course_offering_id: $course_offering->id.");
+                    }
                 DB::commit();
             }
             

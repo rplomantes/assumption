@@ -108,6 +108,7 @@ class AjaxViewGrades extends Controller {
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
                     $this->updateStatus($course_offering, $instructor_idno, 2);
+                    \App\Http\Controllers\Admin\Logs::log("Approve and Lock all grades for schedule id $schedule_id.");
                 DB::commit();
             }
                     return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
@@ -127,6 +128,7 @@ class AjaxViewGrades extends Controller {
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
                     $this->updateStatus($course_offering, $instructor_idno, 1);
+                    \App\Http\Controllers\Admin\Logs::log("Cancel all submission of grades for schedule id $schedule_id.");
                 DB::commit();
             }
                     return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
