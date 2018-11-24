@@ -39,7 +39,7 @@ $ledger_others_return = \App\Ledger::groupBy(array('category', 'category_switch'
 $previouses = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->where('category_switch', '>', '9')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 
-$ledger_late = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->whereRaw('category_switch = 7')->where('subsidiary', '%late%')
+$ledger_late = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->whereRaw('category_switch = 7')->where('subsidiary',"like","%late%")
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 
 $final_date = date('Y-m-31', strtotime($due_date));

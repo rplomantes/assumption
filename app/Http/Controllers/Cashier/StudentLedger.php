@@ -95,7 +95,8 @@ class StudentLedger extends Controller {
                 $totalmaindue = 0;
             }
             $plus = ($duetoday->amount + $downpayment->amount) - $totalpay; 
-            $totaldue = $totalmaindue + $due_others + $due_previous + $plus;
+            $totaldue = $plus - $totalmaindue + $due_others + $due_previous;
+            $totaldue = $totaldue + $totalmaindue + $due_previous;
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->academic_type == "BED") {
                 $levels = \App\Status::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();

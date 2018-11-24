@@ -137,7 +137,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('advising','set_up'))}}"><i class="fa fa-circle-o"></i> <span>Set Up</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('advising','advising_statistics'))}}"><i class="fa fa-circle-o"></i> <span>Sectioning</span></a></li>
+                                <!--<li><a href="{{url('/registrar_college', array('advising','advising_statistics'))}}"><i class="fa fa-circle-o"></i> <span>Sectioning</span></a></li>-->
                             </ul>
                         </li>
                         <li class="treeview">
@@ -191,7 +191,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('grade_management','open_close'))}}"><i class="fa fa-circle-o"></i> <span>Open/Close Grade Module</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('grade_management','view_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>View Grades</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('grade_management','report_card'))}}"><i class="fa fa-circle-o"></i> <span>Report Cards</span></a></li>
+                                <!--<li><a href="{{url('/registrar_college', array('grade_management','report_card'))}}"><i class="fa fa-circle-o"></i> <span>Report Cards</span></a></li>-->
                             </ul>
                         </li>
                         <li class="treeview">

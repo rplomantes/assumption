@@ -12,10 +12,13 @@
     <tbody>
         @foreach($students as $student)
         <?php 
+        $status = \App\Status::where('idno', $student->idno)->first();
         $totaldiscount=0;
         $totaldm=0;
         $totalpayment=0;
         $ledger_amount=0;
+        $less_return=0;
+        $less_return1=0;
         $due_amount=0;
         $ledger_main_tuition = \App\Ledger::groupBy(array('category','category_switch'))->where('idno',$student->idno)->where('category_switch','<=','6')
           ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get(); 

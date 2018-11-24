@@ -107,13 +107,13 @@ class OtherPayment extends Controller
         if(Auth::user()->accesslevel==env("CASHIER")){
             $receipt_number=  StudentLedger::getreceipt();
             $particulars = \App\OtherPayment::get();
-        $ending_receipt_number=  StudentLedger::getending_receipt();
-        $total_other=0.00;
-        if($receipt_number<=$ending_receipt_number){
-            return view("cashier.non_student_payment",compact('receipt_number','particulars'));
-        }else{
-            return "OR Used!";
-        }
+            $ending_receipt_number=  StudentLedger::getending_receipt();
+            $total_other=0.00;
+            if($receipt_number<=$ending_receipt_number){
+                return view("cashier.non_student_payment",compact('receipt_number','particulars'));
+            }else{
+                return "OR Used!";
+            }
         }
     }
     function post_non_student_payment(Request $request){
