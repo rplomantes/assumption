@@ -58,7 +58,7 @@ class StudentReservation extends Controller
         }
         if($request->reservation != ""){
         $addaccounting = new \App\Accounting;
-        $addaccounting->transaction_date=date('Y-m-d');
+        $addaccounting->transaction_date=$request->date;
         $addaccounting->reference_id=$reference_id;
         $addaccounting->accounting_type=1;
         $addaccounting->category="Reservation";
@@ -76,7 +76,7 @@ class StudentReservation extends Controller
         
         if($request->deposit != ""){
         $addaccounting = new \App\Accounting;
-        $addaccounting->transaction_date=date('Y-m-d');
+        $addaccounting->transaction_date=$request->date;
         $addaccounting->reference_id=$reference_id;
         $addaccounting->accounting_type=1;
         $addaccounting->category="Student Deposit";
@@ -100,7 +100,7 @@ class StudentReservation extends Controller
         $addreservation = new \App\Reservation;
         $addreservation->idno=$request->idno;
         $addreservation->reference_id=$reference_id;
-        $addreservation->transaction_date=date('Y-m-d');
+        $addreservation->transaction_date=$request->date;
         $addreservation->amount=$request->reservation;
         $addreservation->reservation_type=1;
         $addreservation->posted_by=Auth::user()->idno;
@@ -110,7 +110,7 @@ class StudentReservation extends Controller
         $addreservation = new \App\Reservation;
         $addreservation->idno=$request->idno;
         $addreservation->reference_id=$reference_id;
-        $addreservation->transaction_date=date('Y-m-d');
+        $addreservation->transaction_date=$request->date;
         $addreservation->amount=$request->deposit;
         $addreservation->reservation_type=2;
         $addreservation->posted_by=Auth::user()->idno;
@@ -136,7 +136,7 @@ class StudentReservation extends Controller
                     $adddpayment->section = $level->section;
                 }
             }
-        $adddpayment->transaction_date = date('Y-m-d');
+        $adddpayment->transaction_date = $request->date;
         $adddpayment->receipt_no=  StudentLedger::getreceipt();
         $adddpayment->reference_id=$reference_id;
         $adddpayment->idno=$request->idno;
@@ -201,7 +201,7 @@ class StudentReservation extends Controller
         if($request->deposit_amount != ""){
             $totalamount=$totalamount+$request->deposit_amount;
         }
-        $addaccounting->transaction_date=date('Y-m-d');
+        $addaccounting->transaction_date=$request->date;
         $addaccounting->reference_id=$reference_id;
         $addaccounting->accounting_type=1;
         $addaccounting->category="Cash";

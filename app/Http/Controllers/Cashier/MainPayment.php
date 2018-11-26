@@ -125,7 +125,7 @@ class MainPayment extends Controller {
         $department = $dept->department; //\App\Status::where('idno',$request->idno)->first()->department;
         //add debit tuition fee ar
         $addacct = new \App\Accounting;
-        $addacct->transaction_date = date('Y-m-d');
+        $addacct->transaction_date = $request->date;
         $addacct->reference_id = $reference_id;
         $addacct->accounting_type = env("COMPUTER");
         $addacct->category = env("AR_TUITION_NAME");
@@ -142,7 +142,7 @@ class MainPayment extends Controller {
 
         //add credit unearned
         $addacct = new \App\Accounting;
-        $addacct->transaction_date = date('Y-m-d');
+        $addacct->transaction_date = $request->date;
         $addacct->reference_id = $reference_id;
         $addacct->accounting_type = env("COMPUTER");
         $addacct->category = env("UNEARNED_NAME");
@@ -214,7 +214,7 @@ class MainPayment extends Controller {
         if($request->over_payment > 0){
             $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
             $addacct = new \App\Accounting;
-            $addacct->transaction_date = date('Y-m-d');
+            $addacct->transaction_date = $request->date;
             $addacct->reference_id = $reference_id;
             $addacct->accounting_type = env("CASH");
             $addacct->category = "Overpayment";
@@ -294,7 +294,7 @@ class MainPayment extends Controller {
         //$department = $dept->department; 
         $department=\App\Status::where('idno',$request->idno)->first()->department;
         $addacct = new \App\Accounting;
-        $addacct->transaction_date = date('Y-m-d');
+        $addacct->transaction_date = $request->date;
         $addacct->reference_id = $reference_id;
         $addacct->accounting_type = $accounting_type;
         $addacct->category = $discount_ref->discount_description;
@@ -321,7 +321,7 @@ class MainPayment extends Controller {
 
                             MainPayment::processDiscount($request, $reference_id, $ledger->discount, $ledger->discount_code, 1);
                             $addacct = new \App\Accounting;
-                            $addacct->transaction_date = date('Y-m-d');
+                            $addacct->transaction_date = $request->date;
                             $addacct->reference_id = $reference_id;
                             $addacct->accounting_type = $accounting_type;
                             $addacct->category = $ledger->category;
@@ -347,7 +347,7 @@ class MainPayment extends Controller {
                         $ledger->update();
 
                         $addacct = new \App\Accounting;
-                        $addacct->transaction_date = date('Y-m-d');
+                        $addacct->transaction_date = $request->date;
                         $addacct->reference_id = $reference_id;
                         $addacct->reference_number = $ledger->id;
                         $addacct->accounting_type = $accounting_type;
@@ -372,7 +372,7 @@ class MainPayment extends Controller {
                             }
                             $ledger->update();
                             $addacct = new \App\Accounting;
-                            $addacct->transaction_date = date('Y-m-d');
+                            $addacct->transaction_date = $request->date;
                             $addacct->reference_id = $reference_id;
                             $addacct->reference_number = $ledger->id;
                             $addacct->accounting_type = $accounting_type;

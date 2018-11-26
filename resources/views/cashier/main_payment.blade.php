@@ -68,9 +68,12 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
 @endsection
 @section('maincontent')
 <div class="container-fluid">
+  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/cashier','main_payment')}}">
     <div class="col-md-12">
         <div class="col-md-6">
-            <table class="table table-responsive"><tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>
+            <table class="table table-responsive">
+                <!--<tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>-->
+                <tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" name="date" value="{{date('Y-m-d')}}"></td></tr>
                     <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
                     <tr><td>Student Name : </td><td>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</td></tr>
                     </table>
@@ -78,7 +81,6 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
         <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
     </div>    
    <hr />  
-  <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/cashier','main_payment')}}">
   
       {{csrf_field()}}
            <input type="hidden" name="idno" value="{{$user->idno}}">

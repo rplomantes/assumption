@@ -62,7 +62,7 @@ class OtherPayment extends Controller
         if($request->over_payment > 0){
             $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
             $addacct = new \App\Accounting;
-            $addacct->transaction_date = date('Y-m-d');
+            $addacct->transaction_date = $request->date;
             $addacct->reference_id = $reference_id;
             $addacct->accounting_type = env("CASH");
             $addacct->category = "Overpayment";
@@ -81,7 +81,7 @@ class OtherPayment extends Controller
         if(count($request->particular)>0){
             for($i=0;$i<count($request->particular);$i++){
                 $addaccounting = new \App\Accounting;
-                $addaccounting->transaction_date=date('Y-m-d');
+                $addaccounting->transaction_date=$request->date;
                 $addaccounting->reference_id=$reference_id;
                 $addaccounting->accounting_type=1;
                 $addaccounting->category="Other Payment";
@@ -133,7 +133,7 @@ class OtherPayment extends Controller
         $remarks="";
         $paidby = \App\User::where('idno',$request->idno)->first();
         $adddpayment = new \App\Payment;
-        $adddpayment->transaction_date = date('Y-m-d');
+        $adddpayment->transaction_date = $request->date;
         $adddpayment->receipt_no=  StudentLedger::getreceipt();
         $adddpayment->reference_id=$reference_id;
         $adddpayment->idno="999999";

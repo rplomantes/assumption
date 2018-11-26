@@ -46,6 +46,7 @@
     <div class="col-md-12">
     <div class="form form-group">  
         <table class="table table-bordered">
+                <tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" name="date" value="{{date('Y-m-d')}}"></td></tr>
             <tr><td>Student ID</td><td>{{$user->idno}}</td><td align="right"> Receipt No: <span style="font-size:14pt;font-weight:bold;color:red">{{$receipt_no}}</span></td></tr>
             <tr><td>Student Name</td><td><b>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></td><td></td></tr>
         </table>
