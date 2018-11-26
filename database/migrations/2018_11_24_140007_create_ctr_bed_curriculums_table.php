@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBedCurriculaTable extends Migration
+class CreateCtrBedCurriculumsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,22 @@ class CreateBedCurriculaTable extends Migration
      */
     public function up()
     {
-        Schema::create('bed_curricula', function (Blueprint $table) {
+        Schema::create('ctr_bed_curriculums', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('department');
+            $table->string('academic_type');
             $table->string('level');
             $table->string('period')->nullable();
             $table->string('strand')->nullable();
-            $table->integer("subject_type")->default(0);
-            $table->string("display_subject_code");
+            $table->string('display_subject_code');
             $table->string("subject_code");
             $table->string("subject_name");
+            $table->string("group_id")->nullable();
             $table->string("group_name")->nullable();
+            $table->integer("category")->default(1);
             $table->string("units")->nullable();
             $table->integer("points")->nullable();
             $table->integer("weighted")->nullable();
             $table->integer("sort_to")->default(0);
-            $table->integer("is_display_card")->default(1);
             $table->integer("is_automatic")->default(1);
             $table->timestamps();
         });
@@ -41,6 +41,6 @@ class CreateBedCurriculaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bed_curricula');
+        Schema::dropIfExists('ctr_bed_curriculums');
     }
 }

@@ -1185,6 +1185,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     
                 </div>
                 <div class="tab-pane" id="tab_5">
+                    @if(isset($info->applied_for))
                     <?php $ctrrequirements = \App\CtrBedRequirement::where('level', $info->applied_for)->first(); ?>
                     <?php $bedrequirements = \App\BedRequirement::where('idno', $user->idno)->first(); ?>
                     <div class="form-group">
@@ -1236,6 +1237,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input disabled='' type='checkbox' name='photocopy_of_dual'><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
                         </div>
                     </div>
+@endif
                 </div>
             </div>
         </div>

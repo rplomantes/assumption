@@ -18,7 +18,11 @@ $ledger_other = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 2)->groupBy('category','category_switch')->orderBy('category_switch')->get();
 $ledger_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 3)->groupBy('category','category_switch')->orderBy('category_switch')->get();
-$due_dates = \App\LedgerDueDate::where('idno',$idno)->get();
+if($status->academic_type == "SHS"){
+$due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+}else{
+$due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
+}
 $upon_payment=0;
 if(count($due_dates)>0) {
     foreach($due_dates as $dt){

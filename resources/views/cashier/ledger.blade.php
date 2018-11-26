@@ -490,15 +490,17 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
            @foreach($previous as $main)
+           <?php 
+            $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
+           ?>
+           @if(!$balance == 0)
            <?php
                $totalamount=$totalamount+$main->amount;
                $totaldiscount=$totaldiscount+$main->discount;
                $totaldm=$totaldm+$main->debit_memo;
                $totalpayment=$totalpayment+$main->payment;
-               $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
                $totalbalance=$totalbalance+$balance;
                ?>
-           @if(!$balance == 0)
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>

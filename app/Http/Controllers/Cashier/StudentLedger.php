@@ -115,7 +115,12 @@ class StudentLedger extends Controller {
             $debit_memos = \App\DebitMemo::where('idno', $idno)->where('is_current', '1')->orderBy('transaction_date')->get();
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('is_current', '1')->orderBy('transaction_date')->get();
 
-            $due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->orderBy('due_switch')->orderBy('due_date')->get();
+            if($status->academic_type == "SHS" || $status->academic_type == "College"){
+            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+            }else{
+            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
+            }
+            
             return view("cashier.ledger", compact('levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay'));
             //return $levels;
         }
