@@ -72,13 +72,14 @@
                                                 We would like to thank you for having considered Assumption College as the 
                                                 school for your daughter. However, it is with regret to inform you that your
                                                 daughter did not successfully meet the initial requirements for Admission of
-                                                Assumption Basic Education Division.<br><br>
+                                                Assumption Basic Education Division for SY 2019-2020.<br><br>
                                                 
                                                 Please know that all decisions arrived at by the Committee on Admissions are final.
                                                 The decisions were seen in the light of what is life-giving for your daughter.<br><br>
                                                 
-                                                Although we must regretfully send you an unfavorable response to your daughter's application, we hope that you will be able to find the right learning environment that can best
-                                                nurture your daughter’s needs.<br><br>
+                                                Although we must regretfully send you an unfavorable response to your daughter's 
+                                                application, we hope that you will be able to find the right learning environment 
+                                                that can best nurture your daughter’s needs.<br><br>
                                                 
                                                 Once again, thank you!<br><br>
                                                 

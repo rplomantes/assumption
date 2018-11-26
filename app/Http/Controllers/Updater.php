@@ -15,30 +15,30 @@ class Updater extends Controller {
         DB::beginTransaction();
         foreach ($updates as $update) {
             $status = \App\Status::where('idno', $update->idno)->first();
-           // if ($status->type_of_plan != 'Plan A') {
-                $delete_ledger = \App\Ledger::where('idno', $update->idno)->where('subsidiary', $update->subsidiary)->get();
+            // if ($status->type_of_plan != 'Plan A') {
+            $delete_ledger = \App\Ledger::where('idno', $update->idno)->where('subsidiary', $update->subsidiary)->get();
 
-                $idno = $update->idno;
-                $school_year = $status->school_year;
-                $period = $status->period;
+            $idno = $update->idno;
+            $school_year = $status->school_year;
+            $period = $status->period;
 
-                $levels_reference_id = uniqid();
+            $levels_reference_id = uniqid();
 
-                $totalpayment = $update->amount;
-                $reference_id = uniqid();
-                $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
+            $totalpayment = $update->amount;
+            $reference_id = uniqid();
+            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
-                $this->postDM($reference_id, $totalpayment, $idno, $update->subsidiary);
-                $this->processAccounting($reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
-                $this->postDebitEntry($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period, $delete_ledger);
+            $this->postDM($reference_id, $totalpayment, $idno, $update->subsidiary);
+            $this->processAccounting($reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            $this->postDebitEntry($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period, $delete_ledger);
 
 //                foreach ($delete_ledger as $del) {
 //                    $del->delete();
 //                }
 
-                $update->is_done = 10;
-                $update->save();
-           // }
+            $update->is_done = 10;
+            $update->save();
+            // }
         }
         DB::Commit();
 
@@ -51,7 +51,7 @@ class Updater extends Controller {
         $adddm->transaction_date = date('Y-m-d');
         $adddm->reference_id = $reference_id;
         $adddm->dm_no = $this->getDMNumber();
-        $adddm->explanation = "Debit Memo - ". $subsidiary;
+        $adddm->explanation = "Debit Memo - " . $subsidiary;
         $adddm->amount = $totalpayment;
         $adddm->posted_by = 999991;
         $adddm->save();
@@ -297,6 +297,70 @@ class Updater extends Controller {
             $update->update();
         }
         return "Done";
+    }
+
+    function update_reverserestore() {
+        $or = DB::select("SELECT * FROM `update_or` WHERE `is_reverse` = 0 ");
+        foreach ($or as $o){
+            $reference_id = $o->reference_id;
+            DB::beginTransaction();
+            //$this->checkifreservation($reference_id);
+            $this->reverserestore_ledger($reference_id, env("CASH"));
+            $this->reverserestore_entries(\App\Payment::where('reference_id', $reference_id)->get(), $reference_id);
+            $this->reverserestore_entries(\App\Accounting::where('reference_id', $reference_id)->get(), $reference_id);
+            $this->reverserestore_entries(\App\Reservation::where('reference_id', $reference_id)->get(), $reference_id);
+            \App\Http\Controllers\Admin\Logs::log("Reverse/Restore receipt with reference no: $reference_id.");
+            $this->deleteAccounting($reference_id);
+            $this->deletePayment($reference_id);
+            DB::commit();
+        }
+        return "Done";
+    }
+    function deleteAccounting($reference_id){
+        $accounting = \App\Accounting::where('reference_id', $reference_id)->get();
+        if(count($accounting)>0){
+            foreach ($accounting as $acc){
+                $acc->delete();
+            }
+        }
+    }
+    function deletePayment($reference_id){
+        $accounting = \App\Payment::where('reference_id', $reference_id)->get();
+        if(count($accounting)>0){
+            foreach ($accounting as $acc){
+                $acc->delete();
+            }
+        }
+    }
+
+    function reverserestore_ledger($reference_id, $entry_type) {
+        $accountings = \App\Accounting::where('reference_id', $reference_id)->where('credit', '>', '0')->where('accounting_type', $entry_type)->get();
+        if (count($accountings) > 0) {
+            foreach ($accountings as $accounting) {
+                $ledger = \App\Ledger::find($accounting->reference_number);
+                if (count($ledger) > 0) {
+                    if ($accounting->is_reverse == 0) {
+                        $ledger->payment = $ledger->payment - $accounting->credit;
+                    } else {
+                        $ledger->payment = $ledger->payment + $accounting->credit;
+                    }
+                    $ledger->update();
+                }
+            }
+        }
+    }
+
+    function reverserestore_entries($obj, $reference_id) {
+        if (count($obj) > 0) {
+            foreach ($obj as $ob) {
+                if ($ob->is_reverse == "0") {
+                    $ob->is_reverse = "1";
+                } else {
+                    $ob->is_reverse = "1";
+                }
+                $ob->update();
+            }
+        }
     }
 
     /*
