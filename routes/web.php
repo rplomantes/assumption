@@ -177,6 +177,8 @@ Route::get('/ajax/registrar_college/grades/change_finals/{idno}', 'RegistrarColl
 Route::get('/ajax/registrar_college/grades/change_completion/{idno}', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@change_completion');
 //Report Cards
 Route::get('/registrar_college/grade_management/report_card', 'RegistrarCollege\GradeManagement\GradesController@report_card');
+Route::get('/ajax/registrar_college/grade_management/generate_card', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@generate_card');
+Route::post('/registrar_college/grade_management/print_card_pdf','RegistrarCollege\GradeManagement\GradesController@print_card_pdf');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
@@ -407,5 +409,3 @@ Route::get('/accounting/ajax/get_passcode','Accounting\Ajax\AjaxGeneratePasscode
 Route::get('/upload_user_image/{idno}','Uploader\ImageUpload@view_upload');
 Route::post('/save_image','Uploader\ImageUpload@save_upload');
 Route::get('/remove_image/{idno}','Uploader\ImageUpload@remove_image');
-
-Route::get('/update_or','Updater@update_reverserestore');

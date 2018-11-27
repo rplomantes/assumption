@@ -45,7 +45,7 @@
         <div class="col-md-6">
             <table class="table table-responsive">
                 <!--<tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>-->
-                <tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" name="date" value="{{date('Y-m-d')}}"></td></tr>
+                <tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" id="date" name="date" value="{{date('Y-m-d')}}"></td></tr>
                     <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
                     <tr><td>Student Name : </td><td>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</td></tr>
                     </table>
@@ -416,6 +416,13 @@
                e.preventDefault();
            }
        })
+        
+        $("#date").on('keypress',function(e){
+            if(e.keyCode==13){
+                $("#other_amount1").focus();
+                e.preventDefault();
+            }
+        });
        
        $("#deposit_reference").on('keypress',function(e){
            if(e.keyCode==13){

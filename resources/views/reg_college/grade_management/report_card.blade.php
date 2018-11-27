@@ -47,7 +47,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type','College'
 <div class='col-sm-12'>
     <div class='box'>
         <div class='box-body'>
-            <form class='form-horizontal' action='{{url('registrar_college', array('grade_management','open_close', 'submit'))}}' method='post'>
+            <form class='form-horizontal' id="myForm" action='{{url('registrar_college', array('grade_management','open_close', 'submit'))}}' method='post'>
                 {{ csrf_field() }}
                 <div class='form-group'>
                     <div class='col-sm-2'>
@@ -70,7 +70,7 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type','College'
                             <option>Summer</option>
                         </select>
                     </div>
-                    <div class='col-sm-4'>
+                    <div class='col-sm-6'>
                         <label>Program</label>
                         <select name='program_code' class='form form-control select2'>
                             <option>Program</option>
@@ -89,34 +89,41 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type','College'
                             <option>4th Year</option>
                         </select>
                     </div>
-                    <div class='col-sm-2'>
+                    <div class='col-sm-8'>
                         <label class='col-sm-12'>&nbsp;</label>
-                        <button class='btn btn-primary' type='button'>Generate List</button>
+                        <button class='btn btn-primary col-sm-12' type='button' onclick="generateCard(school_year.value, period.value, program_code.value, level.value)">Generate List</button>
+                    </div>
+                    <div class='col-sm-4'>
+                        <label class='col-sm-12'>&nbsp;</label>
+                        <input type="submit" class="btn btn-warning form-control" onclick="toPDF()" value="Print PDF">
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <div id="result">
-
     </div>
 </div>
 @endsection
 @section('footerscript')
 <script>
-    function change_finals(grade, grade_id, idno,stat) {
+    function generateCard(school_year,period,program_code,level) {
         array = {};
-        array['grade'] = grade;
-        array['grade_id'] = grade_id;
-        array['idno'] = idno;
-        array['stat'] = stat;
+        array['school_year'] = school_year;
+        array['period'] = period;
+        array['program_code'] = program_code;
+        array['level'] = level;
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/grades/change_finals/" + idno,
+            url: "/ajax/registrar_college/grade_management/generate_card/",
             data: array,
-            success: function () {
+            success: function (data) {
+                $('#result').html(data);
             }
         });
+    }
+    function toPDF() {
+        document.getElementById("myForm").action = "{{url('/registrar_college/grade_management/print_card_pdf')}}";
     }
 </script>
 @endsection

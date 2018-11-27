@@ -237,5 +237,18 @@ class AjaxViewGrades extends Controller {
             $update->save();
         }
     }
+    
+    function generate_card() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $program_code = Input::get("program_code");
+            $level = Input::get("level");
+            
+            $students = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('program_code', $program_code)->where('level', $level)->join('users', 'users.idno', 'college_levels.idno')->orderBy('users.lastname')->get();
+
+            return view('reg_college.grade_management.ajax.view_report_card', compact('level','program_code', 'school_year','period','students'));
+        }
+    }
 
 }

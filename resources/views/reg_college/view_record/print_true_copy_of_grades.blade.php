@@ -181,7 +181,7 @@ $count = 0;
                         $is_x = 1;
                 }
                 $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $pin_grades->lab;
+                $count = $count + $grade->lec + $grade->lab;
             }
         }
         ?>
@@ -362,7 +362,7 @@ $count = 0;
                         $is_x = 1;
                 }
                 $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $pin_grades->lab;
+                $count = $count + $grade->lec + $grade->lab;
             }
         }
         ?>
@@ -441,7 +441,7 @@ $count = 0;
                         $is_x = 1;
                 }
                 $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $pin_grades->lab;
+                $count = $count + $grade->lec + $grade->lab;
             }
         }
         ?>

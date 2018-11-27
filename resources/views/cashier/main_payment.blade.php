@@ -73,7 +73,7 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
         <div class="col-md-6">
             <table class="table table-responsive">
                 <!--<tr><td>Date : </td><td>{{date("M d, Y")}}</td></tr>-->
-                <tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" name="date" value="{{date('Y-m-d')}}"></td></tr>
+                <tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" name="date" id="date" value="{{date('Y-m-d')}}"></td></tr>
                     <tr><td>Student ID : </td><td>{{$user->idno}}</td></tr>
                     <tr><td>Student Name : </td><td>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</td></tr>
                     </table>
@@ -396,6 +396,14 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
                 e.preventDefault();
             }
         });
+        
+        $("#date").on('keypress',function(e){
+            if(e.keyCode==13){
+                $("#main_due").focus();
+                e.preventDefault();
+            }
+        });
+        
         $("#main_due").on('keypress',function(e){
             if(e.keyCode==13){
                 if($("#main_due").val()==""){

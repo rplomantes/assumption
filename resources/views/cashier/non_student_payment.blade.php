@@ -43,7 +43,7 @@
   <form id="paymentform" class="form-horizontal" method="POST" action="{{url('/cashier','non_student_payment')}}">
     <div class="col-md-12">
         <div class="col-md-6">
-            <table class="table table-responsive"><tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" name="date" value="{{date("Y-m-d")}}" placeholder="YYYY-MM-DD" class="form form-control"></td></tr>     
+            <table class="table table-responsive"><tr><td>Date(YYYY-MM-DD) : </td><td><input type="text" id="date" name="date" value="{{date("Y-m-d")}}" placeholder="YYYY-MM-DD" class="form form-control"></td></tr>     
             </table>
         </div>   
         <div class="col-md-6"><div class="nav navbar pull-right"> Receipt No: <span style="font-size:20pt;font-weight:bold;color:red">{{$receipt_number}}</span></div></div>
@@ -397,6 +397,15 @@
                e.preventDefault();
            }
        })
+       
+        
+        $("#date").on('keypress',function(e){
+            if(e.keyCode==13){
+                $("#paid_by").focus();
+                e.preventDefault();
+            }
+        });
+        
        $("#check_amount").on("keypress",function(e){
            if(e.keyCode==13){
                if($("#check_amount").val()==""){
