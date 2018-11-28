@@ -359,27 +359,55 @@ class AssessmentController extends Controller {
     }
 
     function getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request) {
-        $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
-        if (count($otherfees) > 0) {
-            foreach ($otherfees as $otherfee) {
-                if(isset($request->other[$otherfee->id])){
-                $addledger = new \App\ledger;
-                $addledger->idno = $idno;
-                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                $addledger->program_code = $program_code;
-                $addledger->level = $level;
-                $addledger->school_year = $school_year;
-                $addledger->period = $period;
-                $addledger->category = $otherfee->category;
-                $addledger->subsidiary = $otherfee->subsidiary;
-                $addledger->receipt_details = $otherfee->receipt_details;
-                $addledger->accounting_code = $otherfee->accounting_code;
-                $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
-                $addledger->category_switch = $otherfee->category_switch;
-                $addledger->amount = $otherfee->amount;
-                $addledger->discount = $otherfee->amount * ($discountof / 100);
-                $addledger->discount_code = $discount_code;
-                $addledger->save();
+        $is_new = \App\Status::where('idno', $idno)->first()->is_new;
+        if($is_new == 0){
+            $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            if (count($otherfees) > 0) {
+                foreach ($otherfees as $otherfee) {
+                    if(isset($request->other[$otherfee->id])){
+                    $addledger = new \App\ledger;
+                    $addledger->idno = $idno;
+                    $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                    $addledger->program_code = $program_code;
+                    $addledger->level = $level;
+                    $addledger->school_year = $school_year;
+                    $addledger->period = $period;
+                    $addledger->category = $otherfee->category;
+                    $addledger->subsidiary = $otherfee->subsidiary;
+                    $addledger->receipt_details = $otherfee->receipt_details;
+                    $addledger->accounting_code = $otherfee->accounting_code;
+                    $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                    $addledger->category_switch = $otherfee->category_switch;
+                    $addledger->amount = $otherfee->amount;
+                    $addledger->discount = $otherfee->amount * ($discountof / 100);
+                    $addledger->discount_code = $discount_code;
+                    $addledger->save();
+                    }
+                }
+            }
+        }else{
+            $otherfees = \App\CtrCollegeNewOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            if (count($otherfees) > 0) {
+                foreach ($otherfees as $otherfee) {
+                    if(isset($request->other[$otherfee->id])){
+                    $addledger = new \App\ledger;
+                    $addledger->idno = $idno;
+                    $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                    $addledger->program_code = $program_code;
+                    $addledger->level = $level;
+                    $addledger->school_year = $school_year;
+                    $addledger->period = $period;
+                    $addledger->category = $otherfee->category;
+                    $addledger->subsidiary = $otherfee->subsidiary;
+                    $addledger->receipt_details = $otherfee->receipt_details;
+                    $addledger->accounting_code = $otherfee->accounting_code;
+                    $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                    $addledger->category_switch = $otherfee->category_switch;
+                    $addledger->amount = $otherfee->amount;
+                    $addledger->discount = $otherfee->amount * ($discountof / 100);
+                    $addledger->discount_code = $discount_code;
+                    $addledger->save();
+                    }
                 }
             }
         }
@@ -413,26 +441,51 @@ class AssessmentController extends Controller {
         }
 
         //non discounted other fees
-        $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
-        if (count($nondiscountotherfees) > 0) {
-            foreach ($nondiscountotherfees as $otherfee) {
-                if(isset($request->nodiscountother[$otherfee->id])){
-                $addledger = new \App\ledger;
-                $addledger->idno = $idno;
-                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                $addledger->program_code = $program_code;
-                $addledger->level = $level;
-                $addledger->school_year = $school_year;
-                $addledger->period = $period;
-                $addledger->category = $otherfee->category;
-                $addledger->subsidiary = $otherfee->subsidiary;
-                $addledger->receipt_details = $otherfee->receipt_details;
-                $addledger->accounting_code = $otherfee->accounting_code;
-                $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
-                $addledger->category_switch = $otherfee->category_switch;
-                $addledger->amount = $otherfee->amount;
-                $addledger->save();
+        if($is_new == 0){
+            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            if (count($nondiscountotherfees) > 0) {
+                foreach ($nondiscountotherfees as $otherfee) {
+                    if(isset($request->nodiscountother[$otherfee->id])){
+                        $addledger = new \App\ledger;
+                        $addledger->idno = $idno;
+                        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                        $addledger->program_code = $program_code;
+                        $addledger->level = $level;
+                        $addledger->school_year = $school_year;
+                        $addledger->period = $period;
+                        $addledger->category = $otherfee->category;
+                        $addledger->subsidiary = $otherfee->subsidiary;
+                        $addledger->receipt_details = $otherfee->receipt_details;
+                        $addledger->accounting_code = $otherfee->accounting_code;
+                        $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                        $addledger->category_switch = $otherfee->category_switch;
+                        $addledger->amount = $otherfee->amount;
+                        $addledger->save();
+                    }
+                }
             }
+        }else{
+            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            if (count($nondiscountotherfees) > 0) {
+                foreach ($nondiscountotherfees as $otherfee) {
+                    if(isset($request->nodiscountother[$otherfee->id])){
+                        $addledger = new \App\ledger;
+                        $addledger->idno = $idno;
+                        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                        $addledger->program_code = $program_code;
+                        $addledger->level = $level;
+                        $addledger->school_year = $school_year;
+                        $addledger->period = $period;
+                        $addledger->category = $otherfee->category;
+                        $addledger->subsidiary = $otherfee->subsidiary;
+                        $addledger->receipt_details = $otherfee->receipt_details;
+                        $addledger->accounting_code = $otherfee->accounting_code;
+                        $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                        $addledger->category_switch = $otherfee->category_switch;
+                        $addledger->amount = $otherfee->amount;
+                        $addledger->save();
+                    }
+                }
             }
         }
     }

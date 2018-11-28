@@ -310,7 +310,12 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
     
     @if(count($grade_colleges) > 1)
         <?php
+            $is_new = \App\Status::where('idno', $idno)->first()->is_new;
+            if($is_new == 0){
             $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+            }else{
+            $otherfees = \App\CtrCollegeNewOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+            }
             
                 $is_foreign = \App\User::where('idno', $idno)->first();
                     if (count($is_foreign) > 0) {
@@ -320,8 +325,12 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
                             $addfee = \App\CtrCollegeForeignFee::where('id', NULL);
                         }
                     }
-            
+            $is_new = \App\Status::where('idno', $idno)->first()->is_new;
+            if($is_new == 0){
             $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+            }else{
+            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+            }
         ?>
     @else
         <?php
