@@ -109,7 +109,14 @@ $totaldm=$totaldm+$main->debit_memo;
             <?php
             $days = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
             ?>
-            @foreach ($days as $day){{$day->day}}@endforeach
+            @foreach ($days as $day)
+            <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+            {{$day->day}}
+                                        @else
+                                        
+                                        @endif
+            @endforeach
             <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
                                         @if ($is_tba == 0)
                                         {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
@@ -139,7 +146,15 @@ $totaldm=$totaldm+$main->debit_memo;
             $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
             ?>
             @foreach ($schedule3s as $schedule3)
+            
+            <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
             {{$schedule3->room}}<br>
+                                        @else
+                                        
+                                        @endif
+            
+            
             @endforeach
         </td>
         @else
@@ -147,8 +162,8 @@ $totaldm=$totaldm+$main->debit_memo;
         <td id='reg'></td>
         @endif
         @else
-        <td id='reg'>TBA</td>
-        <td id='reg'>TBA</td>
+        <td id='reg'></td>
+        <td id='reg'></td>
         @endif
         <td id='reg'>
             <?php
@@ -196,6 +211,7 @@ $dfee = 0;
 $srffee = 0;
 $tutorialfee = 0;
 $esc = 0;
+$otherfee = 0;
 $oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('OTHER_MISC'))->get();
 $tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('TUITION_FEE'))->get();
 foreach ($tfs as $tf) {
@@ -216,6 +232,15 @@ foreach ($mfs as $mf) {
 $srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'SRF')->get();
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
+}
+$others = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $status->idno)
+                            ->where(function($query) {
+                                $query->where('category_switch', 4)
+                                ->orWhere('category_switch', 5);
+                            })->groupBy('category', 'category_switch')->where('category', '!=', 'SRF')->orderBy('category_switch')->get();
+foreach ($others as $other) {
+    $otherfee = $otherfee + $other->amount;
 }
 $tutorials = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'Tutorial Fee')->get();
 foreach ($tutorials as $tutorial) {
@@ -263,11 +288,20 @@ foreach ($discounts as $discount) {
         </tr>
         @endforeach
         @endif
+        @if($srffee > 0)
         <tr>
             <td>Subject Related Fee</td>
             <td>:</td>
             <td class='bottomline-right'>{{number_format($srffee,2)}}</td>
         </tr>
+        @endif
+        @if($otherfee > 0)
+        <tr>
+            <td>Additional Fee</td>
+            <td>:</td>
+            <td class='bottomline-right'>{{number_format($otherfee,2)}}</td>
+        </tr>
+        @endif
         @if($tutorialfee > 0)
         <tr>
             <td>Tutorial Fee</td>
@@ -291,7 +325,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td><strong>Total Tuition Fee</strong></td>
             <td><strong>:</strong></td>
-            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee+$tutorialfee)-$dfee)-$esc,2)}}</strong></td>
+            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee+$tutorialfee+$otherfee)-$dfee)-$esc,2)}}</strong></td>
         </tr>
         @if ($totaldm>0)
         <tr>
@@ -446,7 +480,14 @@ foreach ($discounts as $discount) {
             <?php
             $days = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
             ?>
-            @foreach ($days as $day){{$day->day}}@endforeach
+            @foreach ($days as $day)
+            <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
+            {{$day->day}}
+                                        @else
+                                        
+                                        @endif
+            @endforeach
             <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
                                         @if ($is_tba == 0)
                                         {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
@@ -476,7 +517,15 @@ foreach ($discounts as $discount) {
             $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
             ?>
             @foreach ($schedule3s as $schedule3)
+            
+            <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
+                                        @if ($is_tba == 0)
             {{$schedule3->room}}<br>
+                                        @else
+                                        
+                                        @endif
+            
+            
             @endforeach
         </td>
         @else
@@ -484,8 +533,8 @@ foreach ($discounts as $discount) {
         <td id='reg'></td>
         @endif
         @else
-        <td id='reg'>TBA</td>
-        <td id='reg'>TBA</td>
+        <td id='reg'></td>
+        <td id='reg'></td>
         @endif
         <td id='reg'>
             <?php
@@ -532,6 +581,7 @@ $mfee = 0;
 $dfee = 0;
 $srffee = 0;
 $tutorialfee = 0;
+$otherfee = 0;
 $esc = 0;
 $oaccounts = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('OTHER_MISC'))->get();
 $tfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category_switch', env('TUITION_FEE'))->get();
@@ -553,6 +603,15 @@ foreach ($mfs as $mf) {
 $srfs = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'SRF')->get();
 foreach ($srfs as $srf) {
     $srffee = $srffee + $srf->amount;
+}
+$others = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $status->idno)
+                            ->where(function($query) {
+                                $query->where('category_switch', 4)
+                                ->orWhere('category_switch', 5);
+                            })->groupBy('category', 'category_switch')->where('category', '!=', 'SRF')->orderBy('category_switch')->get();
+foreach ($others as $other) {
+    $otherfee = $otherfee + $other->amount;
 }
 $tutorials = \App\Ledger::where('idno', $status->idno)->where('school_year', $y_year)->where('period', $y_period)->where('category', 'Tutorial Fee')->get();
 foreach ($tutorials as $tutorial) {
@@ -600,11 +659,20 @@ foreach ($discounts as $discount) {
         </tr>
         @endforeach
         @endif
+        @if($srffee > 0)
         <tr>
             <td>Subject Related Fee</td>
             <td>:</td>
             <td class='bottomline-right'>{{number_format($srffee,2)}}</td>
         </tr>
+        @endif
+        @if($otherfee > 0)
+        <tr>
+            <td>Additional Fee</td>
+            <td>:</td>
+            <td class='bottomline-right'>{{number_format($otherfee,2)}}</td>
+        </tr>
+        @endif
         @if($tutorialfee > 0)
         <tr>
             <td>Tutorial Fee</td>
@@ -628,7 +696,7 @@ foreach ($discounts as $discount) {
         <tr>
             <td><strong>Total Tuition Fee</strong></td>
             <td><strong>:</strong></td>
-            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee+$tutorialfee)-$dfee)-$esc,2)}}</strong></td>
+            <td class='bottomline-right'><strong>Php {{number_format((($srffee+$tfee+$ofee+$defee+$mfee+$tutorialfee+$otherfee)-$dfee)-$esc,2)}}</strong></td>
         </tr>
         @if ($totaldm>0)
         <tr>

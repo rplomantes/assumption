@@ -311,7 +311,16 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
     @if(count($grade_colleges) > 1)
         <?php
             $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
-            $addfee = \App\CtrCollegeForeignFee::where('id', NULL);
+            
+                $is_foreign = \App\User::where('idno', $idno)->first();
+                    if (count($is_foreign) > 0) {
+                        if ($is_foreign->is_foreign == '1') {
+                            $addfee = \App\CtrCollegeForeignFee::get();
+                        }else{
+                            $addfee = \App\CtrCollegeForeignFee::where('id', NULL);
+                        }
+                    }
+            
             $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
         ?>
     @else
