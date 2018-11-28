@@ -39,8 +39,8 @@ class coursescheduling_ajax extends Controller {
 
             $info_course_offering = \App\CourseOffering::where('id', $course_offering_id)->first();
 
-
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
+            if($info_course_offering->program_code != "FS"){
             $is_conflict = \App\ScheduleCollege::
                     join('course_offerings', 'schedule_colleges.schedule_id', '=', 'course_offerings.schedule_id')
                     ->where('course_offerings.program_code', $info_course_offering->program_code)
@@ -55,6 +55,22 @@ class coursescheduling_ajax extends Controller {
                         ->orwhereBetween('time_end', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))));
                     })
                     ->get(['schedule_colleges.school_year']);
+            }else{
+                $is_conflict = \App\ScheduleCollege::
+                    join('course_offerings', 'schedule_colleges.schedule_id', '=', 'course_offerings.schedule_id')
+                    ->where('course_offerings.program_code', '!=', $info_course_offering->program_code)
+                    ->where('course_offerings.level', '!=', $info_course_offering->level)
+                    ->where('course_offerings.section_name', '!=',$info_course_offering->section_name)
+                    ->where('schedule_colleges.school_year', $school_year->school_year)
+                    ->where('schedule_colleges.period', $school_year->period)
+//                    ->where('schedule_college.schedule_id', $info_course_offering->schedule_id)
+                    ->where('schedule_colleges.day', $day)
+                    ->where(function($q) use ($time_start, $time_end) {
+                        $q->whereBetween('time_start', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))))
+                        ->orwhereBetween('time_end', array(date("H:i:s", strtotime($time_start)), date("H:i:s", strtotime($time_end))));
+                    })
+                    ->get(['schedule_colleges.school_year']);
+            }
 
             $rooms = \App\ScheduleCollege::distinct()
                     ->where('school_year', $school_year->school_year)

@@ -79,4 +79,11 @@ class ViewCourseOfferingController extends Controller
           return $pdf->stream('course_offerings.pdf');           
         }        
     }    
+
+    function viewofferings_free_section() {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(array('program_code', 'program_name'));
+            return view('reg_college.curriculum_management.view_course_offering_free_section', compact('programs'));
+        }
+    }
 }

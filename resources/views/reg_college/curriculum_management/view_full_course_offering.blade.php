@@ -82,6 +82,7 @@ $layout = "layouts.appreg_college";
                                 <label>Program</label>
                                 <select id="program_code" class="form-control select2" style="width: 100%;">
                                     <option>Select program</option>
+                                    <option value="FS">Free Section</option>
                                     @foreach ($programs as $program)
                                     <option value="{{$program->program_code}}">{{$program->program_code}} - {{$program->program_name}}</option>
                                     @endforeach
@@ -98,6 +99,7 @@ $layout = "layouts.appreg_college";
                                     <option>3rd Year</option>
                                     <option>4th Year</option>
                                     <option>5th Year</option>
+                                    <option>FS</option>
                                 </select>
                             </div>
                         </div>

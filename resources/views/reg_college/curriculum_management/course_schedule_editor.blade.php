@@ -318,6 +318,7 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
     });
 $(function () {
     $('.timepicker').timepicker({
+        minuteStep: 5,
         showInputs: false
     });
     $('.select2').select2();

@@ -25,7 +25,7 @@
 </style>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>RERPORT CARD</b><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>REPORT CARD</b><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b></div>
 </div>  
 <div>
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 155px;'>
@@ -63,7 +63,7 @@ $count = 0;
 <div>
     <div>    
         <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-        <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>RERPORT CARD</b></div>
+        <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>REPORT CARD</b></div>
     </div>
     <div>
         <table style='margin-top:150px' class='table' border="0" width="100%">
@@ -149,18 +149,24 @@ $count = 0;
                 <td align="center">{{$grade->course_code}}</td>
                 <td align="center">{{$grade->course_name}}</td>
                 <?php $offering = \App\CourseOffering::where('id', $grade->course_offering_id)->first(); ?>
-                <?php $schedule = \App\ScheduleCollege::where('schedule_id', $offering->schedule_id)->first(); ?>
-                @if (isset($schedule))
-                <?php $instructor_info = \App\User::where('idno', $schedule->instructor_id)->first(); ?>
-                @endif
-                @if (isset($instructor_info))
-                <td align="center">{{$instructor_info->firstname}} {{$instructor_info->lastname}}</td>
+                @if (isset($offering))
+                    <?php $schedule = \App\ScheduleCollege::where('schedule_id', $offering->schedule_id)->first(); ?>
+                    @if (isset($schedule))
+                        <?php $instructor_info = \App\User::where('idno', $schedule->instructor_id)->first(); ?>
+                        @if (isset($instructor_info))
+                        <td align="center">{{$instructor_info->firstname}} {{$instructor_info->lastname}}</td>
+                        @else
+                        <td align="center"></td>
+                        @endif
+                    @else
+                    <td align="center"></td>
+                    @endif
                 @else
                 <td align="center"></td>
                 @endif
                 <td align="center">{{$grade->lec+$grade->lab}}</td>
-                <td align="center">{{$grade->midterm}}</td>
-                <td align="center">{{$grade->finals}}</td>
+                <td align="center">@if($grade->midterm_status == 3){{$grade->midterm}}@endif</td>
+                <td align="center">@if($grade->finals_status == 3){{$grade->finals}}@endif</td>
                 <td align="center">{{strtoupper($remarks)}}</td>
             </tr>
             @endforeach

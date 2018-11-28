@@ -51,6 +51,14 @@ $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College
                 <div class="box-body">
                     <div class='table-responsive'>
                     <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td width="85%">Free Section</td>
+                                <td><a href="{{url('registrar_college', array('curriculum_management','view_offering_free_section'))}}">View Offerings</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Program Code</th>

@@ -77,8 +77,6 @@ $electives = \App\CtrElective::where('program_code', $program_code)->get();
                                     <option value="1">Section 1</option>
                                     <option value="2">Section 2</option>
                                     <option value="3">Section 3</option>
-                                    <option value="4">Tutorial</option>
-                                    <option value="5">FS-Free Section</option>
                                 </select>
                             </div>
                         </div>

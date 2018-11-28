@@ -24,6 +24,7 @@ class ViewInfoController extends Controller {
     }
 
     function save_info(Request $request) {
+//        return $request->f_is_living;
         $validate = $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',

@@ -1,6 +1,7 @@
 <?php
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
-$program_codes = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['program_code']);
+$program_codes = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('program_code','!=', 'FS')->get(['program_code']);
+$program_codes_fs = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('program_code', 'FS')->get(['program_code']);
 
 $levels = \App\CourseOffering::distinct()->orderBy('level')->get(['level']);
 ?>
@@ -60,6 +61,9 @@ $levels = \App\CourseOffering::distinct()->orderBy('level')->get(['level']);
                                 <label>Program</label>
                                 <select id="program_code" class="form-control select2" style="width: 100%;">
                                     <option value=" ">Select Program</option>
+                                    @foreach ($program_codes_fs as $program_code_fs)
+                                    <option value="{{$program_code_fs->program_code}}">{{$program_code_fs->program_code}} - Free Section</option>
+                                    @endforeach
                                     @foreach ($program_codes as $program_code)
                                     <option value="{{$program_code->program_code}}">{{$program_code->program_code}} - <?php $program_name = \App\CtrAcademicProgram::where('program_code', $program_code->program_code)->first()->program_name;?>{{$program_name}}</option>
                                     @endforeach

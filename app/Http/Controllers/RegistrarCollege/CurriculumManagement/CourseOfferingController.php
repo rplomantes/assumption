@@ -24,5 +24,5 @@ class CourseOfferingController extends Controller {
             return view('reg_college.curriculum_management.view_course_offering', compact('program_code'));
         }
     }
-
+    
 }
