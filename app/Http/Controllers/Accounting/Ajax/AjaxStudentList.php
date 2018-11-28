@@ -9,38 +9,23 @@ use DB;
 
 class AjaxStudentList extends Controller {
 
-    //
-    function search() {
-        if (Request::ajax()) {
-            $school_year = Input::get("school_year");
-            $level = Input::get("level");
-            $period = Input::get("period");
-            
-            $sy=Input::get("school_year");
-            $lv=Input::get("level");
-
-            if ($school_year == "all") {
-                $school_year = "";
-            } else {
-                $school_year = "and school_year = '" . $school_year . "'";
-            }
-
-            if ($level == "all") {
-                $level = "";
-            } else {
-                $level = "and level = '" . $level . "'";
-            }
-            
-            if ($period == "all") {
-                $period = "";
-            } else {
-                $period = "and period = '" . $period . "'";
-            }
-
-            $lists = DB::Select("select statuses.id, statuses.idno, statuses.type_of_plan from statuses join users on users.idno = statuses.idno where statuses.status=3 $school_year $level $period order by users.lastname");
-
-            return view('accounting.ajax.display_studentlist', compact('lists', 'sy','lv'));
-        }
+    public function __construct() {
+        $this->middleware('auth');
     }
 
+    function get_studentlist() {
+        if (Request::ajax()) {
+            $dep = "";
+            $department = Input::get('department');
+
+            if ($department == "College Department") {
+                $dep = '%Department';
+            } else {
+                $dep = $department;
+            }
+            $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.program_code, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, statuses s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' ORDER BY u.lastname, s.program_code, s.level, s.section");
+            $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM statuses s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+            return view('accounting.ajax.get_studentlist', compact('department','lists','heads'));
+        }
+    }
 }

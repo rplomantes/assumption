@@ -4,93 +4,69 @@ namespace App\Http\Controllers\Accounting;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PDF;
-use DB;
 use Excel;
 
-class StudentList extends Controller {
-
-    //
-    public function __construct() {
+class StudentList extends Controller
+{
+    public function __construct()
+    {
         $this->middleware('auth');
     }
-
-    function search() {
+    
+    function student_list(){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-            $school_years = \App\CourseOffering::distinct()->get(['school_year']);
-            return view('accounting.student_list', compact('school_years'));
+            $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
+            return view('accounting.student_list',compact('levels'));
         }
     }
-
-    function print_search($school_years, $levels, $periods) {
+    
+    function print_studentlist_pdf(Request $request){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-
-            $school_year = $school_years;
-            $level = $levels;
-            $period = $periods;
             
-            if ($school_year == "all") {
-                $school_year = "";
-            } else {
-                $school_year = "and school_year = '" . $school_year . "'";
+            $dep = "";
+            $department = $request->department;
+            
+            if($department == "College Department"){
+                $dep = '%Department';
             }
-
-            if ($level == "all") {
-                $level = "";
-            } else {
-                $level = "and level = '" . $level . "'";
+            else{
+                $dep = $department;
             }
-            
-            if ($period == "all") {
-                $period = "";
-            } else {
-                $period = "and period = '" . $period . "'";
-            }
-            
-            $lists = DB::Select("select statuses.id, statuses.idno, statuses.type_of_plan from statuses join users on users.idno = statuses.idno where statuses.status='3' $school_year $level $period order by users.lastname");
-            
-            $pdf = PDF::loadView('accounting.print_search', compact('lists', 'school_years', 'levels', 'periods'));
-            $pdf->setPaper(array(0, 0, 612.00, 792.0));
-            return $pdf->stream("student_list_.pdf");
-        }
+            $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.program_code, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, statuses s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' ORDER BY u.lastname, s.program_code, s.level, s.section");
+            $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM statuses s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+            $pdf = PDF::loadView('accounting.print_studentlist_pdf', compact('department','lists','heads'));
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream("student_list.pdf");
+        }       
     }
-
-    function print_search_EXCEL($school_years, $levels, $periods){
+    
+    function print_studentlist_excel(Request $request){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+            $dep = "";
             
-            $school_year = $school_years;
-            $level = $levels;
-            $period = $periods;
+            $department = $request->department;
             
-            if ($school_year == "all") {
-                $school_year = "";
-            } else {
-                $school_year = "and school_year = '" . $school_year . "'";
+            if($department == "College Department"){
+                $dep = '%Department';
             }
-
-            if ($level == "all") {
-                $level = "";
-            } else {
-                $level = "and level = '" . $level . "'";
+            else{
+                $dep = $department;
             }
             
-            if ($period == "all") {
-                $period = "";
-            } else {
-                $period = "and period = '" . $period . "'";
-            }
-            
-            $lists = DB::Select("select statuses.id, statuses.idno, statuses.type_of_plan from statuses join users on users.idno = statuses.idno where statuses.status='3' $school_year $level $period order by users.lastname");
+            $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.program_code, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, statuses s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' ORDER BY u.lastname, s.program_code, s.level, s.section");
+            $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM statuses s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
             
             ob_end_clean();
-            Excel::create('Student List - '.$levels, 
-                function($excel) use ($lists,$school_years,$levels,$periods) { $excel->setTitle($school_years);
-                    $excel->sheet($school_years, function ($sheet) use ($lists,$school_years,$levels,$periods) {
-                    $sheet->loadView('accounting.print_search_excel', compact('lists', 'school_years', 'levels', 'periods'));
+            Excel::create('Student List - '.$department, 
+                function($excel) use ($department,$lists,$heads) { $excel->setTitle($department);
+                    $excel->sheet($department, function ($sheet) use ($department,$lists,$heads) {
+                    $sheet->loadView('accounting.print_studentlist_excel', compact('department','lists','heads'));
                     });
                 })->download('xlsx');
-        }  
+        }
     }
 }
+

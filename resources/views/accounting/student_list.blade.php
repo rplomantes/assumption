@@ -1,9 +1,14 @@
 <?php
-    if(Auth::user()->accesslevel == env('ACCTNG_STAFF')){
+$levels = \App\CtrAcademicProgram::distinct()->orderBy('level', 'asc')->get(['level']);
+$strands = \App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code', 'SHS')->get();
+$programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_code")->where('academic_type', 'College')->get();
+?>
+<?php
+if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     $layout = "layouts.appaccountingstaff";
-    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
-        $layout = "layouts.appaccountinghead";    
-    }
+} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+    $layout = "layouts.appaccountinghead";
+}
 ?>
 @extends($layout)
 @section('messagemenu')
@@ -11,21 +16,34 @@
     <!-- Menu toggle button -->
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-envelope-o"></i>
-        <span class="label label-success"></span>
+        <span class="label label-success">4</span>
     </a>
-</li>
-<li class="dropdown notifications-menu">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-bell-o"></i>
-        <span class="label label-warning"></span>
-    </a>
-</li>
+    <ul class="dropdown-menu">
+        <li class="header">You have 4 messages</li>
+        <li>
+            <!-- inner menu: contains the messages -->
+            <ul class="menu">
+                <li><!-- start message -->
+                    <a href="#">
+                        <div class="pull-left">
+                            <!-- User Image -->
 
-<li class="dropdown tasks-menu">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-flag-o"></i>
-        <span class="label label-danger"></span>
-    </a>
+                        </div>
+                        <!-- Message title and timestamp -->
+                        <h4>
+                            Support Team
+                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                        </h4>
+                        <!-- The message -->
+                        <p>Why not buy a new awesome theme?</p>
+                    </a>
+                </li>
+                <!-- end message -->
+            </ul>
+            <!-- /.menu -->
+        </li>
+        <li class="footer"><a href="#">See All Messages</a></li>
+    </ul>
 </li>
 @endsection
 @section('header')
@@ -35,133 +53,72 @@
         <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#"> Other Reports</a></li>
-        <li class="active"><a href="{{ url ('/accounting', array('student_list'))}}"></i> Student List</a></li>
+        <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Student List</li>
     </ol>
 </section>
 @endsection
 @section('maincontent')
-<section class="content">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Search Parameters</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    </div>
+<div class="box">
+    <div class="box-header">
+        <!--<div class="box-title">Search</div>-->
+    </div>
+    <div class="box-body form-horizontal">
+        <form id="myForm" method="post" target='_blank' action="">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label>Department</label>
+                    <select class="form form-control" name="department" id="department">
+                        <option>Select Department</option>
+                        <option>Pre School</option>
+                        <option>Elementary</option>
+                        <option>Junior High School</option>
+                        <option>Senior High School</option>
+                        <option>College Department</option>
+                    </select>
                 </div>
-                <div class="box-body">
-                    <div class='form-horizontal'>
-                        <div class='form-group'>
-                            <div class='col-sm-3'>
-                                <label>School Year</label>
-                                <select id='school_year' class='form-control select2'>
-                                    <option value='all'>All</option>
-                                    <option value="2017">2017-2018</option>
-                                    <option value="2018">2018-2019</option>
-                                    <option value="2019">2019-2020</option>
-                                    <option value="2020">2020-2021</option>
-                                    <option value="2021">2021-2022</option>
-<!--                                    @foreach ($school_years as $school_year)
-                                    <option value='{{$school_year->school_year}}'>{{$school_year->school_year}}-{{$school_year->school_year+1}}</option>
-                                    @endforeach-->
-                                </select>
-                            </div>
-                            <div class='col-sm-3'>
-                                <label>Level</label>
-                                <select id='level' class='form-control select2'>
-                                    <option value='all'>All</option>
-                                    <option value='Pre-Kinder'>Pre-Kinder</option>                                    
-                                    <option value='Kinder'>Kinder</option>
-                                    <option value='Grade 1'>Grade 1</option>
-                                    <option value='Grade 2'>Grade 2</option>
-                                    <option value='Grade 3'>Grade 3</option>
-                                    <option value='Grade 4'>Grade 4</option>
-                                    <option value='Grade 5'>Grade 5</option>
-                                    <option value='Grade 6'>Grade 6</option>
-                                    <option value='Grade 7'>Grade 7</option>
-                                    <option value='Grade 8'>Grade 8</option>
-                                    <option value='Grade 9'>Grade 9</option>
-                                    <option value='Grade 10'>Grade 10</option>
-                                    <option value='Grade 11'>Grade 11</option>
-                                    <option value='Grade 12'>Grade 12</option>                                    
-                                    <option value='1st Year'>1st Year</option>
-                                    <option value='2nd Year'>2nd Year</option>
-                                    <option value='3rd Year'>3rd Year</option>
-                                    <option value='4th Year'>4th Year</option>
-                                    <option value='5th Year'>5th Year</option>                                    
-                                </select>
-                            </div>
-                            <div class='col-sm-3' id='period_control'>
-                                <label>Period</label>
-                                <select id='period' class='form-control select2'>
-                                    <option value='all'>All</option>
-                                    <option value='1st Semester'>1st Semester</option>
-                                    <option value='2nd Semester'>2nd Semester</option>
-                                    <option value='Summer'>Summer</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class='form form-group'>
-                            <div class='col-sm-3'>
-                                <button class='col-sm-12 btn btn-primary' onclick='search(school_year.value, level.value, period.value)'>SEARCH</button>
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="submit" class="btn btn-success form-control" onclick="print_search(school_year.value, level.value, period.value)" value="Generate PDF" >
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="submit" class="btn btn-warning form-control" onclick="print_search_excel(school_year.value, level.value, period.value)" value="Generate EXCEL" >
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-sm-3">
+                    <br>
+                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value)'>Generate Report</button></a>
                 </div>
             </div>
-        </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <input type="submit" class="btn btn-success form-control" onclick="toPDF()" value="Generate PDF" >
+                </div>
+                <div class="col-sm-3">
+                    <input type="submit" class="btn btn-warning form-control" onclick="toEXCEL()" value="Generate EXCEL" >
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="row" id='display_studentlist'>
-    </div>
-</section>
-
+    <div class='box-body'>
+        <div class='col-sm-12' id='display_result'></div>
+    </div>   
+</div>
 @endsection
-@section('footerscript')
+@section('footerscript') 
 <script>
-    $('#display_studentlist').hide();
-</script>
-<script>
-    function search(school_year, level, period) {
-        array = {};
-        array['school_year'] = school_year;
-        array['level'] = level;
-        array['period'] = period;
+    function toPDF() {
+        document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_pdf')}}";
+    }
+
+    function toEXCEL() {
+        document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_excel')}}";
+    }
+
+    function generate_report(department) {
+        var array = {};
+        array['department'] = department;
         $.ajax({
             type: "GET",
-            url: "/ajax/accounting/student_list",
+            url: "/accounting/ajax/get_studentlist",
             data: array,
             success: function (data) {
-                $('#display_studentlist').fadeIn().html(data);
+                $("#display_result").html(data)
             }
-
         });
-    }
-    
-    function print_search(school_year, level, period) {
-        array = {};
-        array['school_year'] = school_year;
-        array['level'] = level;
-        array['period'] = period;
-
-        window.open('/accounting/print_search/' + array['school_year'] + "/" + array['level'] + "/" + array['period'], "_blank") ;
-    }
-    
-    function print_search_excel(school_year, level, period) {
-        array = {};
-        array['school_year'] = school_year;
-        array['level'] = level;
-        array['period'] = period;
-
-        window.open('/accounting/print_search_excel/' + array['school_year'] + "/" + array['level'] + "/" + array['period'], "_blank") ;
     }
 </script>
 @endsection
