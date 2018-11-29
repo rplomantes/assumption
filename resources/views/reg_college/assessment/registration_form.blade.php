@@ -45,6 +45,14 @@ $totaldm=$totaldm+$main->debit_memo;
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small>
         
         <div class='pull-right'><i>Student's Copy</i></div>
+        <?php 
+        $checkcollegelevels = \App\CollegeLevel::where('idno', $user->idno)->where('school_year', $school_year)->where('period', $period)->first();
+            if (count($checkcollegelevels) > 0) {
+                $status = \App\CollegeLevel::where('idno', $user->idno)->where('school_year', $school_year)->where('period', $period)->first();
+            } else {
+                $status = \App\Status::where('idno', $user->idno)->first();
+            }
+        ?>
         @if($status->status == 3)
         <b>REGISTRATION FORM</b>
         @else

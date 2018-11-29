@@ -20,7 +20,7 @@ class AssessmentController extends Controller {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $status = \App\Status::where('idno', $idno)->first();
-            if ($status->status == 0) {
+            if ($status->is_advised == 0) {
 //                return view('dean', array('advising',$idno), compact('status', 'idno', 'school_year', 'period'));
                 return redirect("/dean/advising/$idno");
             } else {
@@ -38,15 +38,17 @@ class AssessmentController extends Controller {
             } else {
                 $status = \App\Status::where('idno', $idno)->first();
             }
-            if ($status->status == env('ADVISING')) {
-                //return view('reg_college.assessment.select_school_year', compact('idno'));
+            $advising = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
+            if ($status->status > 2 && $status->is_advised == 1 && $status->advising_school_year = $school_year && $status->advising_period = $period){
                 return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
-            } else if ($status->status == env('ASSESSED')) {
-                return view('reg_college.assessment.assessed', compact('status', 'idno', 'school_year', 'period'));
-            } else if ($status->status >= env('ENROLLED')) {
-                return view('reg_college.assessment.enrolled', compact('status', 'idno', 'school_year', 'period'));
             } else {
-                return view('reg_college.assessment.enrolled', compact('status', 'idno', 'school_year', 'period'));
+                if ($status->status == env('ADVISING')) {
+                    return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
+                } else if ($status->status == env('ASSESSED')) {
+                    return view('reg_college.assessment.assessed', compact('status', 'idno', 'school_year', 'period'));
+                } else if ($status->status >= env('ENROLLED')) {
+                    return view('reg_college.assessment.enrolled', compact('status', 'idno', 'school_year', 'period'));
+                }
             }
         }
     }
