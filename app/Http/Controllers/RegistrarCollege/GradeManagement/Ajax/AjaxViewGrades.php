@@ -107,7 +107,7 @@ class AjaxViewGrades extends Controller {
             
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
-                    $this->updateStatus($course_offering, $instructor_idno, 2);
+                    $this->updateStatus($course_offering, $instructor_idno, 3);
                     \App\Http\Controllers\Admin\Logs::log("Approve and Lock all grades for schedule id $schedule_id.");
                 DB::commit();
             }

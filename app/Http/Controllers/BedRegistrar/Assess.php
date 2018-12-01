@@ -67,7 +67,7 @@ class Assess extends Controller {
 
                         $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', $user->academic_type)->first();
                         DB::beginTransaction();
-                        $this->addGrades($request, $schoolyear->school_year, $schoolyear->period);
+//                        $this->addGrades($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addLedger($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addOtherCollection($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addOptionalFee($request);
@@ -720,6 +720,7 @@ class Assess extends Controller {
             $reference_id = uniqid();
             $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
+            $request->date = date('Y-m-d');
             MainPayment::addUnrealizedEntry($request, $reference_id);
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
             $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id);

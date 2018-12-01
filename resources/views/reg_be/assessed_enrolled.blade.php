@@ -2,13 +2,18 @@
 $display_status = "ASSESSED";
 $user = \App\User::where('idno',$idno)->first();
 $status =  \App\Status::where('idno',$idno)->first();
+$enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
 if($status->status == env("ENROLLED"))
     $display_status = "ENROLLED";
 $ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch', '<',7)->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
 $ledger_other = \App\Ledger::SelectRaw('category_switch, category,subsidiary ,sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch',7)->where('idno',Auth::user()->idno)->groupBy('category','subsidiary','category_switch')->orderBy('category_switch')->get();
-$due_dates = \App\LedgerDueDate::where('idno',$idno)->get();
+if($status->academic_type == "SHS" || $status->academic_type == "College"){
+$due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+}else{
+$due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
+}
 $totalmainpayment=0;
 if(count($ledger)>0){
          foreach($ledger as $payment){
@@ -255,6 +260,23 @@ if(count($ledger)>0){
 <div class="col-md-3">
     <a href="{{url('/')}}" class="col-sm-12 btn btn-primary form fom-control">Back To Main</a>
 </div>    
+    @if($status->academic_type == "SHS")
+        @if($status->status == 3 && $status->period != $enrollment_sy->period)
+            @if($enrollment_sy->period == "1st Semester")
+                @if($status->school_year != $enrollment_sy->school_year)
+                    <div class="col-md-3">
+                        <a href="{{url("/process_early_enrollment", $idno)}}" class="col-sm-12 btn btn-warning form fom-control">Early Enrollment</a>
+                    </div>    
+                @endif
+            @else
+                @if($status->school_year == $enrollment_sy->school_year)
+                    <div class="col-md-3">
+                        <a href="{{url("/process_early_enrollment", $idno)}}" class="col-sm-12 btn btn-warning form fom-control">Early Enrollment</a>
+                    </div>    
+                @endif
+            @endif
+        @endif
+    @endif
 </div>      
 </div>    
 </div>     
