@@ -25,7 +25,8 @@
 <section class="content-header">
     <h1>
         Open/Close Grading Module
-        <small></small>
+        <?php $sy = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first(); ?>
+        <small>{{$sy->school_year}}-{{$sy->school_year+1}} - {{$sy->period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
