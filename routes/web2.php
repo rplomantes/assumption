@@ -141,4 +141,12 @@ Route::post('/accounting/print_sibling_discount_pdf','Accounting\SiblingDiscount
 Route::post('/accounting/print_sibling_discount_excel','Accounting\SiblingDiscountListController@print_sibling_discountEXCEL');
 Route::get('/accounting/ajax/getsibling_discount','Accounting\Ajax\AjaxAccoReportsController@get_sibling_discount_list');
 
+Route::get('/accounting/schedule_of_fees_college','Accounting\ScheduleOfFees@collegeFees');
+Route::get('/accounting/ajax/getFeeType','Accounting\Ajax\AjaxScheduleOfFees@getFeeType');
+Route::get('/accounting/ajax/getFees','Accounting\Ajax\AjaxScheduleOfFees@getFees');
+Route::get('/accounting/ajax/updateFees/{id}','Accounting\Ajax\AjaxScheduleOfFees@updateFees');
+Route::get('/accounting/ajax/updateSaveFees','Accounting\Ajax\AjaxScheduleOfFees@updateSaveFees');
+Route::get('/accounting/ajax/removeFees/{id}','Accounting\Ajax\AjaxScheduleOfFees@removeFees');
+Route::get('/accounting/ajax/newFees/','Accounting\Ajax\AjaxScheduleOfFees@newFees');
+Route::get('/accounting/ajax/newSaveFees','Accounting\Ajax\AjaxScheduleOfFees@newSaveFees');
 ?>

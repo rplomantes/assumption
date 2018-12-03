@@ -20,7 +20,6 @@ class ScheduleOfFees extends Controller
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             return view('accounting.schedule_of_fees');
         }
-        
     }
     
     function view(Request $request){
@@ -54,13 +53,19 @@ class ScheduleOfFees extends Controller
                 $amount = $tuition_fee->amount;
                 $program_code = "";
             }
-            
             $pdf = PDF::loadView('accounting.print_schedule_of_fees', compact('level','program_code','period','other_fees','miscellaneous_fees','depository_fees','other_collections' ,'amount'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("schedule_of_fees.pdf");
         }
     }
+    
     function plan(){
         return view('accounting.schedule_of_plan');
+    }
+    
+    function collegeFees(){
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+            return view('accounting.schedule_of_fees_college');
+        }
     }
 }

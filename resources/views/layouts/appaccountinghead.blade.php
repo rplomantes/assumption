@@ -179,8 +179,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
                                 <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
                                 <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
+                                <li><a href="{{url('accounting',array('schedule_of_fees_college'))}}"><span>Update Fees</span></a></li>
                             </ul>
-                        </li>  
+                        </li> 
                         <li><a href="{{url('accounting',array('post_charges'))}}"><i class="fa fa-check-square"></i> <span>Post Charges</span></a></li>
                         <li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" onclick="getPasscode('{{Auth::user()->idno}}')"><i class="fa fa-code"></i> <span>Generate Passcode</span></a></li>
                         <?php
