@@ -45,7 +45,7 @@
                 @if($check == 1)  
                     <a type="button" id="reverse{{$un->idno}}" value="Reverse" onclick="reversePost('{{$un->idno}}')">Reverse</a> 
                 @else 
-                    <input type="hidden" name="count[]" value="{{$countLedger}}">
+                    <input type="hidden" name="count[]" value="{{$countLedger}}"/>
                     <input type="checkbox" name="post[]" value="{{$un->idno}}" checked/> 
                 @endif</td>
             <td>@if($check == 1) Posted and unpaid @else Not yet posted. @endif</td>
@@ -68,8 +68,9 @@ function checkLedger($idno, $date) {
     $result = 0;
     $due = 0;
     
-//    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
-    $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
+    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
+    
+//    $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
     
     foreach ($mainledgers as $payment) {
         $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;

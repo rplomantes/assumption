@@ -8,35 +8,29 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 
-class PostCharges extends Controller
-{
-    public function __construct()
-    {
+class PostCharges extends Controller {
+
+    public function __construct() {
         $this->middleware('auth');
     }
-    
-    function index(){
+
+    function index() {
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-        $indic = 0;
-        
-        
-//        $dateToday = Carbon\Carbon::now();
-//        $dates = date_format($dateToday,'m') - 1;
-//        $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY s.program_code,s.level,s.section");
-//        return view('accounting.post_charges',compact('unpaid','dates','indic'));
-      
-        $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
-        $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
-        return view('accounting.post_charges',compact('levels','plans','indic'));
-      }
+            $indic = 0;
+            $levels = \App\CtrAcademicProgram::distinct()->where('academic_type', '!=', 'College')->orderBy('sort_by', 'asc')->get(['level', 'sort_by']);
+            $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
+            return view('accounting.post_charges', compact('levels', 'plans', 'indic'));
+        }
     }
-    
+
     public function postCharges(Request $request) {
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-           DB::beginTransaction();
-//         $charges = \App\CtrLatePaymentCharges::where('academic_type', $request->acad)->where('plan', $request->plan)->first();
-           $indic = 0;
+            $dateToday = Carbon\Carbon::now();
+            $dates = date_format($dateToday,'m') - 1;
+            DB::beginTransaction();
+            $indic = 0;
             foreach ($request->post as $idno) {
+                $countLedger = $this->countLedger($idno, $dates);
                 $ledger = new \App\Ledger;
                 $ledger->idno = $idno;
                 $status = \App\Status::where('idno', $idno)->first();
@@ -48,14 +42,14 @@ class PostCharges extends Controller
                 }
                 $ledger->category = "Other Miscellaneous";
                 $ledger->subsidiary = "Late Payment Charge";
-                $ledger->receipt_details = "Late Payment Charge for the month of ". date('F', strtotime("0000-$request->date-$request->date"));
+                $ledger->receipt_details = "Late Payment Charge for the month of " . date('F', strtotime("0000-$request->date-$request->date"));
                 $ledger->accounting_code = env('SURCHARGE_CODE');
                 $ledger->accounting_name = env('SURCHARGE_NAME');
                 $ledger->category_switch = "7";
-                $ledger->amount = env('SURCHARGE_AMOUNT')*$request->count[$indic];
+                $ledger->amount = env('SURCHARGE_AMOUNT') * $countLedger;
                 $ledger->save();
                 $indic++;
-                
+
                 $posted = new \App\PostedCharges;
                 $posted->idno = $idno;
                 $posted->due_date = $request->date;
@@ -66,11 +60,58 @@ class PostCharges extends Controller
                 $posted->save();
             }
             DB::commit();
-            $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
+            $levels = \App\CtrAcademicProgram::distinct()->where('academic_type', '!=', 'College')->orderBy('sort_by', 'asc')->get(['level', 'sort_by']);
             $plans = \App\CtrDueDateBed::distinct()->orderBy('plan', 'asc')->get(['plan']);
-            
+
             \App\Http\Controllers\Admin\Logs::log("Post late payment charges.");
-            return view('accounting.post_charges',compact('levels','plans','indic'));
+            return view('accounting.post_charges', compact('levels', 'plans', 'indic'));
         }
     }
+
+    function countLedger($idno, $date) {
+        $mainledgers = \App\Ledger::where('idno', $idno)->where('category_switch', '<=', '6')->get();
+        $duedates = \App\LedgerDueDate::where('idno', $idno)->get();
+        $mainpayment = 0;
+        $result = 0;
+        $due = 0;
+        $count = 0;
+
+//    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
+        $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
+
+        foreach ($mainledgers as $payment) {
+            $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
+        }
+
+        foreach ($duedates as $duedate) {
+            $due = $due + $duedate->amount;
+            $monthdate = date_format(date_create($duedate->due_date), 'm');
+            if ($monthdate == $date) {
+                if ($mainpayment >= $due) {
+                    $result = 2;
+                } else {
+                    if (count($is_posted) > 0) {
+                        $result = 1;
+                    } else {
+                        $result = 0;
+                    }
+                }
+                $count = $count + 1;
+                break;
+            } else {
+                if ($mainpayment >= $due) {
+                    $result = 2;
+                } else {
+                    if (count($is_posted) > 0) {
+                        $result = 1;
+                    } else {
+                        $result = 0;
+                        $count = $count + 1;
+                    }
+                }
+            }
+        }
+        return $count;
+    }
+
 }
