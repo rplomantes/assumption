@@ -57,13 +57,13 @@ class EditLedger extends Controller {
     }
 
     function update_ledger(Request $request) {
-        $checkpasscode = \App\AccountingPasscode::where('passcode', $request->passcode)->where('is_used', 0)->first();
-        if (count($checkpasscode) != 0) {
-            $date_today = date('Y-m-d H:i:s');
-            $date_ends = strtotime($checkpasscode->datetime_generated);
-            $date_end = strtotime("+3 minutes", $date_ends);
-
-            if ($checkpasscode->datetime_generated <= $date_today && $date_today <= date("Y-m-d H:i:s", $date_end)) {
+//        $checkpasscode = \App\AccountingPasscode::where('passcode', $request->passcode)->where('is_used', 0)->first();
+//        if (count($checkpasscode) != 0) {
+//            $date_today = date('Y-m-d H:i:s');
+//            $date_ends = strtotime($checkpasscode->datetime_generated);
+//            $date_end = strtotime("+3 minutes", $date_ends);
+//
+//            if ($checkpasscode->datetime_generated <= $date_today && $date_today <= date("Y-m-d H:i:s", $date_end)) {
 
                 if ($request->submit == "Update Ledger") {
                     if ($request->academic_type == "College") {
@@ -71,29 +71,31 @@ class EditLedger extends Controller {
                         $this->update($request);
                         $this->updateDiscount_college($request);
                         $this->college_change_due_date($request);
-                        $this->updatePasscode($checkpasscode);
+//                        $this->updatePasscode($checkpasscode);
                         \App\Http\Controllers\Admin\Logs::log("Update Ledger of $request->idno with ledger id : $request->id change amount to $request->amount");
                         DB::Commit();
                     } else {
                         DB::beginTransaction();
                         $this->update($request);
                         $this->change_due_date($request);
-                        $this->updatePasscode($checkpasscode);
+//                        $this->updatePasscode($checkpasscode);
                         DB::Commit();
                     }
                 } else {
                     $this->remove_ledger($request->id);
-                    $this->updatePasscode($checkpasscode);
+//                    $this->updatePasscode($checkpasscode);
                 }
-            } else {
-                Session::flash('warning', 'Passcode Timeout!');
-                return redirect("/accounting/edit_ledger/$request->id");
-            }
+                
             return redirect("/cashier/viewledger/$request->idno");
-        } else {
-            Session::flash('warning', 'Incorrect Passcode!');
-            return redirect("/accounting/edit_ledger/$request->id");
-        }
+//            } else {
+//                Session::flash('warning', 'Passcode Timeout!');
+//                return redirect("/accounting/edit_ledger/$request->id");
+//            }
+//            return redirect("/cashier/viewledger/$request->idno");
+//        } else {
+//            Session::flash('warning', 'Incorrect Passcode!');
+//            return redirect("/accounting/edit_ledger/$request->id");
+//        }
     }
 
     function updateDiscount_college($request) {

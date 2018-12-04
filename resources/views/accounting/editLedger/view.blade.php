@@ -101,7 +101,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     </div>
                     <div class="form-group col-sm-6 col-sm-offset-6">
                         <label>Enter Passcode:</label>
-                        <input class="form form-control" type="text" name="passcode" placeholder="Requested passcode from Accounting Head" required="">
+                        <input class="form form-control" type="text" name="passcode" placeholder="Requested passcode from Accounting Head">
                     </div>
                     <div class="form-group col-sm-12">
                         <input type="submit" value="Update Ledger" name="submit" class="col-sm-4 btn btn-success">
