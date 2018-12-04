@@ -54,7 +54,7 @@ class PostCharges extends Controller {
                 $posted->idno = $idno;
                 $posted->due_date = $request->date;
                 $posted->date_posted = \Carbon\Carbon::now();
-                $posted->amount = env('SURCHARGE_AMOUNT');
+                $posted->amount = env('SURCHARGE_AMOUNT') * $countLedger;
                 $posted->is_reversed = 0;
                 $posted->posted_by = Auth::user()->idno;
                 $posted->save();
