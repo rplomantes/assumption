@@ -703,6 +703,18 @@ class Assess extends Controller {
                 $academic_type = "SHS";
                 break;
         }
+        if($status->period == "2nd Semester"){
+            switch ($status->level) {
+                case "Grade 11":
+                    $assignlevel = "Grade 11";
+                    $academic_type = "SHS";
+                    break;
+                case "Grade 12":
+                    $assignlevel = "Grade 12";
+                    $academic_type = "SHS";
+                    break;
+            } 
+        }
         $status->level = $assignlevel;
         $status->status = 0;
         $status->academic_type = $academic_type;
@@ -728,7 +740,7 @@ class Assess extends Controller {
 //            $changestatus = \App\Status::where('idno', $request->idno)->first();
 //            $changestatus->status = env("ENROLLED");
 //            $changestatus->update();
-            $changereservation = \App\Reservation::where('idno', $request->idno)->get();
+            $changereservation = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
                     $change->levels_reference_id = $levels_reference_id;

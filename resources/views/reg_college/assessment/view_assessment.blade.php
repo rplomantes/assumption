@@ -17,6 +17,16 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 $check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
 $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->get();
 $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('reservation_type',2)->where('is_consumed', 0)->get();
+
+$previous = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $user->idno)->where('category_switch', '>', '9')
+                ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+$due_previous = 0;
+if (count($previous) > 0) {
+    foreach ($previous as $prev) {
+        $due_previous = $due_previous + $prev->amount - $prev->discount - $prev->debit_memo - $prev->payment;
+    }
+}
+
 ?>
 @extends('layouts.appreg_college')
 @section('messagemenu')
@@ -59,12 +69,13 @@ $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('r
 <section class="content">
     <div class="row">
     <?php $balance = 0; ?>
-    @if(count($check_balances)>0)
+    @if(count($check_balances)>0 || $due_previous>0)
     @foreach ($check_balances as $check_balance)
     <?php $balance = $balance + $check_balance->balance; ?>
     @endforeach
-    <div class="alert alert-danger">Student still have an outstanding balance of <b>Php {{number_format($balance)}}</b>. Please go to Treasurer's Office to settle the account.<br>
-    If <b>Official Receipt</b> was presented, kindly disregard this message. Thank you!</div>
+    <div class="alert alert-danger">Student still have an outstanding balance of <b>Php {{number_format($balance + $due_previous)}}</b>. Please go to Treasurer's Office to settle the account.<br>
+    <!--If <b>Official Receipt</b> was presented, kindly disregard this message. Thank you!-->
+    </div>
     @endif
     <?php $reservation = 0; ?>
     @if(count($check_reservations)>0)

@@ -7,8 +7,9 @@
         <th>Status</th>
         <th>Promotions</th>
     </tr>
+    @foreach($lists as $list)
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
-    @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status<=3)
+    @if($list->accesslevel == '0' && ($list->academic_type=="BED" || $list->academic_type=="SHS") && $status->status<=3)
     <tr>
         <td>{{$list->idno}}</td>
         <td>{{$list->lastname}}, {{$list->firstname}}</td>

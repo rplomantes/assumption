@@ -70,8 +70,13 @@ $allsection = $allsection. "/$course_id->section_name";
 $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
 $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
 $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
-$checkstatus = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.is_lock', 2)->get();
-$checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.is_lock', 3)->get();
+$checkstatus_midterm0 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.midterm_status', 0)->get();
+$checkstatus_midterm = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.midterm_status', 2)->get();
+$checkstatus_midterm3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.midterm_status', 3)->get();
+
+$checkstatus_finals0 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.finals_status', 0)->get();
+$checkstatus_finals = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.finals_status', 2)->get();
+$checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.finals_status', 3)->get();
 ?>
 @if (count($students)>0)
 
@@ -109,7 +114,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             </td>
                             <td>
                                 <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, '{{$student->idno}}')"
-                                @if($student->is_lock == 3)
+                                @if($student->midterm_status == 3)
                                 disabled=''>
                                 @else
                                 
@@ -153,7 +158,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
                             </td>
                             <td>
                                 <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, '{{$student->idno}}')"
-                                @if($student->is_lock == 3)
+                                @if($student->finals_status == 3)
                                 disabled=''>
                                 @else
                                 
@@ -200,6 +205,7 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
         </div>
     </div>
     @endif
+    <div class='col-sm-12 form-group'>
     <div class="col-sm-2">
         <a targe="_blank" href='{{url('college_instructor', array('export_list',$schedule_id))}}'><div class="btn btn-warning col-sm-12">Export in Excel</div></a>
     </div>
@@ -209,29 +215,63 @@ $checkstatus3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels'
     <div class="col-sm-2">
         <a href='{{url('college_instructor', array('print_grade', $schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Grade Record</div></a>
     </div>
-    @if (count($checkstatus3) == count($students))
+    </div>
+    <div class='col-sm-12 form-group'>
+    @if($close->midterm == 0)
+    @if (count($checkstatus_midterm3) == count($students))
     
     @else
     @if ($close->midterm == 0 || $close->finals == 0)
-    @if (count($checkstatus) == count($students))
+    @if (count($checkstatus_midterm) == count($students))
         <div class="col-sm-6">
             
-        <input type='submit' name="submit" onclick="if (confirm('Do you really want to forward and finalize grades?'))
+        <input type='submit' name="submit" onclick="if (confirm('Do you really want to forward and finalize MIDTERM grades?'))
                     return true;
                 else
-                    return false;" class='btn btn-warning col-sm-12' value="Forward to Records and Finalize">
+                    return false;" class='btn btn-warning col-sm-12' value="Forward to Records and Finalize MIDTERM grades">
         </div>
-    @else
+    @elseif (count($checkstatus_midterm0) > 0)
         <div class="col-sm-6">
-            <input type='submit' name="submit" onclick="if (confirm('Do you really want to save and submit grades?'))
+            <input type='submit' name="submit" onclick="if (confirm('Do you really want to save and submit MIDTERM grades?'))
                         return true;
                     else
-                        return false;" class='btn btn-success col-sm-12' value="Save & Submit for Checking of Dean">
+                        return false;" class='btn btn-success col-sm-12' value="Save & Submit MIDTERM grades for Checking of Dean">
         </div>
+    @else
     @endif
     @else
     @endif
     @endif
+    @endif
+    
+    
+    @if($close->finals == 0)
+    @if (count($checkstatus_finals3) == count($students))
+    
+    @else
+    @if ($close->midterm == 0 || $close->finals == 0)
+    @if (count($checkstatus_finals) == count($students))
+        <div class="col-sm-6">
+            
+        <input type='submit' name="submit" onclick="if (confirm('Do you really want to forward and finalize FINALS grades?'))
+                    return true;
+                else
+                    return false;" class='btn btn-warning col-sm-12' value="Forward to Records and Finalize FINALS grades">
+        </div>
+    @elseif (count($checkstatus_finals0) > 0)
+        <div class="col-sm-6">
+            <input type='submit' name="submit" onclick="if (confirm('Do you really want to save and submit FINALS grades?'))
+                        return true;
+                    else
+                        return false;" class='btn btn-success col-sm-12' value="Save & Submit FINALS grades for Checking of Dean">
+        </div>
+    @else
+    @endif
+    @else
+    @endif
+    @endif
+    @endif
+    </div>
 </form>
 @endsection
 @section('footerscript')  

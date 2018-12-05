@@ -34,21 +34,29 @@ class GradesController extends Controller
     
     function save_submit(Request $request) {
         if (Auth::user()->accesslevel == env('INSTRUCTOR')) {
-            if($request->submit == "Save & Submit for Checking of Dean"){
+            if($request->submit == "Save & Submit MIDTERM grades for Checking of Dean"){
                 $value=1;
-            }else{
+                $type="midterm";
+            }else if($request->submit == "Forward to Records and Finalize MIDTERM grades"){
                 $value=3;
+                $type="midterm";
             }
-            
+            if($request->submit == "Save & Submit FINALS grades for Checking of Dean"){
+                $value=1;
+                $type="finals";
+            }else if($request->submit == "Forward to Records and Finalize FINALS grades"){
+                $value=3;
+                $type="finals";
+            }
             $course_offerings = \App\CourseOffering::where('schedule_id', $request->schedule_id)->get();
 
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering, $request, $value);
-                    $this->updateStatus($course_offering, $request, $value);
+                    $this->updateStatus($course_offering, $request, $value, $type);
                     if($value == 3){
                     \App\Http\Controllers\Admin\Logs::log("$request->submit for course_offering_id: $course_offering->id.");
                     }else{
-                    \App\Http\Controllers\Admin\Logs::log("Submit to Records to Finalize for course_offering_id: $course_offering->id.");
+                    \App\Http\Controllers\Admin\Logs::log("Submit to Records to Finalize $type grades for course_offering_id: $course_offering->id.");
                     }
                 DB::commit();
             }
@@ -57,18 +65,16 @@ class GradesController extends Controller
         }
     }
     
-    function updateStatus($course_offering,$request, $value){
+    function updateStatus($course_offering,$request, $status, $type){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
-        if ($request->midterm_status == 0){
-            $update->midterm_status = $value;
-            $update->save();
-        }
-        if ($request->finals_status == 0){
-            $update->finals_status = $value;
-            $update->save();
-        }
-        $update->is_lock = $value;
+        
+            if($type == 'midterm'){
+                $update->midterm_status = $status;
+            }
+            if ($type == 'finals'){
+                $update->finals_status = $status;
+            }
         $update->save();
         }
     }

@@ -163,11 +163,12 @@ $layout = "layouts.appreg_college";
             }
         });
     }
-    function unlock(idno, schedule_id, id){
+    function unlock_midterm(idno, schedule_id, id){
         array = {};
         array['schedule_id'] = schedule_id;
         array['grade_id'] = id;
         array['school_year'] = "{{$school_year}}";
+        array['type'] = "midterm";
         array['period'] = "{{$period}}";
         school_year = "{{$school_year}}";
         period = "{{$period}}";
@@ -180,28 +181,74 @@ $layout = "layouts.appreg_college";
             }
         });
     }
-    function approveall(schedule_id){
+    function unlock_finals(idno, schedule_id, id){
         array = {};
         array['schedule_id'] = schedule_id;
+        array['grade_id'] = id;
+        array['school_year'] = "{{$school_year}}";
+        array['type'] = "finals";
+        array['period'] = "{{$period}}";
         school_year = "{{$school_year}}";
         period = "{{$period}}";
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/grade_management/approve_all" + '/' + school_year + '/'+ period,
+            url: "/ajax/registrar_college/grade_management/unlock/" + idno + '/' + school_year + '/'+ period,
             data: array,
             success: function (data) {
                 $('#result').html(data);
             }
         });
     }
-    function cancelall(schedule_id){
+    function approveall_finals(schedule_id){
         array = {};
         array['schedule_id'] = schedule_id;
         school_year = "{{$school_year}}";
         period = "{{$period}}";
         $.ajax({
             type: "GET",
-            url: "/ajax/registrar_college/grade_management/cancel_all" + '/' + school_year + '/'+ period,
+            url: "/ajax/registrar_college/grade_management/approve_all_finals" + '/' + school_year + '/'+ period,
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
+        });
+    }
+    function cancelall_finals(schedule_id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/cancel_all_finals" + '/' + school_year + '/'+ period,
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
+        });
+    }
+    function approveall_midterm(schedule_id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/approve_all_midterm" + '/' + school_year + '/'+ period,
+            data: array,
+            success: function (data) {
+                $('#result').html(data);
+            }
+        });
+    }
+    function cancelall_midterm(schedule_id){
+        array = {};
+        array['schedule_id'] = schedule_id;
+        school_year = "{{$school_year}}";
+        period = "{{$period}}";
+        $.ajax({
+            type: "GET",
+            url: "/ajax/registrar_college/grade_management/cancel_all_midterm" + '/' + school_year + '/'+ period,
             data: array,
             success: function (data) {
                 $('#result').html(data);

@@ -57,11 +57,9 @@ class AjaxViewGrades extends Controller {
             
             if($close->midterm == 0){
                 $update_grades->midterm_status = 2;
-                $update_grades->is_lock = 2;
             }
             if ($close->finals == 0){
                 $update_grades->finals_status = 2;
-                $update_grades->is_lock = 2;
             }
             $update_grades->save();
             
@@ -71,6 +69,7 @@ class AjaxViewGrades extends Controller {
     
     function unlock($idno, $school_year, $period) {
         if (Request::ajax()) {
+            $type = Input::get("type");
             $grade_id = Input::get("grade_id");
             $schedule_id = Input::get("schedule_id");
             $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
@@ -81,13 +80,11 @@ class AjaxViewGrades extends Controller {
             $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno', $instructor_idno)->first();
 
-            if($close->midterm == 0){
+            if($type == 'midterm'){
                 $update_grades->midterm_status = 0;
-                $update_grades->is_lock = 0;
             }
-            if ($close->finals == 0){
+            if ($type == 'finals'){
                 $update_grades->finals_status = 0;
-                $update_grades->is_lock = 0;
             }
             $update_grades->save();
             
@@ -95,7 +92,7 @@ class AjaxViewGrades extends Controller {
         }
     }
     
-    function approve_all($school_year, $period){
+    function approve_all_midterm($school_year, $period){
         if (Request::ajax()) {
             
             $schedule_id = Input::get("schedule_id");
@@ -107,7 +104,7 @@ class AjaxViewGrades extends Controller {
             
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
-                    $this->updateStatus($course_offering, $instructor_idno, 3);
+                    $this->updateStatus($course_offering, $instructor_idno, 3, 'midterm');
                     \App\Http\Controllers\Admin\Logs::log("Approve and Lock all grades for schedule id $schedule_id.");
                 DB::commit();
             }
@@ -115,7 +112,7 @@ class AjaxViewGrades extends Controller {
         }
     }
     
-    function cancel_all($school_year, $period){
+    function cancel_all_midterm($school_year, $period){
         if (Request::ajax()) {
             
             $schedule_id = Input::get("schedule_id");
@@ -127,7 +124,7 @@ class AjaxViewGrades extends Controller {
             
             foreach ($course_offerings as $course_offering){
                 DB::beginTransaction($course_offering);
-                    $this->updateStatus($course_offering, $instructor_idno, 1);
+                    $this->updateStatus($course_offering, $instructor_idno, 1, 'midterm');
                     \App\Http\Controllers\Admin\Logs::log("Cancel all submission of grades for schedule id $schedule_id.");
                 DB::commit();
             }
@@ -135,20 +132,58 @@ class AjaxViewGrades extends Controller {
         }
     }
     
-    function updateStatus($course_offering, $instructor_idno, $status){
+    function approve_all_finals($school_year, $period){
+        if (Request::ajax()) {
+            
+            $schedule_id = Input::get("schedule_id");
+            $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
+            
+            $course_offerings = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
+            
+            foreach ($course_offerings as $course_offering){
+                DB::beginTransaction($course_offering);
+                    $this->updateStatus($course_offering, $instructor_idno, 3, 'finals');
+                    \App\Http\Controllers\Admin\Logs::log("Approve and Lock all grades for schedule id $schedule_id.");
+                DB::commit();
+            }
+                    return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+        }
+    }
+    
+    function cancel_all_finals($school_year, $period){
+        if (Request::ajax()) {
+            
+            $schedule_id = Input::get("schedule_id");
+            $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
+            
+            $course_offerings = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
+            
+            foreach ($course_offerings as $course_offering){
+                DB::beginTransaction($course_offering);
+                    $this->updateStatus($course_offering, $instructor_idno, 1, 'finals');
+                    \App\Http\Controllers\Admin\Logs::log("Cancel all submission of grades for schedule id $schedule_id.");
+                DB::commit();
+            }
+                    return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+        }
+    }
+    
+    function updateStatus($course_offering, $instructor_idno, $status, $type){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
             $checkstatus = \App\Status::where('idno', $update->idno)->first()->status;
 //            if ($checkstatus == 3){
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$instructor_idno)->first();
             
-            if($close->midterm == 0){
+            if($type == 'midterm'){
                 $update->midterm_status = $status;
-                $update->is_lock = $status;
             }
-            if ($close->finals == 0){
+            if ($type == 'finals'){
                 $update->finals_status = $status;
-                $update->is_lock = $status;
             }
             $update->save();
             }
