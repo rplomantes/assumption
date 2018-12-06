@@ -43,7 +43,7 @@ class EarlyEnrollment extends Controller
     function updateLedgers($idno, $status, $current_school_year, $current_period, $incoming_school_year, $incoming_period){
         
         if($incoming_period == "2nd Semester"){
-        $ledgers = \App\Ledger::where('idno', $idno)->where('level', $status->level)->where('category_switch','<', 10)->where('period', '!=',$incoming_period)->where('school_year',$incoming_school_year)->get();            
+        $ledgers = \App\Ledger::where('idno', $idno)->where('level', $status->level)->where('category_switch','<', 10)->where('period', '!=',$incoming_period)->where('school_year',$incoming_school_year)->get();
         }else{
         $ledgers = \App\Ledger::where('idno', $idno)->where('level', $status->level)->where('category_switch','<', 10)->where('period', '!=',$incoming_period)->where('school_year', '!=',$incoming_school_year)->get();
         }
