@@ -167,6 +167,27 @@ class Assess extends Controller {
 //        }
 //    }
 
+    function addDiscountList($request, $school_year, $period, $discount){
+        $add_discount = new \App\DiscountList;
+        $add_discount->idno = $request->idno;
+        $add_discount->level = $request->level;
+        if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+            $add_discount->strand = $request->strand;
+            $add_discount->period = $period;
+        }
+        $add_discount->school_year = $school_year;
+        $add_discount->discount_code = $discount->discount_code;
+        $add_discount->discount_description = $discount->discount_description;
+        $add_discount->accounting_code = $discount->accounting_code;
+        $add_discount->tuition_fee = $discount->tuition_fee;
+        $add_discount->other_fee = $discount->other_fee;
+        $add_discount->misc_fee = $discount->misc_fee;
+        $add_discount->depository_fee = $discount->depository_fee;
+        $add_discount->discount_type = $discount->discount_type;
+        $add_discount->amount = $discount->amount;
+        $add_discount->save();
+    }
+    
     function addLedger($request, $schoolyear, $period) {
         $discount_code = 0;
         $discount_description = "";
@@ -183,6 +204,7 @@ class Assess extends Controller {
             $discount_other = $discount->other_fee;
             $discount_depository = $discount->depository_fee;
             $discount_misc = $discount->misc_fee;
+            $this->addDiscountList($request, $schoolyear, $period, $discount);
         }
         $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
         $fees = \App\CtrBedFee::where('level', $request->level)->get();
@@ -560,12 +582,20 @@ class Assess extends Controller {
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                $this->remove_discountList($idno, $schoolyear->school_year,$schoolyear->period, $user->academic_type);
                 \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year.");
                 DB::commit();
             }
         }
 
         return redirect(url('/bedregistrar', array('assess', $idno)));
+    }
+    function remove_discountlist($idno, $schoolyear, $period,$academic_type){
+        if ($academic_type == "BED") {
+            \App\DiscountList::where('idno', $idno)->where('school_year', $schoolyear)->delete();
+        } else {
+            \App\DiscountList::where('idno', $idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
+        }
     }
 
     function reassess_reservations($idno, $levels_reference_id) {
@@ -583,6 +613,7 @@ class Assess extends Controller {
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
+                $this->remove_discountList($idno, $schoolyear->school_year,$schoolyear->period, $user->academic_type);
                 \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year and reversed reservations.");
                 DB::commit();
             }
@@ -865,6 +896,22 @@ class Assess extends Controller {
                 $addledger->discount = $disc_other;
                 $addledger->discount_code = $add->subsidiary;
                 $addledger->save();
+                
+                if($disc_other > 0){
+                    
+                    $discount = new \App\DiscountList;
+                    $discount->discount_code = $add->subsidiary;
+                    $discount->discount_description = $add->subsidiary;
+                    $discount->accounting_code = NULL;
+                    $discount->tuition_fee = 0;
+                    $discount->other_fee = 0;
+                    $discount->misc_fee = 0;
+                    $discount->depository_fee = 0;
+                    $discount->discount_type = 1;
+                    $discount->amount = $disc_other;
+                    
+                    $this->addDiscountList($request, $schoolyear, $period, $discount);
+                }
             }
         }
     }
