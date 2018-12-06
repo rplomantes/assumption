@@ -39,7 +39,7 @@
                     <td align='center'>{{$list->section}}</td>
                     @endif
                     <td align='center'>{{$list->type_of_plan}}</td>
-                    <td align='right'>{{number_format($list->assessment,2)}}</td>
+                    <td align='right'>{{$list->assessment}}</td>
                 </tr>
                 @endif
             @endforeach

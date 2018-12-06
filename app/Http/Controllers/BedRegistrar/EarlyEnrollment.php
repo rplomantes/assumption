@@ -29,9 +29,9 @@ class EarlyEnrollment extends Controller
             DB::beginTransaction();
             $this->updateLedgers($idno, $status, $current_school_year, $current_period, $incoming_school_year, $incoming_period);
             $this->old_new($idno, $status, $current_school_year, $current_period, $incoming_school_year, $incoming_period);
-            $this->update_transactions("Payment",$idno);
-            $this->update_transactions("Debit",$idno);
-            $this->update_transactions("Student_Deposit",$idno);
+            //$this->update_transactions("Payment",$idno);
+            //$this->update_transactions("Debit",$idno);
+            //$this->update_transactions("Student_Deposit",$idno);
             $this->updateStatus($status);
             \App\Http\Controllers\Admin\Logs::log("Process early enrollment for $idno");
             DB::commit();

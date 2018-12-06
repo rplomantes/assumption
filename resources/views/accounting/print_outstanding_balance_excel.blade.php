@@ -38,7 +38,7 @@
                     @if($department != "College Department")
                     <td align='center'>{{$list->section}}</td>
                     @endif
-                    <td align='right'>{{number_format($list->balance,2)}}</td>
+                    <td align='right'>{{$list->balance,2}}</td>
                 </tr>
                 @endif
             @endforeach

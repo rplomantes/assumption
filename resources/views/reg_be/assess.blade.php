@@ -1,4 +1,5 @@
 <?php
+$enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
 $current_level="";
 $levels = \App\CtrAcademicProgram::selectRaw("distinct level, sort_by")->where('academic_type',"BED")->orderBy('sort_by')->get();
 $strands =\App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code','SHS')->get();
@@ -43,7 +44,7 @@ case "Grade 11":
     $current_level = "Grade 12";
     break;
 }
-if($status->period == "2nd Semester"){
+if($enrollment_sy->period == "2nd Semester"){
     switch ($status->level){
     case "Grade 11":
         $current_level = "Grade 11";
@@ -65,7 +66,7 @@ $joggings = \App\CtrUniformSize::where('particular','AC P.E. Jogging Pants')->ge
 $socks = \App\CtrUniformSize::where('particular','AC School Socks')->get();
 $dengues=  \App\CtrUniformSize::where('particular','AC Dengue Attire')->get();
 //$pre_discount = DB::Select("Select * from partial_student_discount where idno = '$user->idno'")->first();
-$pre_discount=  \App\PartialStudentDiscount::where('idno',$user->idno)->first();
+$pre_discount=  \App\Promotion::where('idno',$user->idno)->first();
 $materials =  \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
 $other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 $discount = \App\DiscountCollection::where('id',$user->idno)->get();
@@ -272,7 +273,7 @@ if (count($previous) > 0) {
                             @foreach($discounts as $discount)
                                 <option value="{{$discount->discount_code}}"
                                         @if(count($pre_discount)>0)
-                                        @if($discount->discount_description == $pre_discount->discount_description)
+                                        @if($discount->discount_code == $pre_discount->discount)
                                         selected="selected"
                                         @endif
                                         @endif
