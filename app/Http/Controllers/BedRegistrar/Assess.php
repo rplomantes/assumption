@@ -107,8 +107,10 @@ class Assess extends Controller {
                 $addledger->idno = $request->idno;
                 $addledger->department = $department->department;
                 $addledger->level = $request->level;
-                $addledger->strand = $request->strand;
-                $addledger->period = $period;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $addledger->strand = $request->strand;
+                    $addledger->period = $period;
+                }
                 $addledger->school_year = $schoolyear;
                 $addledger->category = $fee->category;
                 $addledger->subsidiary = $fee->subsidiary;
@@ -413,7 +415,10 @@ class Assess extends Controller {
                 $addledger->department = $department->department;
                 $addledger->level = $request->level;
                 if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
+                    $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
                     $addledger->strand = $request->strand;
+                    $addledger->period = $period->period;
                 }
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $tshirt->category;
@@ -440,8 +445,10 @@ class Assess extends Controller {
                 $addledger->department = $department->department;
                 $addledger->level = $request->level;
                 if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-                    $add->strand = $request->strand;
-                    $add->period = $period;
+                    $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
+                    $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
+                    $addledger->strand = $request->strand;
+                    $addledger->period = $period->period;
                 }
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $item->category;
@@ -625,7 +632,7 @@ class Assess extends Controller {
         if ($academic_type == "BED") {
             \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->delete();
         } else {
-            \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->delete();
+            \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->where('period', $period)->delete();
         }
     }
 
@@ -633,7 +640,7 @@ class Assess extends Controller {
         if ($academic_type == "BED") {
             \App\LedgerDueDate::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         } else {
-            \App\LedgerDueDate::where('idno', $idno)->where('school_year', $schoolyear)->delete();
+            \App\LedgerDueDate::where('idno', $idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
         }
     }
 
@@ -641,7 +648,7 @@ class Assess extends Controller {
         if ($academic_type == "BED") {
             \App\GradeBasicEd::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         } else {
-            \App\GradeBasicEd::where('idno', $idno)->where('school_year', $schoolyear)->delete();
+            \App\GradeBasicEd::where('idno', $idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
         }
     }
 
