@@ -88,6 +88,7 @@ class AddingDropping_ajax extends Controller {
             $add->lab_fee = $remove_to_grade->lab_fee;
             $add->percent_tuition = $remove_to_grade->percent_tuition;
             $add->action = "DROP";
+            $add->type = "";
             $add->posted_by = Auth::user()->idno;
             $add->save();
         }

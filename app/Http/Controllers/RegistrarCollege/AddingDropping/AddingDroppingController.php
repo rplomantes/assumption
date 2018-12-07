@@ -17,7 +17,7 @@ class AddingDroppingController extends Controller {
 
     function index($idno) {
         $user = \App\User::where('idno',$idno)->first();
-        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get();
         $adding_droppings = \App\AddingDropping::where('idno', $idno)->where('is_done', 0)->get();
 
@@ -35,7 +35,7 @@ class AddingDroppingController extends Controller {
     function process($fee,$idno) {
         $status = \App\Status::where('idno', $idno)->first();
         $user = \App\User::where('idno', $idno)->first();
-        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
+        $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', "College")->first();
         DB::beginTransaction();
         $is_practicum_only = $this->checkPracticumOnly($idno, $school_year->school_year, $school_year->period);
         if ($fee == "w"){
