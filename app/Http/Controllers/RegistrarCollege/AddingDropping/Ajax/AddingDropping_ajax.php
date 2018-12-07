@@ -17,8 +17,9 @@ class AddingDropping_ajax extends Controller {
             $idno = Input::get("idno");
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
             $courses = \App\CourseOffering::distinct()->whereRaw("(course_name like '%$search%' or course_code = '$search')")->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(array('course_code', 'course_name', 'lec', 'lab', 'srf', 'lab_fee', 'percent_tuition'));
+            $electives = \App\CtrElective::distinct()->whereRaw("(course_name like '%$search%' or course_code = '$search')")->get(array('course_code', 'course_name', 'lec', 'lab', 'srf', 'lab_fee', 'percent_tuition'));
 
-            return view('reg_college.adding_dropping.ajax.show_courses', compact('courses', 'school_year', 'idno'));
+            return view('reg_college.adding_dropping.ajax.show_courses', compact('courses', 'school_year', 'idno', 'electives'));
         }
     }
 
@@ -26,9 +27,18 @@ class AddingDropping_ajax extends Controller {
         if (Request::ajax()) {
             $course_code = Input::get("course_code");
             $idno = Input::get("idno");
+            $type = Input::get("type");
+            
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
-            $add_to_grade = \App\CourseOffering::where('course_code', $course_code)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->first();
+            if($type == "course"){
+                $add_to_grade = \App\CourseOffering::where('course_code', $course_code)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->first();
+            }else if($type == "elective"){
+                $status = \App\Status::where('idno', $idno)->first();
+                $add_to_grade = \App\CtrElective::where('course_code', $course_code)->first();
+                $add_to_grade->level = $status->level;
+            }
+            
 
 //            $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $add_to_grade->course_code)
 //                    ->where(function ($query){
@@ -49,6 +59,7 @@ class AddingDropping_ajax extends Controller {
             $add->lab_fee = $add_to_grade->lab_fee;
             $add->percent_tuition = $add_to_grade->percent_tuition;
             $add->action = "ADD";
+            $add->type = $type;
             $add->posted_by = Auth::user()->idno;
             $add->save();
 //            }else{

@@ -153,10 +153,11 @@
             }
         })
     })
-    function add_course(idno, course_code) {
+    function add_course(idno, course_code, type) {
         array = {};
         array['idno'] = idno;
         array['course_code'] = course_code;
+        array['type'] = type;
         $.ajax({
             type: "GET",
             url: "/ajax/registrar_college/adding_dropping/adding",

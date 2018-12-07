@@ -28,6 +28,7 @@ class CreateAddingDroppingsTable extends Migration
             $table->string('lab_fee')->nullable();
             $table->string('action');
             $table->integer('is_done')->default(0);
+            $table->string('type');
             $table->string('posted_by');
             $table->foreign('posted_by')
                     ->references('idno')->on('users')

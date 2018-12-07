@@ -44,7 +44,7 @@ class CreateStatusesTable extends Migration
             $table->integer('is_audit')->default(0);
             $table->string('levels_reference_id')->nullable();
             $table->string('advised_by')->nullable();
-            $table->integer('is_advised')->defualt(0);
+            $table->integer('is_advised')->default(0);
             $table->string('advising_school_year')->nullable();
             $table->string('advising_period')->nullable();
             $table->foreign('idno')
