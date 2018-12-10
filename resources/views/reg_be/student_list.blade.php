@@ -104,8 +104,21 @@ if(Auth::user()->accesslevel == env('REG_BE')){
         </select>
         </div>      
      </div> 
+     <div class="col-md-2">
+        <div class="form form-group">
+        <label>Period</label>
+        <div class="periodDisplay">
+        <select class="form-control select2" id="period" data-placeholder="Select Period">
+                        style="width: 100%;">
+                        <option>Select Period</option>
+                        <option>1st Semester</option>
+                        <option>2nd Semester</option>
+        </select>
+        </div>
+        </div>      
+     </div> 
      
-     <div class="col-md-3">
+     <div class="col-md-2">
         <div class="form form-group">
             <br>
             <button class="btn btn-primary form-control" id="view_list">View List</button>
@@ -129,14 +142,17 @@ if(Auth::user()->accesslevel == env('REG_BE')){
     
     $(document).ready(function(){
         $(".strandDisplay").fadeOut(300);
+        $(".periodDisplay").fadeOut(300);
         $('.select2').select2()
         
         $("#level").on('change',function(e){
             if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12" ){
                $(".strandDisplay").fadeIn(300); 
+               $(".periodDisplay").fadeIn(300);
                $("#sectionDisplay").html("");
             } else {
-                $(".strandDisplay").fadeOut(300); 
+                $(".strandDisplay").fadeOut(300);
+                $(".periodDisplay").fadeOut(300); 
                 var array={};
                 array['level']=$("#level").val();
                 $.ajax({
@@ -175,6 +191,7 @@ if(Auth::user()->accesslevel == env('REG_BE')){
               array['section'] = $("#section").val();
               array['strand'] = $("#strand").val();
               array['school_year']=$("#school_year").val();
+              array['period']=$("#period").val();
               $.ajax({
                   type:"GET",
                   url:"/bedregistrar/ajax/view_list",
@@ -191,13 +208,13 @@ if(Auth::user()->accesslevel == env('REG_BE')){
     });
     
     function print_student_list(value){
-        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + value)
+        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
     }
     function print_new_student_list(value){
-        window.open("/bedregistrar/print/new_student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + value)
+        window.open("/bedregistrar/print/new_student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
     }
     function export_student_list(value){
-        window.open("/bedregistrar/export/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + value)
+        window.open("/bedregistrar/export/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
     }
 </script>    
 @endsection

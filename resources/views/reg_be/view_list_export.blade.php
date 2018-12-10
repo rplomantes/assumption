@@ -9,8 +9,8 @@ function get_name($idno){
         $names->middlename = "(".ucwords(strtolower($names->middlename)).")";
     }
     
-    if ($is_widthraw->status == 4){
-        $print = "Withdrawn-". $is_widthraw->date_dropped;
+    if ($is_new->status == 4){
+        $print = "Withdrawn-". $is_new->date_dropped;
     } else {
         $print = "";
     }

@@ -47,7 +47,7 @@ class AddingDroppingController extends Controller {
         $this->computeLedgerDueDate($idno, $school_year->school_year, $school_year->period, $status->type_of_plan);
             \App\Http\Controllers\Admin\Logs::log("Process adding/dropping of $idno for S.Y. $school_year->school_year, $school_year->period");
         DB::Commit();
-        return redirect("registrar_college/assessment/$idno");
+        return redirect("registrar_college/advising/assigning_of_schedules/$idno");
     }
     
     function checkPracticumOnly($idno, $school_year, $period){

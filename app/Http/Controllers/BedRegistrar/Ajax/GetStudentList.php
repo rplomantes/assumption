@@ -34,6 +34,7 @@ class GetStudentList extends Controller {
                 $schoolyear = Input::get('school_year');
                 $level = Input::get('level');
                 $section = Input::get('section');
+                $period = Input::get('period');
 
                 $strand = Input::get("strand");
                 if ($level == "Grade 11" || $level == "Grade 12") {
@@ -41,12 +42,12 @@ class GetStudentList extends Controller {
 
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                        . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
                     } else {
 
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                        . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                        . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
                     }
                 } else {
                     if ($section == "All") {
@@ -79,18 +80,18 @@ class GetStudentList extends Controller {
         }
     }
 
-    function print_student_list($level, $strand, $section, $schoolyear, $value) {
+    function print_student_list($level, $strand, $section, $schoolyear, $period,$value) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
                 $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                 . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
             } else {
 
                 $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                 . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
             }
         } else {
             if ($section == "All") {
@@ -110,18 +111,18 @@ class GetStudentList extends Controller {
         return $pdf->stream();
     }
 
-    function print_new_student_list($level, $strand, $section, $schoolyear, $value) {
+    function print_new_student_list($level, $strand, $section, $schoolyear, $period,$value) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
                 $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
                                 . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' and bed_levels.is_new = 1 "
-                                . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
             } else {
 
                 $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
                                 . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' and bed_levels.is_new = 1  "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
             }
         } else {
             if ($section == "All") {
@@ -216,18 +217,18 @@ class GetStudentList extends Controller {
         }
     }
 
-    function export_student_list($level, $strand, $section, $schoolyear, $value) {
+    function export_student_list($level, $strand, $section, $schoolyear, $period,$value) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
                 $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                 . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
             } else {
 
                 $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                 . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
             }
         } else {
             if ($section == "All") {

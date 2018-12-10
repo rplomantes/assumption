@@ -541,6 +541,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <tr>
             <td></td>
             <td align='center'><b>GPA</b></td>
+            @if($count == 0) <?php $count = 1; ?> @endif
             <td align='center'><b>{{number_format($gpa/$count,4)}}</b></td>
             <td></td>
             <td></td>

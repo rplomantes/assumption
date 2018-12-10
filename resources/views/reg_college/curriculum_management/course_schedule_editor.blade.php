@@ -116,8 +116,7 @@ $merged_schedules = \App\CourseOffering::where('schedule_id',$course_offering->s
                                     <option value="W">Wednesday</option>
                                     <option value="Th">Thursday</option>
                                     <option value="F">Friday</option>
-                                    <option value="Sa">Saturday</option>
-                                    <option value="Su">Sunday</option>
+                                    <option value="S">Saturday</option>
                                 </select>
                             </div>
                         </div>

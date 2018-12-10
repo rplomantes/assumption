@@ -56,7 +56,7 @@ Route::post('/registrar_college/curriculum_management/ajax/print_show_offerings_
 Route::post('/registrar_college/instructor/resetpassword','RegistrarCollege\Instructor\ViewInstructorsController@reset_password');
 
 //Print new student (bed admission)
-Route::get('/bedregistrar/print/new_student_list/{level}/{strand}/{section}/{school_year}/{value}','BedRegistrar\Ajax\GetStudentList@print_new_student_list');
+Route::get('/bedregistrar/print/new_student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList@print_new_student_list');
 
 //Total daily enrollment statisticss
 Route::get('/bed_registrar/reports/total_daily_enrollment_statistics/{date_start}/{date_end}', 'BedRegistrar\TotalDailyEnrollment@index');
