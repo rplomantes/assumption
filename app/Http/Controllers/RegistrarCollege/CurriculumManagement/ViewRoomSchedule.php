@@ -32,8 +32,7 @@ class ViewRoomSchedule extends Controller {
                     case "W": $room->day = "wednesday"; break;
                     case "Th": $room->day = "thursday"; break;
                     case "F": $room->day = "friday"; break;
-                    case "Sa": $room->day = "saturday"; break;
-                    case "Su": $room->day = "sunday"; break;
+                    case "S": $room->day = "saturday"; break;
                 }
                 $color_now = "#".substr($room->schedule_id, -6);
                 if($room->instructor_id != NULL){

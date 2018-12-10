@@ -11,8 +11,7 @@
             <option value="W" {{$schedule->day=="W"?"selected":""}}>Wednesday</option>
             <option value="Th" {{$schedule->day=="Th"?"selected":""}}>Thursday</option>
             <option value="F" {{$schedule->day=="F"?"selected":""}}>Friday</option>
-            <option value="Sa" {{$schedule->day=="Sa"?"selected":""}}>Saturday</option>
-            <option value="Su" {{$schedule->day=="Su"?"selected":""}}>Sunday</option>
+            <option value="S" {{$schedule->day=="S"?"selected":""}}>Saturday</option>
         </select>
     </div>
 </div>

@@ -220,6 +220,7 @@ class DebitMemo extends Controller {
     }
 
     function checkStatus($request, $reference_id) {
+        $request->date = date('Y-m-d');
         if ($request->main_due > "0") {
             $status = \App\Status::where('idno', $request->idno)->first();
             if ($status->status == env("ASSESSED")) {
