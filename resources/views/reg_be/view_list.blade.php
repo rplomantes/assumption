@@ -1,7 +1,7 @@
 <?php
-function get_name($idno){
+function get_name($idno,$schoolyear,$period){
     $names = \App\User::where('idno',$idno)->first();
-    $is_widthraw = \App\Status::where('idno',$idno)->first();
+    $is_widthraw = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->where('period', $period)->first();
     
     if($names->middlename == NULL){
         $names->middlename = "";
@@ -19,8 +19,8 @@ function get_name($idno){
 
     
     }
-function get_ns($idno){
-    $is_new = \App\BedLevel::where('idno',$idno)->first();
+function get_ns($idno,$schoolyear,$period){
+    $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->where('period', $period)->first();
     if ($is_new->is_new == 1 && $is_new->level != "Pre-Kinder"){
     return " NS";
     } else {
@@ -72,7 +72,7 @@ $i=1;
    
     @if(count($status)>0)
     @foreach($status as $name)
-    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->first(); ?>
+    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->where('period', $period)->first(); ?>
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w' || $value == 'new')
@@ -80,9 +80,9 @@ $i=1;
         @endif
         <td width="50%">
             @if ($is_new->is_new == 1)
-            <strong><i>{{get_name($name->idno)}}{{get_ns($name->idno)}}</i></strong>
+            <strong><i>{{get_name($name->idno, $schoolyear, $period)}}{{get_ns($name->idno, $schoolyear, $period)}}</i></strong>
             @else
-            {{get_name($name->idno)}}{{get_ns($name->idno)}}
+            {{get_name($name->idno,$schoolyear, $period)}}{{get_ns($name->idno,$schoolyear, $period)}}
             @endif
         </td>
         <td align="center">{{$name->section}}</td>
@@ -142,7 +142,7 @@ $i=1;
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
-    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->first(); ?>
+    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->where('period', $period)->first(); ?>
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w' || $value == 'new')
@@ -150,9 +150,9 @@ $i=1;
         @endif
         <td width="40%">
             @if ($is_new->is_new == 1)
-            <strong><i>{{get_name($name->idno)}}{{get_ns($name->idno)}}</i></strong>
+            <strong><i>{{get_name($name->idno, $schoolyear, $period)}}{{get_ns($name->idno,$schoolyear, $period)}}</i></strong>
             @else
-            {{get_name($name->idno)}}{{get_ns($name->idno)}}
+            {{get_name($name->idno,$schoolyear,$period)}}{{get_ns($name->idno,$schoolyear,$period)}}
             @endif
         </td>
         <td></td>

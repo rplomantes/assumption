@@ -62,7 +62,7 @@ class GetStudentList extends Controller {
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
                     }
                 }
-                return view("reg_be.ajax.view_list", compact("status", "level", "section", 'strand'));
+                return view("reg_be.ajax.view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period'));
             }
         }
     }
@@ -106,7 +106,7 @@ class GetStudentList extends Controller {
                                 . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
             }
         }
-        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value'));
+        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value','schoolyear', 'period'));
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream();
     }
@@ -137,7 +137,7 @@ class GetStudentList extends Controller {
                                 . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
             }
         }
-        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value'));
+        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value','school_year', 'period'));
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream();
     }
@@ -244,11 +244,11 @@ class GetStudentList extends Controller {
             }
         }
         ob_end_clean();
-        Excel::create('Student List-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $value) {
+        Excel::create('Student List-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
             $excel->setTitle($level."-".$section);
 
-            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $value) {
-                $sheet->loadView('reg_be.view_list_export', compact('status', 'level', 'section', 'strand', 'value'));
+            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
+                $sheet->loadView('reg_be.view_list_export', compact('status', 'level', 'section', 'strand', 'value','schoolyear', 'period'));
             });
         })->download('xlsx');
     }
