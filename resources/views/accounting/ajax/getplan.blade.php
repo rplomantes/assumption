@@ -14,7 +14,9 @@ function get_plan($level, $category) {
         if (count($other_amount) > 0) {
             $amount = $amount->amount + $other_amount->amount;
         } else {
-            $amount = $amount->amount;
+            if(count($amount)>0){
+                $amount = $amount->amount;
+            }
         }
     }
     return $amount;
@@ -265,10 +267,10 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
     <tr>
         <td>Mode of Payment</td>
         <td>Upon Enrollment</td>
-        <td>Sept</td>
-        <td>Oct</td>
-        <td>Nov</td>
-        <td>Dec</td>
+        <td>Feb</td>
+        <td>Mar</td>
+        <td>Apr</td>
+        <td>May</td>
         <td>Total</td>
     </tr>
     <tr><td colspan="6"><b>Grade 11</b></td></tr>

@@ -14,7 +14,9 @@ function get_plan($level, $category) {
         if (count($other_amount) > 0) {
             $amount = $amount->amount + $other_amount->amount;
         } else {
-            $amount = $amount->amount;
+            if(count($amount)>0){
+                $amount = $amount->amount;
+            }
         }
     }
     return $amount;
@@ -42,6 +44,8 @@ function get_plan($level, $category) {
             @elseif($department == "Junior High School")
             BEHS
             @elseif($department == "Senior High School")
+            Period : 2nd Semester<br>
+            SHS
             @endif
             <br>
             Enrollment Form</span>
@@ -300,10 +304,10 @@ function get_plan($level, $category) {
             <tr>
                 <td>Mode of Payment</td>
                 <td>Upon Enrollment</td>
-                <td>Sept</td>
-                <td>Oct</td>
-                <td>Nov</td>
-                <td>Dec</td>
+                <td>Feb</td>
+                <td>Mar</td>
+                <td>Apr</td>
+                <td>May</td>
                 <td>Total</td>
             </tr>
             <tr><td colspan="7"><b>Grade 11</b></td></tr>

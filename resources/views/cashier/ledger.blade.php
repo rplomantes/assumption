@@ -64,6 +64,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     <div class="col-md-8">
         <div class="col-md-8"> 
              <table class="table table-responsive">
+                 @if($status->academic_type == "BED")
+            <tr><td>A.Y. : </td><td align="left">{{$status->school_year}}-{{$status->school_year+1}}</td></tr>
+                 @else
+            <tr><td>A.Y. : </td><td align="left">{{$status->school_year}}-{{$status->school_year+1}}, {{$status->period}}</td></tr>
+                 @endif
             <tr><td>Student Number : </td><td align="left">{{$user->idno}}</td></tr>
             <tr><td>Student Name : </td><td align="left"><b>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></td></tr>   
             @if(count($status)>0)
