@@ -49,7 +49,7 @@
 @section('maincontent')
 <!-- search form (Optional) -->
 <div class="col-md-12">
-    <div class="alert alert-warning">You've already used Official Receipt Number {{$receipt_number}}! Please go to Treasurer's Office.</div>
+    <div class="alert alert-warning">You've already used Official Receipt Number <strong>{{$receipt_number}}</strong>! Please go to Treasurer's Office.</div>
 </div>    
 @endsection
 @section('footerscript')
