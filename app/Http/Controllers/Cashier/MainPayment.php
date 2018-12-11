@@ -21,10 +21,19 @@ class MainPayment extends Controller {
         if (Auth::user()->accesslevel == env("CASHIER")) {
             $user = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
-            $receipt_number = StudentLedger::getreceipt();
+            if(Auth::user()->idno == "igarcia"){
+                $receipt_number = StudentLedger::getreceipt();
+                $type = 1;
+            }else{
+                $receipt_number = StudentLedger::getreceipt();
+                $type=0;
+            }
             $ending_receipt_number = StudentLedger::getending_receipt();
             $total_other = 0.00;
             if ($receipt_number <= $ending_receipt_number) {
+                if($type==1){
+                    $receipt_number= "A-".$receipt_number;
+                }
                 $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
                 if(count($check_or)>0){
                     return view('cashier.ORDuplicate')->with('receipt_number',$receipt_number);
