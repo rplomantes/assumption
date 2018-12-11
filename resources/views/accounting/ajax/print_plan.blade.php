@@ -14,12 +14,30 @@ function get_plan($level, $category) {
         if (count($other_amount) > 0) {
             $amount = $amount->amount + $other_amount->amount;
         } else {
-            if(count($amount)>0){
+            if (count($amount) > 0) {
                 $amount = $amount->amount;
             }
         }
     }
     return $amount;
+}
+
+function get_srf($level, $strand) {
+    $srf = \App\CtrBedSrf::where('level', $level)->where('strand', $strand)->first();
+    if (count($srf) > 0) {
+        echo number_format($srf->amount);
+    } else {
+        echo "0.00";
+    }
+}
+
+function get_total($level) {
+    $srf = \App\CtrBedSrf::selectRaw("sum(amount) as amount")->where('level', $level)->first();
+    if (count($srf) > 0) {
+        echo number_format($srf->amount);
+    } else {
+        echo "0.00";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -51,7 +69,8 @@ function get_plan($level, $category) {
             Enrollment Form</span>
         <table cellspacing="0" cellpadding="0" border="1" width="100%">
             <tr><td>Name:<br>&nbsp;</td><td>Grade:<br>&nbsp;</td><td>Plan:<br>&nbsp;</td></tr>
-        </table>    
+        </table>  
+        &nbsp;
         @if($department == "Pre School")
         <?php
         $totalprekinder = 0;
@@ -289,7 +308,7 @@ function get_plan($level, $category) {
         <style>
             table tr td {font-size: 9pt;}
         </style> 
-        <div class="col-md-10">
+        <div>
             <table border="1" cellspacing="0" cellpadding="1" width="100%">
                 <tr><td>Particular</td><td>Grade 11</td><td>Grade 12</td></tr>
                 <tr><td>Tuition Fee</td><td align="right">{{number_format($grade11tuition,2)}}</td><td align="right">{{number_format($grade12tuition,2)}}</td></tr>
@@ -297,9 +316,19 @@ function get_plan($level, $category) {
                 <tr><td>Other Fees</td><td align="right">{{number_format($grade11others,2)}}</td><td align="right">{{number_format($grade12others,2)}}</td></tr>
                 <tr><td>Depository Fees</td><td align="right">{{number_format($grade11dep,2)}}</td><td align="right">{{number_format($grade12dep,2)}}</td></tr>
                 <tr><td>Total</td><td align="right">{{number_format($grade11total,2)}}</td><td align="right">{{number_format($grade12total,2)}}</td></tr>
-            </table>    
-        </div> 
-
+            </table>  
+            &nbsp;
+            <table border="1" cellspacing="0" cellpadding="1" width="100%">
+                <tr><td>Strand</td><td>Grade 11</td><td>Grade 12</td></tr>
+                <tr><td>ABM</td><td align="right">{{get_srf('Grade 11','ABM')}}</td><td align="right">{{get_srf('Grade 12','ABM')}}</td></tr>
+                <tr><td>HUMMS</td><td align="right">{{get_srf('Grade 11','HUMSS')}}</td><td align="right">{{get_srf('Grade 12','HUMSS')}}</td></tr>
+                <tr><td>STEM</td><td align="right">{{get_srf('Grade 11','STEM')}}</td><td align="right">{{get_srf('Grade 12','STEM')}}</td></tr>
+                <tr><td>GA</td><td align="right">{{get_srf('Grade 11','GA')}}</td><td align="right">{{get_srf('Grade 12','GA')}}</td></tr>
+                <tr><td>Total SRF</td><td align="right">{{get_total('Grade 11')}}</td><td align="right">{{get_total('Grade 12')}}</td></tr>
+            </table> 
+        </div>
+        <div style="clear:both"></div>
+        &nbsp;
         <table border ="1" border="1" cellspacing="0" cellpadding="1" width="100%">
             <tr>
                 <td>Mode of Payment</td>

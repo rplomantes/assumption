@@ -22,6 +22,26 @@ function get_plan($level, $category) {
     return $amount;
 }
 
+function get_srf($level,$strand){
+    $srf = \App\CtrBedSrf::where('level',$level)->where('strand',$strand)->first();
+    if(count($srf) > 0){
+        echo number_format($srf->amount);
+    }
+    else{
+        echo "0.00";
+    }
+}
+
+function get_total($level){
+    $srf = \App\CtrBedSrf::selectRaw("sum(amount) as amount")->where('level',$level)->first();
+    if(count($srf) > 0){
+        echo number_format($srf->amount);
+    }
+    else{
+        echo "0.00";
+    }
+}
+
 
 ?>
 @if($department == "Pre School")
@@ -253,7 +273,6 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
 ?>
 
 <div class="col-md-6">
-    
 <table class="table table-striped">
     <tr><td>Particular</td><td>Grade 11</td><td>Grade 12</td></tr>
     <tr><td>Tuition Fee</td><td align="right">{{number_format($grade1tuition,2)}}</td><td align="right">{{number_format($grade2tuition,2)}}</td></tr>
@@ -263,6 +282,16 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
     <tr><td>Total</td><td align="right">{{number_format($grade1total,2)}}</td><td align="right">{{number_format($grade2total,2)}}</td></tr>
 </table>    
 </div> 
+<div class="col-md-6">
+<table class="table table-striped">
+    <tr><td>Strand</td><td>Grade 11</td><td>Grade 12</td></tr>
+    <tr><td>ABM</td><td align="right">{{get_srf('Grade 11','ABM')}}</td><td align="right">{{get_srf('Grade 12','ABM')}}</td></tr>
+    <tr><td>HUMMS</td><td align="right">{{get_srf('Grade 11','HUMSS')}}</td><td align="right">{{get_srf('Grade 12','HUMSS')}}</td></tr>
+    <tr><td>STEM</td><td align="right">{{get_srf('Grade 11','STEM')}}</td><td align="right">{{get_srf('Grade 12','STEM')}}</td></tr>
+    <tr><td>GA</td><td align="right">{{get_srf('Grade 11','GA')}}</td><td align="right">{{get_srf('Grade 12','GA')}}</td></tr>
+    <tr><td>Total SRF</td><td align="right">{{get_total('Grade 11')}}</td><td align="right">{{get_total('Grade 12')}}</td></tr>
+</table>    
+</div>
 <table border ="1" class="table table-striped">
     <tr>
         <td>Mode of Payment</td>
