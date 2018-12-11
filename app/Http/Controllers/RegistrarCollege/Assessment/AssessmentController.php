@@ -80,7 +80,7 @@ class AssessmentController extends Controller {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $status = \App\Status::where('idno', $idno)->first();
-            $status->status = 0;
+//            $status->status = 0;
             $assignlevel = $status->level;
             if ($status->period == "1st Semester") {
                 switch ($status->level) {
@@ -102,6 +102,7 @@ class AssessmentController extends Controller {
                 }
             }
             $status->level = $assignlevel;
+            $status->is_advised = 0;
             $status->save();
 
             \App\Http\Controllers\Admin\Logs::log("Re-advise student $idno");
