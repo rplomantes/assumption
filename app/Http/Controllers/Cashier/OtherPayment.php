@@ -26,8 +26,12 @@ class OtherPayment extends Controller
         $particulars = \App\OtherPayment::get();
         $ending_receipt_number=  StudentLedger::getending_receipt();
         $total_other=0.00;
-        if($receipt_number<=$ending_receipt_number){
-        return view('cashier.other_payment',compact('user','status','receipt_number','particulars'));
+        if($receipt_number<=$ending_receipt_number){$check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+            if(count($check_or)>0){
+                return view('cashier.ORDuplicate')->with('receipt_number',$receipt_number);
+            }else{
+                return view('cashier.other_payment',compact('user','status','receipt_number','particulars'));
+            }
         }else{
                 return view('cashier.ORUsed');
         }
@@ -110,7 +114,12 @@ class OtherPayment extends Controller
             $ending_receipt_number=  StudentLedger::getending_receipt();
             $total_other=0.00;
             if($receipt_number<=$ending_receipt_number){
-                return view("cashier.non_student_payment",compact('receipt_number','particulars'));
+                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+                if(count($check_or)>0){
+                    return view('cashier.ORDuplicate')->with('receipt_number',$receipt_number);
+                }else{
+                    return view("cashier.non_student_payment",compact('receipt_number','particulars'));
+                }
             }else{
                 return "OR Used!";
             }

@@ -25,7 +25,12 @@ class StudentReservation extends Controller
         $ending_receipt_number=  StudentLedger::getending_receipt();
         $total_other=0.00;
         if($receipt_no<=$ending_receipt_number){
+            $check_or = \App\Payment::where('receipt_no', $receipt_no)->get();
+                if(count($check_or)>0){
+                    return view('cashier.ORDuplicate')->with('receipt_number',$receipt_no);
+                }else{
         return view('cashier.reservation',compact('user','reservations','deposits','receipt_no'));
+                }
         }else{
                 return view('cashier.ORUsed');
         }

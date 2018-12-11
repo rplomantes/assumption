@@ -25,6 +25,10 @@ class MainPayment extends Controller {
             $ending_receipt_number = StudentLedger::getending_receipt();
             $total_other = 0.00;
             if ($receipt_number <= $ending_receipt_number) {
+                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+                if(count($check_or)>0){
+                    return view('cashier.ORDuplicate')->with('receipt_number',$receipt_number);
+                }else{
                 //Other Fee Total
                 $other_fee_total = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_FEE"))
                         ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
@@ -82,9 +86,12 @@ class MainPayment extends Controller {
                                 ->where('is_consumed', '0')->selectRaw('sum(amount) as amount')->first();
 
                 return view('cashier.main_payment', compact('user', 'other_fee_total', 'miscellaneous_fee_total', 'depository_fee_total', 'srf_total', 'tuition_fee_total', 'previous_total', 'other_misc', 'reservation', 'deposit', 'receipt_number', 'due_total', 'optional_fee_total', 'status'));
+                }
+                
             } else {
-                return view('cashier.ORUsed');
+            return view('cashier.ORUsed');
             }
+            
         }
     }
 

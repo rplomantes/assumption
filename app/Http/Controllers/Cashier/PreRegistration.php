@@ -26,7 +26,12 @@ class PreRegistration extends Controller {
             $applicants = \Illuminate\Support\Facades\DB::connection('mysql2')->select('select * from pre_registrations where is_complete = 0');
             
             if ($receipt_number <= $ending_receipt_number) {
+                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+                if(count($check_or)>0){
+                    return view('cashier.ORDuplicate')->with('receipt_number',$receipt_number);
+                }else{
                 return view("cashier.pre_registration.pre_registration_payment", compact('receipt_number', 'particulars', 'applicants'));
+                }
             } else {
                 return "OR Used!";
             }
