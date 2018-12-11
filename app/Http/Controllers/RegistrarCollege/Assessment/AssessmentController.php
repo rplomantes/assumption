@@ -48,6 +48,8 @@ class AssessmentController extends Controller {
                     return view('reg_college.assessment.assessed', compact('status', 'idno', 'school_year', 'period'));
                 } else if ($status->status >= env('ENROLLED')) {
                     return view('reg_college.assessment.enrolled', compact('status', 'idno', 'school_year', 'period'));
+                }else{
+                    return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
                 }
             }
         }
