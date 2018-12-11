@@ -145,7 +145,11 @@ class StudentLedger extends Controller {
             for ($i = strlen($number); $i <= 9; $i++) {
                 $receipt = $receipt . "0";
             }
-            return $receipt . $number;
+            if(Auth::user()->idno == "igarcia"){
+                return $receipt . $number."-A";
+            }else{
+                return $receipt . $number;
+            }
         }
     }
 
