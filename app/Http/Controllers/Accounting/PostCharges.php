@@ -26,7 +26,7 @@ class PostCharges extends Controller {
     public function postCharges(Request $request) {
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             $dateToday = Carbon\Carbon::now();
-            $dates = date_format($dateToday,'m') - 1;
+            $dates = date_format($dateToday, 'm') - 1;
             DB::beginTransaction();
             $indic = 0;
             foreach ($request->post as $idno) {
@@ -68,9 +68,17 @@ class PostCharges extends Controller {
         }
     }
 
-    function countLedger($idno, $date) {
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('category_switch', '<=', '6')->get();
-        $duedates = \App\LedgerDueDate::where('idno', $idno)->get();
+    function countLedger($idno, $date){
+        $academic_type = \App\Status::where('idno', $idno)->first();
+        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', $academic_type->academic_type)->first();
+        if ($academic_type->academic_type == 'BED') {
+            $mainledgers = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->get();
+            $duedates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year->school_year)->get();
+        } 
+        else {
+            $mainledgers = \App\Ledger::where('idno', $idno)->where('period', $school_year->period)->where('school_year', $school_year->school_year)->get();
+            $duedates = \App\LedgerDueDate::where('idno', $idno)->where('period', $school_year->period)->where('school_year', $school_year->school_year)->get();
+        }
         $mainpayment = 0;
         $result = 0;
         $due = 0;

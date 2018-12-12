@@ -14,6 +14,7 @@
 <strong>Assumption College</strong><br>
     {{$department}}<br/>
 <h4>Outstanding Balances as of {{date("F d, Y")}}</h4>
+<h5>S.Y. {{$school_year->school_year}} - {{$school_year->school_year + 1}} - {{$school_year->period}}</h5>
 </div>
 @if(count($lists)>0)
 <?php $total = 0;

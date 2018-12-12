@@ -4,6 +4,8 @@
     <tr><td><strong colspan="4">Assumption College</strong></td></tr>
     <tr><td colspan="4">{{$department}}</td></tr>
     <tr><td colspan="5">Outstanding Balances as of {{date("F d, Y")}}</td></tr>
+    <tr><td colspan="5"><h5>S.Y. {{$school_year->school_year}} - {{$school_year->school_year + 1}} - {{$school_year->period}}</h5>
+</td></tr>
     <tr></tr>
     @foreach($heads as $head)
     <?php $x = 0;?>

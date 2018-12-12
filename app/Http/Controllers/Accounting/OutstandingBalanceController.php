@@ -30,17 +30,27 @@ class OutstandingBalanceController extends Controller
             $dep = "";
             $department = $request->department;
             
-            if($department == "College Department"){
+            if ($department == "College Department") {
                 $dep = '%Department';
-            }
-            else{
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type','College')->first();
+                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '".$school_year->school_year."' AND s.period = '".$school_year->period."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '".$school_year->school_year."' AND period = '".$school_year->period."' GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+            } 
+            else {
                 $dep = $department;
+                if($dep = 'Senior High School'){
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type','SHS')->first();
+                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '".$school_year->school_year."' AND s.period = '".$school_year->period."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                    $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '".$school_year->school_year."' AND period = '".$school_year->period."' GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+                }
+                else{
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type','SHS')->first();
+                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '".$school_year->school_year."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                    $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '".$school_year->school_year."' GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+                }
             }
-            $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' and s.status = 3 ORDER BY u.lastname,s.program_code,s.level,s.section");
-
-//            $heads = DB::select("SELECT sq.level, sq.total FROM ctr_academic_programs ctr, (SELECT s.level,sum(l.balance) as 'total' FROM users u, statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' GROUP BY s.level) sq WHERE sq.level = ctr.level ORDER BY ctr.sort_by");
-            $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
-            $pdf = PDF::loadView('accounting.print_outstanding_balance', compact('department','lists','heads'));
+            
+            $pdf = PDF::loadView('accounting.print_outstanding_balance', compact('department','lists','heads','school_year'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("outstanding_balance.pdf");
         }
@@ -54,21 +64,31 @@ class OutstandingBalanceController extends Controller
             $department = $request->department;
             $date = date("F d, Y");
             
-            if($department == "College Department"){
+            if ($department == "College Department") {
                 $dep = '%Department';
-            }
-            else{
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type','College')->first();
+                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '".$school_year->school_year."' AND s.period = '".$school_year->period."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '".$school_year->school_year."' AND period = '".$school_year->period."' GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+            } 
+            else {
                 $dep = $department;
+                if($dep = 'Senior High School'){
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type','SHS')->first();
+                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '".$school_year->school_year."' AND s.period = '".$school_year->period."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                    $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '".$school_year->school_year."' AND period = '".$school_year->period."' GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+                }
+                else{
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type','SHS')->first();
+                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '".$school_year->school_year."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                    $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '".$school_year->school_year."' GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
+                }
             }
-            
-            $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department LIKE '$dep' and s.status = 3 ORDER BY u.lastname,s.program_code,s.level,s.section");
-            $heads = DB::select("SELECT s.level,sum(l.balance) as 'total' FROM statuses s, (SELECT idno,(sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level,sort_by FROM ctr_academic_programs) ctr WHERE l.balance != 0.00 and s.idno = l.idno and s.department LIKE '$dep' and ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
             
             ob_end_clean();
             Excel::create('Outstanding Balances - '.$date, 
                 function($excel) use ($department,$lists,$heads) { $excel->setTitle($department);
                     $excel->sheet($department, function ($sheet) use ($department,$lists,$heads) {
-                    $sheet->loadView('accounting.print_outstanding_balance_excel', compact('department','lists','heads'));
+                    $sheet->loadView('accounting.print_outstanding_balance_excel', compact('department','lists','heads','school_year'));
                     });
                 })->download('xlsx');
             
