@@ -30,6 +30,16 @@ class courseoffering_ajax extends Controller {
             return view('reg_college.curriculum_management.ajax.course_to_offer_fs', compact('program_code', 'curriculum_year', 'period', 'level', 'section'));
         }
     }
+    function listcurriculum_tutorials($program_code) {
+        if (Request::ajax()) {
+            $curriculum_year = Input::get("curriculum_year");
+            $level = Input::get("level");
+            $period = Input::get("period");
+            $section = Input::get("section");
+
+            return view('reg_college.curriculum_management.ajax.course_to_offer_tutorials', compact('program_code', 'curriculum_year', 'period', 'level', 'section'));
+        }
+    }
 
     function listcourse_offered($program_code) {
         $curriculum_year = Input::get("curriculum_year");
@@ -54,6 +64,19 @@ class courseoffering_ajax extends Controller {
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
             return view('reg_college.curriculum_management.ajax.course_offered_fs', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
+        }
+    }
+
+    function listcourse_offered_tutorials($program_code) {
+        $curriculum_year = Input::get("curriculum_year");
+        $level = Input::get("level");
+        $period = Input::get("period");
+        $section = Input::get("section");
+        if (Request::ajax()) {
+
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+
+            return view('reg_college.curriculum_management.ajax.course_offered_tutorials', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
     }
     
@@ -153,6 +176,44 @@ class courseoffering_ajax extends Controller {
             }
 
             return view('reg_college.curriculum_management.ajax.course_offered_fs', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
+        }
+    }
+
+    function add_to_course_offered_tutorials($course_code) {
+        $curriculum_year = Input::get("curriculum_year");
+        $level = Input::get("level");
+        $period = Input::get("period");
+        $section = Input::get("section");
+        $program_code = Input::get("program_code");
+
+        $course_name = \App\Curriculum::distinct()->where('course_code', $course_code)->get(['course_name', 'course_code'])->first();
+        $course_details = \App\Curriculum::where('course_code', $course_code)->where('program_code', $program_code)->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+        $counter = \App\CourseOffering::where('course_code', $course_code)->where('program_code', "TUT")->where('period', $school_year->period)->where('school_year', $school_year->school_year)->get();
+
+        if (Request::ajax()) {
+            if (count($counter) == 0) {
+                $addsubject = new CourseOffering;
+                $addsubject->program_code = "TUT";
+                $addsubject->course_code = $course_code;
+                $addsubject->course_name = $course_name->course_name;
+                $addsubject->section = $section;
+                $addsubject->section_name = 'TUT';
+                $addsubject->school_year = $school_year->school_year;
+                $addsubject->period = $school_year->period;
+                $addsubject->lec = $course_details->lec;
+                $addsubject->lab = $course_details->lab;
+                $addsubject->hours = $course_details->hours;
+                $addsubject->level = "TUT";
+                $addsubject->srf = $course_details->srf;
+                $addsubject->lab_fee = $course_details->lab_fee;
+                $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->save();
+            } else {
+                
+            }
+
+            return view('reg_college.curriculum_management.ajax.course_offered_tutorials', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
     }
 
@@ -256,6 +317,33 @@ class courseoffering_ajax extends Controller {
         }
     }
 
+    function remove_course_tutorials($id) {
+
+        if (Request::ajax()) {
+            $program_code = Input::get("program_code");
+            $curriculum_year = Input::get("curriculum_year");
+            $section = Input::get("section");
+            $level = Input::get("level");
+            $period = Input::get("period");
+
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+
+            $removesubject = \App\CourseOffering::find($id);
+            $removesubject->delete();
+            
+            $check_grade_colleges = \App\GradeCollege::where('course_offering_id', $id)->get();
+            if(count($check_grade_colleges)>0){
+                foreach ($check_grade_colleges as $colleges){
+                $colleges->course_offering_id = NULL;
+                $colleges->save();
+                }
+            }else{
+            }
+
+            return view('reg_college.curriculum_management.ajax.course_offered_tutorials', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
+        }
+    }
+
     function addelectives() {
         $curriculum_year = Input::get("curriculum_year");
         $level = Input::get("level");
@@ -331,6 +419,45 @@ class courseoffering_ajax extends Controller {
             }
 
             return view('reg_college.curriculum_management.ajax.course_offered_fs', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
+        }
+    }
+
+    function addelectives_tutorials() {
+        $curriculum_year = Input::get("curriculum_year");
+        $level = Input::get("level");
+        $period = Input::get("period");
+        $section = Input::get("section");
+        $section_name = Input::get("section_name");
+        $program_code = Input::get("program_code");
+        $id = Input::get("id");
+
+        $course_details = \App\CtrElective::where('id', $id)->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+        $counter = \App\CourseOffering::where('course_code', $course_details->course_code)->where('program_code', "FS")->where('period', $school_year->period)->where('school_year', $school_year->school_year)->get();
+
+        if (Request::ajax()) {
+            if (count($counter) == 0) {
+                $addsubject = new CourseOffering;
+                $addsubject->program_code = "TUT";
+                $addsubject->course_code = $course_details->course_code;
+                $addsubject->course_name = $course_details->course_name;
+                $addsubject->section = $section;
+                $addsubject->section_name = "TUT";
+                $addsubject->school_year = $school_year->school_year;
+                $addsubject->period = $school_year->period;
+                $addsubject->lec = $course_details->lec;
+                $addsubject->lab = $course_details->lab;
+                $addsubject->hours = $course_details->hours;
+                $addsubject->level = "TUT";
+                $addsubject->srf = $course_details->srf;
+                $addsubject->lab_fee = $course_details->lab_fee;
+                $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->save();
+            } else {
+                
+            }
+
+            return view('reg_college.curriculum_management.ajax.course_offered_tutorials', compact('program_code', 'curriculum_year', 'period', 'level', 'section', 'school_year'));
         }
     }
     function getsectionname(){

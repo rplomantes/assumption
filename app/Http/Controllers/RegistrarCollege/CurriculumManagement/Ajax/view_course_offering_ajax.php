@@ -115,5 +115,14 @@ class view_course_offering_ajax extends Controller
             return view('reg_college.curriculum_management.ajax.show_display_others', compact('program_code'));
             
         }
-    }    
+    }   
+
+    function display_others_tutorials() {
+        if (Request::ajax()) {
+            $program_code = Input::get("program_code");
+            
+            return view('reg_college.curriculum_management.ajax.show_display_others_tutorials', compact('program_code'));
+            
+        }
+    }  
 }

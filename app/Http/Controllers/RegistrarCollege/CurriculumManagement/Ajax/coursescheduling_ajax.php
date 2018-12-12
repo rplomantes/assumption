@@ -110,7 +110,7 @@ class coursescheduling_ajax extends Controller {
 
 
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
-            if($info_course_offering->program_code != "FS"){
+            if($info_course_offering->program_code != "FS" || $info_course_offering->program_code != "TUT"){
             $is_conflict = \App\ScheduleCollege::
                     join('course_offerings', 'schedule_colleges.schedule_id', '=', 'course_offerings.schedule_id')
                     ->where('course_offerings.program_code', $info_course_offering->program_code)

@@ -83,6 +83,9 @@ Route::get('/ajax/registrar_college/adding_dropping/show/','RegistrarCollege\Add
 //Free Section - College
 Route::get('/registrar_college/curriculum_management/view_offering_free_section','RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@viewofferings_free_section');
 Route::get('/ajax/registrar_college/curriculum_management/display_others', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@display_others');
+//Tutorial Classes - College
+Route::get('/registrar_college/curriculum_management/view_tutorials','RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@viewofferings_tutorials');
+Route::get('/ajax/registrar_college/curriculum_management/display_others_tutorials', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@display_others_tutorials');
 //Curriculum
 Route::get('/registrar_college/curriculum_management/curriculum', 'RegistrarCollege\CurriculumManagement\CurriculumController@index');
 Route::get('/registrar_college/curriculum_management/view_curricula/{program_code}', 'RegistrarCollege\CurriculumManagement\CurriculumController@viewcurricula');
@@ -107,15 +110,20 @@ Route::get('/registrar_college/curriculum_management/view_offering/{program_code
 //Ajax Course Offering
 Route::get('/ajax/registrar_college/curriculum_management/view_offering/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@listcurriculum');
 Route::get('/ajax/registrar_college/curriculum_management/view_offering_fs/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@listcurriculum_fs');
+Route::get('/ajax/registrar_college/curriculum_management/view_offering_tutorials/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@listcurriculum_tutorials');
 Route::get('/ajax/registrar_college/curriculum_management/view_course_offered/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@listcourse_offered');
 Route::get('/ajax/registrar_college/curriculum_management/view_course_offered_fs/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@listcourse_offered_fs');
+Route::get('/ajax/registrar_college/curriculum_management/view_course_offered_tutorials/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@listcourse_offered_tutorials');
 Route::get('/ajax/registrar_college/curriculum_management/add_to_course_offered/{course_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@add_to_course_offered');
 Route::get('/ajax/registrar_college/curriculum_management/add_to_course_offered_fs/{course_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@add_to_course_offered_fs');
+Route::get('/ajax/registrar_college/curriculum_management/add_to_course_offered_tutorials/{course_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@add_to_course_offered_tutorials');
 Route::get('/ajax/registrar_college/curriculum_management/add_all_to_course_offered/', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@add_all_courses');
 Route::get('/ajax/registrar_college/curriculum_management/remove_course_offered/{id}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@remove_course');
 Route::get('/ajax/registrar_college/curriculum_management/remove_course_offered_fs/{id}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@remove_course_fs');
+Route::get('/ajax/registrar_college/curriculum_management/remove_course_offered_tutorials/{id}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@remove_course_tutorials');
 Route::get('/ajax/registrar_college/curriculum_management/add_offering_electives', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@addelectives');
 Route::get('/ajax/registrar_college/curriculum_management/add_offering_electives_fs', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@addelectives_fs');
+Route::get('/ajax/registrar_college/curriculum_management/add_offering_electives_tutorials', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@addelectives_tutorials');
 Route::get('/ajax/registrar_college/curriculum_management/get_sectionname', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@getsectionname');
 Route::get('/ajax/registrar_college/curriculum_management/update_section_name/{program_code}', 'RegistrarCollege\CurriculumManagement\Ajax\courseoffering_ajax@update_section_name');
 //Course Schedule

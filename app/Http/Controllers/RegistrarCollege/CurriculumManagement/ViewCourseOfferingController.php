@@ -85,5 +85,12 @@ class ViewCourseOfferingController extends Controller
             $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(array('program_code', 'program_name'));
             return view('reg_college.curriculum_management.view_course_offering_free_section', compact('programs'));
         }
+    }  
+
+    function viewofferings_tutorials() {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(array('program_code', 'program_name'));
+            return view('reg_college.curriculum_management.view_course_offering_tutorials', compact('programs'));
+        }
     }
 }

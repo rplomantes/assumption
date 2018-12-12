@@ -390,7 +390,7 @@ if (count($previous) > 0) {
         @foreach($otherfees as $other)
                         <tr>
         <td>
-        <input type="checkbox" readonly="" value="1" name="other[{{$other->id}}]" checked=""><td>{{$other->subsidiary}}</td>
+        <input type="checkbox" onclick="return false" name="other[{{$other->id}}]" checked=""><td>{{$other->subsidiary}}</td>
         </td>
         <td>{{$other->amount}}</td>
                         </tr>
@@ -398,7 +398,7 @@ if (count($previous) > 0) {
         @foreach($nondiscountotherfees as $nodiscountother)
                         <tr>
         <td>
-        <input type="checkbox" readonly="" value="1" name="nodiscountother[{{$nodiscountother->id}}]" checked=""><td>{{$nodiscountother->subsidiary}}</td>
+        <input type="checkbox" onclick="return false" name="nodiscountother[{{$nodiscountother->id}}]" checked=""><td>{{$nodiscountother->subsidiary}}</td>
         </td>
         <td>{{$nodiscountother->amount}}</td>
                         </tr>
@@ -407,7 +407,7 @@ if (count($previous) > 0) {
         @foreach($addfee as $add)
                         <tr>
         <td>
-        <input type="checkbox" readonly="" value="1" name="add[{{$add->id}}]" checked=""><td>{{$add->subsidiary}}</td>
+        <input type="checkbox" onclick="return false" name="add[{{$add->id}}]" checked=""><td>{{$add->subsidiary}}</td>
         </td>
         <td>{{$add->amount}}</td>
                         </tr>
