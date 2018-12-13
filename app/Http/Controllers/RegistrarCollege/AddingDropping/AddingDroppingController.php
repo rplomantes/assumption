@@ -35,7 +35,7 @@ class AddingDroppingController extends Controller {
     function process($fee,$idno) {
         $status = \App\Status::where('idno', $idno)->first();
         $user = \App\User::where('idno', $idno)->first();
-        $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', "College")->first();
+        $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
         DB::beginTransaction();
         $is_practicum_only = $this->checkPracticumOnly($idno, $school_year->school_year, $school_year->period);
         if ($fee == "w"){

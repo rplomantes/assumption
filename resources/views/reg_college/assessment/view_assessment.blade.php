@@ -403,7 +403,7 @@ if (count($previous) > 0) {
         <td>{{$nodiscountother->amount}}</td>
                         </tr>
         @endforeach
-        @if(count($addfee)>0)
+        @if(isset($addfee)>0)
         @foreach($addfee as $add)
                         <tr>
         <td>
