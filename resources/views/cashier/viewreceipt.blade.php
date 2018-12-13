@@ -128,14 +128,6 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <div class="col-md-12">
             <div class="form form-group">
             <a class="btn btn-danger pull-right" target="_blank" href="{{url("/cashier",array("printreceipt",$payment->reference_id))}}">Print Receipt</a>
-<!--            @if(Auth::user()->idno == $payment->posted_by && $payment->transaction_date == date('Y-m-d'))
-            <a class="btn btn-primary" id="cancelrestore" href="{{url("/cashier",array("reverserestore",$payment->reference_id))}}">
-            @if($payment->is_reverse=="0")    
-                Cancel
-            @else
-                Restore
-            @endif
-            </a>-->
             @if(Auth::user()->accesslevel == env('ACCTNG_HEAD'))
             <a class="btn btn-primary" id="cancelrestore" href="{{url("/cashier",array("reverserestore",$payment->reference_id))}}">
             @if($payment->is_reverse=="0")    
