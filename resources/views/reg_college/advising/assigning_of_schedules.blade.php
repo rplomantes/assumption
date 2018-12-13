@@ -25,7 +25,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        Assigning of Schedule
+        Assigning of Schedules
         <small>A.Y. {{$advising_school_year->school_year}} - {{$advising_school_year->school_year+1}} {{$advising_school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
@@ -78,13 +78,21 @@
                                         <option>Select Available Schedule</option>
                                         <option value="dna">Do not Assign</option>
                                         @foreach ($schedule_ids as $schedule_id)
+                                        
+                                        <?php $get_student=0; ?>
+                                        <?php $cofferings = \App\CourseOffering::where('schedule_id', $schedule_id->schedule_id)->get(); ?>
+                                        @foreach ($cofferings as $coffering)
+                                        <?php $get_number = \App\GradeCollege::where('id', $coffering->id)->get(); ?>
+                                            <?php $get_student = $get_student + count($get_number); ?>
+                                        @endforeach
+                                        
                                         @if(count($course)>0)
                                         <?php $grade_schedule_id = \App\CourseOffering::where('id', $grade->course_offering_id)->first();?>
                                         <option value='{{$schedule_id->schedule_id}}' @if($schedule_id->schedule_id == $grade_schedule_id->schedule_id) selected='' @endif>
                                         @else
                                         <option value='{{$schedule_id->schedule_id}}'>
                                         @endif
-
+                                        [{{$get_student}}]
                                             <?php
                                             $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $schedule_id->schedule_id)->get(['time_start', 'time_end', 'room']);
                                             ?>
