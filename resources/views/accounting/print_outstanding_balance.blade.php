@@ -14,7 +14,7 @@
 <strong>Assumption College</strong><br>
     {{$department}}<br/>
 <h4>Outstanding Balances as of {{date("F d, Y")}}</h4>
-<h5>S.Y. {{$school_year->school_year}} - {{$school_year->school_year + 1}} - {{$school_year->period}}</h5>
+<h5>S.Y. {{$school_year}} - {{$school_year + 1}} {{$period}}</h5>
 </div>
 @if(count($lists)>0)
 <?php $total = 0;
@@ -57,7 +57,7 @@ $x = 0 ?>
                 </tr>
                 @endif
             @endforeach
-            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total)}}</strong></td></tr>
+            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>
         @endforeach
     </tbody>
     <tfoot>

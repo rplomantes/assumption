@@ -4,7 +4,7 @@
     <tr><td><strong colspan="4">Assumption College</strong></td></tr>
     <tr><td colspan="4">{{$department}}</td></tr>
     <tr><td colspan="5">Outstanding Balances as of {{date("F d, Y")}}</td></tr>
-    <tr><td colspan="5"><h5>S.Y. {{$school_year->school_year}} - {{$school_year->school_year + 1}} - {{$school_year->period}}</h5>
+    <tr><td colspan="5"><h5>S.Y. {{$school_year}} - {{$school_year + 1}} {{$period}}</h5>
 </td></tr>
     <tr></tr>
     @foreach($heads as $head)
@@ -44,7 +44,7 @@
                 </tr>
                 @endif
             @endforeach
-            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total)}}</strong></td></tr>
+            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>
         @endforeach
     </tbody>
     <tfoot>

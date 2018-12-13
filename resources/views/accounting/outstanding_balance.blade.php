@@ -78,6 +78,24 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <option>College Department</option>
                     </select>
                 </div>
+                <div class="col-sm-3" id="school_year_control">
+                    <label>School Year</label>
+                    <select name="school_year" class="form form-control" id="school_year">
+                        <option></option>
+                        <option value="2018">2018 - 2019</option>
+                        <option value="2019">2019 - 2020</option>
+                        <option value="2020">2020 - 2021</option>
+                    </select>
+                </div>
+                <div class="col-sm-3" id="period_control">
+                    <label>Period</label>
+                    <select name="period" class="form form-control" id="period">
+                        <option></option>
+                        <option>1st Semester</option>
+                        <option>2nd Semester</option>
+                        <option>Summer</option>
+                    </select>
+                </div>
                 <div class="col-sm-3">
                     <br>
                     <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value)'>Generate Report</button></a>
@@ -102,6 +120,16 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @endsection
 @section('footerscript') 
 <script>
+    $("#period_control").hide();
+    $("#department").on('change', function (e) {
+        if ($("#department").val() == "College Department" || $("#department").val() == "Senior High School") {
+            $("#period_control").fadeIn(300);
+        } else {
+            $("#period_control").fadeOut(300);
+        }
+    });
+    
+    
     function toPDF() {
         document.getElementById("myForm").action = "{{url('/accounting/print_outstanding_balances_pdf')}}";
     }
@@ -113,6 +141,8 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     function generate_report(department) {
         var array = {};
         array['department'] = department;
+        array['school_year'] = $("#school_year").val();
+        array['period'] = $("#period").val();
         $.ajax({
             type: "GET",
             url: "/accounting/ajax/getoutstanding_balance",
