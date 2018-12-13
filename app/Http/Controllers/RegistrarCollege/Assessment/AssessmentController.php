@@ -84,7 +84,7 @@ class AssessmentController extends Controller {
             $status = \App\Status::where('idno', $idno)->first();
 //            $status->status = 0;
             $assignlevel = $status->level;
-            if ($status->period == "1st Semester") {
+            if ($status->advising_period == "1st Semester") {
                 switch ($status->level) {
                     case "5th Year":
                         $assignlevel = "4th Year";

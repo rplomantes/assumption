@@ -145,8 +145,14 @@ class StudentLedger extends Controller {
             for ($i = strlen($number); $i <= 9; $i++) {
                 $receipt = $receipt . "0";
             }
-            if(Auth::user()->idno == "igarcia"){
+            if(Auth::user()->idno == "igarcia" || Auth::user()->idno == "belle"){
+                $receipt_number = $receipt . $number;
+                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+                if(count($check_or)>0){
                 return $receipt . $number."-A";
+                }else{
+                return $receipt . $number;
+                }
             }else{
                 return $receipt . $number;
             }
@@ -161,7 +167,17 @@ class StudentLedger extends Controller {
             for ($i = strlen($number); $i <= 9; $i++) {
                 $receipt = $receipt . "0";
             }
-            return $receipt . $number;
+            if(Auth::user()->idno == "igarcia" || Auth::user()->idno == "belle"){
+                $receipt_number = $receipt . $number;
+                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+                if(count($check_or)>0){
+                return $receipt . $number."-A";
+                }else{
+                return $receipt . $number;
+                }
+            }else{
+                return $receipt . $number;
+            }
         }
     }
 
