@@ -223,11 +223,11 @@ class Registration extends Controller {
             $validate = $request->validate([
                 'firstname' => 'required',
                 'lastname' => 'required',
-                'municipality' => 'required',
-                'province' => 'required',
-                'date_of_birth' => 'required',
-                'gender' => 'required',
-                'email' => 'required',
+//                'municipality' => 'required',
+//                'province' => 'required',
+//                'date_of_birth' => 'required',
+//                'gender' => 'required',
+//                'email' => 'required',
             ]);
 
             if ($validate) {
@@ -384,6 +384,7 @@ class Registration extends Controller {
         $updateUser->lastname = $request->lastname;
         $updateUser->extensionname = $request->extensionname;
         $updateUser->is_foreign = $request->is_foreign;
+        $updateUser->email = $request->email;
         $updateUser->save();
     }
 

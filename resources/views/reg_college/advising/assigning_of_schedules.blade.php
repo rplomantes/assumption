@@ -82,8 +82,8 @@
                                         <?php $get_student=0; ?>
                                         <?php $cofferings = \App\CourseOffering::where('schedule_id', $schedule_id->schedule_id)->get(); ?>
                                         @foreach ($cofferings as $coffering)
-                                        <?php $get_number = \App\GradeCollege::where('id', $coffering->id)->get(); ?>
-                                            <?php $get_student = $get_student + count($get_number); ?>
+                                        <?php $get_number = \App\GradeCollege::where('course_offering_id', $coffering->id)->get(); ?>
+                                        <?php $get_student = $get_student + count($get_number); ?>
                                         @endforeach
                                         
                                         @if(count($course)>0)

@@ -172,7 +172,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 <li><a href="#tab_2" data-toggle="tab"><strong>FAMILY BACKGROUND</strong></a></li>
                 <li><a href="#tab_3" data-toggle="tab"><strong>ACADEMIC BACKGROUND</strong></a></li>
                 <li><a href="#tab_4" data-toggle="tab"><strong>MEDICAL HISTORY/PHYSICAL FITNESS</strong></a></li>
-                <li><a href="#tab_5" data-toggle="tab"><strong>OTHER REQUIREMENTS</strong></a></li>
+                <!--<li><a href="#tab_5" data-toggle="tab"><strong>OTHER REQUIREMENTS</strong></a></li>-->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -188,10 +188,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                     <div class="form-group">
                         <div class="col-sm-5">
-                            <input class="form form-control" name='municipality' placeholder='Municipality/City*' value="{{old('municipality',$info->municipality)}}" type="text">
+                            <input class="form form-control" name='municipality' placeholder='Municipality/City' value="{{old('municipality',$info->municipality)}}" type="text">
                         </div>
                         <div class="col-sm-5">
-                            <input class="form form-control" name='province' placeholder='Province*' value="{{old('province',$info->province)}}" type="text">
+                            <input class="form form-control" name='province' placeholder='Province' value="{{old('province',$info->province)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip',$info->zip)}}" type="text">
@@ -208,7 +208,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         </div>
                         <div class="col-sm-4">
                             <label>Email</label>
-                            <input class="form form-control" name='email' placeholder='Email Address*' readonly="" value="{{old('email',$user->email)}}" type="email">
+                            <input class="form form-control" name='email' placeholder='Email Address' value="{{old('email',$user->email)}}" type="email">
                         </div>
                     </div>
                     <hr>
