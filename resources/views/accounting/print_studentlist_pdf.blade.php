@@ -10,8 +10,17 @@
         }
 </style>
 
+<div align="center">
 <strong>Assumption College</strong><br>
-{{$department}}<br>
+    {{$department}}<br/>
+<h4>Student List</h4>
+@if($department == "College Department" or $department == "Senior High School") 
+<h5>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h5>
+@endif
+@if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
+<h5>S.Y. {{$school_year}}-{{$school_year +1}}</h5>
+@endif
+</div>
 
 @if(count($lists)>0)
 <?php $total = 0;

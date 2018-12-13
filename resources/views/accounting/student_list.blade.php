@@ -79,8 +79,26 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     </select>
                 </div>
                 <div class="col-sm-3">
+                    <label>School Year</label>
+                    <select class="form form-control" name="school_year" id="school_year">
+                        <option>Select School Year</option>
+                        @foreach ($school_years as $school_year)
+                        <option value='{{$school_year->school_year}}'>{{$school_year->school_year}}-{{$school_year->school_year+1}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-3" id="period_control">
+                    <label>Period</label>
+                    <select class="form form-control" name="period" id="period">
+                        <option>Select Period</option>
+                        <option value='1st Semester'>1st Semester</option>
+                        <option value='2nd Semester'>2nd Semester</option>
+                        <option value='Summer'>Summer</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
                     <br>
-                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value)'>Generate Report</button></a>
+                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value, school_year.value, period.value)'>Generate Report</button></a>
                 </div>
             </div>
             <div class="form-group">
@@ -100,6 +118,15 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @endsection
 @section('footerscript') 
 <script>
+    $("#period_control").hide();
+    $("#department").on('change', function (e) {
+        if ($("#department").val() == "College Department" || $("#department").val() == "Senior High School") {
+            $("#period_control").fadeIn(300);
+        } else {
+            $("#period_control").fadeOut(300);
+        }
+    });
+    
     function toPDF() {
         document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_pdf')}}";
     }
@@ -108,9 +135,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_excel')}}";
     }
 
-    function generate_report(department) {
+    function generate_report(department, school_year, period) {
         var array = {};
         array['department'] = department;
+        array['school_year'] = school_year;
+        array['period'] = period;
         $.ajax({
             type: "GET",
             url: "/accounting/ajax/get_studentlist",

@@ -17,15 +17,19 @@ class AjaxStudentList extends Controller {
         if (Request::ajax()) {
             $dep = "";
             $department = Input::get('department');
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
 
-            if ($department == "College Department") {
+            if ($department == "College Department" or $department == "Senior High School") {
                 $dep = '%Department';
+                $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.program_code, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, statuses s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.period = '$period' AND s.status = '3' ORDER BY u.lastname, s.program_code, s.level, s.section");
+                $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM statuses s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.period = '$period' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
             } else {
                 $dep = $department;
+                $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.program_code, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, statuses s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.status = '3' ORDER BY u.lastname, s.program_code, s.level, s.section");
+                $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM statuses s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
             }
-            $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.program_code, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, statuses s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' ORDER BY u.lastname, s.program_code, s.level, s.section");
-            $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM statuses s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level,ctr.sort_by ORDER BY ctr.sort_by");
-            return view('accounting.ajax.get_studentlist', compact('department','lists','heads'));
+            return view('accounting.ajax.get_studentlist', compact('department','school_year','period','lists','heads'));
         }
     }
 }

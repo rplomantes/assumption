@@ -1,4 +1,10 @@
 <h4>{{$department}}</h4>
+@if($department == "College Department" or $department == "Senior High School") 
+<h4>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h4>
+@endif
+@if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
+<h4>S.Y. {{$school_year}}-{{$school_year +1}}</h4>
+@endif
 
 @if(count($lists)>0)
 <?php $total = 0;

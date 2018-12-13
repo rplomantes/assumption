@@ -4,6 +4,8 @@
     <tr><td><strong colspan="4">Assumption College</strong></td></tr>
     <tr><td colspan="4">{{$department}}</td></tr>
     <tr></tr>
+    <tr><td colspan="4">Student List</tr>
+    <tr></tr>
     @foreach($heads as $head)
     <?php $x = 0;?>
     <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
