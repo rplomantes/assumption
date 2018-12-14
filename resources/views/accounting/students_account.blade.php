@@ -129,7 +129,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 <script>
     $("#period_control").hide();
     $("#department").on('change', function (e) {
-        if($("#department").val() == 'College Department'){
+        if ($("#department").val() == "College Department" || $("#department").val() == "Senior High School") {
             $("#period_control").fadeIn(300);
         }
         else{

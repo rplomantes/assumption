@@ -25,9 +25,11 @@ List of Students per Account ({{date("F d, Y")}})<br/>
             <th style='border-bottom: 1px solid black'></th>
             <th style='border-bottom: 1px solid black'>ID No.</th>
             <th style='border-bottom: 1px solid black'>Name</th>
-            <th style='border-bottom: 1px solid black'>Year Level</th>
             @if($department != 'College Department')
+            <th style='border-bottom: 1px solid black'>Year Level</th>
             <th style='border-bottom: 1px solid black'>Section</th>
+            @else
+            <th style='border-bottom: 1px solid black'>Course - Year Level</th>
             @endif
         </tr>
     </thead>
@@ -38,9 +40,11 @@ List of Students per Account ({{date("F d, Y")}})<br/>
             <td>{{$x}}</td>
             <td align='left'>{{$list->idno}}</td>
             <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
-            <td>{{$list->program_code}} {{$list->level}}</td>
             @if($department != 'College Department')
+            <td>{{$list->level}}</td>
             <td>{{$list->section}}</td>
+            @else
+            <td>{{$list->program_code}} {{$list->level}}</td>
             @endif
         </tr>
         @endforeach
