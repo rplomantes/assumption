@@ -41,7 +41,7 @@ class AssigningOfSchedules extends Controller {
                 }
             }
 
-            if ($count < 31) {
+            if ($count < 30) {
                 
                 $update_grade_college = \App\GradeCollege::where('id', $course_id)->first();
                 if ($section_id == "dna") {

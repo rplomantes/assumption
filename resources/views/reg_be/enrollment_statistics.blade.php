@@ -151,6 +151,25 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
 @section('maincontent')
  <!-- search form (Optional) -->
  <div class="col-md-12">
+     <div class='form-horizontal'>
+        <div class='form-group'>
+            <div class='col-sm-2'>
+                <label>School Year</label>
+                <select class="form form-control select2" name="school_year" id='school_year'>
+                    <option value="">Select School Year</option>
+                    <option value="2017" @if ($school_year == 2017) selected = "" @endif>2017-2018</option>
+                <option value="2018" @if ($school_year == 2018) selected = "" @endif>2018-2019</option>
+                <option value="2019" @if ($school_year == 2019) selected = "" @endif>2019-2020</option>
+                <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
+                <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
+                </select>
+            </div>
+            <div class='col-sm-4'>
+                <label>&nbsp;</label>
+                <button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-success'><span>Change School Year/Period</span></button>
+            </div>
+        </div>    
+    </div>
      <div class="box">    
      <div class="box-body">
      <h3>Pre School</h3>
@@ -578,13 +597,22 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
      <div class="box-body">
      <table id="example2" class="table table-responsive table-striped">
             <tr>
-             <td><div align="left"><strong>GRAND TOTAL:</strong></div</td>
+             <td><div align="left"><strong>GRAND TOTAL (1ST SEMESTER):</strong></div</td>
              <td></td>
              <td></td>
              <td></td>
              <td></td>
              <td></td>
-             <td><strong>{{$preschooltotal + $elemtotal + $juniortotal + $shstotal_1st + $shstotal_2nd}}</strong></td>          
+             <td><strong>{{$preschooltotal + $elemtotal + $juniortotal + $shstotal_1st}}</strong></td>          
+            </tr>         
+            <tr>
+             <td><div align="left"><strong>GRAND TOTAL (2ND SEMESTER):</strong></div</td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td><strong>{{$preschooltotal + $elemtotal + $juniortotal + $shstotal_2nd}}</strong></td>          
             </tr>         
      </table>
      </div>
@@ -595,6 +623,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
 <script src="{{url('/bower_components',array('datatables.net','js','jquery.dataTables.min.js'))}}"></script>
 <script src="{{url('/bower_components',array('datatables.net-bs','js','dataTables.bootstrap.min.js'))}}"></script>
 
+<script>
+    $(document).ready(function(){
+      $("#view-button").on('click',function(e){
+        document.location="{{url('/bedregistrar',array('enrollment_statistics'))}}"+ "/" + $("#school_year").val();
+      });
+    });
+</script>
 <script>
     $(document).ready(function(){
         $('#example1').DataTable();

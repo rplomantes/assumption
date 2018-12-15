@@ -51,6 +51,34 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
+            <div class='form-horizontal'>
+        <div class='form-group'>
+            <div class='col-sm-2'>
+                <label>School Year</label>
+                <select class="form form-control select2" name="school_year" id='school_year'>
+                    <option value="">Select School Year</option>
+                    <option value="2017" @if ($school_year == 2017) selected = "" @endif>2017-2018</option>
+                <option value="2018" @if ($school_year == 2018) selected = "" @endif>2018-2019</option>
+                <option value="2019" @if ($school_year == 2019) selected = "" @endif>2019-2020</option>
+                <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
+                <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
+                </select>
+            </div>
+            <div class='col-sm-2'>
+                <label>Period</label>
+                <select class="form form-control select2" name="period" id='period'>
+                    <option value="">Select Period</option>
+                    <option value='1st Semester' @if ($period == "1st Semester") selected = "" @endif>1st Semester</option>
+                    <option value='2nd Semester' @if ($period == "2nd Semester") selected = "" @endif>2nd Semester</option>
+                    <option value='Summer' @if ($period == "Summer") selected = "" @endif>Summer</option>
+                </select>    
+            </div>   
+            <div class='col-sm-4'>
+                <label>&nbsp;</label>
+                <button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-success'><span>Change School Year/Period</span></button>
+            </div>
+        </div>    
+    </div>
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -149,4 +177,11 @@
 </section>
 @endsection
 @section('footerscript')
+<script>
+    $(document).ready(function(){
+      $("#view-button").on('click',function(e){
+        document.location="{{url('/registrar_college',array('reports'))}}" + "/enrollment_statistics/" + $("#school_year").val() + "/" + $("#period").val();
+      });
+    });
+</script>
 @endsection

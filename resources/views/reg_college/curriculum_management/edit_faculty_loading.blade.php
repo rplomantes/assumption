@@ -52,6 +52,9 @@ $layout = "layouts.appreg_college";
 @section('maincontent')
 <section class="content">
     <div class="row">
+        @if (Session::has('message'))
+            <div class="alert alert-danger">{{ Session::get('message') }}</div>
+        @endif
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">

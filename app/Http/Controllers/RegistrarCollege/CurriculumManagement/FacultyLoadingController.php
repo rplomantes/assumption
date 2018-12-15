@@ -5,6 +5,7 @@ namespace App\Http\Controllers\RegistrarCollege\CurriculumManagement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Session;
 
 class FacultyLoadingController extends Controller {
 
@@ -27,16 +28,41 @@ class FacultyLoadingController extends Controller {
     
     function add_faculty_loading(Request $request) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $count=0;
             $instructor_id = $request->instructor_id;
             $schedule_id = $request->schedule_id;
             
-            $updatecourse_offering = \App\ScheduleCollege::where('schedule_id', $schedule_id)->get();
-            foreach($updatecourse_offering as $updatesched){
-            $updatesched->instructor_id = "$instructor_id";
-            $updatesched->save();
-            }
+            $school_year = \App\CtrAdvisingSchoolYear::where('academic_type', 'College')->first();
             
-            \App\Http\Controllers\Admin\Logs::log("Assign loading this schedule:$schedule_id to $instructor_id");
+            $selected_schedules = \App\ScheduleCollege::where('schedule_id', $schedule_id)->get();
+                       
+            foreach($selected_schedules as $selected){
+            $is_conflict = \App\ScheduleCollege::
+                    where('schedule_colleges.instructor_id', $instructor_id)
+                    ->where('schedule_colleges.school_year', $school_year->school_year)
+                    ->where('schedule_colleges.period', $school_year->period)
+                    ->where('schedule_colleges.schedule_id', '!=',$schedule_id)
+//                    ->where('schedule_college.schedule_id', $info_course_offering->schedule_id)
+                    ->where('schedule_colleges.day', $selected->day)
+                    ->where(function($q) use ($selected) {
+                        $q->whereBetween('time_start', array(date("H:i:s", strtotime($selected->time_start)), date("H:i:s", strtotime($selected->time_end))))
+                        ->orwhereBetween('time_end', array(date("H:i:s", strtotime($selected->time_start)), date("H:i:s", strtotime($selected->time_end))));
+                    })
+                    ->get();
+            $count = $count + count($is_conflict);
+            }
+            if ($count <= 0){            
+                $updatecourse_offering = \App\ScheduleCollege::where('schedule_id', $schedule_id)->get();
+                foreach($updatecourse_offering as $updatesched){
+                $updatesched->instructor_id = "$instructor_id";
+                $updatesched->save();
+                }
+
+                \App\Http\Controllers\Admin\Logs::log("Assign loading this schedule:$schedule_id to $instructor_id");
+                
+            }else{
+                Session::flash('message', "There is a conflict in schedule!");
+            }
             return redirect("/registrar_college/curriculum_management/edit_faculty_loading/$instructor_id");
         }
     }
