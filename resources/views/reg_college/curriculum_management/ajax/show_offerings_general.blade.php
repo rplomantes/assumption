@@ -9,6 +9,7 @@
                     <th>Course Name</th>
                     <th>Unit</th>
                     <th>Students Enrolled</th>
+                    <th>Students Assigned</th>
                     <th>Schedule</th>
                     <th>Room</th>
                     <th>Instructor</th>
@@ -17,6 +18,14 @@
             <tbody>
                 <?php $totalunits = 0;?>
                 @foreach($courses as $course)
+                
+                <?php $get_student=0; ?>
+                <?php $cofferings = \App\CourseOffering::where('schedule_id', $course->schedule_id)->get(); ?>
+                @foreach ($cofferings as $coffering)
+                <?php $get_number = \App\GradeCollege::where('course_offering_id', $coffering->id)->get(); ?>
+                <?php $get_student = $get_student + count($get_number); ?>
+                @endforeach
+                
                 <tr>
                     <td>{{$course->course_code}}</td>
                     <td>
@@ -36,6 +45,7 @@
                         <?php $no = \App\CourseOffering::where('schedule_id', $course->schedule_id)->leftJoin('grade_colleges', 'grade_colleges.course_offering_id','=','course_offerings.id')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->where('statuses.school_year', $school_year)->where('statuses.period',$period)->get(['grade_colleges.id']); ?>
                         {{count($no)}}
                     </td>
+                    <td>{{$get_student}}</td>
                         <?php $totalunits = $totalunits + $units?>
                     <td>
                         <?php

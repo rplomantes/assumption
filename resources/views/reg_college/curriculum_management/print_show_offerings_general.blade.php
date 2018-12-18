@@ -63,6 +63,7 @@
                     <th style="border-bottom:1px solid black" width="40%">Course Name</th>
                     <th style="border-bottom:1px solid black" align="center">Unit</th>
                     <th style="border-bottom:1px solid black" align="center">Students Enrolled</th>
+                    <th style="border-bottom:1px solid black" align="center">Students Assigned</th>
                     <th style="border-bottom:1px solid black" width="18%">Schedule</th>
                     <th style="border-bottom:1px solid black">Room</th>
                     <th style="border-bottom:1px solid black" width="15%">Instructor</th>
@@ -71,6 +72,14 @@
             <tbody>
                 <?php $totalunits = 0;?>
                 @foreach($courses as $course)
+                
+                <?php $get_student=0; ?>
+                <?php $cofferings = \App\CourseOffering::where('schedule_id', $course->schedule_id)->get(); ?>
+                @foreach ($cofferings as $coffering)
+                <?php $get_number = \App\GradeCollege::where('course_offering_id', $coffering->id)->get(); ?>
+                <?php $get_student = $get_student + count($get_number); ?>
+                @endforeach
+                
                 <tr>
                     <td>{{$course->course_code}}</td>
                     <td>
@@ -89,7 +98,8 @@
                     <td align="center">
                         <?php $no = \App\CourseOffering::where('schedule_id', $course->schedule_id)->leftJoin('grade_colleges', 'grade_colleges.course_offering_id','=','course_offerings.id')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->where('statuses.school_year', $request->school_year)->where('statuses.period',$request->period)->get(['grade_colleges.id']); ?>
                         {{count($no)}}
-                    </td>                
+                    </td>    
+                    <td>{{$get_student}}</td>
                         <?php $totalunits = $totalunits + $units?>
                     <td>
                         <?php
