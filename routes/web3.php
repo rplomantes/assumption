@@ -69,6 +69,17 @@ Route::get('/accounting/student_list','Accounting\StudentList@student_list');
 Route::post('/accounting/print_studentlist_pdf','Accounting\StudentList@print_studentlist_pdf');
 Route::post('/accounting/print_studentlist_excel','Accounting\StudentList@print_studentlist_excel');
 Route::get('/accounting/ajax/get_studentlist','Accounting\Ajax\AjaxStudentList@get_studentlist');
+
+// Accounting - Setup List
+Route::get('/accounting/set_up_list','Accounting\SetUpController@set_up_list');
+Route::post('/accounting/print_setuplist_pdf','Accounting\SetUpController@print_setuplist_pdf');
+Route::post('/accounting/print_setuplist_excel','Accounting\SetUpController@print_setuplist_excel');
+Route::get('/accounting/ajax/getsubsidiary','Accounting\Ajax\AjaxSetUpController@getsubsidiary');
+Route::get('/accounting/ajax/getsetuplist','Accounting\Ajax\AjaxSetUpController@getsetuplist');
+
+// Accounting - Setup Summary Excel
+Route::post('/accounting/print_setupsummary_excel','Accounting\SetUpController@print_set_up_summary_excel');
+
 ?>
 
 

@@ -1,24 +1,17 @@
-<style>
-    
-        body {
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-            font-size: 10pt;
-        }
-</style>
-
-<strong>Assumption College</strong><br>
-{{$department}}<br>
-@if($department == "College Department" or $department == "Senior High School")
-{{$school_year}} - {{$period}}
-@endif
-@if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
-{{$school_year}}
-@endif
-<h3>Set Up Summary</h3>
-
 @if(count($ledgers)>0)
 <?php $total=0; ?>
-<table width='100%' cellpadding='0' cellspacing='0'>
+<table>
+    <tr><td><strong colspan="4">Assumption College</strong></td></tr>
+    <tr><td colspan="4">{{$department}}</td></tr>
+    <tr><td colspan="5">Set Up Summary</td></tr>
+    @if($department == "College Department" or $department == "Senior High School")
+    <tr><td colspan="5"><h5>{{$school_year}} - {{$period}}</h5>
+    @endif
+    @if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School")
+    <tr><td colspan="5"><h5>{{$school_year}}</h5>
+    @endif
+</td></tr>
+    <tr></tr>
     <thead>
         <tr>
             <th style='border-bottom: 1px solid black'>Accounting Code</th>
@@ -51,10 +44,5 @@
         </tr>
     </tfoot>
 </table>
-<br><br>
-Run Date: {{date('Y-m-d H:i:s')}}<br><br><br>
-
-Prepared by:<br><br>
-<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong>
 @else
 @endif

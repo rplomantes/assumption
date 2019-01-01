@@ -1,6 +1,12 @@
 <strong>Assumption College</strong><br>
 {{$department}}<br>
-{{$school_year}} {{$period}}
+@if($department == "College Department" or $department == "Senior High School")
+{{$school_year}} - {{$period}}
+@endif
+@if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
+{{$school_year}}
+@endif
+
 <h3>Set Up Summary</h3>
 @if(count($ledgers)>0)
 <?php $total=0; ?>

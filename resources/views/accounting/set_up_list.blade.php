@@ -3,11 +3,11 @@ $levels = \App\CtrAcademicProgram::distinct()->orderBy('level', 'asc')->get(['le
 $strands = \App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code', 'SHS')->get();
 $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_code")->where('academic_type', 'College')->get();
 ?>
-<?php 
-    if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
-        $layout = "layouts.appaccountingstaff";    
-    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
-        $layout = "layouts.appaccountinghead";    
+<?php
+    if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        $layout = "layouts.appaccountingstaff";
+    } else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+        $layout = "layouts.appaccountinghead";
     }
 ?>
 @extends($layout)
@@ -49,12 +49,12 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
 @section('header')
 <section class="content-header">
     <h1>
-        Set Up Summary
+        Set Up List
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Set Up Summary</li>
+        <li class="active">Set Up List</li>
     </ol>
 </section>
 @endsection
@@ -69,7 +69,7 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
             <div class="form-group">
                 <div class="col-sm-3">
                     <label>Department</label>
-                    <select class="form form-control" name="department" id="department">
+                    <select class="form form-control" name="department" id="department" onchange="getsubsidiary()">
                         <option>Select Department</option>
                         <option>Pre School</option>
                         <option>Elementary</option>
@@ -78,9 +78,9 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                         <option>College Department</option>
                     </select>
                 </div>
-                <div class="col-sm-3" id="school_year_control">
+                <div class="col-sm-3">
                     <label>School Year</label>
-                    <select name="school_year" class="form form-control" id="school_year">
+                    <select class="form form-control" name="school_year" id="school_year" onchange="getsubsidiary()">
                         <option>Select School Year</option>
                         <option>2018</option>
                         <option>2019</option>
@@ -89,16 +89,22 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                 </div>
                 <div class="col-sm-3" id="period_control">
                     <label>Period</label>
-                    <select name="period" class="form form-control" id="period">
+                    <select class="form form-control" name="period" id="period" onchange="getsubsidiary()">
                         <option>Select Period</option>
                         <option>1st Semester</option>
                         <option>2nd Semester</option>
                         <option>Summer</option>
                     </select>
                 </div>
+                <div class="col-sm-3">
+                    <label>Subsidiary</label>
+                    <select class="form form-control" name="subsidiary" id="subsidiary" required="required">
+                        <option value="">Select Subsidiary</option>
+                    </select>
+                </div>
                 <br><br><br><br>
                 <div class="col-sm-3">
-                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value, school_year.value, period.value)'>Generate Report</button></a>
+                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value, school_year.value, period.value, subsidiary.value)'>Generate Report</button></a>
                 </div>
                 <div class="col-sm-3">
                     <input type="submit" class="btn btn-success form-control" onclick="toPDF()" value="Generate PDF" >
@@ -110,8 +116,8 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
         </form>
     </div>
     <div class='box-body'>
-        <div class='col-sm-6' id='display_result'></div>
-    </div>
+        <div class='col-sm-12' id='display_result'></div>
+    </div>   
 </div>
 @endsection
 @section('footerscript') 
@@ -124,23 +130,40 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
             $("#period_control").fadeOut(300);
         }
     });
-
+    
+    function getsubsidiary() {
+        array = {};
+        array['department'] = $("#department").val();
+        array['school_year'] = $("#school_year").val();
+        array['period'] = $("#period").val();
+        $.ajax({
+            type: "GET",
+            url: "/accounting/ajax/getsubsidiary",
+            data: array,
+            success: function (data) {
+                $('#subsidiary').html(data);
+            }
+        }
+        );
+    }
+    
     function toPDF() {
-        document.getElementById("myForm").action = "{{url('/accounting/print_setupsummary')}}";
+        document.getElementById("myForm").action = "{{url('/accounting/print_setuplist_pdf')}}";
     }
 
     function toEXCEL() {
-        document.getElementById("myForm").action = "{{url('/accounting/print_setupsummary_excel')}}";
+        document.getElementById("myForm").action = "{{url('/accounting/print_setuplist_excel')}}";
     }
 
-    function generate_report(department, school_year, period) {
+    function generate_report(department, school_year, period, subsidiary) {
         var array = {};
         array['department'] = department;
         array['school_year'] = school_year;
         array['period'] = period;
+        array['subsidiary'] = subsidiary;
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/getsetupsummary",
+            url: "/accounting/ajax/getsetuplist",
             data: array,
             success: function (data) {
                 $("#display_result").html(data)
