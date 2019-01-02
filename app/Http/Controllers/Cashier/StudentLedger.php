@@ -82,8 +82,8 @@ class StudentLedger extends Controller {
                 }
             }
 
-            $previous = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->where('category_switch', '>', '9')
-                            ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+            $previous = \App\Ledger::groupBy(array('category', 'category_switch', 'subsidiary'))->where('idno', $idno)->where('category_switch', '>', '9')
+                            ->selectRaw('subsidiary,category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 
             if (count($previous) > 0) {
                 foreach ($previous as $prev) {

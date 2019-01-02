@@ -62,8 +62,8 @@
                     <th style="border-bottom:1px solid black">Section</th>                    
                     <th style="border-bottom:1px solid black" width="40%">Course Name</th>
                     <th style="border-bottom:1px solid black" align="center">Unit</th>
-                    <th style="border-bottom:1px solid black" align="center">Students Enrolled</th>
-                    <th style="border-bottom:1px solid black" align="center">Students Assigned</th>
+                    <th style="border-bottom:1px solid black" align="center">Enrolled</th>
+                    <th style="border-bottom:1px solid black" align="center">Assessed</th>
                     <th style="border-bottom:1px solid black" width="18%">Schedule</th>
                     <th style="border-bottom:1px solid black">Room</th>
                     <th style="border-bottom:1px solid black" width="15%">Instructor</th>

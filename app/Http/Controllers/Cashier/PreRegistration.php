@@ -33,7 +33,7 @@ class PreRegistration extends Controller {
                 return view("cashier.pre_registration.pre_registration_payment", compact('receipt_number', 'particulars', 'applicants'));
                 }
             } else {
-                return "OR Used!";
+            return view('cashier.ORUsed');
             }
         }
     }

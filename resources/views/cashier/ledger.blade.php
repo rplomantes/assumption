@@ -508,7 +508,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                $totalpayment=$totalpayment+$main->payment;
                $totalbalance=$totalbalance+$balance;
                ?>
-               <tr><td>{{$main->category}}</td>
+               <tr><td>{{$main->subsidiary}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>

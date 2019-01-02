@@ -33,12 +33,12 @@ class StudentsAccountController extends Controller
             if ($department == "College Department") {
                 $dep = '%Department';
 //                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, statuses s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' ORDER BY u.lastname,s.program_code,s.level,s.section");
-                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, college_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, college_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno)and s.school_year = '$school_year' and s.period = '$period' and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.program_code,s.level,s.section");
             } 
             else {
                 $dep = $department;
                 if($department == "Senior High School"){
-                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.level,s.section FROM users u, bed_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.level,s.section");
+                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.level,s.section FROM users u, bed_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno)and s.school_year = '$school_year' and s.period = '$period' and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.level,s.section");
                 }
                 else{
                     $period = "";
@@ -66,12 +66,12 @@ class StudentsAccountController extends Controller
             if ($department == "College Department") {
                 $dep = '%Department';
 //                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, statuses s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' ORDER BY u.lastname,s.program_code,s.level,s.section");
-                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, college_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, college_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno)and s.school_year = '$school_year' and s.period = '$period' and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.program_code,s.level,s.section");
             } 
             else {
                 $dep = $department;
                 if($department == "Senior High School"){
-                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.level,s.section FROM users u, bed_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.level,s.section");
+                    $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.level,s.section FROM users u, bed_levels s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno)and s.school_year = '$school_year' and s.period = '$period' and s.department LIKE '$dep' and s.status = '".env("ENROLLED")."' ORDER BY u.lastname,s.level,s.section");
                 }
                 else{
                     $period = "";

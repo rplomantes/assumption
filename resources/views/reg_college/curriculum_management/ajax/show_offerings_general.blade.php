@@ -8,8 +8,8 @@
                     <th>Section</th>                    
                     <th>Course Name</th>
                     <th>Unit</th>
-                    <th>Students Enrolled</th>
-                    <th>Students Assigned</th>
+                    <th>Enrolled</th>
+                    <th>Assessed</th>
                     <th>Schedule</th>
                     <th>Room</th>
                     <th>Instructor</th>
