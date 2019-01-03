@@ -90,7 +90,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                 <div class="col-sm-3" id="period_control">
                     <label>Period</label>
                     <select class="form form-control" name="period" id="period">
-                        <option>Select Period</option>
+                        <option value="">Select Period</option>
                         <option value='1st Semester'>1st Semester</option>
                         <option value='2nd Semester'>2nd Semester</option>
                         <option value='Summer'>Summer</option>

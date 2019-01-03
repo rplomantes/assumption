@@ -81,10 +81,11 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                 <div class="col-sm-3" id="school_year_control">
                     <label>School Year</label>
                     <select name="school_year" class="form form-control" id="school_year">
-                        <option>Select School Year</option>
-                        <option>2018</option>
-                        <option>2019</option>
-                        <option>2020</option>
+                        <option value="">Select Period</option>
+                        <option value="2018">2018-2019</option>
+                        <option value="2019">2019-2020</option>
+                        <option value="2020">2020-2021</option>
+                        <option value="2021">2021-2022</option>
                     </select>
                 </div>
                 <div class="col-sm-3" id="period_control">

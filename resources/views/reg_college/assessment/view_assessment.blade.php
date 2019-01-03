@@ -362,7 +362,8 @@ if (count($previous) > 0) {
                         }
                     }
             } else {
-                $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+                
+                $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
                 $is_foreign = \App\User::where('idno', $idno)->first();
                     if (count($is_foreign) > 0) {
                         if ($is_foreign->is_foreign == '1') {
@@ -395,6 +396,7 @@ if (count($previous) > 0) {
         <td>{{$other->amount}}</td>
                         </tr>
         @endforeach
+        @if(isset($nondiscountotherfees)>0)
         @foreach($nondiscountotherfees as $nodiscountother)
                         <tr>
         <td>
@@ -403,6 +405,7 @@ if (count($previous) > 0) {
         <td>{{$nodiscountother->amount}}</td>
                         </tr>
         @endforeach
+        @endif
         @if(isset($addfee)>0)
         @foreach($addfee as $add)
                         <tr>

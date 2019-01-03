@@ -24,6 +24,7 @@ class PostCharges extends Controller {
     }
 
     public function postCharges(Request $request) {
+        return $request;
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             $dateToday = Carbon\Carbon::now();
             $dates = date_format($dateToday, 'm') - 1;

@@ -41,6 +41,9 @@ class AjaxPostCharges extends Controller {
             
             $dateToday = Carbon\Carbon::now();
             $dates = date_format($dateToday,'m') - 1;
+            if($dates == 0 ){
+                $dates = 12;
+            }
             $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname,s.program_code,s.level,s.section");
              
 //            $level = Input::get("level");

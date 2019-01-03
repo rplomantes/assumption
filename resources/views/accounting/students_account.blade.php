@@ -90,15 +90,16 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     <label>Select School Year</label>
                     <select class="form form-control" name="school_year" id="school_year">
                         <option>Select School Year</option>
-                        <option value="2017">2017 - 2018</option>
-                        <option value="2018">2018 - 2019</option>
-                        <option value="2019">2020 - 2020</option>
+                        <option value="2018">2018-2019</option>
+                        <option value="2019">2019-2020</option>
+                        <option value="2020">2020-2021</option>
+                        <option value="2021">2021-2022</option>
                     </select>
                 </div>
                 <div class="col-sm-3" id="period_control">
                     <label>Select Period</label>
                     <select class="form form-control" name="period" id="period">
-                        <option></option>
+                        <option value="">Select Period</option>
                         <option>1st Semester</option>
                         <option>2nd Semester</option>
                         <option>Summer</option>

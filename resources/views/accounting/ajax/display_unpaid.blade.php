@@ -32,6 +32,9 @@
         <?php $check = checkLedger($un->idno, $dates);?>
         <?php $countLedger = countLedger($un->idno, $dates);?>
         @if($check != 2)
+        <?php $baql=getBalance($un->idno,$dates);?>
+        @if($baql > 0)
+        
         <?php $ctr++;?>
         
         <tr>
@@ -40,7 +43,7 @@
             <td>{{strtoupper($un->lastname)}}, {{$un->firstname}} {{$un->middlename}}</td>
             <td>{{$un->level}}</td>
             <td>{{$un->section}}</td>
-            <td><?php getBalance($un->idno,$dates)?></td>
+            <td><?php echo getBalance($un->idno,$dates)?></td>
             <td>
                 @if($check == 1)  
                     <a type="button" id="reverse{{$un->idno}}" value="Reverse" onclick="reversePost('{{$un->idno}}')">Reverse</a> 
@@ -50,6 +53,7 @@
                 @endif</td>
             <td>@if($check == 1) Posted and unpaid @else Not yet posted. @endif</td>
         </tr>
+        @endif
         @endif
         @endforeach
         @if($ctr == 0)
@@ -199,7 +203,7 @@ function getBalance($idno,$date){
             $bal = $due - $mainpayment;
         }
     } 
-    echo number_format($bal,2);
+    return number_format($bal,2);
 }
 ?>
 

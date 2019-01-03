@@ -392,6 +392,10 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
         
         $("#previous_balance").on('keypress',function(e){
             if(e.keyCode==13){
+                
+                if($("#previous_balance").val()==""){
+                    $("#previous_balance").val("0.00");
+                }
                 $("#main_due").focus();
                 e.preventDefault();
             }
