@@ -214,6 +214,9 @@ class GetStudentList extends Controller {
             $status = \App\Status::where('idno', $idno)->where('level', $level)->first();
             $status->section = $section;
             $status->update();
+            $sections = \App\Promotion::where('idno', $idno)->first();
+            $sections->section = $section;
+            $sections->update();
         }
     }
 

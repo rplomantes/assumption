@@ -103,6 +103,10 @@
                             $totalunofficial2 = 0;
                             $totalunofficial3 = 0;
                             $totalunofficial4 = 0;
+                            $totaladvised1 = 0;
+                            $totaladvised2 = 0;
+                            $totaladvised3 = 0;
+                            $totaladvised4 = 0;
                             ?>
                             @foreach ($academic_programs as $academic_program)
                             <tr>
@@ -130,6 +134,17 @@
                             $totalunofficial3 = $totalunofficial3 + count($unofficial3);
                             $totalunofficial4 = $totalunofficial4 + count($unofficial4);
                             ?>
+                            <?php $advised1 = \App\Status::where('program_code', $academic_program->program_code)->where('is_advised', 1)->where('status',0)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
+                            <?php $advised2 = \App\Status::where('program_code', $academic_program->program_code)->where('is_advised', 1)->where('status',0)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
+                            <?php $advised3 = \App\Status::where('program_code', $academic_program->program_code)->where('is_advised', 1)->where('status',0)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
+                            <?php $advised4 = \App\Status::where('program_code', $academic_program->program_code)->where('is_advised', 1)->where('status',0)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>
+                            
+                            <?php
+                            $totaladvised1 = $totaladvised1 + count($advised1);
+                            $totaladvised2 = $totaladvised2 + count($advised2);
+                            $totaladvised3 = $totaladvised3 + count($advised3);
+                            $totaladvised4 = $totaladvised4 + count($advised4);
+                            ?>
                             @endforeach
                             <tr>
                                 <td><div align="right">TOTAL AUDIT</div></td>
@@ -148,7 +163,7 @@
                                 <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
                             </tr>
                             <tr>
-                                <td><div align="right">TOTAL UNOFFICIALLY ENROLLED</div></td>
+                                <td><div align="right">TOTAL ASSESSED STUDENTS</div></td>
                                 <td>{{$totalunofficial1}}</td>
                                 <td>{{$totalunofficial2}}</td>
                                 <td>{{$totalunofficial3}}</td>
@@ -156,12 +171,20 @@
                                 <td><?php $totalunofficial = $totalunofficial1 + $totalunofficial2 + $totalunofficial3 + $totalunofficial4; ?>{{$totalunofficial}}</td>
                             </tr>
                             <tr>
+                                <td><div align="right">TOTAL ADVISED STUDENTS</div></td>
+                                <td>{{$totaladvised1}}</td>
+                                <td>{{$totaladvised2}}</td>
+                                <td>{{$totaladvised3}}</td>
+                                <td>{{$totaladvised4}}</td>
+                                <td><?php $totaladvised = $totaladvised1 + $totaladvised2 + $totaladvised3 + $totaladvised4; ?>{{$totaladvised}}</td>
+                            </tr>
+                            <tr>
                                 <td><div align="right">GRAND TOTAL</div></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{$totalenrolled + $totalunofficial + $totalaud}}</td>
+                                <td>{{$totalenrolled + $totalunofficial + $totalaud + $totaladvised}}</td>
                             </tr>
                         </tbody>
                     </table>
