@@ -24,10 +24,12 @@ class PostCharges extends Controller {
     }
 
     public function postCharges(Request $request) {
-        return $request;
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             $dateToday = Carbon\Carbon::now();
             $dates = date_format($dateToday, 'm') - 1;
+            if($dates == 0 ){
+                $dates = 12;
+            }
             DB::beginTransaction();
             $indic = 0;
             foreach ($request->post as $idno) {

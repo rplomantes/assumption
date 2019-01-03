@@ -69,7 +69,7 @@ if (count($previous) > 0) {
 <section class="content">
     <div class="row">
     <?php $balance = 0; ?>
-    @if(count($check_balances)>0 || $due_previous>0)
+    @if(count($check_balances)>0 || $due_previous>=1)
     @foreach ($check_balances as $check_balance)
     <?php $balance = $balance + $check_balance->balance; ?>
     @endforeach
