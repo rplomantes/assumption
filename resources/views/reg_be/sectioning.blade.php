@@ -9,6 +9,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
     } else {
     $layout = "layouts.appbedregistrar";
     }
+    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
 ?>
 
 @extends($layout)
@@ -51,7 +52,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
 <section class="content-header">
       <h1>
         Sectioning
-        <small></small>
+        <small>S.Y.: {{$school_year->school_year}}-{{$school_year->school_year+1}}</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>

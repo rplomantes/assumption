@@ -21,6 +21,15 @@ class PromotionsController extends Controller
             $status = \App\Status::where('idno', $idno)->first();
             $bed_info = \App\BedProfile::where('idno', $idno)->first();
             $promotion = \App\Promotion::where('idno', $idno)->first();
+                if (count($promotion) == 0) {
+                    $addpar = new \App\Promotion;
+                    $addpar->idno = $idno;
+                    $addpar->level = $status->level;
+                    $addpar->level = $status->strand;
+                    $addpar->level = $status->section;
+                    $addpar->save();
+                    $promotion = \App\Promotion::where('idno', $idno)->first();
+                }
             
             return view('guidance_bed.promotions', compact('idno','status','bed_info','user','promotion'));
         }
