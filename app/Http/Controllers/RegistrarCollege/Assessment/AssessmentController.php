@@ -171,7 +171,10 @@ class AssessmentController extends Controller {
             $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)
                     ->where(function($q) {
                         $q->where('course_name', 'like', '%practicum%')
-                        ->orWhere('course_code', 'like', '%prac%');
+                        ->orWhere('course_name', 'like', '%intern%')
+                        ->orWhere('course_name', 'like', '%internship%')
+                        ->orWhere('course_name', 'like', '%ojt%')
+                        ->orWhere('course_name', 'like', '%practice%');
                     })
                     ->get();
             if (count($check_practicum) == 1) {

@@ -106,7 +106,7 @@ class advising_ajax extends Controller {
             $period = Input::get("period");
             $curriculum = \App\CtrElective::find(Input::get('curriculum_id'));
             $checkcourse = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->get();
-            if (count($checkcourse) == 0) {
+            if (count($checkcourse) >= 0) {
                 $newgrade = new \App\GradeCollege;
                 $newgrade->idno = $idno;
                 $newgrade->course_offering_id = NULL;

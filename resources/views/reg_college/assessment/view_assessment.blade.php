@@ -348,7 +348,11 @@ if (count($previous) > 0) {
             $check_practicum = \App\GradeCollege::where('idno', $user->idno)->where('school_year', $school_year)->where('period', $period)
                     ->where(function($q) {
                         $q->where('course_name', 'like', '%practicum%')
-                        ->orWhere('course_code', 'like', '%prac%');
+                        ->orWhere('course_name', 'like', '%intern%')
+                        ->orWhere('course_name', 'like', '%internship%')
+                        ->orWhere('course_name', 'like', '%ojt%')
+                        ->orWhere('course_name', 'like', '%practice%');
+                        
                     })
                     ->get();
 
