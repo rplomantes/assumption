@@ -569,6 +569,65 @@ class Assess extends Controller {
         $status->date_registered = date('Y-m-d');
         $status->type_of_plan = $request->plan;
         $status->update();
+        
+        $promotion = \App\Promotion::where('idno', $request->idno)->first();
+        
+        switch ($request->level){
+case "Pre-Kinder":
+    $current_level = "Kinder";
+    break;
+case "Kinder":
+    $current_level = "Grade 1";
+    break;
+case "Grade 1":
+    $current_level = "Grade 2";
+    break;    
+case "Grade 2":
+    $current_level = "Grade 3";
+    break;
+case "Grade 3":
+    $current_level = "Grade 4";
+    break;
+case "Grade 4":
+    $current_level = "Grade 5";
+    break;
+case "Grade 5":
+    $current_level = "Grade 6";
+    break;
+case "Grade 6":
+    $current_level = "Grade 7";
+    break;
+case "Grade 7":
+    $current_level = "Grade 8";
+    break;
+case "Grade 8":
+    $current_level = "Grade 9";
+    break;
+case "Grade 9":
+    $current_level = "Grade 10";
+    break;
+case "Grade 10":
+    $current_level = "Grade 11";
+    break;
+case "Grade 11":
+    $current_level = "Grade 12";
+    break;
+}
+if($period == "2nd Semester"){
+    switch ($status->level){
+    case "Grade 11":
+        $current_level = "Grade 11";
+        break;
+    case "Grade 12":
+        $current_level = "Grade 12";
+        break;
+    }
+}
+        
+        $promotion->level = $current_level;
+        $promotion->strand = $request->strand;
+        $promotion->section = $request->section;
+        $promotion->save();
     }
 
     function reassess($idno) {
@@ -760,6 +819,64 @@ class Assess extends Controller {
 
         $user->academic_type = $academic_type;
         $user->update();
+        
+        $promotion = \App\Promotion::where('idno', $idno)->first();
+        
+        
+        switch ($status->level){
+case "Pre-Kinder":
+    $current_level = "Kinder";
+    break;
+case "Kinder":
+    $current_level = "Grade 1";
+    break;
+case "Grade 1":
+    $current_level = "Grade 2";
+    break;    
+case "Grade 2":
+    $current_level = "Grade 3";
+    break;
+case "Grade 3":
+    $current_level = "Grade 4";
+    break;
+case "Grade 4":
+    $current_level = "Grade 5";
+    break;
+case "Grade 5":
+    $current_level = "Grade 6";
+    break;
+case "Grade 6":
+    $current_level = "Grade 7";
+    break;
+case "Grade 7":
+    $current_level = "Grade 8";
+    break;
+case "Grade 8":
+    $current_level = "Grade 9";
+    break;
+case "Grade 9":
+    $current_level = "Grade 10";
+    break;
+case "Grade 10":
+    $current_level = "Grade 11";
+    break;
+case "Grade 11":
+    $current_level = "Grade 12";
+    break;
+}
+if($period == "2nd Semester"){
+    switch ($status->level){
+    case "Grade 11":
+        $current_level = "Grade 11";
+        break;
+    case "Grade 12":
+        $current_level = "Grade 12";
+        break;
+    }
+}
+        
+        $promotion->level = $current_level;
+        $promotion->save();
     }
 
     function checkReservations($request, $school_year, $period) {
