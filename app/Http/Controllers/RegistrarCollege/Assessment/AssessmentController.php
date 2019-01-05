@@ -423,27 +423,53 @@ class AssessmentController extends Controller {
         $is_foreign = \App\User::where('idno', $idno)->first();
         if (count($is_foreign) > 0) {
             if ($is_foreign->is_foreign == '1') {
+                $checkforeign = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('subsidiary','Foreign Fee')->get();
+                if(isset($checkforeign) == 0){
                 $addfee = \App\CtrCollegeForeignFee::get();
-                foreach ($addfee as $fee) {
-                if(isset($request->add[$fee->id])){
-                    $addledger = new \App\Ledger;
-                    $addledger->idno = $idno;
-                    $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
-                    $addledger->program_code = $program_code;
-                    $addledger->level = $level;
-                    $addledger->school_year = $school_year;
-                    $addledger->period = $period;
-                    $addledger->category = $fee->category;
-                    $addledger->subsidiary = $fee->subsidiary;
-                    $addledger->receipt_details = $fee->receipt_details;
-                    $addledger->accounting_code = $fee->accounting_code;
-                    $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
-                    $addledger->category_switch = $fee->category_switch;
-                    $addledger->amount = $fee->amount;
-                    $addledger->discount = $fee->amount * ($discountof / 100);
-                    $addledger->discount_code = $discount_code;
-                    $addledger->save();
-                }
+                    foreach ($addfee as $fee) {
+                        if(isset($request->add[$fee->id])){
+                            $addledger = new \App\Ledger;
+                            $addledger->idno = $idno;
+                            $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                            $addledger->program_code = $program_code;
+                            $addledger->level = $level;
+                            $addledger->school_year = $school_year;
+                            $addledger->period = $period;
+                            $addledger->category = $fee->category;
+                            $addledger->subsidiary = $fee->subsidiary;
+                            $addledger->receipt_details = $fee->receipt_details;
+                            $addledger->accounting_code = $fee->accounting_code;
+                            $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                            $addledger->category_switch = $fee->category_switch;
+                            $addledger->amount = $fee->amount;
+                            $addledger->discount = $fee->amount * ($discountof / 100);
+                            $addledger->discount_code = $discount_code;
+                            $addledger->save();
+                        }
+                    }
+                }else{
+                    $addfee = \App\CtrCollegeForeignFee::where('subsidiary', "!=",'Foreign Fee')->get();
+                    foreach ($addfee as $fee) {
+                        if(isset($request->add[$fee->id])){
+                            $addledger = new \App\Ledger;
+                            $addledger->idno = $idno;
+                            $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+                            $addledger->program_code = $program_code;
+                            $addledger->level = $level;
+                            $addledger->school_year = $school_year;
+                            $addledger->period = $period;
+                            $addledger->category = $fee->category;
+                            $addledger->subsidiary = $fee->subsidiary;
+                            $addledger->receipt_details = $fee->receipt_details;
+                            $addledger->accounting_code = $fee->accounting_code;
+                            $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                            $addledger->category_switch = $fee->category_switch;
+                            $addledger->amount = $fee->amount;
+                            $addledger->discount = $fee->amount * ($discountof / 100);
+                            $addledger->discount_code = $discount_code;
+                            $addledger->save();
+                        }
+                    }
                 }
             }
         }

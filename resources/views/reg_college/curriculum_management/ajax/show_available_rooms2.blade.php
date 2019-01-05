@@ -31,7 +31,7 @@
                 </select>
                 
                 @else
-                There is a conlfict in schedule.
+                There is a conflict in schedule.
                 @endif
             </div>
         </div>

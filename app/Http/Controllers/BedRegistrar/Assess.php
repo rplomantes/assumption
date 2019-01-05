@@ -572,6 +572,7 @@ class Assess extends Controller {
         
         $promotion = \App\Promotion::where('idno', $request->idno)->first();
         
+        
         switch ($request->level){
 case "Pre-Kinder":
     $current_level = "Kinder";
@@ -623,11 +624,19 @@ if($period == "2nd Semester"){
         break;
     }
 }
-        
+        if(count($promotion)==0){
+        $new = new \App\Promotion();
+        $new->idno = $request->idno;
+        $new->level = $current_level;
+        $new->strand = $request->strand;
+        $new->section = $request->section;
+        $new->save();
+        }else{
         $promotion->level = $current_level;
         $promotion->strand = $request->strand;
         $promotion->section = $request->section;
         $promotion->save();
+        }
     }
 
     function reassess($idno) {
