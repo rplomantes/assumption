@@ -56,7 +56,7 @@ Route::post('/cashier/pre_registration_payment','Cashier\PreRegistration@post_pr
 
 Route::get('/registrar_college/assessment/{idno}', 'RegistrarCollege\Assessment\AssessmentController@index');
 Route::get('/registrar_college/assessment/save_assessment/{idno}', 'RegistrarCollege\Assessment\AssessmentController@save_assessment');
-Route::get('/registrar_college/reassess/{idno}', 'RegistrarCollege\Assessment\AssessmentController@reassess');
+Route::get('/registrar_college/reassess/{school_year}/{period}/{idno}', 'RegistrarCollege\Assessment\AssessmentController@reassess');
 Route::get('/registrar_college/print_registration_form/{idno}/{school_year}/{period}', 'RegistrarCollege\Assessment\AssessmentController@print_registration_form');
 Route::Post('/registrar_college/assessment/save_assessment','RegistrarCollege\Assessment\AssessmentController@save_assessment');
 //Ajax College Asssessment

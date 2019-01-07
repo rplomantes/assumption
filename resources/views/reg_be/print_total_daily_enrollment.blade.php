@@ -80,6 +80,7 @@
                 <th style="text-align: left;border-top: 1pt dotted black;border-bottom: 1pt dotted black">Last Name</th>
                 <th style="text-align: left;border-top: 1pt dotted black;border-bottom: 1pt dotted black">First Name</th>
                 <th style="text-align: left;border-top: 1pt dotted black;border-bottom: 1pt dotted black">Level</th>
+                <th style="text-align: left;border-top: 1pt dotted black;border-bottom: 1pt dotted black">Strand</th>
                 <th style="text-align: left;border-top: 1pt dotted black;border-bottom: 1pt dotted black">Section</th>
             </tr>
         </thead>
@@ -93,6 +94,7 @@
                 <td>{{$info->lastname}}</td>
                 <td>{{$info->firstname}}</td>
                 <td>{{$student->level}}</td>
+                <td>{{$student->strand}}</td>
                 <td>{{$student->section}}</td>
                 </tr>
             <?php $count = $count + 1; ?>

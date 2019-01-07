@@ -220,12 +220,18 @@ class AssessmentController extends Controller {
          */
     }
 
-    function reassess($idno) {
+    function reassess($school_year,$period,$idno) {
+        
+        DB::beginTransaction();
+        $this->deletecurrentledgers($idno, $school_year, $period);
+        $this->deleteledgerduedate($idno, $school_year, $period);
+        
         $updatestatus = \App\Status::where('idno', $idno)->first();
         $updatestatus->status = 1;
         $updatestatus->save();
+        DB::Commit();
 
-            \App\Http\Controllers\Admin\Logs::log("Re-assess assessment of student $idno");
+        \App\Http\Controllers\Admin\Logs::log("Re-assess assessment of student $idno");
         return redirect("/registrar_college/assessment/$idno");
     }
 
@@ -910,7 +916,7 @@ class AssessmentController extends Controller {
                 $this->removeDM($idno, $levels_reference_id);
                 DB::commit();
             }
-            return $this->reassess($idno);
+            return $this->reassess($schoolyear,$period,$idno);
         }
     }
 

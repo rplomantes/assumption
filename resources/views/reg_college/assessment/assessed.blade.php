@@ -194,7 +194,7 @@ $units = 0;
             </div>
             @if ($totaldm <= 0)
             <div class="col-sm-6">
-                <a href="{{url('registrar_college', array('reassess',$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
+                <a href="{{url('registrar_college', array('reassess',$school_year,$period,$idno))}}"  onclick="return confirm('Are you sure you want to re-assess?')"><button class="col-sm-12 btn btn-warning">RE-ASSESS</button>
             </div>
             @else
             <div class="col-sm-6">

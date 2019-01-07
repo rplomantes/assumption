@@ -68,6 +68,7 @@
                                 <th>Last Name</th>
                                 <th>First Name</th>
                                 <th>Level</th>
+                                <th>Strand</th>
                                 <th>Section</th>
                             </tr>
                         </thead>
@@ -81,7 +82,8 @@
                                 <td>{{$info->lastname}}</td>
                                 <td>{{$info->firstname}}</td>
                                 <td>{{$student->level}}</td>
-                                    <td>{{$student->section}}</td>
+                                <td>{{$student->strand}}</td>
+                                <td>{{$student->section}}</td>
                             </tr>
                             <?php $count = $count + 1; ?>
                             @endforeach

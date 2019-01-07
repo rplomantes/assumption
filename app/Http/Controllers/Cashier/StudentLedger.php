@@ -145,7 +145,7 @@ class StudentLedger extends Controller {
             for ($i = strlen($number); $i <= 9; $i++) {
                 $receipt = $receipt . "0";
             }
-            if(Auth::user()->idno == "igarcia" || Auth::user()->idno == "belle"){
+            if(Auth::user()->accesslevel == env("CASHIER")){
                 $receipt_number = $receipt . $number;
                 $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
                 if(count($check_or)>0){

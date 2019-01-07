@@ -70,6 +70,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     <form action="{{url('/bedregistrar', array('updateinfo', $user->idno))}}" method="post" class="form-horizontal">
     @if($status->status == env("FOR_APPROVAL"))
     {{ csrf_field() }}
+    <input type="hidden" name="user_status" value="0">
     <div class="col-md-12">
         
          <div class="col-md-3 pull-right">
