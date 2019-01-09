@@ -59,6 +59,10 @@
                         <input name="course_code" type='text' class='form form-control' value = "{{$grade->course_code}}">
                         <label>Course Name</label>
                         <input name="course_name" type='text' class='form form-control' value = "{{$grade->course_name}}">
+                        <label>Lecture Unit</label>
+                        <input name="lec" type='text' class='form form-control' value = "{{$grade->lec}}">
+                        <label>Laboratory Unit</label>
+                        <input name="lab" type='text' class='form form-control' value = "{{$grade->lab}}">
                         <label>&nbsp;</label>
                         <input type='submit' class='col-sm-12 btn btn-success' value = "Update Record">
                     </form>  

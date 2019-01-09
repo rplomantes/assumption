@@ -22,7 +22,7 @@ Route::get('/registrarcollege/ajax/getprogram', 'RegistrarCollege\Admission\Ajax
 Route::get('/accounting/ajax/getplan','Accounting\Ajax\GetPlan@plan');
 Route::get('/accounting/ajax/print_getplan/{department}','Accounting\Ajax\GetPlan@print_plan');
 //cashier
-Route::get('/cashier/viewledger/{idno}', 'Cashier\StudentLedger@view');
+Route::get('/cashier/viewledger/{school_year}/{idno}', 'Cashier\StudentLedger@view');
 
 Route::get('/cashier/reservation/{idno}', 'Cashier\StudentReservation@reservation');
 Route::post('/cashier/reservation', 'Cashier\StudentReservation@postreservation');

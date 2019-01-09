@@ -8,6 +8,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     $layout="layouts.appaccountinghead";
 }
 ?>
+<?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first()->school_year; ?>
 @extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
@@ -43,7 +44,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url("/cashier",array('viewledger',$payment->idno))}}"> Student Ledger</a></li>
+        <li><a href="{{url("/cashier",array('viewledger',$sy,$payment->idno))}}"> Student Ledger</a></li>
         <li class="active">View Receipt</li>
       </ol>
 </section>
@@ -139,7 +140,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             @endif
             
             @if($payment->idno != 999999)
-            <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$payment->idno))}}">Back To Ledger</a>
+            <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$sy,$payment->idno))}}">Back To Ledger</a>
             @endif
             </div>
             

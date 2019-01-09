@@ -975,6 +975,8 @@ if($period == "2nd Semester"){
         $debit_memo->amount = $totalReserved;
         $debit_memo->reservation_sy = $school_year->school_year;
         $debit_memo->posted_by = Auth::user()->idno;
+        $debit_memo->school_year = \App\Status::where('idno', $idno)->first()->school_year;
+        $debit_memo->period = \App\Status::where('idno', $idno)->first()->period;
         $debit_memo->save();
     }
 

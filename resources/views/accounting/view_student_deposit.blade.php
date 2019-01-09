@@ -42,6 +42,7 @@
           </li>
 @endsection
 @section('header')
+<?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first()->school_year; ?>
 <section class="content-header">
       <h1>
         DEBIT MEMO
@@ -49,7 +50,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"><i class="fa fa-dashboard"></i> Student Ledger</a></li>
+        <li><a href="{{url("/cashier",array('viewledger',$sy,$user->idno))}}"><i class="fa fa-dashboard"></i> Student Ledger</a></li>
         <li class="active">Student Deposit</li>
       </ol>
 </section>

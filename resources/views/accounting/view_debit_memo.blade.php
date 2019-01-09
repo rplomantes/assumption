@@ -43,13 +43,14 @@
 @endsection
 @section('header')
 <section class="content-header">
+    <?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first()->school_year; ?>
       <h1>
         DEBIT MEMO
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"><i class="fa fa-dashboard"></i> Student Ledger</a></li>
+        <li><a href="{{url("/cashier",array('viewledger',$sy,$user->idno))}}"><i class="fa fa-dashboard"></i> Student Ledger</a></li>
         <li class="active">Debit Memo</li>
       </ol>
 </section>
@@ -111,7 +112,7 @@
             @endif
             
             @if($debit_memo->idno != 999999)
-            <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$debit_memo->idno))}}">Back To Ledger</a>
+            <a class="btn btn-primary"  href="{{url("/cashier",array("viewledger",$sy,$debit_memo->idno))}}">Back To Ledger</a>
             @endif
             </div>
             

@@ -61,7 +61,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
 <style>
    
 </style>
-
+<?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first()->school_year; ?>
 <section class="content-header">
       <h1>
         Debit Memo
@@ -69,7 +69,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"> Debit Memo</a></li>
+        <li><a href="{{url("/cashier",array('viewledger',$sy,$user->idno))}}"> Debit Memo</a></li>
         <li class="active">Main Payment</li>
       </ol>
 </section>

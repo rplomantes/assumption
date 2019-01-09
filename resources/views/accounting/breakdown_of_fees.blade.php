@@ -106,6 +106,13 @@
                     </table>
                     @endforeach
                 @else
+                    <?php
+                    $totalamount = 0;
+                    $totaldiscount = 0;
+                    $totaldm = 0;
+                    $totalpayment = 0;
+                    $totalbalance = 0;
+                    ?>
                     {{$sy->school_year}}-{{$sy->school_year+1}}
                     <?php $ledgers = \App\Ledger::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->get(); ?>
                     <table class="table table-bordered table-condensed">
@@ -118,16 +125,25 @@
                             <th>Balance</th>
                         </tr>
                                 @foreach ($ledgers as $ledger)
+                                
                                 <?php $balance=$ledger->amount-$ledger->discount-$ledger->debit_memo-$ledger->payment; ?>
                         <tr>
                             <td>{{$ledger->subsidiary}}</td>
-                            <td>{{number_format($ledger->amount,2)}}</td>
-                            <td>{{number_format($ledger->discount,2)}}</td>
-                            <td>{{number_format($ledger->debit_memo,2)}}</td>
-                            <td>{{number_format($ledger->payment,2)}}</td>
-                            <td>{{number_format($balance,2)}}</td>
+                            <td>{{number_format($ledger->amount,2)}}<?php $totalamount = $totalamount + $ledger->amount; ?></td>
+                            <td>{{number_format($ledger->discount,2)}}<?php $totaldiscount = $totaldiscount + $ledger->discount; ?></td>
+                            <td>{{number_format($ledger->debit_memo,2)}}<?php $totaldm = $totaldm + $ledger->debit_memo; ?></td>
+                            <td>{{number_format($ledger->payment,2)}}<?php $totalpayment = $totalpayment + $ledger->payment; ?></td>
+                            <td>{{number_format($balance,2)}}<?php $totalbalance = $totalbalance + $balance; ?></td>
                         </tr>
                                 @endforeach
+                        <tr>
+                            <th>Total</th>
+                            <th>{{$totalamount}}</th>
+                            <th>{{$totaldiscount}}</th>
+                            <th>{{$totaldm}}</th>
+                            <th>{{$totalpayment}}</th>
+                            <th>{{$totalbalance}}</th>
+                        </tr>
                     </table>
                 @endif
             </div>

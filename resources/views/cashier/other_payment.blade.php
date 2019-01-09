@@ -1,3 +1,4 @@
+<?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first()->school_year; ?>
 @extends('layouts.appcashier')
 @section('messagemenu')
  <li class="dropdown messages-menu">
@@ -33,7 +34,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url("/cashier",array('viewledger',$user->idno))}}"> Student Ledger</a></li>
+        <li><a href="{{url("/cashier",array('viewledger',$sy,$user->idno))}}"> Student Ledger</a></li>
         <li class="active">Other Payment</li>
       </ol>
 </section>

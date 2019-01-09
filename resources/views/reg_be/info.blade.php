@@ -1196,7 +1196,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         @endif
                         @if($ctrrequirements->recommendation_form >= 1)
                         <div class="col-sm-12">
-                            <input disabled='' type='checkbox' name='recommedation_form'><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
+                            <input disabled='' type='checkbox' name='recommendation_form'><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
                         </div>
                         @endif
                         @if($ctrrequirements->baptismal_certificate >= 1)

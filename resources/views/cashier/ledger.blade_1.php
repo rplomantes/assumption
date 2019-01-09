@@ -49,27 +49,6 @@ if(Auth::user()->accesslevel == env("CASHIER")){
 @endsection
 @section('maincontent')
 <div class="container-fluid">
-    <div class="col-md-12">
-            <div class='form-horizontal'>
-        <div class='form-group'>
-            <div class='col-sm-2'>
-                <label>School Year</label>
-                <select class="form form-control select2" name="school_year" id='school_year'>
-                    <option value="">Select School Year</option>
-                    <option value="2017" @if ($school_year == 2017) selected = "" @endif>2017-2018</option>
-                <option value="2018" @if ($school_year == 2018) selected = "" @endif>2018-2019</option>
-                <option value="2019" @if ($school_year == 2019) selected = "" @endif>2019-2020</option>
-                <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
-                <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
-                </select>
-            </div>   
-            <div class='col-sm-4'>
-                <label>&nbsp;</label>
-                <button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-success'><span>Set School Year</span></button>
-            </div>
-        </div>
-            </div>
-    </div>
     <div class="col-md-3 form-horizontal">
         
     </div>    
@@ -152,128 +131,12 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         </table> 
         </div>
     <div class="col-md-12">
-        
-    <div class="accordion">
-        @foreach ($periods as $key => $value)
-        
-        
-        <?php 
-        $period = "$periods[$key]";
-        if($period == "Yearly"){
-            $period = NULL;
-        }
-        $ledger_main = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)
-                ->where(function($query) {
-                                $query->where('category_switch', 1)
-                                ->orWhere('category_switch', 2)
-                                ->orWhere('category_switch', 3)
-                                ->orWhere('category_switch', 4)
-                                ->orWhere('category_switch', 5)
-                                ->orWhere('category_switch', 6)
-                                ->orWhere('category_switch', 11)
-                                ->orWhere('category_switch', 12)
-                                ->orWhere('category_switch', 13)
-                                ->orWhere('category_switch', 14)
-                                ->orWhere('category_switch', 15)
-                                ->orWhere('category_switch', 16);
-                            })
-                            ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->where('school_year', $school_year)->where('period', $period)->orderBy('category_switch')->get();
-
-            $ledger = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)
-                            ->where(function($query) {
-                                $query->where('category_switch', 4)
-                                ->orWhere('category_switch', 5)
-                                ->orWhere('category_switch', 14)
-                                ->orWhere('category_switch', 15);
-                            })->groupBy('category', 'category_switch')->where('school_year', $school_year)->where('period', $period)->where('category', '!=', 'SRF')->orderBy('category_switch')->get();
-
-            $ledger_srf = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)
-                            ->where(function($query) {
-                                $query->where('category_switch', 4)
-                                ->orWhere('category_switch', 5)
-                                ->orWhere('category_switch', 14)
-                                ->orWhere('category_switch', 15);
-                            })->groupBy('category', 'category_switch')->where('school_year', $school_year)->where('period', $period)->where('category', 'SRF')->orderBy('category_switch')->get();
-
-            $ledger_main_tuition = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)
-                    ->where(function($query) {
-                                $query->where('category_switch', 6)
-                                ->orWhere('category_switch', 16);
-                            })->where('school_year', $school_year)->where('period', $period)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
-            $ledger_main_misc = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)
-                    ->where(function($query) {
-                                $query->where('category_switch', 1)
-                                ->orWhere('category_switch', 11);
-                            })->where('school_year', $school_year)->where('period', $period)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
-            $ledger_main_other = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)
-                    ->where(function($query) {
-                                $query->where('category_switch', 2)
-                                ->orWhere('category_switch', 12);
-                            })->where('school_year', $school_year)->where('period', $period)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
-            $ledger_main_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)
-                    ->where(function($query) {
-                                $query->where('category_switch', 3)
-                                ->orWhere('category_switch', 13);
-                            })->where('school_year', $school_year)->where('period', $period)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
-
-//for accounting displaying particulars
-$ledger_list_tuition = \App\Ledger::where('idno',$user->idno)
-        ->where(function($query) {
-                                $query->where('category_switch', 6)
-                                ->orWhere('category_switch', 16);
-                            })->where('school_year', $school_year)->where('period', $period)->first();
-$ledger_list_misc = \App\Ledger::where('idno',$user->idno)
-        ->where(function($query) {
-                                $query->where('category_switch', 1)
-                                ->orWhere('category_switch', 11);
-                            })->where('school_year', $school_year)->where('period', $period)->get();
-$ledger_list_other = \App\Ledger::where('idno',$user->idno)
-        ->where(function($query) {
-                                $query->where('category_switch', 2)
-                                ->orWhere('category_switch', 12);
-                            })->where('school_year', $school_year)->where('period', $period)->get();
-$ledger_list_depo = \App\Ledger::where('idno',$user->idno)
-        ->where(function($query) {
-                                $query->where('category_switch', 3)
-                                ->orWhere('category_switch', 13);
-                            })->where('school_year', $school_year)->where('period', $period)->get();
-$ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')->where('school_year', $school_year)->where('period', $period)
-        ->where(function($query) {
-                                $query->where('category_switch', 4)
-                                ->orWhere('category_switch', 14);
-                            })->get();
-/////
-        
-            $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
-
-            $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
-            $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
-                     
-                        $ledger_others = \App\Ledger::where('idno', $idno)
-                                ->where(function($query) {
-                                $query->where('category_switch', 7)
-                                ->orWhere('category_switch', 17);
-                            })->where('school_year', $school_year)->where('period', $period)->get();
-            $ledger_others_noreturn = \App\Ledger::where('idno', $idno)
-                    ->where(function($query) {
-                                $query->where('category_switch', 7)
-                                ->orWhere('category_switch', 17);
-                            })->where('is_returned_check',0)->where('school_year', $school_year)->where('period', $period)->get();
-        ?>
-        
-        
+        @if($status->academic_type == 'College' && (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD")))
+        <div class="accordion">
     <div class="accordion-section">
-        <a class="accordion-section-title active" href="#accordion-{{$key}}">A.Y. {{$school_year}}-{{$school_year+1}} {{$period}}</a>
+        <a class="accordion-section-title active" href="#accordion-0">Courses Enrolled</a>
          
-        <div id="accordion-{{$key}}" class="accordion-section-content open">
-            @if($status->academic_type == 'College' && (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD")))
-            <h3>COURSES ENROLLED</h3>
+        <div id="accordion-0" class="accordion-section-content open">
                 @if($status->status > 1)
             <table class="table table-bordered table-condensed">
                 <tr>
@@ -281,8 +144,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                     <th>Course Name</th>
                     <th>Units</th>
                 </tr>
-                <?php $units=0; $grades = \App\GradeCollege::where('idno', $user->idno)->where('school_year', $school_year)->where('period', $period)->get(); ?>
-                @if(count($grades)>0)
+                <?php $units=0; $grades = \App\GradeCollege::where('idno', $user->idno)->where('school_year', $status->school_year)->where('period', $status->period)->get(); ?>
                 @foreach ($grades as $grade)
                 <tr>
                     <td width='25%'>{{$grade->course_code}}</td>
@@ -294,18 +156,20 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                     <th colspan='2'>Total Units</th>
                     <th>{{$units}}</th>
                 </tr>
-                
-                @else
-                No Courses/Enrolled/Advised
-                @endif
             </table>
                 @else <h5>No Courses Enrolled/Advised</h5>
                 @endif
+        </div>
+    </div>
+        </div>
         @endif
+    <div class="accordion">
+    <div class="accordion-section">
+        <a class="accordion-section-title active" href="#accordion-1">Main Fees</a>
+         
+        <div id="accordion-1" class="accordion-section-content open">
+            @if(count($ledger_main)>0)
             
-            
-            <h3>MAIN FEES</h3>
-           @if(count($ledger_main)>0)
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
             <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th><th>Edit</th></tr>
                 @else
@@ -335,6 +199,14 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($main_tuition->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main_tuition->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
+               
+<!--           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<?php
+$ledger_list_tuition = \App\Ledger::where('idno',$user->idno)->where('category_switch', 6)->first();
+?>
+               <td><a href="{{url('/accounting', array('edit_ledger', $ledger_list_tuition->id))}}">Edit</a></td>
+               <td>Remove</td>
+               @endif-->
                </tr>
            @endforeach
            
@@ -362,6 +234,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach    
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<?php
+$ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_switch', 1)->get();
+?>
            @foreach($ledger_list_misc as $list_misc)
            <?php $balance=+$list_misc->amount-$list_misc->discount-$list_misc->debit_memo-$list_misc->payment; ?>
            <?php $listnet = $list_misc->amount - ($list_misc->discount + $list_misc->debit_memo); ?>
@@ -372,6 +247,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
                <td><a href="{{url('/accounting', array('edit_ledger', $list_misc->id))}}">Edit</a></td>
                </tr>
            @endforeach  
@@ -402,6 +278,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<?php
+$ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_switch', 2)->get();
+?>
            @foreach($ledger_list_other as $list_other)
            <?php $balance=+$list_other->amount-$list_other->discount-$list_other->debit_memo-$list_other->payment; ?>
            <?php $listnet = $list_other->amount - ($list_other->discount + $list_other->debit_memo); ?>
@@ -412,6 +291,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
                <td><a href="{{url('/accounting', array('edit_ledger', $list_other->id))}}">Edit</a></td>
                </tr>
            @endforeach
@@ -443,6 +323,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<?php
+$ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_switch', 3)->get();
+?>
            @foreach($ledger_list_depo as $list_depo)
            <?php $balance=+$list_depo->amount-$list_depo->discount-$list_depo->debit_memo-$list_depo->payment; ?>
            <?php $listnet = $list_depo->amount - ($list_depo->discount + $list_depo->debit_memo); ?>
@@ -453,6 +336,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
                <td><a href="{{url('/accounting', array('edit_ledger', $list_depo->id))}}">Edit</a></td>
                </tr>
            @endforeach
@@ -463,8 +347,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><span class="net">{{number_format($totalnet,2)}}</span></td>
                <td align="right">{{number_format($totaldm,2)}}</td>
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
-               <td align="right"><b>{{number_format($totalbalance,2)}}</b></td>
-           </tr>
+               <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
            
            
            
@@ -472,7 +355,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
            
        
            @foreach($ledger as $main)
-            <?php
+           <?php
                $totalamount=$totalamount+$main->amount;
                $totaldiscount=$totaldiscount+$main->discount;
                $totaldm=$totaldm+$main->debit_memo;
@@ -481,7 +364,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                $totalbalance=$totalbalance+$balance;
                $net = $main->amount - ($main->discount);
                $totalnet = $totalnet + $net;
-            ?>
+               ?>
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
@@ -491,6 +374,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
                
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+               
                <td><a href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>
                @endif
                </tr>
@@ -523,6 +407,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
            
            
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+<?php
+$ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')->where('category_switch', env("SRF_FEE"))->get();
+?>
            @foreach($ledger_list as $list)
            <?php $balance=+$list->amount-$list->discount-$list->debit_memo-$list->payment; ?>
            <?php $listnet = $list->amount - ($list->discount); ?>
@@ -533,9 +420,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               
                <td><a href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>
                </tr>
            @endforeach
+           
            @endif
            
            
@@ -553,11 +442,13 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             @else
             <h5>This Student Is Not Yet Assessed</h5>
             @endif
-            
-            
-            
-            <!-- OTHER FEES -->
-            <h3>OTHER FEES</h3>
+        </div><!--end .accordion-section-content-->
+    </div><!--end .accordion-section-->
+    
+    <div class="accordion-section">
+        <a class="accordion-section-title active" href="#accordion-2">Other Fees</a>
+         
+        <div id="accordion-2" class="accordion-section-content open">
             @if(count($ledger_others)>0)
             <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
            <?php
@@ -593,81 +484,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             @else
             <h5>No Other Payment</h5>
             @endif 
-            
-            
-            <!--PAYMENT HISTORY-->
-            <h3>PAYMENT HISTORY</h3>
-            @if(count($payments)>0)
-         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>Receipt No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View</td></tr>
-          @foreach($payments as $payment)
-          <tr><td>{{$payment->transaction_date}}</td>
-              <td>{{$payment->receipt_no}}</td>
-              <td>{{$payment->remarks}}</td>
-              <td align='right'>{{number_format($payment->cash_amount+$payment->check_amount+$payment->credit_card_amount+$payment->deposit_amount,2)}}</td>
-              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
-              <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View</a></td>
-              </tr>
-          @endforeach
-         </table>    
-         
-         @else
-         <h5>No Payment Has Been Made Yet</h5>
-         @endif
-         
-         <!--DEBIT MEMO-->
-         <h3>DEBIT MEMO</h3>
-         @if(count($debit_memos)>0)
-        
-         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>DM No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View</td></tr>
-          @foreach($debit_memos as $payment)
-          <tr><td>{{$payment->transaction_date}}</td>
-              <td>{{$payment->dm_no}}</td>
-              <td>{{$payment->explanation}}</td>
-              <td align='right'>{{number_format($payment->amount,2)}}</td>
-              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
-              <td><a  href="{{url('/accounting',array('view_debit_memo',$payment->reference_id))}}">View</a></td>
-              </tr>
-          @endforeach
-         </table>    
-         
-         @else
-         <h5>No Debit Memo For This Account</h5>
-         @endif
-         
-         
-            
-            <!--ADDED AS STUDENT DEPOSIT-->
-            <h3>ADDED AS STUDENT DEPOSIT</h3>
-            @if(count($student_deposits)>0)
-        
-         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>SD No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View</td></tr>
-          @foreach($student_deposits as $payment)
-          <tr><td>{{$payment->transaction_date}}</td>
-              <td>{{$payment->sd_no}}</td>
-              <td>{{$payment->explanation}}</td>
-              <td align='right'>{{number_format($payment->amount,2)}}</td>
-              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
-              <td><a  href="{{url('/accounting',array('view_add_to_student_deposit',$payment->reference_id))}}">View</a></td>
-              </tr>
-          @endforeach
-         </table>    
-         
-         @else
-         <h5>No Added to Student Deposit For This Account</h5>
-         @endif
-         
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
-    
-        @endforeach
-    
-<!--    <div class="accordion-section">
-        <a class="accordion-section-title active" href="#accordion-2">Other Fees</a>
-         
-        <div id="accordion-2" class="accordion-section-content open">
-            
-        </div>end .accordion-section-content
-    </div>end .accordion-section-->
     
     
     <div class="accordion-section">
@@ -716,7 +534,67 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
      </div>
         <hr>
      
+         <a class="accordion-section-title" href="javascript:void(0)">Payment History</a>
+         <div class="history">
+         @if(count($payments)>0)
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>Receipt No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View Receipt</td></tr>
+          @foreach($payments as $payment)
+          <tr><td>{{$payment->transaction_date}}</td>
+              <td>{{$payment->receipt_no}}</td>
+              <td>{{$payment->remarks}}</td>
+              <td align='right'>{{number_format($payment->cash_amount+$payment->check_amount+$payment->credit_card_amount+$payment->deposit_amount,2)}}</td>
+              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
+              <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View receipt</a></td>
+              </tr>
+          @endforeach
+         </table>    
          
+         @else
+         <h5>No Payment Has Been Made Yet</h5>
+         @endif
+        </div> 
+        
+         <a class="accordion-section-title" href="javascript:void(0)">Debit Memo</a>
+         <div class="history">
+         @if(count($debit_memos)>0)
+        
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>DM No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View DM</td></tr>
+          @foreach($debit_memos as $payment)
+          <tr><td>{{$payment->transaction_date}}</td>
+              <td>{{$payment->dm_no}}</td>
+              <td>{{$payment->explanation}}</td>
+              <td align='right'>{{number_format($payment->amount,2)}}</td>
+              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
+              <td><a  href="{{url('/accounting',array('view_debit_memo',$payment->reference_id))}}">View DM</a></td>
+              </tr>
+          @endforeach
+         </table>    
+         
+         @else
+         <h5>No Debit Memo For This Account</h5>
+         @endif
+         </div>
+         
+         <a class="accordion-section-title" href="javascript:void(0)">Added as Student Deposit</a>
+         <div class="history">
+         @if(count($student_deposits)>0)
+        
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>SD No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View SD</td></tr>
+          @foreach($student_deposits as $payment)
+          <tr><td>{{$payment->transaction_date}}</td>
+              <td>{{$payment->sd_no}}</td>
+              <td>{{$payment->explanation}}</td>
+              <td align='right'>{{number_format($payment->amount,2)}}</td>
+              <td>@if($payment->is_reverse=='0') Ok @else Canceled @endif</td>
+              <td><a  href="{{url('/accounting',array('view_add_to_student_deposit',$payment->reference_id))}}">View SD</a></td>
+              </tr>
+          @endforeach
+         </table>    
+         
+         @else
+         <h5>No Added to Student Deposit For This Account</h5>
+         @endif
+     </div>  
     </div>  
     </div>
     <div class="col-md-4">
@@ -926,24 +804,10 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
     }
     
-    $('#accordion-0').slideUp(300).addClass('open');
-    $('#accordion-1').slideUp(300).addClass('open');
-    $('#accordion-2').slideUp(300).addClass('open'); 
-    $('#accordion-4').slideUp(300).addClass('open'); 
-    
-    if("{{$status->school_year}}" == "{{$school_year}}"){
-        if("{{$status->academic_type}}"=="BED"){
-        $('#accordion-0').slideDown(300).addClass('open');
-        }else{
-            if("{{$status->period}}" == "1st Semester"){
-                $('#accordion-0').slideDown(300).addClass('open'); 
-            }else if("{{$status->period}}" == "2nd Semester"){
-                $('#accordion-1').slideDown(300).addClass('open');
-            }else if("{{$status->period}}" == "Summer"){
-                $('#accordion-2').slideDown(300).addClass('open');
-            }
-        }
-    }
+    $('#accordion-0').slideDown(300).addClass('open');
+    $('#accordion-1').slideDown(300).addClass('open');
+    $('#accordion-2').slideDown(300).addClass('open'); 
+    $('#accordion-4').slideDown(300).addClass('open'); 
     
     $('.accordion-section-title').click(function(e) {
         // Grab current anchor value
@@ -966,11 +830,4 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
     });
 });
 </script>    
-<script>
-    $(document).ready(function(){
-      $("#view-button").on('click',function(e){
-        document.location="{{url('/cashier',array('viewledger'))}}" + "/" + $("#school_year").val() + "/" + "{{$idno}}";
-      });
-    });
-</script>
 @endsection

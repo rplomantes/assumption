@@ -25,6 +25,8 @@ class CreateDebitMemosTable extends Migration
             $table->integer('is_reverse')->default(0);
             $table->string('reservation_sy')->nullable();
             $table->string('posted_by');
+            $table->string('school_year');
+            $table->string('period');
             $table->string('levels_reference_id')->nullable();
             $table->foreign("idno")->references("idno")
                     ->on("users")->onUpdate("cascade");

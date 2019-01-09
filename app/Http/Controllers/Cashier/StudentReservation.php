@@ -181,6 +181,8 @@ class StudentReservation extends Controller
         
         $adddpayment->remarks=$remarks; 
         $adddpayment->posted_by=Auth::user()->idno;
+        $adddpayment->school_year=$status->school_year; 
+        $adddpayment->period=$status->period; 
         $adddpayment->save();
     }
     

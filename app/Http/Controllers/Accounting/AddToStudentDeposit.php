@@ -55,6 +55,8 @@ class AddToStudentDeposit extends Controller {
         $adddm->explanation=$request->remark;
         $adddm->amount=$request->deposit;
         $adddm->posted_by=Auth::user()->idno;
+        $adddm->school_year = \App\Status::where('idno', $request->idno)->first()->school_year;
+        $adddm->period = \App\Status::where('idno', $request->idno)->first()->period;
         $adddm->save();
     }
     

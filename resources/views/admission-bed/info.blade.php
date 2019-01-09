@@ -70,7 +70,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     <form action="{{url('/bedregistrar', array('updateinfo', $user->idno))}}" method="post" class="form-horizontal">
     @if($status->status == env("FOR_APPROVAL"))
     {{ csrf_field() }}
-    <input type="hidden" name="user_status" value="0">
+    <input type="hidden" name="user_status" value="1">
     <div class="col-md-12">
         
          <div class="col-md-3 pull-right">
@@ -1257,7 +1257,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         @endif
                         @if($ctrrequirements->recommendation_form >= 1)
                         <div class="col-sm-12">
-                            <input type='checkbox'  name='recommedation_form' @if($bedrequirements->recommedation_form == 1)checked=''@endif><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
+                            <input type='checkbox'  name='recommendation_form' @if($bedrequirements->recommendation_form == 1)checked=''@endif><label>&nbsp;Recommendation Forms (duly accomplished by Guidance/ Class Adviser and Principal)</label>
                         </div>
                         @endif
                         @if($ctrrequirements->baptismal_certificate >= 1)

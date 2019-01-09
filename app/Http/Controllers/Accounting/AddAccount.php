@@ -52,13 +52,13 @@ class AddAccount extends Controller
          $addledger->idno = $request->idno;
          $status = \App\Status::where('idno',$request->idno)->first();
          if(count($status)>0){
-             if($status->academic_type == "BED" && $status->status > "0"){
+             if(($status->academic_type == "BED" || $status->academic_type == "SHS") && $status->status > "0"){
                $level=  \App\BedLevel::where('idno',$request->idno)
                        ->where('school_year',$status->school_year)
                        ->where('period',$status->period)->first();
              } else if($status->academic_type=="College"){
-                if($status->academic_type == "BED" && $status->status > "0"){
-               $level=  \App\BedLevel::where('idno',$request->idno)
+                if($status->academic_type == "College" && $status->status > "0"){
+               $level=  \App\CollegeLevel::where('idno',$request->idno)
                        ->where('school_year',$status->school_year)
                        ->where('period',$status->period)->first(); 
              }
@@ -66,7 +66,7 @@ class AddAccount extends Controller
          }
          if(isset($level)){
          if(count($level)>0){
-                if($status->academic_type=="BED")
+                if($status->academic_type=="BED" || $status->academic_type=="SHS")
                 $addledger->department = $level->department;
                 $addledger->track = $level->track;
                 $addledger->strand = $level->strand;

@@ -111,6 +111,8 @@ class StudentRecordController extends Controller {
             $grade->period = $request->period;
             $grade->course_code = $request->course_code;
             $grade->course_name = $request->course_name;
+            $grade->lec = $request->lec;
+            $grade->lab = $request->lab;
             $grade->save();
 
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
@@ -132,6 +134,8 @@ class StudentRecordController extends Controller {
             $grade->period = $request->period;
             $grade->course_code = $request->course_code;
             $grade->course_name = $request->course_name;
+            $grade->lec = $request->lec;
+            $grade->lab = $request->lab;
             $grade->save();
 
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
@@ -154,6 +158,8 @@ class StudentRecordController extends Controller {
             $grade->period = $request->period;
             $grade->course_code = $request->course_code;
             $grade->course_name = $request->course_name;
+            $grade->lec = $request->lec;
+            $grade->lab = $request->lab;
             $grade->save();
 
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
