@@ -101,7 +101,7 @@ class GradesController extends Controller
         }
     }
     
-    function print_grade($schedule_id) {
+    function print_grade($school_year,$period,$schedule_id) {
         if (Auth::user()->accesslevel == env('INSTRUCTOR') || Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
             
             $confirm_instructor = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
@@ -110,7 +110,7 @@ class GradesController extends Controller
             $courses_id = \App\CourseOffering::where('schedule_id',$schedule_id)->get();
             $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
             
-            $pdf = PDF::loadView('college_instructor.print_grade', compact('courses_id','schedule_id','course_name','instructor'));
+            $pdf = PDF::loadView('college_instructor.print_grade', compact('courses_id','schedule_id','course_name','instructor','school_year','period'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("student_list_.pdf");
             

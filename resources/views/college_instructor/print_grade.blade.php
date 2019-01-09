@@ -53,7 +53,14 @@
 <header>
         <table class="table table-condensed" width="100%" border="0">
             <tbody>        
-                <div>    <?php $sy = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first(); ?>
+                <div>    
+                    <?php $sy = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first(); ?>
+                    @if(Auth::user()->accesslevel == env('INSTRUCTOR'))
+                    <?php $sy = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first(); ?>
+                    @else
+                    <?php $sy->school_year = $school_year;
+                    $sy->period = $period;?>
+                    @endif
                     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
                     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br>San Lorenzo Drive, San Lorenzo Village<br> Makati City<br><br><b>Higher Education Department<br>OFFICIAL GRADING SHEET</b><br><b>A.Y. {{$sy->school_year}} - {{$sy->school_year + 1}}, {{$sy->period}}</b></div>
                 </div>
@@ -213,8 +220,12 @@ $allsection = $allsection. "/$course_id->section_name";
 ?>
 @endforeach
 <?php
+if(Auth::user()->accesslevel == env('INSTRUCTOR')){
 $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
 $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
+}else{
+    
+}
 $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->orderBy('users.lastname')->get();
 ?>
         

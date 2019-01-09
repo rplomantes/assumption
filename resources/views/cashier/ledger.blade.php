@@ -249,9 +249,17 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 ->orWhere('category_switch', 14);
                             })->get();
 /////
-        
+        if($school_year=="2018" and $period == "2nd Semester"){
+            $payments = \App\Payment::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+        }else{
             $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
-
+        }
+        
             $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
                      

@@ -172,7 +172,7 @@ Route::post('/registrar_college/instructor/modify_old_instructor', 'RegistrarCol
 
 
 //Registrar Grade Management
-Route::get('/registrar_college/print_grade_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
+Route::get('/registrar_college/print_grade_list/{school_year}/{period}/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
 //Close/Open Grade Module
 Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\GradeManagement\OpenCloseController@setup');
 Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
@@ -269,7 +269,7 @@ Route::get('/academic/view_info/{idno}','Dean\Record@view_info');
 Route::get('/college_instructor/grades/{schedule_id}', 'CollegeInstructor\Grades\GradesController@index');
 Route::post('/college_instructor/grades/save_submit', 'CollegeInstructor\Grades\GradesController@save_submit');
 Route::get('/college_instructor/print_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_list');
-Route::get('/college_instructor/print_grade/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
+Route::get('/college_instructor/print_grade/{school_year}/{period}/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
 Route::get('/college_instructor/export_list/{schedule_id}', 'CollegeInstructor\Grades\GradesController@export_list');
 
 //Ajax COLLEGE INSTRUCTOR///////////////////////////////////////////////////////

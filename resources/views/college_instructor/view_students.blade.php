@@ -213,7 +213,7 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
         <a href='{{url('college_instructor', array('print_list', $schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Class List</div></a>
     </div>
     <div class="col-sm-2">
-        <a href='{{url('college_instructor', array('print_grade', $schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Grade Record</div></a>
+        <a href='{{url('college_instructor', array('print_grade', $school_year,$period,$schedule_id))}}' target="_blank"><div class="btn btn-info col-sm-12">Print Grade Record</div></a>
     </div>
     </div>
     <div class='col-sm-12 form-group'>
