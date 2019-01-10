@@ -232,7 +232,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count;
                 } else {
 
-                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED") {
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
                         $grade->completion = "4.00";
                         $is_x = 1;
                     }
@@ -241,7 +241,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count + $grade->lec + $grade->lab;
                 }
             } else {
-                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED") {
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
                     $grade->finals = "4.00";
                         $is_x = 1;
                 }
@@ -331,7 +331,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count;
                 } else {
 
-                    if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED") {
+                    if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "4.00") {
                         $pin_grades->completion = "4.00";
                         $is_x = 1;
                     }
@@ -340,7 +340,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count + $pin_grades->lec + $pin_grades->lab;
                 }
             } else {
-                if ($pin_grades->finals == "FA" || $pin_grades->finals == "UD" || $pin_grades->finals == "FAILED") {
+                if ($pin_grades->finals == "FA" || $pin_grades->finals == "UD" || $pin_grades->finals == "FAILED" || $pin_grades->finals == "4.00") {
                     $pin_grades->finals = "4.00";
                     $is_x = 1;
                 }
@@ -412,7 +412,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count;
                 } else {
 
-                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED") {
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
                         $grade->completion = "4.00";
                         $is_x = 1;
                     }
@@ -421,7 +421,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count + $grade->lec + $grade->lab;
                 }
             } else {
-                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED") {
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
                     $grade->finals = "4.00";
                         $is_x = 1;
                 }
@@ -491,7 +491,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count;
                 } else {
 
-                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED") {
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
                         $grade->completion = "4.00";
                         $is_x = 1;
                     }
@@ -500,7 +500,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     $count = $count + $grade->lec + $grade->lab;
                 }
             } else {
-                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED") {
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
                     $grade->finals = "4.00";
                         $is_x = 1;
                 }
