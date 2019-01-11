@@ -103,7 +103,10 @@
                         <div class='col-sm-3'>
                             <label>School Year</label>
                             <select class="form form-control" name="applying_for_sy">
-                                <option value='2018' @if($adhedinfo->applying_for_sy == '2018') selected='' @else @endif>2018</option>
+                                <option value='2018' @if($adhedinfo->applying_for_sy == '2018') selected='' @else @endif>2018-2019</option>
+                                <option value='2019' @if($adhedinfo->applying_for_sy == '2019') selected='' @else @endif>2019-2020</option>
+                                <option value='2020' @if($adhedinfo->applying_for_sy == '2020') selected='' @else @endif>2020-2021</option>
+                                <option value='2021' @if($adhedinfo->applying_for_sy == '2021') selected='' @else @endif>2021-2022</option>
                             </select>                           
                         </div>                                                                  
                         </div>
@@ -149,6 +152,7 @@
                                     <option value='Deload'@if($adhedinfo->admission_status == 'Deload') selected='' @else @endif>Deload</option>
                                     <option value='Probationary'@if($adhedinfo->admission_status == 'Probationary') selected='' @else @endif>Probationary</option>
                                     <option value='Scholar' @if($adhedinfo->admission_status == 'Scholar') selected='' @else @endif>Scholar</option>
+                                    <option value='Audit' @if($adhedinfo->admission_status == 'Audit') selected='' @else @endif>Audit</option>
                                 </select>      
                             </div>                      
                             <div class="col-sm-3" id='assumption_scholar'>

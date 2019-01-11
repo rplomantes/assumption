@@ -61,7 +61,7 @@ $units = 0;
                 <div class="widget-user-header bg-yellow">
                     <div class="widget-user-image">
                         @if($file_exist==1)
-                        <img src="/images/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+                        <img src="/images/PICTURES/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
                         @else
                         <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
                         @endif

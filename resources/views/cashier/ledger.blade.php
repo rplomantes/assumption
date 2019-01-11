@@ -257,11 +257,62 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
         }else{
+            
+            if($school_year=="2018"){
+            $payments = \App\Payment::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+            }else{
             $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+            }
+        }
+
+/////        
+        if($school_year=="2018" and $period == "2nd Semester"){
+            $debit_memos = \App\DebitMemo::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+        }else{
+            
+            if($school_year=="2018"){
+            $debit_memos = \App\DebitMemo::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+            }else{
+                $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+            }
         }
         
-            $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
-            $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+/////        
+        if($school_year=="2018" and $period == "2nd Semester"){
+            $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+        }else{
+            
+            if($school_year=="2018"){
+            $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+            }else{
+                $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+            }
+        }
                      
                         $ledger_others = \App\Ledger::where('idno', $idno)
                                 ->where(function($query) {
