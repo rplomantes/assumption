@@ -32,14 +32,28 @@ class AddingDroppingController extends Controller {
         return redirect("/registrar_college/adding_dropping/$idno");
     }
 
-    function process($fee,$idno) {
+    function process(Request $request) {
+        if(isset($request->fee)){
+            $fee = "w";
+        }
+        else{
+            $fee = "wo";
+        }
+        $idno = $request->idno;
+        $tutorial_units = $request->tutorial_units;
+        $tutorial_amount = $request->tutorial_amount;
         $status = \App\Status::where('idno', $idno)->first();
         $user = \App\User::where('idno', $idno)->first();
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
+        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
+        $tuitionrate = $tfr->per_unit;
         DB::beginTransaction();
         $is_practicum_only = $this->checkPracticumOnly($idno, $school_year->school_year, $school_year->period);
         if ($fee == "w"){
         $this->addSurcharge($idno, $school_year, $status, $user);
+        }
+        if($tutorial_amount > 0){
+            $this->computeTutorial($idno, $status->program_code, $school_year->school_year, $school_year->period, $status->level, $tuitionrate, $tutorial_units, $tutorial_amount);
         }
         $this->processAdding($idno, $school_year, $status, $user, $is_practicum_only);
         $this->processDropping($idno, $school_year, $status, $user);
@@ -359,6 +373,24 @@ class AddingDroppingController extends Controller {
     function getAccountingName($accounting_code) {
         $accounting_name = \App\ChartOfAccount::where('accounting_code', $accounting_code)->first()->accounting_name;
         return $accounting_name;
+    }
+    
+    function computeTutorial($idno, $program_code, $school_year, $period, $level,$tuitionrate,$tutorial_units,$tutorial_amount) {
+        $addledger = new \App\Ledger;
+        $addledger->idno = $idno;
+        $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
+        $addledger->program_code = $program_code;
+        $addledger->level = $level;
+        $addledger->school_year = $school_year;
+        $addledger->period = $period;
+        $addledger->category = "Tutorial Fee";
+        $addledger->subsidiary = "Tutorial Fee";
+        $addledger->receipt_details = "Tutorial Fee";
+        $addledger->accounting_code = 2011;
+        $addledger->accounting_name = "Accounts Payable - Depository Fees";
+        $addledger->category_switch = env("SRF_FEE");
+        $addledger->amount = $tutorial_amount-($tuitionrate*$tutorial_units);
+        $addledger->save();
     }
 
 }

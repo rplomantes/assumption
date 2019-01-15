@@ -122,12 +122,34 @@
     </div>
     <div class="col-sm-12">
         <div class="col-sm-6">
-        <a href="{{url('/registrar_college', array('process_adding_dropping','wo', $idno))}}"><button class="btn btn-warning col-sm-12">Process without Adding/Dropping Fee</button></a>
-        </div>
-        <div class="col-sm-6">
-        <a href="{{url('/registrar_college', array('process_adding_dropping','w', $idno))}}"><button class="btn btn-success col-sm-12">Process with Adding/Dropping Fee</button></a>
-        </div>
-    </div>
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Add Tutorial Fee</h3>
+                </div>
+                <div class='box-body'>
+                    <form method="POST" action="{{url('/registrar_college',array('addordrop','save'))}}">    
+                        {{ csrf_field() }}
+                        <input type="hidden" name="idno" value="{{$user->idno}}" >
+                        <input type="text" class="form form-control" name="tutorial_amount" placeholder="Amount">
+                        <input type="text" class="form form-control" name="tutorial_units" placeholder="Number of Units">
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group box"> 
+                                <div class="box-header">
+                                    <h5 class="box-title">Process with Adding/Dropping Fee?</h3>
+                                </div>
+                                <div class="box-body">
+                                <input type="checkbox" name="fee" value="w" class="form-check-input"/> Process with Adding/Dropping Fee
+                                </div>
+                            </div>
+                            <input type="submit" class="form-control btn btn-success" value="Process Adding/Dropping"/>
+<!--                            <a href="{{url('/registrar_college', array('process_adding_dropping','wo', $idno))}}"><button class="btn btn-warning col-sm-12">Process without Adding/Dropping Fee</button></a>
+                            &nbsp;<a href="{{url('/registrar_college', array('process_adding_dropping','w', $idno))}}"><button class="btn btn-success col-sm-12">Process with Adding/Dropping Fee</button></a>-->
+                        </div>
+                </div>
+    
 </section>
 
 @endsection
