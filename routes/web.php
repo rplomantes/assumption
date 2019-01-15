@@ -419,6 +419,10 @@ Route::get('/accounting/edit_ledger/{idno}','Accounting\EditLedger@index');
 Route::post('/accounting/edit_ledger_now','Accounting\EditLedger@update_ledger');
 //Route::get('/accounting/remove_ledger/{idno}','Accounting\EditLedger@remove_ledger');
 
+
+//Route::get('/accounting/update_or','Updater@update_reverserestore');
+
+
 //ACCOUNTING GENERATE PASSCODE
 Route::get('/accounting/ajax/get_passcode','Accounting\Ajax\AjaxGeneratePasscode@generatePasscode');
 

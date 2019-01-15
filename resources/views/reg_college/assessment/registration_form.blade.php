@@ -246,7 +246,7 @@ $others = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amoun
                             ->where(function($query) {
                                 $query->where('category_switch', 4)
                                 ->orWhere('category_switch', 5);
-                            })->groupBy('category', 'category_switch')->where('category', '!=', 'SRF')->orderBy('category_switch')->get();
+                            })->groupBy('category', 'category_switch')->where('category', '!=', 'SRF')->where('category', '!=','Tutorial Fee')->orderBy('category_switch')->get();
 foreach ($others as $other) {
     $otherfee = $otherfee + $other->amount;
 }
@@ -617,7 +617,7 @@ $others = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amoun
                             ->where(function($query) {
                                 $query->where('category_switch', 4)
                                 ->orWhere('category_switch', 5);
-                            })->groupBy('category', 'category_switch')->where('category', '!=', 'SRF')->orderBy('category_switch')->get();
+                            })->groupBy('category', 'category_switch')->where('category', '!=', 'SRF')->where('category', '!=','Tutorial Fee')->orderBy('category_switch')->get();
 foreach ($others as $other) {
     $otherfee = $otherfee + $other->amount;
 }
