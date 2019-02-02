@@ -76,7 +76,8 @@ class StudentRecordController extends Controller {
             \App\Http\Controllers\Admin\Logs::log("Print True copy of grades for student: $idno");
 
             $pdf = PDF::loadView('reg_college.view_record.print_true_copy_of_grades', compact('idno', 'user', 'info', 'level'));
-            $pdf->setPaper(array(0, 0, 612, 792));
+            //$pdf->setPaper(array(0, 0, 612, 792));
+            $pdf->setPaper('letter','portrait');
 //            return $request;
             return $pdf->stream("true_copy_of_grades" . $idno . ".pdf");
         }

@@ -5,7 +5,7 @@ $count = 0;
 ?>
 <style>
     body {
-        font-size: 9pt;
+        font-size: 9.1pt;
     }
     footer {
         font-size: 8pt;
@@ -436,7 +436,7 @@ $count = 0;
                     $count = $count + $grade->lec + $grade->lab;
                 }
             } else {
-                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grades->finals == "4.00") {
+                if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
                     $grade->finals = "4.00";
                         $is_x = 1;
                 }

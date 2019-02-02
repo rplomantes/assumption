@@ -39,7 +39,7 @@ class ChangePlan extends Controller {
         ]);
 
         if ($validation) {
-
+            $stat = \App\Status::where('idno', $request->idno)->first();
             if ($request->academic_type == "College") {
                 DB::beginTransaction();
                 $this->college_add_change_plan($request);
@@ -55,7 +55,7 @@ class ChangePlan extends Controller {
                 $this->log("Change plan of ". $request->idno." to ". $request->plan);
                 DB::Commit();
             }
-            return redirect(url('/cashier', array('viewledger', $request->idno)));
+            return redirect(url('/cashier', array('viewledger',$stat->school_year, $request->idno)));
         }
     }
 

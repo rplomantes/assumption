@@ -51,7 +51,7 @@ class EditLedger extends Controller {
                 $this->change_due_date($request);
                 DB::Commit();
             }
-            return redirect("/cashier/viewledger/$idno");
+            return redirect("/cashier/viewledger/$stat->school_year/$idno");
         }
     }
 
@@ -69,7 +69,8 @@ class EditLedger extends Controller {
 //            $date_end = strtotime("+3 minutes", $date_ends);
 //
 //            if ($checkpasscode->datetime_generated <= $date_today && $date_today <= date("Y-m-d H:i:s", $date_end)) {
-
+                
+                $stat = \App\Status::where('idno', $request->idno)->first();
                 if ($request->submit == "Update Ledger") {
                     if ($request->academic_type == "College") {
                         DB::beginTransaction();
@@ -97,7 +98,7 @@ class EditLedger extends Controller {
 //                    $this->updatePasscode($checkpasscode);
                 }
                 
-            return redirect("/cashier/viewledger/$request->idno");
+            return redirect("/cashier/viewledger/$stat->school_year/$request->idno");
 //            } else {
 //                Session::flash('warning', 'Passcode Timeout!');
 //                return redirect("/accounting/edit_ledger/$request->id");

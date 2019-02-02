@@ -117,7 +117,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     @foreach ($curricula as $curriculum)
                     <?php //$grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->first(); ?>
 <?php $old_grades = \App\CollegeGrades2018::where('idno', $idno)->where('course_code', $curriculum->course_code)->orderBy('id', 'desc')->first(); ?>
-<?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->where('finals_status', 3)->orderBy('created_at', 'asc')->first(); ?>
+<?php $grades = \App\GradeCollege::where('idno', $idno)->where('course_code', $curriculum->course_code)->where('finals_status', 3)->orderBy('id', 'desc')->first(); ?>
                     <?php
                     $style="";
                     if(count($grades)>0){
