@@ -24,4 +24,14 @@ class AjaxSetReceipt extends Controller
             return view('accounting.ajax.get_or', compact('get_receipts'));
         }
     }
+    
+    function getrange_or(){
+        if(Request::ajax()){
+            $start = Input::get('start');
+            $end = Input::get('end');
+            $get_receipts = \App\Payment::where('receipt_no', '>=',$start)->where('receipt_no', '<=',$end)->get();
+            
+            return view('accounting.ajax.get_range_or', compact('get_receipts','start', 'end'));
+        }
+    }
 }

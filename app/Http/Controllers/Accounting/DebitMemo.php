@@ -119,7 +119,12 @@ class DebitMemo extends Controller {
         $adddm->amount = $request->collected_amount;
         $adddm->posted_by = Auth::user()->idno;
         $adddm->school_year = \App\Status::where('idno', $request->idno)->first()->school_year;
-        $adddm->period = \App\Status::where('idno', $request->idno)->first()->period;
+        $per = \App\Status::where('idno', $request->idno)->first()->period;
+        if($per == null){
+            $adddm->period = "";
+        }else{
+            $adddm->period = $per;
+        }
         $adddm->save();
     }
 

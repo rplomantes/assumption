@@ -1,9 +1,9 @@
-<?php 
-    if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
-        $layout = "layouts.appaccountingstaff";    
-    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
-        $layout = "layouts.appaccountinghead";    
-    }
+<?php
+if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+    $layout = "layouts.appaccountingstaff";
+} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+    $layout = "layouts.appaccountinghead";
+}
 ?>
 @extends($layout)
 @section('messagemenu')
@@ -57,16 +57,29 @@
 <!-- search form (Optional) -->
 <div class="box">
     <div class="box-body">
-        <div class="col-md-4">
-            <label>Search OR Number or Payee's Name</label>
-            <input type="text" id="search" class="form-control" placeholder="Search...">
-
-            <div id="displaystudent">
-            </div>    
-        </div>    
-        <div class="col-sm-8"></div>
-        <div class="col-sm-12" id="display_or">
-
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-4">
+                    <label>Search OR Number or Payee's Name</label>
+                    <input type="text" id="search" class="form-control" placeholder="Search...">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-3">
+                    <label>OR Range</label>
+                    <input type="text" id="start" class="form-control" placeholder="Starting">
+                </div>
+                <div class="col-sm-3">
+                    <label>&nbsp;</label>
+                    <input type="text" id="end" class="form-control" placeholder="Ending">
+                </div>
+                <div class="col-sm-3">
+                    <label>&nbsp;</label>
+                    <input type="button" class="form-control btn btn-success" value="Search OR Range" onclick="get_result(start.value, end.value)">
+                </div>
+            </div>
+            <div class="col-sm-12" id="display_or">
+            </div>
         </div>
     </div>
 </div>
@@ -83,12 +96,27 @@
                     url: "/accounting/ajax/getsearch_or",
                     data: array,
                     success: function (data) {
-                        $("#display_or").html(data)
-                        $("#search").val("");
+                        $("#display_or").html(data);
                     }
                 })
             }
         });
     });
 </script>    
+<script>
+    function get_result(start, end) {
+        array = {};
+        array['start'] = start;
+        array['end'] = end;
+        $.ajax({
+            type: "GET",
+            url: "/accounting/ajax/getrange_or",
+            data: array,
+            success: function (data) {
+                $('#display_or').html(data);
+            }
+
+        });
+    }
+</script>
 @endsection

@@ -19,6 +19,7 @@
                 <th></th>
                 <th>Student Number</th>
                 <th>Full Name</th>
+                <th>Plan</th>
                 <th>Level</th>
                 <th>Section</th>
                 <th>Balance</th>
@@ -30,8 +31,7 @@
         <?php $x = 0; ?>
         @foreach($unpaid as $un)
         <?php $check = checkLedger($un->idno, $dates);?>
-        <?php $countLedger = countLedger($un->idno, $dates);?>
-        @if($check != 2)
+        @if($check >= 0)
         <?php $baql=getBalance($un->idno,$dates);?>
         @if($baql > 0)
         
@@ -41,6 +41,7 @@
             <td>{{++$x}}</td>
             <td>{{$un->idno}}</td>
             <td>{{strtoupper($un->lastname)}}, {{$un->firstname}} {{$un->middlename}}</td>
+            <td>{{$un->type_of_plan}}</td>
             <td>{{$un->level}}</td>
             <td>{{$un->section}}</td>
             <td><?php echo getBalance($un->idno,$dates)?></td>
@@ -48,7 +49,6 @@
                 @if($check == 1)  
                     <a type="button" id="reverse{{$un->idno}}" value="Reverse" onclick="reversePost('{{$un->idno}}')">Reverse</a> 
                 @else 
-                    <input type="hidden" name="count[]" value="{{$countLedger}}"/>
                     <input type="checkbox" name="post[]" value="{{$un->idno}}" checked/> 
                 @endif</td>
             <td>@if($check == 1) Posted and unpaid @else Not yet posted. @endif</td>
@@ -69,11 +69,11 @@ function checkLedger($idno, $date) {
     $academic_type = \App\Status::where('idno',$idno)->first();
     $school_year = \App\CtrAcademicSchoolYear::where('academic_type',$academic_type->academic_type)->first();
     if($academic_type->academic_type == 'BED'){
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('school_year',$school_year->school_year)->get();
+        $mainledgers = \App\Ledger::where('idno', $idno)->where('school_year',$school_year->school_year)->where('category_switch','<=', 6 )->get();
         $duedates = \App\LedgerDueDate::where('idno', $idno)->where('school_year',$school_year->school_year)->get();
     }
     else{
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->get();
+        $mainledgers = \App\Ledger::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->where('category_switch','<=', 6 )->get();
         $duedates = \App\LedgerDueDate::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->get();
     }
     
@@ -89,85 +89,37 @@ function checkLedger($idno, $date) {
         $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
     }
     
+    $dateToday = Carbon\Carbon::now();
+    $dates1 = sprintf("%02d",date_format($dateToday,'m') - 1);
+    $dates2 = date_format($dateToday,"Y-$dates1-31");
+    if($dates1 == 0 ){
+        $dates1 = 12;
+        $dates2 = date_format($dateToday,"Y-$dates1-31");
+    }
     foreach ($duedates as $duedate) {
     $due = $due + $duedate->amount; 
     $monthdate = date_format(date_create($duedate->due_date),'m');
-        if ($monthdate == $date) {
-            if ($mainpayment >= $due) {
-                $result = 2;
-            } 
-            else {
+        if($duedate->due_switch == 0){
                 if(count($is_posted) > 0){
-                    $result = 1;
+                        $result = 1;
+                    }
+                    else{
+                        $result = 0;
+                    }
+            }else{
+                if ($duedate->due_date <= $dates2) {
+                    
+                        if(count($is_posted) > 0){
+                            $result = 1;
+                        }
+                        else{
+                            $result = 0;
+                        }
+                    break;
                 }
-                else{
-                    $result = 0;
-                }
-            }
-            break;
-        }
-        else{
-            $result = 2;
         }
     } 
     return $result;
-}
-function countLedger($idno, $date) {
-    $academic_type = \App\Status::where('idno',$idno)->first();
-    $school_year = \App\CtrAcademicSchoolYear::where('academic_type',$academic_type->academic_type)->first();
-    if($academic_type->academic_type == 'BED'){
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('school_year',$school_year->school_year)->get();
-        $duedates = \App\LedgerDueDate::where('idno', $idno)->where('school_year',$school_year->school_year)->get();
-    }
-    else{
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->get();
-        $duedates = \App\LedgerDueDate::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->get();
-    }
-    $mainpayment = 0;
-    $result = 0;
-    $due = 0;
-    $count = 0;
-    
-//    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
-    $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
-    
-    foreach ($mainledgers as $payment) {
-        $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
-    }
-    
-    foreach ($duedates as $duedate) {
-    $due = $due + $duedate->amount; 
-    $monthdate = date_format(date_create($duedate->due_date),'m');
-        if ($monthdate == $date) {
-            if ($mainpayment >= $due) {
-                $result = 2;
-            } 
-            else {
-                if(count($is_posted) > 0){
-                    $result = 1;
-                }
-                else{
-                    $result = 0;
-                }
-            }
-                    $count = $count+1;
-            break;
-        }else{
-            if ($mainpayment >= $due) {
-                $result = 2;
-            } 
-            else {
-                if(count($is_posted) > 0){
-                    $result = 1;
-                }
-                else{
-                    $result = 0;
-                    $count = $count+1;
-                }
-            }
-        }
-    } 
-    return $count;
 }
 
 function getBalance($idno,$date){
@@ -179,11 +131,11 @@ function getBalance($idno,$date){
     $academic_type = \App\Status::where('idno',$idno)->first();
     $school_year = \App\CtrAcademicSchoolYear::where('academic_type',$academic_type->academic_type)->first();
     if($academic_type->academic_type == 'BED'){
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('school_year',$school_year->school_year)->get();
+        $mainledgers = \App\Ledger::where('idno', $idno)->where('school_year',$school_year->school_year)->where('category_switch','<=', 6 )->get();
         $duedates = \App\LedgerDueDate::where('idno', $idno)->where('school_year',$school_year->school_year)->get();
     }
     else{
-        $mainledgers = \App\Ledger::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->get();
+        $mainledgers = \App\Ledger::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->where('category_switch','<=', 6 )->get();
         $duedates = \App\LedgerDueDate::where('idno', $idno)->where('period',$school_year->period)->where('school_year',$school_year->school_year)->get();
     }
     $mainpayment = 0;
@@ -196,11 +148,23 @@ function getBalance($idno,$date){
     }
     
     $bal = 0;
+    
+    $dateToday = Carbon\Carbon::now();
+    $dates1 = sprintf("%02d",date_format($dateToday,'m') - 1);
+    $dates2 = date_format($dateToday,"Y-$dates1-31");
+    if($dates1 == 0 ){
+        $dates1 = 12;
+        $dates2 = date_format($dateToday,"Y-$dates1-31");
+    }
     foreach ($duedates as $duedate) {
     $due = $due + $duedate->amount; 
     $monthdate = date_format(date_create($duedate->due_date),'m');
-        if ($monthdate == $date) {
+        if($duedate->due_switch == 0){
             $bal = $due - $mainpayment;
+        }else{
+            if ($duedate->due_date <= $dates2) {
+                $bal = $due - $mainpayment;
+            }   
         }
     } 
     return number_format($bal,2);

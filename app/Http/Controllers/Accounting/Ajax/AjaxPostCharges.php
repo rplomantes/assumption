@@ -40,11 +40,13 @@ class AjaxPostCharges extends Controller {
          if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             
             $dateToday = Carbon\Carbon::now();
-            $dates = date_format($dateToday,'m') - 1;
+            $dates = sprintf("%02d",date_format($dateToday,'m') - 1);
+            $dates2 = date_format($dateToday,"Y-'$dates'-31");
             if($dates == 0 ){
                 $dates = 12;
+                $dates2 = date_format($dateToday,"Y-'$dates'-31");
             }
-            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' and u.idno = 1600279 ORDER BY u.lastname,s.program_code,s.level,s.section");
              
 //            $level = Input::get("level");
 //            $plan = Input::get("plan");
@@ -57,7 +59,13 @@ class AjaxPostCharges extends Controller {
     
       function reversePost($idno) {
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-                $dates = Input::get('dates');
+                $dateToday = Carbon\Carbon::now();
+                $dates = sprintf("%02d",date_format($dateToday,'m') - 1);
+                $dates2 = date_format($dateToday,"Y-'$dates'-31");
+                if($dates == 0 ){
+                    $dates = 12;
+                    $dates2 = date_format($dateToday,"Y-'$dates'-31");
+                }
                 
                 DB::beginTransaction();
                 $posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$dates)->where('is_reversed',0)->first();
@@ -70,7 +78,7 @@ class AjaxPostCharges extends Controller {
                 DB::commit();
                 
 //                $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY s.program_code,s.level,s.section");
-                $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.type_of_plan != 'Plan A' and s.department NOT LIKE '%Department' ORDER BY u.lastname,s.program_code,s.level,s.section");
+            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' and u.idno = 1600279 ORDER BY u.lastname,s.program_code,s.level,s.section");
             
                 return view('accounting.ajax.display_unpaid', compact('unpaid','dates'));
             }
