@@ -98,7 +98,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         </tr>
                         <tr>
                             <td>Tertiary School:</td>
-                            <td></td>
+                            <td><b><input class="form form-control" type="text" name='tertiary' value="{{old('tertiary', $info->tertiary)}}" ></b></td>
                         </tr>
                         <tr>
                             <td>Degree Earned:</td>

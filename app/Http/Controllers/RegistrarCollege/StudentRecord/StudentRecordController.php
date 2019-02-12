@@ -48,6 +48,7 @@ class StudentRecordController extends Controller {
             $info->award = $request->award;
             $info->date_of_grad = $request->date_of_grad;
             $info->remarks = $request->remarks;
+            $info->tertiary = $request->tertiary;
             $info->save();
 
             return redirect(url('/registrar_college/view_transcript/print_transcript/' . $request->idno));

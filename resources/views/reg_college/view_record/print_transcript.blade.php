@@ -155,7 +155,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>TERTIARY SCHOOL:</td>
-            <td></td>
+            <td>@if(!isset($info->tertiary)) N/A @else {{strtoupper($info->tertiary)}} @endif</td>
         </tr>
         <tr>
             <td valign='top'>DEGREE EARNED:</td>
@@ -186,7 +186,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>REMARKS:</td>
-            <td>@if(!isset($info->remakrs)) N/A @else {{$info->remarks}} @endif</td>
+            <td>{{$info->remarks}}</td>
         </tr>
     </table>
     <hr>
@@ -226,7 +226,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php
         $is_x=0;
         $display_final_grade = $grade->finals;
-        $display_final_completion = $grades->completion;
+        $display_final_completion = $grade->completion;
         if(stripos($grade->course_code, "NSTP") !== FALSE){
             $gpa = $gpa;
             $count = $count;
