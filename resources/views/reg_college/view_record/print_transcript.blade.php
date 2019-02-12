@@ -112,18 +112,18 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <td>
                 @foreach ($array as $key=>$k)
                     @if($array[$key] == "Major")
-                        <br>{{$array[$key]}}
+                        <br>{{strtoupper($array[$key])}}
                     @elseif($array[$key] == "Specialization")
-                        <br>{{$array[$key]}}
+                        <br>{{strtoupper($array[$key])}}
                     @else
-                        {{$array[$key]}}
+                        {{strtoupper($array[$key])}}
                     @endif
                 @endforeach
             </td>
         </tr>
         <tr>
             <td>DATE OF ADMISSION:</td>
-            <td>{{strtoupper(date('F d, Y',strtotime($info->date_of_admission)))}}</td>
+            <td>@if(!isset($info->date_of_admission)) N/A @else {{strtoupper(date('F d, Y',strtotime($info->date_of_admission)))}} @endif</td>
         </tr>
         <tr>
             <td valign='top'>DATE AND PLACE OF BIRTH:</td>
@@ -159,15 +159,26 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>DEGREE EARNED:</td>
-            <td>{{strtoupper($level->program_name)}}</td>
+            <?php $array = explode(' ', $level->program_name) ;?>
+            <td>
+                @foreach ($array as $key=>$k)
+                    @if($array[$key] == "Major")
+                        <br>{{strtoupper($array[$key])}}
+                    @elseif($array[$key] == "Specialization")
+                        <br>{{strtoupper($array[$key])}}
+                    @else
+                        {{strtoupper($array[$key])}}
+                    @endif
+                @endforeach
+            </td>
         </tr>
         <tr>
             <td valign='top'>AWARD:</td>
-            <td>{{strtoupper($info->award)}}</td>
+            <td>@if(!isset($info->award)) N/A @else {{strtoupper($info->award)}} @endif</td>
         </tr>
         <tr>
             <td>DATE OF GRADUATION:</td>
-            <td>{{strtoupper(date('F d, Y', strtotime($info->date_of_grad)))}}</td>
+            <td>@if(!isset($info->date_of_grad)) N/A @else {{strtoupper(date('F d, Y', strtotime($info->date_of_grad)))}} @endif</td>
         </tr>
         <tr>
             <td>S.O. NUMBER:</td>
@@ -175,7 +186,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>REMARKS:</td>
-            <td>{{$info->remarks}}</td>
+            <td>@if(!isset($info->remakrs)) N/A @else {{$info->remarks}} @endif</td>
         </tr>
     </table>
     <hr>
@@ -206,7 +217,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php $grades = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>@if($sr->school_name != ""){{strtoupper($sr->school_name)}} : @endif {{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($sr->school_name != ""){{strtoupper($sr->school_name)}} : @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -220,6 +231,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+            if($grade->finals == "FAILED"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
@@ -291,7 +307,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @else
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pin_pr->period)}}, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -301,7 +317,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @else
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pin_pr->period)}}, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -319,6 +335,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+            if($pin_grades->finals == "FAILED"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "PASSED") {
                 $gpa = $gpa;
@@ -386,7 +407,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -400,6 +421,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+            if($grade->finals == "FAILED"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
@@ -465,7 +491,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -479,6 +505,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+            if($grade->finals == "FAILED"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;

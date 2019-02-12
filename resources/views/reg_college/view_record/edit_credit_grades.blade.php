@@ -65,6 +65,14 @@
                     </form>  
                 </div>
             </div>
+            <div class="box">
+                <div class='box-header'>
+                    <div class='box-title'>Delete Course</div>
+                </div>
+                <div class="box-body">
+                    <a href="{{url('registrar_college',array('delete_now','credit_grades',$id))}}" class="col-sm-12 btn btn-danger">DELETE RECORD</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>

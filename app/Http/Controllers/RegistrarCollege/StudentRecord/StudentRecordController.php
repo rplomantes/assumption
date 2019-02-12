@@ -120,6 +120,16 @@ class StudentRecordController extends Controller {
         }
     }
 
+    function delete_now_college_grades2018($id) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $grade = \App\CollegeGrades2018::where('id', $id)->first();
+            $grade->deleted_at = date("Y-m-d H:i:s");
+            $grade->save();
+
+            return redirect('/registrar_college/view_transcript/' . $grade->idno);
+        }
+    }
+
     function edit_college_grades($id) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $grade = \App\GradeCollege::where('id', $id)->first();
@@ -137,6 +147,16 @@ class StudentRecordController extends Controller {
             $grade->course_name = $request->course_name;
             $grade->lec = $request->lec;
             $grade->lab = $request->lab;
+            $grade->save();
+
+            return redirect('/registrar_college/view_transcript/' . $grade->idno);
+        }
+    }
+
+    function delete_now_college_grades($id) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $grade = \App\GradeCollege::where('id', $id)->first();
+            $grade->deleted_at = date("Y-m-d H:i:s");
             $grade->save();
 
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
