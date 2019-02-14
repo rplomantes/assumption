@@ -29,6 +29,7 @@ class AddingDroppingController extends Controller {
         $remove = \App\AddingDropping::where('id', $id)->first();
         $remove->delete();
 
+        \App\Http\Controllers\Admin\Logs::log("Remove adding/dropping of AddingDropping Table: $id");
         return redirect("/registrar_college/adding_dropping/$idno");
     }
 

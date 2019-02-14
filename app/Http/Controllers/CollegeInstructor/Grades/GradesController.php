@@ -90,6 +90,7 @@ class GradesController extends Controller
             $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
             $course_code = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_code; 
             
+             \App\Http\Controllers\Admin\Logs::log("Print Student List of schedule id: $schedule_id");
             $pdf = PDF::loadView('college_instructor.print_class_list', compact('courses_id','schedule_id','course_name','course_code'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("student_list_.pdf");
@@ -110,6 +111,7 @@ class GradesController extends Controller
             $courses_id = \App\CourseOffering::where('schedule_id',$schedule_id)->get();
             $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
             
+             \App\Http\Controllers\Admin\Logs::log("Print Grade of schedule id $schedule_id PDF");
             $pdf = PDF::loadView('college_instructor.print_grade', compact('courses_id','schedule_id','course_name','instructor','school_year','period'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("student_list_.pdf");
@@ -130,6 +132,7 @@ class GradesController extends Controller
             $course_name = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_name; 
             $course_code = \App\CourseOffering::where('schedule_id',$schedule_id)->first()->course_code; 
             
+             \App\Http\Controllers\Admin\Logs::log("Download Grade of schedule id $schedule_id Excel");
             
             ob_end_clean();
             Excel::create('Student List-'.$course_code, function($excel) use ($courses_id,$schedule_id,$course_name,$course_code) {

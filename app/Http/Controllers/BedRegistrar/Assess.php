@@ -28,7 +28,7 @@ class Assess extends Controller {
                 if (count($status) > 0) {
                     if ($status->status < env("ASSESSED")) {
                         return view('reg_be.assess', compact('user', 'status', 'ledgers', 'level'));
-                    } else if($status->status >= env("PRE_REGISTERED")){
+                    } else if ($status->status >= env("PRE_REGISTERED")) {
                         return redirect('/');
                     } else {
                         return view('reg_be.assessed_enrolled', compact('idno'));
@@ -167,7 +167,7 @@ class Assess extends Controller {
 //        }
 //    }
 
-    function addDiscountList($request, $school_year, $period, $discount){
+    function addDiscountList($request, $school_year, $period, $discount) {
         $add_discount = new \App\DiscountList;
         $add_discount->idno = $request->idno;
         $add_discount->level = $request->level;
@@ -187,7 +187,7 @@ class Assess extends Controller {
         $add_discount->amount = $discount->amount;
         $add_discount->save();
     }
-    
+
     function addLedger($request, $schoolyear, $period) {
         $discount_code = 0;
         $discount_description = "";
@@ -306,25 +306,29 @@ class Assess extends Controller {
             $is_foreign = \App\User::where('idno', $request->idno)->first();
             if (count($is_foreign) > 0) {
                 if ($is_foreign->is_foreign == '1') {
-                    $addfee = \App\CtrForiegnFee::get();
-                    foreach ($addfee as $fee) {
-                        $addledger = new \App\Ledger;
-                        $addledger->idno = $request->idno;
-                        $addledger->department = $department->department;
-                        $addledger->level = $request->level;
-                        if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-                            $addledger->strand = $request->strand;
-                            $addledger->period = $period;
+                    $reg_amount = \App\CtrForiegnFee::where('subsidiary', "Registration")->first()->amount;
+                    $checkforeign = \App\Ledger::where('idno', $request->idno)->where('school_year', $schoolyear)->where('subsidiary', 'Registration')->where('amount', $reg_amount)->get();
+                    if (isset($checkforeign) == 0) {
+                        $addfee = \App\CtrForiegnFee::get();
+                        foreach ($addfee as $fee) {
+                            $addledger = new \App\Ledger;
+                            $addledger->idno = $request->idno;
+                            $addledger->department = $department->department;
+                            $addledger->level = $request->level;
+                            if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                                $addledger->strand = $request->strand;
+                                $addledger->period = $period;
+                            }
+                            $addledger->school_year = $schoolyear;
+                            $addledger->category = $fee->category;
+                            $addledger->subsidiary = $fee->subsidiary;
+                            $addledger->receipt_details = $fee->receipt_details;
+                            $addledger->accounting_code = $fee->accounting_code;
+                            $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                            $addledger->category_switch = $fee->category_switch;
+                            $addledger->amount = $fee->amount;
+                            $addledger->save();
                         }
-                        $addledger->school_year = $schoolyear;
-                        $addledger->category = $fee->category;
-                        $addledger->subsidiary = $fee->subsidiary;
-                        $addledger->receipt_details = $fee->receipt_details;
-                        $addledger->accounting_code = $fee->accounting_code;
-                        $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
-                        $addledger->category_switch = $fee->category_switch;
-                        $addledger->amount = $fee->amount;
-                        $addledger->save();
                     }
                 }
             }
@@ -569,73 +573,73 @@ class Assess extends Controller {
         $status->date_registered = date('Y-m-d');
         $status->type_of_plan = $request->plan;
         $status->update();
-        
+
         $promotion = \App\Promotion::where('idno', $request->idno)->first();
-        
-        
-        switch ($request->level){
-case "Pre-Kinder":
-    $current_level = "Kinder";
-    break;
-case "Kinder":
-    $current_level = "Grade 1";
-    break;
-case "Grade 1":
-    $current_level = "Grade 2";
-    break;    
-case "Grade 2":
-    $current_level = "Grade 3";
-    break;
-case "Grade 3":
-    $current_level = "Grade 4";
-    break;
-case "Grade 4":
-    $current_level = "Grade 5";
-    break;
-case "Grade 5":
-    $current_level = "Grade 6";
-    break;
-case "Grade 6":
-    $current_level = "Grade 7";
-    break;
-case "Grade 7":
-    $current_level = "Grade 8";
-    break;
-case "Grade 8":
-    $current_level = "Grade 9";
-    break;
-case "Grade 9":
-    $current_level = "Grade 10";
-    break;
-case "Grade 10":
-    $current_level = "Grade 11";
-    break;
-case "Grade 11":
-    $current_level = "Grade 12";
-    break;
-}
-if($period == "2nd Semester"){
-    switch ($status->level){
-    case "Grade 11":
-        $current_level = "Grade 11";
-        break;
-    case "Grade 12":
-        $current_level = "Grade 12";
-        break;
-    }
-}
-        if(count($promotion)==0){
-        $new = new \App\Promotion();
-        $new->idno = $request->idno;
-        $new->level = $current_level;
-        $new->strand = $request->strand;
-        $new->section = $request->section;
-        $new->save();
-        }else{
-        $promotion->level = $current_level;
-        $promotion->strand = $request->strand;
-        $promotion->section = $request->section;
-        $promotion->save();
+
+
+        switch ($request->level) {
+            case "Pre-Kinder":
+                $current_level = "Kinder";
+                break;
+            case "Kinder":
+                $current_level = "Grade 1";
+                break;
+            case "Grade 1":
+                $current_level = "Grade 2";
+                break;
+            case "Grade 2":
+                $current_level = "Grade 3";
+                break;
+            case "Grade 3":
+                $current_level = "Grade 4";
+                break;
+            case "Grade 4":
+                $current_level = "Grade 5";
+                break;
+            case "Grade 5":
+                $current_level = "Grade 6";
+                break;
+            case "Grade 6":
+                $current_level = "Grade 7";
+                break;
+            case "Grade 7":
+                $current_level = "Grade 8";
+                break;
+            case "Grade 8":
+                $current_level = "Grade 9";
+                break;
+            case "Grade 9":
+                $current_level = "Grade 10";
+                break;
+            case "Grade 10":
+                $current_level = "Grade 11";
+                break;
+            case "Grade 11":
+                $current_level = "Grade 12";
+                break;
+        }
+        if ($period == "2nd Semester") {
+            switch ($status->level) {
+                case "Grade 11":
+                    $current_level = "Grade 11";
+                    break;
+                case "Grade 12":
+                    $current_level = "Grade 12";
+                    break;
+            }
+        }
+        if (count($promotion) == 0) {
+            $new = new \App\Promotion();
+            $new->idno = $request->idno;
+            $new->level = $current_level;
+            $new->strand = $request->strand;
+            $new->section = $request->section;
+            $new->save();
+        } else {
+            $promotion->level = $current_level;
+            $promotion->strand = $request->strand;
+            $promotion->section = $request->section;
+            $promotion->save();
         }
     }
 
@@ -650,7 +654,7 @@ if($period == "2nd Semester"){
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
-                $this->remove_discountList($idno, $schoolyear->school_year,$schoolyear->period, $user->academic_type);
+                $this->remove_discountList($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year.");
                 DB::commit();
             }
@@ -658,7 +662,8 @@ if($period == "2nd Semester"){
 
         return redirect(url('/bedregistrar', array('assess', $idno)));
     }
-    function remove_discountlist($idno, $schoolyear, $period,$academic_type){
+
+    function remove_discountlist($idno, $schoolyear, $period, $academic_type) {
         if ($academic_type == "BED") {
             \App\DiscountList::where('idno', $idno)->where('school_year', $schoolyear)->delete();
         } else {
@@ -681,7 +686,7 @@ if($period == "2nd Semester"){
                 $this->removeLedgerDueDate($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
-                $this->remove_discountList($idno, $schoolyear->school_year,$schoolyear->period, $user->academic_type);
+                $this->remove_discountList($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year and reversed reservations.");
                 DB::commit();
             }
@@ -809,7 +814,7 @@ if($period == "2nd Semester"){
                 $academic_type = "SHS";
                 break;
         }
-        if($status->period == "2nd Semester"){
+        if ($status->period == "2nd Semester") {
             switch ($status->level) {
                 case "Grade 11":
                     $assignlevel = "Grade 11";
@@ -819,7 +824,7 @@ if($period == "2nd Semester"){
                     $assignlevel = "Grade 12";
                     $academic_type = "SHS";
                     break;
-            } 
+            }
         }
         $status->level = $assignlevel;
         $status->status = 0;
@@ -828,62 +833,62 @@ if($period == "2nd Semester"){
 
         $user->academic_type = $academic_type;
         $user->update();
-        
+
         $promotion = \App\Promotion::where('idno', $idno)->first();
-        
-        
-        switch ($status->level){
-case "Pre-Kinder":
-    $current_level = "Kinder";
-    break;
-case "Kinder":
-    $current_level = "Grade 1";
-    break;
-case "Grade 1":
-    $current_level = "Grade 2";
-    break;    
-case "Grade 2":
-    $current_level = "Grade 3";
-    break;
-case "Grade 3":
-    $current_level = "Grade 4";
-    break;
-case "Grade 4":
-    $current_level = "Grade 5";
-    break;
-case "Grade 5":
-    $current_level = "Grade 6";
-    break;
-case "Grade 6":
-    $current_level = "Grade 7";
-    break;
-case "Grade 7":
-    $current_level = "Grade 8";
-    break;
-case "Grade 8":
-    $current_level = "Grade 9";
-    break;
-case "Grade 9":
-    $current_level = "Grade 10";
-    break;
-case "Grade 10":
-    $current_level = "Grade 11";
-    break;
-case "Grade 11":
-    $current_level = "Grade 12";
-    break;
-}
-if($period == "2nd Semester"){
-    switch ($status->level){
-    case "Grade 11":
-        $current_level = "Grade 11";
-        break;
-    case "Grade 12":
-        $current_level = "Grade 12";
-        break;
-    }
-}
-        
+
+
+        switch ($status->level) {
+            case "Pre-Kinder":
+                $current_level = "Kinder";
+                break;
+            case "Kinder":
+                $current_level = "Grade 1";
+                break;
+            case "Grade 1":
+                $current_level = "Grade 2";
+                break;
+            case "Grade 2":
+                $current_level = "Grade 3";
+                break;
+            case "Grade 3":
+                $current_level = "Grade 4";
+                break;
+            case "Grade 4":
+                $current_level = "Grade 5";
+                break;
+            case "Grade 5":
+                $current_level = "Grade 6";
+                break;
+            case "Grade 6":
+                $current_level = "Grade 7";
+                break;
+            case "Grade 7":
+                $current_level = "Grade 8";
+                break;
+            case "Grade 8":
+                $current_level = "Grade 9";
+                break;
+            case "Grade 9":
+                $current_level = "Grade 10";
+                break;
+            case "Grade 10":
+                $current_level = "Grade 11";
+                break;
+            case "Grade 11":
+                $current_level = "Grade 12";
+                break;
+        }
+        if ($period == "2nd Semester") {
+            switch ($status->level) {
+                case "Grade 11":
+                    $current_level = "Grade 11";
+                    break;
+                case "Grade 12":
+                    $current_level = "Grade 12";
+                    break;
+            }
+        }
+
         $promotion->level = $current_level;
         $promotion->save();
     }
@@ -1024,9 +1029,9 @@ if($period == "2nd Semester"){
                 $addledger->discount = $disc_other;
                 $addledger->discount_code = $add->subsidiary;
                 $addledger->save();
-                
-                if($disc_other > 0){
-                    
+
+                if ($disc_other > 0) {
+
                     $discount = new \App\DiscountList;
                     $discount->discount_code = $add->subsidiary;
                     $discount->discount_description = $add->subsidiary;
@@ -1037,7 +1042,7 @@ if($period == "2nd Semester"){
                     $discount->depository_fee = 0;
                     $discount->discount_type = 1;
                     $discount->amount = $disc_other;
-                    
+
                     $this->addDiscountList($request, $schoolyear, $period, $discount);
                 }
             }
@@ -1070,48 +1075,51 @@ if($period == "2nd Semester"){
             $this->changeStatusStrand($request);
             $this->updateLedgerStrand($request);
             $this->change_due_date($request);
-            $this->log("Change strand of ". $request->idno." to ". $request->strand);
+            $this->log("Change strand of " . $request->idno . " to " . $request->strand);
             DB::commit();
         }
-        return redirect(url('/bedregistrar/assess/'.$request->idno));
+        return redirect(url('/bedregistrar/assess/' . $request->idno));
     }
-    function changeStatusStrand($request){
+
+    function changeStatusStrand($request) {
         $changeStatus = \App\Status::where('idno', $request->idno)->first();
         $changeStatus->strand = $request->strand;
-        $school_year =  $changeStatus->school_year;
+        $school_year = $changeStatus->school_year;
         $period = $changeStatus->period;
         $changeStatus->save();
-        
-        $changeBedLevels = \App\BedLevel::where('idno', $request->idno)->where('school_year', $school_year)->where('period',$period)->first();
+
+        $changeBedLevels = \App\BedLevel::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->first();
         $changeBedLevels->strand = $request->strand;
         $changeBedLevels->save();
     }
-    function updateLedgerStrand($request){
+
+    function updateLedgerStrand($request) {
         $level = \App\Status::where('idno', $request->idno)->first()->level;
         $request->level = $level;
         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first()->school_year;
         $period = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first()->period;
         $ledger = \App\Ledger::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->where('category', 'SRF')->first();
-        if(count($ledger)>0){
+        if (count($ledger) > 0) {
             $srf = \App\CtrBedSrf::where('level', $level)->where('strand', $request->strand)->first();
             $ledger->amount = $srf->amount;
             $ledger->save();
-        }else{
+        } else {
             $this->addSRF($request, $school_year, $period);
         }
     }
-    function change_due_date($request){
-        $stat = \App\Status::where('idno',$request->idno)->first();
-        $schoolyear=$stat->school_year;
-        $period=$stat->period;
-        $request->level=$stat->level;
-        $request->plan=$stat->plan;
-        
-        $deletedue=\App\LedgerDueDate::where('idno',$request->idno)->where('school_year',$schoolyear)->where('period',$period)->delete();
+
+    function change_due_date($request) {
+        $stat = \App\Status::where('idno', $request->idno)->first();
+        $schoolyear = $stat->school_year;
+        $period = $stat->period;
+        $request->level = $stat->level;
+        $request->plan = $stat->plan;
+
+        $deletedue = \App\LedgerDueDate::where('idno', $request->idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
         $this->addDueDates($request, $schoolyear, $period);
     }
-    
-    public static function log($action){
+
+    public static function log($action) {
         $log = new \App\Log();
         $log->action = "$action";
         $log->idno = Auth::user()->idno;

@@ -30,6 +30,8 @@ class viewInfoController extends Controller {
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
             $user->update();
+            
+             \App\Http\Controllers\Admin\Logs::log("Reset Password of $request->idno");
             return redirect(url('/admin', array('view_information', $request->idno)));
         }
     }
@@ -55,6 +57,8 @@ class viewInfoController extends Controller {
                 $update->save();
                 DB::Commit();
             }
+            
+             \App\Http\Controllers\Admin\Logs::log("Update information of $request->idno");
             return redirect(url('/admin', array('view_information', $request->idno)));
         }
     }

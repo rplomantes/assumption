@@ -40,6 +40,9 @@ class ViewInfoAdmissionHedController extends Controller {
             $this->update_admission_checklist($request);
             DB::Commit();
 
+            
+             \App\Http\Controllers\Admin\Logs::log("Update information of $request->idno");
+            
             Session::flash('message', "Information Updated!");
 
             return redirect(url('admission_hed', array('view_info', $request->idno)));

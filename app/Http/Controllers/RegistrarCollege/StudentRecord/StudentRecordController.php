@@ -116,6 +116,9 @@ class StudentRecordController extends Controller {
             $grade->lec = $request->lec;
             $grade->lab = $request->lab;
             $grade->save();
+            
+            
+             \App\Http\Controllers\Admin\Logs::log("Edit grades of student:$grade->idno, ID: $request->id");
 
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
         }
@@ -127,6 +130,7 @@ class StudentRecordController extends Controller {
             $grade->deleted_at = date("Y-m-d H:i:s");
             $grade->save();
 
+            \App\Http\Controllers\Admin\Logs::log("Delete Transcript Record of ID $id");
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
         }
     }
@@ -150,6 +154,7 @@ class StudentRecordController extends Controller {
             $grade->lab = $request->lab;
             $grade->save();
 
+             \App\Http\Controllers\Admin\Logs::log("Edit grades of student:$grade->idno, ID: $request->id");
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
         }
     }
@@ -159,6 +164,7 @@ class StudentRecordController extends Controller {
             $grade = \App\GradeCollege::where('id', $id)->first();
             $grade->deleted_at = date("Y-m-d H:i:s");
             $grade->save();
+            \App\Http\Controllers\Admin\Logs::log("Delete Transcript Record of ID $id");
 
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
         }
@@ -184,6 +190,9 @@ class StudentRecordController extends Controller {
             $grade->lab = $request->lab;
             $grade->save();
 
+            
+            \App\Http\Controllers\Admin\Logs::log("Edit credited grades in transcript of ID $request->id");
+            
             return redirect('/registrar_college/view_transcript/' . $grade->idno);
         }
     }
@@ -270,6 +279,9 @@ class StudentRecordController extends Controller {
                 $add_new->save();
             }
 
+            
+            \App\Http\Controllers\Admin\Logs::log("Add a course Transcript Record of student $request->idno with subject $course_name");
+            
             return redirect(url('/registrar_college/view_transcript/' . $request->idno));
         }
     }
@@ -326,6 +338,9 @@ class StudentRecordController extends Controller {
                     $add->save();
                 }
             }
+            
+            
+            \App\Http\Controllers\Admin\Logs::log("Add a credited course Transcript Record of student $idno");
 
             return redirect('/registrar_college/view_transcript/' . $idno);
         }

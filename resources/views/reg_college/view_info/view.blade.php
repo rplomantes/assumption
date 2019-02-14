@@ -277,8 +277,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
                             <div class='radio'>
-                                <label><input name='f_is_living' value="1" type="radio" @if($info->f_is_living == 1) checked="" @endif>Living</label>
-                                <label><input name='f_is_living' value="0" type="radio" @if($info->f_is_living == 0) checked="" @endif>Deceased</label>
+                                <label><input name='f_is_living' value="1" type="radio" @if($info->f_is_living == 1 || is_null($info->f_is_living)) checked="" @else unchecked="" @endif>Living</label>
+                                <label><input name='f_is_living' value="0" type="radio" @if($info->f_is_living == 0 && !is_null($info->f_is_living)) checked="" @else unchecked="" @endif>Deceased</label>
                             </div>
                         </div>
                     </div>
@@ -305,8 +305,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
                             <div class='radio'>
-                                <label><input name='m_is_living' value="1" type="radio" @if($info->m_is_living == 1) checked="" @endif>Living</label>
-                                <label><input name='m_is_living' value="0" type="radio" @if($info->m_is_living == 0) checked="" @endif>Deceased</label>
+                                <label><input name='m_is_living' value="1" type="radio" @if($info->m_is_living == 1 || is_null($info->m_is_living)) checked="" @else unchecked="" @endif>Living</label>
+                                <label><input name='m_is_living' value="0" type="radio" @if($info->m_is_living == 0 && !is_null($info->m_is_living)) checked="" @else unchecked="" @endif>Deceased</label>
                             </div>
                         </div>
                     </div>
@@ -334,8 +334,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
                             <div class='radio'>
-                                <label><input name='s_is_living' value="1" type="radio" @if($info->s_is_living == 1) checked="" @endif>Living</label>
-                                <label><input name='s_is_living' value="0" type="radio" @if($info->s_is_living == 0) checked="" @endif>Deceased</label>
+                                <label><input name='s_is_living' value="1" type="radio" @if($info->s_is_living == 1 || is_null($info->s_is_living)) checked="" @else unchecked="" @endif>Living</label>
+                                <label><input name='s_is_living' value="0" type="radio" @if($info->s_is_living == 0 && !is_null($info->s_is_living)) checked="" @else unchecked="" @endif>Deceased</label>
                             </div>
                         </div>
                     </div>

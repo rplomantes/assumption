@@ -84,16 +84,19 @@ class EditLedger extends Controller {
                         DB::beginTransaction();
                         $this->update($request);
                         $this->shs_change_due_date($request);
+                        \App\Http\Controllers\Admin\Logs::log("Update Ledger of $request->idno with ledger id : $request->id change amount to $request->amount");
 //                        $this->updatePasscode($checkpasscode);
                         DB::Commit();
                     } else {
                         DB::beginTransaction();
                         $this->update($request);
                         $this->change_due_date($request);
+                        \App\Http\Controllers\Admin\Logs::log("Update Ledger of $request->idno with ledger id : $request->id change amount to $request->amount");
 //                        $this->updatePasscode($checkpasscode);
                         DB::Commit();
                     }
                 } else {
+                    \App\Http\Controllers\Admin\Logs::log("Remove Ledger of $request->idno with ledger id : $request->id");
                     $this->remove_ledger($request->id);
 //                    $this->updatePasscode($checkpasscode);
                 }

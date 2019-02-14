@@ -47,6 +47,7 @@ class StudentsAccountController extends Controller
                 }
             }
             
+             \App\Http\Controllers\Admin\Logs::log("Print Student Accounts PDF");
             $info = \App\ChartOfAccount::where('accounting_code',$account)->first();
             $pdf = PDF::loadView('accounting.print_student_per_account', compact('info','lists','account','department','school_year','period'));
             $pdf->setPaper('letter', 'portrait');
@@ -63,6 +64,7 @@ class StudentsAccountController extends Controller
             $department = $request->department;
             $period = $request->period;
             
+             \App\Http\Controllers\Admin\Logs::log("Download Students Account Excel");
             if ($department == "College Department") {
                 $dep = '%Department';
 //                $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section,s.academic_type FROM users u, statuses s WHERE u.idno = s.idno and u.idno IN (SELECT idno FROM `ledgers` WHERE accounting_code = '$account' and school_year = '$school_year' and period = '$period' GROUP BY accounting_code,idno) and s.department LIKE '$dep' ORDER BY u.lastname,s.program_code,s.level,s.section");

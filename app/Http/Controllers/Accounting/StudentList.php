@@ -43,6 +43,8 @@ class StudentList extends Controller
                 $lists = DB::select("SELECT u.idno, u.lastname, u.firstname, u.middlename, u.extensionname, s.level, s.section, SUBSTR(s.type_of_plan,5) AS type_of_plan, l.assessment FROM users u, bed_levels s, (SELECT idno, SUM(amount) AS 'assessment' FROM `ledgers` GROUP BY idno) l WHERE l.assessment != 0.00 AND u.idno = s.idno AND u.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.status = '3' ORDER BY u.lastname, s.level, s.section");
                 $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM bed_levels s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level, ctr.sort_by ORDER BY ctr.sort_by");
             }
+            
+             \App\Http\Controllers\Admin\Logs::log("Print Print Student List PDF");
             $pdf = PDF::loadView('accounting.print_studentlist_pdf', compact('department','school_year','period','lists','heads'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("student_list.pdf");
@@ -68,6 +70,7 @@ class StudentList extends Controller
                 $heads = DB::select("SELECT s.level, SUM(l.assessment) AS 'total' FROM bed_levels s, (SELECT idno,(SUM(amount)) AS 'assessment' FROM `ledgers` GROUP BY idno) l,(SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr WHERE l.assessment != 0.00 AND s.idno = l.idno AND s.department LIKE '$dep' AND s.school_year = '$school_year' AND s.status = '3' AND ctr.level = s.level GROUP BY s.level, ctr.sort_by ORDER BY ctr.sort_by");
             }
             
+             \App\Http\Controllers\Admin\Logs::log("Download Student List Excel");
             ob_end_clean();
             Excel::create('Student List - ' .$department, 
                 function($excel) use ($department,$lists,$heads) { $excel->setTitle($department);

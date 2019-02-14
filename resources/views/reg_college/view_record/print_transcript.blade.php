@@ -206,18 +206,26 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </thead>
 
 
-
+        <?php $with_credit=0; ?>
+        <?php $school_name = ""; ?>
         <?php $credit_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
         @if(count($credit_sy)>0)
         @foreach($credit_sy as $sy)
         <?php $credit_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
         @foreach ($credit_pr as $pr)
-        <?php $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
+        <?php $with_credit = 1; $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
         @foreach ($credit_school as $sr)
+        @if($school_name == $sr->school_name)
+        <?php $school_name = $school_name;?>
+        <?php $with_credit = 0; ?>
+        @else
+        <?php $with_credit = 1; ?>
+        <?php $school_name = $sr->school_name; ?>
+        @endif
         <?php $grades = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>@if($sr->school_name != ""){{strtoupper($sr->school_name)}} : @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1){{strtoupper($school_name)}}<br> @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -291,6 +299,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @endforeach
         @endforeach
         @endforeach
+        <?php $with_credit = 1; ?>
         @endif
 
 
@@ -307,7 +316,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @else
         <tr>
             <td></td>
-            <td align='center'><b>@if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -317,7 +326,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @else
         <tr>
             <td></td>
-            <td align='center'><b>@if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -407,7 +416,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>@if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -491,7 +500,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>@if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>

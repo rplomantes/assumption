@@ -72,7 +72,7 @@
             <div class="box-title">Result</div>
         </div>
         <div class="box-body">
-            <table id="example1" class="table table-condensed">
+            <table id="example2" class="table table-condensed">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -150,14 +150,8 @@ $(document).ready(function () {
 <script src="{{url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
   $(function () {
-    $('#example1').DataTable()
     $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
+      'order'       : [[ 3, "asc" ]]
     })
   })
 </script>

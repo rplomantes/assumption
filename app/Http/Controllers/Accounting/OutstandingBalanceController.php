@@ -50,6 +50,7 @@ class OutstandingBalanceController extends Controller
                 }
             }
             
+             \App\Http\Controllers\Admin\Logs::log("Print Outstanding Balance PDF");
             $pdf = PDF::loadView('accounting.print_outstanding_balance', compact('department','lists','heads','school_year','period'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("outstanding_balance.pdf");
@@ -66,6 +67,7 @@ class OutstandingBalanceController extends Controller
             $school_year = $request->school_year;
             $period = $request->period;
             
+             \App\Http\Controllers\Admin\Logs::log("Download Outstanding Balance EXCEL");
             if ($department == "College Department") {
                 $dep = '%Department';
                 $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, l.balance FROM users u,(SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` WHERE school_year = '$school_year' AND period = '".$period."' GROUP BY idno) l ,college_levels s WHERE s.idno = u.idno and l.balance != 0.00 and u.idno = l.idno and s.department LIKE '$dep' AND s.status = '".env('ENROLLED')."' AND s.school_year = '$school_year' AND s.period = '".$period."' ORDER BY u.lastname,s.level,s.section ");

@@ -42,6 +42,7 @@ class AddAccount extends Controller
              $add->accounting_code = $request->accounting_code;
              $add->accounting_name = \App\ChartOfAccount::where('accounting_code',$request->accounting_code)->first()->accounting_name;
              $add->save();
+             \App\Http\Controllers\Admin\Logs::log("Set other payment Subsidiary: $request->particular, Acctng code: $request->accounting_code");
              return redirect(url('/accounting','set_other_payment'));
          }
          
@@ -90,6 +91,7 @@ class AddAccount extends Controller
          $addledger->is_returned_check = $request->is_return;
          $addledger->amount=$request->amount;
          $addledger->save();
+         \App\Http\Controllers\Admin\Logs::log("Post other payment Subsidiary: $request->particular, Acctng code: $request->accounting_code, AMOUNT: $request->amount, STUDENT: $request->idno");
          return redirect(url('/accounting',array('add_to_account',$request->idno)));
       
       
@@ -102,6 +104,8 @@ class AddAccount extends Controller
          if($remove->category_switch==env('OTHER_MISC')){
              $remove->delete();
          }
+         \App\Http\Controllers\Admin\Logs::log("Remove other payment of Student: $idno, ID: $id");
+         
          return redirect(url('/accounting',array('add_to_account',$idno)));
      }
      
@@ -109,6 +113,8 @@ class AddAccount extends Controller
         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $remove = \App\OtherPayment::find($id);
             $remove->delete();
+             \App\Http\Controllers\Admin\Logs::log("Remove set other payment ID: $id");
+            
             return redirect(url('/accounting','set_other_payment'));
         }
     }

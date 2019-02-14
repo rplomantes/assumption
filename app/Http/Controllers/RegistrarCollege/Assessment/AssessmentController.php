@@ -346,6 +346,8 @@ class AssessmentController extends Controller {
         $is_foreign = \App\User::where('idno', $idno)->first();
         if (count($is_foreign) > 0) {
             if ($is_foreign->is_foreign == '1') {
+                $checkforeign = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('subsidiary','Foreign Fee')->get();
+                if(isset($checkforeign) == 0){
                 $addfee = \App\CtrCollegePracticumForeignFee::get();
                 foreach ($addfee as $fee) {
                 if(isset($request->add[$fee->id])){
@@ -366,6 +368,7 @@ class AssessmentController extends Controller {
                     $addledger->discount = $fee->amount * ($discountof / 100);
                     $addledger->discount_code = $discount_code;
                     $addledger->save();
+                }
                 }
                 }
             }

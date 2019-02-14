@@ -49,6 +49,7 @@ class SetUpController extends Controller
                 $tuitions = DB::select("SELECT l.accounting_code, l.subsidiary, SUM(l.amount) AS amount FROM ledgers l, (SELECT idno FROM bed_levels WHERE department LIKE '$department' AND school_year = '$school_year' AND status = '3') b WHERE l.idno = b.idno AND l.amount > 0 AND (l.category_switch = 6 or l.category_switch = 16) AND department LIKE '$department' AND l.school_year = '$school_year' GROUP BY l.subsidiary, l.accounting_code");
             } 
             
+             \App\Http\Controllers\Admin\Logs::log("Print Set Up Summary PDF");
             $pdf = PDF::loadView('accounting.print_setupsummary', compact('ledgers','tuitions','department','school_year','period'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("set_up_summary.pdf");
@@ -62,6 +63,7 @@ class SetUpController extends Controller
             $school_year = $request->school_year;
             $period = $request->period;
             
+             \App\Http\Controllers\Admin\Logs::log("Download Set Up Summary Excel");
             if ($department == "College Department") {
                 $ledgers = DB::select("SELECT l.accounting_code, l.subsidiary, SUM(l.amount) AS amount FROM ledgers l, (SELECT idno FROM college_levels WHERE school_year = '$school_year' AND period = '$period' AND status = '3') c WHERE l.idno = c.idno AND l.amount > 0 AND ((l.category_switch < 14 AND l.category_switch > 10) or l.category_switch < 4) AND l.school_year = '$school_year' AND period = '$period' GROUP BY l.subsidiary, l.accounting_code");
                 $tuitions = DB::select("SELECT l.accounting_code, l.subsidiary, SUM(l.amount) AS amount FROM ledgers l, (SELECT idno FROM college_levels WHERE school_year = '$school_year' AND period = '$period' AND status = '3') c WHERE l.idno = c.idno AND l.amount > 0 AND (l.category_switch = 6 or l.category_switch = 16) AND l.school_year = '$school_year' AND period = '$period' GROUP BY l.subsidiary, l.accounting_code");

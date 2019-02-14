@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 
-class StudentLedger extends Controller {
+class StudentLedger2 extends Controller {
 
     //
     public function __construct() {

@@ -33,6 +33,7 @@ class SiblingDiscountListController extends Controller
                 $dep = $department;
             }
             
+             \App\Http\Controllers\Admin\Logs::log("Print Sibling Discount List PDF");
             $lists = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section FROM users u, statuses s WHERE u.idno = s.idno and s.department = '$dep' and u.idno IN (SELECT idno FROM debit_memos WHERE explanation LIKE '%Sibling%') ORDER BY s.program_code,s.level,s.section");
             return view('accounting.print_sibling_discount',compact('department','lists'));
 //            $pdf = PDF::loadView('accounting.print_sibling_discount',compact('department','lists'));
@@ -57,6 +58,7 @@ class SiblingDiscountListController extends Controller
             
             $lists = "";
             
+             \App\Http\Controllers\Admin\Logs::log("Download Sibling Discount List Excel");
             ob_end_clean();
             Excel::create('Sibling Discount', 
                 function($excel) use ($department,$lists) { $excel->setTitle($department);
