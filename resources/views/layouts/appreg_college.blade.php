@@ -192,7 +192,17 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('grade_management','open_close'))}}"><i class="fa fa-circle-o"></i> <span>Open/Close Grade Module</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('grade_management','view_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>View Grades</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('grade_management','report_card'))}}"><i class="fa fa-circle-o"></i> <span>Report Cards</span></a></li>
-                                <li><a href="{{url('/registrar_college', array('grade_management','batch_ranking'))}}"><i class="fa fa-circle-o"></i> <span>*Batch Ranking</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-graduation-cap"></i> <span>Graduates/Alumni</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/registrar_college', array('graduates','tagging'))}}"><i class="fa fa-circle-o"></i> <span>*Tagging of Graduates</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('graduates','batch_ranking'))}}"><i class="fa fa-circle-o"></i> <span>*Batch Ranking</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">

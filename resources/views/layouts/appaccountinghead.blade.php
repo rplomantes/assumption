@@ -201,10 +201,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting', array('set_up_list'))}}"><span>Set Up List</span></a></li>
                                 <li><a href="{{url('/accounting',array('outstanding_balances'))}}"><span>Outstanding Balances</span></a></li>
                                 <li><a href="{{url('/accounting',array('student_per_account'))}}"><span>Student per Account List</span></a></li>
-                                <li><a href="{{url('/accounting',array('scholar'))}}"><span>*Scholar</span></a></li>
-                                <li><a href="{{url('/accounting',array('sibling'))}}"><span>*Sibling</span></a></li>
+                                <li><a href="{{url('/accounting',array('scholar'))}}"><span>*Scholars</span></a></li>
+                                <li><a href="{{url('/accounting',array('sibling'))}}"><span>*Sibling Discounts</span></a></li>
                                 <li><a href="{{url('/accounting',array('realized_fees'))}}"><span>*Realized Fees</span></a></li>
-                                <li><a href="{{url('/accounting',array('payment_summary'))}}"><span>*Payment Summar</span></a></li>
+                                <li><a href="{{url('/accounting',array('payment_summary'))}}"><span>*Payment Summary</span></a></li>
                             </ul>
                         </li>       
                         <li class="treeview">
