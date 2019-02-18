@@ -21,10 +21,12 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 </style>  
 <style type="text/css">
     @page {
-        margin: 0cm 0cm;
+        margin: 0cm 0cm; 
     }
+    #pageNumber { counter-increment: chapter }
+    #pageNumber:after { content: counter(chapter) } 
     body {
-        margin-top: 4cm;
+        margin-top: 4.4cm;
         margin-left: 1cm;
         margin-right: 1cm;
         margin-bottom: 6.4cm;
@@ -89,22 +91,23 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             </tr>
         </table>
     </footer>
-    <!--    <header>
-            STUDENT NAME: {{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}
-        </header>-->
-    <table class="table table-condensed hide" width="100%">
+        <header>
+            <table class="table table-condensed hide" width="100%">
         <tr>
             <td valign='top' width='24%'>STUDENT NAME:</td>
             <td><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></td>
-            <td width='10%' valign='top' align='center' rowspan="17">
+        </tr>
+            </table>
+        </header>
+    <table class="table table-condensed hide" width="100%">
+        <tr>
+            <td valign='top' width='24%'>STUDENT NUMBER:</td>
+            <td>{{$user->idno}}</td>
+            <td width='10%' valign='top' align='center' rowspan="16">
                 @if($file_exist == 1)
                 <img src="{{public_path('/images/PICTURES/'.$user->idno.'.jpg')}}" alt=' '>
                 @endif
             </td>
-        </tr>
-        <tr>
-            <td>STUDENT NUMBER:</td>
-            <td>{{$user->idno}}</td>
         </tr>
         <tr>
             <td valign='top'>COURSE:</td>
@@ -190,12 +193,15 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
     </table>
     <hr>
+    
+    
     <table width='100%' cellpadding="2" style=" border-collapse: collapse">
+<!--            <thead>
+                <tr>
+                    <td colspan="5">STUDENT NAME : <b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></td>
+                </tr>
+            </thead>-->
         <thead>
-<!--            <tr class="flyleaf">
-                <th width='12%'><b>Name:</b></th>
-                <th width='60%'><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></th>
-            </tr>-->
             <tr>
                 <th width='12%' align='center' style="border:2px solid black;"><b>COURSE CODE</b></th>
                 <th width='60%' align='center' style="border:2px solid black;"><b>DESCRIPTIVE TITLE</b></th>
