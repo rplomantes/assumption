@@ -121,8 +121,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 <tbody>
                     @foreach ($credit as $grade)
                     <tr>
-                        <td>{{$grade->course_code}}</td>
-                        <td>{{$grade->course_name}}</td>
+                        <td>{{$grade->credit_code}}</td>
+                        <td>{{$grade->credit_name}}</td>
                         <td>
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'credit')">
                                 <option></option>
@@ -284,7 +284,32 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
-                        <td>@if($grade->midterm_status == 3){{$grade->midterm}}@endif</td>
+                        <td>@if($grade->midterm_status == 3)
+                            <select class="grade" name="midterm[{{$grade->id}}]" id="midterm" onchange="change_midterm(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
+                                <option></option>
+                                <option @if ($grade->midterm == "PASSED") selected='' @endif>PASSED</option>
+                                <option @if ($grade->midterm == 1.00) selected='' @endif>1.00</option>
+                                <option @if ($grade->midterm == 1.20) selected='' @endif>1.20</option>
+                                <option @if ($grade->midterm == 1.50) selected='' @endif>1.50</option>
+                                <option @if ($grade->midterm == 1.70) selected='' @endif>1.70</option>
+                                <option @if ($grade->midterm == 2.00) selected='' @endif>2.00</option>
+                                <option @if ($grade->midterm == 2.20) selected='' @endif>2.20</option>
+                                <option @if ($grade->midterm == 2.50) selected='' @endif>2.50</option>
+                                <option @if ($grade->midterm == 2.70) selected='' @endif>2.70</option>
+                                <option @if ($grade->midterm == 3.00) selected='' @endif>3.00</option>
+                                <option @if ($grade->midterm == 3.50) selected='' @endif>3.50</option>
+                                <option @if ($grade->midterm == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($grade->midterm == "FAILED") selected='' @endif>FAILED</option>
+                                <option @if ($grade->midterm == "FA") selected='' @endif>FA</option>
+                                <option @if ($grade->midterm == "INC") selected='' @endif>INC</option>
+                                <option @if ($grade->midterm == "NA") selected='' @endif>NA</option>
+                                <option @if ($grade->midterm == "NG") selected='' @endif>NG</option>
+                                <option @if ($grade->midterm == "UD") selected='' @endif>UD</option>
+                                <option @if ($grade->midterm == "W") selected='' @endif>W</option>
+                                <option @if ($grade->midterm == "AUDIT") selected='' @endif>AUDIT</option>
+                            </select>
+                            @endif
+                        </td>
                         <td>@if($grade->finals_status == 3)
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
@@ -369,7 +394,32 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
-                        <td>@if($grade->midterm_status == 3){{$grade->midterm}}@endif</td>
+                        <td>@if($grade->midterm_status == 3)
+                            <select class="grade" name="midterm[{{$grade->id}}]" id="midterm" onchange="change_midterm(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
+                                <option></option>
+                                <option @if ($grade->midterm == "PASSED") selected='' @endif>PASSED</option>
+                                <option @if ($grade->midterm == 1.00) selected='' @endif>1.00</option>
+                                <option @if ($grade->midterm == 1.20) selected='' @endif>1.20</option>
+                                <option @if ($grade->midterm == 1.50) selected='' @endif>1.50</option>
+                                <option @if ($grade->midterm == 1.70) selected='' @endif>1.70</option>
+                                <option @if ($grade->midterm == 2.00) selected='' @endif>2.00</option>
+                                <option @if ($grade->midterm == 2.20) selected='' @endif>2.20</option>
+                                <option @if ($grade->midterm == 2.50) selected='' @endif>2.50</option>
+                                <option @if ($grade->midterm == 2.70) selected='' @endif>2.70</option>
+                                <option @if ($grade->midterm == 3.00) selected='' @endif>3.00</option>
+                                <option @if ($grade->midterm == 3.50) selected='' @endif>3.50</option>
+                                <option @if ($grade->midterm == 4.00) selected='' @endif>4.00</option>
+                                <option @if ($grade->midterm == "FAILED") selected='' @endif>FAILED</option>
+                                <option @if ($grade->midterm == "FA") selected='' @endif>FA</option>
+                                <option @if ($grade->midterm == "INC") selected='' @endif>INC</option>
+                                <option @if ($grade->midterm == "NA") selected='' @endif>NA</option>
+                                <option @if ($grade->midterm == "NG") selected='' @endif>NG</option>
+                                <option @if ($grade->midterm == "UD") selected='' @endif>UD</option>
+                                <option @if ($grade->midterm == "W") selected='' @endif>W</option>
+                                <option @if ($grade->midterm == "AUDIT") selected='' @endif>AUDIT</option>
+                            </select>
+                            @endif
+                        </td>
                         <td>@if($grade->finals_status == 3)
                             <select class="grade" name="finals[{{$grade->id}}]" id="finals" onchange="change_finals(this.value, '{{$grade->id}}', '{{$grade->idno}}', 'new')">
                                 <option></option>
@@ -450,6 +500,20 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     $.ajax({
     type: "GET",
             url: "/ajax/registrar_college/grades/change_finals/" + idno,
+            data: array,
+            success: function () {
+            }
+    });
+    }
+    function change_midterm(grade, grade_id, idno, stat) {
+    array = {};
+    array['grade'] = grade;
+    array['grade_id'] = grade_id;
+    array['idno'] = idno;
+    array['stat'] = stat;
+    $.ajax({
+    type: "GET",
+            url: "/ajax/registrar_college/grades/change_midterm/" + idno,
             data: array,
             success: function () {
             }

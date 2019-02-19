@@ -92,6 +92,10 @@
                                         <option @if($credit->period == "1st Semester") selected="" @endif>1st Semester</option>
                                         <option @if($credit->period == "2nd Semester") selected="" @endif>2nd Semester</option>
                                         <option @if($credit->period == "Summer") selected="" @endif>Summer</option>
+                                        <option @if($credit->period == "1st Quarter") selected='' @endif>1st Quarter</option>
+                                        <option @if($credit->period == "2nd Quarter") selected='' @endif>2nd Quarter</option>
+                                        <option @if($credit->period == "3rd Quarter") selected='' @endif>3rd Quarter</option>
+                                        <option @if($credit->period == "4th Quarter") selected='' @endif>4th Quarter</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -145,6 +149,10 @@
                                         <option>1st Semester</option>
                                         <option>2nd Semester</option>
                                         <option>Summer</option>
+                                        <option>1st Quarter</option>
+                                        <option>2nd Quarter</option>
+                                        <option>3rd Quarter</option>
+                                        <option>4th Quarter</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -208,7 +216,7 @@
             $('#dynamic_field_credit').append(
           '<div id="row_credit' + i + '" class="form form-group">\n\
            <div class="col-md-1"><input class="form form-control" type="text" name="credit_sy[]" id="credit_sy' + i +'"/></div>\n\
-           <div class="col-md-1"><select class="form form-control" type="text" name="credit_period[]" id="credit_period' + i +'"><option>Select Period</option><option>1st Semester</option><option>2nd Semester</option><option>Summer</option></select></div>\n\
+           <div class="col-md-1"><select class="form form-control" type="text" name="credit_period[]" id="credit_period' + i +'"><option>Select Period</option><option>1st Semester</option><option>2nd Semester</option><option>Summer</option><option>1st Quarter</option><option>2nd Quarter</option><option>3rd Quarter</option><option>4th Quarter</option></select></div>\n\
            <div class="col-md-2"><input class="form form-control" type="text" name="credit_school_name[]" id="credit_school_name' + i +'"/></div>\n\
            <div class="col-md-1"><input class="form form-control" type="text" name="credit_course_code[]" id="credit_course_code' + i +'"/></div>\n\
            <div class="col-md-2"><input class="form form-control" type="text" name="credit_course_name[]" id="credit_course_name' + i +'"/></div>\n\

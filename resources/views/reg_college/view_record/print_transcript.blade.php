@@ -130,7 +130,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>DATE AND PLACE OF BIRTH:</td>
-            <td>{{strtoupper(date('F d, Y',strtotime($info->birthdate)))}} {{strtoupper($info->place_of_birth)}}</td>
+            <td>{{strtoupper(date('F d, Y',strtotime($info->birthdate)))}}, {{strtoupper($info->place_of_birth)}}</td>
         </tr>
         <tr>
             <td>CITIZENSHIP:</td>
@@ -231,7 +231,19 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php $grades = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>@if($with_credit == 1){{strtoupper($school_name)}}<br> @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'>
+                <b>
+                    @if($with_credit == 1){{strtoupper($school_name)}}<br> @endif 
+                        @if($pr->period == "1st Semester") FIRST SEMESTER 
+                        @elseif($pr->period == "2nd Semester") SECOND SEMESTER 
+                        @elseif($pr->period == "Summer") SUMMER  
+                        @elseif($pr->period == "1st Quarter") FIRST QUARTER 
+                        @elseif($pr->period == "2nd Quarter") SECOND QUARTER 
+                        @elseif($pr->period == "3rd Quarter") THIRD QUARTER
+                        @elseif($pr->period == "4th Quarter") FOURTH QUARTER
+                    @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}
+                </b>
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -295,8 +307,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         }
         ?>
         <tr>
-            <td valign='top'>{{strtoupper($grade->course_code)}}</td>
-            <td valign='top'>{{strtoupper($grade->course_name)}}</td>
+            <td valign='top'>{{strtoupper($grade->credit_code)}}</td>
+            <td valign='top'>{{strtoupper($grade->credit_name)}}</td>
             <td valign='top' align='center'>{{$display_final_grade}}</td>
             <td valign='top' align='center'>{{$display_final_completion}}</td>
             <td valign='top' align='center'>{{$credit}}</td>

@@ -131,17 +131,38 @@ $count = 0;
             <th width='10%' align='center' style="border:1px solid black;"><b>CREDITS</b></th>
         </tr>
 
-        <?php $grades_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
-        @if(count($grades_sy)>0)
-        @foreach($grades_sy as $sy)
-        <?php $grades_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
-        @foreach ($grades_pr as $pr)
-        <?php $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
+        <?php $with_credit=0; ?>
+        <?php $school_name = ""; ?>
+        <?php $credit_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
+        @if(count($credit_sy)>0)
+        @foreach($credit_sy as $sy)
+        <?php $credit_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
+        @foreach ($credit_pr as $pr)
+        <?php $with_credit = 1; $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
         @foreach ($credit_school as $sr)
-        <?php $grades = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+        @if($school_name == $sr->school_name)
+        <?php $school_name = $school_name;?>
+        <?php $with_credit = 0; ?>
+        @else
+        <?php $with_credit = 1; ?>
+        <?php $school_name = $sr->school_name; ?>
+        @endif
+        <?php $grades = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>@if($sr->school_name != ""){{strtoupper($sr->school_name)}} : @endif {{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'>
+                <b>
+                    @if($with_credit == 1){{strtoupper($school_name)}}<br> @endif 
+                        @if($pr->period == "1st Semester") FIRST SEMESTER 
+                        @elseif($pr->period == "2nd Semester") SECOND SEMESTER 
+                        @elseif($pr->period == "Summer") SUMMER  
+                        @elseif($pr->period == "1st Quarter") FIRST QUARTER 
+                        @elseif($pr->period == "2nd Quarter") SECOND QUARTER 
+                        @elseif($pr->period == "3rd Quarter") THIRD QUARTER
+                        @elseif($pr->period == "4th Quarter") FOURTH QUARTER
+                    @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}
+                </b>
+            </td>
             <td></td>
             <td></td>
             <td></td>
@@ -200,8 +221,8 @@ $count = 0;
         }
         ?>
         <tr>
-            <td valign='top'>{{strtoupper($grade->course_code)}}</td>
-            <td valign='top'>{{strtoupper($grade->course_name)}}</td>
+            <td valign='top'>{{strtoupper($grade->credit_code)}}</td>
+            <td valign='top'>{{strtoupper($grade->credit_name)}}</td>
             <td valign='top' align='center'>{{$display_final_grade}}</td>
             <td valign='top' align='center'>{{$display_final_completion}}</td>
             <td valign='top' align='center'>{{$credit}}</td>
@@ -210,6 +231,7 @@ $count = 0;
         @endforeach
         @endforeach
         @endforeach
+        <?php $with_credit = 1; ?>
         @endif
 
 
@@ -227,7 +249,7 @@ $count = 0;
         @else
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pin_pr->period)}}, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -237,7 +259,7 @@ $count = 0;
         @else
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pin_pr->period)}}, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -322,7 +344,7 @@ $count = 0;
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -401,7 +423,7 @@ $count = 0;
         <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('finals_status', 3)->get(); ?>
         <tr>
             <td></td>
-            <td align='center'><b>{{strtoupper($pr->period)}}, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
+            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pr->period == "1st Semester") FIRST SEMESTER @elseif($pr->period == "2nd Semester") SECOND SEMESTER @elseif($pr->period == "Summer") SUMMER @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}</b></td>
             <td></td>
             <td></td>
             <td></td>
