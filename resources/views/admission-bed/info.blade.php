@@ -85,26 +85,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
              </div>
           </div>
         
-        
-        <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
-        <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
-        <?php $group = \App\GroupStudent::where('idno',$user->idno)->first(); ?>
-        <div class="col-md-3 pull-right">
-             <div class="form form-group">
-                 <label>Group Interview Schedule:</label>
-                 <select class="form form-control" onchange='update_group(this.value)'>
-                     <option>Select Schedule</option>
-                     @foreach($group_schedules as $gro)
-                     <option value='{{$gro->id}}' @if($group->schedule_id == $gro->id)selected @endif>{{date("F j, Y - g:i A",strtotime($gro->datetime))}}</option>
-                     @endforeach
-                 </select>
-             </div>
-        </div>
-        
         <?php //$interview_schedules = \App\InterviewSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $interview_schedules = \App\InterviewSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
         <?php $interview = \App\InterviewStudent::where('idno',$user->idno)->first(); ?>
-        <div class="col-md-3 pull-right">
+        <div class="col-md-3 pull-left">
              <div class="form form-group">
                  <label>Parent Interview Schedule:</label>
                  <select class="form form-control" onchange='update_interview(this.value)'>
@@ -118,7 +102,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <?php //$testing_schedules = \App\TestingSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
         <?php $testing = \App\TestingStudent::where('idno',$user->idno)->first(); ?>
-        <div class="col-md-3 pull-right">
+        <div class="col-md-3 pull-left">
              <div class="form form-group">
                  <label>Testing Schedule:</label>
                  <select class="form form-control" onchange='update_testing(this.value)'>
@@ -129,6 +113,40 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                  </select>
              </div>
         </div>
+        
+        
+        @if($info->applied_for == "Pre-Kinder" || $info->applied_for == "Kinder" || $info->applied_for == "Grade 1")
+        <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
+        <?php $group = \App\GroupStudent::where('idno',$user->idno)->first(); ?>
+        <div class="col-md-3 pull-left">
+             <div class="form form-group">
+                 <label>Group Interview Schedule:</label>
+                 <select class="form form-control" onchange='update_group(this.value)'>
+                     <option>Select Schedule</option>
+                     @foreach($group_schedules as $gro)
+                     <option value='{{$gro->id}}' @if($group->schedule_id == $gro->id)selected @endif>{{date("F j, Y - g:i A",strtotime($gro->datetime))}}</option>
+                     @endforeach
+                 </select>
+             </div>
+        </div>
+        @else
+        <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
+        <?php $individual_schedules = \App\IndividualSchedules::where('is_remove',0)->orderBy('datetime', 'asc')->get(); ?>
+        <?php $individual = \App\IndividualStudents::where('idno',$user->idno)->first(); ?>
+        <div class="col-md-3 pull-left">
+             <div class="form form-group">
+                 <label>Individual Interview Schedule:</label>
+                 <select class="form form-control" onchange='update_individual(this.value)'>
+                     <option>Select Schedule</option>
+                     @foreach($individual_schedules as $ind)
+                     <option value='{{$ind->id}}' @if($individual->schedule_id == $ind->id)selected @endif>{{date("F j, Y - g:i A",strtotime($ind->datetime))}}</option>
+                     @endforeach
+                 </select>
+             </div>
+        </div>
+        @endif
+        
     </div>
     @elseif($status->status == env("PRE_REGISTERED"))
     {{ csrf_field() }}
@@ -1329,10 +1347,22 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </div>
         
         @else
+        @if($status->status == env("REGRET_FINAL"))
+        <div class="col-md-6">
+            <a href="{{url('admissionbed', array('approve_application', $user->idno))}}">
+                <button type='button' class='btn btn-danger col-sm-12' onclick="if (confirm('Do you really want to APPROVED Applicant?')) return true; else return false;">Change to Approve</button>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a href="{{url('admissionbed', array('print_info', $user->idno))}}">
+                <button type='button' class='btn btn-warning col-sm-12'>Print Student Information</button></a>
+        </div>
+        @else
         <div class="col-md-6 col-md-offset-6">
             <a href="{{url('admissionbed', array('print_info', $user->idno))}}">
                 <button type='button' class='btn btn-warning col-sm-12'>Print Student Information</button></a>
         </div>
+        @endif
         @endif
         
     </div>
@@ -1378,6 +1408,21 @@ function update_group(id){
     $.ajax({
         type: "GET",
         url: "/ajax/admissionbed/update_group",
+        data: array,
+        success: function (data) {
+        }
+
+    });
+}
+
+
+function update_individual(id){
+    array = {};
+    array['idno'] = "{{$user->idno}}";
+    array['interview_id'] = id;
+    $.ajax({
+        type: "GET",
+        url: "/ajax/admissionbed/update_individual",
         data: array,
         success: function (data) {
         }

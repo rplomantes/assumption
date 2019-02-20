@@ -31,7 +31,7 @@ $x = 0 ?>
             @if($department == "College Department")
             <th style='border-bottom: 1px solid black'>Course</th>
             @endif
-            <th style='border-bottom: 1px solid black'>Year Level</th>
+            <th style='border-bottom: 1px solid black'>Plan</th>
             @if($department != "College Department")
             <th style='border-bottom: 1px solid black' align="center">Section</th>
             @endif
@@ -40,6 +40,7 @@ $x = 0 ?>
     </thead>
     <tbody>
             @foreach($lists as $list)
+            @if($list->balance > 0)
                 @if($list->level == $head->level)
                 <?php $total += $list->balance; $x++; ?>
                 <tr>
@@ -49,12 +50,13 @@ $x = 0 ?>
                     @if($department == "College Department")
                     <td>{{$list->program_code}} </th>
                         @endif
-                    <td>{{$list->level}}</td>
+                    <td>{{$list->type_of_plan}}</td>
                     @if($department != "College Department")
                     <td align='center'>{{$list->section}}</td>
                     @endif
                     <td align='right'>{{number_format($list->balance,2)}}</td>
                 </tr>
+                @endif
                 @endif
             @endforeach
             <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>

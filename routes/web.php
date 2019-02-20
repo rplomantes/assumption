@@ -306,6 +306,7 @@ Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
 Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');
 Route::get('/ajax/admissionbed/update_interview','AdmissionBED\Ajax\GetStudentList@updateSchedInterview');
 Route::get('/ajax/admissionbed/update_group','AdmissionBED\Ajax\GetStudentList@updateSchedGroup');
+Route::get('/ajax/admissionbed/update_individual','AdmissionBED\Ajax\GetStudentList@updateSchedIndividual');
 Route::get('/ajax/admissionbed/change_applied_for','AdmissionBED\Ajax\GetStudentList@change_applied_for');
 Route::get('/admissionbed/approve_application/{idno}','AdmissionBED\info@approve_application');
 Route::get('/admissionbeds/disapprove_application/{idno}','AdmissionBED\info@disapprove_application');
@@ -330,6 +331,13 @@ Route::get('/admissionbed/edit_group_schedule/{id}', 'AdmissionBED\GroupSchedule
 Route::post('/admissionbed/edit_group_schedule_now', 'AdmissionBED\GroupSchedules@edit_now');
 Route::get('/admissionbed/view_group_list/{id}', 'AdmissionBED\GroupSchedules@view_list');
 Route::get('/admissionbed/remove_group_list_student/{id}/{idno}', 'AdmissionBED\GroupSchedules@remove_list');
+//BED INDIVUDUAL INTERVIEW SCHEDULES/////////////////////////////////////////////////////////
+Route::get('/admissionbed/individual_schedules', 'AdmissionBED\IndividualSchedules@view');
+Route::post('/admissionbed/add_individual_schedule', 'AdmissionBED\IndividualSchedules@add');
+Route::get('/admissionbed/edit_individual_schedule/{id}', 'AdmissionBED\IndividualSchedules@edit');
+Route::post('/admissionbed/edit_individual_schedule_now', 'AdmissionBED\IndividualSchedules@edit_now');
+Route::get('/admissionbed/view_individual_list/{id}', 'AdmissionBED\IndividualSchedules@view_list');
+Route::get('/admissionbed/remove_individual_list_student/{id}/{idno}', 'AdmissionBED\IndividualSchedules@remove_list');
 
 
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////

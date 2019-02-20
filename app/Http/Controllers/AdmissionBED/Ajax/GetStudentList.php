@@ -99,6 +99,33 @@ class GetStudentList extends Controller {
                     $update = \App\GroupStudent::where('idno', $idno)->first();
                     $update->schedule_id = $interview_id;
                     $update->save();
+                    
+                    $update = \App\IndividualStudents::where('idno', $idno)->first();
+                    $update->schedule_id = NULL;
+                    $update->save();
+                }
+            }
+        }
+    }
+
+    function updateSchedIndividual() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+                $idno = Input::get('idno');
+                $interview_id = Input::get('interview_id');
+
+                if ($interview_id == "Select Schedule") {
+                    $update = \App\IndividualStudents::where('idno', $idno)->first();
+                    $update->schedule_id = NULL;
+                    $update->save();
+                } else {
+                    $update = \App\IndividualStudents::where('idno', $idno)->first();
+                    $update->schedule_id = $interview_id;
+                    $update->save();
+                    
+                    $update = \App\GroupStudent::where('idno', $idno)->first();
+                    $update->schedule_id = NULL;
+                    $update->save();
                 }
             }
         }

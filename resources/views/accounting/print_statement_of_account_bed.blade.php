@@ -175,7 +175,7 @@ $late_less = $late_totaldiscount + $late_totaldm + $late_totalpayment;
     @if($other_totalamount-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="2" style="background-color: silver"><strong>OTHER FEES</strong></td>
+            <td colspan="2" style="background-color: silver"><strong>OTHER FEES/LATE PAYMENTS</strong></td>
         </tr>
         <tr>
             <td width="30%">Total Fees:</td><td align="right">{{number_format($other_totalamount,2)}}</td>

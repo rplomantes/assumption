@@ -1,9 +1,11 @@
 <?php
-$display_status = "ASSESSED";
 $user = \App\User::where('idno',$idno)->first();
 $status =  \App\Status::where('idno',$idno)->first();
-if($status->status == env("ENROLLED"))
+if($status->status == env("ENROLLED")){
     $display_status = "ENROLLED";
+}else{
+    $display_status = "ASSESSED";
+}
 $ledger = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)
         ->where(function($query){
@@ -18,6 +20,8 @@ $ledger_other = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 2)->groupBy('category','category_switch')->orderBy('category_switch')->get();
 $ledger_depo = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 3)->groupBy('category','category_switch')->orderBy('category_switch')->get();
+$ledger_late = \App\Ledger::SelectRaw('category_switch, category, sum(amount)as amount, sum(discount) as discount,
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno',$idno)->where('category_switch', 7)->where('subsidiary', "Late Payment")->groupBy('category','category_switch')->orderBy('category_switch')->get();
 if($status->academic_type == "SHS"){
 $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
 }else{
@@ -47,6 +51,8 @@ $upon = 0;
          table{font-size:9pt;}
          .upon{color:red}
          .due_amount{font-size:16pt;font-weight: bold;color:red;
+           border-color: #000}
+         .late_amount{font-size:12pt;font-weight: bold;color:orange;
            border-color: #000}
          
      </style>
@@ -212,6 +218,13 @@ $upon = 0;
         <br>
        
         <p> Amount to be paid <span class="due_amount">Php {{number_format($upon-$totaldm,2)}}</span>.</p>
+        <?php $total_late = 0; ?>
+        @if(count($ledger_late)>0)
+        @foreach($ledger_late as $late)
+        <?php $total_late = $late->amount + $total_late ?>
+        @endforeach
+        <p> Late Enrollment Fee: <span class="late_amount">Php {{number_format($total_late,2)}}</span>.</p>
+        @endif
         <p>*Please print this form and present it to the cashier.<br>
             </p>
  </body>

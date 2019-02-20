@@ -132,6 +132,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/admissionbed','testing_schedules')}}"><i class="fa fa-link"></i> Testing Schedules</a></li>
             <li><a href="{{url('/admissionbed','interview_schedules')}}"><i class="fa fa-link"></i> Parent Interview Schedules</a></li>
             <li><a href="{{url('/admissionbed','group_schedules')}}"><i class="fa fa-link"></i> Group Interview Schedules</a></li>
+            <li><a href="{{url('/admissionbed','individual_schedules')}}"><i class="fa fa-link"></i> Individual Interview Schedules</a></li>
           </ul>
         </li>
 <!--        <li class="treeview">

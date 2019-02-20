@@ -1,14 +1,18 @@
 <?php
-$display_status = "ASSESSED";
 $user = \App\User::where('idno',$idno)->first();
 $status =  \App\Status::where('idno',$idno)->first();
+if($status->status == 3){
+$display_status = "ENROLLED";
+}else{
+$display_status = "ASSESSED";
+}
 $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
 if($status->status == env("ENROLLED"))
     $display_status = "ENROLLED";
 $ledger = \App\Ledger::SelectRaw('category,category_switch, sum(amount)as amount, sum(discount) as discount,
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch', '<',7)->where('idno',$idno)->groupBy('category_switch','category')->orderBy('category_switch')->get();
 $ledger_other = \App\Ledger::SelectRaw('category_switch, category,subsidiary ,sum(amount)as amount, sum(discount) as discount,
-    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch',7)->where('idno',Auth::user()->idno)->groupBy('category','subsidiary','category_switch')->orderBy('category_switch')->get();
+    sum(debit_memo) as debit_memo, sum(payment) as payment')->where('category_switch',7)->where('idno',$idno)->groupBy('category','subsidiary','category_switch')->orderBy('category_switch')->get();
 if($status->academic_type == "SHS" || $status->academic_type == "College"){
 $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
 }else{

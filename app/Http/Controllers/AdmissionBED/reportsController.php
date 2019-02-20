@@ -53,7 +53,30 @@ class reportsController extends Controller
 
     function reservations() {
         if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
-           $reservations = \App\Reservation::where('reservation_type', 1)->where('is_consumed', 0)->where('is_reverse', 0)->join('statuses', 'statuses.idno','=','reservations.idno')->join('users', 'users.idno','=','reservations.idno')->where('statuses.academic_type', '!=', 'College')->where('is_new', '1')->where('date_admission_finish', '!=', NULL)->orderBy('users.lastname', 'asc')->orderBy('reservations.transaction_date', 'asc')->get();
+//           $reservations = \App\Reservation::where('reservation_type', 1)
+//                   ->where('is_consumed', 0)
+//                   ->where('is_reverse', 0)
+//                   ->join('statuses', 'statuses.idno','=','reservations.idno')
+//                   ->join('users', 'users.idno','=','reservations.idno')
+//                   ->where('statuses.academic_type', '!=', 'College')
+//                   ->where('is_new', '1')
+//                   ->where('date_admission_finish', '!=', NULL)
+//                   ->orderBy('users.lastname', 'asc')
+//                   ->orderBy('reservations.transaction_date', 'asc')
+//                   ->get();
+           
+           $reservations = \App\Reservation::where('reservation_type', 1)
+                   ->where('is_consumed', 0)
+                   ->where('is_reverse', 0)
+                   ->join('statuses', 'statuses.idno', '=', 'reservations.idno')
+                   ->join('users', 'users.idno','=','reservations.idno')
+                   ->where('statuses.academic_type', '!=', 'College')
+                   ->where('is_new', '1')
+                   ->where('date_admission_finish', '!=', NULL)
+                   ->orderBy('statuses.level', 'asc')
+                   ->orderBy('users.lastname', 'asc')
+                   ->orderBy('reservations.transaction_date', 'asc')
+                   ->get();
            
             return view('admission-bed.reports.reservations', compact('reservations'));
         }

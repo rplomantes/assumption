@@ -735,6 +735,7 @@ class Assess extends Controller {
     function removeLedger($idno, $schoolyear, $period, $academic_type) {
         if ($academic_type == "BED") {
             \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->delete();
+            \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('subsidiary', "Late Payment")->where('school_year', $schoolyear)->delete();
         } else {
             \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->where('period', $period)->delete();
         }

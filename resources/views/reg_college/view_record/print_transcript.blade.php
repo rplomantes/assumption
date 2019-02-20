@@ -130,7 +130,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>DATE AND PLACE OF BIRTH:</td>
-            <td>{{strtoupper(date('F d, Y',strtotime($info->birthdate)))}}, {{strtoupper($info->place_of_birth)}}</td>
+            <td>@if($info->birthdate == "" || $info->birthdate == NULL) @else {{strtoupper(date('F d, Y',strtotime($info->birthdate)))}}, @endif {{strtoupper($info->place_of_birth)}}</td>
         </tr>
         <tr>
             <td>CITIZENSHIP:</td>
