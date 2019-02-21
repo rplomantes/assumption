@@ -99,7 +99,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <div class="col-sm-3"><br>
             <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credited Courses(Transferee)</a>
         </div>
+        <div class="col-sm-12"><br>
+            <a href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
+        </div>
         <div class="col-sm-12">
+            
             <?php $credit_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($credit_sy)>0)
             @foreach($credit_sy as $sy)
@@ -173,7 +177,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
                         </td>
-                        <td><a target='_blank' href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>
+                        <td><a href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -255,7 +259,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($pin_grades->completion == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
                         </td>
-                        <td><a target='_blank' href="{{url('registrar_college', array('edit','college_grades', $pin_grades->id))}}">Edit</td>
+                        <td><a href="{{url('registrar_college', array('edit','college_grades', $pin_grades->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -363,7 +367,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             </select>
                             @endif
                         </td>
-                        <td><a target='_blank' href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
+                        <td><a href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -473,7 +477,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             </select>
                             @endif
                         </td>
-                        <td><a target='_blank' href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
+                        <td><a href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -483,7 +487,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endif
             @endif
             <!--<button class="col-sm-12 btn btn-success "><span></span>PRINT TRANSCRIPT OF RECORD</button>-->
-            <a target='_blank' href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
+            <a href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
 
         </div>    
     </div>
