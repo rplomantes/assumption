@@ -190,7 +190,7 @@
                     </table>
                 </div>
             </div>
-            @if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED'))
+            @if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED') || Auth::user()->accesslevel == env('DEAN'))
             
             <a target='_blank' id='print_enroll' href='{{url('registrar_college', array('reports', 'enrollment_statistics', 'print_enrollment_statistics', $school_year, $period))}}'><button class="btn btn-success col-sm-12">PRINT ENROLLMENT REPORT</button></a>
             <!--<a target='_blank' href='{{url('registrar_college', array('reports', 'enrollment_statistics', 'print_enrollment_official', $school_year, $period))}}'><button class="btn btn-success col-sm-12">PRINT OFFICIAL REPORT</button></a>-->

@@ -308,6 +308,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->midterm == "W") selected='' @endif>W</option>
                                 <option @if ($grade->midterm == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
+                            @else
                             @endif
                         </td>
                         <td>@if($grade->finals_status == 3)

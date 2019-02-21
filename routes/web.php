@@ -54,6 +54,9 @@ Route::get('registrar_college/delete_now/college_grades/{id}','RegistrarCollege\
 Route::get('registrar_college/delete_now/grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@delete_now_college_grades');
 Route::get('registrar_college/delete_now/credit_grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@delete_now_credit_grades');
 
+//SET AS CREDIT TRANSCRIPT RECORD
+Route::get('registrar_college/set_as_credit_now/college_grades/{id}','RegistrarCollege\StudentRecord\StudentRecordController@set_as_credit_now_college_grades2018');
+
 //Registrar College Advising
 //Set Up
 Route::get('/registrar_college/advising/set_up', 'RegistrarCollege\Advising\AdvisingController@index');

@@ -95,7 +95,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <table class="table table-condensed hide" width="100%">
         <tr>
             <td valign='top' width='24%'>STUDENT NAME:</td>
-            <td><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</b></td>
+            <td><b>{{mb_strtoupper($user->lastname)}}, {{mb_strtoupper($user->firstname)}} {{mb_strtoupper($user->middlename)}}</b></td>
         </tr>
             </table>
         </header>
@@ -257,7 +257,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
-            if($grade->finals == "FAILED"){
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
                 $is_x = 1;
             }else{
                 $is_x = 0;
@@ -362,7 +362,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
-            if($pin_grades->finals == "FAILED"){
+        if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades->finals == "UD"  || $pin_grades->finals == "4.00"){
                 $is_x = 1;
             }else{
                 $is_x = 0;
@@ -448,7 +448,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
-            if($grade->finals == "FAILED"){
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
                 $is_x = 1;
             }else{
                 $is_x = 0;
@@ -532,7 +532,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
-            if($grade->finals == "FAILED"){
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
                 $is_x = 1;
             }else{
                 $is_x = 0;

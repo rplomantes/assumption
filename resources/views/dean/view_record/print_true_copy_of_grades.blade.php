@@ -176,6 +176,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
@@ -277,6 +282,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades->finals == "UD"  || $pin_grades->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "PASSED") {
                 $gpa = $gpa;
@@ -358,6 +368,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
@@ -437,6 +452,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;

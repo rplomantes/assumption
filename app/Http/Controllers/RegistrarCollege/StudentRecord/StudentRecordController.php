@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use PDF;
+use DB;
 
 class StudentRecordController extends Controller {
 
@@ -343,6 +344,34 @@ class StudentRecordController extends Controller {
             \App\Http\Controllers\Admin\Logs::log("Add a credited course Transcript Record of student $idno");
 
             return redirect('/registrar_college/view_transcript/' . $idno);
+        }
+    }
+
+    function set_as_credit_now_college_grades2018($id) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            DB::beginTransaction();
+            $grade = \App\CollegeGrades2018::where('id', $id)->first();
+            
+            $new_credit = new \App\CollegeCredit;
+            $new_credit->idno = $grade->idno;
+            $new_credit->course_code = $grade->course_code;
+            $new_credit->course_name = $grade->course_name;
+            $new_credit->lec = $grade->lec;
+            $new_credit->credit_code = $grade->course_code;
+            $new_credit->credit_name = $grade->course_name;
+            $new_credit->finals = $grade->finals;
+            $new_credit->completion = $grade->completion;
+            $new_credit->school_year = $grade->school_year;
+            $new_credit->period = $grade->period;
+            $new_credit->school_name = "NO ASSIGNED SCHOOL YET";
+            $new_credit->save();
+            
+            $grade->deleted_at = date("Y-m-d H:i:s");
+            $grade->save();
+            DB::Commit();
+
+            \App\Http\Controllers\Admin\Logs::log("Move Transcript Record to Credit Subject $grade->course_code, $grade->course_name, SY: $grade->school_year $grade->period, Grade: $grade->finals");
+            return redirect('/registrar_college/credit_course/' . $grade->idno);
         }
     }
 

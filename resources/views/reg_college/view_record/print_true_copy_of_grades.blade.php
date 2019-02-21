@@ -101,7 +101,7 @@ $count = 0;
                 </tr>
                 <tr>
                     <td valign='top'>STUDENT NAME:</td>
-                    <td colspan='2'><div style="border-bottom: 1px solid black"><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}&nbsp;</div></b></td>   
+                    <td colspan='2'><div style="border-bottom: 1px solid black"><b>{{mb_strtoupper($user->lastname)}}, {{mb_strtoupper($user->firstname)}} {{mb_strtoupper($user->middlename)}}&nbsp;</div></b></td>   
                     <td align='right'>CITIZENSHIP:</td>
                     <td><div style="border-bottom: 1px solid black">{{strtoupper($info->nationality)}}&nbsp;</div></td> 
                 </tr>
@@ -176,6 +176,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
@@ -277,6 +282,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades->finals == "UD"  || $pin_grades->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "PASSED") {
                 $gpa = $gpa;
@@ -358,6 +368,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
@@ -437,6 +452,11 @@ $count = 0;
             $gpa = $gpa;
             $count = $count;
             $credit = $credit;
+        if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+                $is_x = 1;
+            }else{
+                $is_x = 0;
+            }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;

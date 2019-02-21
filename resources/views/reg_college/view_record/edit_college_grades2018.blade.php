@@ -77,6 +77,15 @@
                     <a href="{{url('registrar_college',array('delete_now','college_grades',$id))}}" class="col-sm-12 btn btn-danger">DELETE RECORD</a>
                 </div>
             </div>
+            
+            <div class="box">
+                <div class='box-header'>
+                    <div class='box-title'>Set as Credit Subject</div>
+                </div>
+                <div class="box-body">
+                    <a href="{{url('registrar_college',array('set_as_credit_now','college_grades',$id))}}" class="col-sm-12 btn btn-warning">SET AS CREDIT</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
