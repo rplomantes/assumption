@@ -2,9 +2,9 @@
 function get_name($idno,$schoolyear,$period){
     $names = \App\User::where('idno',$idno)->first();
     if($period == "Select Period"){
-    $is_widthraw = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->first();
+    $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->first();
     }else{
-    $is_widthraw = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->where('period', $period)->first();
+    $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->where('period', $period)->first();
     }
     
     if($names->middlename == NULL){
@@ -13,17 +13,18 @@ function get_name($idno,$schoolyear,$period){
         $names->middlename = "(".ucwords(strtolower($names->middlename)).")";
     }
     
-    if ($is_widthraw->status == 4){
-        $print = "Withdrawn-". $is_widthraw->date_dropped;
+    if ($is_new->status == 4){
+        $print = "Withdrawn-". $is_new->date_dropped;
     } else {
         $print = "";
-    }   
+    }
     
     return strtoupper($names->lastname).", ".ucwords(strtolower($names->firstname))." ".$names->middlename." ".$print;
 
     
     }
 function get_ns($idno,$schoolyear,$period){
+    
     if($period == "Select Period"){
     $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->first();
     }else{
@@ -37,27 +38,12 @@ function get_ns($idno,$schoolyear,$period){
 }
 $i=1;
 ?>
-<center>
-<div><strong>Assumption College</strong></div>
-<div>Basic Education Division</div>
-<div>School Year 2018-2019</div>
-</center><br>
 
 @if($section=="All")
-<table width="100%">
-    <tr>
-        <td>Subject</td>
-        <td style="border-bottom: 1px solid" width="30%"></td>
-        <td>Quarter</td>
-        <td style="border-bottom: 1px solid" width="30%"></td>
-        <td>Teacher</td>
-        <td style="border-bottom: 1px solid" width="40%"></td>
-    </tr>
-</table>
 <table border="1" cellspacing="0" cellpadding="3" width="100%" style="font-size: 9pt">
     <tr>
         <th width="5%">#</th>
-        <th style="font-size: 12pt">
+        <th style="font-size: 12pt" colspan="2">
         <center>
             {{$level}}
                 @if($level=="Grade 11" || $level=="Grade 12")
@@ -66,20 +52,22 @@ $i=1;
                 
         </center></th>
         <th width="5%" align="center">Sect</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Street</th>
+        <th>Barangay</th>
+        <th>Municipality/City</th>
+        <th>Province</th>
+        <th>Zip</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
     </tr>
    
     @if(count($status)>0)
     @foreach($status as $name)
+    
+    <?php $get_directory = \App\BedProfile::where('idno',$name->idno)->first(); ?>
+    <?php $email = \App\User::where('idno',$name->idno)->first(); ?>
+    
     @if($period == "Select Period")
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->first(); ?>
     @else
@@ -87,17 +75,25 @@ $i=1;
     @endif
     <tr>
         <td>{{$i++}}.</td>
-        @if($value == 'w' || $value == 'new')
-        <td width="1%">{{$name->idno}}</td>
-        @endif
+        <td width="10%">{{$name->idno}}</td>
         <td width="50%">
             @if ($is_new->is_new == 1)
-            <strong><i>{{get_name($name->idno, $schoolyear, $period)}}{{get_ns($name->idno, $schoolyear, $period)}}</i></strong>
+            <strong><i>{{get_name($name->idno,$schoolyear,$period)}}{{get_ns($name->idno,$schoolyear,$period)}}</i></strong>
             @else
-            {{get_name($name->idno,$schoolyear, $period)}}{{get_ns($name->idno,$schoolyear, $period)}}
+            {{get_name($name->idno,$schoolyear,$period)}}{{get_ns($name->idno,$schoolyear,$period)}}
             @endif
         </td>
         <td align="center">{{$name->section}}</td>
+        @if(count($get_directory)>0)
+        <td>{{$get_directory->street}}</td>
+        <td>{{$get_directory->barangay}}</td>
+        <td>{{$get_directory->municipality}}</td>
+        <td>{{$get_directory->province}}</td>
+        <td>{{$get_directory->zip}}</td>
+        <td>{{$get_directory->tel_no}}</td>
+        <td>{{$get_directory->cell_no}}</td>
+        <td>{{$email->email}}</td>
+        @else
         <td></td>
         <td></td>
         <td></td>
@@ -106,8 +102,7 @@ $i=1;
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
+        @endif
     </tr>
     @endforeach
     @else
@@ -116,24 +111,10 @@ $i=1;
     
 </table> 
 @else
-<table width="100%">
-    <tr>
-        <td>Subject</td>
-        <td style="border-bottom: 1px solid" width="30%"></td>
-        <td>Quarter</td>
-        <td style="border-bottom: 1px solid" width="30%"></td>
-        <td>Teacher</td>
-        <td style="border-bottom: 1px solid" width="40%"></td>
-    </tr>
-</table>
 <table border="1" cellspacing="0" cellpadding="3" width="100%" style="font-size: 9pt">
     <tr>
         <th width="5%">#</th>
-        @if($value == 'wo')
-        <th style="font-size: 12pt">
-        @else
         <th colspan="2" style="font-size: 12pt">
-        @endif
         <center>
             {{$level}}
                 @if($level=="Grade 11" || $level=="Grade 12")
@@ -141,19 +122,21 @@ $i=1;
                 @endif
                 - {{$section}}
         </center></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Street</th>
+        <th>Barangay</th>
+        <th>Municipality/City</th>
+        <th>Province</th>
+        <th>Zip</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
+    
+    <?php $get_directory = \App\BedProfile::where('idno',$name->idno)->first(); ?>
+    <?php $email = \App\User::where('idno',$name->idno)->first(); ?>
+    
     @if($period == "Select Period")
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->first(); ?>
     @else
@@ -161,16 +144,24 @@ $i=1;
     @endif
     <tr>
         <td>{{$i++}}.</td>
-        @if($value == 'w' || $value == 'new')
-        <td width="1%">{{$name->idno}}</td>
-        @endif
+        <td width="10%">{{$name->idno}}</td>
         <td width="40%">
             @if ($is_new->is_new == 1)
-            <strong><i>{{get_name($name->idno, $schoolyear, $period)}}{{get_ns($name->idno,$schoolyear, $period)}}</i></strong>
+            <strong><i>{{get_name($name->idno,$schoolyear,$period)}}{{get_ns($name->idno,$schoolyear,$period)}}</i></strong>
             @else
             {{get_name($name->idno,$schoolyear,$period)}}{{get_ns($name->idno,$schoolyear,$period)}}
             @endif
         </td>
+        @if(count($get_directory)>0)
+        <td>{{$get_directory->street}}</td>
+        <td>{{$get_directory->barangay}}</td>
+        <td>{{$get_directory->municipality}}</td>
+        <td>{{$get_directory->province}}</td>
+        <td>{{$get_directory->zip}}</td>
+        <td>{{$get_directory->tel_no}}</td>
+        <td>{{$get_directory->cell_no}}</td>
+        <td>{{$email->email}}</td>
+        @else
         <td></td>
         <td></td>
         <td></td>
@@ -179,16 +170,15 @@ $i=1;
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
+        @endif
     </tr>
     @endforeach
     @else
     <tr><td colspan="13">No List For This Level</td></tr>
     @endif
     
+    <tr><td>{{date('M d, Y')}}</td></tr>
 </table>    
 
  
 @endif
-{{date('M d, Y')}}

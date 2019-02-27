@@ -21,6 +21,11 @@ Route::get('/bedregistrar/ajax/change_section','BedRegistrar\Ajax\GetStudentList
 Route::get('/registrarcollege/ajax/getprogram', 'RegistrarCollege\Admission\Ajax\getcourseController@getCourse');
 Route::get('/accounting/ajax/getplan','Accounting\Ajax\GetPlan@plan');
 Route::get('/accounting/ajax/print_getplan/{department}','Accounting\Ajax\GetPlan@print_plan');
+//directory
+Route::get('/bedregistrar/ajax/directory_view_list', 'BedRegistrar\Ajax\GetStudentListDirectory@view_list');
+Route::get('/bedregistrar/ajax/directory_getsection','BedRegistrar\Ajax\GetStudentListDirectory@getsection');
+Route::get('/bedregistrar/export/student_directory/{level}/{strand}/{section}/{school_year}/{period}','BedRegistrar\Ajax\GetStudentListDirectory@export_student_list_directory');
+
 //cashier
 Route::get('/cashier/viewledger/{school_year}/{idno}', 'Cashier\StudentLedger@view');
 

@@ -80,6 +80,13 @@ Route::get('/accounting/ajax/getsetuplist','Accounting\Ajax\AjaxSetUpController@
 // Accounting - Setup Summary Excel
 Route::post('/accounting/print_setupsummary_excel','Accounting\SetUpController@print_set_up_summary_excel');
 
+//Accounting SRF Report
+Route::get('/accounting/student_related_fees','Accounting\StudentRelatedFeesController@view');
+Route::post('/accounting/print_student_related_fees_pdf','Accounting\StudentRelatedFeesController@print_student_related_feesPDF');
+Route::post('/accounting/print_student_related_fees_excel','Accounting\StudentRelatedFeesController@print_student_related_feesEXCEL');
+Route::get('/accounting/ajax/getstudentrelatedfees','Accounting\Ajax\AjaxAccoReportsController@getstudentrelatedfees');
+
+
 ?>
 
 

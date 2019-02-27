@@ -1,7 +1,11 @@
 <?php
 function get_name($idno,$schoolyear,$period){
     $names = \App\User::where('idno',$idno)->first();
+    if($period == "Select Period"){
+    $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->first();
+    }else{
     $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->where('period', $period)->first();
+    }
     
     if($names->middlename == NULL){
         $names->middlename = "";
@@ -20,7 +24,12 @@ function get_name($idno,$schoolyear,$period){
     
     }
 function get_ns($idno,$schoolyear,$period){
+    
+    if($period == "Select Period"){
+    $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->first();
+    }else{
     $is_new = \App\BedLevel::where('idno',$idno)->where('school_year', $schoolyear)->where('period', $period)->first();
+    }
     if ($is_new->is_new == 1 && $is_new->level != "Pre-Kinder"){
     return " NS";
     } else {
@@ -68,7 +77,11 @@ $i=1;
    
     @if(count($status)>0)
     @foreach($status as $name)
+    @if($period == "Select Period")
+    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->first(); ?>
+    @else
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->where('period', $period)->first(); ?>
+    @endif
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w' || $value == 'new')
@@ -139,7 +152,11 @@ $i=1;
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
+    @if($period == "Select Period")
+    <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->first(); ?>
+    @else
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->where('period', $period)->first(); ?>
+    @endif
     <tr>
         <td>{{$i++}}.</td>
         @if($value == 'w' || $value == 'new')

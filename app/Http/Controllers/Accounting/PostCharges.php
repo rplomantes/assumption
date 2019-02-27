@@ -49,14 +49,13 @@ class PostCharges extends Controller {
                 $lastpay = $this->countLedger($idno, $dates, "lastpay");
                 if ($lastpay == "upon enrollment") {
                     if ($status->academic_type == 'BED') {
-                        $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_period->school_year)->where('due_switch', 1)->first()->due_date;
+                        $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_period->school_year)->where('due_switch', 0)->first()->due_date;
                     } else {
-                        $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('period', $school_period->period)->where('due_switch', 1)->where('school_year', $school_period->school_year)->first()->due_date;
+                        $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('period', $school_period->period)->where('due_switch', 0)->where('school_year', $school_period->school_year)->first()->due_date;
                     }
                 }
                 $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))))+1;
 
-//                return ($numberOfMonths);
                 $ledger = new \App\Ledger;
                 $ledger->idno = $idno;
                 if ($status->status > 0) {

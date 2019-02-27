@@ -451,3 +451,6 @@ Route::get('/remove_image/{idno}','Uploader\ImageUpload@remove_image');
 
 //bed early enrollment
 Route::get('/process_early_enrollment/{idno}','BedRegistrar\EarlyEnrollment@process_cutoff');
+
+//BED Directory
+Route::get('/bedregistrar/directory/','BedRegistrar\DirectoryController@student_list');

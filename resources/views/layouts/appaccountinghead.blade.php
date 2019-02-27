@@ -190,7 +190,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         $bed_school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
                         ?>          
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-bar-chart"></i> <span>Reports</span>   
+                            <a href="#"><i class="fa fa-bar-chart"></i> <span>Student Account Reports</span>   
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -201,6 +201,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting', array('set_up_list'))}}"><span>Set Up List</span></a></li>
                                 <li><a href="{{url('/accounting',array('outstanding_balances'))}}"><span>Outstanding Balances</span></a></li>
                                 <li><a href="{{url('/accounting',array('student_per_account'))}}"><span>Student per Account List</span></a></li>
+                                <li><a href="{{url('/accounting',array('student_related_fees'))}}"><span>*Student Related Fees</span></a></li>
                                 <li><a href="{{url('/accounting',array('scholar'))}}"><span>*Scholars</span></a></li>
                                 <li><a href="{{url('/accounting',array('sibling'))}}"><span>*Sibling Discounts</span></a></li>
                                 <li><a href="{{url('/accounting',array('realized_fees'))}}"><span>*Realized Fees</span></a></li>

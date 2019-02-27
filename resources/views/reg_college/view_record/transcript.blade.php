@@ -486,8 +486,27 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @endforeach
             @endif
             @endif
-            <!--<button class="col-sm-12 btn btn-success "><span></span>PRINT TRANSCRIPT OF RECORD</button>-->
+            <div class="col-sm-3">
+            <a href="{{url('registrar_college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="{{url('registrar_college', array('view_info', $user->idno))}}" class="btn btn-success col-sm-12">Student Information</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="{{url('registrar_college', array('view_transcript', $user->idno))}}" class="btn btn-success col-sm-12">Transcript of Records</a>
+        </div>
+        <div class="col-sm-3">
+            <a target='_blank' href="{{url('registrar_college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">True Copy of Grades</a>
+        </div>
+        <div class="col-sm-3"><br>
+            <a href="{{url('registrar_college', array('add_record', $user->idno))}}" class="btn btn-success col-sm-12">Add Record(Pinnacle/Nephila)</a>
+        </div>
+        <div class="col-sm-3"><br>
+            <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credited Courses(Transferee)</a>
+        </div>
+        <div class="col-sm-12"><br>
             <a href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
+        </div>
 
         </div>    
     </div>

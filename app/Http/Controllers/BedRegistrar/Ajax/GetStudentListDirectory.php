@@ -10,22 +10,11 @@ use Request;
 use PDF;
 use Excel;
 
-class GetStudentList extends Controller {
+class GetStudentListDirectory extends Controller {
 
     //
     public function __construct() {
         $this->middleware('auth');
-    }
-
-    function index() {
-        if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("REG_BE")) {
-                $search = Input::get('search');
-                $lists = \App\User::Where("lastname", "like", "%$search%")
-                                ->orWhere("firstname", "like", "%$search%")->orWhere("idno", $search)->get();
-                return view('reg_be.ajax.getstudentlist', compact('lists'));
-            }
-        }
     }
 
     function view_list() {
@@ -62,7 +51,7 @@ class GetStudentList extends Controller {
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
                     }
                 }
-                return view("reg_be.ajax.view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period'));
+                return view("reg_be.ajax.view_list_directory", compact("status", "level", "section", 'strand', 'schoolyear', 'period'));
             }
         }
     }
@@ -76,70 +65,8 @@ class GetStudentList extends Controller {
             } else {
                 $sections = \App\CtrSectioning::where('level', $level)->orderBy('section')->get();
             }
-            return view('reg_be.ajax.getsection', compact('sections'));
+            return view('reg_be.ajax.getsection_directory', compact('sections'));
         }
-    }
-
-    function print_student_list($level, $strand, $section, $schoolyear, $period,$value) {
-        if ($level == "Grade 11" || $level == "Grade 12") {
-            if ($section == "All") {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
-            } else {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
-            }
-        } else {
-            if ($section == "All") {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
-                                . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
-            } else {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
-            }
-        }
-        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value','schoolyear', 'period'));
-        $pdf->setPaper(array(0, 0, 612, 936));
-        return $pdf->stream();
-    }
-
-    function print_new_student_list($level, $strand, $section, $schoolyear, $period,$value) {
-        if ($level == "Grade 11" || $level == "Grade 12") {
-            if ($section == "All") {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' and bed_levels.is_new = 1 "
-                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
-            } else {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' and bed_levels.is_new = 1  "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
-            }
-        } else {
-            if ($section == "All") {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.is_new = 1"
-                                . " and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
-            } else {
-
-                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.is_new  from "
-                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.is_new = 1  "
-                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
-            }
-        }
-        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value','schoolyear', 'period'));
-        $pdf->setPaper(array(0, 0, 612, 936));
-        return $pdf->stream();
     }
 
     function studentlevel() {
@@ -227,7 +154,7 @@ class GetStudentList extends Controller {
         }
     }
 
-    function export_student_list($level, $strand, $section, $schoolyear, $period,$value) {
+    function export_student_list_directory($level, $strand, $section, $schoolyear, $period) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
@@ -254,39 +181,12 @@ class GetStudentList extends Controller {
             }
         }
         ob_end_clean();
-        Excel::create('Student List-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
+        Excel::create('Student Directory-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $schoolyear, $period) {
             $excel->setTitle($level."-".$section);
 
-            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
-                $sheet->loadView('reg_be.view_list_export', compact('status', 'level', 'section', 'strand', 'value','schoolyear', 'period'));
+            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $schoolyear, $period) {
+                $sheet->loadView('reg_be.view_list_directory_export', compact('status', 'level', 'section', 'strand','schoolyear', 'period'));
             });
         })->download('xlsx');
     }
-
-//    function print_to_excel() {
-//        $row = 10;
-//        $ctr = 0;
-//        $student_data = \App\User::where('academic_type', "College")->get();
-//        $student_array[] = array('ID Number', 'Name');
-//        foreach ($student_data as $student) {
-//            $student_array[] = array(
-//                'ID Number' => $student->idno,
-//                'Name' => $student->lastname . ", " . $student->firstname
-//            );
-//        }
-//        Excel::load('public/myFile.csv', function($excel) {
-//            $excel->sheet('Sheet1', function ($sheet) use ($excel) {
-//                $sheet->appendRow(1,[
-//                    'test1',
-//                ]);
-////             foreach ($student_data as $key => $value){
-////                   $sheet->setCellValue('A'.$row, $student_data[$ctr]->idno);
-////                   $row++;
-////                   $ctr++;
-////             }
-////           $sheet->fromArray($student_data);
-//            });
-//        })->download('csv');
-//    }
-
 }

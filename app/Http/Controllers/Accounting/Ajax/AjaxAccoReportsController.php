@@ -92,4 +92,24 @@ class AjaxAccoReportsController extends Controller {
         }
     }
 
+    function getstudentrelatedfees() {
+        if (Request::ajax()) {
+            $dep = "";
+            $department = Input::get('department');
+            $school_year = Input::get('school_year');
+            $period = Input::get('period');
+            if ($department == "College Department") {
+                $dep = '%Department';
+                    $levels = array('1st Year', '2nd Year', '3rd Year', '4th Year');
+                    $groups = array('Laboratory Fee', 'Business Department', 'Communication Department', 'Education Department', 'Psychology Department');
+            } else {
+                $dep = $department;
+                if($dep == 'Senior High School'){
+                    $levels = array("Grade 11", 'Grade 12');
+                }
+            }
+            return view('accounting.srf.ajax.getstudentrelatedfees', compact('department','school_year','period', 'levels','groups'));
+        }
+    }
+
 }
