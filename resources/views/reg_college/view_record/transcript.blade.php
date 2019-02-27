@@ -177,7 +177,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                                 <option @if ($grade->completion == "AUDIT") selected='' @endif>AUDIT</option>
                             </select>
                         </td>
-                        <td><a href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>
+                        <td></td>
+                        <!--<td><a href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>-->
                     </tr>
                     @endforeach
                 </tbody>
