@@ -245,6 +245,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         @elseif($pr->period == "2nd Quarter") SECOND QUARTER 
                         @elseif($pr->period == "3rd Quarter") THIRD QUARTER
                         @elseif($pr->period == "4th Quarter") FOURTH QUARTER
+                        @elseif($pr->period == "1st Term") FIRST TERM 
+                        @elseif($pr->period == "2nd Term") SECOND TERM 
+                        @elseif($pr->period == "3rd Term") THIRD TERM
                     @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}
                 </b>
             </td>

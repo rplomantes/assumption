@@ -96,6 +96,9 @@
                                         <option @if($credit->period == "2nd Quarter") selected='' @endif>2nd Quarter</option>
                                         <option @if($credit->period == "3rd Quarter") selected='' @endif>3rd Quarter</option>
                                         <option @if($credit->period == "4th Quarter") selected='' @endif>4th Quarter</option>
+                                        <option @if($credit->period == "1st Term") selected='' @endif>1st Term</option>
+                                        <option @if($credit->period == "2nd Term") selected='' @endif>2nd Term</option>
+                                        <option @if($credit->period == "3rd Term") selected='' @endif>3rd Term</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
