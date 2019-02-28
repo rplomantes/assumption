@@ -162,6 +162,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>DEGREE EARNED:</td>
+            @if(!isset($info->date_of_grad))
+            <td>N/A</td> 
+            @else 
             <?php $array = explode(' ', $level->program_name) ;?>
             <td>
                 @foreach ($array as $key=>$k)
@@ -174,6 +177,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     @endif
                 @endforeach
             </td>
+            @endif
         </tr>
         <tr>
             <td valign='top'>AWARD:</td>

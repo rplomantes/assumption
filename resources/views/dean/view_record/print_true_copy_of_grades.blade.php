@@ -101,7 +101,7 @@ $count = 0;
                 </tr>
                 <tr>
                     <td valign='top'>STUDENT NAME:</td>
-                    <td colspan='2'><div style="border-bottom: 1px solid black"><b>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}&nbsp;</div></b></td>   
+                    <td colspan='2'><div style="border-bottom: 1px solid black"><b>{{mb_strtoupper($user->lastname)}}, {{mb_strtoupper($user->firstname)}} {{mb_strtoupper($user->middlename)}}&nbsp;</div></b></td>   
                     <td align='right'>CITIZENSHIP:</td>
                     <td><div style="border-bottom: 1px solid black">{{strtoupper($info->nationality)}}&nbsp;</div></td> 
                 </tr>

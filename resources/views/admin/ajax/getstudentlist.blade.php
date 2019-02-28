@@ -52,6 +52,10 @@
                 @case (80)
                     Scholarship HED
                 @break
+                @case (90)
+                    BED Academic
+                @break
+                @endswitch
                 @endswitch
             </td>
             <td><a href="{{url('/admin', array('view_information', $list->idno))}}">View</a></td></tr>
