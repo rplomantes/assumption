@@ -99,7 +99,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <div class="col-sm-3"><br>
             <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credited Courses(Transferee)</a>
         </div>
-        <div class="col-sm-12"><br>
+        <div class="col-sm-6"><br>
             <a href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
         </div>
         <div class="col-sm-12">
@@ -505,7 +505,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         <div class="col-sm-3"><br>
             <a href="{{url('registrar_college', array('credit_course', $user->idno))}}" class="btn btn-success col-sm-12">Credited Courses(Transferee)</a>
         </div>
-        <div class="col-sm-12"><br>
+        <div class="col-sm-6"><br>
             <a href='{{url('registrar_college', array('view_transcript', 'finalize_transcript',$user->idno))}}'><button class="btn btn-danger col-sm-12">FINALIZE TRANSCRIPT OF RECORD</button></a>            
         </div>
 
