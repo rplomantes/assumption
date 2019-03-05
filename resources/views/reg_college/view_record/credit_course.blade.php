@@ -198,9 +198,8 @@
                             </div>
                             @endif
                         </div>
-
-                        <label>&nbsp;</label>
-                        <input type='submit' class='col-sm-12 btn btn-success' value = "Credit Courses">
+                        <input type='submit' class='col-sm-8 btn btn-success' value = "Credit Courses">
+                        <div class="col-sm-4 pull-right"><a href="{{url('/registrar_college/print_credited_courses',array($student_info->idno))}}"><button type="button" class="col-sm-12 btn btn-warning">Print Credited Subject Summary</button></a></div>
                     </form>  
                 </div>
             </div>

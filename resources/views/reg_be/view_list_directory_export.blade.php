@@ -60,6 +60,15 @@ $i=1;
         <th>Tel No.</th>
         <th>Cell No.</th>
         <th>Email</th>
+        <th>Father</th>
+        <th>Tel No.</th>
+        <th>Cell No</th>
+        <th>Email</th>
+        <th>Mother</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
+        <th>Siblings</th>
     </tr>
    
     @if(count($status)>0)
@@ -67,6 +76,8 @@ $i=1;
     
     <?php $get_directory = \App\BedProfile::where('idno',$name->idno)->first(); ?>
     <?php $email = \App\User::where('idno',$name->idno)->first(); ?>
+    <?php $get_parent = \App\BedParentInfo::where('idno',$name->idno)->first(); ?>
+    <?php $get_siblings = \App\BedSiblings::where('idno',$name->idno)->get(); ?>
     
     @if($period == "Select Period")
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->first(); ?>
@@ -93,7 +104,31 @@ $i=1;
         <td>{{$get_directory->tel_no}}</td>
         <td>{{$get_directory->cell_no}}</td>
         <td>{{$email->email}}</td>
+        <td>{{$get_parent->father}}</td>
+        <td>{{$get_parent->f_phone}}</td>
+        <td>{{$get_parent->f_cell_no}}</td>
+        <td>{{$get_parent->f_email}}</td>
+        <td>{{$get_parent->mother}}</td>
+        <td>{{$get_parent->m_phone}}</td>
+        <td>{{$get_parent->m_cell_no}}</td>
+        <td>{{$get_parent->m_email}}</td>
+        <td>
+            @if(count($get_siblings)> 0)
+            @foreach($get_siblings as $sibling)
+            {{$sibling->sibling}}<br>
+            @endforeach
+            @endif
+        </td>
         @else
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -130,12 +165,23 @@ $i=1;
         <th>Tel No.</th>
         <th>Cell No.</th>
         <th>Email</th>
+        <th>Father</th>
+        <th>Tel No.</th>
+        <th>Cell No</th>
+        <th>Email</th>
+        <th>Mother</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
+        <th>Siblings</th>
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
     
     <?php $get_directory = \App\BedProfile::where('idno',$name->idno)->first(); ?>
     <?php $email = \App\User::where('idno',$name->idno)->first(); ?>
+    <?php $get_parent = \App\BedParentInfo::where('idno',$name->idno)->first(); ?>
+    <?php $get_siblings = \App\BedSiblings::where('idno',$name->idno)->get(); ?>
     
     @if($period == "Select Period")
     <?php $is_new = \App\BedLevel::where('idno',$name->idno)->where('school_year', $schoolyear)->first(); ?>
@@ -161,7 +207,31 @@ $i=1;
         <td>{{$get_directory->tel_no}}</td>
         <td>{{$get_directory->cell_no}}</td>
         <td>{{$email->email}}</td>
+        <td>{{$get_parent->father}}</td>
+        <td>{{$get_parent->f_phone}}</td>
+        <td>{{$get_parent->f_cell_no}}</td>
+        <td>{{$get_parent->f_email}}</td>
+        <td>{{$get_parent->mother}}</td>
+        <td>{{$get_parent->m_phone}}</td>
+        <td>{{$get_parent->m_cell_no}}</td>
+        <td>{{$get_parent->m_email}}</td>
+        <td>
+            @if(count($get_siblings)> 0)
+            @foreach($get_siblings as $sibling)
+            {{$sibling->sibling}},
+            @endforeach
+            @endif
+        </td>
         @else
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

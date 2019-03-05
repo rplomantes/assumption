@@ -5,7 +5,7 @@ function get_name($idno){
 }
 $i=1;
 ?>
-
+<div class="table-responsive">
 <h3>Assumption College</h3>
 <div>Level : {{$level}}</div>
 @if($level=="Grade 11" || $level=="Grade 12")
@@ -26,11 +26,22 @@ $i=1;
         <th>Tel No.</th>
         <th>Cell No.</th>
         <th>Email</th>
+        <th>Father</th>
+        <th>Tel No.</th>
+        <th>Cell No</th>
+        <th>Email</th>
+        <th>Mother</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
+        <th>Siblings</th>
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
     <?php $get_directory = \App\BedProfile::where('idno',$name->idno)->first(); ?>
     <?php $email = \App\User::where('idno',$name->idno)->first(); ?>
+    <?php $get_parent = \App\BedParentInfo::where('idno',$name->idno)->first(); ?>
+    <?php $get_siblings = \App\BedSiblings::where('idno',$name->idno)->get(); ?>
     <tr>
         <td>{{$i++}}</td>
         <td>{{$name->idno}}</td>
@@ -45,7 +56,31 @@ $i=1;
         <td>{{$get_directory->tel_no}}</td>
         <td>{{$get_directory->cell_no}}</td>
         <td>{{$email->email}}</td>
+        <td>{{$get_parent->father}}</td>
+        <td>{{$get_parent->f_phone}}</td>
+        <td>{{$get_parent->f_cell_no}}</td>
+        <td>{{$get_parent->f_email}}</td>
+        <td>{{$get_parent->mother}}</td>
+        <td>{{$get_parent->m_phone}}</td>
+        <td>{{$get_parent->m_cell_no}}</td>
+        <td>{{$get_parent->m_email}}</td>
+        <td>
+            @if(count($get_siblings)> 0)
+            @foreach($get_siblings as $sibling)
+            {{$sibling->sibling}}<br>
+            @endforeach
+            @endif
+        </td>
         @else
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -84,11 +119,22 @@ $i=1;
         <th>Tel No.</th>
         <th>Cell No.</th>
         <th>Email</th>
+        <th>Father</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
+        <th>Mother</th>
+        <th>Tel No.</th>
+        <th>Cell No.</th>
+        <th>Email</th>
+        <th>Siblings</th>
     </tr>
     @if(count($status)>0)
     @foreach($status as $name)
     <?php $get_directory = \App\BedProfile::where('idno',$name->idno)->first(); ?>
     <?php $email = \App\User::where('idno',$name->idno)->first(); ?>
+    <?php $get_parent = \App\BedParentInfo::where('idno',$name->idno)->first(); ?>
+    <?php $get_siblings = \App\BedSiblings::where('idno',$name->idno)->get(); ?>
     <tr>
         <td>{{$i++}}</td>
         <td>{{$name->idno}}</td>
@@ -102,7 +148,31 @@ $i=1;
         <td>{{$get_directory->tel_no}}</td>
         <td>{{$get_directory->cell_no}}</td>
         <td>{{$email->email}}</td>
+        <td>{{$get_parent->father}}</td>
+        <td>{{$get_parent->f_phone}}</td>
+        <td>{{$get_parent->f_cell_no}}</td>
+        <td>{{$get_parent->f_email}}</td>
+        <td>{{$get_parent->mother}}</td>
+        <td>{{$get_parent->m_phone}}</td>
+        <td>{{$get_parent->m_cell_no}}</td>
+        <td>{{$get_parent->m_email}}</td>
+        <td>
+            @if(count($get_siblings)> 0)
+            @foreach($get_siblings as $sibling)
+            {{$sibling->sibling}}<br>
+            @endforeach
+            @endif
+        </td>
         @else
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -121,6 +191,7 @@ $i=1;
     @endif
     
 </table>    
+</div>
 <div class ="form form-group">
     <a href="javascript:void(0)" onclick = "export_student_directory()" class="form btn btn-primary"> Export Directory</a>
 </div>    

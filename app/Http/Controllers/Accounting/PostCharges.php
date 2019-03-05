@@ -54,7 +54,7 @@ class PostCharges extends Controller {
                         $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('period', $school_period->period)->where('due_switch', 0)->where('school_year', $school_period->school_year)->first()->due_date;
                     }
                 }
-                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))))+1;
+                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
 
                 $ledger = new \App\Ledger;
                 $ledger->idno = $idno;

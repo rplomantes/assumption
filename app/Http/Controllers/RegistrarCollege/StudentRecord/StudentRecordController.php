@@ -375,4 +375,18 @@ class StudentRecordController extends Controller {
         }
     }
 
+    function print_credited_courses($idno) {
+
+        $user = \App\User::where('idno', $idno)->first();
+        $status = \App\Status::where('idno', $idno)->first();
+        $info = \App\StudentInfo::where('idno', $idno)->first();
+
+        \App\Http\Controllers\Admin\Logs::log("Print credited courses record of student: $idno");
+
+        $pdf = PDF::loadView('reg_college.view_record.print_credited_courses', compact('idno', 'user', 'info', 'status'));
+        $pdf->setPaper(array(0, 0, 612, 936));
+//            return $request;
+        return $pdf->stream("credited_courses_" . $idno . ".pdf");
+    }
+
 }
