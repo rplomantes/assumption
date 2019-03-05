@@ -95,6 +95,10 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <td><b>{{strtoupper($info->highschool)}} {{strtoupper($info->highschool_address)}}</br></td>
                             </tr>
                             <tr>
+                                <td>Senior High School:</td>
+                                <td><b>{{strtoupper($info->senior_highschool)}} {{strtoupper($info->senior_highschool_address)}}</br></td>
+                            </tr>
+                            <tr>
                                 <td>Tertiary School:</td>
                                 <td><b><input class="form form-control" type="text" name='tertiary' value="{{old('tertiary', $info->tertiary)}}" ></b></td>
                             </tr>

@@ -157,6 +157,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <td>{{strtoupper($info->highschool)}} {{strtoupper($info->highschool_address)}}</td>
         </tr>
         <tr>
+            <td valign='top'>SENIOR HIGH SCHOOL:</td>
+            <td>{{strtoupper($info->senior_highschool)}} {{strtoupper($info->senior_highschool_address)}}</td>
+        </tr>
+        <tr>
             <td valign='top'>TERTIARY SCHOOL:</td>
             <td>@if(!isset($info->tertiary)) N/A @else {{strtoupper($info->tertiary)}} @endif</td>
         </tr>

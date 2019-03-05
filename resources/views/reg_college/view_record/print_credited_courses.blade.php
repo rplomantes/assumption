@@ -191,28 +191,26 @@ $count = 0;
                         $is_x = 1;
                     }
 
-                    $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
-                    $count = $count + $grade->lec + $grade->lab;
+                    $count = $count + $grade->lec;
                 }
             } else {
                 if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
                     $grade->finals = "4.00";
                         $is_x = 1;
                 }
-                $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
-                $count = $count + $grade->lec + $grade->lab;
+                $count = $count + $grade->lec;
             }
         }
         ?>
         <?php
         if (stripos($grade->course_code, "MME") !== FALSE || stripos($grade->course_code, "THEO") !== FALSE || stripos($grade->course_code, "NSTP") !== FALSE || stripos($grade->course_code, "PE") !== FALSE) {
-            $credit = $grade->lec + $grade->lab;
+            $credit = $grade->lec;
             $credit = "(" . $credit . ")";
                     if($is_x == 1){
                         $credit = "(x)";
                     }
         } else {
-            $credit = $grade->lec + $grade->lab;
+            $credit = $grade->lec;
                     if($is_x == 1){
                         $credit = "x";
                     }

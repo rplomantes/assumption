@@ -416,6 +416,21 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='highschool_year' value="{{old('highschool_year',$info->highschool_year)}}" type="text">
                         </div>
                     </div>
+                    <label>Senior High School</label>
+                    <div class='form-group'>
+                        <div class="col-sm-7">
+                            <label>School</label>
+                            <input class="form form-control" name='senior_highschool' value="{{old('senior_highschool',$info->senior_highschool)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Address</label>
+                            <input class="form form-control" name='senior_highschool_address' value="{{old('senior_highschool_address',$info->senior_highschool_address)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Year</label>
+                            <input class="form form-control" name='senior_highschool_year' value="{{old('senior_highschool_year',$info->senior_highschool_year)}}" type="text">
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane" id="tab_4">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.

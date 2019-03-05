@@ -81,6 +81,9 @@ class ViewInfoController extends Controller {
         $updateEducbackground->highschool = $request->highschool;
         $updateEducbackground->highschool_address = $request->highschool_address;
         $updateEducbackground->highschool_year = $request->highschool_year;
+        $updateEducbackground->senior_highschool = $request->senior_highschool;
+        $updateEducbackground->senior_highschool_address = $request->senior_highschool_address;
+        $updateEducbackground->senior_highschool_year = $request->senior_highschool_year;
         $updateEducbackground->last_school_attended = $request->last_school_attended;
         $updateEducbackground->last_school_address = $request->last_school_address;
         $updateEducbackground->last_school_year = $request->last_school_year;
