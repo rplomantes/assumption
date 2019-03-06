@@ -108,7 +108,7 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
                         <tr>
                             <td>{{$number}}<?php $number = $number + 1; ?></td>
                             <td>{{$student->idno}}</td>
-                            <td>{{$student->lastname}}, {{$student->firstname}}</td>
+                            <td>{{$student->lastname}}, {{$student->firstname}} {{$student->middlename}}</td>
                             <td>
                                 <input @if($close->midterm == 1) readonly="" @endif value="{{$student->midterm_absences}}" name="midterm_absences[{{$student->id}}]" id="midterm_absences" onchange="change_midterm_absences(this.value, {{$student->id}}, '{{$student->idno}}')"
                             </td>

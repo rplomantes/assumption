@@ -177,13 +177,13 @@ $count = 0;
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
-                $count = $count;
+                $count = $count + $grade->lec;
                 $credit = $credit;
             } else if ($grade->finals == "INC") {
                 if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
                     $gpa = $gpa;
                     $credit = $credit;
-                    $count = $count;
+                    $count = $count + $grade->lec;
                 } else {
 
                     if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {

@@ -82,7 +82,7 @@ $instructor = \App\User::where('idno', Auth::user()->idno)->first();
             <tr>
                 <td><div align="right">{{$number}}.<?php $number = $number + 1; ?></div></td>
                 <td>{{$student->idno}}</td>
-                <td>{{$student->lastname}}, {{$student->firstname}}</td>
+                <td>{{$student->lastname}}, {{$student->firstname}} {{$student->middlename}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
