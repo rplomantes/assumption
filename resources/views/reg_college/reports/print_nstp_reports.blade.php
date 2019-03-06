@@ -149,7 +149,7 @@
             <tr>
                 <td>{{$count}}.</td>
                 <td>{{$user->idno}}</td>
-                <td>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}}{{strtoupper($user->middlename)}}</td>
+                <td>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
                 <td>{{strtoupper($info->program_name)}}</td>
                 <td>{{$info->street}}, {{$info->barangay}},{{$info->municipality}},{{$info->province}}</td>
                 <td align='center'>{{date('m/d/Y',strtotime($info->birthdate))}}</td>

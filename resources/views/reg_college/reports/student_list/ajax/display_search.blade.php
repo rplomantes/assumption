@@ -29,7 +29,7 @@
                     <tr>
                         <td>{{$counter}}</td>
                         <td>{{$list->idno}}</td>
-                        <td>{{$user->lastname}}, {{$user->firstname}}</td>
+                        <td>{{$user->getFullNameAttribute()}}</td>
                         <td>{{$status->level}}</td>
                         <td>{{$status->program_code}}</td>
                     </tr>

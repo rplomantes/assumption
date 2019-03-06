@@ -45,7 +45,7 @@
         <tr>
             <td>{{$count}}</td>
             <td>{{$list->idno}}</td>
-            <td>{{$user->lastname}}, {{$user->firstname}}</td>
+            <td>{{$user->getFullNameAttribute()}}</td>
             <td>{{$list->program_code}}</td>
             <td>{{$level->period}}</td>
             <td>{{$student_info->last_school_attended}}</td>

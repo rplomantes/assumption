@@ -126,7 +126,7 @@ $instructor = \App\User::where('idno', $instructor_id)->first();
             <tr>
                 <td><div align="right">{{$number}}.<?php $number = $number + 1; ?></div></td>
                 <td>{{$student->idno}}</td>
-                <td>{{$student->lastname}}, {{$student->firstname}}</td>
+                <td>{{$student->getFullNameAttribute()}}</td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -38,7 +38,7 @@ $students = \App\GradeCollege::whereRaw('(' . $raw . ')')->join('college_levels'
             <tr>
                 <td>{{$number}}<?php $number = $number + 1; ?></td>
                 <td>{{$student->idno}}</td>
-                <td>{{$student->lastname}}, {{$student->firstname}}</td>
+                <td>{{$student->getFullNameAttribute()}}</td>
                 <td>{{$status->level}}</td>
                 <td>{{$status->program_code}}</td>
             </tr>

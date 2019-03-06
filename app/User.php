@@ -8,6 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    
+    protected $append  = ['full_name'];
+    
+    public function getFullNameAttribute(){
+        $name = User::where('idno', $this->idno)->first();
+        
+        return $name->lastname.", ".$name->firstname." ".$name->middlename." ".$name->extensionname;
+    }
 
     /**
      * The attributes that are mass assignable.
