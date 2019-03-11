@@ -167,7 +167,7 @@ $count = 0;
         $display_final_completion = $grade->completion;
         if(stripos($grade->course_code, "NSTP") !== FALSE){
             $gpa = $gpa;
-            $count = $count;
+            $count = $count + $grade->lec;
             $credit = $credit;
         if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
                 $is_x = 1;

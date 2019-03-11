@@ -861,9 +861,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                     <i class="fa fa-close"></i> Canceled
                     @else
                     @if($reservation->is_consumed=="1")
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-times"></i> Used
                     @else
-                    <i class="fa fa-check"></i>
+                    <i class="fa fa-check"></i> Unused
                     @endif
                     @endif
                     </td>
@@ -887,9 +887,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             <tr><td>{{$reservation->transaction_date}}</td>
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
                 <td>@if($reservation->is_consumed=="1")
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-times"></i> Used
                     @else
-                    <i class="fa fa-check"></i>
+                    <i class="fa fa-check"></i> Unused
                     @endif
                     </td>
                 </tr>

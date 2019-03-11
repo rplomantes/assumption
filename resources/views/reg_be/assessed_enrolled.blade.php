@@ -281,6 +281,17 @@ if(count($ledger)>0){
             @endif
         @endif
     @endif
+    
+    
+    @if($status->academic_type == "BED")
+        @if($status->status == 3)
+            @if($status->school_year != $enrollment_sy->school_year)
+                <div class="col-md-3">
+                    <a href="{{url("/process_early_enrollment", $idno)}}" class="col-sm-12 btn btn-warning form fom-control">Early Enrollment</a>
+                </div>    
+            @endif
+        @endif
+    @endif
 </div>      
 </div>    
 </div>     

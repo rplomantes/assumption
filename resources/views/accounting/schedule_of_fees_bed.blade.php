@@ -65,13 +65,10 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                 <label>Select Fee</label>
                 <select class="form form-control select2" name="fee_type" id="fee_type" onchange="getFeeType()">
                     <option>&nbsp;</option>
-                    <option value="9">Tuition Fees</option>
-                    <option value="1">Other Fees</option>
-                    <option value="2">Non Discounted Other Fees</option>
-                    <option value="3">Other Fees (New Student)</option>
-                    <option value="4">Non Discounted Other Fees (New Student)</option>
-                    <option value="5">Practicum Fee</option>
-                    <option value="6">Practicum Foreign Fee</option>
+                    <option value="1">School Fees</option>
+                    <option value="2">SHS Subject Related Fees</option>
+                    <option value="5">SHS New Student Additional Fees</option>
+                    <option value="6">BED New Student Additional Fees</option>
                     <option value="7">Late Payment Fees</option>
                     <option value="8">Foreign Fees</option>
                 </select>
@@ -112,7 +109,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array['fee_type'] = $("#fee_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/getFeeType",
+            url: "/accounting/ajax/getFeeType_bed",
             data: array,
             success: function (data) {
                 $('#display_type').html(data);
@@ -131,11 +128,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array = {};
         array['fee_type'] = $("#fee_type").val();
         array['level'] = $("#level").val();
-        array['program_code'] = $("#program_code").val();
+        array['strand'] = $("#strand").val();
         array['period'] = $("#period").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/getFees",
+            url: "/accounting/ajax/getFees_bed",
             data: array,
             success: function (data) {
                 $('#display_fees').html(data);
@@ -153,13 +150,13 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array['fee_type'] = $("#fee_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/removeFees/" + id,
+            url: "/accounting/ajax/removeFees_bed/" + id,
             data: array,
             success: function (data) {
                 var type = $("#fee_type").val();
-                if(type <= 4){
+                if(type == 1){
                 getFees();
-                }else if(type == 9){
+                }else if (type == 2) {
                 getFees();
                 }else{
                 getFeeType();
@@ -168,9 +165,9 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             },
             error: function () {
                 var type = $("#fee_type").val();
-                if(type <= 4){
+                if(type == 1){
                 getFees();
-                }else if(type == 9){
+                }else if (type == 2) {
                 getFees();
                 }else{
                 getFeeType();
@@ -185,7 +182,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array['fee_type'] = $("#fee_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/updateFees/" + id,
+            url: "/accounting/ajax/updateFees_bed/" + id,
             data: array,
             success: function (data) {
                 $('#display_form').html(data);
@@ -209,14 +206,15 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         }
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/updateSaveFees",
+            url: "/accounting/ajax/updateSaveFees_bed",
             data: array,
             success: function (data) {
                 $('#display_form').html(data);
+                $('#display_form').html("Nothing to show.");
                 var type = $("#fee_type").val();
-                if(type <= 4){
+                if(type == 1){
                 getFees();
-                }else if(type == 9){
+                }else if (type == 2) {
                 getFees();
                 }else{
                 getFeeType();
@@ -225,10 +223,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             },
             error: function () {
                 $('#display_form').html("Nothing to show.");
+                $('#display_form').html("Nothing to show.");
                 var type = $("#fee_type").val();
-                if(type <= 4){
+                if(type == 1){
                 getFees();
-                }else if(type == 9){
+                }else if (type == 2) {
                 getFees();
                 }else{
                 getFeeType();
@@ -243,7 +242,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array['fee_type'] = $("#fee_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/newFees/",
+            url: "/accounting/ajax/newFees_bed/",
             data: array,
             success: function (data) {
                 $('#display_form').html(data);
@@ -263,17 +262,17 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array['category'] = $("#category").val();
         array['subsidiary'] = $("#subsidiary").val();
         array['level'] = $("#level").val();
-        array['program_code'] = $("#program_code").val();
+        array['strand'] = $("#strand").val();
         array['period'] = $("#period").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/newSaveFees",
+            url: "/accounting/ajax/newSaveFees_bed",
             data: array,
             success: function (data) {
                 var type = $("#fee_type").val();
-                if(type <= 4){
+                if(type == 1){
                 getFees();
-                }else if(type == 9){
+                }else if (type == 2) {
                 getFees();
                 }else{
                 getFeeType();
@@ -283,9 +282,9 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             error: function () {
                 $('#display_form').html("Nothing to show.");
                 var type = $("#fee_type").val();
-                if(type <= 4){
+                if(type == 1){
                 getFees();
-                }else if(type == 9){
+                }else if (type == 2) {
                 getFees();
                 }else{
                 getFeeType();

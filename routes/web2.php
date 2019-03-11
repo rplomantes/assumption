@@ -147,13 +147,21 @@ Route::post('/accounting/print_sibling_discount_excel','Accounting\SiblingDiscou
 Route::get('/accounting/ajax/getsibling_discount','Accounting\Ajax\AjaxAccoReportsController@get_sibling_discount_list');
 
 Route::get('/accounting/schedule_of_fees_college','Accounting\ScheduleOfFees@collegeFees');
+Route::get('/accounting/schedule_of_fees_bed_shs','Accounting\ScheduleOfFees@bedFees');
 Route::get('/accounting/ajax/getFeeType','Accounting\Ajax\AjaxScheduleOfFees@getFeeType');
+Route::get('/accounting/ajax/getFeeType_bed','Accounting\Ajax\AjaxScheduleOfFees@getFeeType_bed');
 Route::get('/accounting/ajax/getFees','Accounting\Ajax\AjaxScheduleOfFees@getFees');
+Route::get('/accounting/ajax/getFees_bed','Accounting\Ajax\AjaxScheduleOfFees@getFees_bed');
 Route::get('/accounting/ajax/updateFees/{id}','Accounting\Ajax\AjaxScheduleOfFees@updateFees');
+Route::get('/accounting/ajax/updateFees_bed/{id}','Accounting\Ajax\AjaxScheduleOfFees@updateFees_bed');
 Route::get('/accounting/ajax/updateSaveFees','Accounting\Ajax\AjaxScheduleOfFees@updateSaveFees');
+Route::get('/accounting/ajax/updateSaveFees_bed','Accounting\Ajax\AjaxScheduleOfFees@updateSaveFees_bed');
 Route::get('/accounting/ajax/removeFees/{id}','Accounting\Ajax\AjaxScheduleOfFees@removeFees');
+Route::get('/accounting/ajax/removeFees_bed/{id}','Accounting\Ajax\AjaxScheduleOfFees@removeFees_bed');
 Route::get('/accounting/ajax/newFees/','Accounting\Ajax\AjaxScheduleOfFees@newFees');
+Route::get('/accounting/ajax/newFees_bed/','Accounting\Ajax\AjaxScheduleOfFees@newFees_bed');
 Route::get('/accounting/ajax/newSaveFees','Accounting\Ajax\AjaxScheduleOfFees@newSaveFees');
+Route::get('/accounting/ajax/newSaveFees_bed','Accounting\Ajax\AjaxScheduleOfFees@newSaveFees_bed');
 
 Route::post('/registrar_college/addordrop/save','RegistrarCollege\AddingDropping\AddingDroppingController@process');
 

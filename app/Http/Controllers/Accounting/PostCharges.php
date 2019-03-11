@@ -53,9 +53,11 @@ class PostCharges extends Controller {
                     } else {
                         $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('period', $school_period->period)->where('due_switch', 0)->where('school_year', $school_period->school_year)->first()->due_date;
                     }
-                }
+                $numberOfMonths = 0;
+                }else{
                 $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
-
+                }
+if($numberOfMonths > 0){
                 $ledger = new \App\Ledger;
                 $ledger->idno = $idno;
                 if ($status->status > 0) {
@@ -84,6 +86,7 @@ class PostCharges extends Controller {
                 $posted->is_reversed = 0;
                 $posted->posted_by = Auth::user()->idno;
                 $posted->save();
+}
             }
             DB::commit();
             $levels = \App\CtrAcademicProgram::distinct()->where('academic_type', '!=', 'College')->orderBy('sort_by', 'asc')->get(['level', 'sort_by']);
@@ -134,7 +137,7 @@ class PostCharges extends Controller {
                 if ($totalpay >= $duedate->amount) {
                     $totalpay = $totalpay - $duedate->amount;
                     $lastpay = "";
-                    $count = $count + 1;
+                    $count = $count +1;
                 } else {
                     $totalpay = 0;
                     $count = $count;

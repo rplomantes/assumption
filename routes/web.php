@@ -19,6 +19,9 @@ Route::get('/', function () {
 include_once 'web2.php';
 include_once 'web3.php';
 
+
+Route::get('/password/reset/{token}/{idno}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::post('/set_password','HomeController@set_password');

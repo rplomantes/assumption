@@ -68,4 +68,10 @@ class ScheduleOfFees extends Controller
             return view('accounting.schedule_of_fees_college');
         }
     }
+    
+    function bedFees(){
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+            return view('accounting.schedule_of_fees_bed');
+        }
+    }
 }

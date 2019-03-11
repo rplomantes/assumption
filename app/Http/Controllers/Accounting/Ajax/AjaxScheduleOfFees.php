@@ -48,6 +48,58 @@ class AjaxScheduleOfFees extends Controller {
             }
         }
     }
+    function getFeeType_bed() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("fee_type");
+                $title = "";
+                $lists = "";
+                if ($type <= 4) {
+                    if ($type == 1) {
+                        $title = "School Fees";
+                    }
+                    if ($type == 2) {
+                        $title = "SHS Subject Related Fees";
+                    }
+                    return view('accounting.ajax.display_fees_dropdown_bed', compact('title','type'));
+                } else {
+                    if ($type == 5) {
+                        $title = "SHS New Student Additional Fees";
+                        $fees = \App\CtrNewShsStudentFee::all();
+                    } elseif ($type == 6) {
+                        $title = "BED New Student Additional Fees";
+                        $fees = \App\CtrNewStudentFee::all();
+                    } elseif ($type == 7) {
+                        $title = "Late Payment Fees";
+                        $fees = \App\CtrBedLatePayment::all();
+                    } elseif ($type == 8) {
+                        $title = "Foreign Fees";
+                        $fees = \App\CtrForiegnFee::all();
+                    }
+                    return view('accounting.ajax.display_fees', compact('fees', 'type','title'));
+                }
+            }
+        }
+    }
+
+    function getFees_bed() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("fee_type");
+                $strand = Input::get("strand");
+                $period = Input::get("period");
+                $level = Input::get("level");
+                if ($type == 1) {
+                    $title = "School Fees";
+                    $fees = \App\CtrBedFee::where('level', $level)->get();
+                } elseif ($type == 2) {
+                    $title = "SHS Subject Related Fees";
+                    $fees = \App\CtrBedSrf::where('level', $level)->where('strand', $strand)->get();
+                }
+                return view('accounting.ajax.display_fees_bed', compact('fees', 'type','title'));
+            }
+        }
+    }
 
     function getFees() {
         if (Request::ajax()) {
@@ -107,6 +159,33 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 9) {
                     $data = \App\CtrCollegeTuitionFee::where('id', $id)->first();
+                }
+                return view('accounting.ajax.display_fee_form', compact('data', 'type', 'id'));
+            }
+        }
+    }
+
+    function updateFees_bed($id) {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("fee_type");
+                if ($type == 1) {
+                    $data = \App\CtrBedFee::where('id', $id)->first();
+                }
+                if ($type == 2) {
+                    $data = \App\CtrBedSrf::where('id', $id)->first();
+                }
+                if ($type == 5) {
+                    $data = \App\CtrNewShsStudentFee::where('id', $id)->first();
+                }
+                if ($type == 6) {
+                    $data = \App\CtrNewStudentFee::where('id', $id)->first();
+                }
+                if ($type == 7) {
+                    $data = \App\CtrBedLatePayment::where('id', $id)->first();
+                }
+                if ($type == 8) {
+                    $data = \App\CtrForiegnFee::where('id', $id)->first();
                 }
                 return view('accounting.ajax.display_fee_form', compact('data', 'type', 'id'));
             }
@@ -212,6 +291,79 @@ class AjaxScheduleOfFees extends Controller {
         }
     }
 
+    function updateSaveFees_bed() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("type");
+                $id = Input::get("record_id");
+                $account = Input::get("account");
+                $category = Input::get("category");
+                $subsidiary = Input::get("subsidiary");
+                $amount = Input::get("amount");
+                $switch = $this->getSwitch($category);
+                if ($type == 1) {
+                    $data = \App\CtrBedFee::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }if ($type == 2) {
+                    $data = \App\CtrBedSrf::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 5) {
+                    $data = \App\CtrNewShsStudentFee::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 6) {
+                    $data = \App\CtrNewStudentFee::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 7) {
+                    $data = \App\CtrBedLatePayment::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 8) {
+                    $data = \App\CtrForiegnFee::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+            }
+        }
+    }
+
     function removeFees($id) {
         if (Request::ajax()) {
             if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
@@ -257,11 +409,53 @@ class AjaxScheduleOfFees extends Controller {
         }
     }
 
+    function removeFees_bed($id) {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("fee_type");
+                if ($type == 1) {
+                    $data = \App\CtrBedFee::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 2) {
+                    $data = \App\CtrBedSrf::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 5) {
+                    $data = \App\CtrNewShsStudentFee::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 6) {
+                    $data = \App\CtrNewStudentFee::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 7) {
+                    $data = \App\CtrBedLatePayment::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 8) {
+                    $data = \App\CtrForiegnFee::where('id', $id)->first();
+                    $data->delete();
+                }
+                return "Removed successfully";
+            }
+        }
+    }
+
     function newFees() {
         if (Request::ajax()) {
             if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
                 $type = Input::get("fee_type");
                 return view('accounting.ajax.display_fee_form_new', compact('type'));
+            }
+        }
+    }
+
+    function newFees_bed() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("fee_type");
+                return view('accounting.ajax.display_fee_form_new_bed', compact('type'));
             }
         }
     }
@@ -332,9 +526,6 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 5) {
                     $data = new \App\CtrCollegePracticumFee;
-                    $data->level = $level;
-                    $data->program_code = $program;
-                    $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
                     $data->category = $category;
@@ -345,9 +536,6 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 6) {
                     $data = new \App\CtrCollegePracticumForeignFee;
-                    $data->level = $level;
-                    $data->program_code = $program;
-                    $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
                     $data->category = $category;
@@ -358,9 +546,6 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 7) {
                     $data = new \App\CtrCollegeLatePayment;
-                    $data->level = $level;
-                    $data->program_code = $program;
-                    $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
                     $data->category = $category;
@@ -371,9 +556,85 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 8) {
                     $data = new \App\CtrCollegeForeignFee;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+            }
+        }
+    }
+
+    function newSaveFees_bed() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+                $type = Input::get("type");
+                $account = Input::get("account");
+                $category = Input::get("category");
+                $subsidiary = Input::get("subsidiary");
+                $amount = Input::get("amount");
+                $strand = Input::get("strand");
+                $period = Input::get("period");
+                $level = Input::get("level");
+                $switch = $this->getSwitch($category);
+                if ($type == 1) {
+                    $data = new \App\CtrBedFee;
                     $data->level = $level;
-                    $data->program_code = $program;
-                    $data->period = $period;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 2) {
+                    $data = new \App\CtrBedSrf;
+                    $data->level = $level;
+                    $data->strand = $strand;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 5) {
+                    $data = new \App\CtrNewShsStudentFee;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 6) {
+                    $data = new \App\CtrNewStudentFee;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 7) {
+                    $data = new \App\CtrBedLatePayment;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 8) {
+                    $data = new \App\CtrForiegnFee;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
                     $data->category = $category;

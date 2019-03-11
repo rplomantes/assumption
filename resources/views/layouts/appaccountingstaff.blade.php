@@ -177,7 +177,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 
                                 <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
                                 <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
-                                <li><a href="{{url('accounting',array('schedule_of_fees_college'))}}"><i class="fa fa-list-alt"></i> <span>Update Fees</span></a></li>
+                                <li><a href="{{url('accounting',array('schedule_of_fees_college'))}}"><i class="fa fa-list-alt"></i> <span>Update Fees(College)</span></a></li>
+                                <li><a href="{{url('accounting',array('schedule_of_fees_bed_shs'))}}"><i class="fa fa-list-alt"></i> <span>Update Fees(BED,SHS)</span></a></li>
                             </ul>
                         </li>  
                         <li><a href="{{url('accounting',array('post_charges'))}}"><i class="fa fa-check-square"></i> <span>Post Charges</span></a></li>
