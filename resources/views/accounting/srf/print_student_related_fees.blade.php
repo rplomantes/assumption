@@ -21,7 +21,12 @@
 @foreach($levels as $value)
 <?php
 $x = 0;
-$ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $department)->where('school_year', $school_year)->where('period', $period)->where('category_switch', env('SRF_FEE'))->where('category', 'SRF')
+$ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $department)->where('school_year', $school_year)->where('period', $period)
+        ->where(function ($query){
+                        $query->where('category_switch', env('SRF_FEE'))
+                              ->orWhere('category_switch', env('SRF_FEE')+10);
+                    })
+        ->where('category', 'SRF')
                 ->selectRaw('strand,sum(amount) as amount')->where('level', $value)->get();
 ?>
 <table width='30%' cellpadding='0' cellspacing='0'>
