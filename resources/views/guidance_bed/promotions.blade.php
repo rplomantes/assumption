@@ -1,6 +1,14 @@
 <?php $levels = \App\CtrAcademicProgram::distinct()->where('academic_type', 'BED')->orderBy('level', 'desc')->get(['level']); ?>
 <?php $strands = \App\CtrAcademicProgram::distinct()->where('academic_type', 'BED')->orderBy('strand', 'asc')->get(['strand']); ?>
-@extends('layouts.appguidance_bed')
+<?php
+if(Auth::user()->accesslevel == env('REG_BE')){
+$layout = "layouts.appbedregistrar";
+} else {
+$layout = "layouts.appguidance_bed";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -36,6 +44,9 @@
 @endsection
 @section('maincontent')
 <!-- search form (Optional) -->
+ @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif 
 <div class="col-md-4">
 <form method="post" action="{{url('/guidance_bed/update_promotions')}}">
     {{ csrf_field() }}

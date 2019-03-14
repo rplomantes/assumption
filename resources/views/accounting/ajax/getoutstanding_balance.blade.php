@@ -33,9 +33,9 @@ $x = 0 ?>
             @if($department != "College Department")
             <th style='border-bottom: 1px solid black' align="center">Section</th>
             @endif
-            <th style='border-bottom: 1px solid black' align='right'>Main Fees</th>
-            <th style='border-bottom: 1px solid black' align='right'>Other Fees</th>
-            <th style='border-bottom: 1px solid black' align='right'>Balance</th>
+            <th style='border-bottom: 1px solid black' align='right'>Tuition Fees</th>
+            <th style='border-bottom: 1px solid black' align='right'>Surcharge</th>
+            <th style='border-bottom: 1px solid black' align='right'>Total</th>
         </tr>
     </thead>
     <tbody>

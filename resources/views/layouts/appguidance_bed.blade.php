@@ -106,7 +106,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                        <li><a href="{{url('/bedregistrar/sectioning')}}"><i class="fa fa-group"></i> <span>Sectioning</span></a></li>
+                        <li><a href="{{url('/bedregistrar/sectioning')}}"><i class="fa fa-group"></i> <span>Pre-Sectioning/Promotions</span></a></li>
                         
                 </section>
             </aside>

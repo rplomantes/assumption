@@ -1,4 +1,5 @@
 <?php
+$promotion = \App\Promotion::where('idno', $user->idno)->first();
 $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
 $current_level="";
 $levels = \App\CtrAcademicProgram::selectRaw("distinct level, sort_by")->where('academic_type',"BED")->orderBy('sort_by')->get();
@@ -167,12 +168,12 @@ if (count($previous) > 0) {
                             <div class="panel box box-primary">
                                 <div class="box-header with-border">
                                     <h4 class="box-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Previous Grade Level</a>
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Previous/Promotion Grade Level</a>
                                     </h4>
                                 </div>
                                 <div id="collapseOne" class="panel-collapse collapse in">
                                     <div class="box-body">
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <table class="table table-responsive">
                                                 @if(count($status)>0)
                                                 @if($status->status==env("ENROLLED"))
@@ -183,13 +184,25 @@ if (count($previous) > 0) {
                                                 @endif
                                                 <tr><th>Section</th><td>{{$status->section}}</td></tr>
                                                 @elseif($status->status=="0")
-                                                <tr><td colspan="2"><b>Previous Level</b></td></tr>
+                                                <tr><td colspan="2"><b>Previous</b></td></tr>
                                                 <tr><th>Level</th><td>{{$status->level}}</td></tr>
                                                 @if($status->level == "Grade 11" || $status->level=="Grade 12")
                                                 <tr><th>Strand</th><td>{{$status->strand}}</td></tr>
                                                 @endif
                                                 <tr><th>Section</th><td>{{$status->section}}</td></tr>
                                                 @endif
+                                                @endif
+                                            </table>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <table class="table table-responsive">
+                                                @if($status->status=="0")
+                                                <tr><td><span class="fa fa-arrow-right"></span></td><td colspan="2"><b>Promotion</b></td></tr>
+                                                <tr><th><span class="fa fa-arrow-right"></span></th><th>Level</th><td>{{$promotion->level}}</td></tr>
+                                                        @if($status->level == "Grade 11" || $status->level=="Grade 12")
+                                                <tr><th><span class="fa fa-arrow-right"></span></th><th>Strand</th><td>{{$promotion->strand}}</td></tr>
+                                                        @endif
+                                                <tr><th><span class="fa fa-arrow-right"></span></th><th>Section</th><td>{{$promotion->section}}</td></tr>
                                                 @endif
                                             </table>
                                         </div>
@@ -213,7 +226,7 @@ if (count($previous) > 0) {
                     <option value="">Select Level</option>
                     @foreach($levels as $level)
                     <option value="{{$level->level}}"
-                            @if($level->level==$current_level)
+                            @if($level->level==$promotion->level)
                             selected="selected"
                             @endif
                             >{{$level->level}}</option>
@@ -226,7 +239,7 @@ if (count($previous) > 0) {
                     <option value="">Select Strand</option>    
                     @foreach($strands as $strand)
                     <option value="{{$strand->strand}}"
-                            @if($strand->strand == $status->strand)
+                            @if($strand->strand == $promotion->strand)
                             selected="selected"
                             @endif
                             >{{$strand->strand}}</option>
@@ -240,7 +253,7 @@ if (count($previous) > 0) {
                     <select name="section" id="section" class="form form-control">
                         @for($i=1;$i<=7;$i++)
                         <option value="{{$i}}"
-                             @if($i == $status->section)
+                             @if($i == $promotion->section)
                                 selected="selected"
                              @endif
                                 >{{$i}}</option>

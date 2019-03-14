@@ -80,7 +80,7 @@ class GetStudentList extends Controller {
         }
     }
 
-    function print_student_list($level, $strand, $section, $schoolyear, $period,$value) {
+    function print_student_list($level, $strand, $section, $schoolyear, $period, $value) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
@@ -106,12 +106,12 @@ class GetStudentList extends Controller {
                                 . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
             }
         }
-        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value','schoolyear', 'period'));
+        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value', 'schoolyear', 'period'));
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream();
     }
 
-    function print_new_student_list($level, $strand, $section, $schoolyear, $period,$value) {
+    function print_new_student_list($level, $strand, $section, $schoolyear, $period, $value) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
@@ -137,7 +137,7 @@ class GetStudentList extends Controller {
                                 . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
             }
         }
-        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value','schoolyear', 'period'));
+        $pdf = PDF::loadView("reg_be.view_list", compact("status", "level", "section", 'strand', 'value', 'schoolyear', 'period'));
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream();
     }
@@ -147,22 +147,42 @@ class GetStudentList extends Controller {
             $strand = "";
             $level = Input::get('level');
             $section = Input::get('section');
-            if ($level == "Grade 11" || $level == "Grade 12") {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
-            $schoolyear = $school_year->school_year;
-            $period = $school_year->period;
-                $strand = Input::get('strand');
-                //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
-                $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
-                                . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
-                                . " and bed_levels.level = '$level' and bed_levels.period = '$period' and bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
-            } else {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
-            $schoolyear = $school_year->school_year;
-                //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
-                $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
-                                . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
-                                . " and bed_levels.level = '$level' and  bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section'  order by lastname, firstname, middlename");
+            if (Auth::user()->accesslevel == env('REG_BE')) {
+                if ($level == "Grade 11" || $level == "Grade 12") {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                    $schoolyear = $school_year->school_year;
+                    $period = $school_year->period;
+                    $strand = Input::get('strand');
+                    //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
+                                    . " and bed_levels.level = '$level' and bed_levels.period = '$period' and bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
+                } else {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                    $schoolyear = $school_year->school_year;
+                    //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
+                                    . " and bed_levels.level = '$level' and  bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section'  order by lastname, firstname, middlename");
+                }
+            } else if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
+                if ($level == "Grade 11" || $level == "Grade 12") {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                    $schoolyear = $school_year->school_year;
+                    $period = $school_year->period;
+                    $strand = Input::get('strand');
+                    //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, bed_levels, promotions where promotions.idno = users.idno and users.idno = bed_levels.idno "
+                                    . " and promotions.level = '$level' and bed_levels.period = '$period' and bed_levels.school_year = '$schoolyear' and promotions.section != '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
+                } else {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                    $schoolyear = $school_year->school_year;
+                    //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, bed_levels, promotions where promotions.idno = users.idno and users.idno = bed_levels.idno "
+                                    . " and promotions.level = '$level' and  bed_levels.school_year = '$schoolyear' and promotions.section != '$section'  order by lastname, firstname, middlename");
+                }
             }
             return view('reg_be.ajax.studentlevel_list', compact('level', 'strand', 'students', 'school_year'));
         }
@@ -173,11 +193,11 @@ class GetStudentList extends Controller {
             $strand = "";
             $level = Input::get('level');
             if ($level == "Grade 11" || $level == "Grade 12") {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
                 $strand = Input::get('strand');
                 $sections = \App\CtrSectioning::where('level', $level)->where('strand', $strand)->get();
             } else {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
                 $sections = \App\CtrSectioning::where('level', $level)->get();
             }
             return view('reg_be.ajax.sectioncontrol', compact('level', 'strand', 'sections'));
@@ -189,22 +209,43 @@ class GetStudentList extends Controller {
             $strand = "";
             $level = Input::get('level');
             $section = Input::get('section');
-            if ($level == "Grade 11" || $level == "Grade 12") {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
-            $schoolyear = $school_year->school_year;
-            $period = $school_year->period;
-                $strand = Input::get('strand');
-                //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
-                $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
-                                . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
-                                . " and bed_levels.level = '$level' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.section = '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
-            } else {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
-            $schoolyear = $school_year->school_year;
-                //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
-                $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
-                                . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
-                                . " and bed_levels.level = '$level' and bed_levels.school_year = '$schoolyear' and bed_levels.section = '$section' order by lastname, firstname, middlename");
+            
+            if (Auth::user()->accesslevel == env('REG_BE')) {
+                if ($level == "Grade 11" || $level == "Grade 12") {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                    $schoolyear = $school_year->school_year;
+                    $period = $school_year->period;
+                    $strand = Input::get('strand');
+                    //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
+                                    . " and bed_levels.level = '$level' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.section = '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
+                } else {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                    $schoolyear = $school_year->school_year;
+                    //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
+                                    . " and bed_levels.level = '$level' and bed_levels.school_year = '$schoolyear' and bed_levels.section = '$section' order by lastname, firstname, middlename");
+                }
+            } else if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
+                if ($level == "Grade 11" || $level == "Grade 12") {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                    $schoolyear = $school_year->school_year;
+                    $period = $school_year->period;
+                    $strand = Input::get('strand');
+                    //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, bed_levels, promotions where users.idno = promotions.idno and users.idno = bed_levels.idno "
+                                    . " and promotions.level = '$level' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and promotions.section = '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
+                } else {
+                    $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                    $schoolyear = $school_year->school_year;
+                    //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
+                    $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
+                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, bed_levels, promotions where promotions.idno = users.idno and users.idno = bed_levels.idno "
+                                    . " and promotions.level = '$level' and bed_levels.school_year = '$schoolyear' and promotions.section = '$section' order by lastname, firstname, middlename");
+                }
             }
             return view('reg_be.ajax.studentlevel', compact('level', 'strand', 'students', 'school_year'));
         }
@@ -215,19 +256,25 @@ class GetStudentList extends Controller {
             $idno = Input::get('idno');
             $level = Input::get('level');
             $section = Input::get('section');
-            $status = \App\Status::where('idno', $idno)->where('level', $level)->first();
-            $status->section = $section;
-            $status->update();
-            $bedlevel = \App\BedLevel::where('idno', $idno)->where('level', $level)->where('school_year', $status->school_year)->where('period', $status->period)->first();
-            $bedlevel->section = $section;
-            $bedlevel->update();
-            $sections = \App\Promotion::where('idno', $idno)->first();
-            $sections->section = $section;
-            $sections->update();
+            if (Auth::user()->accesslevel == env('REG_BE')) {
+                $status = \App\Status::where('idno', $idno)->where('level', $level)->first();
+                $status->section = $section;
+                $status->update();
+                $bedlevel = \App\BedLevel::where('idno', $idno)->where('level', $level)->where('school_year', $status->school_year)->where('period', $status->period)->first();
+                $bedlevel->section = $section;
+                $bedlevel->update();
+                $sections = \App\Promotion::where('idno', $idno)->first();
+                $sections->section = $section;
+                $sections->update();
+            } else if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
+                $sections = \App\Promotion::where('idno', $idno)->first();
+                $sections->section = $section;
+                $sections->update();
+            }
         }
     }
 
-    function export_student_list($level, $strand, $section, $schoolyear, $period,$value) {
+    function export_student_list($level, $strand, $section, $schoolyear, $period, $value) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             if ($section == "All") {
 
@@ -254,11 +301,11 @@ class GetStudentList extends Controller {
             }
         }
         ob_end_clean();
-        Excel::create('Student List-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
-            $excel->setTitle($level."-".$section);
+        Excel::create('Student List-' . $level . '-' . $section, function($excel) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
+            $excel->setTitle($level . "-" . $section);
 
-            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
-                $sheet->loadView('reg_be.view_list_export', compact('status', 'level', 'section', 'strand', 'value','schoolyear', 'period'));
+            $excel->sheet($level . "-" . $section, function ($sheet) use ($status, $level, $section, $strand, $value, $schoolyear, $period) {
+                $sheet->loadView('reg_be.view_list_export', compact('status', 'level', 'section', 'strand', 'value', 'schoolyear', 'period'));
             });
         })->download('xlsx');
     }
@@ -288,5 +335,4 @@ class GetStudentList extends Controller {
 //            });
 //        })->download('csv');
 //    }
-
 }

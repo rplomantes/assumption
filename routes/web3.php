@@ -87,6 +87,3 @@ Route::post('/accounting/print_student_related_fees_excel','Accounting\StudentRe
 Route::get('/accounting/ajax/getstudentrelatedfees','Accounting\Ajax\AjaxAccoReportsController@getstudentrelatedfees');
 
 
-?>
-
-

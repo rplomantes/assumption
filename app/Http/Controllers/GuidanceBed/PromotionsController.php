@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use DB;
+use Session;
 
 class PromotionsController extends Controller
 {
@@ -16,7 +17,7 @@ class PromotionsController extends Controller
     }
     
     function index($idno){
-        if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
+        if (Auth::user()->accesslevel == env('GUIDANCE_BED') || Auth::user()->accesslevel == env('REG_BE')) {
             $user = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
             $bed_info = \App\BedProfile::where('idno', $idno)->first();
@@ -36,7 +37,7 @@ class PromotionsController extends Controller
     }
     
     function update_promotions (Request $request) {
-        if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
+        if (Auth::user()->accesslevel == env('GUIDANCE_BED') || Auth::user()->accesslevel == env('REG_BE')) {
             $level = $request->level;
             $idno = $request->idno;
             $strand = $request->strand;
@@ -47,6 +48,7 @@ class PromotionsController extends Controller
                 $update_promotions->strand = $strand;
                 $update_promotions->save();
                 
+            Session::flash('message', 'Promotions Updated!');
             \App\Http\Controllers\Admin\Logs::log("Update promotions of $idno");
             }
             return redirect("/guidance_bed/promotions/$idno");

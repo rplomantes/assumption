@@ -639,7 +639,7 @@ class Assess extends Controller {
             $promotion->level = $current_level;
             $promotion->strand = $request->strand;
             $promotion->section = $request->section;
-            $promotion->save();
+//            $promotion->save();
         }
     }
 
@@ -891,7 +891,7 @@ class Assess extends Controller {
         }
 
         $promotion->level = $current_level;
-        $promotion->save();
+//        $promotion->save();
     }
 
     function checkReservations($request, $school_year, $period) {

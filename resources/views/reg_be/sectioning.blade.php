@@ -6,8 +6,12 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
 <?php
     if(Auth::user()->accesslevel == env('GUIDANCE_BED')){
     $layout = "layouts.appguidance_bed";
+    $title = "Pre-Sectioning/Promotions";
+    $title_level = "Incoming Level";
     } else {
     $layout = "layouts.appbedregistrar";
+    $title = "Sectioning";
+    $title_level = "Level";
     }
     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
 ?>
@@ -51,7 +55,8 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
 @section('header')
 <section class="content-header">
       <h1>
-        Sectioning
+          
+        {{$title}}
         <small>S.Y.: {{$school_year->school_year}}-{{$school_year->school_year+1}}</small>
       </h1>
       <ol class="breadcrumb">
@@ -68,7 +73,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
              <div class="box-body">
             <div class="col-md-6">
             <div class="form form-group">
-             <label>Level  </label>
+             <label>{{$title_level}}</label>
              <select class="form form-control" id="level">
                  <option>Select Level</option>
                  @foreach($levels as $level)

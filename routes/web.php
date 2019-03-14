@@ -458,3 +458,10 @@ Route::get('/process_early_enrollment/{idno}','BedRegistrar\EarlyEnrollment@proc
 
 //BED Directory
 Route::get('/bedregistrar/directory/','BedRegistrar\DirectoryController@student_list');
+
+//BED Promotions
+Route::get('/bedregistrar/batch_promotions/','BedRegistrar\PromotionsController@batch_promotions');
+Route::get('/bedregistrar/individual_promotions/','BedRegistrar\PromotionsController@individual_promotions');
+Route::post('/bedregistrar/update_batch_promotions/','BedRegistrar\PromotionsController@update_promotions');
+//BED Promotions AJAX
+Route::get('/bedregistrar/ajax/promotions/getlist','BedRegistrar\Ajax\AjaxPromotionsController@getlist');
