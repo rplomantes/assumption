@@ -1,8 +1,10 @@
     <?php
     if(Auth::user()->accesslevel == env('ADMISSION_HED')){
     $layout = "layouts.appadmission-hed";
+    $user_type = "admission";
     } else {
     $layout = "layouts.appreg_college";
+    $user_type = "registrar";
     }
 ?>
 
@@ -70,6 +72,7 @@
                         <div class="form-group">
    
                         </div>
+                        @if($user_type == "admission")
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <label>Applying For</label>
@@ -96,6 +99,15 @@
                                 </select>
                             </div>                            
                         </div> 
+                        @endif
+                        @if($user_type == "registrar")
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label>ID Number</label>
+                                <input class="form form-control" name='idno' placeholder='ID Number*' value="{{old('idno')}}" type="text">
+                            </div>
+                        </div>
+                        @endif
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Name</label>
@@ -215,6 +227,7 @@
                             </div> 
                         </div>
                         <hr>
+                        @if($user_type == "admission")
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Guardian Type</label>
@@ -297,7 +310,8 @@
                                 <label>Please specify condition and type of professional seen:</label>
                                 <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text">
                             </div>        
-                        </div>          
+                        </div>      
+                        @endif
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <input class="form form-control btn btn-success" type="submit" value='REGISTER NEW STUDENT'>

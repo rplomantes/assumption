@@ -26,7 +26,7 @@ class NewStudentController extends Controller {
     }
 
     function add_new_student(Request $request) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
+        if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
             $this->validate($request, [
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -41,11 +41,24 @@ class NewStudentController extends Controller {
             ]);
 
             return $this->create_new_student($request);
+        }else if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $this->validate($request, [
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'municipality' => 'required',
+                'province' => 'required',
+//                'birthdate' => 'required',
+//                'gender' => 'required',
+                'email' => 'required'
+//                'program_to_enroll' => 'required',
+            ]);
+
+            return $this->create_new_student($request);
         }
     }
 
     function create_new_student($request) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
+        if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
 
             DB::beginTransaction();
             $reference_no = uniqid();
@@ -55,6 +68,19 @@ class NewStudentController extends Controller {
             $this->addregistration($request, $reference_no);
             $this->admission_hed($request, $reference_no);
             $this->admissionchecklist($request, $reference_no);
+            $this->scholarship($request, $reference_no);
+            
+            \App\Http\Controllers\Admin\Logs::log("Add new student in HED with reference number [$reference_no], $request->lastname, $request->firstname $request->middlenmae");
+            DB::commit();
+
+            return redirect(url('/'));
+        }else if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+
+            DB::beginTransaction();
+            $reference_no = $request->idno;
+            $this->adduser($request, $reference_no);
+            $this->addstatus($request, $reference_no);
+            $this->addstudentinfo($request, $reference_no);
             $this->scholarship($request, $reference_no);
             
             \App\Http\Controllers\Admin\Logs::log("Add new student in HED with reference number [$reference_no], $request->lastname, $request->firstname $request->middlenmae");
