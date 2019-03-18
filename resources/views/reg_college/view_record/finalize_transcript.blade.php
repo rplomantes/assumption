@@ -126,6 +126,49 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-body">
+              <div class="box-group" id="accordion">
+                <div class="panel box box-primary">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        Printing History
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse out">
+                    <div class="box-body">
+                        <?php
+                        $x = 0;
+                        $history = \App\Log::where('action', "Print transcript of student: $user->idno")->get();
+                        ?>
+                        <table class="table table-condensed">
+                            <tr>
+                            <th>#</th>
+                            <th>Date and Time</th>
+                            <th>Printed By</th>
+                            </tr>
+                            @if(count($history)>0)
+                            @foreach($history as $hist)
+                            <tr>
+                                <td><?php $x = $x + 1; ?>{{$x}}.</td>
+                                <td>{{$hist->datetime}}</td>
+                                <td>{{$hist->idno}}</td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
             <div class="col-sm-12">
                 <div class="form form-group">
                     <input type='submit' class='col-sm-12 btn btn-success' value='PRINT TRANSCRIPT OF RECORD'>
