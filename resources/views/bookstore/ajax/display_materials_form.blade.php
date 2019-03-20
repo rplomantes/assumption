@@ -27,15 +27,15 @@ $accounts = \App\ChartOfAccount::all();
         <div class="form form-group">
             <div class="col-sm-12">
                 <label class="form form-label"> Category</label>
-                <select class="form form-control select2" name="category" id="category">
-                    <option {{($data->category)== "Books"? 'selected':''}}>Books</option>
+                <select class="form form-control select2" name="category" id="category" onchange="display_particular_control(this.value)">
+                    <option {{($data->category)== "Books"? 'selected':''}}>Books/Per Item</option>
                     <option {{($data->category)== "Materials"? 'selected':''}}>Materials</option>
                     <option {{($data->category)== "Other Materials"? 'selected':''}}>Other Materials</option>
                 </select>
             </div>
         </div>
         <div class="form form-group">
-            <div class="col-sm-12">
+            <div class="col-sm-12" id="particular_control">
                 <label class="form form-label"> Subsidiary</label>
                 <input type="text" class="form form-control" name="subsidiary" id="subsidiary"  value="{{$data->subsidiary}}"/>
             </div>
@@ -74,3 +74,15 @@ $accounts = \App\ChartOfAccount::all();
         </div>
     </div>
 </div>
+<script>
+    
+    $("#particular_control").hide();
+ $(document).ready(function(){
+        
+       if($("#category").val()=="Materials" || $("#category").val()=="Other Materials"){
+         $("#particular_control").fadeOut(300);  
+       }else {  
+       $("#particular_control").fadeIn(300);
+        }
+});
+</script>

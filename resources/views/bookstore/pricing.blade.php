@@ -92,7 +92,13 @@
     $("#non_discounted").hide();
     $("#new_others").hide();
 
-
+function display_particular_control(category){
+    if(category == "Materials" || category =="Other Materials"){
+         $("#particular_control").fadeOut(300);  
+       }else {  
+       $("#particular_control").fadeIn(300);
+        }
+}
 
     function getGroupType() {
         array = {};
@@ -107,7 +113,7 @@
                 $('#display_form').empty();
             },
             error: function () {
-                $('#display_type').html("Nothing to show.");
+                $('#display_type').html("");
                 $('#display_fees').empty();
                 $('#display_form').empty();
             }
@@ -127,7 +133,7 @@
                 $('#display_form').empty();
             },
             error: function () {
-                $('#display_fees').html("Nothing to show.");
+                $('#display_fees').html("");
                 $('#display_form').empty();
             }
         });
@@ -177,7 +183,7 @@
                 $("#account").select2();
             },
             error: function () {
-                $('#display_form').html("Nothing to show.");
+                $('#display_form').html("");
             }
         });
     }
@@ -209,7 +215,7 @@
                 }
             },
             error: function () {
-                $('#display_form').html("Nothing to show.");
+                $('#display_form').html("");
                 var type = $("#group_type").val();
                 if(type <= 4){
                 getFees();
@@ -235,7 +241,7 @@
                 $("#account").select2();
             },
             error: function () {
-                $('#display_form').html("Nothing to show.");
+                $('#display_form').html("");
             }
         });
     }
@@ -267,7 +273,7 @@
                 }
             },
             error: function () {
-                $('#display_form').html("Nothing to show.");
+                $('#display_form').html("");
                 var type = $("#group_type").val();
                 if(type <= 4){
                 getFees();

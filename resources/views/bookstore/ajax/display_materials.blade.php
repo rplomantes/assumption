@@ -38,7 +38,7 @@
                     <a role="button" onclick="removeFee({{$fee->id}})">Remove</a>
                 </td>
                 @elseif($type == 1)
-                <td>{{$fee->category}}</td>
+                <td>@if($fee->category == "Books") Books/Per Item @else {{$fee->category}} @endif</td>
                 <td>{{$fee->subsidiary}}</td>
                 <td>{{number_format($fee->amount,2)}}</td>
                 <td>

@@ -84,8 +84,14 @@ class AjaxBooksPricing extends Controller {
                 if ($type == 1) {
                     $data = \App\CtrOptionalFee::where('id', $id)->first();
                     $data->category = $category;
-                    $data->subsidiary = $subsidiary2;
                     $data->amount = $amount;
+                    if($category == "Books"){
+                        $data->subsidiary = $subsidiary2;
+                    }else if($category == "Materials"){
+                        $data->subsidiary = "Materials";
+                    }else if($category == "Other Materials"){
+                        $data->subsidiary = "Other Materials";
+                    }
                     $data->save();
                 }
                 if ($type == 2) {
@@ -153,12 +159,18 @@ class AjaxBooksPricing extends Controller {
                     $data = new \App\CtrOptionalFee;
                     $data->category = $category;
                     $data->level = $level;
-                    $data->subsidiary = $subsidiary2;
                     $data->amount = $amount;
                     $data->receipt_details = "Bookstore";
                     $data->category_switch = env("OPTIONAL_FEE");
                     $data->accounting_code = env("BOOKSTORE_CODE");
                     $data->default_qty = 1;
+                    if($category == "Books"){
+                        $data->subsidiary = $subsidiary2;
+                    }else if($category == "Materials"){
+                        $data->subsidiary = "Materials";
+                    }else if($category == "Other Materials"){
+                        $data->subsidiary = "Other Materials";
+                    }
                     $data->save();
                 }
                 if ($type == 2) {

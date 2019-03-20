@@ -17,7 +17,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$optional->amount * $optional->default_qty}}<?php $totalbook=$totalbook+($optional->amount * $optional->default_qty);?></div></td>
                 <td></td></tr>
                 @endforeach
-                <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{number_format($totalbook,2)}}</div></td></tr>
+                <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{$totalbook}}</div></td></tr>
                 @endif
                 @if(count($optional_materials)>0)
                 @foreach($optional_materials as $optional)
@@ -33,7 +33,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                    @endif
                     </td>
                     
-                <td align="left"><div id="total_book2">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>
+                <td align="left"><div id="total_book2">{{$optional->amount * $optional->default_qty}}</div></td>
                 </tr>
                 @endforeach
                 @endif 
