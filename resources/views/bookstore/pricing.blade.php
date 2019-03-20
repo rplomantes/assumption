@@ -1,11 +1,4 @@
-<?php
-if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
-    $layout = "layouts.appaccountingstaff";
-} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
-    $layout = "layouts.appaccountinghead";
-}
-?>
-@extends($layout)
+@extends('layouts.appbookstore')
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -44,12 +37,12 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @section('header')
 <section class="content-header">
     <h1>
-        Schedule of Fees
+        Updating of Books/Materials Pricing
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="{{url("/accounting/schedule_of_fees")}}">Schedule of Fees</a></li>
+        <li class="active">Updating of Books/Materials Pricing</li>
     </ol>
 </section>
 @endsection
@@ -57,22 +50,17 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
 <div class="box">
     <div class="box-header">
-        <div class="box-title">Select Fee</div>
+        <div class="box-title">Select Group</div>
     </div>
     <div class="box-body form-horizontal">
         <div class="form-group">
             <div class="col-sm-6">
-                <label>Select Fee</label>
-                <select class="form form-control select2" name="fee_type" id="fee_type" onchange="getFeeType()">
+                <label>Select Group</label>
+                <select class="form form-control select2" name="group_type" id="group_type" onchange="getGroupType()">
                     <option>&nbsp;</option>
-                    <option value="1">School Fees</option>
-                    <option value="2">SHS Subject Related Fees</option>
-                    <option value="5">SHS New Student Additional Fees</option>
-                    <option value="6">BED New Student Additional Fees</option>
-                    <option value="7">Late Payment Fees</option>
-                    <option value="8">Foreign Fees</option>
-                    <option value="11">Other Collections (BED)</option>
-                    <option value="10">Other Collections (SHS)</option>
+                    <option value="1">Books/Materials Prices</option>
+                    <option value="2">Required/Other Required Materials Listing</option>
+                    <option value="5">Uniform Sizes and Prices</option>
                 </select>
             </div>
         </div>
@@ -106,12 +94,12 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
 
 
-    function getFeeType() {
+    function getGroupType() {
         array = {};
-        array['fee_type'] = $("#fee_type").val();
+        array['group_type'] = $("#group_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/getFeeType_bed",
+            url: "/bookstore/ajax/getGroupType",
             data: array,
             success: function (data) {
                 $('#display_type').html(data);
@@ -128,13 +116,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
     function getFees() {
         array = {};
-        array['fee_type'] = $("#fee_type").val();
+        array['group_type'] = $("#group_type").val();
         array['level'] = $("#level").val();
-        array['strand'] = $("#strand").val();
-        array['period'] = $("#period").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/getFees_bed",
+            url: "/bookstore/ajax/getFees",
             data: array,
             success: function (data) {
                 $('#display_fees').html(data);
@@ -149,27 +135,27 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
     function removeFee(id) {
         array = {};
-        array['fee_type'] = $("#fee_type").val();
+        array['group_type'] = $("#group_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/removeFees_bed/" + id,
+            url: "/bookstore/ajax/removeFees/" + id,
             data: array,
             success: function (data) {
-                var type = $("#fee_type").val();
-                if(type == 1){
+                var type = $("#group_type").val();
+                if(type <= 4){
                 getFees();
-                }else if (type == 2) {
+                }else if(type == 9){
                 getFees();
                 }else{
-                getFeeType();
+                getGroupType()
                 getFees();
                 }
             },
             error: function () {
-                var type = $("#fee_type").val();
-                if(type == 1){
+                var type = $("#group_type").val();
+                if(type <= 4){
                 getFees();
-                }else if (type == 2) {
+                }else if(type == 9){
                 getFees();
                 }else{
                 getFeeType();
@@ -181,10 +167,10 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
     function updateFee(id) {
         array = {};
-        array['fee_type'] = $("#fee_type").val();
+        array['group_type'] = $("#group_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/updateFees_bed/" + id,
+            url: "/bookstore/ajax/updateFees/" + id,
             data: array,
             success: function (data) {
                 $('#display_form').html(data);
@@ -198,41 +184,39 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
     function saveData() {
         array = {};
-        array['type'] = $("#type").val();
+        array['type'] = $("#group_type").val();
         array['record_id'] = $("#record_id").val();
         array['amount'] = $("#amount").val();
-        if ($("#type").val() !== 9) {
-            array['account'] = $("#account").val();
-            array['category'] = $("#category").val();
-            array['subsidiary'] = $("#subsidiary").val();
-        }
+        array['particular'] = $("#particular").val();
+        array['subsidiary'] = $("#particular").val();
+        array['subsidiary2'] = $("#subsidiary").val();
+        array['category'] = $("#category").val();
+        array['size'] = $("#size").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/updateSaveFees_bed",
+            url: "/bookstore/ajax/updateSaveFees",
             data: array,
             success: function (data) {
                 $('#display_form').html(data);
-                $('#display_form').html("Nothing to show.");
-                var type = $("#fee_type").val();
-                if(type == 1){
+                var type = $("#group_type").val();
+                if(type <= 4){
                 getFees();
-                }else if (type == 2) {
+                }else if(type == 9){
                 getFees();
                 }else{
-                getFeeType();
+                getGroupType()
                 getFees();
                 }
             },
             error: function () {
                 $('#display_form').html("Nothing to show.");
-                $('#display_form').html("Nothing to show.");
-                var type = $("#fee_type").val();
-                if(type == 1){
+                var type = $("#group_type").val();
+                if(type <= 4){
                 getFees();
-                }else if (type == 2) {
+                }else if(type == 9){
                 getFees();
                 }else{
-                getFeeType();
+                getGroupType()
                 getFees();
                 }
             }
@@ -241,10 +225,10 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
     function newFee() {
         array = {};
-        array['fee_type'] = $("#fee_type").val();
+        array['group_type'] = $("#group_type").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/newFees_bed/",
+            url: "/bookstore/ajax/newFees/",
             data: array,
             success: function (data) {
                 $('#display_form').html(data);
@@ -258,38 +242,39 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
     function saveNewData() {
         array = {};
-        array['type'] = $("#type").val();
+        array['type'] = $("#group_type").val();
+        array['record_id'] = $("#record_id").val();
         array['amount'] = $("#amount").val();
-        array['account'] = $("#account").val();
+        array['particular'] = $("#particular").val();
+        array['subsidiary'] = $("#particular").val();
+        array['subsidiary2'] = $("#subsidiary").val();
         array['category'] = $("#category").val();
-        array['subsidiary'] = $("#subsidiary").val();
         array['level'] = $("#level").val();
-        array['strand'] = $("#strand").val();
-        array['period'] = $("#period").val();
+        array['size'] = $("#size").val();
         $.ajax({
             type: "GET",
-            url: "/accounting/ajax/newSaveFees_bed",
+            url: "/bookstore/ajax/newSaveFees",
             data: array,
             success: function (data) {
-                var type = $("#fee_type").val();
-                if(type == 1){
+                var type = $("#group_type").val();
+                if(type <= 4){
                 getFees();
-                }else if (type == 2) {
+                }else if(type == 9){
                 getFees();
                 }else{
-                getFeeType();
+                getGroupType()
                 getFees();
                 }
             },
             error: function () {
                 $('#display_form').html("Nothing to show.");
-                var type = $("#fee_type").val();
-                if(type == 1){
+                var type = $("#group_type").val();
+                if(type <= 4){
                 getFees();
-                }else if (type == 2) {
+                }else if(type == 9){
                 getFees();
                 }else{
-                getFeeType();
+                getGroupType()
                 getFees();
                 }
             }

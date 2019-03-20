@@ -75,8 +75,14 @@ class AjaxScheduleOfFees extends Controller {
                     } elseif ($type == 8) {
                         $title = "Foreign Fees";
                         $fees = \App\CtrForiegnFee::all();
+                    } elseif ($type == 11) {
+                        $title = "Other Collections (BED)";
+                        $fees = \App\OtherCollection::all();
+                    } elseif ($type == 10) {
+                        $title = "Other Collections (SHS)";
+                        $fees = \App\ShsOtherCollection::all();
                     }
-                    return view('accounting.ajax.display_fees', compact('fees', 'type','title'));
+                    return view('accounting.ajax.display_fees_bed', compact('fees', 'type','title'));
                 }
             }
         }
@@ -186,6 +192,12 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 8) {
                     $data = \App\CtrForiegnFee::where('id', $id)->first();
+                }
+                if ($type == 11) {
+                    $data = \App\OtherCollection::where('id', $id)->first();
+                }
+                if ($type == 10) {
+                    $data = \App\ShsOtherCollection::where('id', $id)->first();
                 }
                 return view('accounting.ajax.display_fee_form', compact('data', 'type', 'id'));
             }
@@ -360,6 +372,26 @@ class AjaxScheduleOfFees extends Controller {
                     $data->amount = $amount;
                     $data->save();
                 }
+                if ($type == 11) {
+                    $data = \App\OtherCollection::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 10) {
+                    $data = \App\ShsOtherCollection::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
             }
         }
     }
@@ -435,6 +467,14 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 8) {
                     $data = \App\CtrForiegnFee::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 11) {
+                    $data = \App\OtherCollection::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 10) {
+                    $data = \App\ShsOtherCollection::where('id', $id)->first();
                     $data->delete();
                 }
                 return "Removed successfully";
@@ -643,6 +683,26 @@ class AjaxScheduleOfFees extends Controller {
                     $data->amount = $amount;
                     $data->save();
                 }
+                if ($type == 11) {
+                    $data = new \App\OtherCollection;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 10) {
+                    $data = new \App\ShsOtherCollection;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
             }
         }
     }
@@ -655,6 +715,8 @@ class AjaxScheduleOfFees extends Controller {
         } elseif ($category == "Depository Fees") {
             return env('DEPOSITORY_FEE');
         } elseif ($category == "Foreign Fee") {
+            return env('SRF_FEE');
+        } elseif ($category == "SRF") {
             return env('SRF_FEE');
         } elseif ($category == "Other Miscellaneous") {
             return env('OTHER_MISC');

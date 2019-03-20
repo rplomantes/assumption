@@ -127,7 +127,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                     ?>
                 <tr><td>{{$payment->transaction_date}}</td>
                     <td>{{$payment->receipt_no}}</td>
+                    @if($payment->idno == 999999)
+                    <td></td>
+                    @else
                     <td>{{$payment->idno}}</td>
+                    @endif
                     <td>{{$payment->paid_by}}</td>
                     <td>{{$payment->remarks}}</td>
                     @if($payment->is_reverse=="0")

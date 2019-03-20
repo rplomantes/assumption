@@ -14,7 +14,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 <tr><td>{{$count++}}</td><td>
                  {{$optional->subsidiary}}
                     </td><td><input name="qty_books[{{$optional->id}}]" type="number"  value="1" oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)"></td>
-                <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}<?php $totalbook=$totalbook+($optional->amount * $optional->default_qty);?></div></td>
+                <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$optional->amount * $optional->default_qty}}<?php $totalbook=$totalbook+($optional->amount * $optional->default_qty);?></div></td>
                 <td></td></tr>
                 @endforeach
                 <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{number_format($totalbook,2)}}</div></td></tr>

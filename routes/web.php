@@ -465,3 +465,13 @@ Route::get('/bedregistrar/individual_promotions/','BedRegistrar\PromotionsContro
 Route::post('/bedregistrar/update_batch_promotions/','BedRegistrar\PromotionsController@update_promotions');
 //BED Promotions AJAX
 Route::get('/bedregistrar/ajax/promotions/getlist','BedRegistrar\Ajax\AjaxPromotionsController@getlist');
+
+//BOOKSTORE UPDATING OF PRICES
+Route::get('/bookstore/books_pricing','Bookstore\BooksPricing@booksFees');
+Route::get('/bookstore/ajax/getGroupType','Bookstore\Ajax\AjaxBooksPricing@getGroupType');
+Route::get('/bookstore/ajax/updateFees/{id}','Bookstore\Ajax\AjaxBooksPricing@updateFees');
+Route::get('/bookstore/ajax/updateSaveFees','Bookstore\Ajax\AjaxBooksPricing@updateSaveFees');
+Route::get('/bookstore/ajax/removeFees/{id}','Bookstore\Ajax\AjaxBooksPricing@removeFees');
+Route::get('/bookstore/ajax/newFees/','Bookstore\Ajax\AjaxBooksPricing@newFees');
+Route::get('/bookstore/ajax/newSaveFees','Bookstore\Ajax\AjaxBooksPricing@newSaveFees');
+Route::get('/bookstore/ajax/getFees','Bookstore\Ajax\AjaxBooksPricing@getFees');
