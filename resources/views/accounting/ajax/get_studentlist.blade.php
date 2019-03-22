@@ -27,7 +27,7 @@ $x = 0;
             <th style='border-bottom: 1px solid black'>Section</th>
             @endif
             <th style='border-bottom: 1px solid black' align='right'>Plan</th>
-            <th style='border-bottom: 1px solid black' align='right'>Assessment</th>
+            <th style='border-bottom: 1px solid black; text-align: right'>Assessment</th>
         </tr>
     </thead>
     <tbody>

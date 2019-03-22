@@ -45,13 +45,13 @@
                 </tr>
                 @endif
             @endforeach
-            <tr><td align="right" colspan="6">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total)}}</strong></td></tr>
+            <tr><td align="right" colspan="6">SUB TOTAL</td><td align="right"><strong>{{$head->total}}</strong></td></tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
             <th colspan="6" style='border-top: 1px solid black'>GRAND TOTAL</th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total}}</strong></td>
         </tr>
     </tfoot>
 </table>

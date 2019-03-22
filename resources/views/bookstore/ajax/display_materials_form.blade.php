@@ -28,7 +28,7 @@ $accounts = \App\ChartOfAccount::all();
             <div class="col-sm-12">
                 <label class="form form-label"> Category</label>
                 <select class="form form-control select2" name="category" id="category" onchange="display_particular_control(this.value)">
-                    <option {{($data->category)== "Books"? 'selected':''}}>Books/Per Item</option>
+                    <option value="Books" {{($data->category)== "Books"? 'selected':''}}>Books/Per Item</option>
                     <option {{($data->category)== "Materials"? 'selected':''}}>Materials</option>
                     <option {{($data->category)== "Other Materials"? 'selected':''}}>Other Materials</option>
                 </select>

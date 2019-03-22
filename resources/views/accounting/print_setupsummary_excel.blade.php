@@ -25,7 +25,7 @@
         <tr>
             <td>{{$ledger->accounting_code}}</td>
             <td>{{$ledger->subsidiary}}</td>
-            <td align='right'>{{number_format($ledger->amount,2)}}</td>
+            <td align='right'>{{$ledger->amount}}</td>
         </tr>
         @endforeach
         @foreach($tuitions as $tuition)
@@ -33,14 +33,14 @@
         <tr>
             <td>{{$tuition->accounting_code}}</td>
             <td>{{$tuition->subsidiary}}</td>
-            <td align='right'>{{number_format($tuition->amount,2)}}</td>
+            <td align='right'>{{$tuition->amount}}</td>
         </tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
             <th colspan="2" style='border-top: 1px solid black'>Total</th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total}}</strong></td>
         </tr>
     </tfoot>
 </table>

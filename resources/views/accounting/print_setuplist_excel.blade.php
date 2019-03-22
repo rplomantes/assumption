@@ -34,10 +34,12 @@ $x = 0 ?>
         </tr>
     </thead>
     <tbody>
+            <?php $subdiscount = 0; ?>
             @foreach($lists as $list)
                 @if($list->level == $head->level)
                 <?php $total += $list->amount; $x++; ?>
-                <?php $discount += $list->discount; $x++; ?>
+                <?php $discount += $list->discount; ?>
+                <?php $subdiscount += $list->discount; ?>
                 <tr>
                     <td>{{$x}}  </td>
                     <td align='left'>{{$list->idno}}</td>
@@ -49,21 +51,21 @@ $x = 0 ?>
                     @if($department != "College Department")
                     <td align='center'>{{$list->section}}</td>
                     @endif
-                    <td align='right'>{{number_format($list->amount,2)}}</td>
-                    <td align='right'>{{number_format($list->discount,2)}}</td>
-                    <td align='right'>{{number_format($list->amount-$list->discount,2)}}</td>
+                    <td align='right'>{{$list->amount}}</td>
+                    <td align='right'>{{$list->discount}}</td>
+                    <td align='right'>{{$list->amount-$list->discount}}</td>
                 </tr>
                 @endif
             @endforeach
-            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td><td></td><td align="right"><strong>{{number_format($head->total-$head->discount,2)}}</strong></td></tr>
+            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td><td align="right"><strong>{{number_format($subdiscount,2)}}</strong></td><td align="right"><strong>{{number_format($head->total-$head->discount,2)}}</strong></td></tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
             <th colspan="5" style='border-top: 1px solid black'>GRAND TOTAL</th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
-            <th style='border-top: 1px solid black' align="center"></th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total-$discount,2)}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total}}</strong></td>
+            <td style='border-top: 1px solid black' align="right"><strong>{{$discount}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total-$discount}}</strong></td>
         </tr>
     </tfoot>
 </table>

@@ -104,8 +104,8 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                         <span class="label_collected">Previous Balance :</span>
                     </div> 
                      <div class="col-md-6">
-                         <input type="hidden" id="previous_balance" name="previous_balance" value="{{$previous_total->balance}}">
-                         <div class="form form-control number">{{number_format($previous_total->balance,2)}}</div>
+                         <!--<input type="hidden" id="previous_balance" name="previous_balance" value="{{$previous_total->balance}}">-->
+                        <input type="text" class="form form-control number" name="previous_balance" id="previous_balance" value="{{$previous_total->balance}}" >
                      </div>
                      </div>   
                     @else
@@ -288,6 +288,17 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         $("#main_due").focus();
         $("#submit").fadeOut(300);
         computeSubaccount();
+        
+        $("#previous_balance").on('keypress',function(e){
+            if(e.keyCode==13){
+                
+                if($("#previous_balance").val()==""){
+                    $("#previous_balance").val("0.00");
+                }
+                $("#main_due").focus();
+                e.preventDefault();
+            }
+        });
         
         $(".debit_particular").on("keypress", function (e) {
             if (e.keyCode == 13) {
