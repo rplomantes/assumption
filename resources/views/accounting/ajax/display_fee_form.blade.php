@@ -46,7 +46,7 @@ $accounts = \App\ChartOfAccount::all();
                     <option {{($data->category)== "Other Fees"? 'selected':''}}>Other Fees</option>
                     <option {{($data->category)== "Depository Fees"? 'selected':''}}>Depository Fees</option>
                     <option {{($data->category)== "Foreign Fee"? 'selected':''}}>Foreign Fee</option>
-                    <option {{($data->category)== "SRF"? 'selected':''}}>SRF Fee</option>
+                    <option value="SRF" {{($data->category)== "SRF"? 'selected':''}}>SRF Fee</option>
                     <option {{($data->category)== "Other Miscellaneous"? 'selected':''}}>Other Miscellaneous</option>
                 </select>
             </div>

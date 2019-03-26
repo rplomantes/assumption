@@ -80,6 +80,7 @@ class AjaxBooksPricing extends Controller {
                 $category = Input::get("category");
                 $amount = Input::get("amount");
                 $size = Input::get("size");
+                $is_required = Input::get("is_required");
                 
                 if ($type == 1) {
                     $data = \App\CtrOptionalFee::where('id', $id)->first();
@@ -92,6 +93,7 @@ class AjaxBooksPricing extends Controller {
                     }else if($category == "Other Materials"){
                         $data->subsidiary = "Other Materials";
                     }
+                    $data->is_required = $is_required;
                     $data->save();
                 }
                 if ($type == 2) {
@@ -155,6 +157,7 @@ class AjaxBooksPricing extends Controller {
                 $amount = Input::get("amount");
                 $level = Input::get("level");
                 $size = Input::get("size");
+                $is_required = Input::get("is_required");
                 if ($type == 1) {
                     $data = new \App\CtrOptionalFee;
                     $data->category = $category;
@@ -171,6 +174,7 @@ class AjaxBooksPricing extends Controller {
                     }else if($category == "Other Materials"){
                         $data->subsidiary = "Other Materials";
                     }
+                    $data->is_required = $is_required;
                     $data->save();
                 }
                 if ($type == 2) {

@@ -13,7 +13,17 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 
                 <tr><td>{{$count++}}</td><td>
                  {{$optional->subsidiary}}
-                    </td><td><input name="qty_books[{{$optional->id}}]" type="number"  value="1" oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)"></td>
+                        @if($optional->is_required==1)
+                        <small style="color:red"><i>Required</i></small>
+                        @endif
+                    </td>
+                    <td>
+                        @if($optional->is_required==1)
+                        <input name="qty_books[{{$optional->id}}]" type="number" min="1" value="1" oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
+                        @else
+                        <input name="qty_books[{{$optional->id}}]" type="number"  value="1" oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
+                        @endif
+                    </td>
                 <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$optional->amount * $optional->default_qty}}<?php $totalbook=$totalbook+($optional->amount * $optional->default_qty);?></div></td>
                 <td></td></tr>
                 @endforeach
@@ -52,7 +62,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                    @endif
                     </td>
                     
-                <td align="left"><div id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>
+                <td align="left"><div id="book_display{{$optional->id}}">{{$optional->amount * $optional->default_qty}}</div></td>
                 </tr>
                 @endforeach
                 @endif

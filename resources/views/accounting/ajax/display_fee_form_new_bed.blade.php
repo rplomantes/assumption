@@ -23,7 +23,7 @@ $accounts = \App\ChartOfAccount::all();
                     <option>Other Fees</option>
                     <option>Depository Fees</option>
                     <option>Foreign Fee</option>
-                    <option>SRF</option>
+                    <option value="SRF">SRF Fee</option>
                     <option>Other Miscellaneous</option>
                 </select>
             </div>

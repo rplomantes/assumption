@@ -95,8 +95,10 @@
 function display_particular_control(category){
     if(category == "Materials" || category =="Other Materials"){
          $("#particular_control").fadeOut(300);  
+         $("#required_control").fadeOut(300);
        }else {  
        $("#particular_control").fadeIn(300);
+         $("#required_control").fadeIn(300);
         }
 }
 
@@ -198,6 +200,7 @@ function display_particular_control(category){
         array['subsidiary2'] = $("#subsidiary").val();
         array['category'] = $("#category").val();
         array['size'] = $("#size").val();
+        array['is_required'] = $("#is_required").val();
         $.ajax({
             type: "GET",
             url: "/bookstore/ajax/updateSaveFees",
@@ -257,6 +260,7 @@ function display_particular_control(category){
         array['category'] = $("#category").val();
         array['level'] = $("#level").val();
         array['size'] = $("#size").val();
+        array['is_required'] = $("#is_required").val();
         $.ajax({
             type: "GET",
             url: "/bookstore/ajax/newSaveFees",

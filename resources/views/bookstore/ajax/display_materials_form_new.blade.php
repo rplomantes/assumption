@@ -39,6 +39,15 @@ $accounts = \App\ChartOfAccount::all();
                 <input type="text" class="form form-control" name="subsidiary" id="subsidiary"/>
             </div>
         </div>
+        <div class="form form-group">
+            <div class="col-sm-12" id="required_control">
+                <label class="form form-label"> Is required?</label>
+                <select class="form form-control select2" name="is_required" id="is_required">
+                    <option value=0>Non-Required</option>
+                    <option value=1>Required</option>
+                </select>
+            </div>
+        </div>
         @elseif($type == 2)
         <div class="form form-group">
             <div class="col-sm-12">
@@ -76,12 +85,15 @@ $accounts = \App\ChartOfAccount::all();
 <script>
     
     $("#particular_control").hide();
+    $("#required_control").hide();
  $(document).ready(function(){
         
        if($("#category").val()=="Materials" || $("#category").val()=="Other Materials"){
-         $("#particular_control").fadeOut(300);  
+         $("#particular_control").fadeOut(300);
+         $("#required_control").fadeOut(300);  
        }else {  
-       $("#particular_control").fadeIn(300);
+         $("#particular_control").fadeIn(300);
+         $("#required_control").fadeIn(300);
         }
 });
 </script>

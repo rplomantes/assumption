@@ -39,7 +39,12 @@
                 </td>
                 @elseif($type == 1)
                 <td>@if($fee->category == "Books") Books/Per Item @else {{$fee->category}} @endif</td>
-                <td>{{$fee->subsidiary}}</td>
+                <td>
+                    {{$fee->subsidiary}}
+                    @if($fee->is_required)
+                    <small style='color: red'><i>Required</i></small>
+                    @endif
+                </td>
                 <td>{{number_format($fee->amount,2)}}</td>
                 <td>
                     <a role="button" onclick="updateFee({{$fee->id}})">Update</a>

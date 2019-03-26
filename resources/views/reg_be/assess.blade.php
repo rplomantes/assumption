@@ -55,7 +55,7 @@ if($enrollment_sy->period == "2nd Semester"){
         break;
     }
 }
-
+$current_level = $promotion->level;
 $plans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type',$user->academic_type)->get();
 $discounts = \App\CtrDiscount::where('is_display', 1)->where('academic_type','!=','College')->get();
 $optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','Books')->where('amount','>','0')->get();
@@ -386,7 +386,7 @@ if (count($previous) > 0) {
                 @foreach($optional_books as $optional)
                 <?php 
                 $default_value="checked='checked'";
-                $default_amount=number_format($optional->amount * $optional->default_qty,2);
+                $default_amount=$optional->amount * $optional->default_qty;
                 if($errors->has('plan')){
                     $default_value="";
                     $default_amount=0;
@@ -395,19 +395,29 @@ if (count($previous) > 0) {
                     foreach($qty_books as $key=>$value){
                         if($key==$optional->id){  
                         $default_value="checked='checked'";
-                        $default_amount=number_format($optional->amount * $optional->default_qty,2);
+                        $default_amount=$optional->amount * $optional->default_qty;
                     }}
                   
                     }
                 ?>
                 <tr><td>{{$count++}}</td><td>
                  {{$optional->subsidiary}}
-                    </td><td><input name="qty_books[{{$optional->id}}]" value="1" type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)"></td>
+                        @if($optional->is_required==1)
+                        <small style="color:red"><i>Required</i></small>
+                        @endif
+                    </td>
+                    <td>
+                        @if($optional->is_required==1)
+                        <input name="qty_books[{{$optional->id}}]" value="1" min=1 type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
+                        @else
+                        <input name="qty_books[{{$optional->id}}]" value="1" type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
+                        @endif
+                    </td>
                 <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$default_amount}}
                     <?php $totalbook=$totalbook+ ($optional->amount * $optional->default_qty);?></div></td>
                 <td></td></tr>
                 @endforeach
-                <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{number_format($totalbook,2)}}</div></td></tr>
+                <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{$totalbook}}</div></td></tr>
                 @endif
                 @if(count($optional_materials)>0)
                 @foreach($optional_materials as $optional)
@@ -423,7 +433,7 @@ if (count($previous) > 0) {
                    @endif
                     </td>
                     
-                <td align="left"><div id="book_display{{$optional->id}}">{{number_format($optional->amount * $optional->default_qty,2)}}</div></td>
+                <td align="left"><div id="book_display{{$optional->id}}">{{$optional->amount * $optional->default_qty}}</div></td>
                 </tr>
                 @endforeach
                 @endif 
@@ -432,15 +442,15 @@ if (count($previous) > 0) {
                 @foreach($optional_other_materials as $optional)
                  <?php 
                 $default_value="checked='checked'";
-                $default_amount=number_format($optional->amount * $optional->default_qty,2);
+                $default_amount=$optional->amount * $optional->default_qty;
                 if($errors->has('plan')){
                     $default_value="";
-                    $default_amount=0.00;
+                    $default_amount=0;
                     $qty_books=old('qty_books');
                     foreach($qty_books as $key=>$value){
                         if($key==$optional->id){
                         $default_value="checked='checked'";
-                        $default_amount=number_format($optional->amount * $optional->default_qty,2);
+                        $default_amount=$optional->amount * $optional->default_qty;
                     }}
                   
                     }
@@ -480,7 +490,7 @@ if (count($previous) > 0) {
                                                 ?>>{{$particular->size}}</option>
                                         @endforeach
                                     @endif
-                            </select></td><td><div id="uniform">0.00</div></td></tr>
+                            </select></td><td><div id="uniform">0</div></td></tr>
                 <tr><td>AC P.E. Jogging Pants </td><td><input type="number" value=@if(!is_null(old('jogging_qty')))"{{old('jogging_qty')}}" @else "1" @endif oninput="getUniformAmount1('2','jogging')"  class="form form-control number" name="jogging_qty" id="jogging_qty"></td>
                             <td><select id="jogging_size" name="jogging_size" class="form form-control" onchange="getUniformAmount(this.value,'jogging')">
                                     <option value=""></option>
@@ -493,7 +503,7 @@ if (count($previous) > 0) {
                                                 ?>>{{$particular->size}}</option>
                                         @endforeach
                                     @endif
-                            </select></td><td><div id="jogging">0.00</div></td></tr>
+                            </select></td><td><div id="jogging">0</div></td></tr>
                 <tr><td>AC School Socks </td><td><input type="number" value=@if(!is_null(old('socks_qty')))"{{old('socks_qty')}}" @else "1" @endif  oninput="getUniformAmount1('3','socks')" class="form form-control number" name="socks_qty" id="socks_qty"></td>
                             <td><select  id="socks_size" name="socks_size" class="form form-control" onchange="getUniformAmount(this.value,'socks')">
                                     <option value=""></option>
@@ -506,7 +516,7 @@ if (count($previous) > 0) {
                                                 ?>>{{$particular->size}}</option>
                                         @endforeach
                                     @endif
-                            </select></td><td><div id="socks">0.00</div></td></tr>
+                            </select></td><td><div id="socks">0</div></td></tr>
                 <tr><td>AC Dengue Attire </td><td><input type="number" value=@if(!is_null(old('dengue_qty')))"{{old('dengue_qty')}}" @else "1" @endif oninput="getUniformAmount1('4','dengue')"  class="form form-control number" name="dengue_qty" id="dengue_qty"></td>
                             <td><select id="dengue_size" name="dengue_size" class="form form-control" onchange="getUniformAmount(this.value,'dengue')">
                                     <option value=""></option>
@@ -519,7 +529,7 @@ if (count($previous) > 0) {
                                                 ?>>{{$particular->size}}</option>
                                         @endforeach
                                     @endif
-                            </select></td><td><div id="dengue">0.00</div></td></tr>
+                            </select></td><td><div id="dengue">0</div></td></tr>
                 </table>
                  </div>       
                 </div>  
@@ -649,7 +659,7 @@ input[type=number]{
     
     function getUniformAmount(id,display){
        if(id==""){
-           $("#"+display).html("0.00")
+           $("#"+display).html("0")
        }
         array={};
         switch(display){
