@@ -308,6 +308,7 @@ Route::get('/ajax/admission-hed/getstudentlist', 'AdmissionHED\Ajax\GetStudentLi
 //Route::post('/admission/admission-hed/add_new_student','AdmissionHED\Admission\NewStudentController@add_new_student');
 
 //BED Admission///////////////////////////////////////////////////
+Route::get('/admissionbed/resend_access/{idno}', 'AdmissionBED\info@resend_access');
 Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
 Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
 Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');

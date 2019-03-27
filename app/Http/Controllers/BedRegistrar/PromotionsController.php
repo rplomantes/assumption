@@ -33,6 +33,11 @@ class PromotionsController extends Controller {
                     } else {
                         $checkpromotions->strand = NULL;
                     }
+                    if($request->promot_level == "Pre-Kinder" || $request->promote_level == "Kinder"){
+                        $checkpromotions->section = "A";
+                    }else{
+                        $checkpromotions->section = 1;
+                    }
                     $checkpromotions->save();
                 } else {
                     $new_promotion = new \App\Promotion;

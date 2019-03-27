@@ -782,11 +782,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         <div class="form-group">
         <label>Total Due of the Month:</label>
         <div class="form form-control" id="due_display">
-            @if($totaldue>0)
+            <!--if($totaldue>0)-->
             {{number_format($totaldue,2)}}
-            @else
+<!--            else
             0.00
-            @endif
+            endif-->
         </div>
         </div>
         @if(Auth::user()->accesslevel==env("CASHIER"))
@@ -850,6 +850,14 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         </div>
         @endif
         
+        <label>Overpayment</label><table class="table table-striped">
+            <tr>
+                <td>Amount</td>
+                <td align='right'><strong>Php {{number_format(abs($negative),2)}}</strong></td>
+            </tr>
+            
+        </table>
+        
         @if(count($reservations)>0)
         <label>Reservation</label>
         <table class="table table-striped">
@@ -900,7 +908,6 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             <tr><td><i class="label label-danger">No Student Deposit Has Been Made Yet!!!!!</i></td></tr>
             
         </table>
-        <hr>
         @endif
     </div>
      

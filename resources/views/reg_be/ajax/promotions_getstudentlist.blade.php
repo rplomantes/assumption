@@ -10,6 +10,8 @@ function get_promotions($idno, $type) {
     if (count($promotions) > 0) {
         if ($type == "level") {
             return $promotions->level;
+        } else if($type == "section") {
+            return $promotions->section;
         } else {
             return $promotions->level . " - " . $promotions->strand;
         }
@@ -82,7 +84,7 @@ $strands = \App\CtrAcademicProgram::selectRaw("distinct strand, strand_name")->w
             <tr>
                 <td>{{$stat->idno}}</td>
                 <td>{{get_name($stat->idno)}}</td>
-                <td>{{$stat->section}}</td>
+                <td>{{get_promotions($stat->idno, "section")}}</td>
                 @if($level == "Grade 11" || $level == "Grade 12")
                 <td>{{get_promotions($stat->idno, "strand")}}</td>
                 @else

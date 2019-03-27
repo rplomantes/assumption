@@ -13,6 +13,8 @@ $accounts = \App\ChartOfAccount::all();
                     <option>AC P.E. T-Shirt</option>
                     <option>AC P.E. Jogging Pants</option>
                     <option>AC School Socks</option>
+                    <option>AC Dengue Attire</option>
+                    <option>Colored Shirts</option>
                 </select>
             </div>
         </div>

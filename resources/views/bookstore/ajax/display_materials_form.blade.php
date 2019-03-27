@@ -14,6 +14,8 @@ $accounts = \App\ChartOfAccount::all();
                     <option {{($data->particular)== "AC P.E. T-Shirt"? 'selected':''}}>AC P.E. T-Shirt</option>
                     <option {{($data->particular)== "AC P.E. Jogging Pants"? 'selected':''}}>AC P.E. Jogging Pants</option>
                     <option {{($data->particular)== "AC School Socks"? 'selected':''}}>AC School Socks</option>
+                    <option {{($data->particular)== "AC Dengue Attire"? 'selected':''}}>AC Dengue Attire</option>
+                    <option {{($data->particular)== "Colored Shirts"? 'selected':''}}>Colored Shirts</option>
                 </select>
             </div>
         </div>

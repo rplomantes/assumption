@@ -182,4 +182,33 @@ class info extends Controller
             return redirect('admissionbed/info/'.$idno);
         }
     }
+    function resend_access($idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            $applicant_details = \App\User::where('idno', $idno)->first();
+            $six_digit_random_number = mt_rand(100000, 999999);
+            
+            $password = $six_digit_random_number;
+            $applicant_details->password = bcrypt($password);
+            $applicant_details->is_first_login = 1;
+            $applicant_details->save();
+            
+            $reference_id = \App\Payment::where('idno', $idno)->first()->reference_id;
+            
+            $this->sendPaymentEmail($reference_id, $applicant_details,$six_digit_random_number);
+            
+            \App\Http\Controllers\Admin\Logs::log("Resend email access confirmation of $idno.");
+            
+            Session::flash('message', 'Email Access Confirmation Resent!');
+            return redirect(url('admissionbed',array('info', $idno)));
+        }
+    }
+    
+    function sendPaymentEmail($reference_id, $applicant_details, $six_number){
+        $data=array('name'=>$applicant_details->firstname." ".$applicant_details->lastname, 'email'=>$applicant_details->email);
+        Mail::send('cashier.pre_registration.mail',compact('reference_id','applicant_details','six_number'), function($message) use($applicant_details) {
+         $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
+                 ->subject('AC Payment Confirmation');
+         $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
+        });
+    }
 }

@@ -110,6 +110,20 @@ $totalprice=0;
             <?php $totalprice=$totalprice+$item->amount*$qty; ?>
         </tr>
         @endif
+        
+        @if($request->colored_size!=null)
+        <?php
+        $item = \App\CtrUniformSize::find($request->colored_size); 
+        $qty = $request->colored_qty;
+        ?>
+        <tr style='font-size: 6pt;'>
+            <td>{{$qty}}</td>
+            <td>{{$item->subsidiary}} - {{$item->size}}</td>
+            <td align='right'>{{number_format($item->amount,2)}}</td>
+            <td align='right'>{{number_format($item->amount * $qty,2)}}</td>
+            <?php $totalprice=$totalprice+$item->amount*$qty; ?>
+        </tr>
+        @endif
         <tr>
             <th style="border-top:1px solid"></th>
             <th style="border-top:1px solid"></th>

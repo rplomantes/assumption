@@ -34,7 +34,7 @@
         @foreach($ledgers as $ledger)
         <?php $amount = $amount + $ledger->amount; ?>
         <?php $discount = $discount + ($ledger->discount); ?>
-        <?php $total = $total + ($amount-$discount); ?>
+        <?php $total = $total + ($ledger->amount-$ledger->discount); ?>
         <tr>
             <td>{{$ledger->accounting_code}}</td>
             <td>{{$ledger->subsidiary}}</td>
@@ -46,7 +46,7 @@
         @foreach($tuitions as $tuition)
         <?php $amount = $amount + $tuition->amount; ?>
         <?php $discount = $discount + ($tuition->discount); ?>
-        <?php $total = $total + ($amount-$discount); ?>
+        <?php $total = $total + ($tuition->amount-$tuition->discount); ?>
         <tr>
             <td>{{$tuition->accounting_code}}</td>
             <td>{{$tuition->subsidiary}}</td>
@@ -59,8 +59,8 @@
     <tfoot>
         <tr>
             <th colspan="2" style='border-top: 1px solid black'>Total</th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($discount,2)}}</strong></td>
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($amount,2)}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($discount,2)}}</strong></td>
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
         </tr>
     </tfoot>

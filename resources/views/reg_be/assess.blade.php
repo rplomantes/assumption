@@ -66,6 +66,7 @@ $uniforms=  \App\CtrUniformSize::where('particular','AC P.E. T-Shirt')->get();
 $joggings = \App\CtrUniformSize::where('particular','AC P.E. Jogging Pants')->get();
 $socks = \App\CtrUniformSize::where('particular','AC School Socks')->get();
 $dengues=  \App\CtrUniformSize::where('particular','AC Dengue Attire')->get();
+$colored=  \App\CtrUniformSize::where('particular','Colored Shirts')->get();
 //$pre_discount = DB::Select("Select * from partial_student_discount where idno = '$user->idno'")->first();
 $pre_discount=  \App\Promotion::where('idno',$user->idno)->first();
 $materials =  \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
@@ -530,6 +531,20 @@ if (count($previous) > 0) {
                                         @endforeach
                                     @endif
                             </select></td><td><div id="dengue">0</div></td></tr>
+                
+                <tr><td>Colored Shirts </td><td><input type="number" value=@if(!is_null(old('colored_qty')))"{{old('colored_qty')}}" @else "1" @endif oninput="getUniformAmount1('5','colored')"  class="form form-control number" name="colored_qty" id="colored_qty"></td>
+                            <td><select id="colored_size" name="colored_size" class="form form-control" onchange="getUniformAmount(this.value,'colored')">
+                                    <option value=""></option>
+                                     @if(count($colored)>0)
+                                        @foreach($colored as $particular)
+                                        <option value="{{$particular->id}}"
+                                                <?php if($particular->id == old('colored_size')){ 
+                                                echo " selected=\"selected\""; 
+                                                }
+                                                ?>>{{$particular->size}}</option>
+                                        @endforeach
+                                    @endif
+                            </select></td><td><div id="colored">0</div></td></tr>
                 </table>
                  </div>       
                 </div>  
@@ -601,6 +616,7 @@ input[type=number]{
     getUniformAmount($("#jogging_size").val(),'jogging');
     getUniformAmount($("#socks_size").val(),'socks');
     getUniformAmount($("#dengue_size").val(),'dengue');
+    getUniformAmount($("#colored_size").val(),'colored');
     //book_display();
     });
     
@@ -675,6 +691,9 @@ input[type=number]{
             case "dengue":
                 array['qty']=$("#dengue_qty").val();
                 break;
+            case "colored":
+                array['qty']=$("#colored_qty").val();
+                break;
         }
         array['id']=id;
         $.ajax({
@@ -719,6 +738,13 @@ input[type=number]{
                 }
                 array['id']=$("#dengue_size").val();
                 array['qty']=$("#dengue_qty").val();
+                break;
+            case "5":
+                if($("#colored_qty").val()<0){
+                    $("#colored_qty").val(0);
+                }
+                array['id']=$("#colored_size").val();
+                array['qty']=$("#colored_qty").val();
                 break;
         }
         if(array['id']==""){

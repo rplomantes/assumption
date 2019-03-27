@@ -32,6 +32,7 @@ class StudentLedger extends Controller {
             $totalpay = 0.00;
             $plus = 0.00;
             $totalmaindue = 0;
+            $negative = 0;
             $user = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
 
@@ -96,6 +97,10 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 foreach ($ledger_others_noreturn as $ledger_other) {
                     $due_others = $due_others + $ledger_other->amount - $ledger_other->discount - $ledger_other->debit_memo - $ledger_other->payment;
                 }
+                if ($due_others < 0) {
+                $negative = $negative + $due_others;
+                $due_others = 0;
+                }
             }
 
             $previous = \App\Ledger::groupBy(array('category', 'category_switch', 'subsidiary'))->where('idno', $idno)->where('category_switch', '>', '9')
@@ -105,12 +110,20 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 foreach ($previous as $prev) {
                     $due_previous = $due_previous + $prev->amount - $prev->discount - $prev->debit_memo - $prev->payment;
                 }
+                if ($due_previous < 0) {
+                $negative = $negative + $due_previous;
+                $due_previous = 0;
+                }
             }
             $totalmaindue = $downpayment->amount + $duetoday->amount - $totalmainpayment;
             if ($totalmaindue < 0) {
                 $totalmaindue = 0;
             }
             $plus = ($duetoday->amount + $downpayment->amount) - $totalpay; 
+            if ($plus < 0) {
+                $negative = $negative + $plus;
+                $plus = 0;
+            }
             $totaldue = $plus - $totalmaindue + $due_others + $due_previous;
             $totaldue = $totaldue + $totalmaindue;
             $status = \App\Status::where('idno', $idno)->first();
@@ -137,7 +150,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
             }
             
-            return view("cashier.ledger", compact('idno','school_year','periods','levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay','ledger_list_tuition','ledger_list_misc','ledger_list_other','ledger_list_depo','ledger_list'));
+            return view("cashier.ledger", compact('idno','school_year','periods','levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay','ledger_list_tuition','ledger_list_misc','ledger_list_other','ledger_list_depo','ledger_list', 'negative'));
             //return $levels;
         }
     }

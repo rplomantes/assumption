@@ -42,7 +42,7 @@ $x = 0 ?>
     </thead>
     <tbody>
             @foreach($lists as $list)
-            @if($list->balance > 0)
+            @if($list->balance < 0)
                 @if($list->level == $head->level)
             <?php $subtotal = $subtotal + $list->balance; ?>
                 <?php $total += $list->balance; $x++; ?>

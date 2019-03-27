@@ -401,6 +401,7 @@ class Assess extends Controller {
         $this->processUniform($request, $request->jogging_qty, $request->jogging_size);
         $this->processUniform($request, $request->socks_qty, $request->socks_size);
         $this->processUniform($request, $request->dengue_qty, $request->dengue_size);
+        $this->processUniform($request, $request->colored_qty, $request->colored_size);
     }
 
     function addPercentage($plan) {
