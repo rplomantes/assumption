@@ -20,7 +20,7 @@ class AjaxReassessController extends Controller {
 
             if ($department == "Senior High School") {
                 $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
-                $list = \App\Status::where('department', $department)->where('statuses.status', env('ASSESSED'))->where('school_year', $enrollment_sy->school_year)->where('school_year', $enrollment_sy->period)->join('users', 'users.idno','=','statuses.idno')->orderBy('users.lastname','asc')->get();
+                $list = \App\Status::where('department', $department)->where('statuses.status', env('ASSESSED'))->where('school_year', $enrollment_sy->school_year)->where('period', $enrollment_sy->period)->join('users', 'users.idno','=','statuses.idno')->orderBy('users.lastname','asc')->get();
             }else{
                 $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
                 $list = \App\Status::where('department', $department)->where('statuses.status', env('ASSESSED'))->where('school_year', $enrollment_sy->school_year)->join('users', 'users.idno','=','statuses.idno')->orderBy('users.lastname','asc')->get();

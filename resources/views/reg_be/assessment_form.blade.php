@@ -226,5 +226,6 @@ $upon = 0;
         <p> Late Enrollment Fee: <span class="late_amount">Php {{number_format($total_late,2)}}</span>.</p>
         @endif
         <p>*Please print this form and present it to the cashier.<br></p>
+        <p>*Please note that tuition fees will be adjusted upon approval of the Department of Education.<br></p>
  </body>
  </html>
