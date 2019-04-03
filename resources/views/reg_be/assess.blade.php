@@ -71,7 +71,7 @@ $socks = \App\CtrUniformSize::where('particular','AC School Socks')->get();
 $dengues=  \App\CtrUniformSize::where('particular','AC Dengue Attire')->get();
 $colored=  \App\CtrUniformSize::where('particular','Colored Shirts')->get();
 //$pre_discount = DB::Select("Select * from partial_student_discount where idno = '$user->idno'")->first();
-$pre_discount=  \App\Promotion::where('idno',$user->idno)->first();
+$pre_discount= \App\PartialStudentDiscount::where('idno',$user->idno)->first();
 $materials =  \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
 $other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 $discount = \App\DiscountCollection::where('id',$user->idno)->get();

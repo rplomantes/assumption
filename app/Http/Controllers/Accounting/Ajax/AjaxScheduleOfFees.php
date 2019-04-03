@@ -32,16 +32,16 @@ class AjaxScheduleOfFees extends Controller {
                 } else {
                     if ($type == 5) {
                         $title = "Practicum Fee";
-                        $fees = \App\CtrCollegePracticumFee::all();
+                        $fees = \App\CtrCollegePracticumFee::orderBy('category','asc')->get();
                     } elseif ($type == 6) {
                         $title = "Practicum Foreign Fee";
-                        $fees = \App\CtrCollegePracticumForeignFee::all();
+                        $fees = \App\CtrCollegePracticumForeignFee::orderBy('category','asc')->get();
                     } elseif ($type == 7) {
                         $title = "Late Payment Fees";
-                        $fees = \App\CtrCollegeLatePayment::all();
+                        $fees = \App\CtrCollegeLatePayment::orderBy('category','asc')->get();
                     } elseif ($type == 8) {
                         $title = "Foreign Fees";
-                        $fees = \App\CtrCollegeForeignFee::all();
+                        $fees = \App\CtrCollegeForeignFee::orderBy('category','asc')->get();
                     }
                     return view('accounting.ajax.display_fees', compact('fees', 'type','title'));
                 }
@@ -65,22 +65,22 @@ class AjaxScheduleOfFees extends Controller {
                 } else {
                     if ($type == 5) {
                         $title = "SHS New Student Additional Fees";
-                        $fees = \App\CtrNewShsStudentFee::all();
+                        $fees = \App\CtrNewShsStudentFee::orderBy('category','asc')->get();
                     } elseif ($type == 6) {
                         $title = "BED New Student Additional Fees";
-                        $fees = \App\CtrNewStudentFee::all();
+                        $fees = \App\CtrNewStudentFee::orderBy('category','asc')->get();
                     } elseif ($type == 7) {
                         $title = "Late Payment Fees";
-                        $fees = \App\CtrBedLatePayment::all();
+                        $fees = \App\CtrBedLatePayment::orderBy('category','asc')->get();
                     } elseif ($type == 8) {
                         $title = "Foreign Fees";
-                        $fees = \App\CtrForiegnFee::all();
+                        $fees = \App\CtrForiegnFee::orderBy('category','asc')->get();
                     } elseif ($type == 11) {
                         $title = "Other Collections (BED)";
-                        $fees = \App\OtherCollection::all();
+                        $fees = \App\OtherCollection::orderBy('category','asc')->get();
                     } elseif ($type == 10) {
                         $title = "Other Collections (SHS)";
-                        $fees = \App\ShsOtherCollection::all();
+                        $fees = \App\ShsOtherCollection::orderBy('category','asc')->get();
                     }
                     return view('accounting.ajax.display_fees_bed', compact('fees', 'type','title'));
                 }
@@ -97,10 +97,10 @@ class AjaxScheduleOfFees extends Controller {
                 $level = Input::get("level");
                 if ($type == 1) {
                     $title = "School Fees";
-                    $fees = \App\CtrBedFee::where('level', $level)->get();
+                    $fees = \App\CtrBedFee::where('level', $level)->orderBy('category','asc')->get();
                 } elseif ($type == 2) {
                     $title = "SHS Subject Related Fees";
-                    $fees = \App\CtrBedSrf::where('level', $level)->where('strand', $strand)->get();
+                    $fees = \App\CtrBedSrf::where('level', $level)->where('strand', $strand)->orderBy('category','asc')->get();
                 }
                 return view('accounting.ajax.display_fees_bed', compact('fees', 'type','title'));
             }
@@ -116,16 +116,16 @@ class AjaxScheduleOfFees extends Controller {
                 $level = Input::get("level");
                 if ($type == 1) {
                     $title = "Other Fees";
-                    $fees = \App\CtrCollegeOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->get();
+                    $fees = \App\CtrCollegeOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 2) {
                     $title = "Non Discounted Other Fees";
-                    $fees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->get();
+                    $fees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 3) {
                     $title = "Other Fees (New Student)";
-                    $fees = \App\CtrCollegeNewOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->get();
+                    $fees = \App\CtrCollegeNewOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 4) {
                     $title = "Non Discounted Other Fees (New Student)";
-                    $fees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->get();
+                    $fees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 9) {
                     $title = "Tuition Fee";
                     $fees = \App\CtrCollegeTuitionFee::where('program_code', $program)->where('level', $level)->where('period', $period)->get();

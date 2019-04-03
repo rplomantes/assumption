@@ -26,7 +26,7 @@ class AjaxBooksPricing extends Controller {
                 } else {
                     if ($type == 5) {
                         $title = "Uniform Sizes and Prices";
-                        $fees = \App\CtrUniformSize::all();
+                        $fees = \App\CtrUniformSize::orderBy('particular', 'asc')->get();
                     }
                     return view('bookstore.ajax.display_materials', compact('fees', 'type','title'));
                 }
@@ -41,10 +41,10 @@ class AjaxBooksPricing extends Controller {
                 $level = Input::get("level");
                 if ($type == 1) {
                     $title = "Books/Materials Prices";
-                    $fees = \App\CtrOptionalFee::where('level', $level)->get();
+                    $fees = \App\CtrOptionalFee::where('level', $level)->orderBy('category','asc')->get();
                 } elseif ($type == 2) {
                     $title = "Required/Other Required Materials Listing";
-                    $fees = \App\CtrMaterial::where('level', $level)->get();
+                    $fees = \App\CtrMaterial::where('level', $level)->orderBy('category','asc')->get();
                 }
                 return view('bookstore.ajax.display_materials', compact('fees', 'type','title'));
             }

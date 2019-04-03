@@ -170,7 +170,7 @@ $upon = 0;
                $balance=+$main->amount-$main->discount-$main->debit_memo-$main->payment;
                $totalbalance=$totalbalance+$balance;
                ?>
-               <tr><td>{{$main->category}}</td>
+               <tr><td>@if($main->category == "Books") Books/Other Items @else {{$main->category}} @endif</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
@@ -225,7 +225,6 @@ $upon = 0;
         @endforeach
         <p> Late Enrollment Fee: <span class="late_amount">Php {{number_format($total_late,2)}}</span>.</p>
         @endif
-        <p>*Please print this form and present it to the cashier.<br>
-            </p>
+        <p>*Please print this form and present it to the cashier.<br></p>
  </body>
  </html>
