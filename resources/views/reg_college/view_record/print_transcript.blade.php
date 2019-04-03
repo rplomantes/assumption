@@ -77,7 +77,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </td>
             </tr>
             <tr>
-                <td valign='middle'>{{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->lastname)}}</td>
+                <td valign='middle'>{{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}} {{strtoupper(Auth::user()->lastname)}}</td>
                 <td valign='middle'>MA. IMELDA T. VILLABONA</td>
             </tr>
             <tr>

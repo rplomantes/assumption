@@ -1,4 +1,4 @@
-<?php $levels = \App\CtrAcademicProgram::distinct()->where('academic_type', 'BED')->orderBy('level', 'desc')->get(['level']); ?>
+<?php $levels = \App\CtrAcademicProgram::distinct()->where('academic_type', 'BED')->orderBy('sort_by', 'asc')->get(['level','sort_by']); ?>
 <?php $strands = \App\CtrAcademicProgram::distinct()->where('academic_type', 'BED')->orderBy('strand', 'asc')->get(['strand']); ?>
 <?php
 if(Auth::user()->accesslevel == env('REG_BE')){

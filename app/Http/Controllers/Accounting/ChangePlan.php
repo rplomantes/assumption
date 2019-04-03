@@ -220,6 +220,7 @@ class ChangePlan extends Controller {
             if($discounttype->discount_code != NULL){
                 if ($discounttype->discount_type == 0) {
                     $discounttf = $this->getdiscountrate('tf', $discounttype->discount_code, $request->idno);
+//                    $discountof = $this->getdiscountrate('of', $discounttype->discount_code, $request->idno);
                     
                     //remove this after updating
 //                    $discountof = $this->getdiscountrate('of', $discounttype->discount_code, $request->idno);

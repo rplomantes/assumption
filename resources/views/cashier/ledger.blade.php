@@ -266,7 +266,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
+                if($period == NULL){
+            $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+                }else{
             $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+                }
             }
         }
 
@@ -288,7 +292,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
+                if($period == NULL){
+                $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+                }else{
                 $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+                }
             }
         }
         
@@ -310,7 +318,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
+                if($period == NULL){
+                $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+                }else{
                 $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+                }
             }
         }
                      
@@ -790,9 +802,21 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         </div>
         </div>
         @if(Auth::user()->accesslevel==env("CASHIER"))
+        @if($status->status == env('ASSESSED'))
+            @if($is_early_enrollment == 1)
+            <div class="form-group">
+                <h2>Cannot Process Payment</h2>
+            </div>
+            @else
+            <div class="form-group">
+            <a href="{{url('/cashier',array('main_payment',$user->idno))}}" class="form form-control btn btn-primary">Process Payment</a>
+            </div>
+            @endif
+        @else
         <div class="form-group">
         <a href="{{url('/cashier',array('main_payment',$user->idno))}}" class="form form-control btn btn-primary">Process Payment</a>
         </div>
+        @endif
         <div class="form-group">
         <a href="{{url('/cashier',array('other_payment',$user->idno))}}" class="form form-control btn btn-success">Other Payment</a>
         </div>
@@ -894,10 +918,14 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             @foreach($deposits as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
-                <td>@if($reservation->is_consumed=="1")
+                <td>@if($reservation->is_reverse=="1")
+                    <i class="fa fa-close"></i> Canceled
+                    @else
+                    @if($reservation->is_consumed=="1")
                     <i class="fa fa-times"></i> Used
                     @else
                     <i class="fa fa-check"></i> Unused
+                    @endif
                     @endif
                     </td>
                 </tr>

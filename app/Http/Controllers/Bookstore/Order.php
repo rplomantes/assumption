@@ -28,10 +28,10 @@ class Order extends Controller
             $material_details = \App\CtrMaterial::where('level',$level->level)->where('category','Materials')->get();
             $other_material_details = \App\CtrMaterial::where('level',$level->level)->where('category','Other Materials')->get();
         }
-        $books = \App\Ledger::where('idno',$idno)->where('category','Books')->get();
-        $materials = \App\Ledger::where('idno',$idno)->where('category','Materials')->get();
-        $other_materials = \App\Ledger::where('idno',$idno)->where('category','Other Materials')->get();
-        $pe_uniforms = \App\Ledger::where('idno',$idno)->where('category','PE Uniforms/others')->get();
+        $books = \App\Ledger::where('idno',$idno)->where('category','Books')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $materials = \App\Ledger::where('idno',$idno)->where('category','Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $other_materials = \App\Ledger::where('idno',$idno)->where('category','Other Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $pe_uniforms = \App\Ledger::where('idno',$idno)->where('category','PE Uniforms/others')->where('category_switch', env("OPTIONAL_FEE"))->get();
         return view('bookstore.view_order',compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status'));
     }
     
@@ -46,10 +46,10 @@ class Order extends Controller
             $material_details = \App\CtrMaterial::where('level',$level->level)->where('category','Materials')->get();
             $other_material_details = \App\CtrMaterial::where('level',$level->level)->where('category','Other Materials')->get();
         }
-        $books = \App\Ledger::where('idno',$idno)->where('category','Books')->get();
-        $materials = \App\Ledger::where('idno',$idno)->where('category','Materials')->get();
-        $other_materials = \App\Ledger::where('idno',$idno)->where('category','Other Materials')->get();
-        $pe_uniforms = \App\Ledger::where('idno',$idno)->where('category','PE Uniforms/others')->get();
+        $books = \App\Ledger::where('idno',$idno)->where('category','Books')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $materials = \App\Ledger::where('idno',$idno)->where('category','Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $other_materials = \App\Ledger::where('idno',$idno)->where('category','Other Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $pe_uniforms = \App\Ledger::where('idno',$idno)->where('category','PE Uniforms/others')->where('category_switch', env("OPTIONAL_FEE"))->get();
 
         $pdf = PDF::loadView('bookstore.print_order', compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status'));
         $pdf->setPaper(array(0, 0, 612.00, 792.0));
@@ -106,6 +106,13 @@ class Order extends Controller
                 $addledger->idno = $request->idno;
                // $addledger->department = $department->department;
                 $addledger->level = $request->level;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
+                    $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
+                    $status_strand = \App\Status::where('idno', $request->idno)->first()->strand;
+                    $addledger->strand = $status_strand;
+                    $addledger->period = $period->period;
+                }
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $tshirt->category;
                 $addledger->subsidiary = $tshirt->subsidiary . " [" . $tshirt->size . "]";

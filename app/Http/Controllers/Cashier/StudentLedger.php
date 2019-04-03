@@ -150,7 +150,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
             }
             
-            return view("cashier.ledger", compact('idno','school_year','periods','levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay','ledger_list_tuition','ledger_list_misc','ledger_list_other','ledger_list_depo','ledger_list', 'negative'));
+            $is_early_enrollment = \App\CtrEarlyEnrollmentPaymentSwitch::first()->is_process_main_payment;
+            
+            return view("cashier.ledger", compact('idno','school_year','periods','levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay','ledger_list_tuition','ledger_list_misc','ledger_list_other','ledger_list_depo','ledger_list', 'negative','is_early_enrollment'));
             //return $levels;
         }
     }

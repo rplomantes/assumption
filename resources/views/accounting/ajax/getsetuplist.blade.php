@@ -33,7 +33,7 @@ $x = 0 ?>
             @if($department == "College Department")
             <th style='border-bottom: 1px solid black'>Course</th>
             @endif
-            <th style='border-bottom: 1px solid black'>Year Level</th>
+            <th style='border-bottom: 1px solid black'>Plan</th>
             @if($department != "College Department")
             <th style='border-bottom: 1px solid black' align="center">Section</th>
             @endif
@@ -56,7 +56,7 @@ $x = 0 ?>
                     @if($department == "College Department")
                     <td>{{$list->program_code}} </th>
                         @endif
-                    <td>{{$list->level}}</td>
+                    <td>{{$list->type_of_plan}}</td>
                     @if($department != "College Department")
                     <td align='center'>{{$list->section}}</td>
                     @endif

@@ -1,5 +1,5 @@
 <?php
-$levels = \App\CtrAcademicProgram::distinct()->orderBy('level', 'asc')->where('academic_type', '!=','College')->get(['level']);
+$levels = \App\CtrAcademicProgram::distinct()->orderBy('sort_by', 'asc')->where('academic_type', '!=','College')->get(['level','sort_by']);
 ?>
 <div class="box">
     <div class="box-header">

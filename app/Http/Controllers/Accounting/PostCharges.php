@@ -47,6 +47,7 @@ class PostCharges extends Controller {
                 $countLedger = $this->countLedger($idno, $dates, "payments");
                 $countLedger2 = $this->countLedger($idno, $dates, "nopayments");
                 $lastpay = $this->countLedger($idno, $dates, "lastpay");
+                $noOfDues = $this->countLedger($idno, $dates, "duedates");
                 if ($lastpay == "upon enrollment") {
                     if ($status->academic_type == 'BED') {
                         $lastpay = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_period->school_year)->where('due_switch', 0)->first()->due_date;
@@ -55,7 +56,8 @@ class PostCharges extends Controller {
                     }
                 $numberOfMonths = 0;
                 }else{
-                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
+//                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
+                    $numberOfMonths = $noOfDues - $countLedger;
                 }
 if($numberOfMonths > 0){
                 $ledger = new \App\Ledger;
@@ -165,6 +167,8 @@ if($numberOfMonths > 0){
             return $count;
         } else if ($type == "nopayments") {
             return $remain;
+        } else if ($type == "duedates"){
+            return count($duedates);
         } else {
             return $lastpay;
         }

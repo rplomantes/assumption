@@ -75,9 +75,9 @@ $x = 0 ?>
         </tr>
     </tfoot>
 </table>
-<br><br>
+<!--<br><br>
 
 Prepared by:<br><br>
-<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong>
+<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong>-->
 @else
 @endif

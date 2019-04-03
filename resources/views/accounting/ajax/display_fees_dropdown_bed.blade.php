@@ -1,5 +1,5 @@
 <?php
-$levels = \App\CtrAcademicProgram::distinct()->orderBy('level', 'asc')->where('academic_type', 'BED')->get(['level']);
+$levels = \App\CtrAcademicProgram::distinct()->orderBy('sort_by', 'asc')->where('academic_type', 'BED')->get(['level','sort_by']);
 $strands = \App\CtrAcademicProgram::selectRaw("distinct strand, strand_name")->where('academic_code', 'SHS')->get();
 $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_code")->where('academic_type', 'College')->get();
 ?>

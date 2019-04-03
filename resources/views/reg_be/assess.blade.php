@@ -44,6 +44,9 @@ case "Grade 10":
 case "Grade 11":
     $current_level = "Grade 12";
     break;
+case "Grade 12":
+    $current_level = "Grade 12";
+    break;
 }
 if($enrollment_sy->period == "2nd Semester"){
     switch ($status->level){
@@ -75,8 +78,8 @@ $discount = \App\DiscountCollection::where('id',$user->idno)->get();
 $other_collection = \App\OtherCollection::get();
 
 $check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
-$check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->get();
-$check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('reservation_type',2)->where('is_consumed', 0)->get();
+$check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->where('is_reverse', 0)->get();
+$check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('reservation_type',2)->where('is_consumed', 0)->where('is_reverse', 0)->get();
 
 $previous = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $user->idno)->where('category_switch', '>', '9')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
@@ -281,7 +284,7 @@ if (count($previous) > 0) {
             <div class="form form-group">
                 <div class="col-md-6">
                     <label>Discount</label>
-                    <select name="discount" id="discount" class="form form-control">
+                    <select name="discount" id="discount" class="form form-control" readonly="">
                         <option value="none">None</option>
                         @if(count($discounts)>0)
                             @foreach($discounts as $discount)
@@ -289,6 +292,8 @@ if (count($previous) > 0) {
                                         @if(count($pre_discount)>0)
                                         @if($discount->discount_code == $pre_discount->discount)
                                         selected="selected"
+                                        @else
+                                        disabled="disabled"
                                         @endif
                                         @endif
                                         >{{$discount->discount_description}}</option>
@@ -318,7 +323,10 @@ if (count($previous) > 0) {
                   </div>
                   <div id="collapseTwo" class="panel-collapse collapse in">
                       <div class="box-body">
-                          
+                          NOTE:<br>
+                          Benefit Discount: <br>&nbsp;&nbsp;&nbsp;-100% Student Development Fee (4,500 for BED, 2,250 for SHS)<br>
+                          Sibling Discount: <br>&nbsp;&nbsp;&nbsp;-50% Student Development Fee (2,250 for BED, 1,125 for SHS),
+                          <br>&nbsp;&nbsp;&nbsp;-Php 150.00 Family Council Discount
                           
          <div class="form form-group">
              <div class="col-md-5">

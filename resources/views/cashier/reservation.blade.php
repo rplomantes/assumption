@@ -82,9 +82,9 @@
                     <i class="fa fa-close"></i> Canceled
                     @else
                     @if($reservation->is_consumed=="1")
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-times"></i> Used
                     @else
-                    <i class="fa fa-check"></i>
+                    <i class="fa fa-check"></i> Unused
                     @endif
                     @endif
                     </td>

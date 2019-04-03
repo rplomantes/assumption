@@ -753,4 +753,3 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
    }     
 </script>    
 @endsection
-

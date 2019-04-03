@@ -48,9 +48,9 @@ class EarlyEnrollment extends Controller {
             $ledgers = \App\Ledger::where('idno', $idno)->where('level', $status->level)->where('category_switch', '<', 10)->where('period', '!=', $incoming_period)->where('school_year', $incoming_school_year)->get();
         } else {
             if ($status->academic_type == "BED") {
-                $ledgers = \App\Ledger::where('idno', $idno)->where('level', $status->level)->where('category_switch', '<', 10)->where('school_year', '!=', $incoming_school_year)->get();
+                $ledgers = \App\Ledger::where('idno', $idno)->where('category_switch', '<', 10)->where('school_year', '!=', $incoming_school_year)->get();
             } else {
-                $ledgers = \App\Ledger::where('idno', $idno)->where('level', $status->level)->where('category_switch', '<', 10)->where('period', '!=', $incoming_period)->where('school_year', '!=', $incoming_school_year)->get();
+                $ledgers = \App\Ledger::where('idno', $idno)->where('category_switch', '<', 10)->where('period', '!=', $incoming_period)->where('school_year', '!=', $incoming_school_year)->get();
             }
         }
         foreach ($ledgers as $ledger) {

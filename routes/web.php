@@ -351,6 +351,7 @@ Route::get('/admissionbed/remove_individual_list_student/{id}/{idno}', 'Admissio
 //ACCOUNTING BREAKDOWN OF FEES//////////////////////////////////////////////////
 Route::get('/accounting/breakdown_of_fees/{idno}', 'Accounting\BreakdownOfFees@index');
 Route::get('/accounting/unused_reservations', 'Accounting\Reservations@index');
+Route::get('/accounting/ajax/get_reservations', 'Accounting\Ajax\AjaxReservations@get_reservations');
 
 //ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
 Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');
@@ -476,3 +477,8 @@ Route::get('/bookstore/ajax/removeFees/{id}','Bookstore\Ajax\AjaxBooksPricing@re
 Route::get('/bookstore/ajax/newFees/','Bookstore\Ajax\AjaxBooksPricing@newFees');
 Route::get('/bookstore/ajax/newSaveFees','Bookstore\Ajax\AjaxBooksPricing@newSaveFees');
 Route::get('/bookstore/ajax/getFees','Bookstore\Ajax\AjaxBooksPricing@getFees');
+
+//ADMIN RE_ASSESS BED EARLY ENROLLMENT
+Route::get('/admin/re_assess','Admin\ReassessController@index');
+Route::get('/admin/ajax/getreassess_list','Admin\Ajax\AjaxReassessController@getreassess_list');
+Route::post('/admin/re_assess_now','Admin\ReassessController@re_assess_now');

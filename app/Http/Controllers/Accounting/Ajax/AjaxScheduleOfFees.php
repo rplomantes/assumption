@@ -708,7 +708,9 @@ class AjaxScheduleOfFees extends Controller {
     }
 
     function getSwitch($category) {
-        if ($category == "Miscellaneous Fees") {
+        if ($category == "Tuition Fee") {
+            return env('TUITION_FEE');
+        } elseif ($category == "Miscellaneous Fees") {
             return env('MISC_FEE');
         } elseif ($category == "Other Fees") {
             return env('OTHER_FEE');

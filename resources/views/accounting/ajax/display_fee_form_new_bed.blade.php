@@ -19,6 +19,7 @@ $accounts = \App\ChartOfAccount::all();
             <div class="col-sm-12">
                 <label class="form form-label"> Category</label>
                 <select class="form form-control" name="category" id="category">
+                    <option>Tuition Fee</option>
                     <option>Miscellaneous Fees</option>
                     <option>Other Fees</option>
                     <option>Depository Fees</option>

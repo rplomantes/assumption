@@ -26,8 +26,8 @@ class PromotionsController extends Controller
                     $addpar = new \App\Promotion;
                     $addpar->idno = $idno;
                     $addpar->level = $status->level;
-                    $addpar->level = $status->strand;
-                    $addpar->level = $status->section;
+                    $addpar->strand = $status->strand;
+                    $addpar->section = $status->section;
                     $addpar->save();
                     $promotion = \App\Promotion::where('idno', $idno)->first();
                 }
@@ -46,6 +46,11 @@ class PromotionsController extends Controller
             if(count($update_promotions)>0){
                 $update_promotions->level = $level;
                 $update_promotions->strand = $strand;
+                if($level == "Pre-Kinder" || $level == "Kinder"){
+                    $update_promotions->section = "A";
+                }else{
+                    $update_promotions->section = 1;
+                }
                 $update_promotions->save();
                 
             Session::flash('message', 'Promotions Updated!');

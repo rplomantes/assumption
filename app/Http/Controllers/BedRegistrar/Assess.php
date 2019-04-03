@@ -618,6 +618,9 @@ class Assess extends Controller {
             case "Grade 11":
                 $current_level = "Grade 12";
                 break;
+            case "Grade 12":
+                $current_level = "Grade 12";
+                break;
         }
         if ($period == "2nd Semester") {
             switch ($status->level) {
@@ -739,6 +742,7 @@ class Assess extends Controller {
             \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('subsidiary', "Late Payment")->where('school_year', $schoolyear)->delete();
         } else {
             \App\Ledger::where('idno', $idno)->where('category_switch', '<=', env("TUITION_FEE"))->where('school_year', $schoolyear)->where('period', $period)->delete();
+            \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('subsidiary', "Late Payment")->where('school_year', $schoolyear)->where('period', $period)->delete();
         }
     }
 

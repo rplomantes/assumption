@@ -66,9 +66,10 @@
     </tfoot>
 </table>
 <br><br>
-Run Date: {{date('Y-m-d H:i:s')}}<br><br><br>
+Run Date: {{date('Y-m-d H:i:s')}}
+<!--<br><br><br>
 
 Prepared by:<br><br>
-<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong>
+<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong>-->
 @else
 @endif
