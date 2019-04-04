@@ -24,6 +24,10 @@ $accounts = \App\ChartOfAccount::all();
                     <option>Other Fees</option>
                     <option>Depository Fees</option>
                     <option>Foreign Fee</option>
+                    <option>Family Council</option>
+                    <option>Parent Partnership</option>
+                    <option>Acceptance Fee</option>
+                    <option value="SRF">SRF Fee</option>
                     <option>Other Miscellaneous</option>
                 </select>
             </div>

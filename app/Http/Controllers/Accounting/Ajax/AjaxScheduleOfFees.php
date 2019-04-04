@@ -722,6 +722,12 @@ class AjaxScheduleOfFees extends Controller {
             return env('SRF_FEE');
         } elseif ($category == "Other Miscellaneous") {
             return env('OTHER_MISC');
+        } elseif ($category == "Family Council") {
+            return env('FAMILY_COUNCIL');
+        } elseif ($category == "Parent Partnership") {
+            return env('PARENT_PARTNERSHIP');
+        } elseif ($category == "Acceptance Fee") {
+            return env('ACCEPTANCE_FEE');
         }
     }
 
