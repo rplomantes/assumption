@@ -18,7 +18,11 @@ class AddAccount extends Controller
     
     function add_to_account($idno){
         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
-            $other_accounts = \App\Ledger::where('idno',$idno)->where('category_switch',env("OTHER_MISC"))->get();
+            $other_accounts = \App\Ledger::where('idno',$idno)
+                    ->where(function ($query){
+                        $query->where('category_switch',env("OTHER_MISC"))
+                                ->orWhere('category_switch',env("OTHER_MISC")+10);
+                    })->get();
             $user =  \App\User::where('idno',$idno)->first();
             $status = \App\Status::where('idno',$idno)->first();
             $chart_of_accounts=  \App\ChartOfAccount::get();
@@ -101,7 +105,7 @@ class AddAccount extends Controller
          if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD"))
          $remove = \App\Ledger::find($id);
          $idno = $remove->idno;
-         if($remove->category_switch==env('OTHER_MISC')){
+         if($remove->category_switch==env('OTHER_MISC') || $remove->category_switch==env('OTHER_MISC')+10){
              $remove->delete();
          }
          \App\Http\Controllers\Admin\Logs::log("Remove other payment of Student: $idno, ID: $id");
