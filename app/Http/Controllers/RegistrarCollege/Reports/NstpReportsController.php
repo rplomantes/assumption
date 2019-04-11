@@ -21,6 +21,8 @@ class NstpReportsController extends Controller
             $students = \App\GradeCollege::
                     join('college_levels', 'college_levels.idno','=','grade_colleges.idno')
                     ->where('college_levels.status', '3')
+                    ->where('college_levels.school_year', $request->school_year)
+                    ->where('college_levels.period', $request->period)
                     ->where('grade_colleges.school_year', $request->school_year)
                     ->where('grade_colleges.period', $request->period)
                     ->where('grade_colleges.course_code', $request->course_code)

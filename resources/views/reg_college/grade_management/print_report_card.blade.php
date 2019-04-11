@@ -219,7 +219,7 @@ $count = 0;
                 <td align="center">@if($grade->midterm_status == 3){{$grade->midterm}}@endif</td>
                 <td align="center">@if($grade->finals_status == 3){{$grade->finals}}@endif</td>
                 <td align="center">{{$grade->completion}}</td>
-                <td align="center"><strong>{{strtoupper($remarks)}}</strong></td>
+                <td align="center">{{strtoupper($remarks)}}</td>
             </tr>
             @endforeach
             <tr>

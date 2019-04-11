@@ -107,7 +107,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                         <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
-<!--                        <li class="treeview">
+<!--hidden-->
+                        <!--                        <li class="treeview">
                             <a href="#"><i class="fa fa-file-archive-o"></i> <span>Official Receipt</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -118,7 +119,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>
                             </ul>
                         </li>-->
-                        <li><a href="{{url('/')}}"><i class="fa fa-columns"></i> <span>Disbursement</span></a></li>
+<!--not hidden-->
+<!--                        <li><a href="{{url('/')}}"><i class="fa fa-columns"></i> <span>Disbursement</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-book"></i> <span>Book of Accounts</span>
@@ -140,7 +142,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                             </ul>
-                        </li>
+                        </li>-->
 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-file-excel-o"></i> <span>Collection Report</span>
