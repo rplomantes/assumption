@@ -767,6 +767,10 @@ class Assess extends Controller {
         $user = \App\User::where('idno', $idno)->first();
         $assignlevel = $status->level;
         switch ($status->level) {
+            case "Pre-Kinder":
+                $assignlevel = "Pre-Kinder";
+                $academic_type = "BED";
+                break;
             case "Kinder":
                 $assignlevel = "Pre-Kinder";
                 $academic_type = "BED";
@@ -881,6 +885,9 @@ class Assess extends Controller {
                 $current_level = "Grade 11";
                 break;
             case "Grade 11":
+                $current_level = "Grade 12";
+                break;
+            case "Grade 12":
                 $current_level = "Grade 12";
                 break;
         }

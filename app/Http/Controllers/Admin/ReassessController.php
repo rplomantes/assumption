@@ -70,16 +70,16 @@ class ReassessController extends Controller {
         $discount_srf = 0;
         $request_discount = \App\PartialStudentDiscount::where('idno',$request->idno)->first();
         if(count($request_discount) > 0){
-        $discount = \App\CtrDiscount::where('discount_code', $request_discount->discount)->first();
-        }
-        if (count($discount) > 0) {
-            $discount_code = $discount->discount_code;
-            $discount_description = $discount->discount_description;
-            $discount_tuition = $discount->tuition_fee;
-            $discount_other = $discount->other_fee;
-            $discount_depository = $discount->depository_fee;
-            $discount_misc = $discount->misc_fee;
-            $this->addDiscountList($request, $schoolyear, $period, $discount);
+        $discount = \App\CtrDiscount::where('discount_code', $request_discount->discount)->first();        
+            if (count($discount) > 0) {
+                $discount_code = $discount->discount_code;
+                $discount_description = $discount->discount_description;
+                $discount_tuition = $discount->tuition_fee;
+                $discount_other = $discount->other_fee;
+                $discount_depository = $discount->depository_fee;
+                $discount_misc = $discount->misc_fee;
+                $this->addDiscountList($request, $schoolyear, $period, $discount);
+            }
         }
         $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
         $fees = \App\CtrBedFee::where('level', $request->level)->get();
@@ -430,6 +430,9 @@ class ReassessController extends Controller {
             case "Grade 11":
                 $current_level = "Grade 12";
                 break;
+            case "Grade 12":
+                $current_level = "Grade 12";
+                break;
         }
         if ($period == "2nd Semester") {
             switch ($status->level) {
@@ -462,11 +465,25 @@ class ReassessController extends Controller {
         if ($checkreservations->amount > 0) {
             $totalpayment = $checkreservations->amount;
             $reference_id = uniqid();
-            $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
             $request->date = date('Y-m-d');
             MainPayment::addUnrealizedEntry($request, $reference_id);
+
+            $ledgers = collect();
+            $ledgers_family_council = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category', "Family Council")->where('category_switch', env('FAMILY_COUNCIL'))->get();
+            $ledgers_registration = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('Subsidiary', "Registration")->where('category_switch', env('MISC_FEE'))->get();            
+            $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category','!=', 'Family Council')->where('Subsidiary', '!=',"Registration")->get();
+            foreach($ledgers_family_council as $fcouncil){
+                $ledgers->push($fcouncil);
+            }
+            foreach($ledgers_registration as $registration){
+                $ledgers->push($registration);
+            }
+            foreach($ledgers_all as $all){
+                $ledgers->push($all);
+            }
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            
             $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id);
 
             $changestatus = \App\Status::where('idno', $request->idno)->first();
@@ -536,6 +553,10 @@ class ReassessController extends Controller {
         $user = \App\User::where('idno', $idno)->first();
         $assignlevel = $status->level;
         switch ($status->level) {
+            case "Pre-Kinder":
+                $assignlevel = "Pre-Kinder";
+                $academic_type = "BED";
+                break;
             case "Kinder":
                 $assignlevel = "Pre-Kinder";
                 $academic_type = "BED";
@@ -650,6 +671,9 @@ class ReassessController extends Controller {
                 $current_level = "Grade 11";
                 break;
             case "Grade 11":
+                $current_level = "Grade 12";
+                break;
+            case "Grade 12":
                 $current_level = "Grade 12";
                 break;
         }

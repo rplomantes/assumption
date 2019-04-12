@@ -225,14 +225,15 @@ $count = 0;
             <tr>
                 <td align="right" colspan="3"><strong>UNITS &nbsp;</strong></td>
                 <td align="center"><strong>{{$units}}</strong></td>
-                <td></td>
                 @if($gpa == 0)
                 <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 @else
+                <td align="right" colspan="3"><strong>GPA &nbsp;</strong></td>
                 <td align="center"><strong>{{number_format($gpa/$count,4)}}</strong></td>
                 @endif
-                <td></td>
-                <td></td>
             </tr>
         </table>
         <br>

@@ -143,7 +143,7 @@ class AddToStudentDeposit extends Controller {
      function view_add_to_student_deposit($reference_id){
          $student_deposit = \App\AddToStudentDeposit::where('reference_id',$reference_id)->first();
          $accountings =  \App\Accounting::selectRaw("accounting_code, accounting_name, subsidiary,sum(debit) as debit, sum(credit) as credit")
-                 ->where('reference_id',$reference_id)->groupBy('accounting_name','accounting_code','subsidiary')->get();
+                 ->where('reference_id',$reference_id)->groupBy('accounting_name','accounting_code','subsidiary')->where('accounting_type', '6')->get();
          $user = \App\User::where('idno',$student_deposit->idno)->first();
          $status=  \App\Status::where('idno',$student_deposit->idno)->first();
          return view('accounting.view_student_deposit',compact('student_deposit','accountings','user','status'));

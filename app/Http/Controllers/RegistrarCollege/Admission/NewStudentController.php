@@ -49,8 +49,8 @@ class NewStudentController extends Controller {
                 'province' => 'required',
 //                'birthdate' => 'required',
 //                'gender' => 'required',
-                'email' => 'required'
-//                'program_to_enroll' => 'required',
+                'email' => 'required',
+                'program_to_enroll' => 'required'
             ]);
 
             return $this->create_new_student($request);
@@ -124,12 +124,15 @@ class NewStudentController extends Controller {
         $add_new_status->is_new = 1;
         $add_new_status->status = 0; //registered
         $add_new_status->academic_type = "College";
-        //$add_new_status->academic_code = $this->get_academic_code($program_to_enroll);
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        $add_new_status->academic_code = $this->get_academic_code($program_to_enroll);
+        $add_new_status->department = $this->get_department($program_to_enroll);
+        $add_new_status->program_code = $program_to_enroll;
+        $add_new_status->level = $request->level;
+        $add_new_status->program_name = $this->get_program_name($program_to_enroll);
+        }
         $add_new_status->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
         $add_new_status->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
-        //$add_new_status->department = $this->get_department($program_to_enroll);
-        //$add_new_status->program_code = $program_to_enroll;
-        //$add_new_status->program_name = $this->get_program_name($program_to_enroll);
         $add_new_status->save();
     }
 
@@ -151,12 +154,17 @@ class NewStudentController extends Controller {
         $last_school_attended = $request->last_school_attended;
         $last_school_address = $request->last_school_address;
         $specify_citizenship = $request->specify_citizenship;
-        //$program_to_enroll = $request->program_to_enroll;
+        
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        $program_to_enroll = $request->program_to_enroll;
+        }
 
         $add_new_student_info = new \App\StudentInfo;
         $add_new_student_info->idno = $reference_no;
-        //$add_new_student_info->program_code = $program_to_enroll;
-        //$add_new_student_info->program_name = $this->get_program_name($program_to_enroll);
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        $add_new_student_info->program_code = $program_to_enroll;
+        $add_new_student_info->program_name = $this->get_program_name($program_to_enroll);
+        }
         $add_new_student_info->birthdate = $birthdate;
         $add_new_student_info->place_of_birth = $place_of_birth;
         $add_new_student_info->gender = $gender;

@@ -106,6 +106,26 @@
                                 <label>ID Number</label>
                                 <input class="form form-control" name='idno' placeholder='ID Number*' value="{{old('idno')}}" type="text">
                             </div>
+                            <div class="col-sm-6">
+                                <label>Program Enrolled*</label>
+                                <select class="form form-control select2" name='program_to_enroll' type="text">
+                                    <option value="">Select a Program</option>
+                                    @foreach ($programs as $program)
+                                    <option value="{{$program->program_code}}">{{$program->program_code}}-{{$program->program_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Level*</label>
+                                <select class="form form-control select2" name='level'>
+                                    <option value="">Select a Level</option>
+                                    <option>1st Year</option>
+                                    <option>2nd Year</option>
+                                    <option>3rd Year</option>
+                                    <option>4th Year</option>
+                                    <option>5th Year</option>
+                                </select>
+                            </div>
                         </div>
                         @endif
                         <div class="form-group">

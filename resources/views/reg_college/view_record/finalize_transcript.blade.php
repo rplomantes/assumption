@@ -60,7 +60,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             </tr>
                             <tr>
                                 <td>Course:</td>
-                                <td><b>{{strtoupper($level->program_name)}}</b></td>
+                                <td><b>{{strtoupper($info->program_name)}}</b></td>
                             </tr>
                             <tr>
                                 <td>Date of Admission:</td>
@@ -104,7 +104,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             </tr>
                             <tr>
                                 <td>Degree Earned:</td>
-                                <td><b>{{strtoupper($level->program_name)}}</b></td>
+                                <td><b>{{strtoupper($info->program_name)}}</b></td>
                             </tr>
                             <tr>
                                 <td>Award:</td>

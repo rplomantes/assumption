@@ -111,7 +111,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </tr>
         <tr>
             <td valign='top'>COURSE:</td>
-            <?php $array = explode(' ', $level->program_name) ;?>
+            <?php $array = explode(' ', $info->program_name) ;?>
             <td>
                 @foreach ($array as $key=>$k)
                     @if($array[$key] == "Major")
@@ -169,7 +169,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @if(!isset($info->date_of_grad))
             <td>N/A</td> 
             @else 
-            <?php $array = explode(' ', $level->program_name) ;?>
+            <?php $array = explode(' ', $info->program_name) ;?>
             <td>
                 @foreach ($array as $key=>$k)
                     @if($array[$key] == "Major")

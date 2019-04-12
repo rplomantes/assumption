@@ -222,7 +222,7 @@ class DebitMemo extends Controller {
     function view_debit_memo($reference_id) {
         $debit_memo = \App\DebitMemo::where('reference_id', $reference_id)->first();
         $accountings = \App\Accounting::selectRaw("accounting_code, accounting_name, subsidiary,sum(debit) as debit, sum(credit) as credit")
-                        ->where('reference_id', $reference_id)->groupBy('accounting_name', 'accounting_code', 'subsidiary')->get();
+                        ->where('reference_id', $reference_id)->groupBy('accounting_name', 'accounting_code', 'subsidiary')->where('accounting_type', '2')->get();
         $user = \App\User::where('idno', $debit_memo->idno)->first();
         $status = \App\Status::where('idno', $debit_memo->idno)->first();
         return view('accounting.view_debit_memo', compact('debit_memo', 'accountings', 'user', 'status'));

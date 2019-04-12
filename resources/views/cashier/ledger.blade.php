@@ -435,7 +435,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
            @foreach($ledger_list_misc as $list_misc)
            <?php $balance=+$list_misc->amount-$list_misc->discount-$list_misc->debit_memo-$list_misc->payment; ?>
-           <?php $listnet = $list_misc->amount - ($list_misc->discount + $list_misc->debit_memo); ?>
+           <?php $listnet = $list_misc->amount - ($list_misc->discount); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_misc->subsidiary}}</td>
                <td align="right">{{number_format($list_misc->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_misc->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -475,7 +475,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
            @foreach($ledger_list_other as $list_other)
            <?php $balance=+$list_other->amount-$list_other->discount-$list_other->debit_memo-$list_other->payment; ?>
-           <?php $listnet = $list_other->amount - ($list_other->discount + $list_other->debit_memo); ?>
+           <?php $listnet = $list_other->amount - ($list_other->discount); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_other->subsidiary}}</td>
                <td align="right">{{number_format($list_other->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_other->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -516,7 +516,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
            @foreach($ledger_list_depo as $list_depo)
            <?php $balance=+$list_depo->amount-$list_depo->discount-$list_depo->debit_memo-$list_depo->payment; ?>
-           <?php $listnet = $list_depo->amount - ($list_depo->discount + $list_depo->debit_memo); ?>
+           <?php $listnet = $list_depo->amount - ($list_depo->discount); ?>
                <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list_depo->subsidiary}}</td>
                <td align="right">{{number_format($list_depo->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right">{{number_format($list_depo->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
