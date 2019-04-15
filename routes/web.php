@@ -352,6 +352,8 @@ Route::get('/admissionbed/remove_individual_list_student/{id}/{idno}', 'Admissio
 Route::get('/accounting/breakdown_of_fees/{idno}', 'Accounting\BreakdownOfFees@index');
 Route::get('/accounting/unused_reservations', 'Accounting\Reservations@index');
 Route::get('/accounting/ajax/get_reservations', 'Accounting\Ajax\AjaxReservations@get_reservations');
+Route::post('/accounting/print_reservations_pdf', 'Accounting\Reservations@print_reservationsPDF');
+Route::post('/accounting/print_reservations_excel', 'Accounting\Reservations@print_reservationsEXCEL');
 
 //ACCOUNTING SCHEDULE OF FEES///////////////////////////////////////////////////
 Route::get('/accounting/schedule_of_fees', 'Accounting\ScheduleOfFees@index');

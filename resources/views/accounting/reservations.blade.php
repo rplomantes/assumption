@@ -130,11 +130,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     });
     
     function toPDF() {
-        document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_pdf')}}";
+        document.getElementById("myForm").action = "{{url('/accounting/print_reservations_pdf')}}";
     }
 
     function toEXCEL() {
-        document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_excel')}}";
+        document.getElementById("myForm").action = "{{url('/accounting/print_reservations_excel')}}";
     }
 
     function generate_report(department, school_year, period) {

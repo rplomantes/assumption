@@ -1,10 +1,20 @@
-<h4>{{$department}}</h4>
-@if($department == "College Department" or $department == "Senior High School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h4>
+<style>
+    
+        body {
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 10pt;
+        }
+</style>
+
+<strong>Assumption College</strong><br>
+{{$department}}<br>
+@if($department == "College Department" or $department == "Senior High School")
+{{$school_year}} - {{$period}}
 @endif
 @if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}}</h4>
+{{$school_year}}
 @endif
+<h3>Unused Reservations</h3>
 
 @if(count($lists)>0)
 <?php $total = 0;

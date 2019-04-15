@@ -1,5 +1,7 @@
 @if(count($lists)>0)
-<?php $total=0; $x = 0?>
+<?php $total=0; $x = 0;
+$total_tf = 0;$total_of = 0;$total_su = 0;
+?>
 <table>
     <tr><td><strong colspan="4">Assumption College</strong></td></tr>
     <tr><td colspan="4">{{$department}}</td></tr>
@@ -10,6 +12,9 @@
     @foreach($heads as $head)
     <?php $x = 0;?>
     <?php $subtotal = 0; ?>
+    <?php $subtotal_tf = 0; ?>
+    <?php $subtotal_of = 0; ?>
+    <?php $subtotal_su= 0; ?>
     <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
     <thead>
         <tr>
@@ -80,6 +85,24 @@
             }
     
     ?>
+                    @if(!isset($main_fees))
+            <?php $subtotal_tf = $subtotal_tf; ?>
+                    @else
+            <?php $subtotal_tf = $subtotal_tf + $main_fees->balance; ?>
+            <?php $total_tf = $total_tf + $main_fees->balance; ?>
+                    @endif
+                     @if(!isset($other_fees))
+            <?php $subtotal_of = $subtotal_of; ?>
+                    @else
+            <?php $subtotal_of = $subtotal_of + $other_fees->balance; ?>
+            <?php $total_of = $total_of + $other_fees->balance; ?>
+                    @endif
+                     @if(!isset($surcharges))
+            <?php $subtotal_su = $subtotal_su; ?>
+                    @else
+            <?php $subtotal_su = $subtotal_su + $surcharges->balance; ?>
+            <?php $total_su = $total_su + $surcharges->balance; ?>
+                    @endif
                     <td align='right'>@if(!isset($main_fees)) 0.00 @else {{$main_fees->balance}} @endif</td>
                     <td align='right'>@if(!isset($other_fees)) 0.00 @else {{$other_fees->balance}} @endif</td>
                     <td align='right'>@if(!isset($surcharges)) 0.00 @else {{$surcharges->balance}} @endif</td>
@@ -88,12 +111,15 @@
                 @endif
             @endif
             @endforeach
-            <tr><td align="right" colspan="8">SUB TOTAL</td><td align="right"><strong>{{$subtotal}}</strong></td></tr>
+            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{$subtotal_tf}}</strong></td><td align="right"><strong>{{$subtotal_of}}</strong></td><td align="right"><strong>{{$subtotal_su}}</strong></td><td align="right"><strong>{{$subtotal}}</strong></td></tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="8" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
+            <th colspan="5" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total_tf}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total_of}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{$total_su}}</strong></td>
             <td align='right' style='border-top: 1px solid black'><strong>{{$total}}</strong></td>
         </tr>
     </tfoot>

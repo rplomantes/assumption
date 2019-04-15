@@ -1,27 +1,24 @@
-<h4>{{$department}}</h4>
-@if($department == "College Department" or $department == "Senior High School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h4>
-@endif
-@if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}}</h4>
-@endif
-
 @if(count($lists)>0)
 <?php $total = 0;
 $x = 0;
 ?>
 <table width='100%' cellpadding='0' cellspacing='0'>
+    <tr><td><strong colspan="7">Assumption College</strong></td></tr>
+    <tr><td colspan="7">{{$department}}</td></tr>
+    <tr><td colspan="7">Unused Reservations</td></tr>
+    <tr><td colspan="7"><h5>S.Y. {{$school_year}} - {{$school_year + 1}} {{$period}}</h5>
+</td></tr>
+    </tr>
     <?php $x = 0;?>
     <thead>
-        <tr><td colspan="6"><h4></h4></td></tr>
         <tr>
-            <th style='border-bottom: 1px solid black'>  </th>
-            <th style='border-bottom: 1px solid black'>ID No.</th>
-            <th style='border-bottom: 1px solid black'>Name</th>
+            <th width="3" style='border-bottom: 1px solid black'> </th>
+            <th width="10"  style='border-bottom: 1px solid black'>ID No.</th>
+            <th width="60"  style='border-bottom: 1px solid black'>Name</th>
             @if($department == "College Department")
-            <th style='border-bottom: 1px solid black'>Course</th>
+            <th width="20" style='border-bottom: 1px solid black'>Course</th>
             @endif
-            <th style='border-bottom: 1px solid black'>Level</th>
+            <th width="10"  style='border-bottom: 1px solid black'>Level</th>
             @if($department != "College Department")
             <th style='border-bottom: 1px solid black'>Section</th>
             @endif
@@ -44,7 +41,7 @@ $x = 0;
                     <td align='center'>{{$list->section}}</td>
                     @endif
                     <td>{{$list->type_of_plan}}</td>
-                    <td align='right'>{{number_format($list->amount,2)}}</td>
+                    <td align='right'>{{$list->amount}}</td>
                 </tr>
             @endforeach
     </tbody>

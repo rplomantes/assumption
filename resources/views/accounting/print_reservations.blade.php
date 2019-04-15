@@ -36,11 +36,11 @@
                 @foreach ($reservations as $reservation)
                 <tr>
                     <td>{{$counter}}. <?php $counter++; ?></td>
-                    <td>{{$reservation->idno}}</td>
-                    <td>{{strtoupper($reservation->lastname)}}, {{$reservation->firstname}} {{$reservation->middlename}}</td>
-                    <td>{{$reservation->level}}</td>
-                    <td>{{$reservation->transaction_date}}</td>
-                    <td>{{number_format($reservation->amount,2)}}</td>
+                    <td>{{$reservation['idno']}}</td>
+                    <td>{{strtoupper($reservation['lastname'])}}, {{$reservation['firstname']}} {{$reservation['middlename']}}</td>
+                    <td>{{$reservation['level']}}</td>
+                    <td>{{$reservation['transaction_date']}}</td>
+                    <td>{{number_format($reservation['amount'],2)}}</td>
                 </tr>
                 @endforeach
             </tbody>
