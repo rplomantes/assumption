@@ -136,7 +136,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
           </a>
           <ul class="treeview-menu">
             <li><a href="{{url('/bedregistrar',array('student_list'))}}">Per Grade Level and Section </a></li>
-            <li><a href="">Per Class </a></li>
+            <li><a href="{{url('/bedregistrar',array('withdrawn_students'))}}">Withdrawn Students</a></li>
           </ul>
         </li>
         <li><a href="{{url('/bedregistrar','sectioning')}}"><i class="fa fa-link"></i> Sectioning</a></li>

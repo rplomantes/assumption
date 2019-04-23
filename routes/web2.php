@@ -5,6 +5,7 @@ Route::get('/admission_hed/view_info/{idno}','AdmissionHED\ViewInfoAdmissionHedC
 Route::post('/admission_hed/update_info','AdmissionHED\ViewInfoAdmissionHedController@update_info');
 //ajax route
 Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList@view_list');
+Route::get('/bedregistrar/ajax/view_withdrawn', 'BedRegistrar\Ajax\GetStudentList@view_withdrawn');
 Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
 Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
 Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
@@ -97,9 +98,13 @@ Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_passw
 Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
 Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updateinfo');
 Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList@print_student_list');
+Route::get('/bedregistrar/print/withdrawn_list/{department}/{school_year}/{period}','BedRegistrar\Ajax\GetStudentList@print_withdrawn_list');
 Route::get('/bedregistrar/export/student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList@export_student_list');
 Route::get('/bedregistrar/export_student_now','BedRegistrar\Ajax\GetStudentList@print_to_excel');
 Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
+
+
+Route::get('/bedregistrar/withdrawn_students','BedRegistrar\Registration@withdrawn_students');
 //update
 Route::get('updatebedlevel','Updater@updateBedLevel');
 Route::get('updateCollege','Updater@updateCollege');

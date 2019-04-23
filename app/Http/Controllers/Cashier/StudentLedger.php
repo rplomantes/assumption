@@ -87,6 +87,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             }
 
             $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
+            $due_dates_list_amount = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
             $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_date', '<=', date('Y-m-31'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
             $ledger_others = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->get();
@@ -119,7 +120,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             if ($totalmaindue < 0) {
                 $totalmaindue = 0;
             }
-            $plus = ($duetoday->amount + $downpayment->amount) - $totalpay; 
+            $plus = ($due_dates_list_amount->amount + $downpayment->amount) - $totalpay;
             if ($plus < 0) {
                 $negative = $negative + $plus;
                 $plus = 0;

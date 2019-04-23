@@ -857,10 +857,6 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 $display = "<span class=\"text_through\">".number_format($due_date->amount,2)."<span>";  
                 $totalpay = $totalpay - $due_date->amount;
                 $remark = "<span style=\"font-style:italic;color:#f00\">paid</span>";
-            } else {
-                $display = number_format($due_date->amount-$totalpay,2);
-                $totalpay=0;
-                $remark="";
             }
             ?>
             @if($due_date->due_switch=="0")
