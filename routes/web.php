@@ -209,6 +209,9 @@ Route::get('/ajax/registrar_college/grades/change_completion/{idno}', 'Registrar
 Route::get('/registrar_college/grade_management/report_card', 'RegistrarCollege\GradeManagement\GradesController@report_card');
 Route::get('/ajax/registrar_college/grade_management/generate_card', 'RegistrarCollege\GradeManagement\Ajax\AjaxViewGrades@generate_card');
 Route::post('/registrar_college/grade_management/print_card_pdf','RegistrarCollege\GradeManagement\GradesController@print_card_pdf');
+//Incomplete Grades
+Route::get('/registrar_college/grade_management/incomplete_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@incomplete_grades');
+Route::get('/registrar_college/print_grade_incomplete/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@print_incomplete_grade');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
