@@ -67,7 +67,7 @@ class Assess extends Controller {
 
                         $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', $user->academic_type)->first();
                         DB::beginTransaction();
-//                        $this->addGrades($request, $schoolyear->school_year, $schoolyear->period);
+                        $this->addGrades($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addLedger($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addOtherCollection($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addOptionalFee($request);
@@ -139,33 +139,33 @@ class Assess extends Controller {
         
     }
 
-//    function addGrades($request, $schoolyear, $period) {
-//        if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-//            $subjects = \App\BedCurriculum::where('level', $request->level)->where('strand', $request->strand)->get();
-//        } else {
-//            $subjects = \App\BedCurriculum::where('level', $request->level)->get();
-//        }
-//        if (count($subjects) > 0) {
-//            foreach ($subjects as $subject) {
-//                $addsubject = new \App\GradeBasicEd;
-//                $addsubject->idno = $request->idno;
-//                $addsubject->school_year = $schoolyear;
-//                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-//                    $addsubject->strand = $request->strand;
-//                    $addsubject->period = $period;
-//                }
-//                $addsubject->level = $request->level;
-//                $addsubject->subject_code = $subject->subject_code;
-//                $addsubject->subject_name = $subject->subject_name;
-//                $addsubject->group_name = $subject->group_name;
-//                $addsubject->units = $subject->units;
-//                $addsubject->display_subject_code = $subject->display_subject_code;
-//                $addsubject->weighted = $subject->weighted;
-//                $addsubject->encoded_by = Auth::user()->idno;
-//                $addsubject->save();
-//            }
-//        }
-//    }
+    function addGrades($request, $schoolyear, $period) {
+        if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+            $subjects = \App\BedCurriculum::where('level', $request->level)->where('strand', $request->strand)->get();
+        } else {
+            $subjects = \App\BedCurriculum::where('level', $request->level)->get();
+        }
+        if (count($subjects) > 0) {
+            foreach ($subjects as $subject) {
+                $addsubject = new \App\GradeBasicEd;
+                $addsubject->idno = $request->idno;
+                $addsubject->school_year = $schoolyear;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $addsubject->strand = $request->strand;
+                    $addsubject->period = $period;
+                }
+                $addsubject->level = $request->level;
+                $addsubject->subject_code = $subject->subject_code;
+                $addsubject->subject_name = $subject->subject_name;
+                $addsubject->group_name = $subject->group_name;
+                $addsubject->units = $subject->units;
+                $addsubject->display_subject_code = $subject->display_subject_code;
+                $addsubject->weighted = $subject->weighted;
+                $addsubject->encoded_by = Auth::user()->idno;
+                $addsubject->save();
+            }
+        }
+    }
 
     function addDiscountList($request, $school_year, $period, $discount) {
         $add_discount = new \App\DiscountList;

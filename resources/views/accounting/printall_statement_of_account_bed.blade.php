@@ -146,12 +146,12 @@ $tdcounter=1;
     
     
     
-    <div class="page_break"></div>
+    <!--<div class="page_break"></div>-->
     
     
     
     
-    <table width="100%" cellpadding="30" border="0">
+    <table width="100%" cellpadding="20" border="0">
         @foreach($students as $student)
         <?php 
         $student = \App\User::where('idno', $student->idno)->first();
