@@ -26,11 +26,13 @@ class NstpReportsController extends Controller
                     ->where('grade_colleges.school_year', $request->school_year)
                     ->where('grade_colleges.period', $request->period)
                     ->where('grade_colleges.course_code', $request->course_code)
+                    ->join('users', 'users.idno', '=', 'grade_colleges.idno')
+                    ->orderBy('users.lastname','asc')
                     ->get();
 //            $programs = \App\CtrAcademicProgram::distinct()->where('school_year', $request->school_year)->where('period', $request->period)->where('course_code', $request->course_code)->get([]);
             $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             $pdf = PDF::loadView('reg_college.reports.print_nstp_reports', compact('programs', 'request', 'students'));
-            $pdf->setPaper('letter','landscape');
+            $pdf->setPaper(array(0, 0, 936, 612));
             return $pdf->stream('nstp_reports.pdf');
         }    
     }   

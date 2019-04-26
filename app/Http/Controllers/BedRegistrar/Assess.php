@@ -141,9 +141,9 @@ class Assess extends Controller {
 
     function addGrades($request, $schoolyear, $period) {
         if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-            $subjects = \App\BedCurriculum::where('level', $request->level)->where('strand', $request->strand)->get();
+            $subjects = \App\BedCurriculum::where('level', $request->level)->where('strand', $request->strand)->where('subject_type', '<', 2)->get();
         } else {
-            $subjects = \App\BedCurriculum::where('level', $request->level)->get();
+            $subjects = \App\BedCurriculum::where('level', $request->level)->where('subject_type', '<', 2)->get();
         }
         if (count($subjects) > 0) {
             foreach ($subjects as $subject) {

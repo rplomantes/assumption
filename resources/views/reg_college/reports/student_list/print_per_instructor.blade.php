@@ -41,7 +41,7 @@
 </style>
 <div>   <?php $sy = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first(); ?> 
     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>CLASS LIST</b><br><b>A.Y. {{$sy->school_year}} - {{$sy->school_year + 1}}, {{$sy->period}}</b></div><br>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>CLASS LIST</b><br><b>A.Y. {{$school_year}} - {{$school_year + 1}}, {{$period}}</b></div><br>
 </div>
 <div>
 <div style='margin-top:130px'>

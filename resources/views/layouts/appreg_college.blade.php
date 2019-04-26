@@ -202,7 +202,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('/registrar_college', array('graduates','tagging'))}}"><i class="fa fa-circle-o"></i> <span>*Tagging of Graduates</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('graduates','tagging', $school_year))}}"><i class="fa fa-circle-o"></i> <span>Tagging of Graduates</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('graduates','batch_ranking'))}}"><i class="fa fa-circle-o"></i> <span>*Batch Ranking</span></a></li>
                             </ul>
                         </li>

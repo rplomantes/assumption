@@ -1,3 +1,4 @@
+
 <style>
     img {
         display: block;
@@ -17,7 +18,7 @@
 
 </style>
 <div>    
-    <div style='float: left; margin-left: 200px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+    <div style='float: left; margin-left: 300px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><b>A.Y. {{$request->school_year}} - {{$request->school_year + 1}}, {{$request->period}}</b><br><br><b><?php $course_name = \App\Curriculum::where('course_code', $request->course_code)->first()->course_name; ?>{{$request->course_code}}: {{$course_name}}</b></div>
 </div>
 <div>
@@ -43,7 +44,7 @@
             @foreach ($programs as $program)
             <tr>
                 <td>{{$program->program_name}}</td>
-                <td align='center'><?php $count1 = \App\GradeCollege::join('college_levels', 'college_levels.idno','=','grade_colleges.idno')->where('college_levels.program_code', $program->program_code)->where('college_levels.status', '3')->where('grade_colleges.course_code', $request->course_code)->where('grade_colleges.level', "1st Year")->where('grade_colleges.school_year', $request->school_year)->where('grade_colleges.period', $request->period)->where('college_levels.school_year', $request->school_year)->where('college_levels.period', $request->period)->get(); ?>{{count($count1)}}</td></td>
+                <td align='center'><?php $count1 = \App\GradeCollege::join('college_levels', 'college_levels.idno','=','grade_colleges.idno')->where('college_levels.program_code', $program->program_code)->where('college_levels.status', '3')->where('grade_colleges.course_code', $request->course_code)->where('grade_colleges.level', "1st Year")->where('grade_colleges.school_year', $request->school_year)->where('grade_colleges.period', $request->period)->where('college_levels.school_year', $request->school_year)->where('college_levels.period', $request->period)->get(); ?>{{count($count1)}}</td>
                 <td align='center'><?php $count2 = \App\GradeCollege::join('college_levels', 'college_levels.idno','=','grade_colleges.idno')->where('college_levels.program_code', $program->program_code)->where('college_levels.status', '3')->where('grade_colleges.course_code', $request->course_code)->where('grade_colleges.level', "2nd Year")->where('grade_colleges.school_year', $request->school_year)->where('grade_colleges.period', $request->period)->where('college_levels.school_year', $request->school_year)->where('college_levels.period', $request->period)->get(); ?>{{count($count2)}}</td>
                 <td align='center'><?php $count3 = \App\GradeCollege::join('college_levels', 'college_levels.idno','=','grade_colleges.idno')->where('college_levels.program_code', $program->program_code)->where('college_levels.status', '3')->where('grade_colleges.course_code', $request->course_code)->where('grade_colleges.level', "3rd Year")->where('grade_colleges.school_year', $request->school_year)->where('grade_colleges.period', $request->period)->where('college_levels.school_year', $request->school_year)->where('college_levels.period', $request->period)->get(); ?>{{count($count3)}}</td>
                 <td align='center'><?php $count4 = \App\GradeCollege::join('college_levels', 'college_levels.idno','=','grade_colleges.idno')->where('college_levels.program_code', $program->program_code)->where('college_levels.status', '3')->where('grade_colleges.course_code', $request->course_code)->where('grade_colleges.level', "4th Year")->where('grade_colleges.school_year', $request->school_year)->where('grade_colleges.period', $request->period)->where('college_levels.school_year', $request->school_year)->where('college_levels.period', $request->period)->get(); ?>{{count($count4)}}</td>
@@ -87,7 +88,7 @@
         <tbody>
             <tr>               
                 <td><b>{{strtoupper(Auth::user()->lastname)}}, {{strtoupper(Auth::user()->firstname)}} {{strtoupper(Auth::user()->middlename)}}</b></td>
-                <td><b>ROSIE B. SOMERA<br></b></td>
+                <td><b>{{strtoupper(env("HED_REGISTRAR"))}}<br></b></td>
                 <td></td>
             </tr>
             <tr>

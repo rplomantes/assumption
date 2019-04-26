@@ -2,7 +2,7 @@
     
         body {
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-            font-size: 10pt;
+            font-size: 8pt;
         }
 </style>
 
@@ -32,31 +32,31 @@ $x = 0;
             <th style='border-bottom: 1px solid black'>Course</th>
             @endif
             <th style='border-bottom: 1px solid black'>Level</th>
-            @if($department != "College Department")
-            <th style='border-bottom: 1px solid black'>Section</th>
-            @endif
-            <th style='border-bottom: 1px solid black' align='right'>Plan</th>
+            <th style='border-bottom: 1px solid black'>OR Number</th>
+            <th style='border-bottom: 1px solid black'>Date</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Amount</th>
         </tr>
     </thead>
     <tbody>
             @foreach($lists as $list)
-                <?php $total += $list->assessment; $x++; ?>
+                <?php $total += $list->amount; $x++; ?>
                 <tr>
-                    <td>{{$x}}  </td>
+                    <td>{{$x}}. </td>
                     <td align='left'>{{$list->idno}}</td>
                     <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
                     @if($department == "College Department")
                     <td>{{$list->program_code}} </td>
                     @endif
                     <td>{{$list->level}}</td>
-                    @if($department != "College Department")
-                    <td align='center'>{{$list->section}}</td>
-                    @endif
-                    <td>{{$list->type_of_plan}}</td>
+                    <td>{{$list->receipt_no}}</td>
+                    <td>{{$list->transaction_date}}</td>
                     <td align='right'>{{number_format($list->amount,2)}}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td style="border-top:1px solid black" colspan="6"><strong>Total</strong></td>
+                <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td>
+            </tr>
     </tbody>
 </table>
 <br><br>
