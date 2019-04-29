@@ -40,6 +40,9 @@ switch ($accesslevel) {
     case 61:
         $layout="layouts.appadmission-bed";
         break;
+    case 62:
+        $layout="layouts.appadmission-shs";
+        break;
     case 70:
         $layout="layouts.appguidace_hed";
         break;

@@ -105,6 +105,7 @@
                         <option value="50" @if ($user->accesslevel == 50) selected='' @endif>Bookstore</option>
                         <option value="60" @if ($user->accesslevel == 60) selected='' @endif>Admission - HED</option>
                         <option value="61" @if ($user->accesslevel == 61) selected='' @endif>Admission - BED</option>
+                        <option value="62" @if ($user->accesslevel == 62) selected='' @endif>Admission - SHS</option>
                         <option value="70" @if ($user->accesslevel == 70) selected='' @endif>Guidance - HED</option>
                         <option value="71" @if ($user->accesslevel == 71) selected='' @endif>Guidance - BED</option>
                         <option value="80" @if ($user->accesslevel == 80) selected='' @endif>Scholarship - HED</option>

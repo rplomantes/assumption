@@ -43,6 +43,9 @@
                 @case (61)
                     Admission BED
                 @break
+                @case (61)
+                    Admission SHS
+                @break
                 @case (70)
                     Guidance HED
                 @break

@@ -73,6 +73,9 @@ class HomeController extends Controller {
             case 61:
                 return view('admission-bed.index');
                 break;
+            case 62:
+                return view('admission-shs.index');
+                break;
             case 70:
                 return view('guidance_hed.index');
                 break;

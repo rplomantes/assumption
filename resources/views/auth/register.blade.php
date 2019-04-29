@@ -125,6 +125,7 @@
                             <option value="50">Bookstore</option>
                             <option value="60">Admission-HED</option>
                             <option value="61">Admission-BED</option>
+                            <option value="62">Admission-SHS</option>
                             <option value="70">Guidance-HED</option>
                             <option value="71">Guidance-BED</option>
                             <option value="80">Scholarship-HED</option>

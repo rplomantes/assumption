@@ -183,17 +183,30 @@ $count = 0;
                 $is_x = 1;
             }else{
                 $is_x = 0;
+                if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+                $is_x = 0;
+                } else {
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                        $is_x = 1;
+                    }
+                }
             }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
                 $count = $count;
                 $credit = $credit;
+                    if($grade->finals != "PASSED"){
+                    $is_x = 1;
+                    }
             } else if ($grade->finals == "INC") {
                 if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
                     $gpa = $gpa;
                     $credit = $credit;
                     $count = $count;
+                    if($grade->completion != "PASSED"){
+                    $is_x = 1;
+                    }
                 } else {
 
                     if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
@@ -289,17 +302,30 @@ $count = 0;
                 $is_x = 1;
             }else{
                 $is_x = 0;
+                if ($pin_grades->completion == "" || $pin_grades->completion == "AUDIT" || $pin_grades->completion == "NA" || $pin_grades->completion == "NG" || $pin_grades->completion == "W" || $pin_grades->completion == "PASSED") {
+                $is_x = 0;
+                } else {
+                    if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "4.00") {
+                        $is_x = 1;
+                    }
+                }
             }
         }else{
             if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "PASSED") {
                 $gpa = $gpa;
                 $count = $count;
                 $credit = $credit;
+                    if($pin_grades->finals != "PASSED"){
+                    $is_x = 1;
+                    }
             } else if ($pin_grades->finals == "INC") {
                 if ($pin_grades->completion == "" || $pin_grades->completion == "AUDIT" || $pin_grades->completion == "NA" || $pin_grades->completion == "NG" || $pin_grades->completion == "W" || $pin_grades->completion == "PASSED") {
                     $gpa = $gpa;
                     $credit = $credit;
                     $count = $count;
+                    if($pin_grades->completion != "PASSED"){
+                    $is_x = 1;
+                    }
                 } else {
 
                     if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "4.00") {
@@ -375,17 +401,30 @@ $count = 0;
                 $is_x = 1;
             }else{
                 $is_x = 0;
+                if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+                $is_x = 0;
+                } else {
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                        $is_x = 1;
+                    }
+                }
             }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
                 $count = $count;
                 $credit = $credit;
+                    if($grade->finals != "PASSED"){
+                    $is_x = 1;
+                    }
             } else if ($grade->finals == "INC") {
                 if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
                     $gpa = $gpa;
                     $credit = $credit;
                     $count = $count;
+                    if($grade->completion != "PASSED"){
+                    $is_x = 1;
+                    }
                 } else {
 
                     if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
@@ -459,17 +498,30 @@ $count = 0;
                 $is_x = 1;
             }else{
                 $is_x = 0;
+                if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+                $is_x = 0;
+                } else {
+                    if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                        $is_x = 1;
+                    }
+                }
             }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
                 $gpa = $gpa;
                 $count = $count;
                 $credit = $credit;
+                    if($grade->finals != "PASSED"){
+                    $is_x = 1;
+                    }
             } else if ($grade->finals == "INC") {
                 if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
                     $gpa = $gpa;
                     $credit = $credit;
                     $count = $count;
+                    if($grade->completion != "PASSED"){
+                    $is_x = 1;
+                    }
                 } else {
 
                     if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {

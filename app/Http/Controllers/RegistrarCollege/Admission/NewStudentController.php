@@ -50,7 +50,7 @@ class NewStudentController extends Controller {
 //                'birthdate' => 'required',
 //                'gender' => 'required',
                 'email' => 'required',
-                'program_to_enroll' => 'required'
+//                'program_to_enroll' => 'required'
             ]);
 
             return $this->create_new_student($request);
