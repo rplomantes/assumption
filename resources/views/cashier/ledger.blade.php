@@ -874,7 +874,9 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         </div>
         @endif
         
-        <label>Overpayment</label><table class="table table-striped">
+        <label>Overpayment</label>
+        @if(Auth::user()->accesslevel!=env("CASHIER") && $totaldue >= abs($negative) && abs($negative!=0))<a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right">Apply Overpayment</button></a>@endif
+        <table class="table table-striped">
             <tr>
                 <td>Amount</td>
                 <td align='right'><strong>Php {{number_format(abs($negative),2)}}</strong></td>

@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers\Accounting;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class Overpayment extends Controller {
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    //
+    function apply_overpayment($idno) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
+            
+            DB::beginTransaction();
+            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw("discount + debit_memo + payment > amount")->get();
+            $amount_remove = $this->RemoveOverpayment($idno, $ledgers);
+            $this->ApplyOverpayment($idno, $amount_remove);
+            \App\Http\Controllers\Admin\Logs::log("Apply Overpayment for $idno.");
+            DB::commit();
+            return redirect(url("/cashier/viewledger/2018/$idno"));
+        }
+    }
+    function RemoveOverpayment($idno, $ledgers){
+        $amount = 0;
+        foreach($ledgers as $ledger){
+            $amount = $amount + (($ledger->payment+$ledger->discount+$ledger->debit_memo) - $ledger->amount);
+            $ledger->payment = $ledger->amount; 
+            $ledger->save();
+        }
+        return $amount;
+    }
+    function ApplyOverpayment($idno, $amount_remove){
+        $ledgers = \App\Ledger::where('idno', $idno)->whereRaw("discount + debit_memo + payment < amount")->get();
+        foreach($ledgers as $ledger){
+            $amount_to_add = $ledger->amount - ($ledger->discount + $ledger->debit_memo + $ledger->payment);
+            if($amount_to_add >= $amount_remove){
+                $amount_to_add = $amount_remove;
+            }else{
+                $amount_remove = $amount_remove-$amount_to_add;
+            }
+            $ledger->payment = $ledger->payment+$amount_to_add;
+            $ledger->save();
+        }
+    }
+}

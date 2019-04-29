@@ -491,3 +491,6 @@ Route::post('/admin/re_assess_now','Admin\ReassessController@re_assess_now');
 //Graduates/Alumni
 Route::get('/registrar_college/graduates/tagging/{school_year}','RegistrarCollege\Graduates\GraduatesController@tagging');
 Route::post('/registrar_college/save_tagging_of_graduates','RegistrarCollege\Graduates\GraduatesController@save_tagging');
+
+//Apply Overpamyent
+Route::get('/apply_overpayment/{idno}','Accounting\Overpayment@apply_overpayment');

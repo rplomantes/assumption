@@ -135,9 +135,9 @@
                 <th align='center' width='20%'>Student Name</th>
                 <th align='center' width='25%'>Course</th>
                 <th align='center' width='25%'>Address</th>
-                <th align='center'>Birthdate</th>
-                <th align='center' width='5%'>Gender</th>
-                <th align='center'>Tel No.</th>
+                <th align='center' width='4%'>Birthdate</th>
+                <th align='center' width='3%'>Gender</th>
+                <th align='center' width='5%'>Tel No.</th>
             </tr>
         </thead>
         
