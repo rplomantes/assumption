@@ -34,6 +34,8 @@ class StudentRelatedFeesController extends Controller
             
             if ($department == "College Department") {
                 $dep = '%Department';
+                    $levels = array('1st Year', '2nd Year', '3rd Year', '4th Year');
+                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department');
             } 
             else {
                 $dep = $department;
@@ -43,7 +45,7 @@ class StudentRelatedFeesController extends Controller
             }
             
              \App\Http\Controllers\Admin\Logs::log("Print Student Related Fees Report PDF");
-            $pdf = PDF::loadView('accounting.srf.print_student_related_fees', compact('department','school_year','period', 'levels'));
+            $pdf = PDF::loadView('accounting.srf.print_student_related_fees', compact('department','school_year','period', 'levels', 'groups'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("Student Related Fees Report.pdf");
         }
@@ -61,6 +63,8 @@ class StudentRelatedFeesController extends Controller
             
             if ($department == "College Department") {
                 $dep = '%Department';
+                    $levels = array('1st Year', '2nd Year', '3rd Year', '4th Year');
+                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department');
             } 
             else {
                 $dep = $department;
@@ -73,9 +77,9 @@ class StudentRelatedFeesController extends Controller
             
             ob_end_clean();
             Excel::create('Student Related Fees', 
-                function($excel) use ($department,$school_year,$period, $levels) { $excel->setTitle($department);
-                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period, $levels) {
-                    $sheet->loadView('accounting.srf.print_student_related_fees_excel', compact('department','school_year','period', 'levels'));
+                function($excel) use ($department,$school_year,$period, $levels, $groups) { $excel->setTitle($department);
+                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period, $levels, $groups) {
+                    $sheet->loadView('accounting.srf.print_student_related_fees_excel', compact('department','school_year','period', 'levels','groups'));
                     });
                 })->download('xlsx');
             
