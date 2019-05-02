@@ -97,10 +97,14 @@ $layout = "layouts.appreg_college";
                             </div>                             
                          </div>                        
                         <div class='form-group'>
-                            <div class='col-sm-12'>
+                            <div class='col-sm-6'>
                                 <label>&nbsp;</label>
-                                <button formtarget='_blank' type='submit' class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
+                                <button formtarget='_blank' type='submit' name="submit" value="print_pdf" class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
                             </div>    
+                            <div class='col-sm-6'>
+                                <label>&nbsp;</label>
+                                <button formtarget='_blank' type='submit' name="submit" value="print_excel" class='col-sm-12 btn btn-warning'><span>GENERATE EXCEL</span></button>
+                            </div> 
                         </div>
                     </div>    
                 </div>    
