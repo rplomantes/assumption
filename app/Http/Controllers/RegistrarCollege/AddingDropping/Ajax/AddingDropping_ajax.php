@@ -61,6 +61,7 @@ class AddingDropping_ajax extends Controller {
             $add->action = "ADD";
             $add->type = $type;
             $add->posted_by = Auth::user()->idno;
+            $add->srf_group = $add_to_grade->srf_group;
             $add->save();
 //            }else{
                 

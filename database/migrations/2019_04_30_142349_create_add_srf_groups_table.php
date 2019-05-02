@@ -26,7 +26,10 @@ class CreateAddSrfGroupsTable extends Migration
         Schema::table('grade_colleges', function(Blueprint $table) {
             $table->string('srf_group')->nullable();
         });
-        Schema::table('ctr_elective', function(Blueprint $table) {
+        Schema::table('ctr_electives', function(Blueprint $table) {
+            $table->string('srf_group')->nullable();
+        });
+        Schema::table('adding_droppings', function(Blueprint $table) {
             $table->string('srf_group')->nullable();
         });
     }
@@ -50,7 +53,10 @@ class CreateAddSrfGroupsTable extends Migration
         Schema::table('grade_colleges', function(Blueprint $table) {
             $table->dropColumn('srf_group');
         });
-        Schema::table('ctr_elective', function(Blueprint $table) {
+        Schema::table('ctr_electives', function(Blueprint $table) {
+            $table->dropColumn('srf_group');
+        });
+        Schema::table('adding_droppings', function(Blueprint $table) {
             $table->dropColumn('srf_group');
         });
     }
