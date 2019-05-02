@@ -132,6 +132,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->srf = $course_details->srf;
                 $addsubject->lab_fee = $course_details->lab_fee;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->srf_group = $course_details->srf_group;
                 $addsubject->save();
             } else {
                 
@@ -170,6 +171,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->srf = $course_details->srf;
                 $addsubject->lab_fee = $course_details->lab_fee;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->srf_group = $course_details->srf_group;
                 $addsubject->save();
             } else {
                 
@@ -208,6 +210,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->srf = $course_details->srf;
                 $addsubject->lab_fee = $course_details->lab_fee;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->srf_group = $course_details->srf_group;
                 $addsubject->save();
             } else {
                 
@@ -255,6 +258,7 @@ class courseoffering_ajax extends Controller {
                         $addsubject->srf = $course_details->srf;
                         $addsubject->lab_fee = $course_details->lab_fee;
                         $addsubject->percent_tuition = $curriculum->percent_tuition;
+                        $addsubject->srf_group = $course_details->srf_group;
                         $addsubject->save();
                     }
                 }
@@ -374,6 +378,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->srf = $course_details->srf;
                 $addsubject->lab_fee = $course_details->lab_fee;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->srf_group = $course_details->srf_group;
                 $addsubject->save();
             } else {
                 
@@ -413,6 +418,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->srf = $course_details->srf;
                 $addsubject->lab_fee = $course_details->lab_fee;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->srf_group = $course_details->srf_group;
                 $addsubject->save();
             } else {
                 
@@ -452,6 +458,7 @@ class courseoffering_ajax extends Controller {
                 $addsubject->srf = $course_details->srf;
                 $addsubject->lab_fee = $course_details->lab_fee;
                 $addsubject->percent_tuition = $course_details->percent_tuition;
+                $addsubject->srf_group = $course_details->srf_group;
                 $addsubject->save();
             } else {
                 

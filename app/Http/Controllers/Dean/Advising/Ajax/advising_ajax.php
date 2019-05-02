@@ -51,6 +51,7 @@ class advising_ajax extends Controller {
                 $newgrade->srf = $curriculum->srf;
                 $newgrade->lab_fee = $curriculum->lab_fee;
                 $newgrade->percent_tuition = $curriculum->percent_tuition;
+                $newgrade->srf_group = $curriculum->srf_group;
                 $newgrade->save();
             }else{
                 foreach ($checkcourse as $check){
@@ -69,6 +70,7 @@ class advising_ajax extends Controller {
                         $newgrade->srf = $curriculum->srf;
                         $newgrade->lab_fee = $curriculum->lab_fee;
                         $newgrade->percent_tuition = $curriculum->percent_tuition;
+                        $newgrade->srf_group = $curriculum->srf_group;
                         $newgrade->save();
                     } 
                 }
@@ -121,6 +123,7 @@ class advising_ajax extends Controller {
                 $newgrade->srf = $curriculum->srf;
                 $newgrade->lab_fee = $curriculum->lab_fee;
                 $newgrade->percent_tuition = $curriculum->percent_tuition;
+                $newgrade->srf_group = $curriculum->srf_group;
                 $newgrade->save();
             }
             $studentcourses = \App\GradeCollege::where('idno', $idno)
@@ -241,6 +244,7 @@ class advising_ajax extends Controller {
                         $newgrade->srf = $offering->srf;
                         $newgrade->lab_fee = $offering->lab_fee;
                         $newgrade->percent_tuition = $offering->percent_tuition;
+                        $newgrade->srf_group = $offering->srf_group;
                         $newgrade->save();
                     }
                 }

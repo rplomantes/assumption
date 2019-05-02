@@ -68,9 +68,26 @@ $ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $departmen
 @foreach($groups as $group)
 <?php
 $x = 0;
-if ($group == "Laboratory Fee") {
+//if ($group == "Laboratory Fee") {
+//    $ledgers = \App\Ledger::
+//            groupBy(array('subsidiary'))
+//            ->where('school_year', $school_year)
+//            ->where('period', $period)
+//            ->where(function ($query){
+//                        $query->where('category_switch', env('SRF_FEE'))
+//                              ->orWhere('category_switch', env('SRF_FEE')+10);
+//                    })
+//            ->where('category', 'SRF')
+//            ->where('subsidiary', 'like', '%Lab Fee%')
+//                ->selectRaw('subsidiary,sum(amount) as amount')
+//            ->where('amount', '>', 0)
+//            ->orderBy('subsidiary', 'asc')
+//            ->orderBy('amount', 'asc')
+//            ->get();
+//} else {
     $ledgers = \App\Ledger::
             groupBy(array('subsidiary'))
+            ->where('srf_group', $group)
             ->where('school_year', $school_year)
             ->where('period', $period)
             ->where(function ($query){
@@ -78,31 +95,14 @@ if ($group == "Laboratory Fee") {
                               ->orWhere('category_switch', env('SRF_FEE')+10);
                     })
             ->where('category', 'SRF')
-            ->where('subsidiary', 'like', '%Lab Fee%')
-                ->selectRaw('subsidiary,sum(amount) as amount')
-            ->where('amount', '>', 0)
-            ->orderBy('subsidiary', 'asc')
-            ->orderBy('amount', 'asc')
-            ->get();
-} else {
-    $ledgers = \App\Ledger::
-            groupBy(array('subsidiary'))
-            ->where('department', $group)
-            ->where('school_year', $school_year)
-            ->where('period', $period)
-            ->where(function ($query){
-                        $query->where('category_switch', env('SRF_FEE'))
-                              ->orWhere('category_switch', env('SRF_FEE')+10);
-                    })
-            ->where('category', 'SRF')
-            ->where('subsidiary', 'not like', '%Lab Fee%')
+//            ->where('subsidiary', 'not like', '%Lab Fee%')
             ->selectRaw('subsidiary,sum(amount) as amount')
-                ->where('department', $group)
+                ->where('srf_group', $group)
             ->where('amount', '>', 0)
             ->orderBy('subsidiary', 'asc')
             ->orderBy('amount', 'asc')
             ->get();
-}
+//}
 ?>
 <table width='70%' cellpadding='0' cellspacing='0'>
     <thead>

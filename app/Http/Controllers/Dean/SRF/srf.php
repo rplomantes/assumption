@@ -24,10 +24,12 @@ class srf extends Controller
     
     function modify_srf($period,$course_code){
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
-            $course_name = \App\Curriculum::where('course_code', $course_code)->first()->course_name;
-            $srf = \App\Curriculum::where('course_code', $course_code)->first()->srf;
-            $lab_fee = \App\Curriculum::where('course_code', $course_code)->first()->lab_fee;
-            return view('dean.srf.modify_srf', compact('course_code', 'course_name', 'srf','lab_fee','period'));
+            $course_name = \App\Curriculum::where('course_code', $course_code)->where('period', $period)->first()->course_name;
+            $srf = \App\Curriculum::where('course_code', $course_code)->where('period', $period)->first()->srf;
+            $lab_fee = \App\Curriculum::where('course_code', $course_code)->where('period', $period)->first()->lab_fee;
+            $srf_group = \App\Curriculum::where('course_code', $course_code)->where('period', $period)->first()->srf_group;
+//            return $srf_group;
+            return view('dean.srf.modify_srf', compact('course_code', 'course_name', 'srf','lab_fee','period','srf_group'));
         }
     }
     
@@ -40,12 +42,14 @@ class srf extends Controller
             foreach ($sets as $set){
                 $set->srf = $request->srf;
                 $set->lab_fee = $request->lab_fee;
+                $set->srf_group = $request->srf_group;
                 $set->save();
             }
             
             foreach ($elects as $elect){
                 $elect->srf = $request->srf;
                 $elect->lab_fee = $request->lab_fee;
+                $elect->srf_group = $request->srf_group;
                 $elect->save();
             }
             

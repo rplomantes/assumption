@@ -68,6 +68,19 @@ $layout = "layouts.appreg_college";
                         <label>Laboratory Fee</label>
                         <input type="text" class="form-control" name="lab_fee" value="{{$lab_fee}}">
                         <input type="hidden" name="course_code" value="{{$course_code}}">
+                        
+                        <label>Group</label>
+                        <select name="srf_group" class="form-control" required="">
+                            <option value="">Select Group</option>
+                            <option @if($srf_group == "General Education") selected="" @endif>General Education</option>
+                            <option @if($srf_group == "Laboratory") selected="" @endif>Laboratory</option>
+                            <option @if($srf_group == "Thesis") selected="" @endif>Thesis</option>
+                            <option @if($srf_group == "Business Department") selected="" @endif>Business Department</option>
+                            <option @if($srf_group == "Education Department") selected="" @endif>Education Department</option>
+                            <option @if($srf_group == "Psychology Department") selected="" @endif>Psychology Department</option>
+                            <option @if($srf_group == "Performing Department") selected="" @endif>Performing Department</option>
+                            <option @if($srf_group == "Communication Department") selected="" @endif>Communication Department</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Set SRF" class="col-sm-12 btn btn-success">

@@ -580,21 +580,15 @@ $count = 0;
             <td></td>
         </tr>
     </table> 
-    
-        <table width='100%'>
+        <table width='100%' border="0" style="page-break-inside: avoid;">
             <tr>
-                <td valign='top' width='30%'><i><b>- FOR EVALUATION PURPOSES -</b></i></td>
-                <td valign='top' width='30%'><i></i></td>
+                <td valign='top' width='60%' colspan="2" rowspan="4"><i><b>- FOR EVALUATION PURPOSES -</b></i></td>
                 <td valign='top' width='40%' rowspan="2" colspan="2">
                 </td>
             </tr>
             <tr>
-                <td valign='bottom'></td>
-                <td valign='bottom'></td>
             </tr>
             <tr>
-                <td  valign='top' colspan='2' rowspan="2">
-                </td>
                 <td valign='bottom' colspan='2'><i><br>CERTIFIED BY:<br><br><br></i></td>
             </tr>
             <tr>

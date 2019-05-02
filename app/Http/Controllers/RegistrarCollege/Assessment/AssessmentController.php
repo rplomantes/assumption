@@ -637,6 +637,7 @@ class AssessmentController extends Controller {
                 $addledger->accounting_name = env("SRF_NAME");
                 $addledger->category_switch = env("SRF_FEE");
                 $addledger->amount = $grade->srf;
+                $addledger->srf_group = $grade->srf_group;
                 $addledger->save();
             }
         }

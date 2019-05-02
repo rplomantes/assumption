@@ -97,7 +97,7 @@ class AjaxAccoReportsController extends Controller {
             if ($department == "College Department") {
                 $dep = '%Department';
                     $levels = array('1st Year', '2nd Year', '3rd Year', '4th Year');
-                    $groups = array('Laboratory Fee', 'Business Department', 'Communication Department', 'Education Department', 'Psychology Department');
+                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department');
             } else {
                 $dep = $department;
                 if($dep == 'Senior High School'){
