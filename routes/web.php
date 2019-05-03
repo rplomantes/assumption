@@ -494,3 +494,6 @@ Route::post('/registrar_college/save_tagging_of_graduates','RegistrarCollege\Gra
 
 //Apply Overpamyent
 Route::get('/apply_overpayment/{idno}','Accounting\Overpayment@apply_overpayment');
+
+//WIthdraw college student
+Route::get('/registrar_college/withdraw_enrolled_student/{status}/{date_today}/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@withdraw');

@@ -37,13 +37,14 @@ class NstpReportsController extends Controller
                         $pdf->setPaper(array(0, 0, 936, 612));
                         return $pdf->stream('nstp_reports.pdf');
             }else{
+                
                 ob_end_clean();
-                Excel::create('NSTP-REPORT', 
-                    function($excel) use ($programs, $request, $students) { $excel->setTitle("NSTP Report");
-                        $excel->sheet("NSTP Report", function ($sheet) use ($programs, $request, $students) {
-                        $sheet->loadView('reg_college.reports.print_nstp_reports_excel', compact('programs', 'request', 'students'));
-                        });
-                    })->download('xlsx');
+                Excel::create('NSTP-REPORT', function($excel) use ($programs, $request, $students) { 
+                    $excel->setTitle("NSTP Report");
+                    $excel->sheet("NSTP Report", function ($sheet) use ($programs, $request, $students) {
+                    $sheet->loadView('reg_college.reports.print_nstp_reports_excel', compact('programs', 'request', 'students'));
+                    });
+                })->download('xlsx');
             }
         }    
     }   

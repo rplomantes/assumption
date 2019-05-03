@@ -15,6 +15,39 @@ class ViewInfoController extends Controller {
         $this->middleware('auth');
     }
 
+    function withdraw($value, $date_today,$idno) {
+        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
+            if ($value == "w") {
+                $v = env('WITHDRAWN');
+            } else if ($value == "e") {
+                $v = env('ENROLLED');
+            }
+            $status = \App\Status::where('idno', $idno)->first();
+            if ($value == "w") {
+                $status->date_dropped = $date_today;
+                $mes = "Withdraw";
+            } else if ($value == "e") {
+                $status->date_dropped = NULL;
+                $mes = "Enrolled";
+            }
+            $status->status = $v;
+            $status->save();
+
+            $bedlevel = \App\CollegeLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
+            $status = \App\Status::where('idno', $idno)->first();
+            if ($value == "w") {
+                $status->date_dropped = $date_today;
+            } else if ($value == "e") {
+                $status->date_dropped = NULL;
+            }
+            $bedlevel->status = $v;
+            $bedlevel->save();
+
+            \App\Http\Controllers\Accounting\SetReceiptController::log("$mes student $idno.");
+            return redirect(url('/registrar_college', array('view_info', $idno)));
+        }
+    }
+
     function view_info($idno) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $user = \App\User::where('idno', $idno)->first();

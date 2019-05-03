@@ -227,10 +227,12 @@ class PreRegistration extends Controller {
         $addprofile->save();
     }
     function addBEDStatus($request,$reference_id, $applicant_details, $academic_type){
+        $department = \App\CtrAcademicProgram::where('level', $applicant_details->level)->first();
         $addstatus = new \App\Status;
         $addstatus->idno = $applicant_details->idno;
         $addstatus->section = "";
         $addstatus->level = $applicant_details->level;
+        $addstatus->department = $department->department;
         $addstatus->status = env("PRE_REGISTERED");
         $addstatus->academic_type = "BED";
         $addstatus->save();

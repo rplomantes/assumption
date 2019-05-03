@@ -22,6 +22,7 @@
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
             @elseif($status->status == 1) Advised
+            @elseif($status->status == 4) Withdrawn-{{$status->date_dropped}}
             @else Not Yet Enrolled @endif
         </td>
         <td>{{$status->level}} - {{$status->program_code}}</td>

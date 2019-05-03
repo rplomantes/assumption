@@ -90,6 +90,12 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $due_dates_list_amount = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
             $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_date', '<=', date('Y-m-31'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
+            if($status->academic_type == "SHS" || $status->academic_type == "College"){
+            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+            }else{
+            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
+            }
+            
             $ledger_others = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->get();
             $ledger_others_noreturn = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('is_returned_check',0)->get();
             //$ledger_optional = \App\Ledger::where('idno',$idno)->where('category_switch',env("OPTIONAL_FEE"))->get();
@@ -145,11 +151,6 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
 
-            if($status->academic_type == "SHS" || $status->academic_type == "College"){
-            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
-            }else{
-            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
-            }
             
             $is_early_enrollment = \App\CtrEarlyEnrollmentPaymentSwitch::first()->is_process_main_payment;
             

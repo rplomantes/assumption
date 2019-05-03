@@ -1,6 +1,4 @@
-<div>
-    <table class='table' border="1" width="100%">
-        <thead>
+    <table>
             <tr>
                 <th align='center' width='3%'>#</th>
                 <th align='center' width='10%'>ID</th>
@@ -11,9 +9,6 @@
                 <th align='center' width='8%'>Gender</th>
                 <th align='center' width='10%'>Tel No.</th>
             </tr>
-        </thead>
-        
-        <tbody>
             <?php $count = 0;?>
             @foreach($students as $student)
             <?php $user = \App\User::where('idno', $student->idno)->first(); ?>
@@ -30,7 +25,5 @@
                 <td align='center'>{{$info->tel_no}}</td>
             </tr>
             @endforeach
-        </tbody>
     </table>  
-</div>  
     

@@ -45,7 +45,25 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 
 <form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
     {{ csrf_field() }}
-    <div class="col-md-12">
+    <div class="col-md-12 pull-left">
+        <?php $status = \App\Status::where('idno', $idno)->first(); ?>
+        <div class="col-md-2 pull-lef">
+             <div class="form form-group">
+                 @if($status->status == 3)
+                 <label><input type="text" class="form form-control" id='date_today' placeholder="YYYY-MM-DD" value="{{date('Y-m-d')}}" name="date_today"></label>
+              <!--<a onclick='withdraw(date_today.value)' href='{{url('/bedregistrar',array('withdraw_enrolled_student','w',$user->idno))}}'>-->
+              <a onclick='withdraw(date_today.value,"w","{{$user->idno}}")'>
+                  <button type="button" class="btn btn-danger">Tag as Withdrawn</button>
+              </a>
+                 @elseif($status->status == 4)
+                 <label><br><br></label>
+              <!--<a href='{{url('/bedregistrar',array('withdraw_enrolled_student','e',$user->idno))}}'>-->
+              <a onclick='withdraw("NULL","e","{{$user->idno}}")'>
+                  <button type="button" class="btn btn-success">Tag as Enrolled</button>
+              </a>
+                 @endif
+             </div>
+          </div>
         
          <div class="col-md-3 pull-right">
              <div class="form form-group">
@@ -473,4 +491,14 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </div>
 @endsection
 @section('footerscript')
+<script>
+    function withdraw(date_today,value,idno) {
+        array = {};
+        array['date_today'] = date_today;
+        array['value'] = value;
+        array['idno'] = idno;
+        
+        window.location.replace('/registrar_college/withdraw_enrolled_student/' + array['value'] + "/" + array['date_today'] + "/" + array['idno']) ;
+    }
+    </script>
 @endsection
