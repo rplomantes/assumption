@@ -1,9 +1,17 @@
+<?php 
+if(Auth::user()->accesslevel== env("ADMISSION_BED")){
+    $auth_type =  "BED";
+}else{
+    $auth_type = "SHS";
+} 
+?>
+
 @if(count($lists)>0)
 <table class="table table-responsive table-striped">
     <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>View Info</th></tr>
     @foreach($lists as $list)
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
-    @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status>=10)
+    @if($list->accesslevel == '0' && $list->academic_type == $auth_type && $status->status>=10)
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
         <td>
             @if($status->status == 3)Enrolled

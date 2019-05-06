@@ -17,7 +17,15 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     color: whitesmoke !important;
 }
 </style>
-@extends('layouts.appadmission-bed')
+<?php
+if(Auth::user()->accesslevel == env('ADMISSION_BED')){
+$layout = "layouts.appadmission-bed";
+} else {
+$layout = "layouts.appadmission-shs";
+}
+?>
+
+@extends($layout)
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

@@ -284,6 +284,7 @@ class ReassessController extends Controller {
                 $add->save();
             }
         }
+    }
 
     function addGrades($request, $schoolyear, $period) {
         if ($request->level == "Grade 11" || $request->level == "Grade 12") {
@@ -311,7 +312,6 @@ class ReassessController extends Controller {
                 $addsubject->save();
             }
         }
-    }
     }
 
     function addDueDates($request, $schoolyear, $period) {

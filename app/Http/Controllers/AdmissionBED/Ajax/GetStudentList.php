@@ -17,7 +17,7 @@ class GetStudentList extends Controller {
 
     function index() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") ||Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $search = Input::get('search');
                 $lists = \App\User::Where("users.lastname", "like", "%$search%")
                                 ->orWhere("users.firstname", "like", "%$search%")->orWhere("users.idno", $search)->get();

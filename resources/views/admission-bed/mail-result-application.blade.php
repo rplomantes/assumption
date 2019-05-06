@@ -85,7 +85,7 @@
                                                 
                                                 
                                                 Sincerely yours,<br>
-                                                BED Admissions Head
+                                                Admissions Head
                                                 
                                                 @else
                                                 
@@ -98,7 +98,7 @@
                                                 Thank you for choosing Assumption College.<br><br>
 
                                                 Sincerely yours,<br>
-                                                BED Admissions Head<br><br>
+                                                Admissions Head<br><br>
                                                 
                                                 <strong><i>Note:<br>
                                                 Should you wish to have your letter be claimed by a representative, kindly provide a photocopy of your ID and an authorization letter. Thank you!</i></strong>

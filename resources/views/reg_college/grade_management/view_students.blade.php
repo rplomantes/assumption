@@ -124,18 +124,15 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
     </div>
     @endif
     
-@if (count($checkstatus_midterm3) == count($students))
-@else    
+
 @if(auth::user()->accesslevel == env('DEAN'))
-@if (count($students) == count($checkstatus_midterm1))
     <div class="col-sm-6">
         <span onclick="if (confirm('Do you really want to approve MIDTERM grades?'))
                     return approveall_midterm(schedule_id.value);
                 else
                     return false;" class='btn btn-success col-sm-12' >Approve MIDTERM grades</span>
     </div>
-@endif
-@if (count($students) == count($checkstatus_midterm))
+
     <div class="col-sm-6">
         <span onclick="if (confirm('Do you really want to cancel submission of midterm grades?'))
                     return cancelall_midterm(schedule_id.value);
@@ -143,22 +140,17 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
                     return false;" class='btn btn-danger col-sm-12' >Cancel submission of MIDTERM grades</span>
     </div>
 @endif
-@endif
-@endif
 
 
-@if (count($checkstatus_finals3) == count($students))
-@else    
+
 @if(auth::user()->accesslevel == env('DEAN'))
-@if (count($students) == count($checkstatus_finals1))
     <div class="col-sm-6">
         <span onclick="if (confirm('Do you really want to approve FINAL grades?'))
                     return approveall_finals(schedule_id.value);
                 else
                     return false;" class='btn btn-success col-sm-12' >Approve FINAL Grades</span>
     </div>
-@endif
-@if (count($students) == count($checkstatus_finals))
+
     <div class="col-sm-6">
         <span onclick="if (confirm('Do you really want to cancel submission of final grades?'))
                     return cancelall_finals(schedule_id.value);
@@ -166,6 +158,5 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
                     return false;" class='btn btn-danger col-sm-12' >Cancel submission of FINAL grades</span>
     </div>
 @endif
-@endif
-@endif
+
 </form>

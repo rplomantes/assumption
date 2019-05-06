@@ -20,7 +20,7 @@ class info extends Controller
     }
 
     function info($idno) {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
 
             
             $addprofile = \App\BedProfile::where('idno', $idno)->first();
@@ -128,7 +128,7 @@ class info extends Controller
     }
     
     function approve_application($idno){
-        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $status = \App\Status::where('idno', $idno)->first();
             $status->status=0;
             $status->date_admission_finish=date('Y-m-d');
@@ -140,7 +140,7 @@ class info extends Controller
     }
     
     function disapprove_application($idno){
-        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $status = \App\Status::where('idno', $idno)->first();
             $status->status=env("REGRET_FINAL");
             $status->date_admission_finish=date('Y-m-d');
@@ -174,7 +174,7 @@ class info extends Controller
     }
     
     function notyetapproval($idno){
-        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $status = \App\Status::where('idno', $idno)->first();
             $status->status=10;
             $status->save();
@@ -183,7 +183,7 @@ class info extends Controller
         }
     }
     function resend_access($idno){
-        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $applicant_details = \App\User::where('idno', $idno)->first();
             $six_digit_random_number = mt_rand(100000, 999999);
             

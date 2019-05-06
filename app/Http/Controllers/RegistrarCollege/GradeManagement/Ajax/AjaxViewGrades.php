@@ -180,10 +180,14 @@ class AjaxViewGrades extends Controller {
             $close = \App\CtrCollegeGrading::where('academic_type', "College")->where('idno',$instructor_idno)->first();
             
             if($type == 'midterm'){
+                if($update->midterm != NULL && $update->midterm_status != 3){
                 $update->midterm_status = $status;
+                }
             }
             if ($type == 'finals'){
+                if($update->finals != NULL && $update->finals_status != 3){
                 $update->finals_status = $status;
+                }
             }
             $update->save();
             }

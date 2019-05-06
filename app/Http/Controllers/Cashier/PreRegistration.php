@@ -234,7 +234,7 @@ class PreRegistration extends Controller {
         $addstatus->level = $applicant_details->level;
         $addstatus->department = $department->department;
         $addstatus->status = env("PRE_REGISTERED");
-        $addstatus->academic_type = "BED";
+        $addstatus->academic_type = $academic_type;
         $addstatus->save();
     }
     function addPromotions($request,$reference_id, $applicant_details, $academic_type){

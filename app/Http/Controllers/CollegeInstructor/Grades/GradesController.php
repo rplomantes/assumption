@@ -68,15 +68,19 @@ class GradesController extends Controller
     function updateStatus($course_offering,$request, $status, $type){
         $updateStatus = \App\GradeCollege::where('course_offering_id', $course_offering->id)->get();
         foreach ($updateStatus as $update){
-        
+          
             if($type == 'midterm'){
+                if($update->midterm != NULL && $update->midterm_status != 3){
                 $update->midterm_status = $status;
+                }
             }
             if ($type == 'finals'){
+                if($update->finals != NULL && $update->finals_status != 3){
                 $update->finals_status = $status;
+                }
             }
         $update->save();
-        }
+          }
     }
     
     function print_list($schedule_id) {
