@@ -1,6 +1,8 @@
 <?php
     if(Auth::user()->accesslevel == env('ADMISSION_BED')){
     $layout = "layouts.appadmission-bed";
+    }else if(Auth::user()->accesslevel == env('ADMISSION_SHS')){
+    $layout = "layouts.appadmission-shs";
     } else {
     $layout = "layouts.appbedregistrar";
     }

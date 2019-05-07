@@ -52,19 +52,27 @@ class Registration extends Controller {
     }
 
     function register() {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $referenceid = uniqid();
             return view('reg_be.registration', compact('referenceid'));
         }
     }
 
     function post_register(Request $request) {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $validate = $request->validate([
                 'firstname' => 'required',
                 'lastname' => 'required',
                 'email' => 'required',
             ]);
+            
+            if(Auth::user()->accesslevel== env("ADMISSION_BED")){
+                $auth_type =  "BED";
+            }else if(Auth::user()->accesslevel== env("ADMISSION_SHS")){
+                $auth_type = "SHS";
+            }else{
+                $auth_type =  "BED";
+            }
 
             if ($validate) {
                 DB::beginTransaction();
@@ -75,7 +83,7 @@ class Registration extends Controller {
                 $addstudent->middlename = $request->middlename;
                 $addstudent->extensionname = $request->extensionname;
                 $addstudent->is_foreign = $request->is_foreign;
-                $addstudent->academic_type = "BED";
+                $addstudent->academic_type = $auth_type;
                 $addstudent->lrn = $request->lrn;
                 $addstudent->save();
 
@@ -89,13 +97,16 @@ class Registration extends Controller {
                 $addprofile->zip = $request->zip;
                 $addprofile->tel_no = $request->tel_no;
                 $addprofile->cell_no = $request->cell_no;
+                if(Auth::user()->accesslevel== env("ADMISSION_SHS")){
+                $addprofile->applied_for = "Grade 11";
+                }
                 $addprofile->save();
 
                 $addstatus = new \App\Status;
                 $addstatus->idno = $request->referenceid;
                 $addstatus->section = "";
                 $addstatus->status = 0;
-                $addstatus->academic_type = "BED";
+                $addstatus->academic_type = $auth_type;
                 $addstatus->save();
 
                 $addParent = new \App\BedParentInfo;
@@ -110,9 +121,10 @@ class Registration extends Controller {
     }
 
     function info($idno) {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
 
             $addprofile = \App\BedProfile::where('idno', $idno)->first();
+            
             if (count($addprofile) == 0) {
                 $addpro = new \App\BedProfile;
                 $addpro->idno = $idno;
@@ -211,7 +223,7 @@ class Registration extends Controller {
     }
 
     function student_list() {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED')) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED') || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();
             return view("reg_be.student_list", compact('students'));
         }
@@ -226,7 +238,7 @@ class Registration extends Controller {
 
     function updateinfo(Request $request) {
 //        return $request;
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $validate = $request->validate([
                 'firstname' => 'required',
                 'lastname' => 'required',

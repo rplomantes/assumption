@@ -28,7 +28,7 @@ class GetStudentList extends Controller {
 
     function view_list() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $schoolyear = Input::get('school_year');
                 $level = Input::get('level');
                 $section = Input::get('section');
@@ -49,7 +49,7 @@ class GetStudentList extends Controller {
 
     function updateSched() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $idno = Input::get('idno');
                 $testing_id = Input::get('testing_id');
 
@@ -68,7 +68,7 @@ class GetStudentList extends Controller {
 
     function updateSchedInterview() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $idno = Input::get('idno');
                 $interview_id = Input::get('interview_id');
 
@@ -87,7 +87,7 @@ class GetStudentList extends Controller {
 
     function updateSchedGroup() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $idno = Input::get('idno');
                 $interview_id = Input::get('interview_id');
 
@@ -110,7 +110,7 @@ class GetStudentList extends Controller {
 
     function updateSchedIndividual() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $idno = Input::get('idno');
                 $interview_id = Input::get('interview_id');
 
@@ -133,7 +133,7 @@ class GetStudentList extends Controller {
 
     function change_applied_for() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $idno = Input::get('idno');
                 $level = Input::get('level');
                 
