@@ -110,6 +110,9 @@ $units = 0;
                             <option></option>
                             <option @if($school_year->school_year == 2017) selected='' @endif>2017</option>
                             <option @if($school_year->school_year == 2018) selected='' @endif>2018</option>
+                            <option @if($school_year->school_year == 2019) selected='' @endif>2019</option>
+                            <option @if($school_year->school_year == 2020) selected='' @endif>2020</option>
+                            <option @if($school_year->school_year == 2021) selected='' @endif>2021</option>
                         </select>
                         <label>Period</label>
                         <select class='form form-control' name='period'>

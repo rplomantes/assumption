@@ -1,10 +1,13 @@
 <?php
     if(Auth::user()->accesslevel == env('ADMISSION_BED')){
     $layout = "layouts.appadmission-bed";
+    $title = "BED Registration";
     }else if(Auth::user()->accesslevel == env('ADMISSION_SHS')){
     $layout = "layouts.appadmission-shs";
+    $title = "SHS Registration";
     } else {
     $layout = "layouts.appbedregistrar";
+    $title = "BED Registration";
     }
 ?>
 
@@ -47,12 +50,12 @@
 @section('header')
 <section class="content-header">
       <h1>
-        BED Registration
+        {{$title}}
         <small>Registration For Basic Education</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">BED Registration</li>
+        <li class="active">{{$title}}</li>
       </ol>
 </section>
 @endsection

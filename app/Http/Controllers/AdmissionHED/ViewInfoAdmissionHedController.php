@@ -77,13 +77,16 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->last_school_address = $request->last_school_address;
         $updatePersonalInfo->update();
 
+        
+        $program_code = \App\CtrAcademicProgram::findCode($request->program_name);
+        
         $updatePersonalInfo = \App\AdmissionHed::where('idno', $request->idno)->first();
         $updatePersonalInfo->assumption_scholar = $request->assumption_scholar;
         $updatePersonalInfo->partner_scholar = $request->partner_scholar;
         $updatePersonalInfo->agreement = $request->agreement;
         $updatePersonalInfo->admission_status = $request->admission_status;
         $updatePersonalInfo->summer_classes = $request->summer_classes;
-        $updatePersonalInfo->program_code = $request->program_code;
+        $updatePersonalInfo->program_code = $program_code;
         $updatePersonalInfo->program_name = $request->program_name;
         $updatePersonalInfo->applying_for_sy = $request->applying_for_sy;
         $updatePersonalInfo->strand = $request->strand;

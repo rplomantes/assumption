@@ -99,7 +99,7 @@ class AssessmentController extends Controller {
                         $assignlevel = "1st Year";
                         break;
                     case "1st Year":
-                        $assignlevel = "1st Year";
+                        $assignlevel = NULL;
                         break;
                 }
             }

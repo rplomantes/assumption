@@ -103,7 +103,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <select name="program_code" id="select_program" class="form-control select2" required="" onchange='get_curriculum_year(this.value)'>
                                 <option value="">Select Program</option>
                                 @foreach($programs as $program)
-                                <option value="{{$program->program_code}}" @if ($admission_hed->program_code == "$program->program_code") selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
+                                <option value="{{$program->program_code}}" @if ($admission_hed->program_code == $program->program_code) selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
                                 @endforeach
                             </select>     
                         </div>
@@ -133,6 +133,9 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <label>Curriculum Year</label>     
                             <select id="select_curriculum_year" class="form-control select2" required="">
                                 <option value="">Select Curriculum</option>
+                                @foreach($curriculum_years as $curriculum_year)
+                                <option>{{$curriculum_year->curriculum_year}}</option>
+                                @endforeach
                             </select>     
                         </div>
                     </div>

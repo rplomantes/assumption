@@ -4,8 +4,15 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
+<?php
+if(Auth::user()->accesslevel == env('SCHOLARSHIP_HED')){
+$layout = "layouts.appscholarship_college";
+} else {
+$layout = "layouts.appdean_college";
+}
+?>
 
-@extends('layouts.appdean_college')
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

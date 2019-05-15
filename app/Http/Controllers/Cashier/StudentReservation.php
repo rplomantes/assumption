@@ -181,10 +181,10 @@ class StudentReservation extends Controller
         
         $adddpayment->remarks=$remarks; 
         $adddpayment->posted_by=Auth::user()->idno;
-        $sy = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->school_year;
-        $pr = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->period;
-        $adddpayment->school_year=$sy; 
-        $adddpayment->period=$pr; 
+//        $sy = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->school_year;
+//        $pr = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->period;
+        $adddpayment->school_year=$status->school_year; 
+        $adddpayment->period=$status->period; 
         $adddpayment->save();
     }
     

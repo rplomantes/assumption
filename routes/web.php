@@ -491,6 +491,9 @@ Route::post('/admin/re_assess_now','Admin\ReassessController@re_assess_now');
 //Graduates/Alumni
 Route::get('/registrar_college/graduates/tagging/{school_year}','RegistrarCollege\Graduates\GraduatesController@tagging');
 Route::post('/registrar_college/save_tagging_of_graduates','RegistrarCollege\Graduates\GraduatesController@save_tagging');
+Route::get('/registrar_college/graduates/batch_ranking','RegistrarCollege\Graduates\BatchRanking@view');
+Route::get('/ajax/registrar_college/graduates/batch_ranking/get_students','RegistrarCollege\Graduates\Ajax\AjaxBatchRanking@get_students');
+Route::get('/registrar_college/graduates/print_batch_ranking/{date}','RegistrarCollege\Graduates\Ajax\AjaxBatchRanking@get_students2');
 
 //Apply Overpamyent
 Route::get('/apply_overpayment/{idno}','Accounting\Overpayment@apply_overpayment');
