@@ -168,7 +168,7 @@ class advising_ajax extends Controller {
             $school_year = Input::get("school_year");
             $period = Input::get("period");
             $removesubject = \App\GradeCollege::find($id);
-            $removesubject->delete();
+            $removesubject->forceDelete();
 
             $studentcourses = \App\GradeCollege::where('idno', $idno)
                     ->where('school_year', $school_year)

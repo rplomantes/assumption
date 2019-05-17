@@ -109,7 +109,7 @@ class NewStudentController extends Controller {
         $add_new_user->accesslevel = 0;
         $add_new_user->status = 0; //active or not
         $add_new_user->email = $email;
-        $add_new_user->password = bcrypt($password);
+        $add_new_user->password = bcrypt($reference_no);
         $add_new_user->is_foreign = $is_foreign;
         $add_new_user->academic_type = "College";
         $add_new_user->save();
@@ -259,6 +259,7 @@ class NewStudentController extends Controller {
         $add_new_student_info->guardian_contact= $guardian_contact;
         $add_new_student_info->guardian_email = $guardian_email;
         $add_new_student_info->guardian_type = $guardian_type;
+        $add_new_student_info->is_first_enrollment = 1;
 //        $add_new_student_info->condition = $condition;
         $add_new_student_info->save();
     }

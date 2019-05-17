@@ -24,7 +24,22 @@ class Advising extends Controller {
                 $status_is_new = \App\Status::where('idno', $idno)->first()->is_new;
                 $status_stat = \App\Status::where('idno', $idno)->first()->status;
                 if ($status_is_new == 1 && ($status_stat == 0 || $status_stat == 1)) {
-                    return view('dean.advising.advise_new_reg', compact('status', 'idno'));
+                    $status = \App\Status::where('idno', $idno)->first();
+                    $student_info = \App\StudentInfo::where('idno', $idno)->first();
+                    if ($status->is_advised == 0) {
+                        return view('dean.advising.advise_new_reg', compact('status', 'idno'));
+                    } else if ($status->is_advised == 1) {
+
+                        if ($status->status == env('ASSESSED')) {
+                            return redirect(url('dean', array('advising', 'confirm_advised', $idno, $status->program_code, $status->level, $student_info->curriculum_year, $status->period)));
+                        } else if ($status->status == env('ASSESSED')) {
+                            return view('dean.advising.already_assessed', compact('idno'));
+                        } else if ($status->status == env('ENROLLED') && $status->school_year == "$enrollment_school_year->school_year" && $status->period == "$enrollment_school_year->period") {
+                            return view('dean.advising.enrolled', compact('status', 'idno'));
+                        }else{
+                            return view('dean.advising.already_assessed', compact('idno'));
+                        }
+                    }
                 } else {
                     $status = \App\Status::where('idno', $idno)->first();
                     $student_info = \App\StudentInfo::where('idno', $idno)->first();

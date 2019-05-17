@@ -57,6 +57,10 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->extensionname = $request->extensionname;
         $updatePersonalInfo->email = $request->email;
         $updatePersonalInfo->is_foreign = $request->is_foreign;
+        if($request->student_status == 1){    
+        $updatePersonalInfo->password = bcrypt($request->idno);
+        $updatePersonalInfo->status = 1;
+        }
         $updatePersonalInfo->update();
 
         $updatePersonalInfo = \App\StudentInfo::where('idno', $request->idno)->first();
