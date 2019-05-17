@@ -33,10 +33,14 @@ class PromotionsController extends Controller {
                     } else {
                         $checkpromotions->strand = NULL;
                     }
-                    if($request->promote_level == "Pre-Kinder" || $request->promote_level == "Kinder"){
+                    if ($request->promote_level == "Pre-Kinder" || $request->promote_level == "Kinder") {
                         $checkpromotions->section = "A";
-                    }else{
-                        $checkpromotions->section = 1;
+                    } else {
+                        if ($request->promote_level == "Grade 12") {
+                            
+                        } else {
+                            $checkpromotions->section = 1;
+                        }
                     }
                     $checkpromotions->save();
                 } else {
@@ -52,11 +56,11 @@ class PromotionsController extends Controller {
             }
             DB::commit();
             if ($request->promote_level == "Grade 11" || $request->promote_level == "Grade 12") {
-            \App\Http\Controllers\Admin\Logs::log("Update batch promotions of students to $request->level to $request->promote_level and $request->strand to $request->promote_strand");
-            Session::flash('message', "Update batch promotions of students to $request->level to $request->promote_level and $request->strand to $request->promote_strand");
-            }else{                
-            \App\Http\Controllers\Admin\Logs::log("Update batch promotions of students to $request->level to $request->promote_level");
-            Session::flash('message', "Update batch promotions of students to $request->level to $request->promote_level");
+                \App\Http\Controllers\Admin\Logs::log("Update batch promotions of students to $request->level to $request->promote_level and $request->strand to $request->promote_strand");
+                Session::flash('message', "Update batch promotions of students to $request->level to $request->promote_level and $request->strand to $request->promote_strand");
+            } else {
+                \App\Http\Controllers\Admin\Logs::log("Update batch promotions of students to $request->level to $request->promote_level");
+                Session::flash('message', "Update batch promotions of students to $request->level to $request->promote_level");
             }
             return redirect('bedregistrar/batch_promotions');
         }
