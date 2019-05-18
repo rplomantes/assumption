@@ -326,6 +326,32 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 }
             }
         }
+        
+/////        
+        if($school_year=="2018" and $period == "2nd Semester"){
+            $overpayments = \App\OverpaymentMemo::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+        }else{
+            
+            if($school_year=="2018"){
+            $overpayments = \App\OverpaymentMemo::where('idno', $idno)
+                    ->where(function($query) use($school_year) {
+                                $query->where('school_year', $school_year)
+                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', NULL);
+                            })->orderBy('transaction_date')->get();
+            }else{
+                if($period == NULL){
+                $overpayments = \App\OverpaymentMemo::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+                }else{
+                $overpayments = \App\OverpaymentMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
+                }
+            }
+        }
                      
                         $ledger_others = \App\Ledger::where('idno', $idno)
                                 ->where(function($query) {
@@ -726,6 +752,26 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
          
          @else
          <h5>No Added to Student Deposit For This Account</h5>
+         @endif
+         
+         
+            
+            <!--OVERPAYMENT MEMO-->
+            <h3>OVERPAYMENT MEMO</h3>
+            @if(count($overpayments)>0)
+        
+         <table class="table table-responsive table-condensed"><tr><td>Date</td><td>Overpayment No</td><td align="right">Amount</td><td>Status</td></tr>
+          @foreach($overpayments as $payment)
+          <tr><td>{{$payment->transaction_date}}</td>
+              <td>{{$payment->op_no}}</td>
+              <td align='right'>{{number_format($payment->amount,2)}}</td>
+              <td>Ok</td>
+              </tr>
+          @endforeach
+         </table>    
+         
+         @else
+         <h5>No Overpayment Memo For This Account</h5>
          @endif
          
         </div><!--end .accordion-section-content-->

@@ -499,17 +499,30 @@ class ReassessController extends Controller {
             MainPayment::addUnrealizedEntry($request, $reference_id);
 
             $ledgers = collect();
-            $ledgers_family_council = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category', "Family Council")->where('category_switch', env('FAMILY_COUNCIL'))->get();
-            $ledgers_registration = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('Subsidiary', "Registration")->where('category_switch', env('MISC_FEE'))->get();            
-            $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category','!=', 'Family Council')->where('Subsidiary', '!=',"Registration")->get();
-            foreach($ledgers_family_council as $fcouncil){
-                $ledgers->push($fcouncil);
-            }
-            foreach($ledgers_registration as $registration){
-                $ledgers->push($registration);
-            }
-            foreach($ledgers_all as $all){
-                $ledgers->push($all);
+            if($request->level == "Grade 11"){
+                $ledgers_parent_partnership = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category', "Parent Partnership")->where('category_switch', env('PARENT_PARTNERSHIP'))->get();
+                $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category','!=', 'Parent Partnership')->get();
+
+                foreach($ledgers_parent_partnership as $ppartnership){
+                    $ledgers->push($ppartnership);
+                }
+                foreach($ledgers_all as $all){
+                    $ledgers->push($all);
+                }
+            }else{
+                $ledgers_family_council = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category', "Family Council")->where('category_switch', env('FAMILY_COUNCIL'))->get();
+                $ledgers_registration = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('Subsidiary', "Registration")->where('category_switch', env('MISC_FEE'))->get();            
+                $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category','!=', 'Family Council')->where('Subsidiary', '!=',"Registration")->get();
+
+                foreach($ledgers_family_council as $fcouncil){
+                    $ledgers->push($fcouncil);
+                }
+                foreach($ledgers_registration as $registration){
+                    $ledgers->push($registration);
+                }
+                foreach($ledgers_all as $all){
+                    $ledgers->push($all);
+                }
             }
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
             

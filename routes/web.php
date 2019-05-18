@@ -500,3 +500,6 @@ Route::get('/apply_overpayment/{idno}','Accounting\Overpayment@apply_overpayment
 
 //WIthdraw college student
 Route::get('/registrar_college/withdraw_enrolled_student/{status}/{date_today}/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@withdraw');
+
+//email blast for hed early enrollment
+Route::get('/email_blast','Admin\EmailBlast@email');
