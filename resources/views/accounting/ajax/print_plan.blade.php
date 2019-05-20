@@ -164,7 +164,7 @@ function get_total($level) {
     <body>
 
         <span id="school_name">ASSUMPTION COLLEGE</span><br>
-        <span> School Year : 2018-2019 <br>
+        <span> School Year : 2019-2020 <br>
             @if($department == "Pre School")
             BEPS
             @elseif($department == "Elementary")
@@ -172,7 +172,7 @@ function get_total($level) {
             @elseif($department == "Junior High School")
             BEHS
             @elseif($department == "Senior High School")
-            Period : 2nd Semester<br>
+            Period : 1st Semester Semester<br>
             SHS
             @endif
             <br>
@@ -443,10 +443,10 @@ function get_total($level) {
             <tr>
                 <td>Mode of Payment</td>
                 <td>Upon Enrollment</td>
-                <td>Feb</td>
-                <td>Mar</td>
-                <td>Apr</td>
-                <td>May</td>
+                <td>Sept</td>
+                <td>Oct</td>
+                <td>Nov</td>
+                <td>Dec</td>
                 <td>Total</td>
             </tr>
             
