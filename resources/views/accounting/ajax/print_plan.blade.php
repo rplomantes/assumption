@@ -33,42 +33,42 @@ function get_category_plan($plan,$level,$type) {
             $amount = $total_total;
         }
         elseif($plan == "Semestral"){
-            $semestral_fee = ($total_tuition*1.01) / 2;
+            $semestral_fee = (round($total_tuition*1.01)) / 2;
             $whole = floor($semestral_fee);
             $decimal = $semestral_fee - $whole;
             if($type == "UE"){
                 $amount = $semestral_fee + ($total_total - $total_tuition) + $decimal;
             }
             elseif($type == "Total"){
-                $amount = ($total_tuition*1.01) + ($total_total - $total_tuition);
+                $amount = (round($total_tuition*1.01)) + ($total_total - $total_tuition);
             }
             else{
                 $amount = $semestral_fee - $decimal;
             }
         }
         elseif($plan == "Quarterly"){
-            $quarterly_fee = ($total_tuition*1.02) / 4;
+            $quarterly_fee = (round($total_tuition*1.02)) / 4;
             $whole = floor($quarterly_fee);
             $decimal = $quarterly_fee - $whole;
             if($type == "UE"){
                 $amount = $quarterly_fee + ($total_total - $total_tuition) + ($decimal*3);
             }
             elseif($type == "Total"){
-                $amount = ($total_tuition*1.02) + ($total_total - $total_tuition);
+                $amount = (round($total_tuition*1.02)) + ($total_total - $total_tuition);
             }
             else{
                 $amount = $quarterly_fee - $decimal;
             }
         }
         elseif($plan == "Monthly"){
-            $monthly_fee = ($total_tuition*1.03) / 10;
+            $monthly_fee = (round($total_tuition*1.03)) / 10;
             $whole = floor($monthly_fee);
             $decimal = $monthly_fee - $whole;
             if($type == "UE"){
                 $amount = $monthly_fee + ($total_total - $total_tuition) + ($decimal*9);
             }
             elseif($type == "Total"){
-                $amount = ($total_tuition*1.03) + ($total_total - $total_tuition);
+                $amount = (round($total_tuition*1.03)) + ($total_total - $total_tuition);
             }
             else{
                 $amount = $monthly_fee - $decimal;
@@ -88,14 +88,14 @@ function get_category_plan_shs($plan,$level,$type) {
             $amount = $total_total;
         }
         elseif($plan == "Plan B"){
-            $semestral_fee = ($total_tuition*1.01) / 2;
+            $semestral_fee = (round($total_tuition*1.01)) / 2;
             $whole = floor($semestral_fee);
             $decimal = $semestral_fee - $whole;
             if($type == "UE"){
                 $amount = $semestral_fee + ($total_total - $total_tuition) + $decimal;
             }
             elseif($type == "Total"){
-                $amount = ($total_tuition*1.01) + ($total_total - $total_tuition);
+                $amount = (round($total_tuition*1.01)) + ($total_total - $total_tuition);
             }
             else{
                 $amount = $semestral_fee - $decimal;
@@ -109,21 +109,21 @@ function get_category_plan_shs($plan,$level,$type) {
                 $amount = $quarterly_fee + ($total_total - $total_tuition) + ($decimal*2);
             }
             elseif($type == "Total"){
-                $amount = ($total_tuition*1.02) + ($total_total - $total_tuition);
+                $amount = (round($total_tuition*1.02)) + ($total_total - $total_tuition);
             }
             else{
                 $amount = $quarterly_fee - $decimal;
             }
         }
         elseif($plan == "Plan D"){
-            $monthly_fee = ($total_tuition*1.03) / 5;
+            $monthly_fee = (round($total_tuition*1.03)) / 5;
             $whole = floor($monthly_fee);
             $decimal = $monthly_fee - $whole;
             if($type == "UE"){
                 $amount = $monthly_fee + ($total_total - $total_tuition) + ($decimal*4);
             }
             elseif($type == "Total"){
-                $amount = ($total_tuition*1.03) + ($total_total - $total_tuition);
+                $amount = (round($total_tuition*1.03)) + ($total_total - $total_tuition);
             }
             else{
                 $amount = $monthly_fee - $decimal;
