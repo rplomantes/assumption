@@ -22,6 +22,116 @@ function get_plan($level, $category) {
     return $amount;
 }
 
+function get_category_plan($plan,$level,$type) {
+        $amount = 0;
+        $total_tuition = get_plan($level, 'Tuition Fee');
+        $total_misc = get_plan($level, 'Miscellaneous Fees');
+        $total_others = get_plan($level, 'Other Fees');
+        $total_dep = get_plan($level, 'Depository Fees');
+        $total_total = $total_tuition + $total_misc + $total_others + $total_dep;
+        if($plan == "Annual"){
+            $amount = $total_total;
+        }
+        elseif($plan == "Semestral"){
+            $semestral_fee = ($total_tuition*1.01) / 2;
+            $whole = floor($semestral_fee);
+            $decimal = $semestral_fee - $whole;
+            if($type == "UE"){
+                $amount = $semestral_fee + ($total_total - $total_tuition) + $decimal;
+            }
+            elseif($type == "Total"){
+                $amount = ($total_tuition*1.01) + ($total_total - $total_tuition);
+            }
+            else{
+                $amount = $semestral_fee - $decimal;
+            }
+        }
+        elseif($plan == "Quarterly"){
+            $quarterly_fee = ($total_tuition*1.02) / 4;
+            $whole = floor($quarterly_fee);
+            $decimal = $quarterly_fee - $whole;
+            if($type == "UE"){
+                $amount = $quarterly_fee + ($total_total - $total_tuition) + ($decimal*3);
+            }
+            elseif($type == "Total"){
+                $amount = ($total_tuition*1.02) + ($total_total - $total_tuition);
+            }
+            else{
+                $amount = $quarterly_fee - $decimal;
+            }
+        }
+        elseif($plan == "Monthly"){
+            $monthly_fee = ($total_tuition*1.03) / 10;
+            $whole = floor($monthly_fee);
+            $decimal = $monthly_fee - $whole;
+            if($type == "UE"){
+                $amount = $monthly_fee + ($total_total - $total_tuition) + ($decimal*9);
+            }
+            elseif($type == "Total"){
+                $amount = ($total_tuition*1.03) + ($total_total - $total_tuition);
+            }
+            else{
+                $amount = $monthly_fee - $decimal;
+            }
+        }
+        echo number_format($amount,2);
+}
+
+function get_category_plan_shs($plan,$level,$type) {
+        $amount = 0;
+        $total_tuition = get_plan($level, 'Tuition Fee');
+        $total_misc = get_plan($level, 'Miscellaneous Fees');
+        $total_others = get_plan($level, 'Other Fees');
+        $total_dep = get_plan($level, 'Depository Fees');
+        $total_total = $total_tuition + $total_misc + $total_others + $total_dep;
+        if($plan == "Plan A"){
+            $amount = $total_total;
+        }
+        elseif($plan == "Plan B"){
+            $semestral_fee = ($total_tuition*1.01) / 2;
+            $whole = floor($semestral_fee);
+            $decimal = $semestral_fee - $whole;
+            if($type == "UE"){
+                $amount = $semestral_fee + ($total_total - $total_tuition) + $decimal;
+            }
+            elseif($type == "Total"){
+                $amount = ($total_tuition*1.01) + ($total_total - $total_tuition);
+            }
+            else{
+                $amount = $semestral_fee - $decimal;
+            }
+        }
+        elseif($plan == "Plan C"){
+            $quarterly_fee = ($total_tuition*1.02) / 3;
+            $whole = floor($quarterly_fee);
+            $decimal = $quarterly_fee - $whole;
+            if($type == "UE"){
+                $amount = $quarterly_fee + ($total_total - $total_tuition) + ($decimal*2);
+            }
+            elseif($type == "Total"){
+                $amount = ($total_tuition*1.02) + ($total_total - $total_tuition);
+            }
+            else{
+                $amount = $quarterly_fee - $decimal;
+            }
+        }
+        elseif($plan == "Plan D"){
+            $monthly_fee = ($total_tuition*1.03) / 5;
+            $whole = floor($monthly_fee);
+            $decimal = $monthly_fee - $whole;
+            if($type == "UE"){
+                $amount = $monthly_fee + ($total_total - $total_tuition) + ($decimal*4);
+            }
+            elseif($type == "Total"){
+                $amount = ($total_tuition*1.03) + ($total_total - $total_tuition);
+            }
+            else{
+                $amount = $monthly_fee - $decimal;
+            }
+        }
+        echo number_format($amount,2);
+}
+
 function get_srf($level, $strand) {
     $srf = \App\CtrBedSrf::where('level', $level)->where('strand', $strand)->first();
     if (count($srf) > 0) {
@@ -102,16 +212,18 @@ function get_total($level) {
 
         <table border ="1" border="1" cellspacing="0" cellpadding="0" width="100%">
             <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
+            
             <tr><td colspan="12"><b>Pre Kinder</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($totalprekinder,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($totalprekinder,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($prekindertuition*1.01/2)+($totalprekinder-$prekindertuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($prekindertuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($prekindertuition*1.01)+($totalprekinder-$prekindertuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($prekindertuition*1.02/4)+($totalprekinder-$prekindertuition),2)}}</td><td></td><td>{{number_format($prekindertuition*1.02/4,2)}}</td><td></td><td>{{number_format($prekindertuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($prekindertuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($prekindertuition*1.02)+($totalprekinder-$prekindertuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($prekindertuition*1.03/10)+($totalprekinder-$prekindertuition),2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format($prekindertuition*1.03/10,2)}}</td><td>{{number_format(($prekindertuition*1.03)+($totalprekinder-$prekindertuition),2)}}</td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Pre-Kinder','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Pre-Kinder','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Pre-Kinder','UE')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','Total')}}</td></tr>
+
             <tr><td colspan="12"><b>Kinder</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($totalkinder,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($totalkinder,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($kindertuition*1.01/2)+($totalkinder-$kindertuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($kindertuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($kindertuition*1.01)+($totalkinder-$prekindertuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($kindertuition*1.02/4)+($totalkinder-$kindertuition),2)}}</td><td></td><td>{{number_format($kindertuition*1.02/4,2)}}</td><td></td><td>{{number_format($kindertuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($kindertuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($kindertuition*1.02)+($totalkinder-$kindertuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($kindertuition*1.03/10)+($totalkinder-$prekindertuition),2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format($kindertuition*1.03/10,2)}}</td><td>{{number_format(($kindertuition*1.03)+($totalkinder-$kindertuition),2)}}</td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Kinder','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Kinder','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Kinder','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Kinder','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Kinder','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Kinder','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Kinder','UE')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','Total')}}</td></tr>
         </table>    
         @endif
 
@@ -176,43 +288,40 @@ function get_total($level) {
         <table border ="1" border="1" cellspacing="0" cellpadding="0" width="100%">
             <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
             <tr><td colspan="12"><b>Grade 1</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade1total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade1total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade1tuition*1.01/2)+($grade1total-$grade1tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade1tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade1tuition*1.01)+($grade1total-$grade1tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade1tuition*1.02/4)+($grade1total-$grade1tuition),2)}}</td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade1tuition*1.02)+($grade1total-$grade1tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade1tuition*1.03/10)+($grade1total-$grade1tuition),2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format(($grade1tuition*1.03)+($grade1total-$grade1tuition),2)}}</td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 1','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 1','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 1','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 1','UE')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','Total')}}</td></tr>
+            
             <tr><td colspan="12"><b>Grade 2</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade2total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade2total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade2tuition*1.01/2)+($grade2total-$grade2tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade2tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade2tuition*1.01)+($grade2total-$grade2tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade2tuition*1.02/4)+($grade2total-$grade2tuition),2)}}</td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade2tuition*1.02)+($grade2total-$grade2tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade2tuition*1.03/10)+($grade2total-$grade2tuition),2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format(($grade2tuition*1.03)+($grade2total-$grade2tuition),2)}}</td></tr>
-
-
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 2','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 2','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 2','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 2','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 2','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 2','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 2','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 2','UE')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','Total')}}</td></tr>
+           
             <tr><td colspan="12"><b>Grade 3</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade3total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade3total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade3tuition*1.01/2)+($grade3total-$grade3tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade3tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade3tuition*1.01)+($grade3total-$grade3tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade3tuition*1.02/4)+($grade3total-$grade3tuition),2)}}</td><td></td><td>{{number_format($grade3tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade3tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade3tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade3tuition*1.02)+($grade3total-$grade3tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade3tuition*1.03/10)+($grade3total-$grade3tuition),2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format(($grade3tuition*1.03)+($grade3total-$grade3tuition),2)}}</td></tr>
-
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 3','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 3','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 3','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 3','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 3','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 3','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 3','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 3','UE')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','Total')}}</td></tr>
 
             <tr><td colspan="12"><b>Grade 4</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade4total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade4total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade4tuition*1.01/2)+($grade4total-$grade4tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade4tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade4tuition*1.01)+($grade4total-$grade4tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade4tuition*1.02/4)+($grade4total-$grade4tuition),2)}}</td><td></td><td>{{number_format($grade4tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade4tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade4tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade4tuition*1.02)+($grade4total-$grade4tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade4tuition*1.03/10)+($grade4total-$grade4tuition),2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format(($grade4tuition*1.03)+($grade4total-$grade4tuition),2)}}</td></tr>
-
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 4','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 4','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 4','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 4','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 4','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 4','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 4','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 4','UE')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','Total')}}</td></tr>
 
             <tr><td colspan="12"><b>Grade 5</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade5total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade5total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade5tuition*1.01/2)+($grade5total-$grade5tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade5tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade5tuition*1.01)+($grade5total-$grade5tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade5tuition*1.02/4)+($grade5total-$grade5tuition),2)}}</td><td></td><td>{{number_format($grade5tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade5tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade5tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade5tuition*1.02)+($grade5total-$grade5tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade5tuition*1.03/10)+($grade5total-$grade5tuition),2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format($grade5tuition*1.03/10,2)}}</td><td>{{number_format(($grade5tuition*1.03)+($grade5total-$grade5tuition),2)}}</td></tr>
-
-
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 5','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 5','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 5','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 5','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 5','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 5','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 5','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 5','UE')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','Total')}}</td></tr>
+            
             <tr><td colspan="12"><b>Grade 6</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade6total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade6total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade6tuition*1.01/2)+($grade6total-$grade6tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade6tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade6tuition*1.01)+($grade6total-$grade6tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade6tuition*1.02/4)+($grade6total-$grade6tuition),2)}}</td><td></td><td>{{number_format($grade6tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade6tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade6tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade6tuition*1.02)+($grade6total-$grade6tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade6tuition*1.03/10)+($grade6total-$grade6tuition),2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format($grade6tuition*1.03/10,2)}}</td><td>{{number_format(($grade6tuition*1.03)+($grade6total-$grade6tuition),2)}}</td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 6','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 6','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 6','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 6','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 6','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 6','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 6','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 6','UE')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','Total')}}</td></tr>
         </table>    
         @endif
 
@@ -263,29 +372,28 @@ function get_total($level) {
         <table border ="1" border="1" cellspacing="0" cellpadding="1" width="100%">
             <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
             <tr><td colspan="12"><b>Grade 7</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade1total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade1total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade1tuition*1.01/2)+($grade1total-$grade1tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade1tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade1tuition*1.01)+($grade1total-$grade1tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade1tuition*1.02/4)+($grade1total-$grade1tuition),2)}}</td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade1tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade1tuition*1.02)+($grade1total-$grade1tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade1tuition*1.03/10)+($grade1total-$grade1tuition),2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format($grade1tuition*1.03/10,2)}}</td><td>{{number_format(($grade1tuition*1.03)+($grade1total-$grade1tuition),2)}}</td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 7','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 7','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 7','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 7','UE')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','Total')}}</td></tr>
+            
             <tr><td colspan="12"><b>Grade 8</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade2total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade2total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade2tuition*1.01/2)+($grade2total-$grade2tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade2tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade2tuition*1.01)+($grade2total-$grade2tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade2tuition*1.02/4)+($grade2total-$grade2tuition),2)}}</td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade2tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade2tuition*1.02)+($grade2total-$grade2tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade2tuition*1.03/10)+($grade2total-$grade2tuition),2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format($grade2tuition*1.03/10,2)}}</td><td>{{number_format(($grade2tuition*1.03)+($grade2total-$grade2tuition),2)}}</td></tr>
-
-
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 8','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 8','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 8','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 8','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 8','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 8','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 8','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 8','UE')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','Total')}}</td></tr>
+            
             <tr><td colspan="12"><b>Grade 9</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade3total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade3total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade3tuition*1.01/2)+($grade3total-$grade3tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade3tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade3tuition*1.01)+($grade3total-$grade3tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade3tuition*1.02/4)+($grade3total-$grade3tuition),2)}}</td><td></td><td>{{number_format($grade3tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade3tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade3tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade3tuition*1.02)+($grade3total-$grade3tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade3tuition*1.03/10)+($grade3total-$grade3tuition),2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format($grade3tuition*1.03/10,2)}}</td><td>{{number_format(($grade3tuition*1.03)+($grade3total-$grade3tuition),2)}}</td></tr>
-
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 9','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 9','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 9','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 9','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 9','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 9','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 9','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 9','UE')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','Total')}}</td></tr>
 
             <tr><td colspan="12"><b>Grade 10</b></td></tr>
-            <tr><td>Annual</td><td>{{number_format($grade4total,2)}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{number_format($grade4total,2)}}</td></tr>
-            <tr><td>Semestral</td><td>{{number_format(($grade4tuition*1.01/2)+($grade4total-$grade4tuition),2)}}</td><td></td><td></td><td></td><td>{{number_format(($grade4tuition*1.01/2),2)}}</td><td></td><td></td><td></td><td></td><td></td><td>{{number_format(($grade4tuition*1.01)+($grade4total-$grade4tuition),2)}}</td></tr>
-            <tr><td>Quarterly</td><td>{{number_format(($grade4tuition*1.02/4)+($grade4total-$grade4tuition),2)}}</td><td></td><td>{{number_format($grade4tuition*1.02/4,2)}}</td><td></td><td>{{number_format($grade4tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format($grade4tuition*1.02/4,2)}}</td><td></td><td></td><td>{{number_format(($grade4tuition*1.02)+($grade4total-$grade4tuition),2)}}</td></tr>
-            <tr><td>Monthly</td><td>{{number_format(($grade4tuition*1.03/10)+($grade4total-$grade4tuition),2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format($grade4tuition*1.03/10,2)}}</td><td>{{number_format(($grade4tuition*1.03)+($grade4total-$grade4tuition),2)}}</td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 10','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 10','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 10','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 10','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 10','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 10','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 10','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 10','UE')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','Total')}}</td></tr>
 
         </table>
         @endif
@@ -341,81 +449,18 @@ function get_total($level) {
                 <td>May</td>
                 <td>Total</td>
             </tr>
-            <tr><td colspan="7"><b>Grade 11</b></td></tr>
-            <tr>
-                <td>Plan A</td>
-                <td>{{number_format($grade11total,2)}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{number_format($grade11total,2)}}</td>
-            </tr>
-            <tr>
-                <td>Plan B</td>
-                <td>{{number_format(($grade11tuition*1.01/2)+($grade11total-$grade11tuition),2)}}</td>
-                <td></td>
-                <td>{{number_format(($grade11tuition*1.01/2),2)}}</td>
-                <td></td>
-                <td></td>
-                <td>{{number_format(($grade11tuition*1.01)+($grade11total-$grade11tuition),2)}}</td>
-            </tr>
-            <tr>
-                <td>Plan C</td>
-                <td>{{number_format(($grade11tuition*1.02/3)+($grade11total-$grade11tuition),2)}}</td>
-                <td>{{number_format($grade11tuition*1.02/3,2)}}</td>
-                <td></td>
-                <td>{{number_format($grade11tuition*1.02/3,2)}}</td>
-                <td></td>
-                <td>{{number_format(($grade11tuition*1.02)+($grade11total-$grade11tuition),2)}}</td>
-            </tr>
-            <tr>
-                <td>Plan D</td>
-                <td>{{number_format(($grade11tuition*1.03/5)+($grade11total-$grade11tuition),2)}}</td>
-                <td>{{number_format($grade11tuition*1.03/5,2)}}</td>
-                <td>{{number_format($grade11tuition*1.03/5,2)}}</td>
-                <td>{{number_format($grade11tuition*1.03/5,2)}}</td>
-                <td>{{number_format($grade11tuition*1.03/5,2)}}</td>
-                <td>{{number_format(($grade11tuition*1.03)+($grade11total-$grade11tuition),2)}}</td>
-            </tr>
-            <tr><td colspan="7"><b>Grade 12</b></td></tr>
-            <tr>
-                <td>Plan A</td>
-                <td>{{number_format($grade12total,2)}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{number_format($grade12total,2)}}</td>
-            </tr>
-            <tr>
-                <td>Plan B</td>
-                <td>{{number_format(($grade12tuition*1.01/2)+($grade12total-$grade12tuition),2)}}</td>
-                <td></td>
-                <td>{{number_format(($grade12tuition*1.01/2),2)}}</td>
-                <td></td>
-                <td></td>
-                <td>{{number_format(($grade12tuition*1.01)+($grade12total-$grade12tuition),2)}}</td>
-            </tr>
-            <tr>
-                <td>Plan C</td>
-                <td>{{number_format(($grade12tuition*1.02/3)+($grade12total-$grade12tuition),2)}}</td>
-                <td>{{number_format($grade12tuition*1.02/3,2)}}</td>
-                <td></td>
-                <td>{{number_format($grade12tuition*1.02/3,2)}}</td>
-                <td></td>
-                <td>{{number_format(($grade12tuition*1.02)+($grade12total-$grade12tuition),2)}}</td>
-            </tr>
-            <tr>
-                <td>Plan D</td>
-                <td>{{number_format(($grade12tuition*1.03/5)+($grade12total-$grade12tuition),2)}}</td>
-                <td>{{number_format($grade12tuition*1.03/5,2)}}</td>
-                <td>{{number_format($grade12tuition*1.03/5,2)}}</td>
-                <td>{{number_format($grade12tuition*1.03/5,2)}}</td>
-                <td>{{number_format($grade12tuition*1.03/5,2)}}</td>
-                <td>{{number_format(($grade12tuition*1.03)+($grade12total-$grade12tuition),2)}}</td>
-            </tr>
+            
+            <tr><td colspan="12"><b>Grade 11</b></td></tr>
+            <tr><td>Plan A</td><td>{{get_category_plan_shs('Plan A','Grade 11','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan_shs('Plan A','Grade 11','Total')}}</td></tr>
+            <tr><td>Plan B</td><td>{{get_category_plan_shs('Plan B','Grade 11','UE')}}</td><td></td><td>{{get_category_plan_shs('Plan B','Grade 11','')}}</td><td></td><td></td><td>{{get_category_plan_shs('Plan B','Grade 11','Total')}}</td></tr>
+            <tr><td>Plan C</td><td>{{get_category_plan_shs('Plan C','Grade 11','UE')}}</td><td>{{get_category_plan_shs('Plan C','Grade 11','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 11','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 11','Total')}}</td></tr>
+            <tr><td>Plan D</td><td>{{get_category_plan_shs('Plan D','Grade 11','UE')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','Total')}}</td></tr>
 
+                        <tr><td colspan="12"><b>Grade 12</b></td></tr>
+            <tr><td>Plan A</td><td>{{get_category_plan_shs('Plan A','Grade 12','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan_shs('Plan A','Grade 12','Total')}}</td></tr>
+            <tr><td>Plan B</td><td>{{get_category_plan_shs('Plan B','Grade 12','UE')}}</td><td></td><td>{{get_category_plan_shs('Plan B','Grade 12','')}}</td><td></td><td></td><td>{{get_category_plan_shs('Plan B','Grade 12','Total')}}</td></tr>
+            <tr><td>Plan C</td><td>{{get_category_plan_shs('Plan C','Grade 12','UE')}}</td><td>{{get_category_plan_shs('Plan C','Grade 12','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 12','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 12','Total')}}</td></tr>
+            <tr><td>Plan D</td><td>{{get_category_plan_shs('Plan D','Grade 12','UE')}}</td><td>{{get_category_plan_shs('Plan D','Grade 12','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 12','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 12','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 12','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 12','Total')}}</td></tr>
         </table>
 
         @endif
