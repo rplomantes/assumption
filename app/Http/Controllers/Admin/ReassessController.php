@@ -545,7 +545,54 @@ class ReassessController extends Controller {
         $change = \App\Status::where('idno', $request->idno)->first();
         $change->levels_reference_id = $levels_reference_id;
         $change->update();
-//        return MainPayment::changeStatus($request->idno, $levels_reference_id);
+        return $this->changeStatus($request->idno, $levels_reference_id);
+    }
+    
+    function changeStatus($idno) {
+        $change = \App\Status::where('idno', $idno)->first();
+        $change->status = env("ENROLLED");
+        $change->date_enrolled = date('Y-m-d');
+        $change->update();
+        $no = $idno;
+        if (strlen($idno) > 10) {
+            $user = \App\User::where('idno', $idno)->first();
+            $no = MainPayment::getIdno($idno);
+            $user->idno = $no;
+            $user->save();
+        } else {
+            $status = \App\Status::where('idno', $idno)->first();
+            $status->is_new = 0;
+            $status->update();
+        }
+        return $no;
+    }
+
+    function getIdno($idno) {
+        $status = \App\Status::where('idno', $idno)->first();
+        if ($status->academic_type == "College") {
+            $id_no = \App\CtrStudentNumber::where('academic_type', "College")->first();
+            $idNumber = $id_no->idno;
+            $id_no->idno = $id_no->idno + 1;
+            $id_no->update();
+            for ($i = strlen($idNumber); $i <= 2; $i++) {
+                $idNumber = "0" . $idNumber;
+            }
+            $pre = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
+            $pre_number = $pre->school_year;
+            return substr($pre_number, 2, 2) . $idNumber;
+        } else {
+            $id_no = \App\CtrStudentNumber::where('academic_type','BED')->first();
+            $idNumber = $id_no->idno;
+            $id_no->idno = $id_no->idno + 1;
+            $id_no->update();
+            for ($i = strlen($idNumber); $i <= 2; $i++) {
+                $idNumber = "0" . $idNumber;
+            }
+            $pre = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
+            $pre_number = $pre->school_year;
+            $pre_number2 = $pre->school_year + 1;
+            return substr($pre_number, 2, 2) . substr($pre_number2, 2, 2) . $idNumber;
+        }
     }
 
     function addLatePayment($request, $schoolyear, $period) {
