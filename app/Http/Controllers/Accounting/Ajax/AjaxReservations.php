@@ -18,13 +18,16 @@ class AjaxReservations extends Controller {
             $dep = "";
             $department = Input::get('department');
             $school_year = Input::get("school_year");
-            $school_year2 = $school_year - 1;
+//            $school_year2 = $school_year - 1;
             $period = Input::get("period");
             if($period == "1st Semester"){
+            $school_year2 = $school_year - 1;
                 $period2 = "2nd Semester";
             }else if($period == "2nd Semester"){
+            $school_year2 = $school_year;
                 $period2 = "1st Semester";
             }else if($period == "Summer"){
+            $school_year2 = $school_year;
                 $period2 = "2nd Semester";
             }else{
                 $period2 = $period;
