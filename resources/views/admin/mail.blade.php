@@ -75,11 +75,11 @@
                                                     Password:&nbsp;<strong>{{$applicant_details->idno}}</strong>
                                                 </small><br><br>
                                                    
-                                                    After you login go to "Assessment" and select your payment plan, then print the unofficial registration form. This will be presented to the cashier upon payment.<br><br>
+                                                    After you log-in go to "Assessment" and select your payment plan, then print the unofficial registration form. This will be presented to the admissions' office before payment.<br><br>
                                                     
                                                     Thank you very much.<br><br>
 
-                                                If you have questions kindly call Admission's Office(817-0757).
+                                                If you have questions kindly call Admissions' Office at 817-7773/810-5083.
                                             </span>
                                         </div>
                                     </td>
