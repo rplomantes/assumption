@@ -171,3 +171,5 @@ Route::get('/accounting/ajax/newSaveFees_bed','Accounting\Ajax\AjaxScheduleOfFee
 Route::post('/registrar_college/addordrop/save','RegistrarCollege\AddingDropping\AddingDroppingController@process');
 
 Route::get('/admissions/reservation_list','Accounting\Reservations@index');
+Route::get('/accounting/manual_marking/{idno}','Cashier\MainPayment@manualMark');
+
