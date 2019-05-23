@@ -6,7 +6,7 @@ $x = 0;
     <tr><td><strong colspan="7">Assumption College</strong></td></tr>
     <tr><td colspan="7">{{$department}}</td></tr>
     <tr><td colspan="7">Unused Reservations</td></tr>
-    <tr><td colspan="7"><h5>S.Y. {{$school_year}} - {{$school_year + 1}} {{$period}}</h5>
+    <tr><td colspan="7"><h5>S.Y. {{$school_year}} - {{$school_year + 1}}, {{$period}}</h5>
 </td></tr>
     </tr>
     <?php $x = 0;?>

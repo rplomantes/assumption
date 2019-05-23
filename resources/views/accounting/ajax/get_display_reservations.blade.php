@@ -5,7 +5,7 @@
 @if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
 <h4>S.Y. {{$school_year}}-{{$school_year +1}}</h4>
 @endif
-
+As of {{date('F d, Y')}}
 @if(count($lists)>0)
 <?php $total = 0;
 $x = 0;
