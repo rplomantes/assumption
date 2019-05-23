@@ -405,10 +405,33 @@ class MainPayment extends Controller {
                             $addacct->credit = $totalpayment;
                             $addacct->posted_by = Auth::user()->idno;
                             $addacct->save();
-                            $totalpayment = 0;
+                        $totalpayment = $totalpayment - $amount;
                         }
                     }
                 }
+            }
+            if ($totalpayment > 0) {
+                if ($accounting_type == env("DEBIT_MEMO")) {
+                    $ledger->debit_memo = $ledger->debit_memo + $totalpayment;
+                }
+                $ledger->update();
+                $addacct = new \App\Accounting;
+                $addacct->transaction_date = date('Y-m-d');
+                $addacct->reference_id = $reference_id;
+                $addacct->reference_number = $ledger->id;
+                $addacct->accounting_type = $accounting_type;
+                $addacct->category = "Overpayment";
+                $addacct->subsidiary = "Overpayment";
+                $addacct->receipt_details = "Overpayment";
+                $addacct->particular = "Overpayment";
+                $addacct->accounting_code = env("OVER_PAYMENT_CODE");
+                $addacct->accounting_name = env("OVER_PAYMENT_NAME");
+                $addacct->department = "NONE";
+                $addacct->fiscal_year = $fiscal_year;
+                $addacct->credit = $totalpayment;
+                $addacct->posted_by = Auth::user()->idno;
+                $addacct->save();
+                $totalpayment = 0;
             }
         }
     }
