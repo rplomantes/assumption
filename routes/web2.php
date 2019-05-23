@@ -172,4 +172,5 @@ Route::post('/registrar_college/addordrop/save','RegistrarCollege\AddingDropping
 
 Route::get('/admissions/reservation_list','Accounting\Reservations@index');
 Route::get('/accounting/manual_marking/{idno}','Cashier\MainPayment@manualMark');
+Route::get('/admission/send_email/{idno}','AdmissionHED\ViewInfoAdmissionHedController@email');
 

@@ -12,7 +12,7 @@
                 
             }elseif($adhedinfo->applying_for == "Graduate School"){
                 $ctr_academic_program = \App\CtrAcademicProgram::SelectRaw("distinct program_name")->where('academic_type','Masters Degree')->get();
-            }
+            }        
 ?>
 @extends($layout)
 @section('messagemenu')
@@ -424,11 +424,30 @@
                                 <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text" value='{{old('specify_condition', $adhedinfo->specify_condition)}}'>
                             </div>        
                         </div>   
+                        @if(empty($email) && $status->status != env("ENROLLED"))
+                            @if($adhedinfo->admission_status == 'Regular' || $adhedinfo->admission_status == 'Scholar') 
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a role="button" href="{{url('admission',array('send_email',$idno))}}" class="form form-control btn btn-warning">Send email for AC Portal Access</a>
+                                </div>
+                            </div>
+                            @else
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
+                                </div>
+                            </div>
+                            @endif
+                        @else
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                             </div>
                         </div>
+                        @endif
                       
                     </div>
                 </div>

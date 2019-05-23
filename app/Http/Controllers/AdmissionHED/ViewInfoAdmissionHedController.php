@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use Session;
+use Mail;
 
 class ViewInfoAdmissionHedController extends Controller {
 
@@ -20,7 +21,9 @@ class ViewInfoAdmissionHedController extends Controller {
             $adhedinfo = \App\AdmissionHed::where('idno', $idno)->first();
             $studentinfos = \App\StudentInfo::where('idno', $idno)->first();
             $admissionreq = \App\AdmissionHedRequirements::where('idno', $idno)->first();
-            return view('admission-hed.viewinfo.view', compact('idno', 'users', 'adhedinfo', 'studentinfos', 'admissionreq'));
+            $email = \App\EmailBlast::where('idno',$idno)->where('is_done',1)->first();
+            $status = \App\Status::where('idno',$idno)->first();
+            return view('admission-hed.viewinfo.view', compact('email','status','idno', 'users', 'adhedinfo', 'studentinfos', 'admissionreq'));
         }
     }
 
@@ -144,6 +147,43 @@ class ViewInfoAdmissionHedController extends Controller {
         $update_admission_checklist->medical_clearance = $request->medical_clearance;
         $update_admission_checklist->remarks = $request->remarks;
         $update_admission_checklist->update();
+    }
+    
+    function email($idno) {
+        if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
+            DB::beginTransaction();
+            $email_blast = new \App\EmailBlast();
+            $email_blast->idno = $idno;
+            $email_blast->save();
+            
+            $admission = \App\AdmissionHed::where('idno', $idno)->first();
+            $admission->is_first_enrollment = 1;
+            $admission->save();
+                
+            $blast = \App\EmailBlast::where('idno', $idno)->first();
+            $blast->is_done = 1;
+            $blast->save();
+                
+            $this->sendEmail($idno);
+            
+            DB::Commit();
+            return redirect(url('admission_hed',array('view_info',$idno)));
+//            return "Done";
+        }
+    }
+
+    function sendEmail($idno) {
+        $applicant_details = \App\User::where('idno', $idno)->first();
+        $applicant_details->password = bcrypt($idno);
+        $applicant_details->status = 1;
+        $applicant_details->save();
+        
+        $data = array('name' => $applicant_details->firstname . " " . $applicant_details->lastname, 'email' => $applicant_details->email);
+        Mail::send('admin.mail', compact('applicant_details'), function($message) use($applicant_details) {
+            $message->to($applicant_details->email, $applicant_details->firstname . " " . $applicant_details->lastname)
+                    ->subject('AC Portal Access');
+            $message->from('ac.sis@assumption.edu.ph', "AC Student Information System");
+        });
     }
 
 }
