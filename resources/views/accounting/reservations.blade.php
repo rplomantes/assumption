@@ -6,8 +6,12 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
 <?php
 if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     $layout = "layouts.appaccountingstaff";
-} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+} 
+else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
     $layout = "layouts.appaccountinghead";
+}
+else if (Auth::user()->accesslevel == env("ADMISSION_HED")){
+  $layout = "layouts.appadmission-hed";  
 }
 ?>
 @extends($layout)
@@ -67,6 +71,9 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         <form id="myForm" method="post" target='_blank' action="">
             {{ csrf_field() }}
             <div class="form-group">
+                @if(Auth::user()->accesslevel == env("ADMISSION_HED"))
+                <input type="hidden" name="department" id="department" value="College Department">
+                @else
                 <div class="col-sm-3">
                     <label>Department</label>
                     <select class="form form-control" name="department" id="department">
@@ -78,6 +85,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <option>College Department</option>
                     </select>
                 </div>
+                @endif
                 <div class="col-sm-3">
                     <label>School Year</label>
                     <select class="form form-control" name="school_year" id="school_year">
@@ -89,7 +97,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <option value=2022>2022-2023</option>
                     </select>
                 </div>
-                <div class="col-sm-3" id="period_control">
+                <div class="col-sm-3" @if(Auth::user()->accesslevel != env("ADMISSION_HED")) id="period_control" @endif>
                     <label>Period</label>
                     <select class="form form-control" name="period" id="period">
                         <option value="">Select Period</option>

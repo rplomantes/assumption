@@ -35,16 +35,20 @@ $x = 0;
                     <td align='left'>{{$list->idno}}</td>
                     <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
                     @if($department == "College Department")
-                    <td>{{$list->program_code}} </td>
+                    <td>{{$list->program_code}}</td>
                     @endif
                     <td>{{$list->level}}</td>
+                    @if(Auth::user()->accesslevel == env("ADMISSION_HED"))
+                    <td>{{$list->receipt_no}}</td>
+                    @else
                     <td><a href="{{url('cashier', array('viewreceipt',$list->reference_id))}}">{{$list->receipt_no}}</a></td>
+                    @endif
                     <td>{{$list->transaction_date}}</td>
                     <td align='right'>{{number_format($list->amount,2)}}</td>
                 </tr>
             @endforeach
             <tr>
-                <td style="border-top:1px solid black" colspan="6"><strong>Total</strong></td>
+                <td style="border-top:1px solid black" @if($department == "College Department") colspan="7" @else colspan="6" @endif><strong>Total</strong></td>
                 <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td>
             </tr>
     </tbody>

@@ -122,6 +122,16 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
                                 ?>                        
                         <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-bar-chart"></i> <span>Reports</span>   
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/admissions',array('reservation_list'))}}"><span>Reservations</span></a></li>
+                            </ul>
+                        </li>
                 </section>
             </aside>
             <div class="content-wrapper">

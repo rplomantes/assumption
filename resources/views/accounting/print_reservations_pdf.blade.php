@@ -54,7 +54,7 @@ $x = 0;
                 </tr>
             @endforeach
             <tr>
-                <td style="border-top:1px solid black" colspan="6"><strong>Total</strong></td>
+                <td style="border-top:1px solid black" @if($department == "College Department") colspan="7" @else colspan="6" @endif><strong>Total</strong></td>
                 <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td>
             </tr>
     </tbody>

@@ -16,13 +16,13 @@ class Reservations extends Controller {
     }
 
     function index() {
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ADMISSION_HED")) {
             return view('accounting.reservations');
         }
     }
     
     function print_reservationsPDF(Request $request){
-        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD') || Auth::user()->accesslevel == env("ADMISSION_HED")) {
 
             $dep = "";
             $department = $request->department;
@@ -74,7 +74,7 @@ class Reservations extends Controller {
     }
     
     function print_reservationsEXCEL(Request $request){
-        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')  || Auth::user()->accesslevel == env("ADMISSION_HED")) {
             $dep = "";
             $department = $request->department;
             $school_year = $request->school_year;
@@ -144,7 +144,7 @@ class Reservations extends Controller {
     }
 
     function index2() {
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")  || Auth::user()->accesslevel == env("ADMISSION_HED")) {
             $reservation = \App\Reservation::where('reservation_type', 1)->where('is_consumed', 0)->join('users', 'users.idno', '=', 'reservations.idno')->join('statuses', 'statuses.idno', '=', 'reservations.idno')->orderBy('statuses.level', 'asc')->orderBy('users.lastname', 'asc')->orderBy('reservations.transaction_date', 'asc')->get();
             
             $reservations = collect();
