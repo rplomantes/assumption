@@ -27,17 +27,25 @@ class Reservations extends Controller {
             $dep = "";
             $department = $request->department;
             $school_year = $request->school_year;
-            $school_year2 = $school_year - 1;
             $period = $request->period;
-            if($period == "1st Semester"){
-                $period2 = "2nd Semester";
-            }else if($period == "2nd Semester"){
-                $period2 = "1st Semester";
-            }else if($period == "Summer"){
-                $period2 = "2nd Semester";
+            
+            if($department == "Senior High School" || $department == "College Department"){
+                if($period == "1st Semester"){
+                $school_year2 = $school_year - 1;
+                    $period2 = "2nd Semester";
+                }else if($period == "2nd Semester"){
+                $school_year2 = $school_year;
+                    $period2 = "1st Semester";
+                }else if($period == "Summer"){
+                $school_year2 = $school_year;
+                    $period2 = "2nd Semester";
+                }else{
+                    $period2 = $period;
+                }
             }else{
-                $period2 = $period;
+                $school_year2 = $school_year - 1;
             }
+            
             if ($department == "Senior High School") {
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('is_consumed', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->where('payments.period', $period2)->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"Senior High School")->orderBy('users.lastname', 'asc')->get();
             } else if ($department == "College Department") {
@@ -70,17 +78,25 @@ class Reservations extends Controller {
             $dep = "";
             $department = $request->department;
             $school_year = $request->school_year;
-            $school_year2 = $school_year - 1;
             $period = $request->period;
-            if($period == "1st Semester"){
-                $period2 = "2nd Semester";
-            }else if($period == "2nd Semester"){
-                $period2 = "1st Semester";
-            }else if($period == "Summer"){
-                $period2 = "2nd Semester";
+            
+            if($department == "Senior High School" || $department == "College Department"){
+                if($period == "1st Semester"){
+                $school_year2 = $school_year - 1;
+                    $period2 = "2nd Semester";
+                }else if($period == "2nd Semester"){
+                $school_year2 = $school_year;
+                    $period2 = "1st Semester";
+                }else if($period == "Summer"){
+                $school_year2 = $school_year;
+                    $period2 = "2nd Semester";
+                }else{
+                    $period2 = $period;
+                }
             }else{
-                $period2 = $period;
+                $school_year2 = $school_year - 1;
             }
+            
             if ($department == "Senior High School") {
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('is_consumed', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->where('payments.period', $period2)->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"Senior High School")->orderBy('users.lastname', 'asc')->get();
             } else if ($department == "College Department") {

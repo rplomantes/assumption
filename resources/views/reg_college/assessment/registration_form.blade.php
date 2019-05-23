@@ -319,10 +319,11 @@ foreach ($discounts as $discount) {
         @endif
         @if($dfee > 0)
         <tr>
-            <td>Discounts
+            <td>
             @if(count($discount_names) > 0)
         @foreach ($discount_names as $dname )
-            -{{$dname->discount_code}}
+        <?php $discountname = \App\CtrDiscount::where('discount_code', $dname->discount_code)->first(); ?>
+        {{$discountname->discount_description}}
         @endforeach
         @endif
             </td>
@@ -690,10 +691,11 @@ foreach ($discounts as $discount) {
         @endif
         @if($dfee > 0)
         <tr>
-            <td>Discounts
+            <td>
             @if(count($discount_names) > 0)
         @foreach ($discount_names as $dname )
-            -{{$dname->discount_code}}
+        <?php $discountname = \App\CtrDiscount::where('discount_code', $dname->discount_code)->first(); ?>
+        {{$discountname->discount_description}}
         @endforeach
         @endif
             </td>
