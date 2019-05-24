@@ -259,7 +259,7 @@ class NewStudentController extends Controller {
         $add_new_student_info->guardian_contact= $guardian_contact;
         $add_new_student_info->guardian_email = $guardian_email;
         $add_new_student_info->guardian_type = $guardian_type;
-        $add_new_student_info->is_first_enrollment = 1;
+//        $add_new_student_info->is_first_enrollment = 0;
 //        $add_new_student_info->condition = $condition;
         $add_new_student_info->save();
     }

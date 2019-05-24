@@ -414,6 +414,7 @@ foreach ($discounts as $discount) {
         <li>In the event this form was not accomplished within 1 day, students are advised to verify with Registering Officer for availability of the schedules listed above.</li>
         <li>This form remains valid as long as ALL schedule of classes listed above are still OPEN.</li>
         <li>12 units and below FULL PAYMENTS.</li>
+        <li>Tuition Fee will be adjusted after CHED approval of increase.</li>
     </ol>
 </div>
 
@@ -786,6 +787,7 @@ foreach ($discounts as $discount) {
         <li>In the event this form was not accomplished within 1 day, students are advised to verify with Registering Officer for availability of the schedules listed above.</li>
         <li>This form remains valid as long as ALL schedule of classess listed above are still OPEN.</li>
         <li>12 units and below FULL PAYMENTS.</li>
+        <li>Tuition Fee will be adjusted after CHED approval of increase.</li>
     </ol>
 </div>
 

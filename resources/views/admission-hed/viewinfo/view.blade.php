@@ -431,7 +431,7 @@
                                     <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                                 </div>
                                 <div class="col-sm-6">
-                                    <a role="button" href="{{url('admission',array('send_email',$idno))}}" class="form form-control btn btn-warning">Send email for AC Portal Access</a>
+                                    <a role="button" href="{{url('admission',array('send_email',$idno))}}" class="form form-control btn btn-warning">Send email for AC Portal Access of 1st Year Student</a>
                                 </div>
                             </div>
                             @else
