@@ -407,14 +407,14 @@ foreach ($discounts as $discount) {
     </tr>
 </table>
 
-<div style="text-align: justify; font-size: 7pt">
+<div style="text-align: justify; font-size: 9pt">
     <div align="left"><strong>NOTE:</strong></div>
     <ol>
         <li>Students are advised to accomplish within 1 day</li>
         <li>In the event this form was not accomplished within 1 day, students are advised to verify with Registering Officer for availability of the schedules listed above.</li>
         <li>This form remains valid as long as ALL schedule of classes listed above are still OPEN.</li>
         <li>12 units and below FULL PAYMENTS.</li>
-        <li>Tuition Fee will be adjusted after CHED approval of increase.</li>
+        <li><b>Tuition Fee will be adjusted after CHED approval of increase.</b></li>
     </ol>
 </div>
 
@@ -780,14 +780,14 @@ foreach ($discounts as $discount) {
     </tr>
 </table>
 
-<div style="text-align: justify; font-size: 7pt">
+<div style="text-align: justify; font-size: 9pt">
     <div align="left"><strong>NOTE:</strong></div>
     <ol>
         <li>Students are advised to accomplish within 1 day</li>
         <li>In the event this form was not accomplished within 1 day, students are advised to verify with Registering Officer for availability of the schedules listed above.</li>
         <li>This form remains valid as long as ALL schedule of classess listed above are still OPEN.</li>
         <li>12 units and below FULL PAYMENTS.</li>
-        <li>Tuition Fee will be adjusted after CHED approval of increase.</li>
+        <li></b>Tuition Fee will be adjusted after CHED approval of increase.<b></li>
     </ol>
 </div>
 
