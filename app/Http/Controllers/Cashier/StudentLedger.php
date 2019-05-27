@@ -86,14 +86,22 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 }
             }
 
-            $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
-            $due_dates_list_amount = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
-            $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->where('due_date', '<=', date('Y-m-31'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
+            if($status->status == env("ENROLLED") || $status->status == env("ASSESSED")){
+                $ss = $status->school_year;
+                $pp = $status->period;
+            }else{
+                $ss = 0000;
+                $pp = 0000;
+            }
+            
+            $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
+            $due_dates_list_amount = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
+            $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_date', '<=', date('Y-m-31'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
             if($status->academic_type == "SHS" || $status->academic_type == "College"){
-            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $ss)->where('period', $pp)->get();
             }else{
-            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $status->school_year)->get();
+            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $ss)->get();
             }
             
             $ledger_others = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->get();
