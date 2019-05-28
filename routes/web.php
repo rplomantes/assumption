@@ -159,6 +159,7 @@ Route::get('/registrar_college/curriculum_management/faculty_loading', 'Registra
 Route::get('/registrar_college/curriculum_management/edit_faculty_loading/{idno}', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@edit_faculty_loading');
 Route::post('/registrar_college/curriculum_management/add_faculty_loading', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@add_faculty_loading');
 Route::get('/registrar_college/curriculum_management/remove_faculty_loading/{id}/{idno}', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@remove_faculty_loading');
+Route::get('/registrar_college/curriculum_management/print_faculty_loading/{idno}', 'RegistrarCollege\CurriculumManagement\FacultyLoadingController@print_faculty_loading');
 //Ajax Assign Instructor
 Route::get('/ajax/registrar_college/curriculum_management/show_available_loads/','RegistrarCollege\CurriculumManagement\Ajax\facultyloading_ajax@show_available_loads');
 //Edit Schedule

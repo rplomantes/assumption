@@ -5,6 +5,7 @@ namespace App\Http\Controllers\RegistrarCollege\CurriculumManagement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use PDF;
 use Session;
 
 class FacultyLoadingController extends Controller {
@@ -77,6 +78,20 @@ class FacultyLoadingController extends Controller {
             \App\Http\Controllers\Admin\Logs::log("Remove loading this schedule:$schedule_id");
             
             return redirect("/registrar_college/curriculum_management/edit_faculty_loading/$idno");
+        }
+    }
+    function print_faculty_loading($idno){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
+            $faculty = \App\User::where('idno', $idno)->first();
+            
+            $user = \App\User::where('idno', $idno)->first();
+            $loads = \App\ScheduleCollege::distinct()->where('instructor_id', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['schedule_id', 'course_code']);
+            $courses = \App\CourseOffering::distinct()->where('school_year', $school_year->school_year)->where('period', $school_year->period)->get(['course_name', 'course_code']);
+            
+            $pdf = PDF::loadView('reg_college.curriculum_management.print_faculty_loading',compact('courses','school_year','faculty','user','loads'));
+            $pdf->setPaper('letter','landscape');
+          return $pdf->stream('faculty_loading.pdf'); 
         }
     }
 

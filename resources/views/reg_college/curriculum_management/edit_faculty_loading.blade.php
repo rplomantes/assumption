@@ -37,7 +37,7 @@ $layout = "layouts.appreg_college";
 @section('header')
 <section class="content-header">
     <h1>
-        {{$faculty->firstname}} {{$faculty->lastname}}
+        {{$faculty->firstname}} {{$faculty->lastname}} {{$faculty->extensionname}}
         <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
@@ -143,6 +143,7 @@ $layout = "layouts.appreg_college";
                     @endif
                 </div>
             </div>
+            <a href="{{url('registrar_college' ,array('curriculum_management','print_faculty_loading',$idno))}}"><button class="btn btn-primary col-sm-12">Print Faculty Loading</button></a>
         </div>
     </div>
                         @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
