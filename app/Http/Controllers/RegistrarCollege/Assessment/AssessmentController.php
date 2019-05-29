@@ -184,6 +184,7 @@ class AssessmentController extends Controller {
             }
         }
         //check enrollment cut off
+        //last day of enrollment should be in the enrollment cut off
         $cut_off = \App\CtrEnrollmentCutOff::where('academic_type', "College")->first();
         if (date('Y-m-d') > $cut_off->cut_off) {
             $this->addLatePayment($idno, $school_year, $period, $level, $program_code);

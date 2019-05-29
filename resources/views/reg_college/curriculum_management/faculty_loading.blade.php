@@ -71,7 +71,7 @@ $layout = "layouts.appreg_college";
                             @foreach($faculties as $faculty)
                             <tr>
                                 <td>{{$faculty->idno}}</td>
-                                <td>{{$faculty->lastname}}, {{$faculty->firstname}}</td>
+                                <td>{{$faculty->lastname}} {{$faculty->extensionname}}, {{$faculty->firstname}}</td>
                                 <td><a href='{{ url ('registrar_college', array('curriculum_management', 'edit_faculty_loading',$faculty->idno))}}'><button class='btn btn-info'><span class='fa fa-pencil'></span></button></a></td>
                             </tr>
                             @endforeach

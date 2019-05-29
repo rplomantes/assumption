@@ -504,3 +504,7 @@ Route::get('/registrar_college/withdraw_enrolled_student/{status}/{date_today}/{
 
 //email blast for hed early enrollment
 Route::get('/email_blast','Admin\EmailBlast@email');
+
+//portal notifications
+Route::get('/registrar_college/portal_notifications','RegistrarCollege\NotificationsController@portal_notifications');
+Route::post('/registrar_college/portal_notifications/post','RegistrarCollege\NotificationsController@post_notifications');

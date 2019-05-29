@@ -233,6 +233,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('reports', 'nstp_reports'))}}"><i class="fa fa-circle-o"></i> <span>NSTP Reports</span></a></li>
                             </ul>
                         </li>
+                        <li><a href="{{url('/registrar_college',array('portal_notifications'))}}"><i class="fa fa-bell"></i> <span>Notifications</span></a></li>
                     </ul>
                 </section>
             </aside>
