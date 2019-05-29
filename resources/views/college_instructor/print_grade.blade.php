@@ -248,7 +248,7 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
                 <tr>
                     <td style="border-bottom:1px solid black"><div align="right">{{$number}}.<?php $number = $number + 1; ?></div></td>
                     <td style="border-bottom:1px solid black">{{$student->idno}}</td>
-                    <td style="border-bottom:1px solid black">{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} </td>
+                    <td style="border-bottom:1px solid black">{{strtoupper($student->lastname)}}, {{strtoupper($student->firstname)}} {{strtoupper($student->middlename)}}</td>
                     <td style="border-bottom:1px solid black" align='center'>{{$student->midterm}}</td>
                     <td style="border-bottom:1px solid black" align='center'>{{$student->finals}}</td>
                     <td style="border-bottom:1px solid black"></td>

@@ -109,6 +109,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @foreach($credit_sy as $sy)
             <?php $credit_pr = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
             @foreach ($credit_pr as $pr)
+<?php
+$credit = 0;
+$gpa = 0;
+$count = 0;
+?>
             <?php $credit_school = \App\CollegeCredit::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->orderBy('school_name', 'asc')->get(['school_name']); ?>
             @foreach ($credit_school as $sr)
             <?php $credit = \App\CollegeCredit::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->where('school_name', $sr->school_name)->get(); ?><h4>@if($sr->school_name != ""){{$sr->school_name}} : @endif{{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}}</h4>
@@ -124,6 +129,62 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach ($credit as $grade)
+<?php
+$is_x=0;
+$display_final_grade = $grade->finals;
+$display_final_completion = $grade->completion;
+if(stripos($grade->course_code, "NSTP") !== FALSE){
+    $gpa = $gpa;
+    $count = $count;
+    $credit = $credit;
+if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+        $is_x = 1;
+    }else{
+        $is_x = 0;
+        if ($grade->completion == "PASSED") {
+        $is_x = 0;
+        } else {
+            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                $is_x = 1;
+            }
+        }
+    }
+}else{
+    if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
+        $gpa = $gpa;
+        $count = $count;
+        $credit = $credit;
+            if($grade->finals != "PASSED"){
+            $is_x = 1;
+            }
+    } else if ($grade->finals == "INC") {
+        if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+            $gpa = $gpa;
+            $credit = $credit;
+            $count = $count;
+            if($grade->completion != "PASSED"){
+            $is_x = 1;
+            }
+        } else {
+
+            if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                $grade->completion = "4.00";
+                $is_x = 1;
+            }
+
+            $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+            $count = $count + $grade->lec + $grade->lab;
+        }
+    } else {
+        if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
+            $grade->finals = "4.00";
+                $is_x = 1;
+        }
+        $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+        $count = $count + $grade->lec + $grade->lab;
+    }
+}
+?>
                     <tr>
                         <td>{{$grade->credit_code}}</td>
                         <td>{{$grade->credit_name}}</td>
@@ -181,6 +242,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <!--<td><a href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>-->
                     </tr>
                     @endforeach
+                    <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
                 </tbody>
             </table>
             @endforeach
@@ -193,6 +255,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @foreach ($pinnacle_sy as $pin_sy)
             <?php $pinnacle_period = \App\CollegeGrades2018::distinct()->where('idno', $idno)->where('school_year', $pin_sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
             @foreach($pinnacle_period as $pin_pr)
+<?php
+$credit = 0;
+$gpa = 0;
+$count = 0;
+?>
             <?php $pinnacle_grades = \App\CollegeGrades2018::where('idno', $idno)->where('school_year', $pin_sy->school_year)->where('period', $pin_pr->period)->get(); ?>
             <h4>{{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}, {{$pin_pr->period}}</h4>
             <table class="table table-striped table-condensed" width="100%">
@@ -207,6 +274,69 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach($pinnacle_grades as $pin_grades)
+                    @if (stripos($pin_grades->course_code, "+") !== FALSE)
+<?php
+$gpa = 0;
+$count = 1;
+?>
+        @else
+<?php
+$is_x=0;
+$display_final_grade = $pin_grades->finals;
+$display_final_completion = $pin_grades->completion;
+if(stripos($pin_grades->course_code, "NSTP") !== FALSE){
+    $gpa = $gpa;
+    $count = $count;
+    $credit = $credit;
+if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades->finals == "UD"  || $pin_grades->finals == "4.00"){
+        $is_x = 1;
+    }else{
+        $is_x = 0;
+        if ($pin_grades->completion == "PASSED") {
+        $is_x = 0;
+        } else {
+            if ($pin_grades->completion == "" || $pin_grades->completion == "AUDIT" || $pin_grades->completion == "NA" || $pin_grades->completion == "NG" || $pin_grades->completion == "W" || $pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "4.00") {
+                $is_x = 1;
+            }
+        }
+    }
+}else{
+    if ($pin_grades->finals == "" || $pin_grades->finals == "AUDIT" || $pin_grades->finals == "NA" || $pin_grades->finals == "NG" || $pin_grades->finals == "W" || $pin_grades->finals == "PASSED") {
+        $gpa = $gpa;
+        $count = $count;
+        $credit = $credit;
+            if($pin_grades->finals != "PASSED"){
+            $is_x = 1;
+            }
+    } else if ($pin_grades->finals == "INC") {
+        if ($pin_grades->completion == "" || $pin_grades->completion == "AUDIT" || $pin_grades->completion == "NA" || $pin_grades->completion == "NG" || $pin_grades->completion == "W" || $pin_grades->completion == "PASSED") {
+            $gpa = $gpa;
+            $credit = $credit;
+            $count = $count;
+            if($pin_grades->completion != "PASSED"){
+            $is_x = 1;
+            }
+        } else {
+
+            if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "4.00") {
+                $pin_grades->completion = "4.00";
+                $is_x = 1;
+            }
+
+            $gpa = $gpa + ($pin_grades->completion * ($pin_grades->lec + $pin_grades->lab));
+            $count = $count + $pin_grades->lec + $pin_grades->lab;
+        }
+    } else {
+        if ($pin_grades->finals == "FA" || $pin_grades->finals == "UD" || $pin_grades->finals == "FAILED" || $pin_grades->finals == "4.00") {
+            $pin_grades->finals = "4.00";
+                $is_x = 1;
+        }
+        $gpa = $gpa + ($pin_grades->finals * ($pin_grades->lec + $pin_grades->lab));
+        $count = $count + $pin_grades->lec + $pin_grades->lab;
+    }
+}
+?>
+        @endif
                     <tr>
                         <td>{{$pin_grades->course_code}}</td>
                         <td>{{$pin_grades->course_name}}</td>
@@ -263,6 +393,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <td><a href="{{url('registrar_college', array('edit','college_grades', $pin_grades->id))}}">Edit</td>
                     </tr>
                     @endforeach
+                    <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
                 </tbody>
             </table>
             @endforeach
@@ -272,6 +403,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             @foreach($grades_sy as $sy)
             <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
             @foreach ($grades_pr as $pr)
+<?php
+$credit = 0;
+$gpa = 0;
+$count = 0;
+?>
             <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?><h4>{{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}}</h4>
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
@@ -286,6 +422,62 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </thead>
                 <tbody>
                     @foreach ($grades as $grade)
+<?php
+$is_x=0;
+$display_final_grade = $grade->finals;
+$display_final_completion = $grade->completion;
+if(stripos($grade->course_code, "NSTP") !== FALSE){
+    $gpa = $gpa;
+    $count = $count;
+    $credit = $credit;
+if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+        $is_x = 1;
+    }else{
+        $is_x = 0;
+        if ($grade->completion == "PASSED") {
+        $is_x = 0;
+        } else {
+            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                $is_x = 1;
+            }
+        }
+    }
+}else{
+    if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
+        $gpa = $gpa;
+        $count = $count;
+        $credit = $credit;
+            if($grade->finals != "PASSED"){
+            $is_x = 1;
+            }
+    } else if ($grade->finals == "INC") {
+        if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+            $gpa = $gpa;
+            $credit = $credit;
+            $count = $count;
+            if($grade->completion != "PASSED"){
+            $is_x = 1;
+            }
+        } else {
+
+            if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                $grade->completion = "4.00";
+                $is_x = 1;
+            }
+
+            $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+            $count = $count + $grade->lec + $grade->lab;
+        }
+    } else {
+        if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
+            $grade->finals = "4.00";
+                $is_x = 1;
+        }
+        $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+        $count = $count + $grade->lec + $grade->lab;
+    }
+}
+?>
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
@@ -371,6 +563,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <td><a href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
+                    <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
                 </tbody>
             </table>
             @endforeach
