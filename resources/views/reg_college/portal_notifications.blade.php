@@ -1,24 +1,46 @@
+<?php
+$notifications = \App\CollegeNotifications::orderBy('updated_at', 'desc')->get();
+?>
+<style>
+    .post
+    {
+        border-bottom:1px solid #d2d6de;
+        margin-bottom:15px;
+        padding-bottom:15px;
+        color:#666
+    }
+    .post:last-of-type
+    {
+        border-bottom:0;
+        margin-bottom:0;
+        padding-bottom:0
+    }
+    .post .user-block
+    {
+        margin-bottom:15px
+    }
+</style>
 @extends('layouts.appreg_college')@extends('layouts.admin')
 @section('messagemenu')
 <li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success"></span>
-            </a>
+    <!-- Menu toggle button -->
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-envelope-o"></i>
+        <span class="label label-success"></span>
+    </a>
 </li>
 <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning"></span>
-            </a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>
+        <span class="label label-warning"></span>
+    </a>
 </li>
-          
+
 <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger"></span>
-            </a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i>
+        <span class="label label-danger"></span>
+    </a>
 </li>
 @endsection
 @section('header')
@@ -38,45 +60,71 @@
     <div class="col-sm-6">
         <div class="box box-default">
             <div class="box-header with-border">
-              <i class="fa fa-warning"></i>
+                <i class="fa fa-warning"></i>
 
-              <h3 class="box-title">Set Portal Notifications</h3>
+                <h3 class="box-title">Set Portal Notifications</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-             @if(Session::has('announcement'))
-             <div class='alert alert-success'>
-                 {{Session::get('announcement')}}
-             </div>
-             @endif
-            <form action='{{url('/registrar_college/portal_notifications/post')}}' method='post'>
-            {{csrf_field()}}
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>Department</label>
-                    <select name="department" class="form-control">
-                        <option>College Records</option>
-                    </select>
+                @if(Session::has('announcement'))
+                <div class='alert alert-success'>
+                    {{Session::get('announcement')}}
                 </div>
-            </div>
-            <div class="form-group" style="margin-top:15px;">
-                
-                <textarea id="editor1" name="notifications_content" rows="5" cols="59">
-                     
-                </textarea>
-            </div>
-               
-            <div class="form-group" style="margin-top:15px;">
-                
-                <button class="btn btn-primary btn-flat btn-block">Post</button>
-            </div>
-            </form>
-        </div>
+                @endif
+                <form action='{{url('/registrar_college/portal_notifications/post')}}' method='post'>
+                    {{csrf_field()}}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Department</label>
+                            <select name="department" class="form-control">
+                                <option>College Records</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:15px;">
 
+                        <textarea id="editor1" name="notifications_content" rows="5" cols="59">
+                     
+                        </textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top:15px;">
+
+                        <button class="btn btn-primary btn-flat btn-block">Post</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div><div class="col-md-6">
+        <div class="box">
+            <div class="box-body">
+                @if(count($notifications)>0)
+                @foreach($notifications as $notify)
+                <div class="post">
+                    <div class="user-block">
+                        <!--<img class="profile-user-img img-responsive img-circle" alt="User Image" src="/images/default.png">-->
+                        <span class="username">
+                            <a href="#">{{$notify->department}}</a>
+
+                        </span><br>
+                        <span class="description">Posted on - {{$notify->created_at}}</span><br>
+                        <span class="description">Posted by - {{$notify->idno}}</span>
+                    </div>
+                    <!-- /.user-block -->
+                    <p>
+                        {!!$notify->notification!!} 
+                    </p>
+
+
+                </div>
+                @endforeach
+                @endif
+            </div>
+        </div>
     </div>
 </div>
-</div>
-    
+
 <!-- /.search form -->
 
 @endsection
@@ -84,8 +132,8 @@
 <script src="{{asset('/bower_components/ckeditor/ckeditor.js')}}"></script>                 
 <script src="{{asset('/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <script>
-  $(function () {
+$(function () {
     CKEDITOR.replace('editor1')
-  })
+})
 </script>
 @endsection
