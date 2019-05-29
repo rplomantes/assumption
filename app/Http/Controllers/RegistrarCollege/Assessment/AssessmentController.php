@@ -202,7 +202,7 @@ class AssessmentController extends Controller {
         //check reservation//
         $this->checkReservations($request, $idno, $school_year, $period);
         //check if no payment will be made
-        $this->checkLedger($request, $idno, $school_year, $period);
+//        $this->checkLedger($request, $idno, $school_year, $period);
         
         \App\Http\Controllers\Admin\Logs::log("Process assessment of student $idno for S.Y. $school_year, $period");
         /*
