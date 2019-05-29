@@ -506,5 +506,6 @@ Route::get('/registrar_college/withdraw_enrolled_student/{status}/{date_today}/{
 Route::get('/email_blast','Admin\EmailBlast@email');
 
 //portal notifications
-Route::get('/registrar_college/portal_notifications','RegistrarCollege\NotificationsController@portal_notifications');
-Route::post('/registrar_college/portal_notifications/post','RegistrarCollege\NotificationsController@post_notifications');
+Route::get('/registrar_college/portal_notifications','RegistrarCollege\Notifications\NotificationsController@portal_notifications');
+Route::post('/registrar_college/portal_notifications/post','RegistrarCollege\Notifications\NotificationsController@post_notifications');
+Route::get('/registrar_college/notifications/set_status','RegistrarCollege\Notifications\AjaxNotificationsController@set_status');

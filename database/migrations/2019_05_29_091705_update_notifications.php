@@ -17,6 +17,7 @@ class UpdateNotifications extends Migration
         Schema::table('college_notifications', function(Blueprint $table) {
             $table->string('idno');
             $table->string('department');
+            $table->integer('is_active')->default(1);
             $table->foreign("idno")->references("idno")
                     ->on("users")->onUpdate("cascade");
         });
@@ -33,6 +34,7 @@ class UpdateNotifications extends Migration
         Schema::table('college_notifications', function(Blueprint $table) {
         $table->dropColumn('idno');
         $table->dropColumn('department');
+        $table->dropColumn('is_active');
         });
     }
 }

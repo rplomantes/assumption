@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\RegistrarCollege;
+namespace App\Http\Controllers\RegistrarCollege\Notifications;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
