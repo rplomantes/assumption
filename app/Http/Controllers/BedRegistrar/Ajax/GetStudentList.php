@@ -174,14 +174,14 @@ class GetStudentList extends Controller {
                     //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
                                     . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.is_new = 1 and statuses.status <= 3 and promotions.section != '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section != '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
                 } else {
                     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
                     $schoolyear = $school_year->school_year;
                     //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
                                     . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.is_new = 1 and statuses.status <= 3 and promotions.section != '$section'  order by lastname, firstname, middlename");
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section != '$section'  order by lastname, firstname, middlename");
                 }
             }
             return view('reg_be.ajax.studentlevel_list', compact('level', 'strand', 'students', 'school_year'));
@@ -237,14 +237,14 @@ class GetStudentList extends Controller {
                     //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
                                     . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where users.idno = promotions.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.is_new = 1 and statuses.status <= 3 and promotions.section = '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
                 } else {
                     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
                     $schoolyear = $school_year->school_year;
                     //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
                                     . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.is_new = 1 and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
                 }
             }
             return view('reg_be.ajax.studentlevel', compact('level', 'strand', 'students', 'school_year'));
