@@ -103,6 +103,12 @@ $units = 0;
                     </ul>
                 </div>
             </div>
+            
+            @if (Auth::user()->accesslevel==env("REG_COLLEGE"))
+                @if ($status->status == env('ASSESSED'))
+                    <div class="col-sm-12"><a role="button" class="col-md-12 btn btn-danger" href="{{url('/accounting',array('manual_marking',$user->idno))}}" onclick="return confirm('This process cannot be undone. Do you wish to continue?')"><b>Mark student as Enrolled</b></a></div>
+                @endif
+            @endif
         </div>
         <div class="col-md-8">
             

@@ -121,7 +121,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             <tr><td>Status : </td><td align="left"><span style="color:#f00">Not Enrolled</span></td></tr>
             @endif
             
-            @if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD"))
+            @if (Auth::user()->accesslevel == env("REG_COLLEGE") || Auth::user()->accesslevel==env("REG_COLLEGE"))
                 @if ($status->status == env('ASSESSED'))
                     <tr><td colspan="2"><a role="button" class="col-md-12 btn btn-danger" href="{{url('/accounting',array('manual_marking',$user->idno))}}" onclick="return confirm('This process cannot be undone. Do you wish to continue?')"><b>Mark student as Enrolled</b></a></td></tr>
                 @endif

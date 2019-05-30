@@ -124,14 +124,14 @@ class MainPayment extends Controller {
     }
     
     function manualMark($idno) {
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
             $status = \App\Status::where('idno', $idno)->first();
             if ($status->status == env("ASSESSED")){
                 $idno = $this->changeStatus($idno);
                 $this->addLevels($idno);
                 \App\Http\Controllers\Admin\Logs::log("Manually marked as enrolled - $idno");
             }
-            return redirect(url('cashier',array('viewledger',$status->school_year,$idno)));
+            return redirect(url('registrar_college',array('assessment',$idno)));
         }
     }
 
