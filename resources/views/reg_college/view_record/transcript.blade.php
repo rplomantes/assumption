@@ -242,7 +242,11 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
                         <!--<td><a href="{{url('registrar_college', array('edit','credit_grades', $grade->id))}}">Edit</td>-->
                     </tr>
                     @endforeach
-                    <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
+                    @if($count > 0)
+                    <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
+                    @else
+                    <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format(0,4)}}</b></td></tr>
+                    @endif
                 </tbody>
             </table>
             @endforeach
@@ -393,7 +397,11 @@ if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades
                         <td><a href="{{url('registrar_college', array('edit','college_grades', $pin_grades->id))}}">Edit</td>
                     </tr>
                     @endforeach
+                    @if($count > 0)
                     <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
+                    @else
+                    <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format(0,4)}}</b></td></tr>
+                    @endif
                 </tbody>
             </table>
             @endforeach
@@ -563,7 +571,11 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
                         <td><a href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
+                    @if($count > 0)
                     <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
+                    @else
+                    <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format(0,4)}}</b></td></tr>
+                    @endif
                 </tbody>
             </table>
             @endforeach
@@ -576,6 +588,11 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
             @foreach($grades_sy as $sy)
             <?php $grades_pr = \App\GradeCollege::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
             @foreach ($grades_pr as $pr)
+<?php
+$credit = 0;
+$gpa = 0;
+$count = 0;
+?>
             <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?><h4>{{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}}</h4>
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
@@ -590,6 +607,62 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
                 </thead>
                 <tbody>
                     @foreach ($grades as $grade)
+<?php
+$is_x=0;
+$display_final_grade = $grade->finals;
+$display_final_completion = $grade->completion;
+if(stripos($grade->course_code, "NSTP") !== FALSE){
+    $gpa = $gpa;
+    $count = $count;
+    $credit = $credit;
+if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
+        $is_x = 1;
+    }else{
+        $is_x = 0;
+        if ($grade->completion == "PASSED") {
+        $is_x = 0;
+        } else {
+            if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                $is_x = 1;
+            }
+        }
+    }
+}else{
+    if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {
+        $gpa = $gpa;
+        $count = $count;
+        $credit = $credit;
+            if($grade->finals != "PASSED"){
+            $is_x = 1;
+            }
+    } else if ($grade->finals == "INC") {
+        if ($grade->completion == "" || $grade->completion == "AUDIT" || $grade->completion == "NA" || $grade->completion == "NG" || $grade->completion == "W" || $grade->completion == "PASSED") {
+            $gpa = $gpa;
+            $credit = $credit;
+            $count = $count;
+            if($grade->completion != "PASSED"){
+            $is_x = 1;
+            }
+        } else {
+
+            if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
+                $grade->completion = "4.00";
+                $is_x = 1;
+            }
+
+            $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
+            $count = $count + $grade->lec + $grade->lab;
+        }
+    } else {
+        if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
+            $grade->finals = "4.00";
+                $is_x = 1;
+        }
+        $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
+        $count = $count + $grade->lec + $grade->lab;
+    }
+}
+?>
                     <tr>
                         <td>{{$grade->course_code}}</td>
                         <td>{{$grade->course_name}}</td>
