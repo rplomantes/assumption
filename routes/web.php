@@ -509,3 +509,7 @@ Route::get('/email_blast','Admin\EmailBlast@email');
 Route::get('/registrar_college/portal_notifications','RegistrarCollege\Notifications\NotificationsController@portal_notifications');
 Route::post('/registrar_college/portal_notifications/post','RegistrarCollege\Notifications\NotificationsController@post_notifications');
 Route::get('/registrar_college/notifications/set_status','RegistrarCollege\Notifications\AjaxNotificationsController@set_status');
+
+//DEBIT SUMMARY
+Route::get('/accounting/debit_summary/{date_from}/{date_to}','Accounting\DebitCreditSummary@debit_summary');
+Route::get('/accounting/print_debit_summary/{date_from}/{date_to}','Accounting\DebitCreditSummary@print_debit_summary');

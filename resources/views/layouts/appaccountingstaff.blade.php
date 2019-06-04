@@ -141,7 +141,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('/')}}">*Debit Summary </a></li>
+                                <li><a href="{{url('/accounting', array('debit_summary',$date_start, $date_end))}}">Debit Summary </a></li>
                                 <li><a href="{{url('/')}}">*Credit Summary </a></li>
                             </ul>
                         </li>
