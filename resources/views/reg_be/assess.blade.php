@@ -335,18 +335,25 @@ if (count($previous) > 0) {
              <div class="col-md-5">
                 <label>Other Discount</label>
                 <select id="other_discount" class="form form-control">
-                    @foreach($other_collection as $other)
+                    <option>Benefit Discount</option>
+                    <option>Sibling Discount</option>
+<!--                    @foreach($other_collection as $other)
                     <option>{{$other->subsidiary}}</option>
-                    @endforeach
+                    @endforeach-->
                 </select>    
              </div>
              <div class="col-md-5">
-                 <label>Discount Amount</label>
-                 <input type="text" class="form-control" id="discount_amount">
+                <label>With Sibling Discount</label>
+                <select name="is_sibling" id="discount_amount"  class="form form-control">
+                    <option>No</option>
+                    <option value="on">Yes</option>
+                </select>   
+<!--                 <label>Discount Amount</label>
+                 <input type="text" class="form-control" id="discount_amount">-->
              </div>
              <div class="col-md-2">
                  <label class="col-sm-12">&nbsp;</label>
-                 <a href="javascript:void(0)"><button type="button" class="btn btn-success" onclick="add_discount_collection('{{$user->idno}}', other_discount.value, discount_amount.value)"><span class="fa fa-plus-circle"></span></button></a>
+                 <a href="javascript:void(0)"><button type="button" class="btn btn-success" onclick="add_discount_collection('{{$user->idno}}', other_discount.value, discount_amount.value, level.value)"><span class="fa fa-plus-circle"></span></button></a>
              </div>    
          </div>
                           <?php $get_discount_collections = \App\DiscountCollection::where('idno', $user->idno)->get(); ?>
@@ -612,6 +619,16 @@ input[type=number]{
            
        })
        
+       $("#other_discount").on('change',function(e){
+       if($("#other_discount").val()=="Benefit Discount"){
+         $("#discount_amount").fadeIn(300);  
+       }else {  
+       $("#discount_amount").fadeOut(300);
+        }
+           
+       })
+       
+       
      $(".number").on('keypress',function(e){
          //alert(e.keyCode)
         var theEvent = e || window.event;
@@ -774,11 +791,12 @@ input[type=number]{
         
         }
     }
-    function add_discount_collection(idno,subsidiary, discount_amount){
+    function add_discount_collection(idno,subsidiary, discount_amount, level){
     array = {};
     array['idno'] = idno;
     array['subsidiary'] = subsidiary;
     array['discount_amount'] = discount_amount;
+    array['level'] = level;
     $.ajax({
     type: "GET",
             url: "/bedregistrar/ajax/add_discount_collection",
