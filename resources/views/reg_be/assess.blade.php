@@ -284,7 +284,7 @@ if (count($previous) > 0) {
             <div class="form form-group">
                 <div class="col-md-6">
                     <label>Discount</label>
-                    <select name="discount" id="discount" class="form form-control" readonly="">
+                    <select name="discount" id="discount" class="form form-control">
                         <option value="none">None</option>
                         @if(count($discounts)>0)
                             @foreach($discounts as $discount)

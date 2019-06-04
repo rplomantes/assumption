@@ -43,6 +43,7 @@ $check_student_deposits = \App\Reservation::where('idno', $lists->idno)->where('
 <?php $student_deposit = $student_deposit + $check_student_deposit->amount; ?>
 @endforeach
 @endif
+@if($student_deposit > 0)
 <input type="hidden" name="idno[]" value="{{$lists->idno}}">
             <tr>
                 <td>{{$ctr++}}</td>
@@ -55,6 +56,7 @@ $check_student_deposits = \App\Reservation::where('idno', $lists->idno)->where('
                 <td>{{number_format($reservation,2)}}</td>
                 <td>{{number_format($student_deposit,2)}}</td>
             </tr>
+            @endif
             @endforeach
         </tbody>
     </table>

@@ -6,14 +6,15 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
 <?php
     if(Auth::user()->accesslevel == env('GUIDANCE_BED')){
     $layout = "layouts.appguidance_bed";
-    $title = "Pre-Sectioning/Promotions";
+    $title = "Pre-Sectioning";
     $title_level = "Incoming Level";
+    $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
     } else {
     $layout = "layouts.appbedregistrar";
     $title = "Sectioning";
     $title_level = "Level";
-    }
     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+    }
 ?>
 
 @extends($layout)

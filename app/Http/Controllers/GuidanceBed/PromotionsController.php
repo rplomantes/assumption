@@ -45,15 +45,15 @@ class PromotionsController extends Controller {
             $update_promotions = \App\Promotion::where('idno', $idno)->first();
             if (count($update_promotions) > 0) {
                 $update_promotions->level = $level;
-                if ($request->promote_level == "Grade 11" || $request->promote_level == "Grade 12") {
-                    $update_promotions->strand = $request->promote_strand;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $update_promotions->strand = $request->strand;
                 } else {
                     $update_promotions->strand = NULL;
                 }
                 if ($level == "Pre-Kinder" || $level == "Kinder") {
                     $update_promotions->section = "A";
                 } else {
-                    if ($request->promote_level == "Grade 12") {
+                    if ($request->level == "Grade 12") {
                         
                     } else {
                         $update_promotions->section = 1;

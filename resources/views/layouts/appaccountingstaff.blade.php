@@ -133,7 +133,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li class="treeview">
                             <a href="#"><i class="fa fa-align-justify"></i> <span>Debit/Credit Summary</span>
                                 <span class="pull-right-container">
@@ -141,8 +141,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <li><a href="{{url('/')}}">*Debit Summary </a></li>
+                                <li><a href="{{url('/')}}">*Credit Summary </a></li>
                             </ul>
-                        </li>-->
+                        </li>
 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-file-excel-o"></i> <span>Collection Report</span>
