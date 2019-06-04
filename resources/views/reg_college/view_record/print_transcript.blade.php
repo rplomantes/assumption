@@ -270,8 +270,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             $credit = $credit;
         if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD"  || $grade->finals == "4.00"){
                 $is_x = 1;
-            }else{
-                $is_x = 0;
+            }
+            elseif($grade->finals == "INC"){
                 if ($grade->completion == "PASSED") {
                 $is_x = 0;
                 } else {
@@ -279,6 +279,9 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         $is_x = 1;
                     }
                 }
+            }
+            else{
+                $is_x = 0;
             }
         }else{
             if ($grade->finals == "" || $grade->finals == "AUDIT" || $grade->finals == "NA" || $grade->finals == "NG" || $grade->finals == "W" || $grade->finals == "PASSED") {

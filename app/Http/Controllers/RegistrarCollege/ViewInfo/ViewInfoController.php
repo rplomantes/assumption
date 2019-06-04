@@ -159,6 +159,7 @@ class ViewInfoController extends Controller {
         $updateUser->middlename = $request->middlename;
         $updateUser->lastname = $request->lastname;
         $updateUser->extensionname = $request->extensionname;
+        $updateUser->email = $request->email;
         $updateUser->is_foreign = $request->is_foreign;
         $updateUser->status = $request->user_status;
         $updateUser->save();
