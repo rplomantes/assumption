@@ -747,6 +747,11 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
                         <td><a href="{{url('registrar_college', array('edit','grades', $grade->id))}}">Edit</td>
                     </tr>
                     @endforeach
+                    @if($count > 0)
+                    <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
+                    @else
+                    <tr><td colspan='3'>GPA</td><td align='center'><b>{{number_format(0,4)}}</b></td></tr>
+                    @endif
                 </tbody>
             </table>
             @endforeach
