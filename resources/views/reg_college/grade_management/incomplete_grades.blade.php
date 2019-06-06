@@ -88,6 +88,7 @@ $layout = "layouts.appreg_college";
                 <th>Name</th>
                 <th>Course Code</th>
                 <th>Course Name</th>
+                <th>Grade</th>
                 <th>Section</th>
                 <th>Instructor</th>
             </tr>
@@ -98,6 +99,7 @@ $layout = "layouts.appreg_college";
                 <td>{{$grade->lastname}}, {{$grade->firstname}} {{$grade->middlename}}</td>
                 <td>{{$grade->course_code}}</td>
                 <td>{{$grade->course_name}}</td>
+                <td><strong>{{$grade->finals}}</strong></td>
                 <td>
                     
                     <?php

@@ -338,7 +338,7 @@ class MainPayment extends Controller {
                     if ($ledger->debit_memo == 0 && $ledger->payment == 0) {
                         if ($ledger->discount > 0) {
 
-                            MainPayment::processDiscount($request, $reference_id, $ledger->discount, $ledger->discount_code, 1);
+                            MainPayment::processDiscount($request, $reference_id, $ledger->discount, $ledger->discount_code, $accounting_type);
                             $addacct = new \App\Accounting;
                             $addacct->transaction_date = $request->date;
                             $addacct->reference_id = $reference_id;
