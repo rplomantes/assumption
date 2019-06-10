@@ -32,7 +32,14 @@ class Order extends Controller
         $materials = \App\Ledger::where('idno',$idno)->where('category','Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
         $other_materials = \App\Ledger::where('idno',$idno)->where('category','Other Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
         $pe_uniforms = \App\Ledger::where('idno',$idno)->where('category','PE Uniforms/others')->where('category_switch', env("OPTIONAL_FEE"))->get();
-        return view('bookstore.view_order',compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status'));
+        $additional_orders = \App\Ledger::where('idno',$idno)
+                ->where(function ($query){
+                        $query->where("category","Books")
+                              ->orWhere("category","Materials")
+                              ->orWhere("category","Other Materials")
+                              ->orWhere("category","PE Uniforms/others");
+                })->where('category_switch', env("OTHER_MISC"))->get();
+        return view('bookstore.view_order',compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status','additional_orders'));
     }
     
   function print_order($idno){
@@ -50,8 +57,15 @@ class Order extends Controller
         $materials = \App\Ledger::where('idno',$idno)->where('category','Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
         $other_materials = \App\Ledger::where('idno',$idno)->where('category','Other Materials')->where('category_switch', env("OPTIONAL_FEE"))->get();
         $pe_uniforms = \App\Ledger::where('idno',$idno)->where('category','PE Uniforms/others')->where('category_switch', env("OPTIONAL_FEE"))->get();
+        $additional_orders = \App\Ledger::where('idno',$idno)
+                ->where(function ($query){
+                        $query->where("category","Books")
+                              ->orWhere("category","Materials")
+                              ->orWhere("category","Other Materials")
+                              ->orWhere("category","PE Uniforms/others");
+                })->where('category_switch', env("OTHER_MISC"))->get();
 
-        $pdf = PDF::loadView('bookstore.print_order', compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status'));
+        $pdf = PDF::loadView('bookstore.print_order', compact('idno','books','materials','other_materials','pe_uniforms','level','material_details','other_material_details','user','status','additional_orders'));
         $pdf->setPaper(array(0, 0, 612.00, 792.0));
         return $pdf->stream();
   }

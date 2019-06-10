@@ -216,8 +216,12 @@ $upon = 0;
            </td>
            </table>
         <br>
-       
-        <p> Amount to be paid <span class="due_amount">Php {{number_format($upon-$totaldm,2)}}</span>.</p>
+              <?php $amounttobepaid=$upon-$totaldm; 
+       if($amounttobepaid <= 0){
+           $amounttobepaid = 0;
+       }
+       ?>
+        <p> Amount to be paid <span class="due_amount">Php {{number_format($amounttobepaid,2)}}</span>.</p>
         <?php $total_late = 0; ?>
         @if(count($ledger_late)>0)
         @foreach($ledger_late as $late)

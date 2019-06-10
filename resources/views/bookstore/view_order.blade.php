@@ -203,6 +203,41 @@
              
              @else
              @endif
+             
+             @if(count($additional_orders)>0)
+             <h3>Additional Orders</h3>
+             <table class="table table-striped">
+                 <tr><th width="30%">Paticular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                @foreach($additional_orders as $book)
+                <tr><td>{{$book->subsidiary}}
+                    
+                    </td><td>{{$book->qty}}</td><td>{{number_format($book->amount,2)}}</td>
+                    <td>{{number_format($book->payment+$book->discount+$book->debit_memo,2)}}</td>
+                    <td><?php $checked="checked='checked"; 
+                              $disabled="";
+                              
+                              if($book->is_served=="1"){
+                                 // $checked="checked='checked'";
+                                    if($book->date_served != ""){
+                                    $disabled = "disabled='disabled'";  
+                                    }  
+                              }
+                              
+                              if($book->amount > $book->payment+$book->discount+$book->debit_memo){
+                                  $checked="";
+                                  $disabled="disabled='disabled'";   
+                              }?>
+                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} {{$disabled}}></td><td>{{$book->date_served}}</td>
+                    
+                    <td> <select id="remarks" onchange="change_remarks(this.value,{{$book->id}})">
+                            <option value="" >&nbsp;</option>
+                            <option value="Not Yet Served" @if($book->supply_remarks=="Not Yet Served") selected="selected" @endif>Not Yet Served</option>
+                        </select></td></tr>
+                @endforeach
+             </table>                 
+             @else
+             @endif
+             
              <a href="{{url('/bookstore',array('print_order',$idno))}}" class="btn btn-primary form-control">Print Receiving Form</a>
              </div>
          </div>    

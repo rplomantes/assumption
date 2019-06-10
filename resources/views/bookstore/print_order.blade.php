@@ -47,7 +47,7 @@ $peamount=0;
         @if(count($books)>0)
         <div class="sub_title">BOOKS AND OTHER SUPPLIES</div>  
         <table border="1" cellspacing="0" cellpadding="2" class="table table-striped">
-                 <tr><th width="5%"></th><th width="50%">Paticular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
+                 <tr><th width="5%"></th><th width="50%">Particular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
                 <?php $count=1; $bookamount=0;?>
                 @foreach($books as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
@@ -63,7 +63,7 @@ $peamount=0;
         @if(count($materials)>0)
          <div class="sub_title">AC MATERIALS</div>  
         <table border="1" cellspacing="0" cellpadding="0" class="table table-striped">
-                 <tr><th width="5%"></th><th width="50%">Paticular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
+                 <tr><th width="5%"></th><th width="50%">Particular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
                 <?php $count=1; $materialamount=0;?>
                 @foreach($materials as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
@@ -86,7 +86,7 @@ $peamount=0;
          @if(count($other_materials)>0)
          <div class="sub_title">OTHER MATERIALS</div>  
         <table border="1" cellspacing="0" cellpadding="0" class="table table-striped">
-                 <tr><th width="5%"></th><th width="50%">Paticular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
+                 <tr><th width="5%"></th><th width="50%">Particular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
                 <?php $count=1; $othermaterialamount=0;?>
                 @foreach($other_materials as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
@@ -109,7 +109,7 @@ $peamount=0;
          @if(count($pe_uniforms)>0)
          <div class="sub_title">PE UNIFORMS</div>  
         <table border="1" cellspacing="0" cellpadding="0" class="table table-striped">
-                 <tr><th width="5%"></th><th width="50%">Paticular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
+                 <tr><th width="5%"></th><th width="50%">Particular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
                 <?php $count=1; $peamount=0;?>
                 @foreach($pe_uniforms as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
@@ -123,6 +123,23 @@ $peamount=0;
                 <tr><td colspan="4">Total</td><td align="right"><b>{{number_format($peamount,2)}}</b></td></tr>
              </table> 
          @endif
+         
+         @if(count($additional_orders)>0)
+        <div class="sub_title">ADDITIONAL ORDERS</div>  
+        <table border="1" cellspacing="0" cellpadding="2" class="table table-striped">
+                 <tr><th width="5%"></th><th width="50%">Particular</th><th>QTY</th><th>Amount</th><th>Remarks</th></tr>
+                <?php $count=1; $bookamount=0;?>
+                @foreach($additional_orders as $book)
+                @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
+                <tr><td align="right">{{$count++}}.</td><td>{{$book->subsidiary}}</td><td width="5%" align="center">{{$book->qty}}</td><td align="right">{{number_format($book->amount,2)}}</td>
+                    <td align="center"> {{$book->supply_remarks}}</td></tr>
+                <?php $bookamount=$bookamount+ $book->amount;?>
+                @endif
+                @endforeach
+                <tr><td colspan="4">Total</td><td align="right"><b>{{number_format($bookamount,2)}}</b></td></tr>
+             </table>
+        @endif
+        
                 </td><td valign="top">
                     <div class="sub_title">CUSTOMER COPY</div>
                     <table  class="table-striped" border="1" cellspacing="0" cellpadding="1">
