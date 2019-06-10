@@ -44,6 +44,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 </section>
 @endsection
 @section('maincontent')
+<?php $dm_users = \App\DebitMemo::distinct()->join('users', 'users.idno','=', 'debit_memos.posted_by')->where('users.accesslevel','!=',0)->orderBy('debit_memos.posted_by','asc')->get(['posted_by']); ?>
 <!-- search form (Optional) -->
 <div class="container-fluid">
     <div class="form-group">
@@ -57,10 +58,17 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
             </button>
 
-            <a href="javascript:void(0)" class="btn btn-primary" id="view-button">View Summary</a>
 
             <input id="date_to" class="form-control" type="hidden" value="{{$date_to}}">
             <input id="date_from" class="form-control" type="hidden" value="{{$date_from}}">
+            <label>Posted by:</label>
+            <select name="posted_by" id="posted_by">
+                <option @if($posted_by == 'all') selected='' @endif value="all">All</option>
+                @foreach($dm_users as $dm_user)
+                <option @if($dm_user->posted_by == $posted_by) selected='' @endif>{{$dm_user->posted_by}}</option>
+                @endforeach
+            </select>
+            <a href="javascript:void(0)" class="btn btn-primary" id="view-button">View Summary</a>
         </div>
     </div>
 
@@ -170,7 +178,7 @@ $(document).ready(function () {
                 $('#date_from').val(from);
             });
     $("#view-button").on('click', function (e) {
-        document.location = "{{url('/accounting',array('debit_summary'))}}" + "/" + $("#date_from").val() + "/" + $("#date_to").val();
+        document.location = "{{url('/accounting',array('debit_summary'))}}" + "/" + $("#date_from").val() + "/" + $("#date_to").val() + "/" + $("#posted_by").val();
     });
 
 });
