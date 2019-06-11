@@ -266,10 +266,12 @@ class GetStudentList extends Controller {
                 $sections = \App\Promotion::where('idno', $idno)->first();
                 $sections->section = $section;
                 $sections->update();
+            \App\Http\Controllers\Admin\Logs::log("Update bedlevel/promotions section of $idno to $section");
             } else if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
                 $sections = \App\Promotion::where('idno', $idno)->first();
                 $sections->section = $section;
                 $sections->update();
+            \App\Http\Controllers\Admin\Logs::log("Update promotions section of $idno to $section");
             }
         }
     }

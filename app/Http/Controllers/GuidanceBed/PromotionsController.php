@@ -62,7 +62,7 @@ class PromotionsController extends Controller {
                 $update_promotions->save();
 
                 Session::flash('message', 'Promotions Updated!');
-                \App\Http\Controllers\Admin\Logs::log("Update promotions of $idno");
+                \App\Http\Controllers\Admin\Logs::log("Update promotions of $idno to $level");
             }
             return redirect("/guidance_bed/promotions/$idno");
         }
