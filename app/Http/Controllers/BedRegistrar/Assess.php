@@ -667,6 +667,37 @@ class Assess extends Controller {
         return redirect(url('/bedregistrar', array('assess', $idno)));
     }
 
+    function back_to_assess($idno) {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            $status = \App\Status::where('idno', $idno)->first();
+            $user = \App\User::where('idno', $idno)->first();
+            $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', $user->academic_type)->first();
+            if ($status->status == env("ENROLLED")) {
+                DB::beginTransaction();
+                $this->back_to_assess_status($idno);
+                $this->back_to_assess_bed_levels($idno,$schoolyear);
+                \App\Http\Controllers\Accounting\SetReceiptController::log("Back to assess $idno for S.Y. $schoolyear->school_year.");
+                DB::commit();
+            }
+        }
+
+        return redirect(url('/bedregistrar', array('assess', $idno)));
+    }
+    function back_to_assess_status($idno){
+        $status = \App\Status::where('idno',$idno)->first();
+        $status->status = 2;
+        $status->save();
+    }
+    function back_to_assess_bed_levels($idno,$schoolyear){
+        if($schoolyear->period == "Yearly"){
+            $period=NULL;
+        }else{
+            $period = $schoolyear->period;
+        }
+        $status = \App\BedLevel::where('idno',$idno)->where('school_year',$schoolyear->school_year)->where('period', $period)->first();
+        $status->delete();
+    }
+
     function remove_discountlist($idno, $schoolyear, $period, $academic_type) {
         if ($academic_type == "BED") {
             \App\DiscountList::where('idno', $idno)->where('school_year', $schoolyear)->delete();

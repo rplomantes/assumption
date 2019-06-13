@@ -99,10 +99,10 @@ class Registration extends Controller {
                 $addprofile->cell_no = $request->cell_no;
                 if(Auth::user()->accesslevel== env("ADMISSION_SHS")){
                 $addprofile->applied_for = "Grade 11";
-                $promotion = \App\Promotion::where('idno', $request->idno)->first();
+                $promotion = \App\Promotion::where('idno', $request->referenceid)->first();
                  if (count($promotion) == 0) {
                     $new = new \App\Promotion();
-                    $new->idno = $request->idno;
+                    $new->idno = $request->referenceid;
                     $new->level = "Grade 11";
                     $new->strand = "No Strand Yet";
                     $new->section = 1;

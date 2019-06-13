@@ -94,6 +94,7 @@ Route::get('/bedregistrar/registration','BedRegistrar\Registration@register');
 Route::post('/bedregistrar/registration','BedRegistrar\Registration@post_register');
 Route::post('/bedregistrar/assess','BedRegistrar\Assess@post_assess');
 Route::get('/bedregistrar/reassess/{idno}','BedRegistrar\Assess@reassess');
+Route::get('/bedregistrar/back_to_assess/{idno}','BedRegistrar\Assess@back_to_assess');
 Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
 Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
 Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updateinfo');

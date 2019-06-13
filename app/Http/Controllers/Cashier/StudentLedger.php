@@ -20,7 +20,7 @@ class StudentLedger extends Controller {
         if($academic_type == "College"){
             $periods = array('1st Semester', '2nd Semester', 'Summer');
         }else if($academic_type == "SHS"){
-            $periods = array('1st Semester', '2nd Semester');
+            $periods = array("Yearly",'1st Semester', '2nd Semester');
         }else{
             $periods = array("Yearly");
         }

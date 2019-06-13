@@ -258,7 +258,11 @@ if(count($ledger)>0){
     </div>
     @else
 <div class="col-md-6">
+    @if($totalpayment > 0)
     <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
+    @else
+    <a href="{{url('/bedregistrar',array('back_to_assess',$idno))}}" class="btn btn-danger form form-control" onclick="return confirm('Are you Sure To back to assess {{$user->firstname}} {{$user->lastname}} ? ')">Back Student to Assessed Status</a>
+    @endif
 </div>
     @endif
 <div class="col-md-3">
