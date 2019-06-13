@@ -254,6 +254,29 @@ if (count($previous) > 0) {
                 <div class="form form-group">
                 <div class="col-md-6">
                     <label>Section</label>
+                    @if($promotion->level == "Pre-Kinder" || $promotion->level == "Kinder")
+                    <select name="section" id="section" class="form form-control">
+                        <option @if("A" == $promotion->section)
+                                selected="selected"
+                             @endif>A</option>
+                        <option @if("B" == $promotion->section)
+                                selected="selected"
+                             @endif>B</option>
+                        <option @if("C" == $promotion->section)
+                                selected="selected"
+                             @endif>C</option>
+                        <option @if("D" == $promotion->section)
+                                selected="selected"
+                             @endif>D</option>
+                        <option @if("E" == $promotion->section)
+                                selected="selected"
+                             @endif>E</option>
+                        <option @if("F" == $promotion->section)
+                                selected="selected"
+                             @endif>F</option>
+                    </select>  
+                    
+                    @else
                     <select name="section" id="section" class="form form-control">
                         @for($i=1;$i<=7;$i++)
                         <option value="{{$i}}"
@@ -262,7 +285,8 @@ if (count($previous) > 0) {
                              @endif
                                 >{{$i}}</option>
                         @endfor
-                    </select>    
+                    </select>  
+                    @endif
                 </div>  
                 <div class="col-md-6">
                     <label>Payment Options <span class="warning">Required</span></label>
