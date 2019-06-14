@@ -188,9 +188,7 @@ $upon = 0;
            <td width="25%" valign="top">
                @if(count($due_dates)>0)
         <label>Schedule of Payment:</label>
-        <div class="form-group">
             <?php $totalpay = $totalpayment; $display=""; $remark="";?>
-            <table width="100%" border="1" cellspacing="0" cellpadding="2" class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td></tr>
             @foreach($due_dates as $due_date)
             <?php 
             if($totalpay >= $due_date->amount){
@@ -208,7 +206,16 @@ $upon = 0;
             @else
             <?php $duedate = $due_date->due_date;?>
             @endif
-            <tr><td>{{$duedate}}</td><td align="right"><b>{!!$display!!}</b></td></tr>
+            @endforeach  
+        <div class="form-group">
+            <table width="100%" border="1" cellspacing="0" cellpadding="2" class="table table-striped"><tr><td>Due Date</td><td align="right">Due Amount</td></tr>
+            @foreach($due_dates as $due_date)
+            @if($due_date->due_switch=="0")
+            <?php $duedate = "Upon Enrollment";?>
+            @else
+            <?php $duedate = $due_date->due_date;?>
+            @endif
+            <tr><td>{{$duedate}}</td><td align="right"><b>{{number_format($due_date->amount,2)}}</b></td></tr>
             @endforeach
             </table>   
         </div>
