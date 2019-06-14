@@ -38,7 +38,8 @@ $peamount=0;
          </table>
         <table border="1" cellspacing="0" cellpadding="3" width="100%"><tr><td align="center">{{$user->idno}}</td><td  align="center">{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</td>
                 <td  align="center">@if(count($status)>0)
-                    {{$status->level}} - {{$status->section}}
+                    {{$status->level}}
+                    <!--- {{$status->section}}-->
                     @endif
                 </td></tr> 
             <tr><td align="center"><small>Student ID</small></td><td align="center"><small>Student Name</small></td><td align="center"><small>Level/Section</small></tr>
