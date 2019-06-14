@@ -18,6 +18,7 @@ class CreateDiscountCollectionsTable extends Migration
             $table->string('idno');
             $table->string('subsidiary');
             $table->decimal('discount_amount',10,2);
+            $table->string('discount_type');
             $table->timestamps();
             $table->foreign('idno')
                     ->references('idno')->on('users')

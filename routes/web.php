@@ -513,3 +513,10 @@ Route::get('/registrar_college/notifications/set_status','RegistrarCollege\Notif
 //DEBIT SUMMARY
 Route::get('/accounting/debit_summary/{date_from}/{date_to}/{posted_by}','Accounting\DebitCreditSummary@debit_summary');
 Route::get('/accounting/print_debit_summary/{date_from}/{date_to}/{posted_by}','Accounting\DebitCreditSummary@print_debit_summary');
+
+
+//Benefits/siblings
+Route::get('/bedregistrar/siblings','BedRegistrar\SiblingsBenefits@siblings');
+Route::get('/bedregistrar/benefits','BedRegistrar\SiblingsBenefits@benefits');
+Route::get('/bedregistrar/ajax/getstudentlist_siblings','BedRegistrar\Ajax\GetStudentList@getSiblings');
+Route::get('/remove_sibling/{idno}','BedRegistrar\SiblingsBenefits@remove_siblings');

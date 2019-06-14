@@ -154,6 +154,17 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('individual_promotions'))}}"><i class="fa fa-link"></i> <span>Individual Promotion</span></a></li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Benefits/Siblings</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/bedregistrar',array('benefits'))}}"><i class="fa fa-link"></i> <span>Benefits Scholar</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('siblings'))}}"><i class="fa fa-link"></i> <span>Siblings Discount</span></a></li>
+          </ul>
+        </li>
      
         
       </ul>

@@ -376,4 +376,15 @@ class GetStudentList extends Controller {
         return $pdf->stream();
             }
     }
+
+    function getSiblings() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("REG_BE")) {
+                $search = Input::get('search');
+                $lists = \App\User::Where("lastname", "like", "%$search%")
+                                ->orWhere("firstname", "like", "%$search%")->orWhere("idno", $search)->get();
+                return view('reg_be.ajax.getstudentlist_siblings', compact('lists'));
+            }
+        }
+    }
 }

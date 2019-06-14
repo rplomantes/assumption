@@ -308,7 +308,7 @@ class Assess extends Controller {
                 if ($is_foreign->is_foreign == '1') {
                     $reg_amount = \App\CtrForiegnFee::where('subsidiary', "Registration")->first()->amount;
                     $checkforeign = \App\Ledger::where('idno', $request->idno)->where('school_year', $schoolyear)->where('subsidiary', 'Registration')->where('amount', $reg_amount)->get();
-                    if (isset($checkforeign) == 0) {
+                    if (!isset($checkforeign) == 0) {
                         $addfee = \App\CtrForiegnFee::get();
                         foreach ($addfee as $fee) {
                             $addledger = new \App\Ledger;
