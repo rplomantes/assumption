@@ -143,6 +143,7 @@ class AssessmentController extends Controller {
         $is_audit = $request->is_audit;
         $tutorial_amount = $request->tutorial_amount;
         $tutorial_units = $request->tutorial_units;
+        $request->date = date('Y-m-d');
 
         ///delete current records if reasssess///
         $this->deletecurrentledgers($idno, $school_year, $period);

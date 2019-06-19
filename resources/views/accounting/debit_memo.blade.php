@@ -294,6 +294,9 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                 
                 if($("#previous_balance").val()==""){
                     $("#previous_balance").val("0.00");
+                }else if($("#previous_balance").val()>{{$previous_total->balance}}){
+                    alert("Amount Should Not Be Greater Than " + "{{number_format($previous_total->balance,2)}}" )
+                    $("#previous_balance").val("{{$previous_total->balance}}");
                 }
                 $("#main_due").focus();
                 e.preventDefault();
