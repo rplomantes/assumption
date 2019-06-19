@@ -78,7 +78,7 @@ class PreRegistration extends Controller {
             StudentLedger::updatereceipt();
             
             $this->updatePreRegStatus($request);
-//            $this->sendPaymentEmail($request,$reference_id, $applicant_details,$six_digit_random_number);
+            $this->sendPaymentEmail($request,$reference_id, $applicant_details,$six_digit_random_number);
             \App\Http\Controllers\Admin\Logs::log("Post Pre-Registration payment to - $request->paid_by.");
             DB::Commit();
             return redirect(url('/cashier',array('viewreceipt',$reference_id)));
