@@ -635,7 +635,7 @@ class Assess extends Controller {
         if (count($promotion) == 0) {
             $new = new \App\Promotion();
             $new->idno = $request->idno;
-            $new->level = $current_level;
+            $new->level = $request->level;
             $new->strand = $request->strand;
             $new->section = $request->section;
             $new->save();
@@ -1140,6 +1140,10 @@ class Assess extends Controller {
         $changeBedLevels = \App\BedLevel::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->first();
         $changeBedLevels->strand = $request->strand;
         $changeBedLevels->save();
+        
+        $changePromotions = \App\Promotion::where('idno', $request->idno)->first();
+        $changePromotions->strand = $request->strand;
+        $changePromotions->save();
     }
 
     function updateLedgerStrand($request) {

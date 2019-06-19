@@ -182,6 +182,7 @@ if(count($ledger)>0){
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table> 
     </div>
+    <?php $totalmainaccpayment = $totalpayment;?>
     <label>Other Payments</label>
   <div class="form-group">
     <table class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
@@ -258,7 +259,7 @@ if(count($ledger)>0){
     </div>
     @else
 <div class="col-md-6">
-    @if($totalmainpayment > 0)
+    @if($totalmainaccpayment > 0)
     <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
     @else
     <a href="{{url('/bedregistrar',array('back_to_assess',$idno))}}" class="btn btn-danger form form-control" onclick="return confirm('Are you Sure To back to assess {{$user->firstname}} {{$user->lastname}} ? ')">Back Student to Assessed Status</a>
