@@ -81,7 +81,7 @@ $check_balances = \App\OldSystemBalance::where('idno',$user->idno)->get();
 $check_reservations = \App\Reservation::where('idno', $user->idno)->where('reservation_type',1)->where('is_consumed', 0)->where('is_reverse', 0)->get();
 $check_student_deposits = \App\Reservation::where('idno', $user->idno)->where('reservation_type',2)->where('is_consumed', 0)->where('is_reverse', 0)->get();
 
-$previous = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $user->idno)->where('category_switch', '>', '9')
+$previous = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $user->idno)
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 $due_previous = 0;
 if (count($previous) > 0) {
