@@ -46,7 +46,7 @@ class StudentReservation extends Controller
         $this->postAccounting($request, $reference_id);
         $this->postCashDebit($request, $reference_id);
         StudentLedger::updatereceipt();
-        \App\Http\Controllers\Admin\Logs::log("Place reservation/student depobit to - $request->idno with reference id:$reference_id.");
+        \App\Http\Controllers\Admin\Logs::log("Place reservation/student deposit to - $request->idno with reference id:$reference_id.");
         DB::commit();
         return redirect(url('/cashier',array('viewreceipt',$reference_id)));
         

@@ -132,6 +132,14 @@ class MainPayment extends Controller {
                 \App\Http\Controllers\Admin\Logs::log("Manually marked as enrolled - $idno");
             }
             return redirect(url('registrar_college',array('assessment',$idno)));
+        }else if(Auth::user()->accesslevel == env("SCHOLARSHIP_HED")){
+            $status = \App\Status::where('idno', $idno)->first();
+            if ($status->status == env("ASSESSED")){
+                $idno = $this->changeStatus($idno);
+                $this->addLevels($idno);
+                \App\Http\Controllers\Admin\Logs::log("Manually marked as enrolled - $idno");
+            }
+            return redirect(url('scholarship_college',array('view_scholar',$idno)));
         }
     }
 

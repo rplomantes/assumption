@@ -412,7 +412,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             <h3>MAIN FEES</h3>
            @if(count($ledger_main)>0)
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
-            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th><th>Edit</th></tr>
+            <!--<table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th><th>Edit</th></tr>-->
+            <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
                 @else
             <table class="table table-bordered table-condensed"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Net</th><th>Debit Memo</th><th>Payment</th><th>Balance</th></tr>
                 @endif
@@ -477,7 +478,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list_misc->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_misc->payment,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
-               <td><a href="{{url('/accounting', array('edit_ledger', $list_misc->id))}}">Edit</a></td>
+               <!--<td><a href="{{url('/accounting', array('edit_ledger', $list_misc->id))}}">Edit</a></td>-->
                </tr>
            @endforeach  
            @endif
@@ -517,7 +518,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list_other->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_other->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
-               <td><a href="{{url('/accounting', array('edit_ledger', $list_other->id))}}">Edit</a></td>
+<!--               <td><a href="{{url('/accounting', array('edit_ledger', $list_other->id))}}">Edit</a></td>-->
                </tr>
            @endforeach
            @endif
@@ -558,7 +559,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list_depo->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list_depo->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
-               <td><a href="{{url('/accounting', array('edit_ledger', $list_depo->id))}}">Edit</a></td>
+<!--               <td><a href="{{url('/accounting', array('edit_ledger', $list_depo->id))}}">Edit</a></td>-->
                </tr>
            @endforeach
            @endif
@@ -596,7 +597,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
                
            @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
-               <td><a href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>
+<!--               <td><a href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>-->
                @endif
                </tr>
            @endforeach
@@ -638,7 +639,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
-               <td><a href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>
+<!--               <td><a href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>-->
                </tr>
            @endforeach
            @endif
