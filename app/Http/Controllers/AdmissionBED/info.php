@@ -133,7 +133,11 @@ class info extends Controller
             $status->status=0;
             $status->date_admission_finish=date('Y-m-d');
             $status->save();
+            
+            try{
             $this->sendEmail($idno, "Approved");
+            }catch (\Exception $e){
+            }
             \App\Http\Controllers\Admin\Logs::log("Approved admission status application of $idno.");
             return redirect('admissionbed/info/'.$idno);
         }
@@ -148,7 +152,11 @@ class info extends Controller
             $user = \App\User::where('idno', $idno)->first();
             $user->status=0;
             $user->save();
+            
+            try{
             $this->sendEmail($idno, "Regret");
+            }catch (\Exception $e){
+            }
             \App\Http\Controllers\Admin\Logs::log("Disapproved admission status application of $idno.");
             return redirect('/');
         }
@@ -193,9 +201,11 @@ class info extends Controller
             $applicant_details->save();
             
             $reference_id = \App\Payment::where('idno', $idno)->first()->reference_id;
-            
+                        
+            try{
             $this->sendPaymentEmail($reference_id, $applicant_details,$six_digit_random_number);
-            
+            }catch (\Exception $e){
+            }
             \App\Http\Controllers\Admin\Logs::log("Resend email access confirmation of $idno.");
             
             Session::flash('message', 'Email Access Confirmation Resent!');
