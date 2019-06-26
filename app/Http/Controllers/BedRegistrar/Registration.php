@@ -222,13 +222,17 @@ class Registration extends Controller {
     }
 
     function reset_password(Request $request) {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ADMISSION_BED")) {
             $user = \App\User::where('idno', $request->idno)->first();
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
             $user->update();
             \App\Http\Controllers\Accounting\SetReceiptController::log("Reset password of $request->idno.");
+            if(Auth::user()->accesslevel == env("REG_BE")){
             return redirect(url('/bedregistrar', array('info', $request->idno)));
+            }elseif(Auth::user()->accesslevel == env("ADMISSION_BED")){
+            return redirect(url('/admissionbed', array('info', $request->idno)));
+            }
         }
     }
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\Cashier\StudentLedger;
 use App\Http\Controllers\Cashier\StudentReservation;
 use DB;
 use Mail;
+use Session;
 
 class PreRegistration extends Controller {
 
@@ -80,7 +81,9 @@ class PreRegistration extends Controller {
             $this->updatePreRegStatus($request);
             try{
             $this->sendPaymentEmail($request,$reference_id, $applicant_details,$six_digit_random_number);
+            Session::flash('message', 'Payment Confirmation send to email.');
             }catch (\Exception $e){
+            Session::flash('danger', 'Email not sent! Please advise payee to go to Admission Office to get their username and password.');
             }
             \App\Http\Controllers\Admin\Logs::log("Post Pre-Registration payment to - $request->paid_by.");
             DB::Commit();

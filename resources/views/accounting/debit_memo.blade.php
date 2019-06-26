@@ -243,7 +243,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         padding: 10px;
     }
     .top-payment{
-         background-color: #E9C062;
+        background-color: #E9C062;
         padding: 10px; 
     }
     .cash-payment{
@@ -294,7 +294,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                 
                 if($("#previous_balance").val()==""){
                     $("#previous_balance").val("0.00");
-                }else if($("#previous_balance").val()>{{$previous_total->balance}}){
+                }else if($("#previous_balance").val() > "{{$previous_total->balance}}"){
                     alert("Amount Should Not Be Greater Than " + "{{number_format($previous_total->balance,2)}}" )
                     $("#previous_balance").val("{{$previous_total->balance}}");
                 }
@@ -363,7 +363,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                     alert("Amount Should Not Be Greater Than " + "{{number_format($total_max,2)}}" )
                 } else {
                     computeSubaccount();
-                    computeToBePaid()
+                    computeToBePaid();
                 }
                 
                 e.preventDefault();

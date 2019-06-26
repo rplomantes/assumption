@@ -52,6 +52,12 @@ if(Auth::user()->accesslevel == env("CASHIER")){
 @section('maincontent')
 <div class="container-fluid">
     
+        @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif  
+        @if (Session::has('danger'))
+            <div class="alert alert-danger">{{ Session::get('danger') }}</div>
+        @endif
     <div class="col-md-6 official_receipt">
         
         <div class="col-md-2 image img-responsive"> <img width="86"src="{{url('/images','assumption-logo.png')}}" ></div>

@@ -159,6 +159,15 @@ $layout = "layouts.appadmission-shs";
     @elseif($status->status == env("PRE_REGISTERED"))
     {{ csrf_field() }}
     <div class="col-md-12">
+    
+         <div class="col-md-2 pull-left">
+             <div class="form form-group">
+                 <label><br><br></label>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-default">
+                Reset Password
+              </button>
+             </div>
+          </div>
         
          <div class="col-md-3 pull-right">
              <div class="form form-group">
@@ -172,6 +181,9 @@ $layout = "layouts.appadmission-shs";
         @if (Session::has('message'))
             <div class="alert alert-success">{{ Session::get('message') }}</div>
         @endif  
+        @if (Session::has('danger'))
+            <div class="alert alert-danger">{{ Session::get('danger') }}</div>
+        @endif
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
@@ -1389,6 +1401,30 @@ $layout = "layouts.appadmission-shs";
     </div>
     </form>
 </div>
+<div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Enter New Password : </h4>
+              </div>
+                <form method="post" action="{{url('/bedregistrar', array('resetpassword'))}}">
+                     {{csrf_field()}} 
+                     <input type="hidden" name="idno" value="{{$user->idno}}">
+              <div class="modal-body">
+                  <input type="text" name="password" class="form form-control">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Reset Password">
+              </div>
+                </form>     
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 @endsection
 @section('footerscript')
 <script>

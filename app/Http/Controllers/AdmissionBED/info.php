@@ -136,9 +136,13 @@ class info extends Controller
             
             try{
             $this->sendEmail($idno, "Approved");
-            }catch (\Exception $e){
-            }
             \App\Http\Controllers\Admin\Logs::log("Approved admission status application of $idno.");
+            Session::flash('message', 'Student Approved! Email of approval was sent.');
+            }catch (\Exception $e){
+            \App\Http\Controllers\Admin\Logs::log("Approval email was not sent for $idno.");
+            Session::flash('message', 'Student Approved!');
+            Session::flash('danger', 'Email not sent!');
+            }
             return redirect('admissionbed/info/'.$idno);
         }
     }
@@ -155,10 +159,14 @@ class info extends Controller
             
             try{
             $this->sendEmail($idno, "Regret");
-            }catch (\Exception $e){
-            }
             \App\Http\Controllers\Admin\Logs::log("Disapproved admission status application of $idno.");
-            return redirect('/');
+            Session::flash('message', 'Student Approved! Email of disapproval was sent.');
+            }catch (\Exception $e){
+            \App\Http\Controllers\Admin\Logs::log("Diapproval email was not sent for $idno.");
+            Session::flash('message', 'Student Disapproved!');
+            Session::flash('danger', 'Email not sent!');
+            }
+            return redirect('admissionbed/info/'.$idno);
         }
     }
     
@@ -204,11 +212,13 @@ class info extends Controller
                         
             try{
             $this->sendPaymentEmail($reference_id, $applicant_details,$six_digit_random_number);
-            }catch (\Exception $e){
-            }
             \App\Http\Controllers\Admin\Logs::log("Resend email access confirmation of $idno.");
-            
             Session::flash('message', 'Email Access Confirmation Resent!');
+            }catch (\Exception $e){
+            \App\Http\Controllers\Admin\Logs::log("Resend Email access not sent for $idno.");
+            Session::flash('danger', 'Email not sent!');
+            }
+            
             return redirect(url('admissionbed',array('info', $idno)));
         }
     }
