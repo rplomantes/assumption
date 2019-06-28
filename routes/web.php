@@ -407,6 +407,7 @@ Route::get('/ajax/scholarship_college/getstudentlist', 'ScholarshipCollege\Ajax\
 //View Scholar
 Route::get('/scholarship_college/view_scholar/{idno}', 'ScholarshipCollege\ViewScholarship@index');
 Route::post('/scholarship_college/update_scholar', 'ScholarshipCollege\ViewScholarship@update_now');
+Route::get('/scholarship_college/view_schedule/{idno}', 'ScholarshipCollege\ViewScholarship@view_schedule');
 
 //Accounting Reports SetUp./////////////////////////////////////////////////////
 Route::get('/accounting/set_up_summary','Accounting\SetUpController@set_up_summary');

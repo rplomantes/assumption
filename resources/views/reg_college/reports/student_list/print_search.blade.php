@@ -60,6 +60,9 @@
                 <th width='30%'>Student Name</th>
                 <th>Program</th>
                 <th>Level</th>
+                @if(Auth::user()->accesslevel == env("ADMISSION_HED"))
+                <th>Scholar</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -75,6 +78,10 @@
                 <td>{{$user->getFullNameAttribute()}}</td>
                 <td>{{$status->program_code}}</td>
                 <td>{{$status->level}}</td>
+                @if(Auth::user()->accesslevel == env("ADMISSION_HED"))
+                <?php $scholar = \App\CollegeScholarship::where('idno', $list->idno)->first(); ?>
+                <td>{{$scholar->discount_description}}</td>
+                @endif
             </tr>
             @endforeach
         </tbody>

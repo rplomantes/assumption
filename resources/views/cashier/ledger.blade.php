@@ -1087,11 +1087,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         $('#accordion-0').slideDown(300).addClass('open');
         }else{
             if("{{$status->period}}" == "1st Semester"){
-                $('#accordion-1').slideDown(300).addClass('open'); 
+                $('#accordion-0').slideDown(300).addClass('open'); 
             }else if("{{$status->period}}" == "2nd Semester"){
-                $('#accordion-2').slideDown(300).addClass('open');
+                $('#accordion-1').slideDown(300).addClass('open');
             }else if("{{$status->period}}" == "Summer"){
-                $('#accordion-3').slideDown(300).addClass('open');
+                $('#accordion-2').slideDown(300).addClass('open');
             }
         }
     }
