@@ -37,6 +37,7 @@ $x = 0;
             <th style='border-bottom: 1px solid black'>OR Number</th>
             <th style='border-bottom: 1px solid black'>Date</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Amount</th>
+            <th style='border-bottom: 1px solid black; text-align: right'>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -53,11 +54,21 @@ $x = 0;
                     <td>{{$list->receipt_no}}</td>
                     <td>{{$list->transaction_date}}</td>
                     <td align='right'>{{number_format($list->amount,2)}}</td>
+                    <td align='right'>
+                        @switch($list->is_consumed)
+                        @case(1)
+                        Used
+                        @break
+                        @case(0)
+                        Unused
+                        @break
+                        @endswitch
+                    </td>
                 </tr>
             @endforeach
             <tr>
                 <td style="border-top:1px solid black" @if($department == "College Department") colspan="7" @else colspan="6" @endif><strong>Total</strong></td>
-                <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td>
+                <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td><td style="border-top:1px solid black"></td>
             </tr>
     </tbody>
 </table>
