@@ -24,7 +24,10 @@ $i=1;
     
 </table> 
 <div class ="form form-group">
-    <a href="javascript:void(0)" onclick = "print_student_list()" class="form btn btn-primary"> Print Student List</a>
+    <a href="javascript:void(0)" onclick = "print_student_list('w')" class="form btn btn-primary"> Print Student List</a>
+    <a href="javascript:void(0)" onclick = "print_student_list('wo')" class="form btn btn-success"> Print Student List w/o ID Numbers</a>
+    <a href="javascript:void(0)" onclick = "print_new_student_list('new')" class="form btn btn-info"> Print Student List of New Student</a>
+    <a href="javascript:void(0)" onclick = "export_student_list('w')" class="form btn btn-primary"> Export Student List</a>
 </div> 
 @else
 
