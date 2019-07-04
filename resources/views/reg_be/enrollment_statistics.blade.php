@@ -6,6 +6,8 @@
         $layout = "layouts.appaccountingstaff";    
     }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
         $layout = "layouts.appaccountinghead";    
+    }else if (Auth::user()->accesslevel==env("GUIDANCE_BED")){
+        $layout = "layouts.appguidance_bed";    
     }
 ?>
 <?php

@@ -3,6 +3,7 @@ $file_exist = 0;
 if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     $file_exist = 1;
 }
+$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first();
 ?>
 
 <!DOCTYPE html>
@@ -106,6 +107,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+                        <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$school_year->school_year))}}"><i class="fa fa-link"></i> <span>Enrollment Statistics</span></a></li>
                         <li><a href="{{url('/bedregistrar/sectioning')}}"><i class="fa fa-group"></i> <span>Pre-Sectioning/Promotions</span></a></li>
                         
                 </section>

@@ -40,7 +40,7 @@ $i=1;
 <center>
 <div><strong>Assumption College</strong></div>
 <div>Basic Education Division</div>
-<div>School Year 2018-2019</div>
+<div>School Year 2019-2020</div>
 </center><br>
 
 @if($section=="All")
