@@ -126,7 +126,7 @@
                 In partnership with <a href="http://nephilaweb.com.ph">Nephila Web Technology, Inc.</a>
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2018 <a href="http://assumption.edu.ph">Assumption College - San Lorenzo</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2019 <a href="http://assumption.edu.ph">Assumption College - San Lorenzo</a>.</strong> All rights reserved.
 
         </div>    
         <!-- jQuery 3 -->
