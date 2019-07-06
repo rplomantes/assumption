@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>resources/views/reg_college/curriculum_management/ajax/course_to_offer.blade.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>15</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/layouts/appreg_college.blade.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/RegistrarCollege/CurriculumManagement/AddElectivesController.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_college/curriculum_management/add_electives.blade.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/RegistrarCollege/CurriculumManagement/Ajax/electives_ajax.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/routes/web.php</file>
+        </group>
+    </open-files>
+</project-private>
