@@ -60,6 +60,9 @@
                     @if(Session::has('message'))
                         <div class="alert alert-success">{{Session::get('message')}}</div>
                     @endif
+                    @if(Session::has('danger'))
+                        <div class="alert alert-danger">{{Session::get('danger')}}</div>
+                    @endif
 
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
@@ -442,11 +445,11 @@
                             </div>
                             @endif
                         @else
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <div class="col-sm-12">
                                 <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                             </div>
-                        </div>
+                        </div>-->
                         @endif
                       
                     </div>

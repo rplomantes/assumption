@@ -163,8 +163,15 @@ class ViewInfoAdmissionHedController extends Controller {
             $blast = \App\EmailBlast::where('idno', $idno)->first();
             $blast->is_done = 1;
             $blast->save();
-                
+            
+            
+            try{
             $this->sendEmail($idno);
+            Session::flash('message', 'Email sent!');
+            }catch (\Exception $e){
+            Session::flash('danger', 'Email not sent! Their default password is their username.');
+            }
+            
             
             DB::Commit();
             return redirect(url('admission_hed',array('view_info',$idno)));
