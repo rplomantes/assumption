@@ -139,7 +139,7 @@ function getAge($dob,$condate){
         <thead>
             <tr>
                 <th rowspan="2" align='center' width='1%'>#</th>
-                <th rowspan="2" align='center' width='5%'>SERIAL NO.</th>
+                <!--<th rowspan="2" align='center' width='5%'>SERIAL NO.</th>-->
                 <th align='center' width='20%' colspan="3">NAME</th>
                 <th rowspan="2" align='center' width='25%'>COURSE</th>
                 <th rowspan="2" align='center' width='4%'>DATE OF BIRTH</th>
@@ -160,7 +160,7 @@ function getAge($dob,$condate){
             <?php $count = $count +1?>
             <tr>
                 <td align="right">{{$count}}.</td>
-                <td></td>
+                <!--<td></td>-->
                 <td>{{strtoupper($user->lastname)}}</td>
                 <td>{{strtoupper($user->firstname)}}</td>
                 <td>{{strtoupper($user->middlename)}}</td>
@@ -173,7 +173,7 @@ function getAge($dob,$condate){
         <tfoot>
             <tr>
                 <th rowspan="2"></th>
-                <th rowspan="2">Total</th>
+                <!--<th rowspan="2">Total</th>-->
                 <th>Male:</th>
                 <th rowspan="2" colspan="5" style="border-bottom: none; border-right: none"></th>
             </tr>
