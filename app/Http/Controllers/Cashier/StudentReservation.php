@@ -129,7 +129,9 @@ class StudentReservation extends Controller
         
         $adddpayment = new \App\Payment;
         if(count($status)>0){
-            if($status->status <= env("ASSESSED")){}
+            if($status->status <= env("ASSESSED")){
+                
+            }
                 if($status->academic_type=="College"){
                    $level= \App\Status::where('idno',$request->idno)->where('school_year',$status->school_year)->where('period',$status->period)->first(); 
                    $adddpayment->program_code = $level->program_code;
@@ -181,10 +183,10 @@ class StudentReservation extends Controller
         
         $adddpayment->remarks=$remarks; 
         $adddpayment->posted_by=Auth::user()->idno;
-//        $sy = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->school_year;
-//        $pr = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->period;
-        $adddpayment->school_year=$status->school_year; 
-        $adddpayment->period=$status->period; 
+        $sy = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->school_year;
+        $pr = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first()->period;
+        $adddpayment->school_year=$sy; 
+        $adddpayment->period=$pr; 
         $adddpayment->save();
     }
     
