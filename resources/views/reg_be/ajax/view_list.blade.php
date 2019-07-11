@@ -4,6 +4,7 @@ function get_name($idno){
     return $names->lastname.", ".$names->firstname." ".$names->middlename;
 }
 $i=1;
+$y=1;
 ?>
 
 <h3>Assumption College</h3>
@@ -28,7 +29,7 @@ $i=1;
     <a href="javascript:void(0)" onclick = "print_student_list('wo')" class="form btn btn-success"> Print Student List w/o ID Numbers</a>
     <a href="javascript:void(0)" onclick = "print_new_student_list('new')" class="form btn btn-info"> Print Student List of New Student</a>
     <a href="javascript:void(0)" onclick = "export_student_list('w')" class="form btn btn-primary"> Export Student List</a>
-</div> 
+</div>
 @else
 
 <div>Section : {{$section}}</div>
@@ -43,7 +44,37 @@ $i=1;
     <tr><td colspan="8">No List For This Level</td></tr>
     @endif
     
-</table>    
+</table>
+
+<h3>List of Students that is not yet enrolled.</h3>
+<table border="1" class="table table-responsive table-striped">
+    <tr>
+        <th>#</th>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Status</th>
+    </tr>
+    @if(count($students)>0)
+    @foreach($students as $name)
+    <?php $check_status = \App\Status::where('idno', $name->idno)->first(); ?>
+    @if($check_status->status != 3)
+    <tr>
+        <td>{{$y++}}</td>
+        <td>{{$name->idno}}</td>
+        <td>{{get_name($name->idno)}}</td>
+        <td>
+            @if($check_status->status == 3)Enrolled
+            @elseif($check_status->status == 2) <strong>Assessed</strong>
+            @elseif($check_status->status == 10) Pre-Registered
+            @elseif($check_status->status == 11) For Approval
+            @elseif($check_status->status == 4) Withdrawn-{{$check_status->date_dropped}}
+            @else <strong>Not Yet Enrolled</strong> @endif
+        </td>
+    </tr>
+    @endif
+    @endforeach
+    @endif
+</table>
 <div class ="form form-group">
     <a href="javascript:void(0)" onclick = "print_student_list('w')" class="form btn btn-primary"> Print Student List w/ ID Numbers</a>
     <a href="javascript:void(0)" onclick = "print_student_list('wo')" class="form btn btn-success"> Print Student List w/o ID Numbers</a>

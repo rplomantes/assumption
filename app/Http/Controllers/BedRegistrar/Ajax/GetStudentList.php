@@ -60,9 +60,12 @@ class GetStudentList extends Controller {
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' order by users.lastname, users.firstname, users.middlename");
+                        $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
+                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section'  order by lastname, firstname, middlename");
                     }
                 }
-                return view("reg_be.ajax.view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period'));
+                return view("reg_be.ajax.view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
             }
         }
     }
