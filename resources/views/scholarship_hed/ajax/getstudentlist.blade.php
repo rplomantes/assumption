@@ -1,7 +1,7 @@
 @if(count($lists)>0)
 <div class='table-responsive'>
     <table class="table table-striped table-condensed">
-        <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>Type of Scholarship</th><th>View Information</th><th>Scholarship</th><th>View Schedule</th></tr>
+        <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>Scholarship</th><th>Information</th><th>Scholarship</th><th>Schedule</th><th>Grades</th></tr>
         @foreach($lists as $list)
         <?php $status = \App\Status::where('idno',$list->idno)->first(); ?>
         <?php $scholar = \App\CollegeScholarship::where('idno',$list->idno)->first(); ?>
@@ -21,6 +21,7 @@
             @else
             <td></td>
             @endif
+            <td><a href="{{url('/college', array('view_transcript',$list->idno))}}">View Grades</a></td>
         </tr>
         @endif
         @endforeach

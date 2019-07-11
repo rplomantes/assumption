@@ -445,11 +445,11 @@
                             </div>
                             @endif
                         @else
-<!--                        <div class="form-group">
+                        <div class="form-group">
                             <div class="col-sm-12">
                                 <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                             </div>
-                        </div>-->
+                        </div>
                         @endif
                       
                     </div>

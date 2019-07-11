@@ -3,8 +3,15 @@ $file_exist = 0;
 if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
+
+    if(Auth::user()->accesslevel == env('DEAN')){
+    $layout = "layouts.appdean_college";
+    } else if(Auth::user()->accesslevel == env('SCHOLARSHIP_HED')){
+    $layout = "layouts.appscholarship_college";
+    }
 ?>
-@extends('layouts.appdean_college')
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -81,6 +88,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                 </div>
             </div>
         </div>
+        @if(Auth::user()->accesslevel != env("SCHOLARSHIP_HED"))
             <div class="col-sm-3">
                 <a href="{{url('college', array('student_record', $user->idno))}}" class="btn btn-primary col-sm-12">Curriculum Record</a>
             </div>
@@ -93,6 +101,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <div class="col-sm-3">
                 <a target="_blank" href="{{url('college', array('true_copy_of_grades', $user->idno))}}" class="btn btn-success col-sm-12">Print Grade File</a>
             </div>
+        @endif
         <div class="col-sm-12">
             <?php $credit_sy = \App\CollegeCredit::distinct()->where('idno', $idno)->orderBy('school_year', 'asc')->get(['school_year']); ?>
             @if(count($credit_sy)>0)

@@ -19,7 +19,7 @@ class StudentRecordController extends Controller
         }
     }
     function view_transcript($idno){
-        if (Auth::user()->accesslevel == env('DEAN')) {
+        if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('SCHOLARSHIP_HED')) {
             $user = \App\User::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
             $status = \App\Status::where('idno', $idno)->first();
