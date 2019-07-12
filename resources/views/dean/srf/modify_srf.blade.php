@@ -80,6 +80,7 @@ $layout = "layouts.appreg_college";
                             <option @if($srf_group == "Psychology Department") selected="" @endif>Psychology Department</option>
                             <option @if($srf_group == "Performing Department") selected="" @endif>Performing Department</option>
                             <option @if($srf_group == "Communication Department") selected="" @endif>Communication Department</option>
+                            <option @if($srf_group == "Interior Design Department") selected="" @endif>Interior Design Department</option>
                         </select>
                     </div>
                     <div class="form-group">
