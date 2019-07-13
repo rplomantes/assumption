@@ -73,10 +73,12 @@ $layout = "layouts.appreg_college";
                         <tbody>
                             <tr>
                                 <th class='col-sm-2'>Course Code</th>
-                                <th class='col-sm-7'>Course Description</th>
+                                <th class='col-sm-5'>Course Description</th>
                                 <th class='col-sm-1'>LEC</th>
                                 <th class='col-sm-1'>LAB</th>
                                 <th class='col-sm-1'>UNITS</th>
+                                <th class='col-sm-1'>SRF</th>
+                                <th class='col-sm-2'>LAB</th>
                             </tr>
                             <?php
                             $curriculums = \App\Curriculum::where('program_code', $program_code)->where('curriculum_year', $curriculum_year)->where('level', $level->level)->where('period', $level->period)->get();
@@ -92,6 +94,8 @@ $layout = "layouts.appreg_college";
                                 <td>@if ($curriculum->lec==0) @else {{$curriculum->lec}} @endif <?php $totalLec = $curriculum->lec + $totalLec; ?></td>
                                 <td>@if ($curriculum->lab==0) @else {{$curriculum->lab}} @endif <?php $totalLab = $curriculum->lab + $totalLab; ?></td>
                                 <td>{!!$curriculum->lec + $curriculum->lab!!}</td>
+                                <td>{{number_format($curriculum->srf,2)}}</td>
+                                <td>{{number_format($curriculum->lab_fee,2)}}</td>
                             </tr>
                             @endforeach
                             <tr>
@@ -100,6 +104,8 @@ $layout = "layouts.appreg_college";
                                 <th><?php echo $totalLec; ?></th>
                                 <th><?php echo $totalLab; ?></th>
                                 <th><?php $totalUnits = $totalUnits + $totalLec + $totalLab; ?> {!! $totalLec + $totalLab !!}</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </tbody>
                     </table>
