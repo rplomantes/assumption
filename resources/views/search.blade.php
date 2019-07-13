@@ -78,6 +78,7 @@
         <br>
         <div class="col-md-2"></div>
         <div class="col-md-8">
+        <h1>You don't know your ID Number? Check here!</h1>
             <input type="text" id="search" class="form-control" placeholder="Lastname...">
 
             <div id="studentlist">
