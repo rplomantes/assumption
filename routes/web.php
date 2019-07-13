@@ -515,6 +515,8 @@ Route::get('/registrar_college/notifications/set_status','RegistrarCollege\Notif
 Route::get('/accounting/debit_summary/{date_from}/{date_to}/{posted_by}','Accounting\DebitCreditSummary@debit_summary');
 Route::get('/accounting/print_debit_summary/{date_from}/{date_to}/{posted_by}','Accounting\DebitCreditSummary@print_debit_summary');
 
+//Search
+Route::get('/search','HomeController@search');
 
 //Benefits/siblings
 Route::get('/bedregistrar/siblings','BedRegistrar\SiblingsBenefits@siblings');

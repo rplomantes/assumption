@@ -106,5 +106,9 @@ class HomeController extends Controller {
             return redirect(url('/'));
         }
     }
+    
+    function search(){
+        return view('search');
+    }
 
 }

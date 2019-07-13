@@ -12,6 +12,7 @@ class GetStudentList_ajax extends Controller
     function getstudentlist(){
         if (Request::ajax()) {
             $search = Input::get("search");
+            $is_search = Input::get("is_search");
             $lists = \App\User::where('academic_type', 'College')
                     ->where(function ($query) use ($search){
                         $query->where("lastname","like","%$search%")
@@ -19,7 +20,7 @@ class GetStudentList_ajax extends Controller
                               ->orWhere("idno",$search);
                     })->get();
             
-            return view('reg_college.ajax.getstudentlist', compact('lists'));
+            return view('reg_college.ajax.getstudentlist', compact('lists', 'is_search'));
         }
     }
 }
