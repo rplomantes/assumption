@@ -105,13 +105,22 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                         <li><a href="{{url('/register')}}"><i class="fa fa-users"></i> <span>Register User</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set SRF</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Schedule of Fees</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Payment Plan</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Set Discount</span></a></li>
-                        <li><a href="{{url('/admin/logs')}}"><i class="fa fa-home"></i> <span>Logs</span></a></li>
-                        <li><a href="{{url('/sms')}}"><i class="fa fa-home"></i> <span>SEND SMS</span></a></li>
-                        <li><a href="{{url('/admin/re_assess')}}"><i class="fa fa-home"></i> <span>Re-assess BED Early Enrollments</span></a></li>
+                        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Payment Plan</span></a></li>
+                        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Discount</span></a></li>
+                        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Email</span></a></li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>Cut-Off</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"><i class="fa fa-link"></i> <span>Batch Promotion</span></a></li>
+                                <li><a href="{{url('/bedregistrar',array('individual_promotions'))}}"><i class="fa fa-link"></i> <span>Individual Promotion</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{url('/admin/logs')}}"><i class="fa fa-link"></i> <span>Logs</span></a></li>
+                        <li><a href="{{url('/admin/re_assess')}}"><i class="fa fa-link"></i> <span>Re-assess BED Early Enrollments</span></a></li>
                 </section>
             </aside>
             <div class="content-wrapper">

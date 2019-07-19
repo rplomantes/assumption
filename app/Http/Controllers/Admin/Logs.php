@@ -16,7 +16,8 @@ class Logs extends Controller {
     }
 
     function view_logs() {
-        $logs = \App\Log::orderBy('id', 'desc')->get();
+//        $logs = \App\Log::orderBy('id', 'desc')->get();
+        $logs = DB::Select("select * from `logs` where datetime > DATE_SUB(now(), INTERVAL 3 MONTH) order by `id` desc ");
         return view('admin.logs', compact('logs'));
     }
 
