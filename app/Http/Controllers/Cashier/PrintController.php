@@ -75,4 +75,39 @@ class PrintController extends Controller
         }
         
     }
+    function print_credit_cards($date_from, $date_to){
+         if(Auth::user()->accesslevel==env("CASHIER")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->where('posted_by',Auth::user()->idno)->where('credit_card_amount','>','0')->get();
+            $pdf=PDF::loadView('cashier.print_credit_cards',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream(); 
+         }
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->orderBy('posted_by')->where('credit_card_amount','>','0')->get();
+            $pdf=PDF::loadView('cashier.print_credit_cards',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream(); 
+         }
+        
+        
+    }
+    function print_bank_deposits($date_from, $date_to){
+         if(Auth::user()->accesslevel==env("CASHIER")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->where('posted_by',Auth::user()->idno)->where('deposit_amount','>','0')->get();
+            $pdf=PDF::loadView('cashier.print_bank_deposits',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream(); 
+         }  
+         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
+                    ->orderBy('posted_by')->where('deposit_amount','>','0')->get();
+            $pdf=PDF::loadView('cashier.print_bank_deposits',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream(); 
+         }
+        
+    }
 }
