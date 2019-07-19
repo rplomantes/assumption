@@ -43,7 +43,9 @@ Route::get('/cashier/collection_report/{date_from}/{date_to}','Cashier\Collectio
 Route::get('/cashier/list_of_checks/{date_from}/{date_to}','Cashier\CollectionReport@list_of_checks');
 Route::get('/cashier/print/list_of_checks/{date_from}/{date_to}','Cashier\PrintController@print_list_of_checks');
 Route::get('/cashier/credit_cards/{date_from}/{date_to}','Cashier\CollectionReport@credit_cards');
+Route::get('/cashier/print/credit_cards/{date_from}/{date_to}','Cashier\PrintController@print_credit_cards');
 Route::get('/cashier/bank_deposits/{date_from}/{date_to}','Cashier\CollectionReport@bank_deposits');
+Route::get('/cashier/print/bank_deposits/{date_from}/{date_to}','Cashier\PrintController@print_bank_deposits');
 Route::get('/cashier/non_student_payment','Cashier\OtherPayment@non_student_payment');
 Route::post('/cashier/non_student_payment','Cashier\OtherPayment@post_non_student_payment');
 Route::get('/cashier/set_receipt','Cashier\CollectionReport@set_receipt');
