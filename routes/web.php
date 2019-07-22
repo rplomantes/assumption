@@ -404,6 +404,7 @@ Route::post('/bedregistrar/assess/change_strand','BedRegistrar\Assess@change_str
 
 //Scholarship College - MAIN////////////////////////////////////////////////////
 Route::get('/ajax/scholarship_college/getstudentlist', 'ScholarshipCollege\Ajax\GetStudentList_ajax@getstudentlist');
+Route::get('/scholarship_college/print_scholarship/{idno}', 'ScholarshipCollege\ViewScholarship@print_scholarship');
 //View Scholar
 Route::get('/scholarship_college/view_scholar/{idno}', 'ScholarshipCollege\ViewScholarship@index');
 Route::post('/scholarship_college/update_scholar', 'ScholarshipCollege\ViewScholarship@update_now');

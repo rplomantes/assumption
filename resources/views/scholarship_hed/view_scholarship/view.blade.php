@@ -134,7 +134,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             </div>
                             <div class="col-sm-8">
                                 <label class="col-sm-12"><br></label>
-                                <button class="col-sm-12 btn btn-success">Print Scholarship Form</button>
+                                <a href="{{url('/scholarship_college', array('print_scholarship', $idno))}}"><button class="col-sm-12 btn btn-success" type="button">Print Scholarship Certificate</button></a>
                             </div>
                         </div>
                     </form>

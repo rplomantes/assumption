@@ -22,6 +22,19 @@ class ViewScholarship extends Controller {
             return view('scholarship_hed.view_scholarship.view', compact('scholar', 'idno'));
         }
     }
+    
+    function print_scholarship($idno){
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+            $info = \App\User::where('idno',$idno)->first();
+            $status = \App\Status::where('idno',$idno)->first();
+            $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type',"College")->first();
+            $scholar = \App\CollegeScholarship::where('idno', $idno)->first();
+            
+            $pdf = PDF::loadView('scholarship_hed.view_scholarship.print_scholarship',compact('scholar','idno','info','status', 'enrollment_sy'));
+            $pdf->setPaper('letter','portrait');
+          return $pdf->stream('scholarship_cerfiticate.pdf');
+        }
+    }
 
     function update_now(Request $request) {
         if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
