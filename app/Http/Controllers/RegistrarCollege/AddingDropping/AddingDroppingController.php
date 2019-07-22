@@ -274,13 +274,21 @@ class AddingDroppingController extends Controller {
 
                 $deletesrf = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('subsidiary', "$grade->course_code")->first();
                 if (count($deletesrf) > 0) {
-                    $deletesrf->amount = 0;
-                    $deletesrf->save();
+                    if($deletesrf->payment > 0 ||$deletesrf->discount > 0 ||$deletesrf->debit_memo > 0){
+                        $deletesrf->amount = 0;
+                        $deletesrf->save();
+                    }else{
+                        $deletesrf->delete();
+                    }
                 }
                 $deletelab = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('subsidiary', 'Lab Fee-'.$grade->course_code)->first();
                 if (count($deletelab) > 0) {
-                    $deletelab->amount = 0;
-                    $deletelab->save();
+                    if($deletelab->payment > 0 ||$deletelab->discount > 0 ||$deletelab->debit_memo > 0){
+                        $deletelab->amount = 0;
+                        $deletelab->save();
+                    }else{
+                        $deletelab->delete();
+                    }
                 }
                 $drop_grade = \App\GradeCollege::where('id', $grade->course_id)->first();
                 $drop_grade->delete();
