@@ -32,7 +32,7 @@ $layout = "layouts.appreg_college";
 @section('header')
 <section class="content-header">
     <h1>
-        NSTP STUDENT LIST
+        NSTP GRADUATES
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -52,12 +52,12 @@ $layout = "layouts.appreg_college";
             </div>
         @endif
         <div class="row">
-            <form class="form form-horizontal" method="post" action='{{url('/registrar_college/reports/print_nstp_reports')}}'>
+            <form class="form form-horizontal" method="post" action='{{url('/registrar_college/reports/print_nstp_graduates')}}'>
             {{ csrf_field() }}        
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">  
-                    <h3 class="box-title">Search List of Enrolled</h3>
+                    <h3 class="box-title">Search List of Graduates</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
@@ -86,7 +86,7 @@ $layout = "layouts.appreg_college";
                                     <option value="Summer">Summer</option>
                                 </select>    
                             </div>  
-                            <div class='col-sm-4'>
+<!--                            <div class='col-sm-4'>
                                 <label>Course Name</label>
                                 <select class="form form-control select2" name="course_code" id='course_code'>
                                     <option value="">Select Course</option>
@@ -94,17 +94,17 @@ $layout = "layouts.appreg_college";
                                     <option value='{{$program->course_code}}'>{{$program->course_code}} - {{$program->course_name}}</option>
                                     @endforeach
                                 </select>    
-                            </div>                             
+                            </div>                             -->
                          </div>                        
                         <div class='form-group'>
                             <div class='col-sm-6'>
                                 <label>&nbsp;</label>
                                 <button formtarget='_blank' type='submit' name="submit" value="print_pdf" class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
-                            </div>    
+<!--                            </div>    
                             <div class='col-sm-6'>
                                 <label>&nbsp;</label>
                                 <button formtarget='_blank' type='submit' name="submit" value="print_excel" class='col-sm-12 btn btn-warning'><span>GENERATE EXCEL</span></button>
-                            </div> 
+                            </div> -->
                         </div>
                     </div>    
                 </div>    

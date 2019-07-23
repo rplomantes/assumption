@@ -32,6 +32,10 @@ Route::post('/registrar_college/curriculum_management/ajax/printshowoffering', '
 Route::get('/registrar_college/reports/nstp_reports', 'RegistrarCollege\Reports\NstpReportsController@index');
 Route::post('/registrar_college/reports/print_nstp_reports', 'RegistrarCollege\Reports\NstpReportsController@print_nstp');
 
+//NSTP Graduates
+Route::get('/registrar_college/reports/nstp_graduates', 'RegistrarCollege\Reports\NstpReportsController@index_graduates');
+Route::post('/registrar_college/reports/print_nstp_graduates', 'RegistrarCollege\Reports\NstpReportsController@print_nstp_graduates');
+
 Route::get('registrar_college/true_copy_of_grades/{idno}','RegistrarCollege\StudentRecord\StudentRecordController@true_copy_of_grades');
 
 //View Course Offering per Room
