@@ -181,7 +181,6 @@ $layout = "layouts.appreg_college";
         </div>
     </div>
                         @endif
-</div>
 </section>
 
 <div class="modal fade" id="show_loads">
