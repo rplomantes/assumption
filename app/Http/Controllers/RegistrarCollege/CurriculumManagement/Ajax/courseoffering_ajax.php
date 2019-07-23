@@ -279,7 +279,16 @@ class courseoffering_ajax extends Controller {
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
 
             $removesubject = \App\CourseOffering::find($id);
+            
+            $schedule_id = $removesubject->schedule_id;
+            
             $removesubject->delete();
+            
+            $is_remove = \App\CourseOffering::where('schedule_id', $schedule_id )->get();
+            if(!count($is_remove)>0){
+                $delete_sched = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first();
+                $delete_sched->delete();
+            }
             
             $check_grade_colleges = \App\GradeCollege::where('course_offering_id', $id)->get();
             if(count($check_grade_colleges)>0){
