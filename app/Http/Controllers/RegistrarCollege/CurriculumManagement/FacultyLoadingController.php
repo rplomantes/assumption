@@ -81,7 +81,7 @@ class FacultyLoadingController extends Controller {
         }
     }
     function print_faculty_loading($idno){
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
             $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first();
             $faculty = \App\User::where('idno', $idno)->first();
             
