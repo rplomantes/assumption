@@ -56,6 +56,8 @@
 @else
 <h1>Record Not Found!!!</h1>
 @endif
+
+    @if(Auth::user()->accesslevel == env("REG_COLLEGE"))
     <table width="100%">
         <thead>
             <tr>
@@ -76,5 +78,6 @@
                 <td></td>
             </tr>
         </tbody>
-    </table>    
+    </table>
+@endif    
 </div>

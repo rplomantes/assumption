@@ -117,6 +117,8 @@
         No Courses Offered for this section!!!
     </div>
     @endif
+    
+    @if(Auth::user()->accesslevel == env("REG_COLLEGE"))
     <br>        
     <table width="100%">
         <thead>
@@ -138,5 +140,6 @@
                 <td></td>
             </tr>
         </tbody>
-    </table>    
+    </table>
+@endif    
 </div>

@@ -48,7 +48,10 @@
             </tr>
             @endforeach
         </tbody>
-    </table><br>
+    </table>
+    
+    @if(Auth::user()->accesslevel == env("REG_COLLEGE"))
+    <br>
     <table width="100%">
         <thead>
             <tr>
@@ -69,5 +72,6 @@
                 <td></td>
             </tr>
         </tbody>
-    </table>    
+    </table>
+@endif    
 </div>
