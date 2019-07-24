@@ -90,7 +90,7 @@
     @else
     <h1>No Courses Loaded!!!</h1>
     @endif
-    @if(Auth::user()->academic_type == "REGISTRAR_COLLEGE")
+    @if(Auth::user()->academic_type == env("REGISTRAR_COLLEGE"))
     <br>        
     <table width="100%">
         <thead>
