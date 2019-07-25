@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use Session;
+use PDF;
 
 class ViewInfoController extends Controller {
 
@@ -175,6 +176,15 @@ class ViewInfoController extends Controller {
             
             \App\Http\Controllers\Admin\Logs::log("Reset password of student: $request->idno");
             return redirect(url('/registrar_college', array('view_info', $request->idno)));
+        }
+    }
+    
+    function print_envelope($idno){
+        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
+            $student_info = \App\StudentInfo::where('idno', $idno)->first();
+            $pdf = PDF::loadView('reg_college.view_info.envelope', compact('student_info'));           
+            $pdf->setPaper(array(0,0,684,297));
+            return $pdf->stream("envelope_$idno.pdf");
         }
     }
 

@@ -92,8 +92,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <!-- Add the bg color to the header using any of the bg-* classes -->
                         
             <div class="widget-user-header bg-yellow">
-                <div>
+                <div class="col-sm-2 pull-right">
                     <a href="{{url('/upload_user_image', $user->idno)}}"><button type="button" class="btn btn-primary pull-right">Upload User Image</button></a>
+                </div>
+                <div class="col-sm-2 pull-right">
+                    <a href="{{url('/print_envelope', $user->idno)}}"><button type="button" class="btn btn-success pull-right"><span class="fa fa-envelope"></span> Print Envelope</button></a>
                 </div>
                 <div class="widget-user-image">
                     @if($file_exist==1)

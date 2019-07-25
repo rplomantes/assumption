@@ -462,6 +462,8 @@ Route::get('/accounting/ajax/get_passcode','Accounting\Ajax\AjaxGeneratePasscode
 Route::get('/upload_user_image/{idno}','Uploader\ImageUpload@view_upload');
 Route::post('/save_image','Uploader\ImageUpload@save_upload');
 Route::get('/remove_image/{idno}','Uploader\ImageUpload@remove_image');
+//print college envelope
+Route::get('/print_envelope/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@print_envelope');
 
 //bed early enrollment
 Route::get('/process_early_enrollment/{idno}','BedRegistrar\EarlyEnrollment@process_cutoff');
