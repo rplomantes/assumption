@@ -89,14 +89,7 @@
                         ?>
                     </td>
                 </tr>             
-                @endforeach 
-        <tr>
-            <td align="left"><b>TOTAL UNITS:</b></td>
-            <td><b></b></td>
-            <td><b>{{$totalunits}}</b></td>
-            <td><b></b></td>
-            <td><b></b></td>
-        </tr>                
+                @endforeach                
             </tbody>         
         </table>   
     @else
