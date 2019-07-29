@@ -34,7 +34,6 @@
                 <tr>
                     <th>Course Code</th>
                     <th>Course Name</th>
-                    <th>Unit</th>
                     <th>Schedule</th>
                     <th>Instructor</th>
                 </tr>
@@ -55,17 +54,6 @@
                         ?>
                         {{$course_name->course_name}}
 
-                    </td>
-                    <td>
-                        <?php $units = \App\Curriculum::where('course_code', $request->course_code)->first();
-                        ?>
-                        @if (count($units)>0)
-                        <?php $unit= $units->lec + $units->lab; ?>
-                        @else
-                         <?php $units = 0;?>   
-                        @endif
-                        <?php $totalunits = $totalunits + $unit?>
-                        {{$unit}}
                     </td>
                     <td>
                         <?php
