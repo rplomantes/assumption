@@ -56,6 +56,11 @@ Route::get('/ajax/registrar_college/curriculum_management/get_courses', 'Registr
 Route::get('/ajax/registrar_college/curriculum_management/get_offerings_per_course', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@get_offerings_per_course');
 Route::post('/registrar_college/curriculum_management/ajax/print_show_offerings_course', 'RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@print_offerings_course');
 
+//View Course Offering Per Room
+Route::get('/registrar_college/curriculum_management/view_course_offering_per_day', 'RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@index5');
+Route::get('/ajax/registrar_college/curriculum_management/get_offerings_per_day', 'RegistrarCollege\CurriculumManagement\Ajax\view_course_offering_ajax@get_offerings_per_day');
+Route::post('/registrar_college/curriculum_management/ajax/print_show_offerings_per_day', 'RegistrarCollege\CurriculumManagement\ViewCourseOfferingController@print_offerings_per_day');
+
 //Reset Pass
 Route::post('/registrar_college/instructor/resetpassword','RegistrarCollege\Instructor\ViewInstructorsController@reset_password');
 

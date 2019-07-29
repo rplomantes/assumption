@@ -74,7 +74,11 @@ class MainPayment extends Controller {
                                 ->selectRaw('sum(debit_memo)+sum(payment) as payment')->first();
                 //
                 if ($downpayment->amount + $duetoday->amount - $payment->payment > 0) {
-                    $due_total = $downpayment->amount + $duetoday->amount - $payment->payment;
+                    if($status->status > 0){
+                        $due_total = $downpayment->amount + $duetoday->amount - $payment->payment;
+                    }else{
+                        $due_total = 0;
+                    }
                 } else {
                     $due_total = 0;
                 }

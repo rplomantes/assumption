@@ -106,6 +106,19 @@ class view_course_offering_ajax extends Controller
             return view('reg_college.curriculum_management.ajax.show_offerings_course', compact('courses', 'school_year', 'period','course_code'));
             
         }
+    }  
+
+    function get_offerings_per_day() {
+        if (Request::ajax()) {
+            $school_year = Input::get("school_year");
+            $period = Input::get("period");
+            $day1 = Input::get("day");
+            
+            $courses = \App\ScheduleCollege::distinct()->where('day', $day1)->where('school_year', $school_year)->where('period', $period)->get(['schedule_id','course_code']);
+            
+            return view('reg_college.curriculum_management.ajax.show_offerings_per_day', compact('courses', 'school_year', 'period', 'day1'));
+            
+        }
     }    
 
     function display_others() {
