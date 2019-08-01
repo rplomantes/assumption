@@ -291,7 +291,7 @@ class AddingDroppingController extends Controller {
                     }
                 }
                 $drop_grade = \App\GradeCollege::where('id', $grade->course_id)->first();
-                $drop_grade->delete();
+                $drop_grade->forceDelete();
 
                 $grade->is_done = 1;
                 $grade->save();
