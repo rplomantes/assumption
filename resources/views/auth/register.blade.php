@@ -129,7 +129,7 @@
                             <option value="70">Guidance-HED</option>
                             <option value="71">Guidance-BED</option>
                             <option value="80">Scholarship-HED</option>
-                            <option value="90">BED Grading</option>
+                            <option value="90">BED Academic</option>
                         </select>    
 
                         @if ($errors->has('accesslevel'))

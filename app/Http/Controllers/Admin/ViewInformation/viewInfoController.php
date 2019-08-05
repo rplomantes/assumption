@@ -87,7 +87,6 @@ class viewInfoController extends Controller {
             
         DB::Commit();    
         }
-        return "HELLO";
         return "Error";
     }
 

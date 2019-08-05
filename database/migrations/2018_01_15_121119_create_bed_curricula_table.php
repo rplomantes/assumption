@@ -24,6 +24,7 @@ class CreateBedCurriculaTable extends Migration
             $table->string("subject_code");
             $table->string("subject_name");
             $table->string("group_name")->nullable();
+            $table->string("card_name")->nullable();
             $table->string("units")->nullable();
             $table->integer("points")->nullable();
             $table->integer("weighted")->nullable();
