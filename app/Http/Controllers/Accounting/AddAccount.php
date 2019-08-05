@@ -61,7 +61,7 @@ class AddAccount extends Controller {
                 $level = \App\BedLevel::where('idno', $request->idno)
                                 ->where('school_year', $status->school_year)
                                 ->where('period', $status->period)->first();
-            } else if ($status->academic_type == "College" && $status->status > "0") {
+            } else if ($status->academic_type == "College" && $status->status > 0) {
                 $level = \App\CollegeLevel::where('idno', $request->idno)
                                 ->where('school_year', $status->school_year)
                                 ->where('period', $status->period)->first();
@@ -78,12 +78,12 @@ class AddAccount extends Controller {
                     $addledger->level = $level->level;
                     $addledger->school_year = $level->school_year;
                     $addledger->period = $status->period;
+                } else if ($status->academic_type == "College") {
+                    $addledger->program_code = $level->program_code;
+                    $addledger->level = $level->level;
+                    $addledger->school_year = $level->school_year;
+                    $addledger->period = $level->period;
                 }
-            } else if ($status->academic_type == "College") {
-                $addledger->program_code = $level->program_code;
-                $addledger->level = $level->level;
-                $addledger->school_year = $level->school_year;
-                $addledger->period = $status->period;
             }
         }
         $addledger->category = "Other Miscellaneous";

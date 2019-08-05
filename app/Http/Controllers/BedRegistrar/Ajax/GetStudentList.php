@@ -378,7 +378,7 @@ class GetStudentList extends Controller {
                                         . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level != 'Grade 11' and bed_levels.level != 'Grade 12')"
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
                 }
-        $pdf = PDF::loadView("reg_be.view_withdrawn", compact("status", 'schoolyear', 'period'));
+        $pdf = PDF::loadView("reg_be.view_withdrawn", compact("status", 'schoolyear', 'period', 'department'));
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream();
             }

@@ -12,7 +12,7 @@ $i=1;
 <center>
 <div><strong>Assumption College</strong></div>
 <div>Basic Education Division</div>
-<div>S.Y. {{$schoolyear}}-{{$schoolyear+1}} @if($period != "Select Period") {{$period}} @endif</div><br>
+<div>S.Y. {{$schoolyear}}-{{$schoolyear+1}} @if($department == "Senior High School") {{$period}} @endif</div><br>
 <div>WITHDRAWN STUDENTS</div>
 </center><br>
 

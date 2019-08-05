@@ -3,8 +3,10 @@ $user = \App\User::where('idno',$idno)->first();
 $status =  \App\Status::where('idno',$idno)->first();
 if($status->status == 3){
 $display_status = "ENROLLED";
-}else{
+}elseif($status->status == 2 or $status->status == 1){
 $display_status = "ASSESSED";
+}else{
+    $display_status = "WITHDRAWN"."-".$status->date_dropped;
 }
 $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
 if($status->status == env("ENROLLED"))
@@ -260,7 +262,11 @@ if(count($ledger)>0){
     @else
 <div class="col-md-6">
     @if($totalmainaccpayment > 0)
+    @if($status->status == 4)
+    <a href="" class="btn btn-default form form-control">Can't Re-assess! Student Withdrawn.</a>
+    @else
     <a href="" class="btn btn-default form form-control">Can't Re-assess! Status is Already Enrolled</a>
+    @endif
     @else
     <a href="{{url('/bedregistrar',array('back_to_assess',$idno))}}" class="btn btn-danger form form-control" onclick="return confirm('Are you Sure To back to assess {{$user->firstname}} {{$user->lastname}} ? ')">Back Student to Assessed Status</a>
     @endif
