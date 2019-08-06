@@ -86,7 +86,8 @@ $layout = "layouts.appadmission-shs";
                         <th>#</th>
                         <th>Name</th>
                         <th>Level</th>
-                        <th>Date of Birth</th>
+                        <th>DOB</th>
+                        <th>Contact No.</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,6 +98,7 @@ $layout = "layouts.appadmission-shs";
                         <td>{{$non_p->lastname}}, {{$non_p->firstname}} {{$non_p->middlename}} {{$non_p->extensionname}}</td>
                         <td>{{$non_p->level}}</td>
                         <td>{{$non_p->date_of_birth}}</td>
+                        <td>{{$non_p->cell_no}}; {{$non_p->tel_no}}</td>
                     </tr>
                     @endforeach
                 </tbody>
