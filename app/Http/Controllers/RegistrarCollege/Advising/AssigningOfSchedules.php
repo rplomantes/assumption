@@ -54,7 +54,7 @@ class AssigningOfSchedules extends Controller {
                 Session::flash('message', "Schedule Updated!");
                 
             } else {
-                Session::flash('danger', "Students enrolled is more than 30 students.");
+                Session::flash('danger', "Students enrolled is more than 35 students.");
             }
             
             \App\Http\Controllers\Admin\Logs::log("Assign schedule to $idno's course_id: $course_id schedule to schedule_id: $schedule_id");
