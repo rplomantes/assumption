@@ -24,7 +24,7 @@ class GroupSchedules extends Controller
             }else{
                 $auth_type = "SHS";
             }
-            $schedules = \App\GroupSchedule::where('id', '!=', NULL)->orderBy('datetime', 'asc')->where('academic_type', $auth_type)->get();
+            $schedules = \App\GroupSchedule::where('id', '!=', NULL)->orderBy('datetime', 'asc')->where('academic_type', $auth_type)->where('is_remove', 0)->get();
             return view("admission-bed.group_schedules", compact('schedules'));
         }
     }

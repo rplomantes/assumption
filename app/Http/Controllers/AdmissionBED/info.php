@@ -127,6 +127,18 @@ class info extends Controller
         }
     }
     
+    function change_status_application($idno){
+        if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
+            $status = \App\Status::where('idno', $idno)->first();
+            $status->status=11;
+            $status->date_admission_finish=date('Y-m-d');
+            $status->save();
+            
+            \App\Http\Controllers\Admin\Logs::log("Change admission status application of $idno.");
+            return redirect('admissionbed/info/'.$idno);
+        }
+    }
+    
     function approve_application($idno){
         if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             $status = \App\Status::where('idno', $idno)->first();

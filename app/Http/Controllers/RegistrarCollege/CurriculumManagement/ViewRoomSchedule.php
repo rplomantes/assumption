@@ -24,6 +24,7 @@ class ViewRoomSchedule extends Controller {
     function print_room_schedule($school_year, $period, $room) {
         $selected_room = $room;
         $rooms = \App\ScheduleCollege::distinct()->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('schedule_colleges.room', $selected_room)->join('course_offerings', 'course_offerings.schedule_id', '=', 'schedule_colleges.schedule_id')->get(array('schedule_colleges.course_code', 'schedule_colleges.schedule_id', 'room', 'day','time_start','time_end','instructor_id'));
+//        $rooms = \App\ScheduleCollege::distinct()->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->where('grade_colleges.idno','19099')->join('course_offerings', 'course_offerings.schedule_id', '=', 'schedule_colleges.schedule_id')->join('grade_colleges', 'grade_colleges.course_offering_id', '=', 'course_offerings.id' )->get(array('schedule_colleges.course_code', 'schedule_colleges.schedule_id', 'room', 'day','time_start','time_end','instructor_id'));
 
             foreach ($rooms as $key=>$room){
                 switch ($room->day) {
