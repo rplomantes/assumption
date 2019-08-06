@@ -182,7 +182,10 @@ $units = 0;
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-6">
+                <a href='{{url('registrar_college', array('print_registration_form_schedule', $user->idno, $school_year, $period))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT SCHEDULE</button></a>
+            </div>
+            <div class="col-sm-6">
                 <a href='{{url('registrar_college', array('print_registration_form', $user->idno, $school_year, $period))}}' target="_blank"><button class="col-sm-12 btn btn-primary">PRINT REGISTRATION FORM</button></a>
             </div>
         </div>

@@ -259,6 +259,28 @@ class AssessmentController extends Controller {
         //return "Printing of Registration form will be here.";
     }
 
+    function print_registration_form_schedule($idno, $school_year, $period) {
+
+        $user = \App\User::where('idno', $idno)->first();
+        $status = \App\Status::where('idno', $idno)->first();
+        $student_info = \App\StudentInfo::where('idno', $idno)->first();
+        //$y = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
+        $y_year = $school_year;
+        $y_period = $period;
+
+        //$school_year = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
+        $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
+        $ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('due_switch', 1)->get();
+        $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('due_switch', 0)->first();
+
+            \App\Http\Controllers\Admin\Logs::log("STUDENT's SCHEDULE of student: $idno");
+        $pdf = PDF::loadView('reg_college.assessment.registration_form_schedule', compact('student_info', 'grades', 'user', 'status', 'school_year', 'period', 'ledger_due_dates', 'downpayment', 'y_year', 'y_period'));
+        $pdf->setPaper(array(0, 0, 612.00, 936.0));
+        return $pdf->stream("registration_form_$status->registration_no.pdf");
+
+        //return "Printing of Registration form will be here.";
+    }
+
     function deletecurrentledgers($idno, $school_year, $period) {
         $currentledgers = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('category_switch', '<=', '6')->get();
         if (count($currentledgers) > 0) {
