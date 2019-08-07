@@ -429,11 +429,25 @@ $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
                 if($("#explanation").val() == ""){
                     alert("Please Fillup Details");
                 }else{
+                    if($("#main_due").val() == parseFloat($("#miscellaneous").val()) + parseFloat($("#other_fee").val())+ parseFloat($("#depository").val()) + parseFloat($("#optional").val()) + parseFloat($("#srf").val())+ parseFloat($("#tuition").val())){
                     computeToBePaid()
                     $("#previous_balance").attr('readonly', true);
                     $("#main_due").attr('readonly', true);
+                    $("#miscellaneous").attr('readonly', true);
+                    $("#other_fee").attr('readonly', true);
+                    $("#depository").attr('readonly', true);
+                    $("#srf").attr('readonly', true);
+                    $("#optional").attr('readonly', true);
+                    $("#tuition").attr('readonly', true);
+//                    $("#other_misc[]").attr('readonly', true);
                     $("#payment_pad").fadeIn();
                     $("#cash_receive").focus();
+                    }else{
+                        alert("Main fee is not equal to the distributed fees and must be equal to " + $("#main_due").val())
+//                        alert(parseFloat($("#main_due").val()) + "=" + parseFloat($("#srf").val()));
+                        
+                e.preventDefault();
+                    }
                 }
                 e.preventDefault();
             }
