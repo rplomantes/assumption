@@ -41,6 +41,17 @@ class GradesController extends Controller
         }
         
     }
+    function print_report_card_individually($school_year, $period, $idno){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            
+            $students = \App\CollegeLevel::where('school_year', $school_year)->where('period', $period)->where('college_levels.idno', $idno)->join('users', 'users.idno', 'college_levels.idno')->get();
+
+            $pdf = PDF::loadView('reg_college.grade_management.print_report_card_individually', compact('school_year','period','idno','students'));
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream("report_card.pdf");
+        }
+        
+    }
 
     function incomplete_grades($school_year, $period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env("DEAN")) {

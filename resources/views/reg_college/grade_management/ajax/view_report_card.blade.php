@@ -8,6 +8,7 @@
                     <th>ID Number</th>
                     <th>Name</th>
                     <th>Program</th>
+                    <th>Print</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,6 +18,7 @@
                     <td>{{$student->idno}}</td>
                     <td>{{$student->lastname}}, {{$student->firstname}} {{$student->middlename}}</td>
                     <td>{{$student->program_code}}</td>
+                    <td><a href="{{url('/registrar_college', array('grade_management','print_report_card',$school_year,$period,$student->idno))}}">Print</a></td>
                 </tr>
                 @endforeach
             </tbody>
