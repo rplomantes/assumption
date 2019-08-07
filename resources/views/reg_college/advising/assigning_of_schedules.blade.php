@@ -138,6 +138,10 @@
                                 <td><button class='btn btn-primary' onclick='get_sections(schedule{{$i}}.value,"{{$grade->id}}")' data-toggle="modal" data-target="#show_sections">Sections</td>
                             </tr>
                             @endforeach
+                            <tr>
+                                <td colspan="6">
+                                <a href="/print_schedule/{{$idno}}"><button class="btn btn-primary col-sm-12">Print Schedule</button></a></td>
+                            </tr>
                             @else
                             <tr>
                                 <td>No Courses Loaded!!!</td>

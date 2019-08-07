@@ -524,6 +524,9 @@ Route::get('/accounting/print_debit_summary/{date_from}/{date_to}/{posted_by}','
 //Search
 Route::get('/search','HomeController@search');
 
+//Print Schedule
+Route::get('/print_schedule/{idno}','RegistrarCollege\Advising\AssigningOfSchedules@print_schedule');
+
 //Benefits/siblings
 Route::get('/bedregistrar/siblings','BedRegistrar\SiblingsBenefits@siblings');
 Route::get('/bedregistrar/benefits','BedRegistrar\SiblingsBenefits@benefits');
