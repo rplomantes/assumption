@@ -275,7 +275,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                             })->orderBy('transaction_date')->get();
             }else{
                 if($period == NULL){
-            $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+            $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->where('period', NULL)->orderBy('transaction_date')->get();
                 }else{
             $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
                 }
@@ -327,7 +327,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                             })->orderBy('transaction_date')->get();
             }else{
                 if($period == NULL){
-                $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+                $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period',NULL)->orderBy('transaction_date')->get();
                 }else{
                 $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
                 }
@@ -353,7 +353,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                             })->orderBy('transaction_date')->get();
             }else{
                 if($period == NULL){
-                $overpayments = \App\OverpaymentMemo::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
+                $overpayments = \App\OverpaymentMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', NULL)->orderBy('transaction_date')->get();
                 }else{
                 $overpayments = \App\OverpaymentMemo::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('transaction_date')->get();
                 }
