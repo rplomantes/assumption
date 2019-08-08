@@ -1,6 +1,7 @@
 <div class="box-body">
     @if (count($courses)>0)
     <div class='table-responsive'>
+        <h3>Number of Students: <strong>{{count($number_of_students)-1}}</strong></h3>
         <table class="table table-striped">
             <thead>
                 <tr>
