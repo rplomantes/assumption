@@ -39,7 +39,7 @@
                     <th>Unit</th>
                     <th>Schedule</th>
                     <th>Room</th>
-                    <th>Instructor</th>
+                    <!--<th>Instructor</th>-->
                 </tr>
             </thead>
             <tbody>
@@ -84,7 +84,7 @@
                         {{$schedule3->room}}<br>
                         @endforeach
                     </td>
-                    <td>
+<!--                    <td>
                         <?php
                         $offering_id = \App\CourseOffering::find($course->id);
                         $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
@@ -98,7 +98,7 @@
                             }
                         }
                         ?>
-                    </td>
+                    </td>-->
                 </tr>             
                 @endforeach 
         <tr>
@@ -107,7 +107,7 @@
             <td align="center"><b>{{$totalunits}}</b></td>
             <td><b></b></td>
             <td><b></b></td>
-            <td><b></b></td>
+            <!--<td><b></b></td>-->
         </tr>                
             </tbody>         
         </table>   
