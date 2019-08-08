@@ -175,7 +175,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input class="form form-control" name='municipality' placeholder='Municipality/City*' value="{{old('municipality',$info->municipality)}}" type="text">
                         </div>
                         <div class="col-sm-5">
-                            <input class="form form-control" name='province' placeholder='Province*' value="{{old('province',$info->province)}}" type="text">
+                            <input class="form form-control" name='province' placeholder='Province/Metro Manila*' value="{{old('province',$info->province)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip',$info->zip)}}" type="text">

@@ -277,7 +277,7 @@
                             </div>                        
                         </div>
                             <div class="col-sm-5">
-                                <input class="form form-control" name='province' placeholder='Province*' value="{{old('province',$studentinfos->province)}}" type="text">
+                                <input class="form form-control" name='province' placeholder='Province/Metro Manila*' value="{{old('province',$studentinfos->province)}}" type="text">
                             </div>
 <!--                            <div class="col-sm-2">
                                 <input class="form form-control" name='zip' placeholder='ZIP Code' value="{{old('zip', $studentinfos->zip)}}" type="text">

@@ -531,7 +531,11 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             //}
     }
     function confirm_advised(idno, program_code, level, curriculum_year, section){
+        if(level == ""){
+         alert ("Please Select Level");   
+        }else{
         window.location = "/dean/advising/confirm_advised/" + idno + "/" + program_code + "/" + level + "/" + curriculum_year + "/" + section; 
+        }
     }
     
     
