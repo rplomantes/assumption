@@ -1101,13 +1101,21 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
     if("{{$status->school_year}}" == "{{$school_year}}"){
         if("{{$status->academic_type}}"=="BED"){
         $('#accordion-0').slideDown(300).addClass('open');
-        }else{
+        }else if("{{$status->academic_type}}"=="SHS"){
             if("{{$status->period}}" == "1st Semester"){
                 $('#accordion-1').slideDown(300).addClass('open'); 
             }else if("{{$status->period}}" == "2nd Semester"){
                 $('#accordion-2').slideDown(300).addClass('open');
             }else if("{{$status->period}}" == "Summer"){
                 $('#accordion-3').slideDown(300).addClass('open');
+            }
+        }else{
+            if("{{$status->period}}" == "1st Semester"){
+                $('#accordion-0').slideDown(300).addClass('open'); 
+            }else if("{{$status->period}}" == "2nd Semester"){
+                $('#accordion-1').slideDown(300).addClass('open');
+            }else if("{{$status->period}}" == "Summer"){
+                $('#accordion-2').slideDown(300).addClass('open');
             }
         }
     }
