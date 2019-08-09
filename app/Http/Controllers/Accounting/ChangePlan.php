@@ -417,6 +417,10 @@ class ChangePlan extends Controller {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;
         } elseif ($type == 'of') {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
+        } elseif ($type == 'nondiscounted') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
+        } elseif ($type == 'srf') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
         }
     }
 

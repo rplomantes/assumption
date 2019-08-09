@@ -47,6 +47,9 @@ class ViewScholarship extends Controller {
                 $scholar->other_fee = 0;
                 $scholar->misc_fee = 0;
                 $scholar->depository_fee = 0;
+                $scholar->non_discounted = 0;
+                $scholar->srf = 0;
+                $scholar->amount = 0;
             } else {
                 $scholar->discount_code = "$request->discount_code";
                 $scholar->discount_description = \App\CtrDiscount::where('discount_code', $request->discount_code)->first()->discount_description;
@@ -55,6 +58,8 @@ class ViewScholarship extends Controller {
                 $scholar->other_fee = $request->of;
                 $scholar->misc_fee = $request->of;
                 $scholar->depository_fee = $request->of;
+                $scholar->non_discounted = $request->non_discounted;
+                $scholar->srf = $request->srf;
             }
             $scholar->save();
             $this->updateAdmissionHED($request);

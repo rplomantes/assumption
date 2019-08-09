@@ -124,7 +124,12 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <input class="form form-control" type='hidden' name='df' value="{{$scholar->depository_fee}}" type="text">
                             <!--</div>-->
                             <div class="col-sm-2">
-                                <label><br><br><br></label>
+                                <label>Retreat, etc.</label>
+                                <input class="form form-control" type='text' name='non_discounted' value="{{$scholar->non_discounted}}" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label>SRF</label>
+                                <input class="form form-control" type='text' name='srf' value="{{$scholar->srf}}" type="text">
                             </div>
                         </div>
                         <div class="form-group">

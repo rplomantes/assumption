@@ -23,24 +23,35 @@ class ComposerAutoloaderInitb94a6eeba9f6c8d9ff85776e32d870b2
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInitb94a6eeba9f6c8d9ff85776e32d870b2', 'loadClassLoader'));
 
-        $map = require __DIR__ . '/autoload_namespaces.php';
-        foreach ($map as $namespace => $path) {
-            $loader->set($namespace, $path);
-        }
+        $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
+        if ($useStaticLoader) {
+            require_once __DIR__ . '/autoload_static.php';
 
-        $map = require __DIR__ . '/autoload_psr4.php';
-        foreach ($map as $namespace => $path) {
-            $loader->setPsr4($namespace, $path);
-        }
+            call_user_func(\Composer\Autoload\ComposerStaticInitb94a6eeba9f6c8d9ff85776e32d870b2::getInitializer($loader));
+        } else {
+            $map = require __DIR__ . '/autoload_namespaces.php';
+            foreach ($map as $namespace => $path) {
+                $loader->set($namespace, $path);
+            }
 
-        $classMap = require __DIR__ . '/autoload_classmap.php';
-        if ($classMap) {
-            $loader->addClassMap($classMap);
+            $map = require __DIR__ . '/autoload_psr4.php';
+            foreach ($map as $namespace => $path) {
+                $loader->setPsr4($namespace, $path);
+            }
+
+            $classMap = require __DIR__ . '/autoload_classmap.php';
+            if ($classMap) {
+                $loader->addClassMap($classMap);
+            }
         }
 
         $loader->register(true);
 
-        $includeFiles = require __DIR__ . '/autoload_files.php';
+        if ($useStaticLoader) {
+            $includeFiles = Composer\Autoload\ComposerStaticInitb94a6eeba9f6c8d9ff85776e32d870b2::$files;
+        } else {
+            $includeFiles = require __DIR__ . '/autoload_files.php';
+        }
         foreach ($includeFiles as $fileIdentifier => $file) {
             composerRequireb94a6eeba9f6c8d9ff85776e32d870b2($fileIdentifier, $file);
         }

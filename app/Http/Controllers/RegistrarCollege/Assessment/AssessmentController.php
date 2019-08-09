@@ -129,6 +129,8 @@ class AssessmentController extends Controller {
     function processAssessment($request) {
         $discounttf = 0;
         $discountof = 0;
+        $discountnondiscounted = 0;
+        $discountsrf = 0;
         $discounttype = 0;
         $school_year = $request->school_year;
         $period = $request->period;
@@ -155,11 +157,12 @@ class AssessmentController extends Controller {
             if ($discounttype == 0) {
                 $discounttf = $this->getdiscountrate('tf', $discount_code, $idno);
                 $discountof = $this->getdiscountrate('of', $discount_code, $idno);
+                $discountnondiscounted = $this->getdiscountrate('non_discounted', $discount_code, $idno);
+                $discountsrf = $this->getdiscountrate('srf', $discount_code, $idno);
             } else if ($discounttype == 1) {
                 $discounttf = $this->getdiscount('tf', $discount_code, $idno);
             }
         }
-
         //get tuition fee rate///
         $tfr = \App\CtrCollegeTuitionFee::where('program_code', $program_code)->where('period', $period)->where('level', $level)->first();
         $tuitionrate = $tfr->per_unit;
@@ -167,7 +170,7 @@ class AssessmentController extends Controller {
         //poppulate other fee with discount////
         $course_assessed = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->get();
         if (count($course_assessed) > 1) {
-            $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code, $request);
+            $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code, $request,$discountnondiscounted);
         } else {
             $check_practicum = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)
                     ->where(function($q) {
@@ -179,9 +182,9 @@ class AssessmentController extends Controller {
                     })
                     ->get();
             if (count($check_practicum) == 1) {
-                $this->getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request);
+                $this->getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request,$discountnondiscounted);
             } else {
-                $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request);
+                $this->getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request,$discountnondiscounted);
             }
         }
         //check enrollment cut off
@@ -193,9 +196,9 @@ class AssessmentController extends Controller {
         //populate tuition fee with discount///
         $this->getCollegeTuition($idno, $school_year, $period, $level, $program_code, $tuitionrate, $plan, $discounttf, $discountof, $discount_code, $discounttype, $tutorial_amount, $tutorial_units);
         //populate srf//
-        $this->getSRF($idno, $program_code, $school_year, $period, $level);
+        $this->getSRF($idno, $program_code, $school_year, $period, $level,$discount_code,$discountsrf);
         //populate lab fee//
-        $this->getLABFEE($idno, $program_code, $school_year, $period, $level);
+        $this->getLABFEE($idno, $program_code, $school_year, $period, $level,$discount_code,$discountsrf);
         //populate due dates//
         $this->computeLedgerDueDate($idno, $school_year, $period, $plan);
         //change status///
@@ -310,6 +313,10 @@ class AssessmentController extends Controller {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;
         } elseif ($type == 'of') {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->other_fee;
+        } elseif ($type == 'non_discounted') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->non_discounted;
+        } elseif ($type == 'srf') {
+            return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->srf;
         }
     }
 
@@ -342,7 +349,7 @@ class AssessmentController extends Controller {
         }
     }
 
-    function getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request) {
+    function getPracticumOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request,$discountnondiscounted) {
         $otherfees = \App\CtrCollegePracticumFee::get();
         if (count($otherfees) > 0) {
             foreach ($otherfees as $otherfee) {
@@ -399,7 +406,7 @@ class AssessmentController extends Controller {
         }
     }
 
-    function getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request) {
+    function getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request, $discountnondiscounted) {
         $is_new = \App\Status::where('idno', $idno)->first()->is_new;
         if($is_new == 0){
             $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
@@ -527,6 +534,8 @@ class AssessmentController extends Controller {
                         $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
                         $addledger->category_switch = $otherfee->category_switch;
                         $addledger->amount = $otherfee->amount;
+                        $addledger->discount = $otherfee->amount * ($discountnondiscounted / 100);
+                        $addledger->discount_code = $discount_code;
                         $addledger->save();
                     }
                 }
@@ -550,6 +559,8 @@ class AssessmentController extends Controller {
                         $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
                         $addledger->category_switch = $otherfee->category_switch;
                         $addledger->amount = $otherfee->amount;
+                        $addledger->discount = $otherfee->amount * ($discountnondiscounted / 100);
+                        $addledger->discount_code = $discount_code;
                         $addledger->save();
                     }
                 }
@@ -643,7 +654,7 @@ class AssessmentController extends Controller {
         $addledger->save();
     }
 
-    function getSRF($idno, $program_code, $school_year, $period, $level) {
+    function getSRF($idno, $program_code, $school_year, $period, $level,$discount_code,$discountsrf) {
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('srf', '>', '0')->get();
         if (count($grades) > 0) {
             foreach ($grades as $grade) {
@@ -661,13 +672,15 @@ class AssessmentController extends Controller {
                 $addledger->accounting_name = env("SRF_NAME");
                 $addledger->category_switch = env("SRF_FEE");
                 $addledger->amount = $grade->srf;
+                $addledger->discount =  $grade->srf * ($discountsrf / 100);
+                $addledger->discount_code = $discount_code;
                 $addledger->srf_group = $grade->srf_group;
                 $addledger->save();
             }
         }
     }
 
-    function getLABFEE($idno, $program_code, $school_year, $period, $level) {
+    function getLABFEE($idno, $program_code, $school_year, $period, $level,$discount_code,$discountsrf) {
         $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('lab_fee', '>', '0')->get();
         if (count($grades) > 0) {
             foreach ($grades as $grade) {
@@ -685,6 +698,8 @@ class AssessmentController extends Controller {
                 $addledger->accounting_name = env("LAB_FEE_NAME");
                 $addledger->category_switch = env("SRF_FEE");
                 $addledger->amount = $grade->lab_fee;
+                $addledger->discount =  $grade->lab_fee * ($discountsrf / 100);
+                $addledger->discount_code = $discount_code;
                 $addledger->save();
             }
         }
