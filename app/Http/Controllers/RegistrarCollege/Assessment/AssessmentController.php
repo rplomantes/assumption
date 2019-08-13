@@ -378,7 +378,7 @@ class AssessmentController extends Controller {
         if (count($is_foreign) > 0) {
             if ($is_foreign->is_foreign == '1') {
                 $checkforeign = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('subsidiary','Foreign Fee')->get();
-                if(isset($checkforeign) == 0){
+                if(count($checkforeign) == 0){
                 $addfee = \App\CtrCollegePracticumForeignFee::get();
                 foreach ($addfee as $fee) {
                 if(isset($request->add[$fee->id])){
@@ -464,7 +464,7 @@ class AssessmentController extends Controller {
         if (count($is_foreign) > 0) {
             if ($is_foreign->is_foreign == '1') {
                 $checkforeign = \App\Ledger::where('idno', $idno)->where('school_year', $school_year)->where('subsidiary','Foreign Fee')->get();
-                if(isset($checkforeign) == 0){
+                if(count($checkforeign) == 0){
                 $addfee = \App\CtrCollegeForeignFee::get();
                     foreach ($addfee as $fee) {
                         if(isset($request->add[$fee->id])){
