@@ -261,7 +261,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $payments = \App\Payment::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
         }else{
@@ -270,7 +270,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $payments = \App\Payment::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
@@ -278,7 +278,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $payments = \App\Payment::where('idno', $idno)->where('school_year', $school_year)
                     ->where(function ($query) {
                         $query->where("period","like","Yearly")
-                              ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                               ->orWhere("period",NULL);
                     })->orderBy('transaction_date')->get();
                 }else{
@@ -292,7 +292,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $debit_memos = \App\DebitMemo::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
         }else{
@@ -301,7 +301,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $debit_memos = \App\DebitMemo::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
@@ -309,7 +309,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)
                     ->where(function ($query) {
                         $query->where("period","like","Yearly")
-                                ->orWhere('school_year',"like", "")
+                                ->orWhere('school_year', 'like','%')
                               ->orWhere("period",NULL);
                     })->orderBy('transaction_date')->get();
                 }else{
@@ -323,7 +323,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
         }else{
@@ -332,7 +332,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
@@ -340,7 +340,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)
                     ->where(function ($query) {
                         $query->where("period","like","Yearly")
-                              ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                               ->orWhere("period",NULL);
                     })->orderBy('transaction_date')->get();
                 }else{
@@ -354,7 +354,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $overpayments = \App\OverpaymentMemo::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
         }else{
@@ -363,7 +363,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $overpayments = \App\OverpaymentMemo::where('idno', $idno)
                     ->where(function($query) use($school_year) {
                                 $query->where('school_year', $school_year)
-                                ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                                 ->orWhere('school_year', NULL);
                             })->orderBy('transaction_date')->get();
             }else{
@@ -371,7 +371,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 $overpayments = \App\OverpaymentMemo::where('idno', $idno)->where('school_year', $school_year)
                     ->where(function ($query) {
                         $query->where("period","like","Yearly")
-                              ->orWhere('school_year', "")
+                                ->orWhere('school_year', 'like','%')
                               ->orWhere("period",NULL);
                     })->orderBy('transaction_date')->get();
                 }else{
