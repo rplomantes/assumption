@@ -309,7 +309,6 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)
                     ->where(function ($query) {
                         $query->where("period","like","Yearly")
-                              ->orWhere('school_year', "")
                               ->orWhere("period",NULL);
                     })->orderBy('transaction_date')->get();
                 }else{
