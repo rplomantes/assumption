@@ -997,12 +997,12 @@ class Assess extends Controller {
                     $totalamount = $totalamount - $change->amount;
                 }
             }
+        $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period,$firsttotalamount);
         }
         $change = \App\Status::where('idno', $request->idno)->first();
         $change->levels_reference_id = $levels_reference_id;
         $change->update();
         
-        $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period,$firsttotalamount);
     }
 
     function processAccounting($request, $reference_id, $totalpayment, $ledgers, $accounting_type) {

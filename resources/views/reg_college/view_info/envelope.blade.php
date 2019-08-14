@@ -9,7 +9,7 @@
         @endif
     </strong>
     <br>
-    {{$student_info->street}}<br>
-    {{$student_info->barangay}}<br>
-    {{$student_info->municipality}} {{$student_info->province}} {{$student_info->zip}}
+    {{$student_info->street}},<br>
+    {{$student_info->barangay}}, {{$student_info->municipality}},<br>
+    {{$student_info->province}} {{$student_info->zip}}
 </div>
