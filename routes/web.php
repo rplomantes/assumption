@@ -531,4 +531,6 @@ Route::get('/print_schedule/{idno}','RegistrarCollege\Advising\AssigningOfSchedu
 Route::get('/bedregistrar/siblings','BedRegistrar\SiblingsBenefits@siblings');
 Route::get('/bedregistrar/benefits','BedRegistrar\SiblingsBenefits@benefits');
 Route::get('/bedregistrar/ajax/getstudentlist_siblings','BedRegistrar\Ajax\GetStudentList@getSiblings');
+Route::get('/bedregistrar/ajax/getstudentlist_benefits','BedRegistrar\Ajax\GetStudentList@getBenefits');
 Route::get('/remove_sibling/{idno}','BedRegistrar\SiblingsBenefits@remove_siblings');
+Route::get('/remove_benefit/{idno}','BedRegistrar\SiblingsBenefits@remove_benefits');

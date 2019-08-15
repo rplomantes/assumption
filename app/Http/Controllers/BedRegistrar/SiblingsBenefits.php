@@ -26,6 +26,14 @@ class SiblingsBenefits extends Controller
         }
     }
 
+    function benefits() {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            $benefits = \App\DiscountCollection::distinct()->join('users','users.idno','=', 'discount_collections.idno')->where('discount_collections.subsidiary',"Student Development Fee")->orderBy('lastname','asc')->orderBy('middlename', 'asc')->orderBy('firstname','asc')->where('discount_type', "Benefit Discount")->get(['discount_collections.idno','lastname','firstname','middlename']);
+            
+            return view('reg_be.benefits',compact('benefits'));
+        }
+    }
+
     function remove_siblings($idno) {
         if (Auth::user()->accesslevel == env("REG_BE")) {
             $siblings = \App\DiscountCollection::where('idno', $idno)->get();
@@ -36,6 +44,19 @@ class SiblingsBenefits extends Controller
             }
             
             return redirect(url('bedregistrar/siblings'));
+        }
+    }
+
+    function remove_benefits($idno) {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            $siblings = \App\DiscountCollection::where('idno', $idno)->get();
+            if(count($siblings)>0){
+                foreach($siblings as $sibling){
+                    $sibling->delete();
+                }
+            }
+            
+            return redirect(url('bedregistrar/benefits'));
         }
     }
 }

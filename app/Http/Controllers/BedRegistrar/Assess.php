@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade;
 use App\Http\Controllers\Cashier\MainPayment;
 use PDF;
+use Excel;
 
 class Assess extends Controller {
 
@@ -356,6 +357,36 @@ class Assess extends Controller {
                 ->get();
 
         return view('reg_be.enrollment_statistics', compact('statistics', 'abm', 'humms', 'stem', 'school_year', 'kinder'));
+    }
+
+    function enrollment_statistics_excel($school_year) {
+        $kinder = \App\BedLevel::selectRaw("level,section,count(*)as count")
+                        ->whereRaw("school_year=$school_year AND level='Kinder'")->groupBy('level', 'section');
+
+        $statistics = \App\BedLevel::selectRaw("level, section, count(*) as count")
+                        ->whereRaw("school_year=$school_year AND status='3'")->groupBy('level', 'section')
+                        ->orderBy('level', 'section')->get();
+
+        $abm = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
+                ->whereRaw("school_year=$school_year AND strand = 'ABM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->get();
+
+        $humms = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
+                ->whereRaw("school_year=$school_year AND strand = 'HUMMS' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->get();
+
+        $stem = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
+                ->whereRaw("school_year=$school_year AND strand = 'STEM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->get();
+
+        ob_end_clean();
+        Excel::create('Enrollment Statistics'. $school_year, function($excel) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
+            $excel->setTitle("Enrollment Statistics". $school_year);
+
+            $excel->sheet("Enrollment Statistics". $school_year, function ($sheet) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
+                $sheet->loadView('reg_be.enrollment_statistics_excel', compact('statistics', 'abm', 'humms', 'stem', 'school_year', 'kinder'));
+            });
+        })->download('xlsx');
     }
 
     function addSRF($request, $schoolyear, $period) {

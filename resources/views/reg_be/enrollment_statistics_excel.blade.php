@@ -1,15 +1,3 @@
-
-<?php 
-    if(Auth::user()->accesslevel == env('REG_BE')){
-        $layout = "layouts.appbedregistrar";
-    }else if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
-        $layout = "layouts.appaccountingstaff";    
-    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
-        $layout = "layouts.appaccountinghead";    
-    }else if (Auth::user()->accesslevel==env("GUIDANCE_BED")){
-        $layout = "layouts.appguidance_bed";    
-    }
-?>
 <?php
 
 function getCount($getlevel,$getsection,$getstrand,$schoolyear, $period){
@@ -112,83 +100,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
 
     
     ?>
-
-@extends($layout)
-@section('messagemenu')
- <li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-              <li>
-                <!-- inner menu: contains the messages -->
-                <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                        <!-- User Image -->
-                       
-                      </div>
-                      <!-- Message title and timestamp -->
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
-                </ul>
-                <!-- /.menu -->
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li>
-@endsection
-@section('header')
-<section class="content-header">
-      <h1>
-        Enrollment Statistics
-        <small></small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Here</li>
-      </ol>
-</section>
-@endsection
-@section('maincontent')
- <!-- search form (Optional) -->
- <div class="col-md-12">
-     <div class='form-horizontal'>
-        <div class='form-group'>
-            <div class='col-sm-2'>
-                <label>School Year</label>
-                <select class="form form-control select2" name="school_year" id='school_year'>
-                    <option value="">Select School Year</option>
-                    <option value="2017" @if ($school_year == 2017) selected = "" @endif>2017-2018</option>
-                <option value="2018" @if ($school_year == 2018) selected = "" @endif>2018-2019</option>
-                <option value="2019" @if ($school_year == 2019) selected = "" @endif>2019-2020</option>
-                <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
-                <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
-                </select>
-            </div>
-            <div class='col-sm-4'>
-                <label>&nbsp;</label>
-                <button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-success'><span>Change School Year/Period</span></button>
-            </div>
-            <div class='col-sm-6'>
-                <label>&nbsp;</label>
-                <a href='/bedregistrar/enrollment_statistics_excel/2019'><button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-warning'>Download Excel</button></a>
-            </div>
-        </div>    
-    </div>
-     <div class="box">    
-     <div class="box-body">
      <h3>Pre School</h3>
      <table id="example1" class="table table-responsive table-striped">
          <thead>
@@ -231,10 +142,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
             @endif
          </tbody>
      </table>
-     </div>
-         </div>
-     <div class="box">    
-     <div class="box-body">
      
      <h3>Grade School</h3>    
      <table id="example2" class="table table-responsive table-striped">
@@ -314,11 +221,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
        <tfoot>
        </tfoot>    
        </table>
-       </div>
-       </div> 
-    <!--junior high-->
-         <div class="box">    
-     <div class="box-body">
      
      <h3>Junior High School</h3>    
      <table id="example2" class="table table-responsive table-striped">
@@ -373,11 +275,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
        <tfoot>
        </tfoot>    
        </table>
-       </div>
-       </div> 
-    <!--senior high-->
-     <div class="box">    
-     <div class="box-body">
      
         <h3>Senior High School-1st Semester</h3> 
      <table id="example2" class="table table-responsive table-striped">
@@ -536,16 +433,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td></td>
              <td><strong>{{$shstotal_1st = $gr11total1_1st + $gr11total2_1st + $gr11total3_1st + $gr11total4_1st + $gr11total5_1st + $gr12total1_1st + $gr12total2_1st + $gr12total3_1st + $gr12total4_1st + $gr12total5_1st + $gr11total6_1st + $gr11total7_1st + $gr12total6_1st + $gr12total7_1st}}</strong></td> 
             </tr> 
-     </table>     
-     </div>
-     </div> 
-    
-    
-    
-    
-    <!--2nd SEMESTER-->
-    <div class="box">    
-     <div class="box-body">
+     </table>    
      
         <h3>Senior High School-2nd Semester</h3> 
      <table id="example2" class="table table-responsive table-striped">
@@ -705,10 +593,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td><strong>{{$shstotal_2nd = $gr11total1_2nd + $gr11total2_2nd + $gr11total3_2nd + $gr11total4_2nd + $gr11total5_2nd + $gr12total1_2nd + $gr12total2_2nd + $gr12total3_2nd + $gr12total4_2nd + $gr12total5_2nd}}</strong></td> 
             </tr> 
      </table>     
-     </div>
-     </div> 
-     <div class="box">    
-     <div class="box-body">
      <table id="example2" class="table table-responsive table-striped">
             <tr>
              <td><div align="left"><strong>WITHDRAWN:</strong></div</td>
@@ -720,10 +604,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td><strong>{{getWithdrawn($school_year, "")}}</strong></td>          
             </tr>         
      </table>
-     </div>
-     </div>   
-     <div class="box">    
-     <div class="box-body">
      <table id="example2" class="table table-responsive table-striped">
             <tr>
              <td><div align="left"><strong>GRAND TOTAL (1ST SEMESTER):</strong></div</td>
@@ -744,42 +624,3 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td><strong>{{$preschooltotal + $elemtotal + $juniortotal + $shstotal_2nd}}</strong></td>          
             </tr>         
      </table>
-     </div>
-     </div>    
- </div>    
-@endsection
-@section('footerscript')
-<script src="{{url('/bower_components',array('datatables.net','js','jquery.dataTables.min.js'))}}"></script>
-<script src="{{url('/bower_components',array('datatables.net-bs','js','dataTables.bootstrap.min.js'))}}"></script>
-
-<script>
-    $(document).ready(function(){
-      $("#view-button").on('click',function(e){
-        document.location="{{url('/bedregistrar',array('enrollment_statistics'))}}"+ "/" + $("#school_year").val();
-      });
-    });
-</script>
-<script>
-    $(document).ready(function(){
-        $('#example1').DataTable();
-        $('#example2').DataTable();
-       $("#search").on('keypress',function(e){
-          if(e.keyCode==13){
-              var array={};
-              array['search'] = $("#search").val();
-              $.ajax({
-                  type:"GET",
-                  url:"/bedregistrar/ajax/getstudentlist",
-                  data:array,
-                  success:function(data){
-                   $("#displaystudent").html(data)
-                   $("#search").val("");
-                  }
-              })
-          } 
-       }); 
-    });
-</script>    
-@endsection
-
-

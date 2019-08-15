@@ -93,6 +93,7 @@ Route::get('/bedregistrar/info/{idno}','BedRegistrar\Registration@info');
 Route::get('/bedregistrar/withdraw_enrolled_student/{status}/{date_today}/{idno}','BedRegistrar\Registration@withdraw');
 Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
 Route::get('/bedregistrar/enrollment_statistics/{school_year}','BedRegistrar\Assess@enrollment_statistics');
+Route::get('/bedregistrar/enrollment_statistics_excel/{school_year}','BedRegistrar\Assess@enrollment_statistics_excel');
 Route::get('/bedregistrar/registration','BedRegistrar\Registration@register');
 Route::post('/bedregistrar/registration','BedRegistrar\Registration@post_register');
 Route::post('/bedregistrar/assess','BedRegistrar\Assess@post_assess');
