@@ -60,10 +60,13 @@
                         <th>ID Number</th>
                         <th>Name</th>
                         <th>Status</th>
+                        <th>w/ Sibling?</th>
                         <td align="right"><strong>Remove Student</strong></td>
                     </tr>
                     @foreach($benefits as $sibling)
-                    <?php $status = \App\Status::where('idno', $sibling->idno)->first(); ?>
+                    <?php $status = \App\Status::where('idno', $sibling->idno)->first(); 
+                    $is_sibling = \App\DiscountCollection::where('idno', $sibling->idno)->where('subsidiary', 'Family Council')->get();
+                    ?>
                     <tr>
                         <td align="right">{{$control++}}.</td>
                         <td>{{$sibling->idno}}</td>
@@ -76,6 +79,7 @@
                             @elseif($status->status == 4) Withdrawn-{{$status->date_dropped}}
                             @else Not Yet Enrolled @endif
                         </td>
+                        <td>@if(count($is_sibling)>0) <span class="fa fa-check"></span> @else  @endif</td>
                         <td align="right"><a href="{{url("/remove_benefit", array($sibling->idno))}}">Remove Student</a></td>
                     </tr>
                     @endforeach
