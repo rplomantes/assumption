@@ -736,6 +736,42 @@ class Registration extends Controller {
         } else {
             $request->citizenship_passport = 0;
         }
+        
+        if ($request->question_parent == "on") {
+            $request->question_parent = 1;
+        } else {
+            $request->question_parent = 0;
+        }
+        
+        if ($request->question_student == "on") {
+            $request->question_student = 1;
+        } else {
+            $request->question_student = 0;
+        }
+        
+        if ($request->essay == "on") {
+            $request->essay = 1;
+        } else {
+            $request->essay = 0;
+        }
+        
+        if ($request->dpa == "on") {
+            $request->dpa = 1;
+        } else {
+            $request->dpa = 0;
+        }
+        
+        if ($request->adviser_guidance_reco == "on") {
+            $request->adviser_guidance_reco = 1;
+        } else {
+            $request->adviser_guidance_reco = 0;
+        }
+        
+        if ($request->principal_reco == "on") {
+            $request->principal_reco = 1;
+        } else {
+            $request->principal_reco = 0;
+        }
 
         $update = \App\BedRequirement::where('idno', $idno)->first();
         $update->psa = $request->psa;
@@ -750,6 +786,12 @@ class Registration extends Controller {
         $update->visa_parent = $request->visa_parent;
         $update->photocopy_of_dual = $request->photocopy_of_dual;
         $update->citizenship_passport = $request->citizenship_passport;
+        $update->question_parent = $request->question_parent;
+        $update->question_student = $request->question_student;
+        $update->essay = $request->essay;
+        $update->dpa = $request->dpa;
+        $update->adviser_guidance_reco = $request->adviser_guidance_reco;
+        $update->principal_reco = $request->principal_reco;
         $update->save();
     }
 
