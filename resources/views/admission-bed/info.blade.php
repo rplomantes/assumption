@@ -1335,6 +1335,37 @@ $layout = "layouts.appadmission-shs";
                         <div class="col-sm-12">
                             <input type='checkbox'  name='photocopy_of_dual' @if($bedrequirements->photocopy_of_dual == 1)checked=''@endif><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
                         </div>
+                        
+                        <div class="col-sm-12"><hr><strong>Download Forms</strong><br>
+                        @if($ctrrequirements->essay >= 1)
+                            <input type='checkbox'  name='essay' @if($bedrequirements->essay == 1)checked=''@endif><label>&nbsp;Essay</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->question_parent >= 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='question_parent' @if($bedrequirements->question_parent == 1)checked=''@endif><label>&nbsp;Questionnaire for Parents</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->question_student >= 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='question_student' @if($bedrequirements->question_student == 1)checked=''@endif><label>&nbsp;Questionnaire for Student Applicant</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->dpa >= 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='dpa' @if($bedrequirements->dpa == 1)checked=''@endif><label>&nbsp;AC Student Privacy Notice and Consent Form</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->adviser_guidance_reco >= 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='adviser_guidance_reco' @if($bedrequirements->adviser_guidance_reco == 1)checked=''@endif><label>&nbsp;Class Adviser/Guidance Counselor's Recommendation</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->principal_reco >= 1)
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='principal_reco' @if($bedrequirements->principal_reco == 1)checked=''@endif><label>&nbsp;Principal's Recommendation Form</label>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

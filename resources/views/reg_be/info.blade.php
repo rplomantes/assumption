@@ -1236,6 +1236,37 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                         <div class="col-sm-12">
                             <input disabled='' type='checkbox' name='photocopy_of_dual'><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
                         </div>
+                        
+                        <div class="col-sm-12"><hr><strong>Download Forms</strong><br>
+                        @if($ctrrequirements->essay >= 1)
+                            <input disabled='' type='checkbox'  name='essay'><label>&nbsp;Essay</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->question_parent >= 1)
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox'  name='question_parent'><label>&nbsp;Questionnaire for Parents</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->question_student >= 1)
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox'  name='question_student'><label>&nbsp;Questionnaire for Student Applicant</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->dpa >= 1)
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox'  name='dpa'><label>&nbsp;AC Student Privacy Notice and Consent Form</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->adviser_guidance_reco >= 1)
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox'  name='adviser_guidance_reco'><label>&nbsp;Class Adviser/Guidance Counselor's Recommendation</label>
+                        </div>
+                        @endif
+                        @if($ctrrequirements->principal_reco >= 1)
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox'  name='principal_reco'><label>&nbsp;Principal's Recommendation Form</label>
+                        </div>
+                        @endif
                     </div>
 @endif
                 </div>
