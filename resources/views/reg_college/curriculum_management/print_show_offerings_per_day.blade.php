@@ -29,6 +29,7 @@
         </tr>    
     </table>
     @if (count($courses)>0)
+    <h3>Number of Students: <strong>{{count($number_of_students)-1}}</strong></h3>
     <table class="table table-striped" width='100%' border='1'>
             <thead>
                 <tr>

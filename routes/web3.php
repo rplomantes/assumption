@@ -95,4 +95,9 @@ Route::post('/accounting/print_student_related_fees_pdf','Accounting\StudentRela
 Route::post('/accounting/print_student_related_fees_excel','Accounting\StudentRelatedFeesController@print_student_related_feesEXCEL');
 Route::get('/accounting/ajax/getstudentrelatedfees','Accounting\Ajax\AjaxAccoReportsController@getstudentrelatedfees');
 
+//Accounting Payment Summary
+Route::get('/accounting/payment_summary','Accounting\PaymentSummary@payment_summary');
+Route::post('/accounting/print_payment_summary_pdf','Accounting\PaymentSummary@print_payment_summary_pdf');
+Route::post('/accounting/print_payment_summary_excel','Accounting\PaymentSummary@print_payment_summary_excel');
+Route::get('/accounting/ajax/get_payment_summary','Accounting\Ajax\AjaxPaymentSummary@get_payment_summary');
 
