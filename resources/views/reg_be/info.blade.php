@@ -58,14 +58,19 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     {{ csrf_field() }}
     <div class="col-md-12">
         
-         <div class="col-md-2 pull-lef">
+         <div class="col-md-3 pull-left">
              <div class="form form-group">
                  @if($status->status == 3)
                  <label><input type="text" class="form form-control" id='date_today' placeholder="YYYY-MM-DD" value="{{date('Y-m-d')}}" name="date_today"></label>
               <!--<a onclick='withdraw(date_today.value)' href='{{url('/bedregistrar',array('withdraw_enrolled_student','w',$user->idno))}}'>-->
-              <a onclick='withdraw(date_today.value,"w","{{$user->idno}}")'>
+              <a onclick='withdraw(date_today.value,"w","{{$user->idno}}", is_after_enrollment.value)'>
                   <button type="button" class="btn btn-danger">Tag as Withdrawn</button>
-              </a>
+              </a><br>
+              <label>Withdrawn after enrollment?</label>
+              <select id="is_after_enrollment" class="form form-control">
+                  <option>Yes</option>
+                  <option>No</option>
+              </select>
                  @elseif($status->status == 4)
                  <label><br><br></label>
               <!--<a href='{{url('/bedregistrar',array('withdraw_enrolled_student','e',$user->idno))}}'>-->
@@ -1476,13 +1481,23 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             j--;
         });
     })
-    function withdraw(date_today,value,idno) {
+    function withdraw(date_today,value,idno, is_after_enrollment) {
         array = {};
         array['date_today'] = date_today;
         array['value'] = value;
         array['idno'] = idno;
-        
-        window.location.replace('/bedregistrar/withdraw_enrolled_student/' + array['value'] + "/" + array['date_today'] + "/" + array['idno']) ;
+        array['is_after_enrollment'] = is_after_enrollment;
+        if(value == 'w'){
+            var r = confirm("Do you want to tag students as withdrawn?");
+            if(r == true){
+                window.location.replace('/bedregistrar/withdraw_enrolled_student/' + array['value'] + "/"  + array['is_after_enrollment'] + "/" + array['date_today'] + "/" + array['idno']) ;
+            }
+        }else{
+            var r = confirm("Do you want to tag students as enrolled?");
+            if(r == true){
+                window.location.replace('/bedregistrar/withdraw_enrolled_student/' + array['value'] + "/"  + array['is_after_enrollment'] + "/" + array['date_today'] + "/" + array['idno']) ;
+            }
+        }
     }
 </script>
 @endsection

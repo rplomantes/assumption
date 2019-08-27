@@ -19,8 +19,14 @@ class GetStudentList extends Controller
         if(Request::ajax()){
             if(Auth::user()->accesslevel==env("BOOKSTORE")){
             $search = Input::get('search');
-            $lists = \App\User::Where("lastname","like","%$search%")
-                    ->orWhere("firstname","like","%$search%")->orWhere("idno",$search)->get();
+            $lists = \App\User::where(function ($query) use ($search){
+                        $query->where("lastname","like","%$search%")
+                              ->orWhere("firstname","like","%$search%")
+                              ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")
+                              ->orWhere("idno",$search);
+                    })->get();
+//            $lists = \App\User::Where("lastname","like","%$search%")
+//                    ->orWhere("firstname","like","%$search%")->orWhere("idno",$search)->get();
             return view('bookstore.ajax.getstudentlist',compact('lists'));
         }
     }   

@@ -90,7 +90,7 @@ Route::post('/accounting/change_plan','Accounting\ChangePlan@post_plan');
 Route::get('/accounting/reverserestore/{reference_id}', 'Cashier\StudentLedger@reverserestore_dm');
 //BED registrar
 Route::get('/bedregistrar/info/{idno}','BedRegistrar\Registration@info');
-Route::get('/bedregistrar/withdraw_enrolled_student/{status}/{date_today}/{idno}','BedRegistrar\Registration@withdraw');
+Route::get('/bedregistrar/withdraw_enrolled_student/{status}/{is_after_enrollment}/{date_today}/{idno}','BedRegistrar\Registration@withdraw');
 Route::get('/bedregistrar/assess/{idno}','BedRegistrar\Assess@assess');
 Route::get('/bedregistrar/enrollment_statistics/{school_year}','BedRegistrar\Assess@enrollment_statistics');
 Route::get('/bedregistrar/enrollment_statistics_excel/{school_year}','BedRegistrar\Assess@enrollment_statistics_excel');

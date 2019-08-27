@@ -5,6 +5,7 @@ namespace App\Http\Controllers\RegistrarCollege\Ajax;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 class GetStudentList_ajax extends Controller
 {
@@ -17,9 +18,9 @@ class GetStudentList_ajax extends Controller
                     ->where(function ($query) use ($search){
                         $query->where("lastname","like","%$search%")
                               ->orWhere("firstname","like","%$search%")
+                              ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")
                               ->orWhere("idno",$search);
                     })->get();
-            
             return view('reg_college.ajax.getstudentlist', compact('lists', 'is_search'));
         }
     }

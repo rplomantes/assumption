@@ -16,6 +16,7 @@ class GetStudentList_ajax extends Controller
                     ->where(function ($query) use ($search){
                         $query->where("lastname","like","%$search%")
                               ->orWhere("firstname","like","%$search%")
+                              ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")
                               ->orWhere("idno",$search);
                     })->get();
             

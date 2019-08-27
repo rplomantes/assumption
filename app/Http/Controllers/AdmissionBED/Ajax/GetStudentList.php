@@ -19,8 +19,15 @@ class GetStudentList extends Controller {
         if (Request::ajax()) {
             if (Auth::user()->accesslevel == env("ADMISSION_BED") ||Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $search = Input::get('search');
-                $lists = \App\User::Where("users.lastname", "like", "%$search%")
-                                ->orWhere("users.firstname", "like", "%$search%")->orWhere("users.idno", $search)->get();
+            $lists = \App\User::where(function ($query) use ($search){
+                        $query->where("lastname","like","%$search%")
+                              ->orWhere("firstname","like","%$search%")
+                              ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")
+                              ->orWhere("idno",$search);
+                    })->get();
+                    
+//                $lists = \App\User::Where("users.lastname", "like", "%$search%")
+//                                ->orWhere("users.firstname", "like", "%$search%")->orWhere("users.idno", $search)->get();
                 return view('admission-bed.ajax.getstudentlist', compact('lists'));
             }
         }

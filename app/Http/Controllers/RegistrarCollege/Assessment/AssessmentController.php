@@ -964,7 +964,7 @@ class AssessmentController extends Controller {
 
     function postDebit($idno, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period,$totalamount) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
-        $reservations = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 1)->where('is_reverse', 0)->where('levels_reference_id', $levels_reference_id)->get();
+        $reservations = \App\Reservation::where('idno', $idno)->where('is_consumed', 1)->where('is_reverse', 0)->where('levels_reference_id', $levels_reference_id)->get();
         $department = \App\Status::where('idno', $idno)->first()->department;
         $totalReserved = 0;
         if (count($reservations) > 0) {

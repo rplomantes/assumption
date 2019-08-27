@@ -18,35 +18,78 @@ class Registration extends Controller {
         $this->middleware('auth');
     }
 
-    function withdraw($value, $date_today,$idno) {
+    function withdraw($value, $is_after_enrollment, $date_today,$idno) {
         if (Auth::user()->accesslevel == env("REG_BE")) {
             if ($value == "w") {
                 $v = env('WITHDRAWN');
             } else if ($value == "e") {
                 $v = env('ENROLLED');
             }
+            //delete ledger
+            if ($value == "w") {
+                $status = \App\Status::where('idno', $idno)->first();
+                if($status->academic_type == "SHS"){
+                    $ledgers = \App\Ledger::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+                    $ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->get();
+                }else{
+                    $ledgers = \App\Ledger::where('idno', $idno)->where('school_year', $status->school_year)->get();
+                    $ledger_due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $status->school_year)->get();
+                }
+                if($is_after_enrollment == "No"){
+                    foreach ($ledgers as $ledger){
+                        $ledger->delete();
+                    }
+                    foreach ($ledger_due_dates as $ledger_due_date){
+                        $ledger_due_date->delete();
+                    }
+                    $add = "before enrollment.";
+                }else{
+                    $add = "after enrollment.";
+                }
+            }else{
+                $add = ".";
+            }
+            
+            //update status
             $status = \App\Status::where('idno', $idno)->first();
             if ($value == "w") {
+                if($is_after_enrollment == "No"){
+                $status->date_dropped = NULL;
+                }else{
                 $status->date_dropped = $date_today;
+                }
                 $mes = "Withdraw";
             } else if ($value == "e") {
                 $status->date_dropped = NULL;
                 $mes = "Enrolled";
             }
-            $status->status = $v;
+            if($is_after_enrollment == "No"){
+                $status->status = 0;
+            }else{
+                $status->status = $v;
+            }
             $status->save();
 
+            //update levels
             $bedlevel = \App\BedLevel::where('idno', $idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
             $status = \App\Status::where('idno', $idno)->first();
             if ($value == "w") {
+                if($is_after_enrollment == "No"){
+                $status->date_dropped = NULL;
+                }else{
                 $status->date_dropped = $date_today;
+                }
             } else if ($value == "e") {
                 $status->date_dropped = NULL;
             }
-            $bedlevel->status = $v;
+            if($is_after_enrollment == "No"){
+                $bedlevel->delete();
+            }else{
+                $bedlevel->status = $v;
+            }
             $bedlevel->save();
 
-            \App\Http\Controllers\Accounting\SetReceiptController::log("$mes student $idno.");
+            \App\Http\Controllers\Accounting\SetReceiptController::log("$mes student $idno $add");
             return redirect(url('/bedregistrar', array('info', $idno)));
         }
     }

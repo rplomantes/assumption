@@ -104,7 +104,7 @@ class DebitMemo extends Controller {
             $this->postDebitEntry($request, $reference_id);
             $this->updateDM($request);
             
-             \App\Http\Controllers\Admin\Logs::log("Post DM for $request->idno, Reference ID: $reference_id, Collected Amount: $request->amount");
+             \App\Http\Controllers\Admin\Logs::log("Post DM for $request->idno, Reference ID: $reference_id, Collected Amount: $request->collected_amount");
             DB::commit();
             return redirect(url('/accounting', array('view_debit_memo', $reference_id)));
         }
