@@ -96,7 +96,7 @@ $layout = "layouts.appadmission-shs";
                     <tr>
                         <td>{{$number++}}</td>
                         <td>{{$non_p->lastname}}, {{$non_p->firstname}} {{$non_p->middlename}} {{$non_p->extensionname}}</td>
-                        <td>{{$non_p->level}}</td>
+                        <td>@if($non_p->level == "Grade 11" ||$non_p->level == "Grade 12") {{$non_p->level}}-{{$non_p->strand}} @else {{$non_p->level}} @endif</td>
                         <td>{{$non_p->date_of_birth}}</td>
                         <td>{{$non_p->cell_no}}; {{$non_p->tel_no}}</td>
                     </tr>
@@ -128,7 +128,7 @@ $layout = "layouts.appadmission-shs";
                     <tr>
                         <td>{{$number++}}</td>
                         <td>{{$p->lastname}}, {{$p->firstname}} {{$p->middlename}} {{$p->extensionname}}</td>
-                        <td>{{$p->level}}</td>
+                        <td>@if($p->level == "Grade 11" ||$p->level == "Grade 12") {{$p->level}}-{{$p->strand}} @else {{$non_p->level}} @endif</td>
                         <td>{{$p->date_of_birth}}</td>
                         <td>{{$p->date_completed}}</td>
                     </tr>

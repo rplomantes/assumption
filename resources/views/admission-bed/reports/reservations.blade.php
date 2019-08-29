@@ -69,6 +69,7 @@ $layout = "layouts.appadmission-shs";
                     <th width="10%">ID Number</th>
                     <th>Name</th>
                     <th>Level</th>
+                    <th>Strand</th>
                     <th width="20%">Transaction Date</th>
                     <th width="10%">Amount</th>
                 </tr>
@@ -80,6 +81,7 @@ $layout = "layouts.appadmission-shs";
                     <td>{{$reservation->idno}}</td>
                     <td>{{strtoupper($reservation->lastname)}}, {{$reservation->firstname}} {{$reservation->middlename}}</td>
                     <td>{{$reservation->level}}</td>
+                    <td>{{$reservation->strand}}</td>
                     <td>{{$reservation->transaction_date}}</td>
                     <td>{{number_format($reservation->amount,2)}}</td>
                 </tr>

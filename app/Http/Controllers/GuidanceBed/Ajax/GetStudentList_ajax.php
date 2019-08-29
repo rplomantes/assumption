@@ -5,6 +5,7 @@ namespace App\Http\Controllers\GuidanceBed\Ajax;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 class GetStudentList_ajax extends Controller {
 

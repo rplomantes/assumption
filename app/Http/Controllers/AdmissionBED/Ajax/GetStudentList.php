@@ -19,7 +19,8 @@ class GetStudentList extends Controller {
         if (Request::ajax()) {
             if (Auth::user()->accesslevel == env("ADMISSION_BED") ||Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $search = Input::get('search');
-            $lists = \App\User::where(function ($query) use ($search){
+            $lists = \App\User::where('academic_type', "!=",'College')
+                    ->where(function ($query) use ($search){
                         $query->where("lastname","like","%$search%")
                               ->orWhere("firstname","like","%$search%")
                               ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")

@@ -1229,20 +1229,6 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input disabled='' type='checkbox' name='narrative_assessment_report'><label>&nbsp;Two (2) clear photocopies of either Certificate of Attendance or Narrative Assessment Report.</label>
                         </div>
                         @endif
-                        <div class="col-sm-12"><hr><strong>For Foreign Students</strong><br>
-                            <input disabled='' type='checkbox' name='acr'><label>&nbsp;Alien Certificate of Registration (ACR)</label>
-                        </div>
-                        <div class="col-sm-12">
-                            <input disabled='' type='checkbox' name='photocopy_passport'><label>&nbsp;Photocopy of Passport</label>
-                        </div>
-                        <div class="col-sm-12">
-                            <input disabled='' type='checkbox' name='visa_parent'><label>&nbsp;Visa/ Working Permit of Parents</label>
-                        </div>
-                        <div class="col-sm-12">
-                            <input disabled='' type='checkbox' name='photocopy_of_dual'><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
-                        </div>
-                        
-                        <div class="col-sm-12"><hr><strong>Download Forms</strong><br>
                         @if($ctrrequirements->essay >= 1)
                             <input disabled='' type='checkbox'  name='essay'><label>&nbsp;Essay</label>
                         </div>
@@ -1272,6 +1258,18 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                             <input disabled='' type='checkbox'  name='principal_reco'><label>&nbsp;Principal's Recommendation Form</label>
                         </div>
                         @endif
+                        <div class="col-sm-12"><hr><strong>For Foreign Students</strong><br>
+                            <input disabled='' type='checkbox' name='acr'><label>&nbsp;Alien Certificate of Registration (ACR)</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox' name='photocopy_passport'><label>&nbsp;Photocopy of Passport</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox' name='visa_parent'><label>&nbsp;Visa/ Working Permit of Parents</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input disabled='' type='checkbox' name='photocopy_of_dual'><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
+                        </div>
                     </div>
 @endif
                 </div>

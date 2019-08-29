@@ -257,7 +257,7 @@ $layout = "layouts.appadmission-shs";
                     <option @if($info->applied_for == "Grade 9") selected="" @endif>Grade 9</option>
                     <option @if($info->applied_for == "Grade 10") selected="" @endif>Grade 10</option>
                     <option @if($info->applied_for == "Grade 11") selected="" @endif>Grade 11</option>
-                    <option @if($info->applied_for == "Grade 12") selected="" @endif>Grade 12</option>
+                    <!--<option @if($info->applied_for == "Grade 12") selected="" @endif>Grade 12</option>-->
                 </select>
             </div>
         </div>
@@ -1323,20 +1323,6 @@ $layout = "layouts.appadmission-shs";
                             <input type='checkbox'  name='narrative_assessment_report' @if($bedrequirements->narrative_assessment_report == 1)checked=''@endif><label>&nbsp;Two (2) clear photocopies of either Certificate of Attendance or Narrative Assessment Report.</label>
                         </div>
                         @endif
-                        <div class="col-sm-12"><hr><strong>For Foreign Students</strong><br>
-                            <input type='checkbox'  name='acr' @if($bedrequirements->acr == 1)checked=''@endif><label>&nbsp;Alien Certificate of Registration (ACR)</label>
-                        </div>
-                        <div class="col-sm-12">
-                            <input type='checkbox'  name='photocopy_passport' @if($bedrequirements->passport == 1)checked=''@endif><label>&nbsp;Photocopy of Passport</label>
-                        </div>
-                        <div class="col-sm-12">
-                            <input type='checkbox'  name='visa_parent' @if($bedrequirements->visa_parent == 1)checked=''@endif><label>&nbsp;Visa/ Working Permit of Parents</label>
-                        </div>
-                        <div class="col-sm-12">
-                            <input type='checkbox'  name='photocopy_of_dual' @if($bedrequirements->photocopy_of_dual == 1)checked=''@endif><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
-                        </div>
-                        
-                        <div class="col-sm-12"><hr><strong>Download Forms</strong><br>
                         @if($ctrrequirements->essay >= 1)
                             <input type='checkbox'  name='essay' @if($bedrequirements->essay == 1)checked=''@endif><label>&nbsp;Essay</label>
                         </div>
@@ -1366,6 +1352,18 @@ $layout = "layouts.appadmission-shs";
                             <input type='checkbox'  name='principal_reco' @if($bedrequirements->principal_reco == 1)checked=''@endif><label>&nbsp;Principal's Recommendation Form</label>
                         </div>
                         @endif
+                        <div class="col-sm-12"><hr><strong>For Foreign Students</strong><br>
+                            <input type='checkbox'  name='acr' @if($bedrequirements->acr == 1)checked=''@endif><label>&nbsp;Alien Certificate of Registration (ACR)</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='photocopy_passport' @if($bedrequirements->passport == 1)checked=''@endif><label>&nbsp;Photocopy of Passport</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='visa_parent' @if($bedrequirements->visa_parent == 1)checked=''@endif><label>&nbsp;Visa/ Working Permit of Parents</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type='checkbox'  name='photocopy_of_dual' @if($bedrequirements->photocopy_of_dual == 1)checked=''@endif><label>&nbsp;Photocopy of dual citizenship passports (for dual citizenship)</label>
+                        </div>
                     </div>
                 </div>
             </div>

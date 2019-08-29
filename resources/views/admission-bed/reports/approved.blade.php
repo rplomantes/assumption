@@ -87,6 +87,7 @@ $layout = "layouts.appadmission-shs";
                         <th>ID Number</th>
                         <th>Name</th>
                         <th>Level</th>
+                        <th>Strand</th>
                         <th>Date of Birth</th>
                         <th>Date Approved</th>
                     </tr>
@@ -100,6 +101,7 @@ $layout = "layouts.appadmission-shs";
                         <td>{{$p->idno}}</td>
                         <td>{{$p->lastname}}, {{$p->firstname}} {{$p->middlename}} {{$p->extensionname}}</td>
                         <td>{{$p->level}}</td>
+                        <td>{{$p->strand}}</td>
                         <td>{{$dob}}</td>
                         <td>{{$p->date_admission_finish}}</td>
                         

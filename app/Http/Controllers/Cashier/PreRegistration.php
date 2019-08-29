@@ -222,6 +222,7 @@ class PreRegistration extends Controller {
         $addprofile = new \App\BedProfile;
         $addprofile->idno = $applicant_details->idno;
         $addprofile->applied_for = $applicant_details->level;
+        $addprofile->applied_for_strand = $applicant_details->strand;
         $addprofile->date_of_birth = $applicant_details->date_of_birth;
         $addprofile->street = $applicant_details->street;
         $addprofile->barangay = $applicant_details->barangay;
@@ -238,6 +239,7 @@ class PreRegistration extends Controller {
         $addstatus->idno = $applicant_details->idno;
         $addstatus->section = "";
         $addstatus->level = $applicant_details->level;
+        $addstatus->strand = $applicant_details->strand;
         $addstatus->department = $department->department;
         $addstatus->status = env("PRE_REGISTERED");
         $addstatus->academic_type = $academic_type;
