@@ -12,6 +12,10 @@ Route::post('/registrar_college/view_transcript/print_transcript', 'RegistrarCol
 Route::get('/registrar_college/reports/list_transfer_student','RegistrarCollege\Reports\ListTransferStudentController@index');
 Route::post('/registrar_college/reports/print_transfer_student','RegistrarCollege\Reports\ListTransferStudentController@print_transfer_student');
 
+//List Foreign Student
+Route::get('/registrar_college/reports/list_foreign_student','RegistrarCollege\Reports\ListForeignStudentController@index');
+Route::post('/registrar_college/reports/print_foreign_student','RegistrarCollege\Reports\ListForeignStudentController@print_foreign_student');
+
 //List Unofficially Enrolled Student    
 Route::get('/registrar_college/reports/list_unofficially_enrolled', 'RegistrarCollege\Reports\ListUnofficiallyEnrolledController@index');
 Route::post('/registrar_college/reports/print_unofficially_enrolled', 'RegistrarCollege\Reports\ListUnofficiallyEnrolledController@print_unofficial');

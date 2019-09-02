@@ -34,7 +34,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @section('header')
 <section class="content-header">
     <h1>
-        Collection Report
+        Debit Summary
         <small></small>
     </h1>
     <ol class="breadcrumb">

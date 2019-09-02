@@ -48,9 +48,8 @@ class PreRegistration extends Controller {
                 
             $reference_id = uniqid();
             $six_digit_random_number = mt_rand(100000, 999999);
-            
             //for bed and shs
-            if($applicant_details->level!="1st Year" || $applicant_details->level!="2nd Year" || $applicant_details->level!="3rd Year" || $applicant_details->level!="4th Year" || $applicant_details->level!="5th Year"){
+            if($applicant_details->applying_for!="College" && $applicant_details->applying_for!="Graduate School"){
                 if($applicant_details->level == "Grade 11" || $applicant_details->level == "Grade 12"){
                     $academic_type = "SHS";
                 }else{
@@ -64,13 +63,13 @@ class PreRegistration extends Controller {
             }else{
             //for college
                 $academic_type = "College";
-                $this->addUser($request,$reference_id, $applicant_details, $academic_type);
-                //$this->addStudentInfo($request,$reference_id, $applicant_details, $academic_type);
-                //$this->addHEDStatus($request,$reference_id, $applicant_details, $academic_type);
-                //$this->addHEDAdmission($request,$reference_id, $applicant_details, $academic_type);
-                //$this->addAdmission_heds($request,$reference_id, $applicant_details, $academic_type);
-                //$this->addAdmission_hed_requirements($request,$reference_id, $applicant_details, $academic_type);
-                //$this->addScholarship($request,$reference_id, $applicant_details, $academic_type);
+                $this->addUser($request,$reference_id, $applicant_details, $academic_type,$six_digit_random_number);
+                $this->addStudentInfo($request,$reference_id, $applicant_details, $academic_type);
+                $this->addHEDStatus($request,$reference_id, $applicant_details, $academic_type);
+                $this->addHEDAdmission($request,$reference_id, $applicant_details, $academic_type);
+                $this->addAdmission_heds($request,$reference_id, $applicant_details, $academic_type);
+                $this->addAdmission_hed_requirements($request,$reference_id, $applicant_details, $academic_type);
+                $this->addScholarship($request,$reference_id, $applicant_details, $academic_type);
             }
             
             $this->postPayment($request,$reference_id, $applicant_details);
@@ -257,6 +256,81 @@ class PreRegistration extends Controller {
         $addpromotion = new \App\BedParentInfo;
         $addpromotion->idno = $applicant_details->idno;
         $addpromotion->save();
+    }
+
+    function addStudentInfo($request, $reference_no, $applicant_details, $academic_type) {
+
+        $street = $applicant_details->street;
+        $barangay = $applicant_details->barangay;
+        $municipality = $applicant_details->municipality;
+        $province = $applicant_details->province;
+        $zip = $applicant_details->zip;
+        $birthdate = $applicant_details->date_of_birth;
+        $tel_no = $applicant_details->tel_no;
+        $cell_no = $applicant_details->cell_no;
+        
+        $add_new_student_info = new \App\StudentInfo;
+        $add_new_student_info->idno = $applicant_details->idno;
+        $add_new_student_info->birthdate = $birthdate;
+        $add_new_student_info->street = $street;
+        $add_new_student_info->barangay = $barangay;
+        $add_new_student_info->municipality = $municipality;
+        $add_new_student_info->province = $province;
+        $add_new_student_info->zip = $zip;
+        $add_new_student_info->tel_no = $tel_no;
+        $add_new_student_info->cell_no = $cell_no;
+        $add_new_student_info->save();
+    }
+
+    function addHEDStatus($request, $reference_no, $applicant_details, $academic_type) {
+
+        $add_new_status = new \App\Status;
+        $add_new_status->idno = $applicant_details->idno;
+        $add_new_status->is_new = 1;
+        $add_new_status->status = 0; //registered
+        $add_new_status->academic_type = "College";
+        $add_new_status->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
+        $add_new_status->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+        $add_new_status->save();
+    }
+
+    function addHEDAdmission($request, $reference_no, $applicant_details, $academic_type) {
+        
+        $add_new_registration = new \App\Admission;
+        $add_new_registration->idno = $applicant_details->idno;
+        $add_new_registration->registration_date = date('Y-m-d');
+        $add_new_registration->school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
+        $add_new_registration->period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
+        $add_new_registration->save();
+    }
+
+    function addAdmission_heds($request, $reference_no, $applicant_details, $academic_type) {
+
+        $add_new_student_info = new \App\AdmissionHed;
+        $add_new_student_info->idno = $applicant_details->idno;
+        $add_new_student_info->applying_for = $applicant_details->applying_for;
+        $add_new_student_info->program_code = $applicant_details->program_code;
+        $add_new_student_info->program_name = $this->get_program_name($applicant_details->program_code);
+        $add_new_student_info->tagged_as = $applicant_details->level;
+        $add_new_student_info->save();
+    }
+
+    function addAdmission_hed_requirements($request, $reference_no, $applicant_details, $academic_type) {
+        
+        $add_admission_checklist = new \App\AdmissionHedRequirements;
+        $add_admission_checklist->idno = $applicant_details->idno;      
+        $add_admission_checklist->save();
+    }
+    
+    function AddScholarship ($request, $reference_no, $applicant_details, $academic_type){
+        $new_scholarship = new \App\CollegeScholarship();
+        $new_scholarship->idno = $applicant_details->idno;
+        $new_scholarship->save();
+    }
+
+    function get_program_name($program_to_enroll) {
+        $program_name = \App\CtrAcademicProgram::where('program_code', $program_to_enroll)->first()->program_name;
+        return $program_name;
     }
 
 }
