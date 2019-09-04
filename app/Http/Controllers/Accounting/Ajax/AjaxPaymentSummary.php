@@ -21,15 +21,15 @@ class AjaxPaymentSummary extends Controller
             $school_year = Input::get("school_year");
             $period = Input::get("period");
 
-            if ($department == "Senior High School") {
-                
-            } else if ($department == "College Department") {
-                
+            if ($department == "College Department") {
+                $lists = \App\CollegeLevel::where('school_year', $school_year)->where('period',$period)->where('college_levels.status', env('ENROLLED'))->join('users', 'users.idno','college_levels.idno')->get();
+            } else if ($department == "Senior High School") {
+                $lists = \App\BedLevel::where('department', $department)->where('school_year', $school_year)->where('period',$period)->where('bed_levels.status', env('ENROLLED'))->join('users', 'users.idno','bed_levels.idno')->get();
             } else {
-                $dep = $department;
-                
+                $lists = \App\BedLevel::where('department', $department)->where('school_year', $school_year)->where('bed_levels.status', env('ENROLLED'))->join('users', 'users.idno','bed_levels.idno')->orderBy('users.lastname')->get();
             }
-//            return view('accounting.ajax.get_studentlist', compact('department','school_year','period','lists','heads'));
+//            return "STILL ON DEVELOPMENT...";
+            return view('accounting.ajax.get_paymentsummary', compact('department','school_year','period','lists'));
         }
     }
 }
