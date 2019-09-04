@@ -15,8 +15,10 @@ $loop_cast = 1;
 $x = 0;
 ?>
 <table width='100%' cellpadding='0' cellspacing='0' class="table table-striped table-condensed">
+    @foreach($heads as $head)
     <?php $x = 0;?>
     <thead>
+        <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
         <tr>
             <th style='border-bottom: 1px solid black'>  </th>
             <th style='border-bottom: 1px solid black'>ID No.</th>
@@ -34,36 +36,18 @@ $x = 0;
                     <td align='left'>{{$list->idno}}</td>
                     <td>{{ucwords(strtolower($list->lastname))}}, {{ucwords(strtolower($list->firstname))}} {{ucwords(strtolower($list->middlename))}} {{ucwords(strtolower($list->extensionname))}}</td>
                     <td>{{$list->type_of_plan}}</td>
-                    <?php $assessment = \App\Ledger::SelectRaw('sum(amount)as amount')
-                            ->where('idno', $list->idno)->where('school_year', $school_year)
-                            ->where('period',$period)
-                            ->where(function($query) {
-                                $query->where('category_switch', 1)
-                                ->orWhere('category_switch', 2)
-                                ->orWhere('category_switch', 3)
-                                ->orWhere('category_switch', 4)
-                                ->orWhere('category_switch', 5)
-                                ->orWhere('category_switch', 6)
-                                ->orWhere('category_switch', 11)
-                                ->orWhere('category_switch', 12)
-                                ->orWhere('category_switch', 13)
-                                ->orWhere('category_switch', 14)
-                                ->orWhere('category_switch', 15)
-                                ->orWhere('category_switch', 16);
-                            })->first(); ?>
-                    <td align='right'>{{number_format($assessment->amount,2)}}</td>
-                    <td align="left">
-                        <table border="1" width="100%">
-                            <td></td>
-                        </table>
-                    </td>
+                    <td align='right'>{{number_format($list->assessment,2)}}</td>
+                    <td><strong>STILL IN DEVELOPMENT...</strong></td>
                 </tr>
             @endforeach
+            <tr><td align="right" colspan="4">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td><td></td></tr>
+        @endforeach
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="6" style='border-top: 1px solid black' align="center"></th>
-            <td></td>
+            <th colspan="4" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
+            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
+            <td style='border-top: 1px solid black'></td>
         </tr>
     </tfoot>
 </table>
