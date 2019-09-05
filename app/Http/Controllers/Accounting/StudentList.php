@@ -80,5 +80,21 @@ class StudentList extends Controller
                 })->download('xlsx');
         }
     }
+    
+    function student_list_report($school_year){
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+            $period = "1st Semester";
+            $levels = array('Pre-Kinder','Kinder','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12','1st Year','2nd Year','3rd Year','4th Year');
+//            return view('accounting.student_list_report',compact('school_year', 'period', 'levels'));
+             \App\Http\Controllers\Admin\Logs::log("Download Student List_Report Excel");
+            ob_end_clean();
+            Excel::create('Student List Report', 
+                function($excel) use ($school_year, $period, $levels) { $excel->setTitle('Student List Report');
+                    $excel->sheet('Student List Report', function ($sheet) use ($school_year, $period, $levels) {
+                    $sheet->loadView('accounting.student_list_report',compact('school_year', 'period', 'levels'));
+                    });
+                })->download('xlsx');
+        }
+    }
 }
 
