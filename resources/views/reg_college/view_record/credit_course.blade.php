@@ -227,7 +227,7 @@
             $('#dynamic_field_credit').append(
           '<div id="row_credit' + i + '" class="form form-group">\n\
            <div class="col-md-1"><input class="form form-control" type="text" name="credit_sy[]" id="credit_sy' + i +'"/></div>\n\
-           <div class="col-md-1"><select class="form form-control" type="text" name="credit_period[]" id="credit_period' + i +'"><option>Select Period</option><option>1st Semester</option><option>2nd Semester</option><option>Summer</option><option>1st Quarter</option><option>2nd Quarter</option><option>3rd Quarter</option><option>4th Quarter</option><option>1st Term</option><option>2nd Term</option><option>3rd Term</option></select></div>\n\
+           <div class="col-md-1"><select class="form form-control" type="text" name="credit_period[]" id="credit_period' + i +'"><option>Select Period</option><option>1st Semester</option><option>2nd Semester</option><option>1st Quarter</option><option>2nd Quarter</option><option>3rd Quarter</option><option>4th Quarter</option><option>1st Term</option><option>2nd Term</option><option>3rd Term</option><option>Summer</option><option>Spring</option><option>Fall</option><option>Winter</option></select></div>\n\
            <div class="col-md-2"><input class="form form-control" type="text" name="credit_school_name[]" id="credit_school_name' + i +'"/></div>\n\
            <div class="col-md-1"><input class="form form-control" type="text" name="credit_course_code[]" id="credit_course_code' + i +'"/></div>\n\
            <div class="col-md-2"><input class="form form-control" type="text" name="credit_course_name[]" id="credit_course_name' + i +'"/></div>\n\
