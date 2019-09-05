@@ -54,11 +54,17 @@
                             <option>Select Period</option>
                             <option @if($grade->period == "1st Semester") selected='' @endif>1st Semester</option>
                             <option @if($grade->period == "2nd Semester") selected='' @endif>2nd Semester</option>
-                            <option @if($grade->period == "Summer") selected='' @endif>Summer</option>
                             <option @if($grade->period == "1st Quarter") selected='' @endif>1st Quarter</option>
                             <option @if($grade->period == "2nd Quarter") selected='' @endif>2nd Quarter</option>
                             <option @if($grade->period == "3rd Quarter") selected='' @endif>3rd Quarter</option>
                             <option @if($grade->period == "4th Quarter") selected='' @endif>4th Quarter</option>
+                            <option @if($credit->period == "1st Term") selected='' @endif>1st Term</option>
+                            <option @if($credit->period == "2nd Term") selected='' @endif>2nd Term</option>
+                            <option @if($credit->period == "3rd Term") selected='' @endif>3rd Term</option>
+                            <option @if($credit->period == "Summer") selected="" @endif>Summer</option>
+                            <option @if($credit->period == "Spring") selected='' @endif>Spring</option>
+                            <option @if($credit->period == "Fall") selected='' @endif>Fall</option>
+                            <option @if($credit->period == "Winter") selected='' @endif>Winter</option>
                         </select>
                         <label>Course Code</label>
                         <input name="course_code" type='text' class='form form-control' value = "{{$grade->course_code}}">

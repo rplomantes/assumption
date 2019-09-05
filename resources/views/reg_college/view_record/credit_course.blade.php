@@ -91,7 +91,6 @@
                                         <option value="">Select Period</option>
                                         <option @if($credit->period == "1st Semester") selected="" @endif>1st Semester</option>
                                         <option @if($credit->period == "2nd Semester") selected="" @endif>2nd Semester</option>
-                                        <option @if($credit->period == "Summer") selected="" @endif>Summer</option>
                                         <option @if($credit->period == "1st Quarter") selected='' @endif>1st Quarter</option>
                                         <option @if($credit->period == "2nd Quarter") selected='' @endif>2nd Quarter</option>
                                         <option @if($credit->period == "3rd Quarter") selected='' @endif>3rd Quarter</option>
@@ -99,6 +98,7 @@
                                         <option @if($credit->period == "1st Term") selected='' @endif>1st Term</option>
                                         <option @if($credit->period == "2nd Term") selected='' @endif>2nd Term</option>
                                         <option @if($credit->period == "3rd Term") selected='' @endif>3rd Term</option>
+                                        <option @if($credit->period == "Summer") selected="" @endif>Summer</option>
                                         <option @if($credit->period == "Spring") selected='' @endif>Spring</option>
                                         <option @if($credit->period == "Fall") selected='' @endif>Fall</option>
                                         <option @if($credit->period == "Winter") selected='' @endif>Winter</option>
@@ -154,7 +154,6 @@
                                         <option value="">Select Period</option>
                                         <option>1st Semester</option>
                                         <option>2nd Semester</option>
-                                        <option>Summer</option>
                                         <option>1st Quarter</option>
                                         <option>2nd Quarter</option>
                                         <option>3rd Quarter</option>
@@ -162,6 +161,10 @@
                                         <option>1st Term</option>
                                         <option>2nd Term</option>
                                         <option>3rd Term</option>
+                                        <option>Summer</option>
+                                        <option>Spring</option>
+                                        <option>Fall</option>
+                                        <option>Winter</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
