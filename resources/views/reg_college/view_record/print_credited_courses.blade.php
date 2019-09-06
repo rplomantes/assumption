@@ -153,9 +153,9 @@ $count = 0;
                         @elseif($pr->period == "2nd Term") SECOND TERM 
                         @elseif($pr->period == "3rd Term") THIRD TERM
                         @elseif($pr->period == "Summer") SUMMER  
-                        @elseif($pr->period == "SPRING") SPRING 
-                        @elseif($pr->period == "FALL") FALL 
-                        @elseif($pr->period == "WINTER") WINTER
+                        @elseif($pr->period == "Spring") SPRING 
+                        @elseif($pr->period == "Fall") FALL 
+                        @elseif($pr->period == "Winter") WINTER
                     @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}
                 </b>
             </td>
