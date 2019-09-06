@@ -145,7 +145,6 @@ $count = 0;
                     @if($with_credit == 1){{strtoupper($school_name)}}<br> @endif 
                         @if($pr->period == "1st Semester") FIRST SEMESTER 
                         @elseif($pr->period == "2nd Semester") SECOND SEMESTER 
-                        @elseif($pr->period == "Summer") SUMMER  
                         @elseif($pr->period == "1st Quarter") FIRST QUARTER 
                         @elseif($pr->period == "2nd Quarter") SECOND QUARTER 
                         @elseif($pr->period == "3rd Quarter") THIRD QUARTER
@@ -153,6 +152,10 @@ $count = 0;
                         @elseif($pr->period == "1st Term") FIRST TERM 
                         @elseif($pr->period == "2nd Term") SECOND TERM 
                         @elseif($pr->period == "3rd Term") THIRD TERM
+                        @elseif($pr->period == "Summer") SUMMER  
+                        @elseif($pr->period == "SPRING") SPRING 
+                        @elseif($pr->period == "FALL") FALL 
+                        @elseif($pr->period == "WINTER") WINTER
                     @endif, S.Y. {{$sy->school_year}}-{{$sy->school_year+1}}
                 </b>
             </td>
