@@ -34,6 +34,11 @@ class AddingDroppingController extends Controller {
     }
 
     function process(Request $request) {
+        if($request->tutorial_amount){
+            $this->validate($request, [
+                'tutorial_units' => 'required',
+            ]);
+        }
         if(isset($request->fee)){
             $fee = "w";
         }
@@ -55,12 +60,15 @@ class AddingDroppingController extends Controller {
         }
         if($tutorial_amount > 0){
             $this->computeTutorial($idno, $status->program_code, $school_year->school_year, $school_year->period, $status->level, $tuitionrate, $tutorial_units, $tutorial_amount);
+            $mess="with tutorial units of $tutorial_units and amount of $tutorial_amount.";
+        }else{
+            $mess = ".";
         }
         $this->processAdding($idno, $school_year, $status, $user, $is_practicum_only);
         $this->processDropping($idno, $school_year, $status, $user);
         $this->deleteLedgerduedate($idno, $school_year->school_year, $school_year->period);
         $this->computeLedgerDueDate($idno, $school_year->school_year, $school_year->period, $status->type_of_plan);
-            \App\Http\Controllers\Admin\Logs::log("Process adding/dropping of $idno for S.Y. $school_year->school_year, $school_year->period");
+            \App\Http\Controllers\Admin\Logs::log("Process adding/dropping of $idno for S.Y. $school_year->school_year, $school_year->period $mess");
         DB::Commit();
         return redirect("registrar_college/advising/assigning_of_schedules/$idno");
     }

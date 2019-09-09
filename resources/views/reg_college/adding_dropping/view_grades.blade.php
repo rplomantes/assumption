@@ -37,6 +37,15 @@
 @section('maincontent')
 <section class="content">
     <div class="col-sm-12">
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>Please enter the number of units.</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
         <div class="box">
             <div class="box-header">
                 <div class="box-title">Adding/Dropping</div>
