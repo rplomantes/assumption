@@ -870,7 +870,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         <label>Total Due of the Month:</label>
         <div class="form form-control" id="due_display">
             <!--if($totaldue>0)-->
-            {{number_format($totaldue,2)}}
+            {{number_format($totalmonthdue,2)}}
 <!--            else
             0.00
             endif-->

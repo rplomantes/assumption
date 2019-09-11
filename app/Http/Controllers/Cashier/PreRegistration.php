@@ -31,7 +31,7 @@ class PreRegistration extends Controller {
                 if(count($check_or)>0){
                     return view('cashier.ORDuplicate')->with('receipt_number',$receipt_number);
                 }else{
-                return view("cashier.pre_registration.pre_registration_payment", compact('receipt_number', 'particulars', 'applicants'));
+                    return view("cashier.pre_registration.pre_registration_payment", compact('receipt_number', 'particulars', 'applicants'));
                 }
             } else {
             return view('cashier.ORUsed');
