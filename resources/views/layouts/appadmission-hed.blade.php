@@ -106,7 +106,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-<!--                        <li class="treeview">
+                        <li class="treeview">
                             <a href="#"><i class="fa fa-id-card-o"></i> <span>Admission</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -115,7 +115,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/registrar_college', array('admission','new_student'))}}"><i class="fa fa-circle-o"></i> <span>New Student</span></a></li>
                             </ul>
-                        </li>-->
+                        </li>
                         <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-bar-chart"></i> <span>Enrollment Reports</span></a></li>
                                 <?php 
                                 $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;

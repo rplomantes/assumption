@@ -954,5 +954,39 @@ class ReassessController extends Controller {
         $add_discount->amount = $discount->amount;
         $add_discount->save();
     }
+    
+    function update_sy2019_college_fees(){
+        $lists = DB::table('update_sy2019_college_fees')->whereRaw('is_done = 0')->get();
+        DB::beginTransaction(); 
+        foreach ($lists as $list){
+            $checkUser = \App\User::where('idno', $list->idno)->first();
+            if(count($checkUser)>0){
+                
+                $this->Update($list->idno,"Student Activities",500);
+                $this->Update($list->idno,"Energy Fee",4500);
+                $this->Update($list->idno,"Sports Development Program",1500);
+                $this->Update($list->idno,"Accident Insurance",400);
+
+//                $list->is_done = 1;
+                
+                DB::table('update_sy2019_college_fees')->where('idno',$list->idno)->update(array(
+                                 'is_done'=> 1,
+));
+            }else{
+                return "ERROR1";
+            }
+        }
+        DB::Commit();
+        Return 'DONE';
+    }
+    function Update($idno, $subsidiary, $amount){
+        $update = \App\Ledger::where('idno', $idno)->where('school_year', 2019)->where('period', '1st Semester')->where('Subsidiary',$subsidiary)->first();
+        if(count($update)>0){
+            $update->amount = $amount;
+            $update->save();
+        }else{
+            return "ERROR2";
+        }
+    }
 
 }

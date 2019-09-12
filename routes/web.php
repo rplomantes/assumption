@@ -311,6 +311,9 @@ Route::get('/admin/logs','Admin\Logs@view_logs');
 Route::get('/sms','Admin\SendSMS@sms');
 Route::post('/send_sms','Admin\SendSMS@send_sms');
 
+//Update college 1st year fees SY 2019
+Route::get('/update_sy2019_college_fees', 'Admin\ReassessController@update_sy2019_college_fees');
+
 //College Admission///////////////////////////////////////////////////
 Route::get('/ajax/admission-hed/getstudentlist', 'AdmissionHED\Ajax\GetStudentList_ajax@getstudentlist');
 //New Student
