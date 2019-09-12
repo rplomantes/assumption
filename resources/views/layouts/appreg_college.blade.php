@@ -192,6 +192,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('grade_management','open_close'))}}"><i class="fa fa-circle-o"></i> <span>Open/Close Grade Module</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('grade_management','view_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>View Grades</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('grade_management','incomplete_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>INC/NG Grades</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('grade_management','statistics_of_grades', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Statistics of Grades</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('grade_management','report_card'))}}"><i class="fa fa-circle-o"></i> <span>Report Cards</span></a></li>
                             </ul>
                         </li>
