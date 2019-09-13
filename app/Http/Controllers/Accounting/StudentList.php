@@ -73,8 +73,8 @@ class StudentList extends Controller
              \App\Http\Controllers\Admin\Logs::log("Download Student List Excel");
             ob_end_clean();
             Excel::create('Student List - ' .$department, 
-                function($excel) use ($department,$lists,$heads) { $excel->setTitle($department);
-                    $excel->sheet($department, function ($sheet) use ($department,$lists,$heads) {
+                function($excel) use ($department,$lists,$heads,$school_year,$period) { $excel->setTitle($department);
+                    $excel->sheet($department, function ($sheet) use ($department,$lists,$heads,$school_year,$period) {
                     $sheet->loadView('accounting.print_studentlist_excel', compact('department','school_year','period','lists','heads'));
                     });
                 })->download('xlsx');
