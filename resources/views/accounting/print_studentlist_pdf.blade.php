@@ -35,7 +35,7 @@ $grand_total_srf=0;
     <thead>
         <tr>
             <th style='border-bottom: 1px solid black'>  </th>
-            <th style='border-bottom: 1px solid black'>ID No.</th>
+            <th style='border-bottom: 1px solid black'>IDs No.</th>
             <th style='border-bottom: 1px solid black'>Name</th>
             @if($department == "College Department")
             <th style='border-bottom: 1px solid black'>Course</th>
@@ -96,7 +96,6 @@ $grand_total_srf=0;
             @if($department == "College Department")
             <td align='right'>{{number_format($srf_amount,2)}}</td>
             @else
-            <td align='right'>0.00</td>
             @endif
             
             
