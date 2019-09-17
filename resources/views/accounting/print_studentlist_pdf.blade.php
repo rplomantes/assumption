@@ -47,7 +47,7 @@ $grand_total_srf=0;
             <th style='border-bottom: 1px solid black' align='center'>Plan</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Amount</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Discount</th>
-            @if($department == "College Department")
+            @if($department == "College Department" || $department == "Senior High School")
             <th style='border-bottom: 1px solid black; text-align: right'>SRF</th>
             @endif
             <th style='border-bottom: 1px solid black; text-align: right'>Net</th>
@@ -69,15 +69,19 @@ $grand_total_srf=0;
                     <td>{{$list->program_code}}</th>
                     @endif
                     <td align='center'>{{$list->level}}</td>
-                    @if($department != "College Department")
+                    @if($department != "College Department" || $department == "Senior High School")
                     <td align='center'>{{$list->section}}</td>
                     @endif
                     <td align='center'>{{$list->type_of_plan}}</td>
 
             <?php $srf_amount = 0; ?>
-            @if($department == "College Department")
+            @if($department == "College Department" || $department == "Senior High School")
             <?php
-            $lists_srf = DB::select("SELECT l.assessment FROM users u, (SELECT idno, SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, college_levels c WHERE c.idno = u.idno AND l.assessment !=0.00 AND u.idno = l.idno AND c.school_year = '$school_year' AND c.period = '$period' AND c.status = '3' and c.idno = $list->idno");
+            if($department == "College Department"){
+                $lists_srf = DB::select("SELECT l.assessment FROM users u, (SELECT idno, SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, college_levels c WHERE c.idno = u.idno AND l.assessment !=0.00 AND u.idno = l.idno AND c.school_year = '$school_year' AND c.period = '$period' AND c.status = '3' and c.idno = $list->idno");
+            }else{
+                $lists_srf = DB::select("SELECT l.assessment FROM users u, (SELECT idno, SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, bed_levels c WHERE c.idno = u.idno AND l.assessment !=0.00 AND u.idno = l.idno AND c.school_year = '$school_year' AND c.period = '$period' AND c.status = '3' and c.idno = $list->idno");
+            }
 //            $heads_srf = DB::select("SELECT c.level, SUM(l.assessment) AS 'total', SUM(l.discount) AS 'discount' FROM (SELECT idno, SUM(amount) AS 'assessment', SUM(discount) AS discount FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, (SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr, college_levels c WHERE l.assessment != 0.00 AND c.idno = l.idno AND ctr.level = c.level AND c.school_year = '$school_year' AND c.period = '$period' AND c.status = '3' and c.idno = $list->idno GROUP BY c.level, ctr.sort_by ORDER BY ctr.sort_by");
             ?>
                 @if(count($lists_srf)>0)
@@ -93,7 +97,7 @@ $grand_total_srf=0;
                     <td align='right'>{{number_format($list->discount,2)}}</td>
             
             
-            @if($department == "College Department")
+            @if($department == "College Department" || $department == "Senior High School")
             <td align='right'>{{number_format($srf_amount,2)}}</td>
             @else
             @endif
@@ -104,7 +108,7 @@ $grand_total_srf=0;
                 @endif
             @endforeach
         <tr><td align="right" colspan="6">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total+$sub_total_srf,2)}}</strong></td><td align="right"><strong>{{number_format($subdiscount,2)}}</strong></td>
-            @if($department == "College Department")
+            @if($department == "College Department" || $department == "Senior High School")
             <td align="right"><strong>{{number_format($sub_total_srf,2)}}</strong></td>
             @endif
             <td align="right"><strong>{{number_format($head->total-$head->discount,2)}}</strong></td></tr>
