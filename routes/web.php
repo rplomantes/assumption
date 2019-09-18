@@ -212,12 +212,12 @@ Route::get('/ajax/registrar_college/grade_management/generate_card', 'RegistrarC
 Route::post('/registrar_college/grade_management/print_card_pdf','RegistrarCollege\GradeManagement\GradesController@print_card_pdf');
 Route::get('/registrar_college/grade_management/print_report_card/{school_year}/{period}/{idno}', 'RegistrarCollege\GradeManagement\GradesController@print_report_card_individually');
 
-//Incomplete Grades
-Route::get('/registrar_college/grade_management/incomplete_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@statistics_of_grades');
+//Statistics of Grades
+Route::get('/registrar_college/grade_management/statistics_of_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@statistics_of_grades');
 Route::get('/registrar_college/print_statistics_of_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@print_statistics_of_grade');
 
-//Statistics of Grades
-Route::get('/registrar_college/grade_management/statistics_of_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@incomplete_grades');
+//Incomplete Grades
+Route::get('/registrar_college/grade_management/incomplete_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@incomplete_grades');
 Route::get('/registrar_college/print_grade_incomplete/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@print_incomplete_grade');
 
 //Registrar College Reports/////////////////////////////////////////////////////
