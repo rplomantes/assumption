@@ -160,7 +160,7 @@
                                 <td>{{$totalcount2}}</td>
                                 <td>{{$totalcount3}}</td>
                                 <td>{{$totalcount4}}</td>
-                                <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
+                                <td><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4 + $totalaud; ?>{{$totalenrolled}}</td>
                             </tr>
                             <tr>
                                 <td><div align="right">TOTAL ASSESSED STUDENTS</div></td>
