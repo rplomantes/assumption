@@ -869,11 +869,11 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         <div class="form-group">
         <label>Total Due of the Month:</label>
         <div class="form form-control" id="due_display">
-            <!--if($totaldue>0)-->
-            {{number_format($totalmonthdue,2)}}
-<!--            else
+            @if($totaldue>0)
+            {{number_format($totaldue,2)}}
+            @else
             0.00
-            endif-->
+            @endif
         </div>
         </div>
         @if(Auth::user()->accesslevel==env("CASHIER"))
