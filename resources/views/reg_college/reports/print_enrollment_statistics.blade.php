@@ -73,10 +73,10 @@
             @foreach ($academic_programs as $academic_program)
             <tr>
                 <td>{{$academic_program->program_name}}</td>
-                <td align='center'><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
-                <td align='center'><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
-                <td align='center'><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
-                <td align='center'><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('is_audit', 0)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
+                <td align='center'><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
+                <td align='center'><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
+                <td align='center'><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
+                <td align='center'><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
                 <td align='center'><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
             </tr>
             <?php
@@ -122,7 +122,7 @@
                 <td style="text-align: center;">{{$totalcount2}}</td>
                 <td style="text-align: center;">{{$totalcount3}}</td>
                 <td style="text-align: center;">{{$totalcount4}}</td>
-                <td style="text-align: center;"><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4 + $totalaud; ?>{{$totalenrolled}}</td>
+                <td style="text-align: center;"><?php $totalenrolled = $totalcount1 + $totalcount2 + $totalcount3 + $totalcount4; ?>{{$totalenrolled}}</td>
             </tr>
             <tr>
                 <td><div align="right">TOTAL ASSESSED STUDENTS</div></td>

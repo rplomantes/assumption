@@ -354,20 +354,21 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         @foreach ($pinnacle_sy as $pin_sy)
         <?php $pinnacle_period = \App\CollegeGrades2018::distinct()->where('idno', $idno)->where('school_year', $pin_sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
         @foreach($pinnacle_period as $pin_pr)
-        <?php $pinnacle_grades = \App\CollegeGrades2018::where('idno', $idno)->where('school_year', $pin_sy->school_year)->where('period', $pin_pr->period)->get(); ?>
+        <?php $pinnacle_grades = \App\CollegeGrades2018::where('idno', $idno)->where('school_year', $pin_sy->school_year)->where('period', $pin_pr->period)->where('course_code', 'not like', "%+%")->get(); ?>
         @if (count($pinnacle_grades)==1)
-        @foreach($pinnacle_grades as $pin_grades)
-        @if (stripos($pin_grades->course_code, "+") !== FALSE)
-        @else
-        <tr>
-            <td></td>
-            <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        @endif
-        @endforeach
+            @foreach($pinnacle_grades as $pin_grades)
+                @if (stripos($pin_grades->course_code, "+") !== FALSE)
+                @else
+                <tr>
+                    <td></td>
+                    <td align='center'><b>@if($with_credit == 1) ASSUMPTION COLLEGE <br> <?php $with_credit=0;?> @endif @if($pin_pr->period == "1st Semester") FIRST SEMESTER @elseif($pin_pr->period == "2nd Semester") SECOND SEMESTER @elseif($pin_pr->period == "Summer") SUMMER @endif, S.Y. {{$pin_sy->school_year}}-{{$pin_sy->school_year+1}}</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @endif
+            @endforeach
+        @elseif (count($pinnacle_grades)==0)
         @else
         <tr>
             <td></td>

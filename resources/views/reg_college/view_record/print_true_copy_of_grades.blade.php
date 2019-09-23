@@ -263,7 +263,7 @@ $count = 0;
         @foreach ($pinnacle_sy as $pin_sy)
         <?php $pinnacle_period = \App\CollegeGrades2018::distinct()->where('idno', $idno)->where('school_year', $pin_sy->school_year)->orderBy('period', 'asc')->get(['period']); ?>
         @foreach($pinnacle_period as $pin_pr)
-        <?php $pinnacle_grades = \App\CollegeGrades2018::where('idno', $idno)->where('school_year', $pin_sy->school_year)->where('period', $pin_pr->period)->get(); ?>
+        <?php $pinnacle_grades = \App\CollegeGrades2018::where('idno', $idno)->where('school_year', $pin_sy->school_year)->where('period', $pin_pr->period)->where('course_code', 'not like', "%+%")->get(); ?>
         @if (count($pinnacle_grades)==1)
         @foreach($pinnacle_grades as $pin_grades)
         @if (stripos($pin_grades->course_code, "+") !== FALSE)
@@ -277,6 +277,7 @@ $count = 0;
         </tr>
         @endif
         @endforeach
+        @elseif (count($pinnacle_grades)==0)
         @else
         <tr>
             <td></td>
