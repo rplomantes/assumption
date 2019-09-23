@@ -962,10 +962,10 @@ class ReassessController extends Controller {
             $checkUser = \App\User::where('idno', $list->idno)->first();
             if(count($checkUser)>0){
                 
-                $this->Update($list->idno,"Student Activities",500);
-                $this->Update($list->idno,"Energy Fee",4500);
-                $this->Update($list->idno,"Sports Development Program",1500);
-                $this->Update($list->idno,"Accident Insurance",400);
+//                $this->Update($list->idno,"Student Activities",500);
+                $this->Update($list->idno,"Energy Fees",4500);
+                $this->Update($list->idno,"Sports Program Fee",1500);
+//                $this->Update($list->idno,"Accident Insurance",400);
 
 //                $list->is_done = 1;
                 
