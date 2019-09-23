@@ -104,7 +104,7 @@ $grand_total_srf=0;
             <th colspan="6" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total+$grand_total_srf,2)}}</strong></td>
             <td style='border-top: 1px solid black' align="right"><strong>{{number_format($discount,2)}}</strong></td>
-            @if($department == "College Department")
+            @if($department == "College Department" || $department == "Senior High School")
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($grand_total_srf,2)}}</strong></td>
             @endif
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total-($discount),2)}}</strong></td>
