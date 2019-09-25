@@ -53,12 +53,26 @@ class ViewInfoController extends Controller {
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             $user = \App\User::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
+            
+            $addparent = \App\StudentInfoCoursesRank::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoCoursesRank;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            
+            $addparent = \App\BedApplicantFail::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\BedApplicantFail;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
             return view('reg_college.view_info.view', compact('idno', 'user', 'info'));
         }
     }
 
     function save_info(Request $request) {
-//        return $request->f_is_living;
+//        return $request;
         $validate = $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
@@ -73,6 +87,21 @@ class ViewInfoController extends Controller {
             //$this->updateStatus($request);
             $this->updateInfo($request);
             $this->updateFamilyBackground($request);
+            
+            $this->updateAlumni($request);
+            $this->updateSiblings($request);
+            $this->updateChildren($request);
+            $this->updateAttendeds($request);
+            $this->updateHonors($request);
+            $this->updateDiscontinuances($request);
+            $this->updateFails($request);
+            $this->updateRepeats($request);
+            $this->updateSuspensions($request);
+            $this->updateActivities($request);
+            $this->updateIntends($request);
+            $this->updateRanks($request);
+            $this->updateCourseRanks($request);
+            
             $this->updateEducBackground($request);
             $this->updateUser($request);
             
@@ -96,6 +125,11 @@ class ViewInfoController extends Controller {
         $updatefamilybackground->m_occupation = $request->m_occupation;
         $updatefamilybackground->m_phone = $request->m_phone;
         $updatefamilybackground->m_address = $request->m_address;
+        $updatefamilybackground->guardian = $request->guardian;
+        $updatefamilybackground->g_is_living = $request->g_is_living;
+        $updatefamilybackground->g_occupation = $request->g_occupation;
+        $updatefamilybackground->g_phone = $request->g_phone;
+        $updatefamilybackground->g_address = $request->g_address;
         $updatefamilybackground->spouse = $request->spouse;
         $updatefamilybackground->s_is_living = $request->s_is_living;
         $updatefamilybackground->s_occupation = $request->s_occupation;
@@ -151,6 +185,11 @@ class ViewInfoController extends Controller {
         $updateInfo->acr_no = $request->acr_no;
         $updateInfo->acr_date_issued = $request->acr_date_issued;
         $updateInfo->acr_place_issued = $request->acr_place_issued;
+        $updateInfo->applied_year_course = $request->applied_year_course;
+        $updateInfo->applied_leaving = $request->applied_leaving;
+        $updateInfo->is_expelled_reason = $request->is_expelled_reason;
+        $updateInfo->is_officer = $request->is_officer;
+        $updateInfo->is_modelling = $request->is_modelling;
         $updateInfo->save();
     }
     
@@ -186,6 +225,419 @@ class ViewInfoController extends Controller {
             $pdf->setPaper(array(0,0,684,297));
             return $pdf->stream("envelope_$idno.pdf");
         }
+    }
+    
+    function updateAlumni($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoAlmuni::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoAlmuni;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $alumni_name = $request->alumni_name;
+        $alumni_relationship = $request->alumni_relationship;
+        $alumni_year_graduated = $request->alumni_year_graduated;
+        $alumni_department = $request->alumni_department;
+        $alumni_location = $request->alumni_location;
+
+        $updates = \App\StudentInfoAlmuni::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($alumni_name[$i])) {
+
+                $add = new \App\StudentInfoAlmuni;
+                $add->idno = $idno;
+                $add->name = $alumni_name[$i];
+                $add->relationship = $alumni_relationship[$i];
+                $add->year_graduated = $alumni_year_graduated[$i];
+                $add->department = $alumni_department[$i];
+                $add->location = $alumni_location[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateSiblings($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoSibling::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoSibling;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $siblings_name = $request->siblings_name;
+        $siblings_age = $request->siblings_age;
+        $siblings_level = $request->siblings_level;
+        $siblings_school = $request->siblings_school;
+
+        $updates = \App\StudentInfoSibling::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($siblings_name[$i])) {
+
+                $add = new \App\StudentInfoSibling;
+                $add->idno = $idno;
+                $add->name = $siblings_name[$i];
+                $add->age = $siblings_age[$i];
+                $add->level = $siblings_level[$i];
+                $add->school = $siblings_school[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateChildren($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoChildren::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoChildren;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $children_name = $request->children_name;
+        $children_age = $request->children_age;
+        $children_level = $request->children_level;
+        $children_school = $request->children_school;
+
+        $updates = \App\StudentInfoChildren::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($children_name[$i])) {
+
+                $add = new \App\StudentInfoChildren;
+                $add->idno = $idno;
+                $add->name = $children_name[$i];
+                $add->age = $children_age[$i];
+                $add->level = $children_level[$i];
+                $add->school = $children_school[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateAttendeds($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoAttendedCollege::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoAttendedCollege;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $attendeds_college = $request->attendeds_college;
+        $attendeds_address = $request->attendeds_address;
+        $attendeds_course = $request->attendeds_course;
+        $attendeds_school_year = $request->attendeds_school_year;
+
+        $updates = \App\StudentInfoAttendedCollege::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($attendeds_college[$i])) {
+
+                $add = new \App\StudentInfoAttendedCollege;
+                $add->idno = $idno;
+                $add->college = $attendeds_college[$i];
+                $add->address = $attendeds_address[$i];
+                $add->course = $attendeds_course[$i];
+                $add->school_year = $attendeds_school_year[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateHonors($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoHonor::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoHonor;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $honors_honor = $request->honors_honor;
+        $honors_level = $request->honors_level;
+        $honors_event = $request->honors_event;
+
+        $updates = \App\StudentInfoHonor::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($honors_honor[$i])) {
+
+                $add = new \App\StudentInfoHonor;
+                $add->idno = $idno;
+                $add->honor = $honors_honor[$i];
+                $add->level = $honors_level[$i];
+                $add->event = $honors_event[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateDiscontinuances($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoDiscontinuance::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoDiscontinuance;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $discontinuances_school_year = $request->discontinuances_school_year;
+        $discontinuances_reason = $request->discontinuances_reason;
+
+        $updates = \App\StudentInfoDiscontinuance::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($discontinuances_school_year[$i])) {
+
+                $add = new \App\StudentInfoDiscontinuance;
+                $add->idno = $idno;
+                $add->school_year = $discontinuances_school_year[$i];
+                $add->reason = $discontinuances_reason[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateFails($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoFailSubject::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoFailSubject;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $fails_subject = $request->fails_subject;
+        $fails_period = $request->fails_period;
+        $fails_level = $request->fails_level;
+        $fails_reason = $request->fails_reason;
+
+        $updates = \App\StudentInfoFailSubject::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($fails_subject[$i])) {
+
+                $add = new \App\StudentInfoFailSubject;
+                $add->idno = $idno;
+                $add->subject = $fails_subject[$i];
+                $add->period = $fails_period[$i];
+                $add->level = $fails_level[$i];
+                $add->reason = $fails_reason[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateRepeats($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoRepeat::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoRepeat;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $repeats_subject = $request->repeats_subject;
+        $repeats_level = $request->repeats_level;
+        $repeats_reason = $request->repeats_reason;
+
+        $updates = \App\StudentInfoRepeat::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($repeats_subject[$i])) {
+
+                $add = new \App\StudentInfoRepeat;
+                $add->idno = $idno;
+                $add->subject = $repeats_subject[$i];
+                $add->level = $repeats_level[$i];
+                $add->reason = $repeats_reason[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateSuspensions($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoSuspension::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoSuspension;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $suspensions_offense = $request->suspensions_offense;
+        $suspensions_penalty = $request->suspensions_penalty;
+        $suspensions_period = $request->suspensions_period;
+
+        $updates = \App\StudentInfoSuspension::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($suspensions_offense[$i])) {
+
+                $add = new \App\StudentInfoSuspension;
+                $add->idno = $idno;
+                $add->offense = $suspensions_offense[$i];
+                $add->penalty = $suspensions_penalty[$i];
+                $add->period = $suspensions_period[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateActivities($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoActivity::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoActivity;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $activities_activity = $request->activities_activity;
+        $activities_level = $request->activities_level;
+        $activities_hours = $request->activities_hours;
+
+        $updates = \App\StudentInfoActivity::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($activities_activity[$i])) {
+
+                $add = new \App\StudentInfoActivity;
+                $add->idno = $idno;
+                $add->activity = $activities_activity[$i];
+                $add->level = $activities_level[$i];
+                $add->hours = $activities_hours[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateIntends($request){
+        
+        $idno = $request->idno;
+        $addprofile = \App\StudentInfoIntend::where('idno', $idno)->first();
+            
+            if (count($addprofile) == 0) {
+                $addpro = new \App\StudentInfoIntend;
+                $addpro->idno = $idno;
+                $addpro->save();
+            }
+        $intends_college = $request->intends_college;
+        $intends_course = $request->intends_course;
+        $intends_is_taken = $request->intends_is_taken;
+
+        $updates = \App\StudentInfoIntend::where('idno', $idno)->get();
+
+        foreach ($updates as $update) {
+            $update->delete();
+        }
+
+        for ($i = 0; $i < 20; $i++) {
+            if (isset($intends_college[$i])) {
+
+                $add = new \App\StudentInfoIntend;
+                $add->idno = $idno;
+                $add->college = $intends_college[$i];
+                $add->course = $intends_course[$i];
+                $add->is_taken = $intends_is_taken[$i];
+                $add->save();
+            }
+        }
+    }
+    
+    function updateRanks($request){
+        $updaterank = \App\StudentInfoSchoolRank::where('idno', $request->idno)->first();
+        $updaterank->academic_excellence=$this->checkValue($request->academic_excellence);
+        $updaterank->family=$this->checkValue($request->family);
+        $updaterank->friend=$this->checkValue($request->friend);
+        $updaterank->ac_student=$this->checkValue($request->ac_student);
+        $updaterank->womens_college=$this->checkValue($request->womens_college);
+        $updaterank->security=$this->checkValue($request->security);
+        $updaterank->assumption_career=$this->checkValue($request->assumption_career);
+        $updaterank->newspaper=$this->checkValue($request->newspaper);
+        $updaterank->values_formation=$this->checkValue($request->values_formation);
+        $updaterank->college_fair=$this->checkValue($request->college_fair);
+        $updaterank->parents_choice=$this->checkValue($request->parents_choice);
+        $updaterank->career_opportunities=$this->checkValue($request->career_opportunities);
+        $updaterank->flyer=$this->checkValue($request->flyer);
+        $updaterank->hs_counselor=$this->checkValue($request->hs_counselor);
+        $updaterank->courses=$this->checkValue($request->courses);
+        $updaterank->ac_graduate=$this->checkValue($request->ac_graduate);
+        $updaterank->location=$this->checkValue($request->location);
+        $updaterank->prestige=$this->checkValue($request->prestige);
+        $updaterank->save();
+    }
+    function checkValue($value){
+        if($value == 0){
+            return NULL;
+        }else{
+            return $value;
+        }
+    }
+    
+    function updateCourseRanks($request){
+        $updaterank = \App\StudentInfoCoursesRank::where('idno', $request->idno)->first();
+        $updaterank->rank_1=$request->rank_1;
+        $updaterank->rank_2=$request->rank_2;
+        $updaterank->rank_3=$request->rank_3;
+        $updaterank->why_most_preferred=$request->why_most_preferred;
+        $updaterank->who_decided=$request->who_decided;
+        $updaterank->save();
     }
 
 }
