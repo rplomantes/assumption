@@ -86,7 +86,8 @@
                 </tbody>
             </table>
         <h3>OR Update History</h3>
-        <?php $or_history = \App\Log::where('action', 'like', "OR Updated%")->orderBy('id', 'desc')->get(); ?>
+        <?php $or_history = \App\Log::where('action', 'like', "OR Updated%")->orderBy('id', 'desc')->get(); 
+        $number = count($or_history);?>
         <table class="table table-condensed table-bordered">
             <tr>
                 <th>#</th>
@@ -96,7 +97,7 @@
             </tr>
             @foreach($or_history as $or)
             <tr>
-                <td></td>
+                <td>{{$number--}}.</td>
                 <td>{{$or->datetime}}</td>
                 <td>{{$or->action}}</td>
                 <td>{{$or->idno}}</td>
