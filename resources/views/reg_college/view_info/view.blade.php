@@ -1431,6 +1431,47 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_6">
+                    <label style="background-color:  gray">EMERGENCY INFORMATION</label><br>
+                    <label>Please provide the name of a contact person other than your parents whom the Admissions Office can call.</label>
+                    <div class='form-group'>
+                        <?php $emergency = \App\StudentInfoEmergency::where('idno', $user->idno)->first(); ?>
+                        <div class="col-sm-3">
+                            <label>Person to notify</label>
+                            <input class="form form-control" name='emer_lastname' value="{{old('emer_lastname',$emergency->lastname)}}" type="text" placeholder="Lastname">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>&nbsp;</label>
+                            <input class="form form-control" name='emer_firstname' value="{{old('emer_firstname',$emergency->firstname)}}" type="text" placeholder="Firstname">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>&nbsp;</label>
+                            <input class="form form-control" name='emer_middlename' value="{{old('emer_middlename',$emergency->middlename)}}" type="text" placeholder="Middlename">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>&nbsp;</label>
+                            <input class="form form-control" name='emer_extensionname' value="{{old('emer_extensionname',$emergency->extensionname)}}" type="text" placeholder="Extensionname">
+                        </div>
+                        <div class="col-sm-12">
+                            <label>Relationship</label>
+                            <input class="form form-control" name='emer_relation' value="{{old('emer_relation',$emergency->relation)}}" type="text" placeholder="Example: Aunt/Uncle">
+                        </div>
+                        <div class="col-sm-12">
+                            <label>Address</label>
+                            <input class="form form-control" name='emer_address' value="{{old('emer_address',$emergency->address)}}" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Home Phone</label>
+                            <input class="form form-control" name='emer_phone' value="{{old('emer_phone',$emergency->phone)}}" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Business Telephone</label>
+                            <input class="form form-control" name='emer_business_phone' value="{{old('emer_business_phone',$emergency->business_phone)}}" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Mobile Phone</label>
+                            <input class="form form-control" name='emer_mobile' value="{{old('emer_mobile',$emergency->mobile)}}" type="text">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -67,6 +67,13 @@ class ViewInfoController extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
+            
+            $addparent = \App\StudentInfoEmergency::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoEmergency;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
             return view('reg_college.view_info.view', compact('idno', 'user', 'info'));
         }
     }
@@ -101,6 +108,7 @@ class ViewInfoController extends Controller {
             $this->updateIntends($request);
             $this->updateRanks($request);
             $this->updateCourseRanks($request);
+            $this->updateEmergency($request);
             
             $this->updateEducBackground($request);
             $this->updateUser($request);
@@ -637,6 +645,20 @@ class ViewInfoController extends Controller {
         $updaterank->rank_3=$request->rank_3;
         $updaterank->why_most_preferred=$request->why_most_preferred;
         $updaterank->who_decided=$request->who_decided;
+        $updaterank->save();
+    }
+    
+    function updateEmergency($request){
+        $updaterank = \App\StudentInfoEmergency::where('idno', $request->idno)->first();
+        $updaterank->lastname=$request->emer_lastname;
+        $updaterank->firstname=$request->emer_firstname;
+        $updaterank->middlename=$request->emer_middlename;
+        $updaterank->extensionname=$request->emer_extensionname;
+        $updaterank->relation=$request->emer_relation;
+        $updaterank->phone=$request->emer_phone;
+        $updaterank->address=$request->emer_address;
+        $updaterank->business_phone=$request->emer_business_phone;
+        $updaterank->mobile=$request->emer_mobile;
         $updaterank->save();
     }
 

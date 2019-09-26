@@ -35,8 +35,8 @@ class SetReceiptController extends Controller
               $update_or->end_receipt_no = $request->end_or_number[$i];
               $update_or->save();
 //            }
-            $this->log("OR Updated for $i.");
-            Session::flash('message', "OR Updated for $i.");
+            $this->log("OR Updated for $i with OR# $update_or->start_receipt_no to $update_or->end_receipt_no.");
+            Session::flash('message', "OR Updated for $i with OR# $update_or->start_receipt_no to $update_or->end_receipt_no.");
             
             return redirect('accounting/set_or');
             
