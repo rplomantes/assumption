@@ -2,6 +2,7 @@
 <table class="table table-condensed">
     <thead>
         <tr>
+            <th>Date</th>
             <th>Receipt No</th>
             <th>Paid By</th>
             <th>Posted By</th>
@@ -16,6 +17,7 @@
             ?>
             @if(count($check_or)>0)
             <tr>
+                <td>{{$check_or->transaction_date}}</td>
                 <td>{{$check_or->receipt_no}}</td>
                 <td>{{$check_or->paid_by}}</td>
                 <td>{{$check_or->posted_by}}</td>
