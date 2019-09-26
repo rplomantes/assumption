@@ -4,6 +4,7 @@
         <tr>
             <th>Receipt No</th>
             <th>Paid By</th>
+            <th>Posted By</th>
             <th>View</th>
         </tr>
     </thead>
@@ -17,6 +18,7 @@
             <tr>
                 <td>{{$check_or->receipt_no}}</td>
                 <td>{{$check_or->paid_by}}</td>
+                <td>{{$check_or->posted_by}}</td>
                 <td><a href="{{url('/cashier', array('viewreceipt',$check_or->reference_id))}}">View Receipt</a></td>
             </tr>
             @else
