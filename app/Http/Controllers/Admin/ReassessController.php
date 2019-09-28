@@ -983,6 +983,7 @@ class ReassessController extends Controller {
         $update = \App\Ledger::where('idno', $idno)->where('school_year', 2019)->where('period', '1st Semester')->where('Subsidiary',$subsidiary)->first();
         if(count($update)>0){
             $update->amount = $amount;
+            $update->discount = $amount;
             $update->save();
         }else{
             return "ERROR2";
