@@ -1436,9 +1436,9 @@ $layout = "layouts.appreg_college";
                             <input type=text class="form-control" name='rank_2' value='{{old('rank_2',$course_rank->rank_2)}}' placeholder="Rank 2">
                             <input type=text class="form-control" name='rank_3' value='{{old('rank_3',$course_rank->rank_3)}}' placeholder="Rank 3">
                             <label>Why did you select your most preferred course?</label>
-                            <input type=text class="form-control" name='why_most_preferred' value='{{old('why_most_preferred',$course_rank->why_most_preferred)}}' placeholder="Rank 1">
-                            <label>Please rank in numerical order the top 3 course preferences offered by Assumption College</label>
-                            <input type=text class="form-control" name='who_decided' value='{{old('who_decided',$course_rank->who_decided)}}' placeholder="Rank 1">
+                            <input type=text class="form-control" name='why_most_preferred' value='{{old('why_most_preferred',$course_rank->why_most_preferred)}}'>
+                            <label>Who decided on your course/study in Assumption?</label>
+                            <input type=text class="form-control" name='who_decided' value='{{old('who_decided',$course_rank->who_decided)}}'>
                         </div>
                     </div>
                 </div>
