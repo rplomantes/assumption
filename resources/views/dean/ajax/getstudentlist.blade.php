@@ -3,9 +3,9 @@
 <table class="table table-striped table-condensed">
     <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>View Info</th><th>Student Record</th><th>Advising</th></tr>
     @foreach($lists as $list)
-    @if($list->accesslevel == '0')
-    
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
+    @if($list->accesslevel == '0' && $status->status != 20 && $status->status != 21)
+    
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
         <td>
             @if($status->status == 3)Enrolled

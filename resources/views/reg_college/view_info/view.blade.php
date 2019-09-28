@@ -4,8 +4,15 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
+<?php
+if(Auth::user()->accesslevel == env('ADMISSION_HED')){
+$layout = "layouts.appadmission-hed";
+} else {
+$layout = "layouts.appreg_college";
+}
+?>
 
-@extends('layouts.appreg_college')
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -45,6 +52,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 
 <form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
     {{ csrf_field() }}
+    
+@if(Auth::user()->accesslevel == env('REG_COLLEGE'))
     <div class="col-md-12 pull-left">
         <?php $status = \App\Status::where('idno', $idno)->first(); ?>
         <div class="col-md-2 pull-lef">
@@ -84,6 +93,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             </div>
         </div>
     </div>
+@endif
     <div class="col-sm-12">
         @if (Session::has('message'))
         <div class="alert alert-success">{{ Session::get('message') }}</div>
@@ -92,12 +102,14 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <!-- Add the bg color to the header using any of the bg-* classes -->
 
             <div class="widget-user-header bg-yellow">
+                @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
                 <div class="col-sm-2 pull-right">
                     <a href="{{url('/upload_user_image', $user->idno)}}"><button type="button" class="btn btn-primary pull-right">Upload User Image</button></a>
                 </div>
                 <div class="col-sm-2 pull-right">
                     <a href="{{url('/print_envelope', $user->idno)}}"><button type="button" class="btn btn-success pull-right"><span class="fa fa-envelope"></span> Print Envelope</button></a>
                 </div>
+                @endif
                 <div class="widget-user-image">
                     @if($file_exist==1)
                     <img src="/images/PICTURES/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">

@@ -67,7 +67,7 @@
 
                                             Greetings of Peace!<br><br>
                                                 
-                                            To proceed with your daughter's early enrollment, you may now use the username and password assigned to you to access the <a href="https://portal.assumption.edu.ph/">Assumption College Student Portal.</a><br><br>
+                                            To proceed with your early enrollment, you may now use the username and password assigned to you to access the <a href="https://portal.assumption.edu.ph/">Assumption College Student Portal.</a><br><br>
                                                 
                                                 <small>
                                                     Name:<strong>{{$applicant_details->lastname}}, {{$applicant_details->firstname}}{{$applicant_details->middlename}}</strong><br>

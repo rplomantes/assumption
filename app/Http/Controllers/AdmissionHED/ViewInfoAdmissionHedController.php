@@ -23,7 +23,9 @@ class ViewInfoAdmissionHedController extends Controller {
             $admissionreq = \App\AdmissionHedRequirements::where('idno', $idno)->first();
             $email = \App\EmailBlast::where('idno',$idno)->where('is_done',1)->first();
             $status = \App\Status::where('idno',$idno)->first();
-            return view('admission-hed.viewinfo.view', compact('email','status','idno', 'users', 'adhedinfo', 'studentinfos', 'admissionreq'));
+            $user = \App\User::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('idno', $idno)->first();
+            return view('admission-hed.viewinfo.view', compact('email','status','idno', 'users', 'adhedinfo', 'studentinfos', 'admissionreq','user', 'info'));
         }
     }
 
@@ -61,8 +63,16 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->email = $request->email;
         $updatePersonalInfo->is_foreign = $request->is_foreign;
         if($request->student_status == 1){    
-        $updatePersonalInfo->password = bcrypt($request->idno);
-        $updatePersonalInfo->status = 1;
+            $updatePersonalInfo->password = bcrypt($request->idno);
+            $updatePersonalInfo->status = 1;
+            $updateStatus= \App\Status::where('idno',$request->idno)->first();
+            $updateStatus->status = 0;
+            $updateStatus->save();
+        }else if($request->student_status == 0){
+            $updatePersonalInfo->status = 0;
+            $updateStatus= \App\Status::where('idno',$request->idno)->first();
+            $updateStatus->status = 21;
+            $updateStatus->save();
         }
         $updatePersonalInfo->update();
 
@@ -74,7 +84,6 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->zip = $request->zip;
         $updatePersonalInfo->birthdate = $request->birthdate;
         $updatePersonalInfo->place_of_birth = $request->place_of_birth;
-        $updatePersonalInfo->gender = $request->gender;
         $updatePersonalInfo->tel_no = $request->tel_no;
         $updatePersonalInfo->cell_no = $request->cell_no;
         $updatePersonalInfo->civil_status = $request->civil_status;

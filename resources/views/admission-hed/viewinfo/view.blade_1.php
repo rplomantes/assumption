@@ -192,7 +192,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
                             </div>  
                         </div>  
                         <hr>
-                        <!--Checklists-->  
+                        <!--Checklists-->       
                         <div class="form-group">
                             <div class="col-sm-6">
                                 <h4 class="box-title"><span class='fa fa-edit'></span>Checklist of Requirements</h4>
@@ -237,7 +237,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
             <div class="col-sm-12">
                 <div class="box">
                     <div class="box-header">
-                        <h4 class="box-title"><span class='fa fa-edit'></span>Pre-Application Form</h4>
+                        <h4 class="box-title"><span class='fa fa-edit'></span>Student Information</h4>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>                     
                         </div>
@@ -283,7 +283,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                 <div class="col-sm-4">
                                     <label>Email</label>
                                     <input class="form form-control" name='email' placeholder='Email Address*' value="{{old('email',$users->email)}}" type="email">                           
-                                </div>
+                                </div>                         -->
                             </div>                        
                             <div class="form-group">
                                 <div class="col-sm-4">
@@ -335,7 +335,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                     <input class="form form-control" name='last_school_address' placeholder='School Address' value="{{old('last_school_address', $studentinfos->last_school_address)}}" type="text">
                                 </div> 
                             </div>
-<!--                            <div class="form-group">
+                            <div class="form-group">
                                 <div class="col-sm-3">
                                     <label>Guardian Type</label>
                                     <select class="form form-control" name="guardian_type" type="text">
@@ -359,7 +359,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                     <label>&nbsp;</label>
                                     <input class="form form-control" name='guardian_email' placeholder='Guardian Email Address' value="{{old('guardian_email', $adhedinfo->guardian_email)}}" type="email">
                                 </div>    
-                            </div>-->
+                            </div>
                             <hr>
                             <div class="form-group">            
                                 <div class="col-sm-12" id="conditionType" name='conditionType' type='text'>

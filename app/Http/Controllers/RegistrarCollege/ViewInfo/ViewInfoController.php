@@ -50,7 +50,7 @@ class ViewInfoController extends Controller {
     }
 
     function view_info($idno) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
             $user = \App\User::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
             
@@ -74,6 +74,81 @@ class ViewInfoController extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
+            
+            
+            $addparent = \App\StudentInfoAlmuni::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoAlmuni;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoSibling::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoSibling;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoChildren::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoChildren;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoAttendedCollege::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoAttendedCollege;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoHonor::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoHonor;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoDiscontinuance::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoDiscontinuance;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoFailSubject::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoFailSubject;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoRepeat::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoRepeat;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoSuspension::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoSuspension;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoActivity::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoActivity;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoIntend::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoIntend;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoSchoolRank::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoSchoolRank;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            
             return view('reg_college.view_info.view', compact('idno', 'user', 'info'));
         }
     }
@@ -209,7 +284,9 @@ class ViewInfoController extends Controller {
         $updateUser->extensionname = $request->extensionname;
         $updateUser->email = $request->email;
         $updateUser->is_foreign = $request->is_foreign;
+        if(Auth::user()->accesslevel == env('REG_COLLEGE')){
         $updateUser->status = $request->user_status;
+        }
         $updateUser->save();
     }
     

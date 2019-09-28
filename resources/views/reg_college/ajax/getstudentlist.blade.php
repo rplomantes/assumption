@@ -20,8 +20,8 @@
         @endif
     </tr>
     @foreach($lists as $list)
-    @if($list->accesslevel == '0')
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
+    @if($list->accesslevel == '0' && $status->status != 20 && $status->status != 21)
     <tr>
         
         @if($is_search != 1)
