@@ -409,6 +409,7 @@ class AddingDroppingController extends Controller {
         $addledger->accounting_name = "Accounts Payable - Depository Fees";
         $addledger->category_switch = env("SRF_FEE");
         $addledger->amount = $tutorial_amount-($tuitionrate*$tutorial_units);
+        $addledger->supply_remarks = $tutorial_units;
         $addledger->save();
     }
 

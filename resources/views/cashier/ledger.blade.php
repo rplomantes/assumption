@@ -229,6 +229,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                                 $query->where('category_switch', 3)
                                 ->orWhere('category_switch', 13);
                             })->where('school_year', $school_year)->where('period', $period)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
+            $ledger_tutorials = \App\Ledger::SelectRaw('supply_remarks, category')->where('idno', $idno)->where('category', 'Tutorial Fee')
+                    ->where(function($query) {
+                                $query->where('category_switch', 4)
+                                ->orWhere('category_switch', 14);
+                            })->where('school_year', $school_year)->where('period', $period)->orderBy('category')->get();
 
 //for accounting displaying particulars
 $ledger_list_tuition = \App\Ledger::where('idno',$user->idno)
@@ -401,6 +406,14 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             <h3>COURSES ENROLLED</h3>
                 @if($status->status > 1)
             <table class="table table-bordered table-condensed">
+                @if(count($ledger_tutorials)>0)
+                @foreach($ledger_tutorials as $tutorial)
+                <tr>
+                    <th colspan="2">Total Number of Tutorials in Units</th>
+                    <th>{{$tutorial->supply_remarks}}</th>
+                </tr>
+                @endforeach
+                @endif
                 <tr>
                     <th>Course Code</th>
                     <th>Course Name</th>
@@ -962,9 +975,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         @if(count($reservations)>0)
         <label>Reservation</label>
         <table class="table table-striped">
-            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
+            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>
             @foreach($reservations as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
+                @if($reservation->reference_id != null)
+                <?php $orNumber = \App\Payment::where('reference_id', $reservation->reference_id)->first(); ?>
+                <td><a href="{{url('cashier', array('viewreceipt',$reservation->reference_id))}}">{{$orNumber->receipt_no}}</a></td>
+                @else
+                <td></td>
+                @endif
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
                 <td>@if($reservation->is_reverse=="1")
                     <i class="fa fa-close"></i> Canceled
@@ -991,9 +1010,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         @if(count($deposits)>0)
         <label>Student Deposit</label>
         <table class="table table-striped">
-            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
+            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>
             @foreach($deposits as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
+                @if($reservation->reference_id != null)
+                <?php $orNumber = \App\Payment::where('reference_id', $reservation->reference_id)->first(); ?>
+                <td><a href="{{url('cashier', array('viewreceipt',$reservation->reference_id))}}">{{$orNumber->receipt_no}}</a></td>
+                @else
+                <td></td>
+                @endif
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
                 <td>@if($reservation->is_reverse=="1")
                     <i class="fa fa-close"></i> Canceled

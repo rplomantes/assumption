@@ -56,8 +56,8 @@ class PostCharges extends Controller {
                     }
                 $numberOfMonths = 0;
                 }else{
-//                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
-                    $numberOfMonths = $noOfDues - $countLedger;
+                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
+//                    $numberOfMonths = $noOfDues - $countLedger;
                 }
 if($numberOfMonths > 0){
                 $ledger = new \App\Ledger;
@@ -116,7 +116,7 @@ if($numberOfMonths > 0){
         $remain = 0;
 
 //    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
-        $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
+        $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND YEAR(date_posted) = '$school_year->school_year' AND is_reversed = 0");
 
         foreach ($mainledgers as $payment) {
             $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
