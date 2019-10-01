@@ -975,10 +975,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         @if(count($reservations)>0)
         <label>Reservation</label>
         <table class="table table-striped">
-            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
-            <!--<tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>-->
+            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>
             @foreach($reservations as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
+                @if($reservation->reference_id != null)
+                <?php $orNumber = \App\Payment::where('reference_id', $reservation->reference_id)->first(); ?>
+                <td><a href="{{url('cashier', array('viewreceipt',$reservation->reference_id))}}">{{$orNumber->receipt_no}}</a></td>
+                @else
+                <td></td>
+                @endif
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
                 <td>@if($reservation->is_reverse=="1")
                     <i class="fa fa-close"></i> Canceled
@@ -1005,10 +1010,20 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         @if(count($deposits)>0)
         <label>Student Deposit</label>
         <table class="table table-striped">
-            <tr><td>Date</td><td>Amount</td><td>Status</td></tr>
-            <!--<tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>-->
+            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>
             @foreach($deposits as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
+                @if($reservation->reference_id != null)
+                <?php 
+                $orNumber = \App\Payment::where('reference_id', $reservation->reference_id)->first();
+                if(count($orNumber)==0){
+                $orNumber = \App\AddToStudentDeposit::where('reference_id', $reservation->reference_id)->first();
+                }
+                ?>
+                <td><a href="{{url('cashier', array('viewreceipt',$reservation->reference_id))}}">{{$orNumber->receipt_no}}</a></td>
+                @else
+                <td></td>
+                @endif
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
                 <td>@if($reservation->is_reverse=="1")
                     <i class="fa fa-close"></i> Canceled
