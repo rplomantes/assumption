@@ -306,4 +306,13 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         }
     }
 
+    function update_explanation(Request $request) {
+        $OR = \App\Payment::where('reference_id', $request->reference_id)->first();
+        $old_or = $OR->remarks;
+        $OR->remarks = $request->explanation;
+        $OR->save();
+        \App\Http\Controllers\Admin\Logs::log("Update OR Explanation from '$old_or' to '$request->explanation' of $request->reference_id.");
+        return redirect("/cashier/viewreceipt/$request->reference_id");
+    }
+
 }

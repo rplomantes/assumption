@@ -105,7 +105,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         </table>
         
         <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-        <b>Explanation:</b><br>{{$payment->remarks}}
+            <b>Explanation:<span class='pull-right'><button data-toggle="modal" data-target="#show_explanation">Edit Exaplanation</button></span></b><br>{{$payment->remarks}}
         </p>
         <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
         <b>Payment Rendered:</b><br>  
@@ -185,6 +185,33 @@ if(Auth::user()->accesslevel == env("CASHIER")){
           
     </div>    
 </div>
+
+<div class="modal fade" id="show_explanation">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Update Explanation</h4>
+        </div>
+        <form method="post" action="{{url('/update_explanation')}}">
+        <div class="modal-body">
+            <div class="form-group">
+                {{csrf_field()}}
+                <input type='hidden' value="{{$payment->reference_id}}" name='reference_id'>
+                <input class='form form-control' type='text' name='explanation' value='{{$payment->remarks}}'>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" value="Update Explanation"></input>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+
+
 @endsection
 @section('footerscript')
 <style>

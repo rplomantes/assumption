@@ -542,5 +542,8 @@ Route::get('/bedregistrar/ajax/getstudentlist_benefits','BedRegistrar\Ajax\GetSt
 Route::get('/remove_sibling/{idno}','BedRegistrar\SiblingsBenefits@remove_siblings');
 Route::get('/remove_benefit/{idno}','BedRegistrar\SiblingsBenefits@remove_benefits');
 
+//Update explanation of OR
+Route::post('/update_explanation','Cashier\StudentLedger@update_explanation');
+
 //Accounting Student List
 Route::get('/accounting/student_list_report/{school_year}','Accounting\StudentList@student_list_report');

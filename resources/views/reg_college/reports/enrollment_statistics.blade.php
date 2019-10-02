@@ -111,10 +111,10 @@
                             @foreach ($academic_programs as $academic_program)
                             <tr>
                                 <td>{{$academic_program->program_name}}</td>
-                                <td><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
-                                <td><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
-                                <td><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
-                                <td><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
+                                <td><?php $count1 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->whereRaw('(is_audit = 0 or is_audit > 1)')->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count1)}}</td>
+                                <td><?php $count2 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->whereRaw('(is_audit = 0 or is_audit > 1)')->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count2)}}</td>
+                                <td><?php $count3 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->whereRaw('(is_audit = 0 or is_audit > 1)')->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count3)}}</td>
+                                <td><?php $count4 = \App\CollegeLevel::where('program_code', $academic_program->program_code)->whereRaw('(is_audit = 0 or is_audit > 1)')->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($count4)}}</td>
                                 <td><?php $totalcount = count($count1) + count($count2) + count($count3) + count($count4); ?>{{$totalcount}}</td>
                             </tr>
                             <?php
@@ -148,10 +148,10 @@
                             @endforeach
                             <tr>
                                 <td><div align="right">TOTAL AUDIT</div></td>
-                                <td><?php $aud1 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud1)}}</td>
-                                <td><?php $aud2 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud2)}}</td>
-                                <td><?php $aud3 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud3)}}</td>
-                                <td><?php $aud4 = \App\CollegeLevel::where('is_audit', 1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud4)}}</td>
+                                <td><?php $aud1 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud1)}}</td>
+                                <td><?php $aud2 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud2)}}</td>
+                                <td><?php $aud3 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud3)}}</td>
+                                <td><?php $aud4 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud4)}}</td>
                                 <td><?php $totalaud = count($aud1) + count($aud2) + count($aud3) + count($aud4); ?>{{$totalaud}}</td>
                             </tr>
                             <tr>
