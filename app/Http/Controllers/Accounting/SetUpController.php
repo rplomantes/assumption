@@ -53,7 +53,7 @@ class SetUpController extends Controller
             }
             
              \App\Http\Controllers\Admin\Logs::log("Print Set Up Summary PDF");
-            $pdf = PDF::loadView('accounting.print_setupsummary', compact('ledgers','tuitions','department','school_year','period'));
+            $pdf = PDF::loadView('accounting.print_setupsummary', compact('ledgers','tuitions','department','school_year','period','srfs'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("set_up_summary.pdf");
         }
@@ -83,9 +83,9 @@ class SetUpController extends Controller
             
             ob_end_clean();
             Excel::create('Set Up Summary - ' .$department, 
-                function($excel) use ($department,$school_year,$period,$ledgers,$tuitions) { $excel->setTitle($department);
-                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period,$ledgers,$tuitions) {
-                    $sheet->loadView('accounting.print_setupsummary_excel', compact('department','school_year','period','ledgers','tuitions'));
+                function($excel) use ($department,$school_year,$period,$ledgers,$tuitions,$srfs) { $excel->setTitle($department);
+                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period,$ledgers,$tuitions,$srfs) {
+                    $sheet->loadView('accounting.print_setupsummary_excel', compact('department','school_year','period','ledgers','tuitions','srfs'));
                     });
                 })->download('xlsx');
         }
