@@ -55,6 +55,20 @@
             <td align='right'>{{number_format($tuition->amount-$tuition->discount,2)}}</td>
         </tr>
         @endforeach
+        @if(count($srfs)>0)
+        @foreach($srfs as $srf)
+        <?php $amount = $amount + $srf->amount; ?>
+        <?php $discount = $discount + ($srf->discount); ?>
+        <?php $total = $total + ($srf->amount-$srf->discount); ?>
+        <tr>
+            <td>{{$srf->accounting_code}}</td>
+            <td>{{$srf->category}}</td>
+            <td align='right'>{{number_format($srf->amount,2)}}</td>
+            <td align='right'>{{number_format($srf->discount,2)}}</td>
+            <td align='right'>{{number_format($srf->amount-$srf->discount,2)}}</td>
+        </tr>
+        @endforeach
+        @endif
     </tbody>
     <tfoot>
         <tr>
