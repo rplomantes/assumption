@@ -454,6 +454,9 @@ Route::get('/bedadmission/reports/approved/{date_start}/{date_end}','AdmissionBE
 Route::get('/bedadmission/reports/regrets/{date_start}/{date_end}','AdmissionBED\reportsController@regrets');
 Route::get('/bedadmission/reports/reservations','AdmissionBED\reportsController@reservations');
 
+//PRE-REGISTRATION SETTINGS BED ADMISSION
+Route::get('/bedadmission/settings/levels','AdmissionBED\PreRegistrationSettings@view');
+Route::get('/bedadmission/settings/update_levels/{level}','AdmissionBED\PreRegistrationSettings@update');
 
 //ACCOUNTING EDIT LEDGER
 Route::get('/accounting/edit_ledger/{idno}','Accounting\EditLedger@index');
