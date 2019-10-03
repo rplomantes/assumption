@@ -166,7 +166,7 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
             $is_x = 1;
             }
         } else {
-
+            $grade = $grade->completion;
             if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
                 $grade->completion = "4.00";
                 $is_x = 1;
@@ -174,14 +174,17 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
 
             $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
             $count = $count + $grade->lec + $grade->lab;
+            $grade->completion = $grade;
         }
     } else {
+            $grade = $grade->finals;
         if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
             $grade->finals = "4.00";
                 $is_x = 1;
         }
         $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
         $count = $count + $grade->lec + $grade->lab;
+            $grade->finals = $grade;
     }
 }
 ?>
@@ -321,7 +324,7 @@ if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades
             $is_x = 1;
             }
         } else {
-
+            $grade = $pin_grades->completion;
             if ($pin_grades->completion == "FA" || $pin_grades->completion == "UD" || $pin_grades->completion == "FAILED" || $pin_grades->completion == "4.00") {
                 $pin_grades->completion = "4.00";
                 $is_x = 1;
@@ -329,14 +332,17 @@ if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades
 
             $gpa = $gpa + ($pin_grades->completion * ($pin_grades->lec + $pin_grades->lab));
             $count = $count + $pin_grades->lec + $pin_grades->lab;
+            $pin_grades->completion = $grade;
         }
     } else {
+        $grade = $pin_grades->finals;
         if ($pin_grades->finals == "FA" || $pin_grades->finals == "UD" || $pin_grades->finals == "FAILED" || $pin_grades->finals == "4.00") {
             $pin_grades->finals = "4.00";
                 $is_x = 1;
         }
         $gpa = $gpa + ($pin_grades->finals * ($pin_grades->lec + $pin_grades->lab));
         $count = $count + $pin_grades->lec + $pin_grades->lab;
+        $pin_grades->finals = $grade;
     }
 }
 ?>
@@ -467,7 +473,7 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
             $is_x = 1;
             }
         } else {
-
+            $grade = $grade->completion;
             if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
                 $grade->completion = "4.00";
                 $is_x = 1;
@@ -475,14 +481,17 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
 
             $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
             $count = $count + $grade->lec + $grade->lab;
+            $grade->completion = $grade;
         }
     } else {
+            $grade = $grade->finals;
         if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
             $grade->finals = "4.00";
                 $is_x = 1;
         }
         $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
         $count = $count + $grade->lec + $grade->lab;
+            $grade->finals = $grade;
     }
 }
 ?>
@@ -644,7 +653,7 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
             $is_x = 1;
             }
         } else {
-
+            $grade = $grade->completion;
             if ($grade->completion == "FA" || $grade->completion == "UD" || $grade->completion == "FAILED" || $grade->completion == "4.00") {
                 $grade->completion = "4.00";
                 $is_x = 1;
@@ -652,14 +661,17 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
 
             $gpa = $gpa + ($grade->completion * ($grade->lec + $grade->lab));
             $count = $count + $grade->lec + $grade->lab;
+            $grade->completion = $grade;
         }
     } else {
+            $grade = $grade->finals;
         if ($grade->finals == "FA" || $grade->finals == "UD" || $grade->finals == "FAILED" || $grade->finals == "4.00") {
             $grade->finals = "4.00";
                 $is_x = 1;
         }
         $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
         $count = $count + $grade->lec + $grade->lab;
+            $grade->finals = $grade;
     }
 }
 ?>
