@@ -147,11 +147,19 @@
                             ?>
                             @endforeach
                             <tr>
-                                <td><div align="right">TOTAL AUDIT</div></td>
-                                <td><?php $aud1 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud1)}}</td>
-                                <td><?php $aud2 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud2)}}</td>
-                                <td><?php $aud3 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud3)}}</td>
-                                <td><?php $aud4 = \App\CollegeLevel::where('is_audit',">=",1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud4)}}</td>
+                                <td><div align="right">TOTAL AUDIT(Credited)</div></td>
+                                <td><?php $auds1 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud1)}}</td>
+                                <td><?php $auds2 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud2)}}</td>
+                                <td><?php $auds3 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud3)}}</td>
+                                <td><?php $auds4 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud4)}}</td>
+                                <td><?php $totalauds = count($auds1) + count($auds2) + count($auds3) + count($auds4); ?>{{$totalauds}}</td>
+                            </tr>
+                            <tr>
+                                <td><div align="right">TOTAL AUDIT(Not Credited)</div></td>
+                                <td><?php $aud1 = \App\CollegeLevel::where('is_audit',"=",1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud1)}}</td>
+                                <td><?php $aud2 = \App\CollegeLevel::where('is_audit',"=",1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud2)}}</td>
+                                <td><?php $aud3 = \App\CollegeLevel::where('is_audit',"=",1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud3)}}</td>
+                                <td><?php $aud4 = \App\CollegeLevel::where('is_audit',"=",1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud4)}}</td>
                                 <td><?php $totalaud = count($aud1) + count($aud2) + count($aud3) + count($aud4); ?>{{$totalaud}}</td>
                             </tr>
                             <tr>
@@ -184,7 +192,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{$totalenrolled + $totalunofficial + $totalaud + $totaladvised}}</td>
+                                <td>{{$totalenrolled + $totalunofficial + $totalaud + $totalauds + $totaladvised}}</td>
                             </tr>
                         </tbody>
                     </table>

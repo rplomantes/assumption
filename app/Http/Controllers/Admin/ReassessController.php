@@ -966,8 +966,6 @@ class ReassessController extends Controller {
                 $this->Update($list->idno,"Energy Fees",4500);
                 $this->Update($list->idno,"Sports Program Fee",1500);
                 $this->Update($list->idno,"Accident Insurance",400);
-
-//                $list->is_done = 1;
                 
                 DB::table('update_sy2019_college_fees')->where('idno',$list->idno)->update(array(
                                  'is_done'=> 1,
