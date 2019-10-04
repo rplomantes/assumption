@@ -110,10 +110,10 @@
             @endforeach
             <tr>
                 <td><div align="right">TOTAL AUDIT(Credited)</div></td>
-                <td style="text-align: center;"><?php $auds1 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud1)}}</td>
-                <td style="text-align: center;"><?php $auds2 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud2)}}</td>
-                <td style="text-align: center;"><?php $auds3 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud3)}}</td>
-                <td style="text-align: center;"><?php $auds4 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($aud4)}}</td>
+                <td style="text-align: center;"><?php $auds1 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "1st Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($auds1)}}</td>
+                <td style="text-align: center;"><?php $auds2 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "2nd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($auds2)}}</td>
+                <td style="text-align: center;"><?php $auds3 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "3rd Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($auds3)}}</td>
+                <td style="text-align: center;"><?php $auds4 = \App\CollegeLevel::where('is_audit',">",1)->where('status', 3)->where('level', "4th Year")->where('school_year', $school_year)->where('period', $period)->get(); ?>{{count($auds4)}}</td>
                 <td style="text-align: center;"><?php $totalauds = count($auds1) + count($auds2) + count($auds3) + count($auds4); ?>{{$totalauds}}</td>
             </tr>
             <tr>
@@ -154,7 +154,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="text-align: center;">{{$totalenrolled + $totalunofficial + $totalaud + $totalauds + $totaladvised}}</td>
+                <td style="text-align: center;">{{$totalenrolled + $totalunofficial + $totalaud + $totaladvised}}</td>
             </tr>
         </tbody>
     </table>
