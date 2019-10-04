@@ -192,7 +192,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{$totalenrolled + $totalunofficial + $totalaud + $totalauds + $totaladvised}}</td>
+                                <td>{{$totalenrolled + $totalunofficial + $totalaud + $totaladvised}}</td>
                             </tr>
                         </tbody>
                     </table>
