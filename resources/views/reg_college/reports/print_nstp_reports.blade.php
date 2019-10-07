@@ -138,17 +138,17 @@ function getAge($dob,$condate){
     <table class='table' border="1" width="100%">
         <thead>
             <tr>
-                <th rowspan="2" align='center' width='1%'>#</th>
+                <th rowspan="1" align='center' width='1%'>#</th>
                 <!--<th rowspan="2" align='center' width='5%'>SERIAL NO.</th>-->
-                <th align='center' width='20%' colspan="3">NAME</th>
-                <th rowspan="2" align='center' width='25%'>COURSE</th>
-                <th rowspan="2" align='center' width='4%'>DATE OF BIRTH</th>
-                <th rowspan="2" align='center' width='5%'>AGE</th>
+                <th align='center' width='5%'>ID NUMBER</th>
+                <th align='center' width='20%'>STUDENT NAME</th>
+                <th align='center' width='25%'>COURSE</th>
+                <th align='center' width='5%'>ADDRESS</th>
+                <th align='center' width='4%'>DATE OF BIRTH</th>
+                <!--<th align='center' width='5%'>AGE</th>-->
+                <th align='center' width='5%'>GENDER</th>
+                <th align='center' width='5%'>TEL. NO</th>
             </tr>
-            <tr>
-                <th>FAMILY NAME</th>
-                <th>FIRST NAME</th>
-                <th>MIDDLE NAME</th>
             </tr>
         </thead>
         
@@ -160,13 +160,15 @@ function getAge($dob,$condate){
             <?php $count = $count +1?>
             <tr>
                 <td align="right">{{$count}}.</td>
-                <!--<td></td>-->
-                <td>{{strtoupper($user->lastname)}}</td>
-                <td>{{strtoupper($user->firstname)}}</td>
-                <td>{{strtoupper($user->middlename)}}</td>
+                <td>{{strtoupper($student->idno)}}</td>
+                <td>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
                 <td>{{strtoupper($info->program_name)}}</td>
+                <td align='center'>{{$info->municipality}} {{$info->province}}</td>
                 <td align='center'>{{date('m/d/Y',strtotime($info->birthdate))}}</td>
-                <td align='center'>{{getAge($info->birthdate, date('Y-m-d'))}}</td>
+                <!--<td align='center'>{{getAge($info->birthdate, date('Y-m-d'))}}</td>-->
+                <td align='center'>F</td>
+                <td align='center'>{{$info->tel_no}}</td>
+                
             </tr>
             @endforeach
         </tbody>
@@ -175,7 +177,7 @@ function getAge($dob,$condate){
                 <th rowspan="2"></th>
                 <!--<th rowspan="2">Total</th>-->
                 <th>Male:</th>
-                <th rowspan="2" colspan="5" style="border-bottom: none; border-right: none"></th>
+                <th rowspan="2" colspan="6" style="border-bottom: none; border-right: none"></th>
             </tr>
             <tr>
                 <th>Female: {{$count}}</th>
