@@ -52,7 +52,7 @@ class ViewInfoController extends Controller {
     function view_info($idno) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
             $user = \App\User::where('idno', $idno)->first();
-            $info = \App\StudentInfo::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('student_infos.idno', $idno)->join('student_info_parent_infos', 'student_info_parent_infos.idno','=','student_infos.idno')->first();
             
             $addparent = \App\StudentInfoCoursesRank::where('idno', $idno)->first();
             if (count($addparent) == 0) {
@@ -145,6 +145,12 @@ class ViewInfoController extends Controller {
             $addparent = \App\StudentInfoSchoolRank::where('idno', $idno)->first();
             if (count($addparent) == 0) {
                 $addpar = new \App\StudentInfoSchoolRank;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\StudentInfoParentInfo::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoParentInfo;
                 $addpar->idno = $idno;
                 $addpar->save();
             }
@@ -736,6 +742,39 @@ class ViewInfoController extends Controller {
         $updaterank->address=$request->emer_address;
         $updaterank->business_phone=$request->emer_business_phone;
         $updaterank->mobile=$request->emer_mobile;
+        $updaterank->save();
+    }
+
+    function updateParentInfo($request) {
+        $updaterank = \App\StudentInfoParentInfo::where('idno', $request->idno)->first();
+        
+        $updaterank->g_personal_address = $request->g_personal_address;
+        $updaterank->g_email = $request->g_email;
+        $updaterank->g_personal_phone = $request->g_personal_phone;
+        $updaterank->g_attainment = $request->g_attainment;
+        $updaterank->g_citizenship = $request->g_citizenship;
+        $updaterank->g_company_name = $request->g_company_name;
+
+        $updaterank->f_personal_address = $request->f_personal_address;
+        $updaterank->f_email = $request->f_email;
+        $updaterank->f_personal_phone = $request->f_personal_phone;
+        $updaterank->f_attainment = $request->f_attainment;
+        $updaterank->f_citizenship = $request->f_citizenship;
+        $updaterank->f_company_name = $request->f_company_name;
+
+        $updaterank->m_personal_address = $request->m_personal_address;
+        $updaterank->m_email = $request->m_email;
+        $updaterank->m_personal_phone = $request->m_personal_phone;
+        $updaterank->m_attainment = $request->m_attainment;
+        $updaterank->m_citizenship = $request->m_citizenship;
+        $updaterank->m_company_name = $request->m_company_name;
+
+        $updaterank->s_personal_address = $request->s_personal_address;
+        $updaterank->s_email = $request->s_email;
+        $updaterank->s_personal_phone = $request->s_personal_phone;
+        $updaterank->s_attainment = $request->s_attainment;
+        $updaterank->s_citizenship = $request->s_citizenship;
+        $updaterank->s_company_name = $request->s_company_name;
         $updaterank->save();
     }
 

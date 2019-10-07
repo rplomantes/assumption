@@ -419,6 +419,9 @@ Route::get('/scholarship_college/print_scholarship/{idno}', 'ScholarshipCollege\
 Route::get('/scholarship_college/view_scholar/{idno}', 'ScholarshipCollege\ViewScholarship@index');
 Route::post('/scholarship_college/update_scholar', 'ScholarshipCollege\ViewScholarship@update_now');
 Route::get('/scholarship_college/view_schedule/{idno}', 'ScholarshipCollege\ViewScholarship@view_schedule');
+//Report
+Route::get('/scholarship_college/report/list_of_scholars/{school_year}/{period}', 'ScholarshipCollege\ScholarshipReport@list_of_scholars');
+Route::get('/scholarship_college/report/print_list_of_scholars/{school_year}/{period}', 'ScholarshipCollege\ScholarshipReport@print_list_of_scholars');
 
 //Accounting Reports SetUp./////////////////////////////////////////////////////
 Route::get('/accounting/set_up_summary','Accounting\SetUpController@set_up_summary');

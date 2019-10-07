@@ -257,9 +257,10 @@ $layout = "layouts.appreg_college";
                         <div class="col-sm-3">
                             <label>Local/Foreigner</label>
                             <select class="form form-control" name='is_foreign' value="{{old('is_alien')}}" type="text">
-                                <option value="">Select Local/Foreign</option>
-                                <option value="0" @if ($user->is_foreign == 0) selected='' @endif>Local</option>
+                                <option value="">Select Filipino/Foreign</option>
+                                <option value="0" @if ($user->is_foreign == 0) selected='' @endif>Filipino</option>
                                 <option value="1" @if ($user->is_foreign == 1) selected='' @endif >Foreign</option>
+                                <option value="2" @if ($user->is_foreign == 2) selected='' @endif >Dual Citizen</option>
                             </select>
                         </div>
                     </div>
@@ -320,15 +321,41 @@ $layout = "layouts.appreg_college";
                         </div>
                     </div>
                     <div class='form-group'>
-                        <div class="col-sm-4">
-                            <label>Occupation</label>
+                        <div class="col-sm-3">
+                            <label>Address</label>
+                            <input class="form form-control" name='f_personal_address' value="{{old('f_personal_address',$info->f_personal_address)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Email</label>
+                            <input class="form form-control" name='f_email' value="{{old('f_email',$info->f_email)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Tel. No./Mobile No.</label>
+                            <input class="form form-control" name='f_personal_phone' value="{{old('f_personal_phone',$info->f_personal_phone)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Citizenship</label>
+                            <input class="form form-control" name='f_citizenship' value="{{old('f_citizenship',$info->f_citizenship)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Highest Education Attainment</label>
+                            <input class="form form-control" name='f_attainment' value="{{old('f_attainment',$info->f_attainment)}}" type="text">
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class="col-sm-3">
+                            <label>Company Name</label>
+                            <input class="form form-control" name='f_company_name' value="{{old('f_company_name',$info->f_company_name)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                <label>Occupation</label>
                             <input class="form form-control" name='f_occupation' value="{{old('f_occupation',$info->f_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
                             <input class="form form-control" name='f_phone' value="{{old('f_phone',$info->f_phone)}}" type="text">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label>Business Address</label>
                             <input class="form form-control" name='f_address' value="{{old('f_address',$info->f_address)}}" type="text">
                         </div>
@@ -347,15 +374,41 @@ $layout = "layouts.appreg_college";
                         </div>
                     </div>
                     <div class='form-group'>
-                        <div class="col-sm-4">
-                            <label>Occupation</label>
+                        <div class="col-sm-3">
+                            <label>Address</label>
+                            <input class="form form-control" name='m_personal_address' value="{{old('m_personal_address',$info->m_personal_address)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Email</label>
+                            <input class="form form-control" name='m_email' value="{{old('m_email',$info->m_email)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Tel. No./Mobile No.</label>
+                            <input class="form form-control" name='m_personal_phone' value="{{old('m_personal_phone',$info->m_personal_phone)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Citizenship</label>
+                            <input class="form form-control" name='m_citizenship' value="{{old('m_citizenship',$info->m_citizenship)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Highest Education Attainment</label>
+                            <input class="form form-control" name='m_attainment' value="{{old('m_attainment',$info->m_attainment)}}" type="text">
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class="col-sm-3">
+                            <label>Company Name</label>
+                            <input class="form form-control" name='m_company_name' value="{{old('m_company_name',$info->m_company_name)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                <label>Occupation</label>
                             <input class="form form-control" name='m_occupation' value="{{old('m_occupation',$info->m_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
                             <input class="form form-control" name='m_phone' value="{{old('m_phone',$info->m_phone)}}" type="text">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label>Business Address</label>
                             <input class="form form-control" name='m_address' value="{{old('m_address',$info->m_address)}}" type="text">
                         </div>
@@ -374,15 +427,41 @@ $layout = "layouts.appreg_college";
                         </div>
                     </div>
                     <div class='form-group'>
-                        <div class="col-sm-4">
-                            <label>Occupation</label>
+                        <div class="col-sm-3">
+                            <label>Address</label>
+                            <input class="form form-control" name='g_personal_address' value="{{old('g_personal_address',$info->g_personal_address)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Email</label>
+                            <input class="form form-control" name='g_email' value="{{old('g_email',$info->g_email)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Tel. No./Mobile No.</label>
+                            <input class="form form-control" name='g_personal_phone' value="{{old('g_personal_phone',$info->g_personal_phone)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Citizenship</label>
+                            <input class="form form-control" name='g_citizenship' value="{{old('g_citizenship',$info->g_citizenship)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Highest Education Attainment</label>
+                            <input class="form form-control" name='g_attainment' value="{{old('g_attainment',$info->g_attainment)}}" type="text">
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class="col-sm-3">
+                            <label>Company Name</label>
+                            <input class="form form-control" name='g_company_name' value="{{old('g_company_name',$info->g_company_name)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                <label>Occupation</label>
                             <input class="form form-control" name='g_occupation' value="{{old('g_occupation',$info->g_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
                             <input class="form form-control" name='g_phone' value="{{old('g_phone',$info->g_phone)}}" type="text">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label>Business Address</label>
                             <input class="form form-control" name='g_address' value="{{old('g_address',$info->g_address)}}" type="text">
                         </div>
@@ -403,15 +482,41 @@ $layout = "layouts.appreg_college";
                         </div>
                     </div>
                     <div class='form-group'>
-                        <div class="col-sm-4">
-                            <label>Occupation</label>
+                        <div class="col-sm-3">
+                            <label>Address</label>
+                            <input class="form form-control" name='s_personal_address' value="{{old('s_personal_address',$info->s_personal_address)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Email</label>
+                            <input class="form form-control" name='s_email' value="{{old('s_email',$info->s_email)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Tel. No./Mobile No.</label>
+                            <input class="form form-control" name='s_personal_phone' value="{{old('s_personal_phone',$info->s_personal_phone)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Citizenship</label>
+                            <input class="form form-control" name='s_citizenship' value="{{old('s_citizenship',$info->s_citizenship)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Highest Education Attainment</label>
+                            <input class="form form-control" name='s_attainment' value="{{old('s_attainment',$info->s_attainment)}}" type="text">
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class="col-sm-3">
+                            <label>Company Name</label>
+                            <input class="form form-control" name='s_company_name' value="{{old('s_company_name',$info->s_company_name)}}" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                <label>Occupation</label>
                             <input class="form form-control" name='s_occupation' value="{{old('s_occupation',$info->s_occupation)}}" type="text">
                         </div>
                         <div class="col-sm-2">
                             <label>Business Phone</label>
                             <input class="form form-control" name='s_phone' value="{{old('s_phone',$info->s_phone)}}" type="text">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label>Business Address</label>
                             <input class="form form-control" name='s_address' value="{{old('s_address',$info->s_address)}}" type="text">
                         </div>
@@ -700,7 +805,7 @@ $layout = "layouts.appreg_college";
                             <input class="form form-control" name='gradeschool_year' value="{{old('gradeschool_year',$info->gradeschool_year)}}" type="text">
                         </div>
                     </div>
-                    <label>High School</label>
+                    <label>Junior High School</label>
                     <div class='form-group'>
                         <div class="col-sm-7">
                             <label>School</label>
@@ -731,7 +836,7 @@ $layout = "layouts.appreg_college";
                         </div>
                     </div>
                     <hr>
-                    <label style="background-color: gray">FOR TRANSFER APPLICANTS:</label><br>
+                    <label style="background-color: gray">FOR TRANSFEREES:</label> &nbsp;If you were at any one time enrolled in a certificate or degree course, please fill up this segment.<br>
                     <label>Have you ever applied at the Assumption College in the past?</label>
                     <div class='form-group'>
                         <div class="col-sm-6">
@@ -1082,7 +1187,7 @@ $layout = "layouts.appreg_college";
                     </div>
                     <hr>
                     <label style="background-color: gray">DISCIPLINARY RECORD</label><br>
-                    <label>Did you ever have to repeat a year in high school?</label>
+                    <label>Were you ever placed on probation, suspension, or expelled from school?</label> &nbsp; (Transferees must include undergraduate courses.)
                     <?php $i = 0; ?>
                     <div  id="dynamic_field_suspensions">
                         <!--div class="top-row"-->
