@@ -1,11 +1,6 @@
 <?php
-if(Auth::user()->accesslevel == env('ADMISSION_BED')){
-$layout = "layouts.appadmission-bed";
-} else {
-$layout = "layouts.appadmission-shs";
-}
+$layout = "layouts.appadmission-hed";
 ?>
-
 @extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
@@ -45,7 +40,7 @@ $layout = "layouts.appadmission-shs";
 @section('header')
 <section class="content-header">
     <h1>
-        Level Settings
+        Program Settings
         <small></small>
     </h1>
     <ol class="breadcrumb">
@@ -55,26 +50,28 @@ $layout = "layouts.appadmission-shs";
 </section>
 @endsection
 @section('maincontent')
-<div class="col-md-6">  
+<div class="col-md-10">  
     <div class="box">
         <div class="box-header">
-            <div class="box-title">Open/Close Levels</div>
+            <div class="box-title">Open/Close Programs</div>
         </div>
         <div class="box-body">
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th>Levels</th>
+                        <th>Program Code</th>
+                        <th>Program Name</th>
                         <th>Open/Close</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($levels as $level)
+                    @foreach ($programs as $level)
                     <tr>
-                        <td>{{$level->level}}</td>
+                        <td>{{$level->program_code}}</td>
+                        <td>{{$level->program_name}}</td>
                         <td>@if($level->is_on == 1) Open @else <b style='color: red'>Close</b> @endif</td>
-                        <td><a href='{{url('/bedadmission',array('settings','update_levels',$level->level))}}'>Change Status</a></td>
+                        <td><a href='{{url('/admissions',array('settings','update_programs',$level->program_code))}}'>Change Status</a></td>
                     </tr>
                     @endforeach
                 </tbody>

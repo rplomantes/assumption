@@ -461,6 +461,10 @@ Route::get('/bedadmission/reports/reservations','AdmissionBED\reportsController@
 Route::get('/bedadmission/settings/levels','AdmissionBED\PreRegistrationSettings@view');
 Route::get('/bedadmission/settings/update_levels/{level}','AdmissionBED\PreRegistrationSettings@update');
 
+//PRE-REGISTRATION SETTINGS COLLEGE
+Route::get('/admissions/settings/programs','AdmissionHED\PreRegistrationSettings@view');
+Route::get('/admissions/settings/update_programs/{program_code}','AdmissionHED\PreRegistrationSettings@update');
+
 //ACCOUNTING EDIT LEDGER
 Route::get('/accounting/edit_ledger/{idno}','Accounting\EditLedger@index');
 Route::post('/accounting/edit_ledger_now','Accounting\EditLedger@update_ledger');

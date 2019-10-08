@@ -51,6 +51,7 @@ class NstpReportsController extends Controller {
             } else {
 
                 ob_end_clean();
+                ob_start();
                 Excel::create('NSTP-REPORT', function($excel) use ($programs, $request, $students) {
                     $excel->setTitle("NSTP Report");
                     $excel->sheet("NSTP Report", function ($sheet) use ($programs, $request, $students) {

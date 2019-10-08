@@ -117,10 +117,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </ul>
                         </li>
                         <li><a href="{{url('registrar_college', array('reports','student_list', 'search'))}}"><i class="fa fa-bar-chart"></i> <span>Enrollment Reports</span></a></li>
-                                <?php 
-                                $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
-                                $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
-                                ?>                        
+                        <?php
+                        $school_year = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->school_year;
+                        $period = \App\CtrGradeSchoolYear::where('academic_type', 'College')->first()->period;
+                        ?>                        
                         <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><i class="fa fa-circle-o"></i> <span>Enrollment Statistics</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-bar-chart"></i> <span>Reports</span>   
@@ -131,6 +131,16 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/admissions',array('reports','pre_registered',date('Y-m-d'),date('Y-m-d')))}}">Pre-Registered </a></li>
                                 <li><a href="{{url('/admissions',array('reservation_list'))}}"><span>Reservations</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-gears"></i> <span>Pre-Application Settings</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/admissions',array('settings','programs'))}}">Program to Offer</a></li>
                             </ul>
                         </li>
                 </section>
@@ -163,15 +173,15 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
         <script src="{{ asset ('dist/js/adminlte.min.js')}}"></script>
         <script src="{{ asset ('bower_components/PACE/pace.min.js')}}"></script>
         <script>
-           $(document).ajaxStart(function () {
-               Pace.restart()
-           })
+                                                   $(document).ajaxStart(function () {
+                                                       Pace.restart()
+                                                   })
         </script>
         <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
         <script>
-           $(function () {
-               $('.select2').select2();
-           });
+                                                   $(function () {
+                                                       $('.select2').select2();
+                                                   });
         </script>
         <script src="{{asset('bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
         @yield('footerscript')

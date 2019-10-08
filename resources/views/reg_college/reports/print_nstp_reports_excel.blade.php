@@ -11,12 +11,12 @@ function getAge($dob, $condate) {
         <tr>
             <th rowspan="1" align='center' width='1%'>#</th>
             <th align='center' width='5%'>ID NUMBER</th>
-            <th align='center' width='20%'>STUDENT NAME</th>
-            <th align='center' width='20%'>COURSE</th>
+            <th align='center' width='15%'>STUDENT NAME</th>
+            <th align='center' width='25%'>COURSE</th>
             <th align='center' width='25%'>ADDRESS</th>
             <th align='center' width='4%'>DATE OF BIRTH</th>
-            <th align='center' width='5%'>GENDER</th>
-            <th align='center' width='5%'>TEL. NO</th>
+            <th align='center' width='4%'>GENDER</th>
+            <th align='center' width='4%'>TEL. NO</th>
         </tr>
         </tr>
         <?php $count = 0; ?>
