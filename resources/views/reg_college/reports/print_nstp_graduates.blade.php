@@ -93,8 +93,6 @@ function getAge($dob,$condate){
                 
             </tr>
             @endforeach
-        </tbody>
-        <tfoot>
             <tr>
                 <th rowspan="2"></th>
                 <th rowspan="2">Total</th>
@@ -104,7 +102,7 @@ function getAge($dob,$condate){
             <tr>
                 <th>Female: {{$count}}</th>
             </tr>
-        </tfoot>
+        </tbody>
     </table>
     <br>
     <table width="100%">
