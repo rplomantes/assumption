@@ -8,7 +8,6 @@ function getAge($dob, $condate) {
 }
 ?>
 <table>
-    <thead>
         <tr>
             <th rowspan="1" align='center' width='1%'>#</th>
             <th align='center' width='5%'>ID NUMBER</th>
@@ -20,9 +19,6 @@ function getAge($dob, $condate) {
             <th align='center' width='5%'>TEL. NO</th>
         </tr>
         </tr>
-    </thead>
-
-    <tbody>
         <?php $count = 0; ?>
         @foreach($students as $student)
         <?php $user = \App\User::where('idno', $student->idno)->first(); ?>
@@ -41,8 +37,6 @@ function getAge($dob, $condate) {
 
         </tr>
         @endforeach
-    </tbody>
-    <tfoot>
         <tr>
             <th rowspan="2"></th>
             <!--<th rowspan="2">Total</th>-->
@@ -52,5 +46,4 @@ function getAge($dob, $condate) {
         <tr>
             <th>Female: {{$count}}</th>
         </tr>
-    </tfoot>
 </table>  
