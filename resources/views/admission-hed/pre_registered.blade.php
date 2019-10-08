@@ -157,7 +157,7 @@ $(document).ready(function () {
                 $('#date_from').val(from);
             });
     $("#view-button").on('click', function (e) {
-        document.location = "{{url('/bedadmission',array('reports'))}}" + "/pre_registered/" + $("#date_from").val() + "/" + $("#date_to").val();
+        document.location = "{{url('/admissions',array('reports'))}}" + "/pre_registered/" + $("#date_from").val() + "/" + $("#date_to").val();
     });
 
 });
