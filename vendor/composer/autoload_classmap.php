@@ -303,6 +303,7 @@ return array(
     'App\\StudentInfoHonor' => $baseDir . '/app/StudentInfoHonor.php',
     'App\\StudentInfoIntend' => $baseDir . '/app/StudentInfoIntend.php',
     'App\\StudentInfoParentInfo' => $baseDir . '/app/StudentInfoParentInfo.php',
+    'App\\StudentInfoPregnant' => $baseDir . '/app/StudentInfoPregnant.php',
     'App\\StudentInfoRepeat' => $baseDir . '/app/StudentInfoRepeat.php',
     'App\\StudentInfoSchoolRank' => $baseDir . '/app/StudentInfoSchoolRank.php',
     'App\\StudentInfoSibling' => $baseDir . '/app/StudentInfoSibling.php',

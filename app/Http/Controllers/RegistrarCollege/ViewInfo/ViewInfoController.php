@@ -160,6 +160,12 @@ class ViewInfoController extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
+            $addparent = \App\StudentInfoPregnant::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoPregnant;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
             
             return view('reg_college.view_info.view', compact('idno', 'user', 'info'));
         }
@@ -196,6 +202,7 @@ class ViewInfoController extends Controller {
             $this->updateRanks($request);
             $this->updateCourseRanks($request);
             $this->updateEmergency($request);
+            $this->updatePregnant($request);
             
             $this->updateEducBackground($request);
             $this->updateUser($request);
@@ -250,6 +257,10 @@ class ViewInfoController extends Controller {
         $updateEducbackground->last_school_attended = $request->last_school_attended;
         $updateEducbackground->last_school_address = $request->last_school_address;
         $updateEducbackground->last_school_year = $request->last_school_year;
+        $updateEducbackground->dean = $request->dean;
+        $updateEducbackground->guidance_counselor = $request->guidance_counselor;
+        $updateEducbackground->last_school_address = $request->last_school_address;
+        $updateEducbackground->are_you_candidate = $request->are_you_candidate;
         $updateEducbackground->save();
     }
     
@@ -781,6 +792,13 @@ class ViewInfoController extends Controller {
         $updaterank->s_attainment = $request->s_attainment;
         $updaterank->s_citizenship = $request->s_citizenship;
         $updaterank->s_company_name = $request->s_company_name;
+        $updaterank->save();
+    }
+    
+    function updatePregnant($request){
+        $updaterank = \App\StudentInfoPregnant::where('idno', $request->idno)->first();
+        $updaterank->ever_pregnant=$request->ever_pregnant;
+        $updaterank->pregnant_now=$request->pregnant_now;
         $updaterank->save();
     }
 

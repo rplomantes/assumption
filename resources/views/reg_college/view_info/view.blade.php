@@ -681,6 +681,26 @@ $layout = "layouts.appreg_college";
                         </div>
                         @endif
                     </div>
+                    
+                    <?php $pregnant = \App\StudentInfoPregnant::where('idno', $idno)->first() ?>
+                    <div class='form-group'>
+                        <div class="col-sm-6">
+                            <label>Have you ever been pregnant?</label>
+                            <select class="form form-control" name='ever_pregnant' value="{{old('ever_pregnant')}}" type="text">
+                                <option value="3" @if ($pregnant->ever_pregnant == 3) selected='' @endif></option>
+                                <option value="0" @if ($pregnant->ever_pregnant == 0) selected='' @endif>No</option>
+                                <option value="1" @if ($pregnant->ever_pregnant == 1) selected='' @endif >Yes</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Are you pregnant now?</label>
+                            <select class="form form-control" name='pregnant_now' value="{{old('pregnant_now')}}" type="text">
+                                <option value="3" @if ($pregnant->pregnant_now == 3) selected='' @endif></option>
+                                <option value="0" @if ($pregnant->pregnant_now == 2) selected='' @endif>No</option>
+                                <option value="1" @if ($pregnant->pregnant_now == 1) selected='' @endif >Yes</option>
+                            </select>
+                        </div>
+                    </div>
 
 
                     <label>Do you have children?</label>
@@ -772,6 +792,20 @@ $layout = "layouts.appreg_college";
                         <div class="col-sm-2">
                             <label>Year</label>
                             <input class="form form-control" name='last_school_year' value="{{old('last_school_year',$info->last_school_year)}}" type="text">
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class="col-sm-5">
+                            <label>Principal/College Dean</label>
+                            <input class="form form-control" name='dean' value="{{old('dean',$info->dean)}}" type="text">
+                        </div>
+                        <div class="col-sm-5">
+                            <label>Guidance Counselor</label>
+                            <input class="form form-control" name='guidance_counselor' value="{{old('guidance_counselor',$info->guidance_counselor)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>School Tel. Number</label>
+                            <input class="form form-control" name='last_school_number' value="{{old('last_school_number',$info->last_school_address)}}" type="text">
                         </div>
                     </div>
                     <hr>
@@ -987,6 +1021,12 @@ $layout = "layouts.appreg_college";
                             </div>
                         </div>
                         @endif
+                    </div>
+                    <div class='form-group'>
+                        <div class="col-sm-12">
+                            <label>Are you a candidate for Class Valedictorian, Salutatorian, or Honorable Mentions? If Yes, please specify.</label>
+                            <input class="form form-control" name='are_you_candidate' value="{{old('are_you_candidate',$info->are_you_candidate)}}" type="text">
+                        </div>
                     </div>
 
                     <hr>

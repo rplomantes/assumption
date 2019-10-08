@@ -731,6 +731,7 @@ class ComposerStaticInitb94a6eeba9f6c8d9ff85776e32d870b2
         'App\\StudentInfoHonor' => __DIR__ . '/../..' . '/app/StudentInfoHonor.php',
         'App\\StudentInfoIntend' => __DIR__ . '/../..' . '/app/StudentInfoIntend.php',
         'App\\StudentInfoParentInfo' => __DIR__ . '/../..' . '/app/StudentInfoParentInfo.php',
+        'App\\StudentInfoPregnant' => __DIR__ . '/../..' . '/app/StudentInfoPregnant.php',
         'App\\StudentInfoRepeat' => __DIR__ . '/../..' . '/app/StudentInfoRepeat.php',
         'App\\StudentInfoSchoolRank' => __DIR__ . '/../..' . '/app/StudentInfoSchoolRank.php',
         'App\\StudentInfoSibling' => __DIR__ . '/../..' . '/app/StudentInfoSibling.php',
