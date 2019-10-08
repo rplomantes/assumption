@@ -148,6 +148,12 @@ class ViewInfoController extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
+            $addparent = \App\StudentInfoEmergency::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\StudentInfoEmergency;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
             $addparent = \App\StudentInfoParentInfo::where('idno', $idno)->first();
             if (count($addparent) == 0) {
                 $addpar = new \App\StudentInfoParentInfo;
