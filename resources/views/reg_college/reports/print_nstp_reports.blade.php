@@ -149,9 +149,7 @@ function getAge($dob,$condate){
                 <th align='center' width='5%'>GENDER</th>
                 <th align='center' width='5%'>TEL. NO</th>
             </tr>
-            </tr>
         </thead>
-        
         <tbody>
             <?php $count = 0;?>
             @foreach($students as $student)
@@ -171,8 +169,6 @@ function getAge($dob,$condate){
                 
             </tr>
             @endforeach
-        </tbody>
-        <tfoot>
             <tr>
                 <th rowspan="2"></th>
                 <!--<th rowspan="2">Total</th>-->
@@ -182,7 +178,7 @@ function getAge($dob,$condate){
             <tr>
                 <th>Female: {{$count}}</th>
             </tr>
-        </tfoot>
+        </tbody>
     </table>
     <br>
     <table width="100%">
