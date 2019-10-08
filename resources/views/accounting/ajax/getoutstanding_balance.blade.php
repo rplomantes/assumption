@@ -1,9 +1,4 @@
 <style>
-
-    body {
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 10pt;
-    }
     td{
         padding:2px;
     }
@@ -18,7 +13,7 @@
 <?php $total = 0;
 $total_tf = 0;$total_of = 0;$total_su = 0;
 $x = 0 ?>
-<table width='100%' cellpadding='0' cellspacing='0'>
+<table width='100%' cellpadding='0' cellspacing='0' style=" font-family: Arial, Helvetica Neue, Helvetica, sans-serif;font-size: 10pt;">
     @foreach($heads as $head)
     <?php $x = 0;?>
     <?php $subtotal = 0; ?>

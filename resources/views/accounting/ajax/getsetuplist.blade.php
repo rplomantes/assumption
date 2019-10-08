@@ -1,9 +1,4 @@
 <style>
-
-    body {
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 10pt;
-    }
     td{
         padding:2px;
     }
@@ -21,7 +16,7 @@
 @if(count($lists)>0)
 <?php $total = 0; $discount = 0;
 $x = 0 ?>
-<table width='100%' cellpadding='0' cellspacing='0'>
+<table width='100%' cellpadding='0' cellspacing='0' style=" font-family: Arial, Helvetica Neue, Helvetica, sans-serif;font-size: 10pt;">
     @foreach($heads as $head)
     <?php $x = 0;?>
     <thead>

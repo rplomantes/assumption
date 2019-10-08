@@ -1,9 +1,4 @@
 <style>
-    
-        body {
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-            font-size: 10pt;
-        }
         td{
             padding:2px;
         }
@@ -19,7 +14,7 @@
     </br>
 @if(count($lists)>0)
 <?php $total=0; $x = 0?>
-<table width='100%' cellpadding='0' cellspacing='0'>
+<table width='100%' cellpadding='0' cellspacing='0'style=" font-family: Arial, Helvetica Neue, Helvetica, sans-serif;font-size: 10pt;">
     <thead>
         <tr>
             <th style='border-bottom: 1px solid black'></th>

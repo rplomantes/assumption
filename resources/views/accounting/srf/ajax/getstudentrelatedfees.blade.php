@@ -1,9 +1,4 @@
 <style>
-
-    body {
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 10pt;
-    }
     td{
         padding:2px;
     }
@@ -21,15 +16,20 @@
 @foreach($levels as $value)
 <?php
 $x = 0;
-$ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $department)->where('school_year', $school_year)->where('period', $period)
+$ledgers = \App\Ledger::groupBy(array('ledgers.strand'))->where('ledgers.department', $department)->where('ledgers.school_year', $school_year)->where('ledgers.period', $period)
+        ->join('bed_levels', 'bed_levels.idno','=','ledgers.idno')
+        ->where('bed_levels.school_year', $school_year)
+        ->where('bed_levels.period', $period)
+        ->where('bed_levels.department', $department)
+        ->whereRaw("(bed_levels.status = '3' or bed_levels.status = '4')")
         ->where(function ($query){
                         $query->where('category_switch', env('SRF_FEE'))
                               ->orWhere('category_switch', env('SRF_FEE')+10);
                     })
         ->where('category', 'SRF')
-                ->selectRaw('strand,sum(amount) as amount')->where('level', $value)->get();
+                ->selectRaw('ledgers.strand,sum(amount) as amount')->where('ledgers.level', $value)->get();
 ?>
-<table width='30%' cellpadding='0' cellspacing='0'>
+<table width='30%' cellpadding='0' cellspacing='0'style=" font-family: Arial, Helvetica Neue, Helvetica, sans-serif;font-size: 10pt;">
     <thead>
         <tr><td colspan="2"><h4>{{$value}}</h4></td></tr>
         <tr>
@@ -49,16 +49,16 @@ $ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $departmen
         <tr>
             <td>{{$x}}</td>
             <td>{{$ledger->strand}}</td>
-            <td align="right">{{number_format($ledger->amount)}}</td>
+            <td align="right">{{number_format($ledger->amount,2)}}</td>
         </tr>
         @endforeach
-        <tr><td align="right" colspan="2">SUB TOTAL</td><td align="right"><strong>{{number_format($sub_total)}}</strong></td></tr>
+        <tr><td align="right" colspan="2">SUB TOTAL</td><td align="right"><strong>{{number_format($sub_total,2)}}</strong></td></tr>
     </tbody>
     @endforeach
     <tfoot>
         <tr>
             <th colspan="2" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total)}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
         </tr>
     </tfoot>
 </table>
@@ -68,23 +68,6 @@ $ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $departmen
 @foreach($groups as $group)
 <?php
 $x = 0;
-//if ($group == "Laboratory Fee") {
-//    $ledgers = \App\Ledger::
-//            groupBy(array('subsidiary'))
-//            ->where('school_year', $school_year)
-//            ->where('period', $period)
-//            ->where(function ($query){
-//                        $query->where('category_switch', env('SRF_FEE'))
-//                              ->orWhere('category_switch', env('SRF_FEE')+10);
-//                    })
-//            ->where('category', 'SRF')
-//            ->where('subsidiary', 'like', '%Lab Fee%')
-//                ->selectRaw('subsidiary,sum(amount) as amount')
-//            ->where('amount', '>', 0)
-//            ->orderBy('subsidiary', 'asc')
-//            ->orderBy('amount', 'asc')
-//            ->get();
-//} else {
     $ledgers = \App\Ledger::
             groupBy(array('subsidiary'))
             ->where('srf_group', $group)
@@ -95,16 +78,14 @@ $x = 0;
                               ->orWhere('category_switch', env('SRF_FEE')+10);
                     })
             ->where('category', 'SRF')
-//            ->where('subsidiary', 'not like', '%Lab Fee%')
             ->selectRaw('subsidiary,sum(amount) as amount')
                 ->where('srf_group', $group)
             ->where('amount', '>', 0)
             ->orderBy('subsidiary', 'asc')
             ->orderBy('amount', 'asc')
             ->get();
-//}
 ?>
-<table width='70%' cellpadding='0' cellspacing='0'>
+<table width='70%' cellpadding='0' cellspacing='0'style=" font-family: Arial, Helvetica Neue, Helvetica, sans-serif;font-size: 10pt;">
     <thead>
         <tr><td colspan="2"><h4>{{$group}}</h4></td></tr>
         <tr>
@@ -136,16 +117,16 @@ $x = 0;
         <tr>
             <td>{{$x}}.</td>
             <td>{{$ledger->subsidiary}}&nbsp;{{$course_name}}</td>
-            <td align="right">{{number_format($ledger->amount)}}</td>
+            <td align="right">{{number_format($ledger->amount,2)}}</td>
         </tr>
         @endforeach
-        <tr><td align="right" colspan="2">SUB TOTAL</td><td align="right"><strong>{{number_format($sub_total)}}</strong></td></tr>
+        <tr><td align="right" colspan="2">SUB TOTAL</td><td align="right"><strong>{{number_format($sub_total,2)}}</strong></td></tr>
     </tbody>
     @endforeach
     <tfoot>
         <tr>
             <th colspan="2" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
-            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total)}}</strong></td>
+            <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
         </tr>
     </tfoot>
 </table>

@@ -21,13 +21,18 @@
 @foreach($levels as $value)
 <?php
 $x = 0;
-$ledgers = \App\Ledger::groupBy(array('strand'))->where('department', $department)->where('school_year', $school_year)->where('period', $period)
+$ledgers = \App\Ledger::groupBy(array('ledgers.strand'))->where('ledgers.department', $department)->where('ledgers.school_year', $school_year)->where('ledgers.period', $period)
+        ->join('bed_levels', 'bed_levels.idno','=','ledgers.idno')
+        ->where('bed_levels.school_year', $school_year)
+        ->where('bed_levels.period', $period)
+        ->where('bed_levels.department', $department)
+        ->whereRaw("(bed_levels.status = '3' or bed_levels.status = '4')")
         ->where(function ($query){
                         $query->where('category_switch', env('SRF_FEE'))
                               ->orWhere('category_switch', env('SRF_FEE')+10);
                     })
         ->where('category', 'SRF')
-                ->selectRaw('strand,sum(amount) as amount')->where('level', $value)->get();
+                ->selectRaw('ledgers.strand,sum(amount) as amount')->where('ledgers.level', $value)->get();
 ?>
 <table width='30%' cellpadding='0' cellspacing='0'>
     <thead>

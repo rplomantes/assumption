@@ -163,7 +163,7 @@ function getAge($dob,$condate){
                 <td>{{strtoupper($student->idno)}}</td>
                 <td>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
                 <td>{{strtoupper($info->program_name)}}</td>
-                <td align='center'>{{$info->municipality}} {{$info->province}}</td>
+                <td align='center'>{{$info->street}} {{$info->barangay}} {{$info->municipality}} {{$info->province}}</td>
                 <td align='center'>{{date('m/d/Y',strtotime($info->birthdate))}}</td>
                 <!--<td align='center'>{{getAge($info->birthdate, date('Y-m-d'))}}</td>-->
                 <td align='center'>F</td>
