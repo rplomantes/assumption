@@ -115,7 +115,7 @@ function check($val) {
             </tr>
             <tr>
                 <td colspan="3" class="border-right">{{check($info->passport)}}</td>
-                <td colspan="2" class="border-right">{{check($info->passport_exp_date)}}</td>
+                <td colspan="2" class="border-right">{{check($info->pass_exp_date)}}</td>
                 <td colspan="3" class="border-right">{{check($info->passport_place_issued)}}</td>
             </tr>
             <tr>

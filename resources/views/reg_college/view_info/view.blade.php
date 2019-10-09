@@ -805,7 +805,7 @@ $layout = "layouts.appreg_college";
                         </div>
                         <div class="col-sm-2">
                             <label>School Tel. Number</label>
-                            <input class="form form-control" name='last_school_number' value="{{old('last_school_number',$info->last_school_address)}}" type="text">
+                            <input class="form form-control" name='last_school_number' value="{{old('last_school_number',$info->last_school_number)}}" type="text">
                         </div>
                     </div>
                     <hr>
@@ -1632,7 +1632,8 @@ $layout = "layouts.appreg_college";
                 </div>
             </div>
         </div>
-        <input type="submit" value='Save' class='form-control btn btn-success'>
+        <input type="submit" value='Save' class='form-control btn btn-success'><br><br>
+        <a target="_blank" href="{{url('/registrar_college',array('print_info', $user->idno))}}"><button type="button" class="btn btn-primary">Print Student Infromation</button></a>
     </div>
 </form>
 
