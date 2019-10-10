@@ -52,7 +52,6 @@ class ViewInfoController extends Controller {
     function view_info($idno) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('ADMISSION_HED')) {
             $user = \App\User::where('idno', $idno)->first();
-            $info = \App\StudentInfo::where('student_infos.idno', $idno)->join('student_info_parent_infos', 'student_info_parent_infos.idno', '=', 'student_infos.idno')->first();
 
             $addparent = \App\StudentInfoCoursesRank::where('idno', $idno)->first();
             if (count($addparent) == 0) {
@@ -74,7 +73,6 @@ class ViewInfoController extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
-
 
             $addparent = \App\StudentInfoAlmuni::where('idno', $idno)->first();
             if (count($addparent) == 0) {
@@ -166,6 +164,7 @@ class ViewInfoController extends Controller {
                 $addpar->idno = $idno;
                 $addpar->save();
             }
+            $info = \App\StudentInfo::where('student_infos.idno', $idno)->join('student_info_parent_infos', 'student_info_parent_infos.idno', '=', 'student_infos.idno')->first();
 
             return view('reg_college.view_info.view', compact('idno', 'user', 'info'));
         }
