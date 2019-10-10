@@ -85,7 +85,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
                             <div class="col-sm-3">
                                 <label>Student Status</label>
                                 <select class="form form-control" name='student_status' type="text">                             
-                                    <option value=''@if($adhedinfo->student_status  == '2') selected='' @else @endif>Select Status</option>
+                                    <option value='2'@if($adhedinfo->student_status  == '2') selected='' @else @endif>Select Status</option>
                                     <option value='0'@if($adhedinfo->student_status  == '0') selected='' @else @endif>Not Approved</option>
                                     <option value='1' @if($adhedinfo->student_status  == '1') selected='' @else @endif>Approved</option>
                                 </select>                                
