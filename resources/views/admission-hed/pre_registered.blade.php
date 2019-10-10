@@ -82,6 +82,7 @@ $layout = "layouts.appadmission-hed";
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Date</th>
                         <th>Reference No.</th>
                         <th>Name</th>
                         <th>Applying For</th>
@@ -97,6 +98,7 @@ $layout = "layouts.appadmission-hed";
                     @foreach ($non_paid as $non_p)
                     <tr>
                         <td>{{$number++}}.</td>
+                        <td>{{$non_p->created_at}}</td>
                         <td>{{$non_p->idno}}</td>
                         <td>{{$non_p->getFullNameAttribute()}}</td>
                         <td>{{$non_p->program_code}}</td>
