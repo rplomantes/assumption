@@ -73,6 +73,11 @@ class ViewInfoAdmissionHedController extends Controller {
             $updateStatus= \App\Status::where('idno',$request->idno)->first();
             $updateStatus->status = 21;
             $updateStatus->save();
+        }else if($request->student_status == 2){
+            $updatePersonalInfo->status = 0;
+            $updateStatus= \App\Status::where('idno',$request->idno)->first();
+            $updateStatus->status = 20;
+            $updateStatus->save();
         }
         $updatePersonalInfo->update();
 
