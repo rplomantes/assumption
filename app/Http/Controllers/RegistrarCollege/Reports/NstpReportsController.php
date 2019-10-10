@@ -51,7 +51,6 @@ class NstpReportsController extends Controller {
             } else {
 
                 ob_end_clean();
-                ob_start();
                 Excel::create('NSTP-REPORT', function($excel) use ($programs, $request, $students) {
                     $excel->setTitle("NSTP Report");
                     $excel->sheet("NSTP Report", function ($sheet) use ($programs, $request, $students) {
@@ -64,20 +63,6 @@ class NstpReportsController extends Controller {
 
     function print_nstp_graduates(Request $request) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
-//            $students = \App\GradeCollege::
-//                    join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')
-//                    ->where('college_levels.status', '3')
-//                    ->where('college_levels.school_year', $request->school_year)
-//                    ->where('college_levels.period', $request->period)
-//                    ->where(function ($query) {
-//                        $query->where('grade_dcolleges.course_code', "like","NSTP1%")
-//                              ->orWhere('grade_colleges.course_code', "like","NSTP2%");
-//                    })
-//                    ->where('grade_colleges.finals','like', "PASSED")
-//                    ->join('users', 'users.idno', '=', 'grade_colleges.idno')
-//                    ->orderBy('users.lastname', 'asc')
-//                    ->groupBy('grade_colleges.idno')
-//                    ->get();
             $students = DB::select("select grade_colleges.idno, count(*) from `grade_colleges` inner join `college_levels` on `college_levels`.`idno` = `grade_colleges`.`idno` inner join `users` on `users`.`idno` = `grade_colleges`.`idno` where `college_levels`.`status` = 3 and `college_levels`.`school_year` = $request->school_year and `college_levels`.`period` = '$request->period' and (`grade_colleges`.`course_code` like 'NSTP1%' or `grade_colleges`.`course_code` like 'NSTP2%') and `grade_colleges`.`finals` like 'PASSED' and `grade_colleges`.`deleted_at` is null group BY `grade_colleges`.`idno`");
             $programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->get(['program_code', 'program_name']);
             if ($request->submit == "print_pdf") {
@@ -85,14 +70,6 @@ class NstpReportsController extends Controller {
                 $pdf->setPaper(array(0, 0, 936, 612));
                 return $pdf->stream('nstp_reports.pdf');
             } else {
-
-                ob_end_clean();
-                Excel::create('NSTP-REPORT', function($excel) use ($programs, $request, $students) {
-                    $excel->setTitle("NSTP Report");
-                    $excel->sheet("NSTP Report", function ($sheet) use ($programs, $request, $students) {
-                        $sheet->loadView('reg_college.reports.print_nstp_reports_excel', compact('programs', 'request', 'students'));
-                    });
-                })->download('xlsx');
             }
         }
     }
