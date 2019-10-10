@@ -241,7 +241,7 @@ function check($val) {
                 <td colspan="3" class="border-right">{{check($info->g_phone)}}</td>
                 <td colspan="3" class="border-right">{{check($info->g_address)}}</td>
             </tr>
-            <tr><td><h4>FOR MARRIED APPLICANTS</h4></td></tr>
+            <tr><td colspan="12"><h4>FOR MARRIED APPLICANTS</h4></td></tr>
 
             <tr>
                 <td colspan="8" class="small-label"><small>Spouse's Name</small></td>
