@@ -67,7 +67,6 @@ function getAge($dob,$condate){
                 <th align='center' width='25%'>COURSE</th>
                 <th align='center' width='5%'>ADDRESS</th>
                 <th align='center' width='4%'>DATE OF BIRTH</th>
-                <!--<th align='center' width='5%'>AGE</th>-->
                 <th align='center' width='5%'>GENDER</th>
                 <th align='center' width='5%'>TEL. NO</th>
             </tr>
@@ -85,9 +84,8 @@ function getAge($dob,$condate){
                 <td>{{strtoupper($student->idno)}}</td>
                 <td>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
                 <td>{{strtoupper($info->program_name)}}</td>
-                <td align='center'>{{$info->municipality}} {{$info->province}}</td>
+                <td align='center'>{{$info->street}} {{$info->barangay}} {{$info->municipality}} {{$info->province}}</td>
                 <td align='center'>{{date('m/d/Y',strtotime($info->birthdate))}}</td>
-                <!--<td align='center'>{{getAge($info->birthdate, date('Y-m-d'))}}</td>-->
                 <td align='center'>F</td>
                 <td align='center'>{{$info->tel_no}}</td>
                 
