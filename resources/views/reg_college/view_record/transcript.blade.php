@@ -671,7 +671,7 @@ if($grade->finals == "FAILED" || $grade->finals == "FA" || $grade->finals == "UD
         }
         $gpa = $gpa + ($grade->finals * ($grade->lec + $grade->lab));
         $count = $count + $grade->lec + $grade->lab;
-        $$grade->finals = $grade2;
+        $grade->finals = $grade2;
     }
 }
 ?>
