@@ -1,8 +1,8 @@
 <?php
-if(Auth::user()->accesslevel == env('DEAN')){
-$layout = "layouts.appdean_college";
+if (Auth::user()->accesslevel == env('DEAN')) {
+    $layout = "layouts.appdean_college";
 } else {
-$layout = "layouts.appreg_college";
+    $layout = "layouts.appreg_college";
 }
 ?>
 
@@ -42,18 +42,18 @@ $layout = "layouts.appreg_college";
 </section>
 @endsection
 @section('maincontent')
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+@if (count($errors) > 0)
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
         @endforeach
-                </ul>
-            </div>
-        @endif
-        <div class="row">
-            <form class="form form-horizontal" method="post" action='{{url('/registrar_college/reports/print_nstp_graduates')}}'>
-            {{ csrf_field() }}        
+    </ul>
+</div>
+@endif
+<div class="row">
+    <form class="form form-horizontal" method="post" action='{{url('/registrar_college/reports/print_nstp_graduates')}}'>
+        {{ csrf_field() }}        
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">  
@@ -65,7 +65,6 @@ $layout = "layouts.appreg_college";
                 <div class="box-body">
                     <div class='form-horizontal'>
                         <div class='form-group'>
-                           
                             <div class='col-sm-2'>
                                 <label>School Year</label>
                                 <select class="form form-control select2" name="school_year" id='school_year'>
@@ -85,36 +84,24 @@ $layout = "layouts.appreg_college";
                                     <option value="2nd Semester">2nd Semester</option>
                                     <option value="Summer">Summer</option>
                                 </select>    
-                            </div>  
-<!--                            <div class='col-sm-4'>
-                                <label>Course Name</label>
-                                <select class="form form-control select2" name="course_code" id='course_code'>
-                                    <option value="">Select Course</option>
-                                    @foreach($programs as $program)
-                                    <option value='{{$program->course_code}}'>{{$program->course_code}} - {{$program->course_name}}</option>
-                                    @endforeach
-                                </select>    
-                            </div>                             -->
-                         </div>                        
+                            </div>
+                        </div>                        
                         <div class='form-group'>
                             <div class='col-sm-6'>
                                 <label>&nbsp;</label>
                                 <button formtarget='_blank' type='submit' name="submit" value="print_pdf" class='col-sm-12 btn btn-success'><span>PRINT REPORT</span></button>
-<!--                            </div>    
+                            </div>    
                             <div class='col-sm-6'>
                                 <label>&nbsp;</label>
                                 <button formtarget='_blank' type='submit' name="submit" value="print_excel" class='col-sm-12 btn btn-warning'><span>GENERATE EXCEL</span></button>
-                            </div> -->
+                            </div>
                         </div>
                     </div>    
                 </div>    
             </div>
         </div>  
-            </form>
-        </div>    
-<section>
-       
-</section>    
+    </form>
+</div>   
 @endsection
 @section('footerscript')
 

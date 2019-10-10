@@ -18,9 +18,9 @@ $students = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'c
 $instructor = \App\User::where('idno', Auth::user()->idno)->first();
 ?>
 
-<table width="100%">
+<table>
     <tr>
-        <td></td><td width="10%">Course:</td><td style="border-bottom:1px solid black">{{$course_code}} - {{$course_name}}</td>
+        <td></td><td>Course:</td><td style="border-bottom:1px solid black">{{$course_code}} - {{$course_name}}</td>
     </tr>
     <tr>
         <td></td><td>Instructor:</td><td style="border-bottom:1px solid black">{{$instructor->firstname}} {{$instructor->lastname}}</td>
@@ -59,12 +59,12 @@ $instructor = \App\User::where('idno', Auth::user()->idno)->first();
 @if (count($students)>0)
 
     Section: {{$allsection}}
-    <table class='table' border="1" width="100%" cellspacing='1' cellpadding='1'>
+    <table>
         <thead>
             <tr>
-                <th width="3%">#</th>
-                <th width="12%">ID Number</th>
-                <th width="50%">Name</th>
+                <th>#</th>
+                <th>ID Number</th>
+                <th>Name</th>
                 <th></th>
                 <th></th>
                 <th></th>
