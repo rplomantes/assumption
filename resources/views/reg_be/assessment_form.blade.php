@@ -83,8 +83,12 @@ $upon = 0;
    <table width="100%" border="0" cellspacing="0" cellpadding="0"> 
        <tr><td colspan="2">&nbsp;</td></tr>
        <td width="75%">
-    <label>Breakdown of Fees:</label>           
+    <label>Breakdown of Fees:</label>
+    @if($idno == 1600107 || $idno == 1920042)
+    <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Reservation</th><th>Deposit</th><th>Payment</th><th>Balance</th></tr>
+    @else
     <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Reservation/<br>Student Deposit</th><th>Payment</th><th>Balance</th></tr>
+    @endif
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
@@ -100,7 +104,17 @@ $upon = 0;
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">4,050.00</td>
+               <td align="right">0.00</td>
+               @else
+               <td align="right">3,870.00</td>
+               <td align="right">0.00</td>
+               @endif
+               @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
@@ -116,7 +130,17 @@ $upon = 0;
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">10,950.00</td>
+               <td align="right">8,390.00</td>
+               @else
+               <td align="right">14,300.00</td>
+               <td align="right">0.00</td>
+               @endif
+               @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
@@ -132,7 +156,17 @@ $upon = 0;
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">0.00</td>
+               <td align="right">1,800.00</td>
+               @else
+               <td align="right">1,700.00</td>
+               <td align="right">0.00</td>
+               @endif
+               @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
@@ -148,7 +182,17 @@ $upon = 0;
                <tr><td>{{$main->category}}</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">0.00</td>
+               <td align="right">94,737.00</td>
+               @else
+               <td align="right">130.00</td>
+               <td align="right">94,607.00</td>
+               @endif
+               @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
@@ -156,7 +200,17 @@ $upon = 0;
                <tr style="background-color:gainsboro"><td>Total School Fees</td>
                <td align="right"><b>{{number_format($totalamount,2)}}</b></td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">15,000.00</td>
+               <td align="right">104,927.00</td>
+               @else
+               <td align="right">20,000.00</td>
+               <td align="right">94,607.00</td>
+               @endif
+               @else
                <td align="right">{{number_format($totaldm,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
                
@@ -173,14 +227,34 @@ $upon = 0;
                <tr><td>@if($main->category == "Books") Books/Other Items @else {{$main->category}} @endif</td>
                <td align="right">{{number_format($main->amount,2)}}</td>
                <td align="right">{{number_format($main->discount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">0.00</td>
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @else
+               <td align="right">0.00</td>
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @endif
+               @else
+               <td align="right">{{number_format($main->debit_memo,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td></tr>
            @endforeach
            <tr style="background-color:gray"><td>Total</td>
                <td align="right"><b>{{number_format($totalamount,2)}}</b></td>
                <td align="right">{{number_format($totaldiscount,2)}}</td>
+               @if($idno == 1600107 || $idno == 1920042)
+               @if($idno == 1600107)
+               <td align="right">15,000.00</td>
+               <td align="right">111,453.00</td>
+               @else
+               <td align="right">20,000.00</td>
+               <td align="right">99,319.00</td>
+               @endif
+               @else
                <td align="right">{{number_format($totaldm,2)}}</td>
+               @endif
                <td align="right"><span class="payment">{{number_format($totalpayment,2)}}</span></td>
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table>
