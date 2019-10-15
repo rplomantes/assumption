@@ -136,7 +136,7 @@ $upon = 0;
                <td align="right">8,390.00</td>
                @else
                <td align="right">12,050.00</td>
-               <td align="right">3,500.00</td>
+               <td align="right">2,250.00</td>
                @endif
                @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
