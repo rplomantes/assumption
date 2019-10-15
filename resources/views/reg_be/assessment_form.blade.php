@@ -84,7 +84,7 @@ $upon = 0;
        <tr><td colspan="2">&nbsp;</td></tr>
        <td width="75%">
     <label>Breakdown of Fees:</label>           
-    <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Reservation</th><th>Payment</th><th>Balance</th></tr>
+    <table border ='1' cellspacing="0" cellpadding="2"  width="100%"class="table table table-striped table-bordered"><tr><th>Description</th><th>Amount</th><th>Discount</th><th>Reservation/<br>Student Deposit</th><th>Payment</th><th>Balance</th></tr>
            <?php
            $totalamount=0;$totaldiscount=0;$totaldm=0;$totalpayment=0;$balance=0;$totalbalance=0;
            ?>
