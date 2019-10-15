@@ -109,7 +109,7 @@ $upon = 0;
                <td align="right">4,050.00</td>
                <td align="right">0.00</td>
                @else
-               <td align="right">3,870.00</td>
+               <td align="right">3,550.00</td>
                <td align="right">0.00</td>
                @endif
                @else
@@ -135,7 +135,7 @@ $upon = 0;
                <td align="right">10,950.00</td>
                <td align="right">8,390.00</td>
                @else
-               <td align="right">14,300.00</td>
+               <td align="right">12,050.00</td>
                <td align="right">0.00</td>
                @endif
                @else
@@ -187,7 +187,7 @@ $upon = 0;
                <td align="right">0.00</td>
                <td align="right">94,737.00</td>
                @else
-               <td align="right">130.00</td>
+               <td align="right">2,700.00</td>
                <td align="right">94,607.00</td>
                @endif
                @else
@@ -259,6 +259,8 @@ $upon = 0;
                <td align="right"><b>{{number_format($totalbalance,2)}}</b></td></tr>
             </table>
            </td>
+           
+               @if(!$idno == 1600107 || !$idno == 1920042)
            <td width="25%" valign="top">
                @if(count($due_dates)>0)
         <label>Schedule of Payment:</label>
@@ -295,8 +297,11 @@ $upon = 0;
         </div>
         @endif
            </td>
+           @endif
            </table>
         <br>
+        
+               @if(!$idno == 1600107 || !$idno == 1920042)
               <?php $amounttobepaid=$upon-$totaldm; 
        if($amounttobepaid <= 0){
            $amounttobepaid = 0;
@@ -318,6 +323,7 @@ $upon = 0;
     <div style='border-top: 1px solid black; width: 200px;'>
     Parent's Signature
     </div>
+    @endif
     </p>
     
  </body>
