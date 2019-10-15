@@ -110,7 +110,7 @@ $upon = 0;
                <td align="right">0.00</td>
                @else
                <td align="right">3,550.00</td>
-               <td align="right">0.00</td>
+               <td align="right">320.00</td>
                @endif
                @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
@@ -136,7 +136,7 @@ $upon = 0;
                <td align="right">8,390.00</td>
                @else
                <td align="right">12,050.00</td>
-               <td align="right">0.00</td>
+               <td align="right">3,500.00</td>
                @endif
                @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
@@ -188,7 +188,7 @@ $upon = 0;
                <td align="right">94,737.00</td>
                @else
                <td align="right">2,700.00</td>
-               <td align="right">94,607.00</td>
+               <td align="right">92,037.00</td>
                @endif
                @else
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
