@@ -105,7 +105,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         </table>
         
         <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-            <b>Explanation:<span class='pull-right'><button data-toggle="modal" data-target="#show_explanation">Edit Exaplanation</button></span></b><br>{{$payment->remarks}}
+            <b>Explanation:<span class='pull-right'><button data-toggle="modal" data-target="#show_explanation">Edit Explanation</button></span></b><br>{{$payment->remarks}}
         </p>
         <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
         <b>Payment Rendered:</b><br>  

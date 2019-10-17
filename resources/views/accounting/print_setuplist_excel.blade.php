@@ -1,5 +1,5 @@
 @if(count($lists)>0)
-<?php $total = 0; $discount = 0;
+<?php $total = 0; $discount = 0;  $grandCounter = 0;
 $x = 0 ?>
 <table>
     <tr><td><strong colspan="4">Assumption College</strong></td></tr>
@@ -37,7 +37,7 @@ $x = 0 ?>
             <?php $subdiscount = 0; ?>
             @foreach($lists as $list)
                 @if($list->level == $head->level)
-                <?php $total += $list->amount; $x++; ?>
+                <?php $total += $list->amount; $x++;  $grandCounter++; ?>
                 <?php $discount += $list->discount; ?>
                 <?php $subdiscount += $list->discount; ?>
                 <tr>
@@ -62,7 +62,7 @@ $x = 0 ?>
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="5" style='border-top: 1px solid black'>GRAND TOTAL</th>
+            <th colspan="5" style='border-top: 1px solid black'>GRAND TOTAL - {{$grandCounter}} Students</th>
             <td align='right' style='border-top: 1px solid black'><strong>{{$total}}</strong></td>
             <td style='border-top: 1px solid black' align="right"><strong>{{$discount}}</strong></td>
             <td align='right' style='border-top: 1px solid black'><strong>{{$total-$discount}}</strong></td>

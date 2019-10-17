@@ -14,7 +14,7 @@
 <h3>Set Up List - {{$subsidiary}}</h3>
 
 @if(count($lists)>0)
-<?php $total = 0; $discount = 0;
+<?php $total = 0; $discount = 0;  $grandCounter = 0;
 $x = 0 ?>
 <table width='100%' cellpadding='0' cellspacing='0' style=" font-family: Arial, Helvetica Neue, Helvetica, sans-serif;font-size: 10pt;">
     @foreach($heads as $head)
@@ -41,7 +41,7 @@ $x = 0 ?>
             <?php $subdiscount = 0; ?>
             @foreach($lists as $list)
                 @if($list->level == $head->level)
-                <?php $total += $list->amount; $x++; ?>
+                <?php $total += $list->amount; $x++; $grandCounter++; ?>
                 <?php $discount += $list->discount; ?>
                 <?php $subdiscount += $list->discount; ?>
                 <tr>
@@ -66,7 +66,7 @@ $x = 0 ?>
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="5" style='border-top: 1px solid black' align="center">GRAND TOTAL</th>
+            <th colspan="5" style='border-top: 1px solid black' align="center">GRAND TOTAL - {{$grandCounter}} Students</th>
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total,2)}}</strong></td>
             <td style='border-top: 1px solid black' align="right"><strong>{{number_format($discount,2)}}</strong></td>
             <td align='right' style='border-top: 1px solid black'><strong>{{number_format($total-$discount,2)}}</strong></td>
