@@ -1324,6 +1324,7 @@ $layout = "layouts.appadmission-shs";
                         </div>
                         @endif
                         @if($ctrrequirements->essay >= 1)
+                        <div class="col-sm-12">
                             <input type='checkbox'  name='essay' @if($bedrequirements->essay == 1)checked=''@endif><label>&nbsp;Essay</label>
                         </div>
                         @endif
