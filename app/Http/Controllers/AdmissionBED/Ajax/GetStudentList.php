@@ -145,8 +145,15 @@ class GetStudentList extends Controller {
                 $idno = Input::get('idno');
                 $level = Input::get('level');
                 
+                if($level == "Grade 11"){
+                    $academic_type="SHS";
+                }else{
+                    $academic_type="BED";
+                }
+                
                 $status = \App\Status::where('idno', $idno)->first();
                 $status->level = $level;
+                $status->academic_type = $academic_type;
                 $status->save();
                 
                 $bedinfo = \App\BedProfile::where('idno', $idno)->first();

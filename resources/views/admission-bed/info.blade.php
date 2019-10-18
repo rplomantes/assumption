@@ -94,7 +94,7 @@ $layout = "layouts.appadmission-shs";
           </div>
         
         <?php //$interview_schedules = \App\InterviewSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
-        <?php $interview_schedules = \App\InterviewSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->where('academic_type', $user->academic_type)->get(); ?>
+        <?php $interview_schedules = \App\InterviewSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $interview = \App\InterviewStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-left">
              <div class="form form-group">
@@ -108,7 +108,7 @@ $layout = "layouts.appadmission-shs";
              </div>
         </div>
         <?php //$testing_schedules = \App\TestingSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
-        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->where('academic_type', $user->academic_type)->get(); ?>
+        <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $testing = \App\TestingStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-left">
              <div class="form form-group">
@@ -125,7 +125,7 @@ $layout = "layouts.appadmission-shs";
         
         @if($info->applied_for == "Pre-Kinder" || $info->applied_for == "Kinder" || $info->applied_for == "Grade 1")
         <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
-        <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->where('academic_type', $user->academic_type)->get(); ?>
+        <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $group = \App\GroupStudent::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-left">
              <div class="form form-group">
@@ -140,7 +140,7 @@ $layout = "layouts.appadmission-shs";
         </div>
         @else
         <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
-        <?php $individual_schedules = \App\IndividualSchedules::where('is_remove',0)->orderBy('datetime', 'dsc')->where('academic_type', $user->academic_type)->get(); ?>
+        <?php $individual_schedules = \App\IndividualSchedules::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $individual = \App\IndividualStudents::where('idno',$user->idno)->first(); ?>
         <div class="col-md-3 pull-left">
              <div class="form form-group">
