@@ -260,7 +260,6 @@ $upon = 0;
             </table>
            </td>
            
-               <!--@if(!$idno == 1600107 || !$idno == 1920042)-->
            <td width="25%" valign="top">
                @if(count($due_dates)>0)
         <label>Schedule of Payment:</label>
@@ -297,11 +296,9 @@ $upon = 0;
         </div>
         @endif
            </td>
-           <!--@endif-->
            </table>
         <br>
         
-               <!--@if(!$idno == 1600107 || !$idno == 1920042)-->
               <?php $amounttobepaid=$upon-$totaldm; 
        if($amounttobepaid <= 0){
            $amounttobepaid = 0;
@@ -323,7 +320,6 @@ $upon = 0;
     <div style='border-top: 1px solid black; width: 200px;'>
     Parent's Signature
     </div>
-    <!--@endif-->
     </p>
     
  </body>
