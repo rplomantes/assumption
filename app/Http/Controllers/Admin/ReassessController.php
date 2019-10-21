@@ -988,23 +988,4 @@ class ReassessController extends Controller {
         }
     }
 
-    function updateCollegeLedger($subsidiary, $level, $amount_to_be) {
-                
-        $students = \App\CollegeLevel::where('status', '>', 2)->where('school_year', 2019)->where('level', $level)->get();
-
-        foreach ($students as $student) {
-            $ledgers = \App\Ledger::where('idno', $student->idno)->where('school_year', 2019)->where('subsidiary',$subsidiary)->get();
-            if(count($ledgers)== 0){
-                $new = new \App\adjustmentLedgers;
-                $new->idno = $student->idno;
-                $new->subsidiary = $subsidiary;
-                $new->level = $level;
-                $new->amount_ledger = 0;
-                $new->amount_to_be = $amount_to_be;
-                $new->save();
-            }
-        }
-        return "DONE";
-    }
-
 }

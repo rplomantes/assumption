@@ -562,7 +562,3 @@ Route::get('/accounting/student_list_report/{school_year}','Accounting\StudentLi
 //Accounting NSTP Report
 Route::get('/accounting/nstp_report','Accounting\NstpController@index');
 Route::post('/accounting/submit_nstp_report','Accounting\NstpController@get_list');
-
-
-
-Route::get('/updateCollegeLedger/{subsidiary}/{level}/{amount_to_be}','Admin\ReassessController@updateCollegeLedger');
