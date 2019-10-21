@@ -988,10 +988,7 @@ class ReassessController extends Controller {
         }
     }
 
-    function updateCollegeLedger() {
-        $subsidiary = "Sports Program Fee";
-        $amount_to_be = 1500;
-        $level = "1st Year";
+    function updateCollegeLedger($subsidiary, $level, $amount_to_be) {
                 
         $students = \App\CollegeLevel::where('status', '>', 2)->where('school_year', 2019)->where('level', $level)->get();
 
