@@ -565,4 +565,4 @@ Route::post('/accounting/submit_nstp_report','Accounting\NstpController@get_list
 
 
 
-Route::get('/updateCollegeLedger','Admin\ReassessController@updateCollegeLedger');
+Route::get('/updateCollegeLedger/{subsidiary}/{level}/{amount_to_be}','Admin\ReassessController@updateCollegeLedger');
