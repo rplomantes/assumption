@@ -50,7 +50,7 @@ class ReassessController extends Controller {
                 $this->addDueDates($request, $status->school_year, $status->period);
                 $this->modifyStatus($request, $status->school_year, $status->period);
                 $this->checkReservations($request, $status->school_year, $status->period);
-                
+
                 $cut_off = \App\CtrEnrollmentCutOff::where('academic_type', $status->academic_type)->first();
                 if (date('Y-m-d') > $cut_off->cut_off) {
                     $this->addLatePayment($request, $status->school_year, $status->period);
@@ -60,7 +60,7 @@ class ReassessController extends Controller {
             return redirect('/admin/re_assess');
         }
     }
-    
+
     function addLedger($request, $schoolyear, $period) {
         $discount_code = 0;
         $discount_description = "";
@@ -69,9 +69,9 @@ class ReassessController extends Controller {
         $discount_depository = 0;
         $discount_misc = 0;
         $discount_srf = 0;
-        $request_discount = \App\PartialStudentDiscount::where('idno',$request->idno)->first();
-        if(count($request_discount) > 0){
-        $discount = \App\CtrDiscount::where('discount_code', $request_discount->discount)->first();        
+        $request_discount = \App\PartialStudentDiscount::where('idno', $request->idno)->first();
+        if (count($request_discount) > 0) {
+            $discount = \App\CtrDiscount::where('discount_code', $request_discount->discount)->first();
             if (count($discount) > 0) {
                 $discount_code = $discount->discount_code;
                 $discount_description = $discount->discount_description;
@@ -499,33 +499,33 @@ class ReassessController extends Controller {
             MainPayment::addUnrealizedEntry($request, $reference_id);
 
             $ledgers = collect();
-            if($request->level == "Grade 11"){
+            if ($request->level == "Grade 11") {
                 $ledgers_parent_partnership = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category', "Parent Partnership")->where('category_switch', env('PARENT_PARTNERSHIP'))->get();
-                $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category','!=', 'Parent Partnership')->get();
+                $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category', '!=', 'Parent Partnership')->get();
 
-                foreach($ledgers_parent_partnership as $ppartnership){
+                foreach ($ledgers_parent_partnership as $ppartnership) {
                     $ledgers->push($ppartnership);
                 }
-                foreach($ledgers_all as $all){
+                foreach ($ledgers_all as $all) {
                     $ledgers->push($all);
                 }
-            }else{
+            } else {
                 $ledgers_family_council = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category', "Family Council")->where('category_switch', env('FAMILY_COUNCIL'))->get();
-                $ledgers_registration = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('Subsidiary', "Registration")->where('category_switch', env('MISC_FEE'))->get();            
-                $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category','!=', 'Family Council')->where('Subsidiary', '!=',"Registration")->get();
+                $ledgers_registration = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('Subsidiary', "Registration")->where('category_switch', env('MISC_FEE'))->get();
+                $ledgers_all = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->where('category', '!=', 'Family Council')->where('Subsidiary', '!=', "Registration")->get();
 
-                foreach($ledgers_family_council as $fcouncil){
+                foreach ($ledgers_family_council as $fcouncil) {
                     $ledgers->push($fcouncil);
                 }
-                foreach($ledgers_registration as $registration){
+                foreach ($ledgers_registration as $registration) {
                     $ledgers->push($registration);
                 }
-                foreach($ledgers_all as $all){
+                foreach ($ledgers_all as $all) {
                     $ledgers->push($all);
                 }
             }
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
-            
+
             $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id);
 
             $changestatus = \App\Status::where('idno', $request->idno)->first();
@@ -547,7 +547,7 @@ class ReassessController extends Controller {
         $change->update();
         return $this->changeStatus($request->idno, $levels_reference_id);
     }
-    
+
     function changeStatus($idno) {
         $change = \App\Status::where('idno', $idno)->first();
         $change->status = env("ENROLLED");
@@ -581,7 +581,7 @@ class ReassessController extends Controller {
             $pre_number = $pre->school_year;
             return substr($pre_number, 2, 2) . $idNumber;
         } else {
-            $id_no = \App\CtrStudentNumber::where('academic_type','BED')->first();
+            $id_no = \App\CtrStudentNumber::where('academic_type', 'BED')->first();
             $idNumber = $id_no->idno;
             $id_no->idno = $id_no->idno + 1;
             $id_no->update();
@@ -788,7 +788,6 @@ class ReassessController extends Controller {
             \App\DiscountList::where('idno', $idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
         }
     }
-    
 
     function reverse_reservations($idno, $levels_reference_id) {
         $reverses = \App\Reservation::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
@@ -911,10 +910,10 @@ class ReassessController extends Controller {
         $debit_memo->posted_by = Auth::user()->idno;
         $status = \App\Status::where('idno', $idno)->first();
         $debit_memo->school_year = $status->school_year;
-        if($status->level == "Grade 11" || $status->level == "Grade 12"){
+        if ($status->level == "Grade 11" || $status->level == "Grade 12") {
             $debit_memo->period = $status->period;
-        }else{
-            $debit_memo->period = "";   
+        } else {
+            $debit_memo->period = "";
         }
         $debit_memo->save();
     }
@@ -954,38 +953,61 @@ class ReassessController extends Controller {
         $add_discount->amount = $discount->amount;
         $add_discount->save();
     }
-    
-    function update_sy2019_college_fees(){
+
+    function update_sy2019_college_fees() {
         $lists = DB::table('update_sy2019_college_fees')->whereRaw('is_done = 0')->get();
-        DB::beginTransaction(); 
-        foreach ($lists as $list){
+        DB::beginTransaction();
+        foreach ($lists as $list) {
             $checkUser = \App\User::where('idno', $list->idno)->first();
-            if(count($checkUser)>0){
-                
-                $this->Update($list->idno,"Student Activities",500);
-                $this->Update($list->idno,"Energy Fees",4500);
-                $this->Update($list->idno,"Sports Program Fee",1500);
-                $this->Update($list->idno,"Accident Insurance",400);
-                
-                DB::table('update_sy2019_college_fees')->where('idno',$list->idno)->update(array(
-                                 'is_done'=> 1,
-));
-            }else{
+            if (count($checkUser) > 0) {
+
+                $this->Update($list->idno, "Student Activities", 500);
+                $this->Update($list->idno, "Energy Fees", 4500);
+                $this->Update($list->idno, "Sports Program Fee", 1500);
+                $this->Update($list->idno, "Accident Insurance", 400);
+
+                DB::table('update_sy2019_college_fees')->where('idno', $list->idno)->update(array(
+                    'is_done' => 1,
+                ));
+            } else {
                 return "ERROR1";
             }
         }
         DB::Commit();
         Return 'DONE';
     }
-    function Update($idno, $subsidiary, $amount){
-        $update = \App\Ledger::where('idno', $idno)->where('school_year', 2019)->where('period', '1st Semester')->where('Subsidiary',$subsidiary)->first();
-        if(count($update)>0){
+
+    function Update($idno, $subsidiary, $amount) {
+        $update = \App\Ledger::where('idno', $idno)->where('school_year', 2019)->where('period', '1st Semester')->where('Subsidiary', $subsidiary)->first();
+        if (count($update) > 0) {
             $update->amount = $amount;
             $update->discount = $amount;
             $update->save();
-        }else{
+        } else {
             return "ERROR2";
         }
+    }
+
+    function updateCollegeLedger() {
+        $subsidiary = "Sports Program Fee";
+        $amount_to_be = 1500;
+        $level = "1st Year";
+                
+        $students = \App\CollegeLevel::where('status', '>', 2)->where('school_year', 2019)->where('level', $level)->get();
+
+        foreach ($students as $student) {
+            $ledgers = \App\Ledger::where('idno', $student->idno)->where('school_year', 2019)->where('subsidiary',$subsidiary)->get();
+            if(count($ledgers)== 0){
+                $new = new \App\adjustmentLedgers;
+                $new->idno = $student->idno;
+                $new->subsidiary = $subsidiary;
+                $new->level = $level;
+                $new->amount_ledger = 0;
+                $new->amount_to_be = $amount_to_be;
+                $new->save();
+            }
+        }
+        return "DONE";
     }
 
 }
