@@ -558,3 +558,11 @@ Route::post('/update_explanation','Cashier\StudentLedger@update_explanation');
 
 //Accounting Student List
 Route::get('/accounting/student_list_report/{school_year}','Accounting\StudentList@student_list_report');
+
+//Accounting NSTP Report
+Route::get('/accounting/nstp_report','Accounting\NstpController@index');
+Route::post('/accounting/submit_nstp_report','Accounting\NstpController@get_list');
+
+
+
+Route::get('/updateCollegeLedger','Admin\ReassessController@updateCollegeLedger');
