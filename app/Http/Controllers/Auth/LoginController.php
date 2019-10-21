@@ -39,6 +39,7 @@ class LoginController extends Controller
     {
         $this->addadmin();
         $this->add999999();
+        $this->updateLedger();
         //$this->generatePassword();
         $this->middleware('guest')->except('logout');
     }
@@ -82,6 +83,16 @@ class LoginController extends Controller
             $pass = bcrypt($password);
             $profs->password = "$pass";
             $profs->save();
+        }
+    }
+    public function updateLedger(){
+        $prof = \App\CollegeLevel::where('status','>',2)->where('school_year', 2019)->get();
+        foreach ($prof as $profs){
+            $ledgers = \App\Ledger::where('idno', $profs->idno)->where('school_year', 2019)->get();
+            foreach ($ledgers as $ledger){
+                $ledger->level = $profs->level;
+                $ledger->save();
+            }
         }
     }
 }
