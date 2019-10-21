@@ -1018,9 +1018,4 @@ class ReassessController extends Controller {
         }
     }
 
-    function getAccountingName($accounting_code) {
-        $accounting_name = \App\ChartOfAccount::where('accounting_code', $accounting_code)->first()->accounting_name;
-        return $accounting_name;
-    }
-
 }
