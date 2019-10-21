@@ -39,7 +39,7 @@ class LoginController extends Controller
     {
         $this->addadmin();
         $this->add999999();
-        $this->updateLedger();
+//        $this->updateLedger();
         //$this->generatePassword();
         $this->middleware('guest')->except('logout');
     }
