@@ -961,10 +961,11 @@ class ReassessController extends Controller {
             $checkUser = \App\User::where('idno', $list->idno)->first();
             if (count($checkUser) > 0) {
 
-                $this->Update($list->idno, "Student Activities", 500);
-                $this->Update($list->idno, "Energy Fees", 4500);
-                $this->Update($list->idno, "Sports Program Fee", 1500);
-                $this->Update($list->idno, "Accident Insurance", 400);
+//                $this->Update($list->idno, "Student Activities", 500);
+//                $this->Update($list->idno, "Energy Fees", 4500);
+//                $this->Update($list->idno, "Sports Program Fee", 1500);
+//                $this->Update($list->idno, "Accident Insurance", 400);
+                $this->Update($list->idno, "Departmental Enrichment");
 
                 DB::table('update_sy2019_college_fees')->where('idno', $list->idno)->update(array(
                     'is_done' => 1,
@@ -977,15 +978,49 @@ class ReassessController extends Controller {
         Return 'DONE';
     }
 
-    function Update($idno, $subsidiary, $amount) {
-        $update = \App\Ledger::where('idno', $idno)->where('school_year', 2019)->where('period', '1st Semester')->where('Subsidiary', $subsidiary)->first();
-        if (count($update) > 0) {
-            $update->amount = $amount;
-            $update->discount = $amount;
-            $update->save();
+    function Update($idno, $subsidiary) {
+        $update = \App\Ledger::where('idno', $idno)->where('school_year', 2019)->where('period', '1st Semester')->where('subsidiary', $subsidiary)->first();
+//        if (count($update) > 0) {
+//            $update->amount = $amount;
+//            $update->discount = $amount;
+//            $update->save();
+//        } else {
+//            return "ERROR2";
+//        }
+
+        if (count($update) == 0) {
+            $addledger = new \App\ledger;
+            $status = \App\Status::where('idno', $idno)->first();
+            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $status->period)->get();
+            if (count($nondiscountotherfees) > 0) {
+                foreach ($nondiscountotherfees as $otherfee) {
+                    $addledger = new \App\Ledger;
+                    $addledger->idno = $idno;
+                    $addledger->department = \App\CtrAcademicProgram::where('program_code', $status->program_code)->first()->department;
+                    $addledger->program_code = $status->program_code;
+                    $addledger->level = $status->level;
+                    $addledger->school_year = 2019;
+                    $addledger->period = "1st Semester";
+                    $addledger->category = $otherfee->category;
+                    $addledger->subsidiary = $otherfee->subsidiary;
+                    $addledger->receipt_details = $otherfee->receipt_details;
+                    $addledger->accounting_code = $otherfee->accounting_code;
+                    $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
+                    $addledger->category_switch = $otherfee->category_switch;
+                    $addledger->amount = $otherfee->amount;
+                    $addledger->discount = $otherfee->amount;
+                    $addledger->discount_code = "";
+                    $addledger->save();
+                }
+            }
         } else {
             return "ERROR2";
         }
+    }
+
+    function getAccountingName($accounting_code) {
+        $accounting_name = \App\ChartOfAccount::where('accounting_code', $accounting_code)->first()->accounting_name;
+        return $accounting_name;
     }
 
 }
