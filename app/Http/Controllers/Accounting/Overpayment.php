@@ -17,17 +17,17 @@ class Overpayment extends Controller {
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             
             DB::beginTransaction();
-            $ledgers = \App\Ledger::where('idno', $idno)->whereRaw("discount + debit_memo + payment > amount")->get();
-            $amount_remove = $this->RemoveOverpayment($idno, $ledgers);
+            $amount_remove = $this->RemoveOverpayment($idno);
             $this->ApplyOverpayment($idno, $amount_remove);
             $this->PostOverpaymentMemo($idno, $amount_remove);
             $this->UpdateOP();
             \App\Http\Controllers\Admin\Logs::log("Apply Overpayment for $idno.");
             DB::commit();
-            return redirect(url("/cashier/viewledger/2018/$idno"));
+            return redirect(url("/cashier/viewledger/2019/$idno"));
         }
     }
-    function RemoveOverpayment($idno, $ledgers){
+    function RemoveOverpayment($idno){
+        $ledgers = \App\Ledger::where('idno', $idno)->whereRaw("discount + debit_memo + payment > amount")->get();
         $amount = 0;
         foreach($ledgers as $ledger){
             $amount = $amount + (($ledger->payment+$ledger->discount+$ledger->debit_memo) - $ledger->amount);

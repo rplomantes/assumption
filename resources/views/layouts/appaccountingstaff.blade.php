@@ -208,6 +208,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting',array('sibling'))}}"><span>*Sibling Discounts</span></a></li>
                                 <li><a href="{{url('/accounting',array('realized_fees'))}}"><span>*Realized Fees</span></a></li>
                                 <li><a href="{{url('/accounting',array('payment_summary'))}}"><span>*Payment Summary</span></a></li>
+                                <li><a href="{{url('/accounting',array('nstp_report'))}}"><span>NSTP Report</span></a></li>
                             </ul>
                         </li>       
                         <li class="treeview">
