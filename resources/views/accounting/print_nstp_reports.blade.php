@@ -55,7 +55,7 @@ function getTF($level, $lec) {
         </tr>
         @foreach($students as $student) 
         <?php $user = \App\User::where('idno', $student->idno)->first(); ?>
-        <?php $status = \App\Status::where('idno', $student->idno)->first(); ?>
+        <?php $status = \App\CollegeLevel::where('idno', $student->idno)->where('school_year',$request->school_year)->where('period', $request->period)->first(); ?>
         <?php $info = \App\StudentInfo::where('idno', $student->idno)->first(); ?>
         <tr>
             <td>{{$number++}}.</td>
