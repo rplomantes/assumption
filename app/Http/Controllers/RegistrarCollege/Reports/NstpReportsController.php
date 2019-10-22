@@ -56,7 +56,7 @@ class NstpReportsController extends Controller {
                     $excel->sheet("NSTP Report", function ($sheet) use ($programs, $request, $students) {
                         $sheet->loadView('reg_college.reports.print_nstp_reports_excel', compact('programs', 'request', 'students'));
                     });
-                })->download('xlsx');
+                })->download('csv');
             }
         }
     }
@@ -83,4 +83,3 @@ class NstpReportsController extends Controller {
     }
 
 }
-?>
