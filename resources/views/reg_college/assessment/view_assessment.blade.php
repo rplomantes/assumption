@@ -375,6 +375,7 @@ if (count($previous) > 0) {
             } else {
                 
                 $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+                $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
                 $is_foreign = \App\User::where('idno', $idno)->first();
                     if (count($is_foreign) > 0) {
                         if ($is_foreign->is_foreign == '1') {
