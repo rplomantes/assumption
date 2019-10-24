@@ -7,16 +7,26 @@ function getAge($dob, $condate) {
     return $age;
 }
 ?>
+
 <table>
     <tr>
-        <th rowspan="1" align='center'>#</th>
-        <th align='center'>ID NUMBER</th>
-        <th align='center'>STUDENT NAME</th>
-        <th align='center'>COURSE</th>
-        <th align='center'>ADDRESS</th>
-        <th align='center'>DATE OF BIRTH</th>
-        <th align='center'>GENDER</th>
-        <th align='center'>TEL. NO</th>
+        <th rowspan="2"  align='center'>#</th>
+        <th align='center'>SERIAL NO.</th>
+        <th colspan="3"  align='center'>STUDENT NAME</th>
+        <th rowspan="2"  align='center'>COURSE</th>
+        <th rowspan="2"  align='center'>DATE OF BIRTH</th>
+        <th rowspan="2"  align='center'>AGE</th>
+        <th rowspan="2"  align='center'>GENDER</th>
+        <th rowspan="2"  align='center'>ADDRESS</th>
+        <th rowspan="2"  align='center'>EMAIL</th>
+        <th rowspan="2"  align='center'>TEL. NO</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td align='center'>FAMILY NAME</td>
+        <td align='center'>FIRST NAME</td>
+        <td align='center'>MIDDLE NAME</td>
     </tr>
     <?php $count = 0; ?>
     @foreach($students as $student)
@@ -24,23 +34,27 @@ function getAge($dob, $condate) {
     <?php $info = \App\StudentInfo::where('idno', $student->idno)->first(); ?>
     <?php $count = $count + 1 ?>
     <tr>
-        <td align="right">{{$count}}.</td>
-        <td>{{strtoupper($student->idno)}}</td>
-        <td>{{strtoupper($user->lastname)}}, {{strtoupper($user->firstname)}} {{strtoupper($user->middlename)}}</td>
-        <td>{{strtoupper($info->program_name)}}</td>
-        <td align='center'>{{$info->street}} {{$info->barangay}} {{$info->municipality}} {{$info->province}}</td>
+        <td align='center'>{{$count}}</td>
+        <td></td>
+        <td align='center'>{{strtoupper($user->lastname)}}</td>
+        <td align='center'>{{strtoupper($user->firstname)}}</td>
+        <td align='center'>{{strtoupper($user->middlename)}}</td>
+        <td align='center'>{{strtoupper($info->program_name)}}</td>
         <td align='center'>{{date('m/d/Y',strtotime($info->birthdate))}}</td>
+        <td align='center'>{{getAge($info->birthdate, date('Y-m-d'))}}</td>
         <td align='center'>F</td>
+        <td align='center'>{{$info->street}} {{$info->barangay}} {{$info->municipality}} {{$info->province}}</td>
+        <td align='center'>{{$user->email}}</td>
         <td align='center'>{{$info->tel_no}}</td>
 
     </tr>
     @endforeach
     <tr>
-        <th rowspan="2"></th>
-        <th>Male:</th>
-        <th rowspan="2" colspan="6" style="border-bottom: none; border-right: none"></th>
+        <th style="border-bottom: white; border-left: white; border-top: white" rowspan="2"></th>
+        <th align="center" rowspan="2">Total</th>
+        <td>Male:</td>
     </tr>
     <tr>
-        <th>Female: {{$count}}</th>
+        <td>Female: {{$count}}</td>
     </tr>
-</table>  
+</table>

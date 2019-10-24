@@ -31,7 +31,7 @@ class Overpayment extends Controller {
         $amount = 0;
         foreach($ledgers as $ledger){
             $amount = $amount + (($ledger->payment+$ledger->discount+$ledger->debit_memo) - $ledger->amount);
-            $ledger->payment = $ledger->amount; 
+            $ledger->payment = $ledger->amount-($ledger->discount+$ledger->debit_memo); 
             $ledger->save();
         }
         return $amount;
