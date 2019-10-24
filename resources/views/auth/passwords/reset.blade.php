@@ -94,7 +94,7 @@
                                 <input type="hidden" name="token" value="{{ $token }}">
 
                                 <div class="form-group row">
-                                    <label for="idno" class="col-md-4 col-form-label text-md-right">User ID.</label>
+                                    <label for="idno" class="col-md-4 col-form-label text-md-right">User ID</label>
 
                                     <div class="col-md-6">
                                         <input id="idno" type="idno" class="form-control{{ $errors->has('idno') ? ' is-invalid' : '' }}" name="idno" value="{{ $idno or old('idno') }}" required autofocus readonly="">
