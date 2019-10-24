@@ -40,6 +40,9 @@ class ForgotPasswordController extends Controller
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
+        
+        $checkuser = \App\User::where('idno', $request->idno)->where('accesslevel','>',0)->first();
+        if(count($checkuser)>0){
         $response = $this->broker()->sendResetLink(
             $request->only('idno')
         );
@@ -47,6 +50,9 @@ class ForgotPasswordController extends Controller
         return $response == Password::RESET_LINK_SENT
                     ? $this->sendResetLinkResponse($response)
                     : $this->sendResetLinkFailedResponse($request, $response);
+        }else{
+            return $this->sendResetLinkFailedResponse($request, "");
+        }
     }
 
     /**
@@ -57,7 +63,7 @@ class ForgotPasswordController extends Controller
      */
     protected function validateEmail(Request $request)
     {
-        $this->validate($request, ['idno' => 'required']);
+            $this->validate($request, ['idno' => 'required']);
     }
 
     /**
@@ -82,7 +88,7 @@ class ForgotPasswordController extends Controller
     {
         return back()
                 ->withInput($request->only('idno'))
-                ->withErrors(['idno' => trans("Student no. does not exist or the account has not yet been activated.")]);
+                ->withErrors(['idno' => trans("User ID. does not exist or the account has not yet been activated.")]);
     }
 
     /**
