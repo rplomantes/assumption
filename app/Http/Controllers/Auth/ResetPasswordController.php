@@ -161,7 +161,7 @@ class ResetPasswordController extends Controller
     {
         return redirect()->back()
                     ->withInput($request->only('idno'))
-                    ->withErrors(['idno' => trans("Student no. does not exist or the account has not yet been activated.")]);
+                    ->withErrors(['idno' => trans($response)]);
     }
 
     /**

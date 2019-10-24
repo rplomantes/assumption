@@ -103,7 +103,7 @@ class PreRegistration extends Controller {
         Mail::send('cashier.pre_registration.mail',compact('request','reference_id','applicant_details','six_number'), function($message) use($applicant_details) {
          $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
                  ->subject('AC Payment Confirmation');
-         $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
+         $message->from('ac.sis@assumption.edu.ph',"no-reply");
         });
     }
     

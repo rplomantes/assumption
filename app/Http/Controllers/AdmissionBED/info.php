@@ -187,7 +187,7 @@ class info extends Controller
         Mail::send('admission-bed.mail-result-application',compact('applicant_details','type'), function($message) use($applicant_details) {
          $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
                  ->subject('AC Admission Application Status');
-         $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
+         $message->from('ac.sis@assumption.edu.ph',"no-reply");
         });
     }
     
@@ -240,7 +240,7 @@ class info extends Controller
         Mail::send('cashier.pre_registration.mail',compact('reference_id','applicant_details','six_number'), function($message) use($applicant_details) {
          $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
                  ->subject('AC Payment Confirmation');
-         $message->from('ac.sis@assumption.edu.ph',"AC Student Information System");
+         $message->from('ac.sis@assumption.edu.ph',"no-reply");
         });
     }
 }
