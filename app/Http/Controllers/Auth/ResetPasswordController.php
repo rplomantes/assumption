@@ -136,6 +136,12 @@ class ResetPasswordController extends Controller
         event(new PasswordReset($user));
 
         $this->guard()->login($user);
+        
+        $log = new \App\Log();
+        $log->action = "Reset password by 'Forgot Password Button'.";
+        $log->idno = Auth::user()->idno;
+        $log->datetime = date("Y-m-d H:i:s");
+        $log->save();
     }
 
     /**
