@@ -39,7 +39,7 @@ Route::post('/cashier/other_payment', 'Cashier\OtherPayment@post_other_payment')
 Route::get('/cashier/main_payment/{idno}', 'Cashier\MainPayment@main_payment');
 Route::post('/cashier/main_payment', 'Cashier\MainPayment@post_main_payment');
 Route::get('/cashier/reverserestore/{reference_id}', 'Cashier\StudentLedger@reverserestore');
-Route::get('/cashier/collection_report/{date_from}/{date_to}','Cashier\CollectionReport@collection');
+Route::get('/cashier/collection_report/{date_from}/{date_to}/{posted_by}','Cashier\CollectionReport@collection');
 Route::get('/cashier/list_of_checks/{date_from}/{date_to}','Cashier\CollectionReport@list_of_checks');
 Route::get('/cashier/print/list_of_checks/{date_from}/{date_to}','Cashier\PrintController@print_list_of_checks');
 Route::get('/cashier/credit_cards/{date_from}/{date_to}','Cashier\CollectionReport@credit_cards');

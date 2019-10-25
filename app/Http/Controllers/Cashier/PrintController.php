@@ -33,25 +33,34 @@ class PrintController extends Controller
         return $pdf->stream();
     }
     
-    function print_collection_report($date_from,$date_to){
-        if(Auth::user()->accesslevel==env("CASHIER")){
-            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('posted_by',Auth::user()->idno)->get();
-            $credits =  \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('posted_by',Auth::user()->idno)->where('credit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
-            $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('posted_by',Auth::user()->idno)->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
+    function print_collection_report($date_from,$date_to,$posted_by){
+        if (Auth::user()->accesslevel == env("CASHIER")) {
+            $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
+                            ->where('posted_by', Auth::user()->idno)->get();
+            $credits = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                            ->where('posted_by', Auth::user()->idno)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+            $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                            ->where('posted_by', Auth::user()->idno)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
         }
-        
-         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
-            $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
-                        ->orderBy('posted_by')->get();
-            $credits =  \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('credit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
-            $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date',array($date_from,$date_to))
-                    ->where('debit','>','0')->where('accounting_type','1')->groupBy('receipt_details')->get();
+
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+            if ($posted_by == "all") {
+                $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
+                                ->orderBy('posted_by')->get();
+                $credits = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                                ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                                ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+            } else {
+                $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
+                                ->where('posted_by', $posted_by)->get();
+                $credits = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                                ->where('posted_by', $posted_by)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                                ->where('posted_by', $posted_by)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+            }
         }
-         $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to','credits','debits'));
+         $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to','credits','debits','posted_by'));
          $pdf->setPaper('legal','landscape');
          return $pdf->stream();
     }

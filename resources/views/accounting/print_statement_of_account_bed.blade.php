@@ -32,7 +32,7 @@ $late_less = 0;
 
 $ledger_main_tuition = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $student->idno)->where('category_switch', '<=', '6')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
-$ledger_others = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 0)->where('idno', $student->idno)->whereRaw('category_switch = 7')
+$ledger_others = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 0)->where('idno', $student->idno)->whereRaw('category_switch = 7')->where('subsidiary',"not like","%late%")
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 $ledger_others_return = \App\Ledger::groupBy(array('category', 'category_switch'))->where('is_returned_check', 1)->where('idno', $student->idno)->whereRaw('category_switch = 7')
                 ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
@@ -172,13 +172,13 @@ $late_less = $late_totaldiscount + $late_totaldm + $late_totalpayment;
             <td colspan="4">&nbsp;</td>
         </tr>
     </table>
-    @if($other_totalamount-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
+    @if(($other_totalamount+$late_totalamount)-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
     <table width="45%" border="1" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="2" style="background-color: silver"><strong>OTHER FEES/LATE PAYMENTS</strong></td>
         </tr>
         <tr>
-            <td width="30%">Total Fees:</td><td align="right">{{number_format($other_totalamount,2)}}</td>
+            <td width="30%">Other Fees:</td><td align="right">{{number_format($other_totalamount,2)}}</td>
         </tr>
         <tr>
             <td>Late Payment:</td><td align="right">{{number_format($late_totalamount,2)}}</td>
@@ -196,7 +196,7 @@ $late_less = $late_totaldiscount + $late_totaldm + $late_totalpayment;
             <td>&nbsp;&nbsp;&nbsp;Payment:</td><td align="right">({{number_format($other_totalpayment,2)}})</td>
         </tr>
         <tr>
-            <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format($other_totalamount-($other_totaldm+$other_totaldiscount+$other_totalpayment),2)}}</td>
+            <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format(($other_totalamount+$late_totalamount)-($other_totaldm+$other_totaldiscount+$other_totalpayment),2)}}</td>
         </tr>
     </table>
     <br>
