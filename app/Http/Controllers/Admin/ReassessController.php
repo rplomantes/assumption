@@ -1008,7 +1008,7 @@ class ReassessController extends Controller {
                     $addledger->accounting_name = $this->getAccountingName($otherfee->accounting_code);
                     $addledger->category_switch = $otherfee->category_switch;
                     $addledger->amount = $otherfee->amount;
-                    $addledger->discount = $otherfee->amount;
+                    $addledger->discount = 0;
                     $addledger->discount_code = "";
                     $addledger->save();
                 }
