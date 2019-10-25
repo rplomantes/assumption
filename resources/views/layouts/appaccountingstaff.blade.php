@@ -153,7 +153,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d')))}}">Collection Report Summary</a></li>
+                                <li><a href="{{url('cashier',array('collection_report',date('Y-m-d'),date('Y-m-d'),Auth::user()->idno))}}">Collection Report Summary</a></li>
                                 <li><a href="{{url('cashier',array('list_of_checks',date('Y-m-d'),date('Y-m-d')))}}">Check </a></li>
                                 <li><a href="{{url('cashier',array('credit_cards',date('Y-m-d'),date('Y-m-d')))}}">Credit Card </a></li>
                                 <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
