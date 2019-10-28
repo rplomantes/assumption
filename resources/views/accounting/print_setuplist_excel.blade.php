@@ -57,7 +57,7 @@ $x = 0 ?>
                 </tr>
                 @endif
             @endforeach
-            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td><td align="right"><strong>{{number_format($subdiscount,2)}}</strong></td><td align="right"><strong>{{number_format($head->total-$head->discount,2)}}</strong></td></tr>
+            <tr><td align="right" colspan="5">SUB TOTAL</td><td align="right"><strong>{{$head->total}}</strong></td><td align="right"><strong>{{$subdiscount}}</strong></td><td align="right"><strong>{{$head->total-$head->discount}}</strong></td></tr>
         @endforeach
     </tbody>
     <tfoot>
