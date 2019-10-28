@@ -56,9 +56,9 @@
         <tr>
             <td>{{$srf->accounting_code}}</td>
             <td>{{$srf->category}}</td>
-            <td align='right'>{{number_format($srf->amount,2)}}</td>
-            <td align='right'>{{number_format($srf->discount,2)}}</td>
-            <td align='right'>{{number_format($srf->amount-$srf->discount,2)}}</td>
+            <td align='right'>{{$srf->amount}}</td>
+            <td align='right'>{{$srf->discount}}</td>
+            <td align='right'>{{$srf->amount-$srf->discount}}</td>
         </tr>
         @endforeach
         @endif
