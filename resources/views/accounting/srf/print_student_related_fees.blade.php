@@ -92,6 +92,7 @@ $x = 0;
     $ledgers = \App\Ledger::
             groupBy(array('subsidiary'))
             ->where('srf_group', $group)
+            ->where('program_code', '!=', NULL)
             ->where('school_year', $school_year)
             ->where('period', $period)
             ->where(function ($query){
@@ -99,9 +100,7 @@ $x = 0;
                               ->orWhere('category_switch', env('SRF_FEE')+10);
                     })
             ->where('category', 'SRF')
-//            ->where('subsidiary', 'not like', '%Lab Fee%')
             ->selectRaw('subsidiary,sum(amount) as amount')
-                ->where('srf_group', $group)
             ->where('amount', '>', 0)
             ->orderBy('subsidiary', 'asc')
             ->orderBy('amount', 'asc')
