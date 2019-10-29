@@ -3,6 +3,7 @@
 //admission view student info
 Route::get('/admission_hed/view_info/{idno}','AdmissionHED\ViewInfoAdmissionHedController@view_info');
 Route::post('/admission_hed/update_info','AdmissionHED\ViewInfoAdmissionHedController@update_info');
+Route::get('/admission/print_pre_application_form/{idno}','AdmissionHED\ViewInfoAdmissionHedController@print_pre_application_form');
 //ajax route
 Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList@view_list');
 Route::get('/bedregistrar/ajax/view_withdrawn', 'BedRegistrar\Ajax\GetStudentList@view_withdrawn');

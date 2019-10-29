@@ -408,6 +408,11 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                 </div>
                             </div>
                             @endif
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <a role="button" href="{{url('admission',array('print_pre_application_form',$idno))}}" class="form form-control btn btn-primary">PRINT PRE-APPLICATION FORM</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

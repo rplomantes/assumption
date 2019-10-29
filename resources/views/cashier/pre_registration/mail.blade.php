@@ -107,7 +107,7 @@
                                                     
                                                     Thank you very much.<br><br>
 
-                                                If you have questions kindly call Admission's Office(817-0757).
+                                                If you have questions kindly call Admission's Office(8817-0757).
                                             </span>
                                         </div>
                                     </td>

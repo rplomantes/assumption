@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use Session;
 use Mail;
+use PDF;
 
 class ViewInfoAdmissionHedController extends Controller {
 
@@ -205,6 +206,23 @@ class ViewInfoAdmissionHedController extends Controller {
                     ->subject('AC Portal Access');
             $message->from('ac.sis@assumption.edu.ph', "AC Student Information System");
         });
+    }
+    
+    function print_pre_application_form($idno){
+        if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
+            $users = \App\User::where('idno', $idno)->first();
+            $adhedinfo = \App\AdmissionHed::where('idno', $idno)->first();
+            $studentinfos = \App\StudentInfo::where('idno', $idno)->first();
+            $admissionreq = \App\AdmissionHedRequirements::where('idno', $idno)->first();
+            $email = \App\EmailBlast::where('idno',$idno)->where('is_done',1)->first();
+            $status = \App\Status::where('idno',$idno)->first();
+            $user = \App\User::where('idno', $idno)->first();
+            $info = \App\StudentInfo::where('idno', $idno)->first();
+            
+            $pdf = PDF::loadView('admission-hed.viewinfo.print_pre_application_form', compact('users','adhedinfo','studentinfos','admissionreq','email','status','info','user'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream("pre_application_form-$idno.pdf"); 
+        }
     }
 
 }

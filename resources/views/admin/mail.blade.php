@@ -79,7 +79,7 @@
                                                     
                                                     Thank you very much.<br><br>
 
-                                                If you have questions kindly call Admissions' Office at 817-7773/810-5083.
+                                                If you have questions kindly call Admissions' Office at 8817-7773/8810-5083.
                                             </span>
                                         </div>
                                     </td>

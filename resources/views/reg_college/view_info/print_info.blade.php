@@ -788,5 +788,49 @@ function check($val) {
                 <td colspan="4" class="border-right">{{$emergency->mobile}}</td>
             </tr>
         </table>
+        <h4>AGREEMENT</h4>
+        <label>The following must be read and signed by the applicant and her parent(s), guardian or spouse.</label>
+        <label>I understand that my application and admission into the Assumption College are subject to the following conditions:</label>
+        <ol>
+            <li>That it is the responsibility of the applicant to provide all necessary documentary evidence of her qualification and experience;</li>
+            <li>That confidential recommendations, interview reports, and statements from members of the Admissions Committee and the Admissions staff will be used solely for purposes of evaluation of this application;</li>
+            <li>That contents of confidential appraisals shall not be disclosed to me and members of the family;</li>
+            <li>The credentials filed in support of this application which are received by the Admissions Office become the property of the Assumption College and will not be returned to the applicant;</li>
+            <li>That all forms distributed by the Admissions Office to elicit information are the property of Assumption College and therefore recognize Assumption College's property and confidentiality rights to the same;</li>
+            <li>That I have provided accurate information in this application, and authorize the verification of my credentials;</li>
+            <li>That any misrepresentation or omission of facts in my application will justify the denial or application of admission;</li>
+            <li>That I will notify the Admissions Office of any change in status stated in this application and supporting documents from date of application to date of formal admission into the College;</li>
+            <li>That I agree to comply with the rules, policies, and regulation of the Assumption College when I am accepted.</li>
+        </ol>
+        <h4>Declaration</h4>
+        <label>I have read and understood all sections of this admissions package. I declare that to the best of my knowledge the information supplied in this application and supporting documentation is correct and complete.</label>
+        <br><br><br>
+        <table>
+            <tr>
+                <td>________________________________</td>
+                <td></td>
+                <td>___________________</td>
+            </tr>
+            <tr>
+                <td>Signature of Applicant</td>
+                <td></td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>________________________________</td>
+                <td></td>
+                <td>___________________</td>
+            </tr>
+            <tr>
+                <td>Signature of Parent/Guardian/Spouse</td>
+                <td></td>
+                <td>Date</td>
+            </tr>
+        </table>
     </div>
 </body>
