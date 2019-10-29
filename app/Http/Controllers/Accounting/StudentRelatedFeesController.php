@@ -35,7 +35,7 @@ class StudentRelatedFeesController extends Controller
             if ($department == "College Department") {
                 $dep = '%Department';
                     $levels = array('1st Year', '2nd Year', '3rd Year', '4th Year');
-                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department');
+                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department','Interior Design Department',NULL);
             } 
             else {
                 $dep = $department;
@@ -64,7 +64,7 @@ class StudentRelatedFeesController extends Controller
             if ($department == "College Department") {
                 $dep = '%Department';
                     $levels = array('1st Year', '2nd Year', '3rd Year', '4th Year');
-                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department');
+                    $groups = array('General Education','Laboratory','Thesis', 'Business Department', 'Communication Department', 'Performing Department', 'Education Department', 'Psychology Department','Interior Design Department',NULL);
             } 
             else {
                 $dep = $department;
