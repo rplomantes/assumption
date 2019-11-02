@@ -59,7 +59,7 @@ class PostCharges extends Controller {
 //                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
                     $numberOfMonths = $noOfDues - ($countLedger+$countLedger2);
                 }
-                return $numberOfMonths;
+//                return $numberOfMonths;
 if($numberOfMonths > 0){
                 $ledger = new \App\Ledger;
                 $ledger->idno = $idno;

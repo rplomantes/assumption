@@ -404,7 +404,7 @@ if($pin_grades->finals == "FAILED" || $pin_grades->finals == "FA" || $pin_grades
                     </tr>
                     @endforeach
                     @if($count > 0)
-                    <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format($gpa/$count,4)}}</b></td></tr>
+                    <tr><td colspan='2'>GPA</td><td align='center'><b>Total Grade:{{$gpa}}/Units:{{$count}}=<u>{{number_format($gpa/$count,4)}}</u></b></td></tr>
                     @else
                     <tr><td colspan='2'>GPA</td><td align='center'><b>{{number_format(0,4)}}</b></td></tr>
                     @endif
