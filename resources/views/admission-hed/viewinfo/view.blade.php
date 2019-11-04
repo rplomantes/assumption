@@ -55,6 +55,21 @@ if ($adhedinfo->applying_for == "Senior High School") {
         <form class="form-horizontal" method='post' action='{{url('/admission_hed/update_info')}}'>
             {{ csrf_field() }}
             <div class="col-sm-12">
+                <?php $testing_schedules = \App\HedTestingSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
+                <?php $testing = \App\HedTestingStudent::where('idno',$idno)->first(); ?>
+                <div class="col-md-3 pull-left">
+                     <div class="form form-group">
+                         <label>Testing Schedule:</label>
+                         <select class="form form-control" onchange='update_testing(this.value)'>
+                             <option>Select Schedule</option>
+                             @foreach($testing_schedules as $sched)
+                             <option value='{{$sched->id}}' @if($testing->schedule_id == $sched->id)selected @endif>{{date("F j, Y - g:i A",strtotime($sched->datetime))}}</option>
+                             @endforeach
+                         </select>
+                     </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
                 @if(Session::has('message'))
                 <div class="alert alert-success">{{Session::get('message')}}</div>
                 @endif
@@ -483,6 +498,20 @@ if ($adhedinfo->applying_for == "Senior High School") {
     $(function () {
         $('.select2').select2();
     });
+    
+    function update_testing(id){
+    array = {};
+    array['idno'] = "{{$user->idno}}";
+    array['testing_id'] = id;
+    $.ajax({
+        type: "GET",
+        url: "/ajax/admissionhed/update_schedule",
+        data: array,
+        success: function (data) {
+        }
+
+    });
+}
 </script>   
 
 @endsection

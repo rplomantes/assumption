@@ -18,6 +18,14 @@ class ViewInfoAdmissionHedController extends Controller {
     }
     function view_info($idno) {
         if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
+            
+            $addparent = \App\HedTestingStudent::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\HedTestingStudent;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            
             $users = \App\User::where('idno', $idno)->first();
             $adhedinfo = \App\AdmissionHed::where('idno', $idno)->first();
             $studentinfos = \App\StudentInfo::where('idno', $idno)->first();

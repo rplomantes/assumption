@@ -562,3 +562,12 @@ Route::get('/accounting/student_list_report/{school_year}','Accounting\StudentLi
 //Accounting NSTP Report
 Route::get('/accounting/nstp_report','Accounting\NstpController@index');
 Route::post('/accounting/submit_nstp_report','Accounting\NstpController@get_list');
+
+//HED TESTING SCHEDULES/////////////////////////////////////////////////////////
+Route::get('/admissionhed/testing_schedules', 'AdmissionHED\TestingSchedules@view');
+Route::post('/admissionhed/add_testing_schedule', 'AdmissionHED\TestingSchedules@add');
+Route::get('/admissionhed/edit_testing_schedule/{id}', 'AdmissionHED\TestingSchedules@edit');
+Route::post('/admissionhed/edit_testing_schedule_now', 'AdmissionHED\TestingSchedules@edit_now');
+Route::get('/admissionhed/view_testing_list/{id}', 'AdmissionHED\TestingSchedules@view_list');
+Route::get('/admissionhed/remove_testing_list_student/{id}/{idno}', 'AdmissionHED\TestingSchedules@remove_list');
+Route::get('/ajax/admissionhed/update_schedule','AdmissionHED\Ajax\GetStudentList_ajax@updateSched');
