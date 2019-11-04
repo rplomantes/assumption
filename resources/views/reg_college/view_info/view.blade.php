@@ -473,7 +473,11 @@ $layout = "layouts.appreg_college";
                             <label>Spouse's Name</label>
                             <input class="form form-control" name='spouse' value="{{old('spouse',$info->spouse)}}" type="text">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
+                            <label>Birthday</label>
+                            <input class="form form-control" name='s_dob' value="{{old('s_dob',$info->s_dob)}}" type="text">
+                        </div>
+                        <div class="col-sm-2">
                             <label>&nbsp;</label>
                             <div class='radio'>
                                 <label><input name='s_is_living' value="1" type="radio" @if($info->s_is_living == 1 || is_null($info->s_is_living)) checked="" @else unchecked="" @endif>Living</label>

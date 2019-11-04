@@ -44,6 +44,7 @@ class CreateStudentInfoParentInfosTable extends Migration
             $table->string('s_attainment')->nullable();
             $table->string('s_citizenship')->nullable();
             $table->string('s_company_name')->nullable();
+            $table->string('s_dob')->nullable();
             
             $table->foreign('idno')
                     ->references('idno')->on('users')

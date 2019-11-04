@@ -791,6 +791,7 @@ class ViewInfoController extends Controller {
         $updaterank->s_attainment = $request->s_attainment;
         $updaterank->s_citizenship = $request->s_citizenship;
         $updaterank->s_company_name = $request->s_company_name;
+        $updaterank->s_dob = $request->s_dob;
         $updaterank->save();
     }
 
