@@ -17,16 +17,16 @@ class GetStudentList extends Controller {
 
     function index() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("ADMISSION_BED") ||Auth::user()->accesslevel == env("ADMISSION_SHS")) {
+            if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $search = Input::get('search');
-            $lists = \App\User::where('academic_type', "!=",'College')
-                    ->where(function ($query) use ($search){
-                        $query->where("lastname","like","%$search%")
-                              ->orWhere("firstname","like","%$search%")
-                              ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")
-                              ->orWhere("idno",$search);
-                    })->get();
-                    
+                $lists = \App\User::where('academic_type', "!=", 'College')
+                                ->where(function ($query) use ($search) {
+                                    $query->where("lastname", "like", "%$search%")
+                                    ->orWhere("firstname", "like", "%$search%")
+                                    ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"), "like", "%$search%")
+                                    ->orWhere("idno", $search);
+                                })->get();
+
 //                $lists = \App\User::Where("users.lastname", "like", "%$search%")
 //                                ->orWhere("users.firstname", "like", "%$search%")->orWhere("users.idno", $search)->get();
                 return view('admission-bed.ajax.getstudentlist', compact('lists'));
@@ -107,7 +107,7 @@ class GetStudentList extends Controller {
                     $update = \App\GroupStudent::where('idno', $idno)->first();
                     $update->schedule_id = $interview_id;
                     $update->save();
-                    
+
                     $update = \App\IndividualStudents::where('idno', $idno)->first();
                     $update->schedule_id = NULL;
                     $update->save();
@@ -130,7 +130,7 @@ class GetStudentList extends Controller {
                     $update = \App\IndividualStudents::where('idno', $idno)->first();
                     $update->schedule_id = $interview_id;
                     $update->save();
-                    
+
                     $update = \App\GroupStudent::where('idno', $idno)->first();
                     $update->schedule_id = NULL;
                     $update->save();
@@ -144,25 +144,81 @@ class GetStudentList extends Controller {
             if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
                 $idno = Input::get('idno');
                 $level = Input::get('level');
-                
-                if($level == "Grade 11"){
-                    $academic_type="SHS";
-                }else{
-                    $academic_type="BED";
+                $strand = Input::get('strand');
+                $type = Input::get('type');
+
+                if ($type == "level") {
+                    if ($level == "Grade 11") {
+                        $academic_type = "SHS";
+                    } else {
+                        $academic_type = "BED";
+                    }
+
+                    $status = \App\Status::where('idno', $idno)->first();
+                    $status->level = $level;
+                    $status->academic_type = $academic_type;
+                    $status->save();
+
+                    $bedinfo = \App\BedProfile::where('idno', $idno)->first();
+                    $bedinfo->applied_for = $level;
+                    $bedinfo->save();
+
+                    $promotion = \App\Promotion::where('idno', $idno)->first();
+                    $promotion->level = $level;
+                    $promotion->save();
+                    
+                    if ($level == "Grade 11") {
+                        $status = \App\Status::where('idno', $idno)->first();
+                        $status->strand = $strand;
+                        $status->save();
+
+                        $bedinfo = \App\BedProfile::where('idno', $idno)->first();
+                        $bedinfo->applied_for_strand = "$strand";
+                        $bedinfo->save();
+
+                        $promotion = \App\Promotion::where('idno', $idno)->first();
+                        $promotion->strand = $strand;
+                        $promotion->save();
+                    } else {
+                        $status = \App\Status::where('idno', $idno)->first();
+                        $status->strand = null;
+                        $status->save();
+
+                        $bedinfo = \App\BedProfile::where('idno', $idno)->first();
+                        $bedinfo->applied_for_strand = null;
+                        $bedinfo->save();
+
+                        $promotion = \App\Promotion::where('idno', $idno)->first();
+                        $promotion->strand = null;
+                        $promotion->save();
+                    }
+                } else {
+                    if ($level == "Grade 11") {
+                        $status = \App\Status::where('idno', $idno)->first();
+                        $status->strand = $strand;
+                        $status->save();
+
+                        $bedinfo = \App\BedProfile::where('idno', $idno)->first();
+                        $bedinfo->applied_for_strand = $strand;
+                        $bedinfo->save();
+
+                        $promotion = \App\Promotion::where('idno', $idno)->first();
+                        $promotion->strand = $strand;
+                        $promotion->save();
+                    } else {
+                        $status = \App\Status::where('idno', $idno)->first();
+                        $status->strand = null;
+                        $status->save();
+
+                        $bedinfo = \App\BedProfile::where('idno', $idno)->first();
+                        $bedinfo->applied_for_strand = null;
+                        $bedinfo->save();
+
+                        $promotion = \App\Promotion::where('idno', $idno)->first();
+                        $promotion->strand = null;
+                        $promotion->save();
+                    }
                 }
-                
-                $status = \App\Status::where('idno', $idno)->first();
-                $status->level = $level;
-                $status->academic_type = $academic_type;
-                $status->save();
-                
-                $bedinfo = \App\BedProfile::where('idno', $idno)->first();
-                $bedinfo->applied_for = $level;
-                $bedinfo->save();
-                
-                $promotion = \App\Promotion::where('idno', $idno)->first();
-                $promotion->level = $level;
-                $promotion->save();
             }
         }
     }

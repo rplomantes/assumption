@@ -243,7 +243,7 @@ $layout = "layouts.appadmission-shs";
         <div class="row">
             <div class="col-sm-3">
                 <label>Level Applied For</label>
-                <select onchange="change_applied_for(this.value,'{{$user->idno}}')">
+                <select onchange="change_applied_for(this.value,strand.value,'{{$user->idno}}','level')" id="level">
                     <option @if($info->applied_for == "Pre-Kinder") selected="" @endif>Pre-Kinder</option>
                     <option @if($info->applied_for == "Kinder") selected="" @endif>Kinder</option>
                     <option @if($info->applied_for == "Grade 1") selected="" @endif>Grade 1</option>
@@ -258,6 +258,14 @@ $layout = "layouts.appadmission-shs";
                     <option @if($info->applied_for == "Grade 10") selected="" @endif>Grade 10</option>
                     <option @if($info->applied_for == "Grade 11") selected="" @endif>Grade 11</option>
                     <!--<option @if($info->applied_for == "Grade 12") selected="" @endif>Grade 12</option>-->
+                </select>
+                <label>Strand Applied For</label>
+                <select onchange="change_applied_for(level.value,this.value,'{{$user->idno}}','strand')" id="strand">
+                    <option @if($info->applied_for_strand == NULL) selected="" @endif></option>
+                    <option @if($info->applied_for_strand == "STEM") selected="" @endif>STEM</option>
+                    <option @if($info->applied_for_strand == "HUMSS") selected="" @endif>HUMSS</option>
+                    <option @if($info->applied_for_strand == "ABM") selected="" @endif>ABM</option>
+                    <option @if($info->applied_for_strand == "PA") selected="" @endif>PA</option>
                 </select>
             </div>
         </div>
@@ -1516,10 +1524,12 @@ function update_individual(id){
 
     });
 }
-function change_applied_for(level,idno){
+function change_applied_for(level,strand,idno,type){
     array = {};
     array['idno'] = "{{$user->idno}}";
     array['level'] = level;
+    array['strand'] = strand;
+    array['type'] = type;
     $.ajax({
         type: "GET",
         url: "/ajax/admissionbed/change_applied_for",
