@@ -359,16 +359,16 @@ $tdcounter=1;
                         <td>Less:</td><td align="right"></td>
                     </tr>
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;Debit Memo:</td><td align="right">({{number_format($other_totaldm,2)}})</td>
+                        <td>&nbsp;&nbsp;&nbsp;Debit Memo:</td><td align="right">({{number_format($other_totaldm+$late_totaldm,2)}})</td>
                     </tr>
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;Discount:</td><td align="right">({{number_format($other_totaldiscount,2)}})</td>
+                        <td>&nbsp;&nbsp;&nbsp;Discount:</td><td align="right">({{number_format($other_totaldiscount+$late_totaldiscount,2)}})</td>
                     </tr>
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;Payment:</td><td align="right">({{number_format($other_totalpayment,2)}})</td>
+                        <td>&nbsp;&nbsp;&nbsp;Payment:</td><td align="right">({{number_format($other_totalpayment+$late_totalpayment,2)}})</td>
                     </tr>
                     <tr>
-                        <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format(($other_totalamount+$late_totalamount)-($other_totaldm+$other_totaldiscount+$other_totalpayment),2)}}</td>
+                        <td id="bold">Balance:</td><td id="bold" align="right">Php {{number_format(($other_totalamount+$late_totalamount)-($other_totaldm+$other_totaldiscount+$other_totalpayment+$late_totalpayment+$late_totaldiscount+$late_totaldm),2)}}</td>
                     </tr>
                 </table>
                 <br>
