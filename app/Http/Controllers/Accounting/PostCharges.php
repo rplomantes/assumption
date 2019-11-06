@@ -59,7 +59,7 @@ class PostCharges extends Controller {
 //                $numberOfMonths = abs((date('Y', strtotime($dates2)) - date('Y', strtotime($lastpay))) * 12 + (date('m', strtotime($dates2)) - date('m', strtotime($lastpay))));
                     $numberOfMonths = $noOfDues - ($countLedger+$countLedger2);
                 }
-//                return $numberOfMonths;
+//                return "$numberOfMonths = $noOfDues - ($countLedger+$countLedger2)";
 if($numberOfMonths > 0){
                 $ledger = new \App\Ledger;
                 $ledger->idno = $idno;
@@ -141,12 +141,13 @@ if($numberOfMonths > 0){
                     $totalpay = $totalpay - $duedate->amount;
                     $lastpay = "";
                     $count = $count +1;
+                    $remain = $remain;
                 } else {
                     $totalpay = 0;
                     $count = $count;
+                    $remain = 1;
                 }
                 $lastpay = "upon enrollment";
-                $remain = $remain;
             } else {
                 if ($duedate->due_date <= $dates2) {
                     if ($totalpay >= $duedate->amount) {
