@@ -42,7 +42,8 @@ function check($val) {
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'>
         <span id="schoolname">Assumption College</span> <br>
         <small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br>
-        <br><b>STUDENT INFORMATION</b></div>
+        <?php $admission_hed = \App\AdmissionHed::where('idno',$user->idno)->first(); ?>
+        <br><b>STUDENT INFORMATION</b><br>Applying for SY: {{$admission_hed->applying_for_sy}}-{{$admission_hed->applying_for_sy+1}}</div>
     <br/><br/>
     <br/><br/>
     <div id="main-content" style="clear:both;">
@@ -146,7 +147,7 @@ function check($val) {
             </tr>
             <tr>
                 <td colspan="8" class="border-right">{{check($info->father)}}</td>
-                <td colspan="2" class="border-right">@if($info->f_is_living==1) Living @else Deceased @endif</td>
+                <td colspan="2" class="border-right">@if($info->f_is_living==1) Living @elseif($info->f_is_living==2) Deceased @endif</td>
                 <td colspan="2" class="border-right">{{check($info->f_citizenship)}}</td>
             </tr>
             <tr>
@@ -180,7 +181,7 @@ function check($val) {
             </tr>
             <tr>
                 <td colspan="8" class="border-right">{{check($info->mother)}}</td>
-                <td colspan="2" class="border-right">@if($info->m_is_living==1) Living @else Deceased @endif</td>
+                <td colspan="2" class="border-right">@if($info->m_is_living==1) Living @elseif($info->m_is_living==2) Deceased @endif</td>
                 <td colspan="2" class="border-right">{{check($info->m_citizenship)}}</td>
             </tr>
             <tr>
@@ -214,7 +215,7 @@ function check($val) {
             </tr>
             <tr>
                 <td colspan="8" class="border-right">{{check($info->guardian)}}</td>
-                <td colspan="2" class="border-right">@if($info->g_is_living==1) Living @else Deceased @endif</td>
+                <td colspan="2" class="border-right">@if($info->g_is_living==1) Living @elseif($info->g_is_living==2) Deceased @endif</td>
                 <td colspan="2" class="border-right">{{check($info->g_citizenship)}}</td>
             </tr>
             <tr>
@@ -250,7 +251,7 @@ function check($val) {
             </tr>
             <tr>
                 <td colspan="8" class="border-right">{{check($info->spouse)}}</td>
-                <td colspan="2" class="border-right">@if($info->s_is_living==1) Living @else Deceased @endif</td>
+                <td colspan="2" class="border-right">@if($info->s_is_living==1) Living @elseif($info->s_is_living==2) Deceased @endif</td>
                 <td colspan="2" class="border-right">{{check($info->s_citizenship)}}</td>
             </tr>
             <tr>

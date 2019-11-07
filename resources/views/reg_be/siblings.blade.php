@@ -59,6 +59,7 @@
                         <td align="right"><strong>#</strong></td>
                         <th>ID Number</th>
                         <th>Name</th>
+                        <th>Level</th>
                         <th>Status</th>
                         <td align="right"><strong>Remove Student</strong></td>
                     </tr>
@@ -68,6 +69,7 @@
                         <td align="right">{{$control++}}.</td>
                         <td>{{$sibling->idno}}</td>
                         <td>{{$sibling->lastname}}, {{$sibling->firstname}} {{$sibling->middlename}}</td>
+                        <td>{{$status->level}}</td>
                         <td>
                             @if($status->status == 3)Enrolled
                             @elseif($status->status == 2) Assessed

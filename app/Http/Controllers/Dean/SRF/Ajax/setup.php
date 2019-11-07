@@ -42,6 +42,34 @@ class setup extends Controller
             return ($data);
         }
     }
+    function get_search_list(){
+        if(Request::ajax()){
+            $search = Input::get('search');
+            
+            $data = "<b>Note:</b> All modified SRF in the same period with the same subject code will also be modified."
+                    . "<table class='table table-striped'><thead><tr><th>Code</th><th>Description</th><th>Program</th><th>Curriculum Year</th><th>Level</th><th>Period</th><th>SRF</th><th>Lab Fee</th><th>Modify</th></tr></thead>"
+                    . "<tbody>";
+                
+            $lists = \App\Curriculum::where('course_code', $search)->orderBy('period', 'asc')->orderBy('curriculum_year', 'asc')->orderBy('level', 'asc')->get();
+                foreach($lists as $list){
+                    $data = $data."<tr>"
+                            . "<td>".$list->course_code."</td>"
+                            . "<td>".$list->course_name."</td>"
+                            . "<td>".$list->program_code."</td>"
+                            . "<td>".$list->curriculum_year."</td>"
+                            . "<td>".$list->level."</td>"
+                            . "<td>".$list->period."</td>"
+                            . "<td>".$list->srf."</td>"
+                            . "<td>".$list->lab_fee."</td>"
+                            . "<td><a target='_blank' href='".url('dean', array('srf','modify',$list->period,$list->course_code))."'>Modify</a></td>"
+                            . "</tr>";
+                }
+            
+            $data = $data."</tbody></table>";
+            
+            return ($data);
+        }
+    }
     
     function print_list(){
         if(Request::ajax()){

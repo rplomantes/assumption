@@ -95,6 +95,14 @@ $layout = "layouts.appreg_college";
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" id="period-form">
+                        <label>Search Course Code</label>
+                        <input type="text" id="search" class="form-control" placeholder="Type Course Code...">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>        
 </div>
@@ -148,5 +156,22 @@ $layout = "layouts.appreg_college";
 
         });
     }
+    $(document).ready(function(){
+       $("#search").on('keypress',function(e){
+          if(e.keyCode==13){
+              var array={};
+              array['search'] = $("#search").val();
+              $.ajax({
+                  type:"GET",
+                  url:"/ajax/dean/srf/get_search_list/",
+                  data:array,
+                  success:function(data){
+                    $('#result').html(data);
+                    $("#search").val("");
+                  }
+              })
+          } 
+       }); 
+    });
 </script>
 @endsection
