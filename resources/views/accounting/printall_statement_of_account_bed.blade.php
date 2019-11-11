@@ -267,7 +267,7 @@ $tdcounter=1;
         ?>
         @endforeach
         
-        <?php $previous = $previous_totalamount - $previous_less ?>
+        <?php $previous = $previous_totalamount - $previous_less + $late_totalamount - $late_less; ?>
         <?php $due_amount = ($ledger_amount - ($less-$less_return)) + $others + $previous; ?>
 
             @if($due_amount > 0)

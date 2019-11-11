@@ -110,7 +110,7 @@ $late_less = $late_totaldiscount + $late_totaldm + $late_totalpayment;
 ?>
 @endforeach
 
-<?php $previous = $previous_totalamount - $previous_less ?>
+<?php $previous = $previous_totalamount - $previous_less + $late_totalamount - $late_less; ?>
 <?php $due_amount = ($ledger_amount - ($less-$less_return)) + $others + $previous; ?>
 
 
