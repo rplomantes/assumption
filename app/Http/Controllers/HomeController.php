@@ -23,8 +23,8 @@ class HomeController extends Controller {
      */
     public function index() {
         $accesslevel = \Auth::user()->accesslevel;
-
-        if ($accesslevel > 0) {
+        
+        if ($accesslevel > 0 && $accesslevel != 90) {
             if (Auth::user()->is_first_login == "1") {
                 return view('set_password');
             }

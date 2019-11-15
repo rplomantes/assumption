@@ -68,7 +68,8 @@
                     </form>  
                 </div>
             </div>
-            
+        </div>
+        <div class='col-md-6'>
             <div class="box">
                 <div class='box-header'>
                     <div class='box-title'>Delete Course</div>
