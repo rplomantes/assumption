@@ -75,12 +75,31 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <option>Elementary</option>
                         <option>Junior High School</option>
                         <option>Senior High School</option>
-                        <option>College Department</option>
+                        <!--<option>College Department</option>-->
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <label>School Year</label>
+                    <select class="form form-control" name="school_year" id="school_year" onchange="getsubsidiary()">
+                        <option>Select School Year</option>
+                        <option value="2018">2018-2019</option>
+                        <option value="2019">2019-2020</option>
+                        <option value="2020">2020-2021</option>
+                        <option value="2021">2021-2022</option>
+                    </select>
+                </div>
+                <div class="col-sm-3" id="period_control">
+                    <label>Period</label>
+                    <select class="form form-control" name="period" id="period" onchange="getsubsidiary()">
+                        <option value="">Select Period</option>
+                        <option>1st Semester</option>
+                        <option>2nd Semester</option>
+                        <option>Summer</option>
                     </select>
                 </div>
                 <div class="col-sm-3">
                     <br>
-                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value)'>Generate Report</button></a>
+                    <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value, school_year.value, period.value)'>Generate Report</button></a>
                 </div>
             </div>
             <div class="form-group">
@@ -102,6 +121,14 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @endsection
 @section('footerscript') 
 <script>
+    $("#period_control").hide();
+    $("#department").on('change', function (e) {
+        if ($("#department").val() == "College Department" || $("#department").val() == "Senior High School") {
+            $("#period_control").fadeIn(300);
+        } else {
+            $("#period_control").fadeOut(300);
+        }
+    });
     function toPDF() {
         document.getElementById("myForm").action = "{{url('/accounting/print_sibling_discount_pdf')}}";
     }
@@ -110,9 +137,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         document.getElementById("myForm").action = "{{url('/accounting/print_sibling_discount_excel')}}";
     }
 
-    function generate_report(department) {
+    function generate_report(department, school_year, period) {
         var array = {};
         array['department'] = department;
+        array['school_year'] = school_year;
+        array['period'] = period
         $.ajax({
             type: "GET",
             url: "/accounting/ajax/getsibling_discount",
