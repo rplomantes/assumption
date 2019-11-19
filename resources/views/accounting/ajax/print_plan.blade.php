@@ -441,10 +441,10 @@ function get_total($level) {
             <tr>
                 <td>Mode of Payment</td>
                 <td>Upon Enrollment</td>
-                <td>Sept</td>
-                <td>Oct</td>
-                <td>Nov</td>
-                <td>Dec</td>
+                <td>Jan</td>
+                <td>Feb</td>
+                <td>Mar</td>
+                <td>Apr</td>
                 <td>Total</td>
             </tr>
             
