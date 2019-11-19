@@ -431,9 +431,7 @@ function get_total($level) {
                 <tr><td>ABM</td><td align="right">{{get_srf('Grade 11','ABM')}}</td><td align="right">{{get_srf('Grade 12','ABM')}}</td></tr>
                 <tr><td>HUMMS</td><td align="right">{{get_srf('Grade 11','HUMSS')}}</td><td align="right">{{get_srf('Grade 12','HUMSS')}}</td></tr>
                 <tr><td>STEM</td><td align="right">{{get_srf('Grade 11','STEM')}}</td><td align="right">{{get_srf('Grade 12','STEM')}}</td></tr>
-                <tr><td>GA</td><td align="right">{{get_srf('Grade 11','GA')}}</td><td align="right">{{get_srf('Grade 12','GA')}}</td></tr>
-                <tr><td>PA</td><td align="right">{{get_srf('Grade 11','PA')}}</td><td align="right">{{get_srf('Grade 12','PA')}}</td></tr>
-                <tr><td>VA</td><td align="right">{{get_srf('Grade 11','VA')}}</td><td align="right">{{get_srf('Grade 12','VA')}}</td></tr>
+                <tr><td>AD</td><td align="right">{{get_srf('Grade 11','PA')}}</td><td align="right">{{get_srf('Grade 12','PA')}}</td></tr>
                 <tr><td>Total SRF</td><td align="right">{{get_total('Grade 11')}}</td><td align="right">{{get_total('Grade 12')}}</td></tr>
             </table> 
         </div>
