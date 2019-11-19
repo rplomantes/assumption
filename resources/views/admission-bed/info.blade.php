@@ -4,6 +4,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
+<?php $is_lock = 0; ?>
 
 <style>
 .nav-tabs-custom > .nav-tabs > li.active > a, .nav-tabs-custom > .nav-tabs > li.active:hover > a {
@@ -96,6 +97,9 @@ $layout = "layouts.appadmission-shs";
         <?php //$interview_schedules = \App\InterviewSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $interview_schedules = \App\InterviewSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $interview = \App\InterviewStudent::where('idno',$user->idno)->first(); ?>
+        @if($interview->schedule_id == NULL)
+        <?php $is_lock = 1; ?>
+        @endif
         <div class="col-md-3 pull-left">
              <div class="form form-group">
                  <label>Parent Interview Schedule:</label>
@@ -110,6 +114,9 @@ $layout = "layouts.appadmission-shs";
         <?php //$testing_schedules = \App\TestingSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $testing_schedules = \App\TestingSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $testing = \App\TestingStudent::where('idno',$user->idno)->first(); ?>
+        @if($testing->schedule_id == NULL)
+        <?php $is_lock = 1; ?>
+        @endif
         <div class="col-md-3 pull-left">
              <div class="form form-group">
                  <label>Testing Schedule:</label>
@@ -127,6 +134,9 @@ $layout = "layouts.appadmission-shs";
         <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $group_schedules = \App\GroupSchedule::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $group = \App\GroupStudent::where('idno',$user->idno)->first(); ?>
+        @if($group->schedule_id == NULL)
+        <?php $is_lock = 1; ?>
+        @endif
         <div class="col-md-3 pull-left">
              <div class="form form-group">
                  <label>Group Interview Schedule:</label>
@@ -142,6 +152,9 @@ $layout = "layouts.appadmission-shs";
         <?php //$group_schedules = \App\GroupSchedule::where('is_remove',0)->where('datetime','>', DATE(NOW()))->orderBy('datetime', 'asc')->get(); ?>
         <?php $individual_schedules = \App\IndividualSchedules::where('is_remove',0)->orderBy('datetime', 'dsc')->get(); ?>
         <?php $individual = \App\IndividualStudents::where('idno',$user->idno)->first(); ?>
+        @if($individual->schedule_id == NULL)
+        <?php $is_lock = 1; ?>
+        @endif
         <div class="col-md-3 pull-left">
              <div class="form form-group">
                  <label>Applicant Interview Schedule:</label>
@@ -1381,7 +1394,7 @@ $layout = "layouts.appadmission-shs";
         <div class="col-sm-3">
         <input type="submit" value='Save' class='form-control btn btn-primary'>
         </div>
-        @if(Auth::user()->idno != "acruz")
+        @if(Auth::user()->idno != "acruz" || $is_lock == 0)
         <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
                         return true;
                     else
@@ -1390,6 +1403,12 @@ $layout = "layouts.appadmission-shs";
                         return true;
                     else
                         return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+        @else
+        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
+                        return true;
+                    else
+                        return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
+        <div class="col-sm-6 alert alert-danger">Assign Schedule to Approve Applicant</div>
         @endif
         @endif
         <br/>
