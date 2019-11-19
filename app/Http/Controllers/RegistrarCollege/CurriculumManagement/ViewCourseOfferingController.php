@@ -80,7 +80,8 @@ class ViewCourseOfferingController extends Controller
  
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')){
             $courses = \App\ScheduleCollege::distinct()->where('course_code', $request->course_code)->where('school_year', $request->school_year)->where('period', $request->period)->get(['schedule_id','course_code']);
-            $pdf = PDF::loadView('reg_college.curriculum_management.print_show_offerings_course',compact('courses','request'));
+            $number_of_students = \App\ScheduleCollege::distinct()->where('schedule_colleges.course_code', $request->course_code)->where('schedule_colleges.school_year', $request->school_year)->where('schedule_colleges.period', $request->period)->join('course_offerings', 'course_offerings.schedule_id','schedule_colleges.schedule_id')->join('grade_colleges','grade_colleges.course_offering_id', 'course_offerings.id')->join('statuses', 'statuses.idno', 'grade_colleges.idno')->where('statuses.status', env("ENROLLED"))->get(['grade_colleges.idno']);
+            $pdf = PDF::loadView('reg_college.curriculum_management.print_show_offerings_course',compact('courses','request','number_of_students'));
             $pdf->setPaper('letter','landscape');
           return $pdf->stream('course_offerings.pdf');           
         }        
