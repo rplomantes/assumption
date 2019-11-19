@@ -379,7 +379,4 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
     </tr>
   
  </table>
-
-<!--<h1>To Follow</h1>
-@endif-->
 <a href="{{url('/accounting',array('ajax','print_getplan',$department))}}" class="btn btn-primary" target="_blank">Print Plan</a>
