@@ -172,7 +172,7 @@ function get_total($level) {
             @elseif($department == "Junior High School")
             BEHS
             @elseif($department == "Senior High School")
-            Period : 2nd Semester Semester<br>
+            Period : 2nd Semester<br>
             SHS
             @endif
             <br>
