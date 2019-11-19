@@ -16,7 +16,7 @@
             <tbody>
                 <?php $totalunits = 0;?>
                 @foreach($courses as $course)
-                <?php $number_of_students_per_course = \App\ScheduleCollege::distinct()->where('schedule_colleges.course_code', $course->course_code)->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->join('course_offerings', 'course_offerings.schedule_id','schedule_colleges.schedule_id')->join('grade_colleges','grade_colleges.course_offering_id', 'course_offerings.id')->join('statuses', 'statuses.idno', 'grade_colleges.idno')->where('statuses.status', env("ENROLLED"))->get(['grade_colleges.idno']); ?>
+                <?php $number_of_students_per_course = \App\ScheduleCollege::distinct()->where('course_offerings.schedule_id',$course->schedule_id)->where('day', $day1)->where('schedule_colleges.course_code', $course->course_code)->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->join('course_offerings', 'course_offerings.schedule_id','schedule_colleges.schedule_id')->join('grade_colleges','grade_colleges.course_offering_id', 'course_offerings.id')->join('statuses', 'statuses.idno', 'grade_colleges.idno')->where('statuses.status', env("ENROLLED"))->get(['grade_colleges.idno']); ?>
                 <?php $course_name = \App\Curriculum::where('course_code', $course->course_code)->first(); ?>
                 @if(count($course_name)==0)
                 <?php $course_name = \App\CtrElective::where('course_code', $course->course_code)->first(); ?>

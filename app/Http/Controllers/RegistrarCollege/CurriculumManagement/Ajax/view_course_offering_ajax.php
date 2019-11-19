@@ -115,7 +115,7 @@ class view_course_offering_ajax extends Controller
             $period = Input::get("period");
             $day1 = Input::get("day");
             
-            $courses = \App\ScheduleCollege::distinct()->where('day', $day1)->where('school_year', $school_year)->where('period', $period)->get(['schedule_id','course_code']);
+            $courses = \App\ScheduleCollege::distinct()->where('day', $day1)->where('school_year', $school_year)->where('period', $period)->orderBy('course_code','asc')->get(['schedule_id','course_code']);
             $number_of_students = \App\ScheduleCollege::distinct()->where('day', $day1)->where('schedule_colleges.school_year', $school_year)->where('schedule_colleges.period', $period)->join('course_offerings', 'course_offerings.schedule_id','schedule_colleges.schedule_id')->join('grade_colleges','grade_colleges.course_offering_id', 'course_offerings.id')->join('statuses', 'statuses.idno', 'grade_colleges.idno')->where('statuses.status', env("ENROLLED"))->get(['grade_colleges.idno']);
 
             return view('reg_college.curriculum_management.ajax.show_offerings_per_day', compact('courses', 'school_year', 'period', 'day1', 'number_of_students'));
