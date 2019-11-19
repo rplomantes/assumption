@@ -448,13 +448,13 @@ function get_total($level) {
                 <td>Total</td>
             </tr>
             
-            <tr><td colspan="12"><b>Grade 11</b></td></tr>
+            <tr><td colspan="7"><b>Grade 11</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan_shs('Plan A','Grade 11','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan_shs('Plan A','Grade 11','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan_shs('Plan B','Grade 11','UE')}}</td><td></td><td>{{get_category_plan_shs('Plan B','Grade 11','')}}</td><td></td><td></td><td>{{get_category_plan_shs('Plan B','Grade 11','Total')}}</td></tr>
             <tr><td>Plan C</td><td>{{get_category_plan_shs('Plan C','Grade 11','UE')}}</td><td>{{get_category_plan_shs('Plan C','Grade 11','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 11','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 11','Total')}}</td></tr>
             <tr><td>Plan D</td><td>{{get_category_plan_shs('Plan D','Grade 11','UE')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','')}}</td><td>{{get_category_plan_shs('Plan D','Grade 11','Total')}}</td></tr>
 
-                        <tr><td colspan="12"><b>Grade 12</b></td></tr>
+            <tr><td colspan="7"><b>Grade 12</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan_shs('Plan A','Grade 12','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan_shs('Plan A','Grade 12','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan_shs('Plan B','Grade 12','UE')}}</td><td></td><td>{{get_category_plan_shs('Plan B','Grade 12','')}}</td><td></td><td></td><td>{{get_category_plan_shs('Plan B','Grade 12','Total')}}</td></tr>
             <tr><td>Plan C</td><td>{{get_category_plan_shs('Plan C','Grade 12','UE')}}</td><td>{{get_category_plan_shs('Plan C','Grade 12','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 12','')}}</td><td></td><td>{{get_category_plan_shs('Plan C','Grade 12','Total')}}</td></tr>
