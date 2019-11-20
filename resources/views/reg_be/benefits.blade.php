@@ -62,6 +62,7 @@
                         <th>Level</th>
                         <th>Status</th>
                         <th>w/ Sibling?</th>
+                        <th>TF%</th>
                         <td align="right"><strong>Remove Student</strong></td>
                     </tr>
                     @foreach($benefits as $sibling)
@@ -82,6 +83,8 @@
                             @else Not Yet Enrolled @endif
                         </td>
                         <td>@if(count($is_sibling)>0) <span class="fa fa-check"></span> @else  @endif</td>
+                        <?php $partial_discount = \App\PartialStudentDiscount::where('idno',$sibling->idno)->first(); ?>
+                        <td>{{$partial_discount->discount}}%</td>
                         <td align="right"><a href="{{url("/remove_benefit", array($sibling->idno))}}">Remove Student</a></td>
                     </tr>
                     @endforeach

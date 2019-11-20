@@ -24,6 +24,7 @@ class DiscountCollection extends Controller {
             $idno = Input::get("idno");
             $discount_type = Input::get("subsidiary");
             $is_sibling = Input::get("discount_amount");
+            $tf_discount = Input::get("tf_discount");
             $level = Input::get("level");
             $delete_collection = \App\DiscountCollection::where('idno', $idno)->get();
             if (count($delete_collection) > 0) {
@@ -31,6 +32,20 @@ class DiscountCollection extends Controller {
                     $delete->delete();
                 }
             }
+            
+            $delete_partial_student_discount = \App\PartialStudentDiscount::where('idno', $idno)->get();
+            if (count($delete_partial_student_discount) > 0) {
+                foreach ($delete_partial_student_discount as $delete) {
+                    $delete->delete();
+                }
+            }
+            $discount_description = \App\CtrDiscount::where('discount_code',$tf_discount)->first();
+            $add_partial_student_discount = new \App\PartialStudentDiscount();
+            $add_partial_student_discount->discount_description = $discount_description->discount_description;
+            $add_partial_student_discount->idno = $idno;
+            $add_partial_student_discount->discount = $tf_discount;
+            $add_partial_student_discount->save();
+            
             if ($discount_type == "Benefit Discount") {
                 if ($is_sibling == "on") {
                     $add_discount_collection = new \App\DiscountCollection();
