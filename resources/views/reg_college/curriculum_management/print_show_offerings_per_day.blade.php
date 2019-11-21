@@ -29,7 +29,36 @@
         </tr>    
     </table>
     @if (count($courses)>0)
-    <h3>Day: <strong>{{$request->day}}</strong></h3>
+    <h3>Day: <strong>
+            @switch($request->day)
+                @case('M')
+                    Monday
+                    @break
+
+                @case('T')
+                    Tuesday
+                    @break
+
+                @case('W')
+                    Wednesday
+                    @break
+
+                @case('Th')
+                    Thursday
+                    @break
+
+                @case('F')
+                    Friday
+                    @break
+
+                @case('S')
+                    Saturday
+                    @break
+
+                @default
+                    Default case...
+            @endswitch
+        </strong></h3>
     <h3>Number of Students: <strong>{{count($number_of_students)}}</strong></h3>
     <table class="table table-striped" width='100%' border='1'>
             <thead>
