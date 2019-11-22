@@ -12,11 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_college/view_record/edit_college_grades.blade.php</file>
-            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_college/view_record/transcript.blade.php</file>
-            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/dean/view_record/transcript.blade.php</file>
-            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_college/view_record/edit_college_grades2018.blade.php</file>
-            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_college/view_record/edit_credit_grades.blade.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_be/ajax/getstudentlist_benefits.blade.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/SiblingsBenefits.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_be/benefits.blade.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/Ajax/DiscountCollection.php</file>
         </group>
     </open-files>
 </project-private>
