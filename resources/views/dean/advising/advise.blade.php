@@ -1,6 +1,7 @@
 <?php
 $user = \App\User::where('idno', $idno)->first();
 $status = \App\Status::where('idno', $idno)->first();
+$college_level = \App\CollegeLevel::where('idno', $idno)->orderBy('id','desc')->first();
 $admission_hed = \App\AdmissionHed::where('idno', $idno)->first();
 $student_info = \App\StudentInfo::where('idno', $idno)->first();
 //$programs = \App\CtrAcademicProgram::distinct()->where('academic_type', 'College')->where('department', $status->department)->get(['program_code', 'program_name']);
@@ -84,8 +85,8 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     @if(count($status)>0)
                         @if($status->is_new == "0")
                         <li><a href="#">Previous Status <span class="pull-right">Old Student</span></a></li>
-                        <li><a href="#">Previous Program <span class="pull-right">{{$status->program_code}}</span></a></li>
-                        <li><a href="#">Previous Level <span class="pull-right">{{$status->level}}</span></a></li>
+                        <li><a href="#">Previous Program <span class="pull-right">{{$college_level->program_code}}</span></a></li>
+                        <li><a href="#">Previous Level <span class="pull-right">{{$college_level->level}}</span></a></li>
                         <li><a href="#">Admission Status <span class="pull-right">{{$admission_hed->admission_status}}</span></a></li>
                         <!--<li><a href="#">Previous Section <span class="pull-right">{{$status->section}}</span></a></li>-->
                         @else
@@ -113,7 +114,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <select name="program_code" id="select_program" class="form-control select2" required="">
                                 <option value="">Select Program</option>
                                 @foreach($programs as $program)
-                                <option value="{{$program->program_code}}" @if ($status->program_code == "$program->program_code") selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
+                                <option value="{{$program->program_code}}" @if ($college_level->program_code == "$program->program_code") selected="" @endif>{{$program->program_code}}-{{$program->program_name}}</option>
                                 @endforeach
                             </select>     
                         </div>
@@ -124,15 +125,15 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                             <select name="level" id="select_level" class="form-control select2" required="">
                                 <option value="">Select Level</option>
                                 @if ($school_year->period == "1st Semester")
-                                <option value="1st Year" @if ($status->level == NULL) selected="" @endif>1st Year</option>
-                                <option value="2nd Year" @if ($status->level == "1st Year") selected="" @endif>2nd Year</option>
-                                <option value="3rd Year" @if ($status->level == "2nd Year") selected="" @endif>3rd Year</option>
-                                <option value="4th Year" @if ($status->level == "3rd Year") selected="" @endif>4th Year</option>
+                                <option value="1st Year" @if ($college_level->level == NULL) selected="" @endif>1st Year</option>
+                                <option value="2nd Year" @if ($college_level->level == "1st Year") selected="" @endif>2nd Year</option>
+                                <option value="3rd Year" @if ($college_level->level == "2nd Year") selected="" @endif>3rd Year</option>
+                                <option value="4th Year" @if ($college_level->level == "3rd Year") selected="" @endif>4th Year</option>
                                 @else
-                                <option value="1st Year" @if ($status->level == "1st Year") selected="" @endif>1st Year</option>
-                                <option value="2nd Year" @if ($status->level == "2nd Year") selected="" @endif>2nd Year</option>
-                                <option value="3rd Year" @if ($status->level == "3rd Year") selected="" @endif>3rd Year</option>
-                                <option value="4th Year" @if ($status->level == "4th Year") selected="" @endif>4th Year</option>
+                                <option value="1st Year" @if ($college_level->level == "1st Year") selected="" @endif>1st Year</option>
+                                <option value="2nd Year" @if ($college_level->level == "2nd Year") selected="" @endif>2nd Year</option>
+                                <option value="3rd Year" @if ($college_level->level == "3rd Year") selected="" @endif>3rd Year</option>
+                                <option value="4th Year" @if ($college_level->level == "4th Year") selected="" @endif>4th Year</option>
                                 @endif
                                 
                             </select>     
@@ -531,11 +532,14 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
             //}
     }
     function confirm_advised(idno, program_code, level, curriculum_year, section){
+         var r = confirm("Please confirm the details:\n\nProgram=" + program_code + "\nLevel=" + level); 
+        if(r == true){
         if(level == ""){
          alert ("Please Select Level");   
         }else{
         window.location = "/dean/advising/confirm_advised/" + idno + "/" + program_code + "/" + level + "/" + curriculum_year + "/" + section; 
         }
+    }
     }
     
     

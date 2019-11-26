@@ -104,6 +104,27 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     });
 </script>    
 <script>
+    function get_nextPrev(value,or) {
+        var array = {};
+        if(value == "next"){
+        var a = parseInt(or)+parseInt(1);
+        }else{
+        var a = parseInt(or)-parseInt(1);
+        }
+        if (or.length == 10){
+        array['search'] = "0000"+a;
+        }else{
+        array['search'] = a;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/accounting/ajax/getsearch_or",
+            data: array,
+            success: function (data) {
+                $("#display_or").html(data);
+            }
+        })
+    }
     function get_result(start, end) {
         array = {};
         array['start'] = start;
