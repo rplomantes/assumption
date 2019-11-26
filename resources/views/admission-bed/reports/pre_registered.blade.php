@@ -125,6 +125,8 @@ $layout = "layouts.appadmission-shs";
                 <tbody>
                     <?php $number = 1; ?>
                     @foreach ($paid as $p)
+                    <?php $check_status = \App\Status::where('idno', $p->idno)->first(); ?>
+                    @if($check_status['status'] != 0)
                     <tr>
                         <td>{{$number++}}</td>
                         <td>{{$p->lastname}}, {{$p->firstname}} {{$p->middlename}} {{$p->extensionname}}</td>
@@ -132,6 +134,7 @@ $layout = "layouts.appadmission-shs";
                         <td>{{$p->date_of_birth}}</td>
                         <td>{{$p->date_completed}}</td>
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>
