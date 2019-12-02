@@ -1394,21 +1394,25 @@ $layout = "layouts.appadmission-shs";
         <div class="col-sm-3">
         <input type="submit" value='Save' class='form-control btn btn-primary'>
         </div>
-        @if(Auth::user()->idno != "acruz" || $is_lock == 0)
-        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
-                        return true;
-                    else
-                        return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
-        <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to APPROVED Applicant?'))
-                        return true;
-                    else
-                        return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+        @if(Auth::user()->idno != "acruz")
+            @if($is_lock == 0)
+            <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
+                    return true;
+                else
+                    return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
+            <div class="col-sm-6"><a href="{{url('admissionbed', array('approve_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to APPROVED Applicant?'))
+                    return true;
+                else
+                    return false;"  type='button' class='btn btn-success col-sm-12'>Approve Application</button></a></div>
+            @else
+            <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
+                    return true;
+                else
+                    return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
+            <div class="col-sm-6 alert alert-danger">Assign Schedule to Approve Applicant</div>
+            @endif
         @else
-        <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
-                        return true;
-                    else
-                        return false;" type='button' class='btn btn-danger col-sm-12'>Regret Application</button></a></div>
-        <div class="col-sm-6 alert alert-danger">Assign Schedule to Approve Applicant</div>
+            <div class="col-sm-9 alert alert-danger">Assign Schedule to Approve or Regret Applicant</div>
         @endif
         @endif
         <br/>
