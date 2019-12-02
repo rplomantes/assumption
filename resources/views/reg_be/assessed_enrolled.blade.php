@@ -146,10 +146,16 @@ if(count($ledger)>0){
  </div>
              <div class="col-md-6">
                  <div class="pull-right">
-                 <label>Status</label>
-                 <div class="btn form-control btn-success">
-                     {{$display_status}}
+                     <label>Status</label>
+                     <div class="btn form-control btn-success">
+                         {{$display_status}}
+                     </div>
                  </div>
+                 <div class="pull-right">
+                     <label>&nbsp;</label>
+                    @if ($status->status == env('ASSESSED'))
+                        <div class="col-sm-12"><a role="button" class="col-md-12 btn btn-danger" href="{{url('/accounting',array('manual_marking',$user->idno))}}" onclick="return confirm('This process cannot be undone. Do you wish to continue?')"><b>Mark student as Enrolled</b></a></div>
+                    @endif
                  </div>
              </div>    
 <hr />
