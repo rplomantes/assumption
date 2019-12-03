@@ -13,7 +13,7 @@
                 <option value="on">Yes</option>
             </select>
         </td>
-        <td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
+        <td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
