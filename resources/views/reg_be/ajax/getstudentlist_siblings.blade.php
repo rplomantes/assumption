@@ -6,7 +6,7 @@
     @if($list->accesslevel == '0' && $list->academic_type=="BED" && $status->status<=4 || $list->academic_type=="SHS")
     <tr>
         <td><a href="javascript:void(0)" onclick="add_discount_collection('{{$list->idno}}', '{{$status->level}}')"><<</a></td>
-        <td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
+        <td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
