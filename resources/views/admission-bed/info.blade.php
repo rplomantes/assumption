@@ -1432,7 +1432,7 @@ $layout = "layouts.appadmission-shs";
             @if(Auth::user()->idno != "acruz")
             <div class="col-md-6">
                 <a href="{{url('admissionbed', array('change_status_application', $user->idno))}}">
-                    <button type='button' class='btn btn-danger col-sm-12' onclick="if (confirm('Do you really want to change the status of Applicant?')) return true; else return false;">Change to Application Status</button>
+                    <button type='button' class='btn btn-danger col-sm-12' onclick="if (confirm('Do you really want to change the status of Applicant?')) return true; else return false;">Change Application Status</button>
                 </a>
             </div>
             @endif

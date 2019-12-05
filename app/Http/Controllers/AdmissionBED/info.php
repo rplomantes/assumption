@@ -172,10 +172,10 @@ class info extends Controller
             try{
             $this->sendEmail($idno, "Regret");
             \App\Http\Controllers\Admin\Logs::log("Disapproved admission status application of $idno.");
-            Session::flash('message', 'Student Approved! Email of disapproval was sent.');
+            Session::flash('message', 'Student Regret! Email of disapproval was sent.');
             }catch (\Exception $e){
-            \App\Http\Controllers\Admin\Logs::log("Diapproval email was not sent for $idno.");
-            Session::flash('message', 'Student Disapproved!');
+            \App\Http\Controllers\Admin\Logs::log("Regret email was not sent for $idno.");
+            Session::flash('message', 'Student Regret!');
             Session::flash('danger', 'Email not sent!');
             }
             return redirect('admissionbed/info/'.$idno);
