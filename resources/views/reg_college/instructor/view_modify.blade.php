@@ -202,6 +202,7 @@ $layout = "layouts.appreg_college";
                                 <select name="department" class="form form-control">
                                     <option value="">Select Department</option>
                                     <option value="Psychology Department" @if($instructor_info->department == 'Psychology Department') selected="" @endif>Psychology Department</option>
+                                    <option value="Tourism Department" @if($instructor_info->department == 'Tourism Department') selected="" @endif>Tourism Department</option>
                                     <option value="Education Department" @if($instructor_info->department == 'Education Department') selected="" @endif>Education Department</option>
                                     <option value="Business Department" @if($instructor_info->department == 'Business Department') selected="" @endif>Business Department</option>
                                 </select>
