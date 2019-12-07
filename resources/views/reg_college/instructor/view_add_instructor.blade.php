@@ -195,6 +195,7 @@ $layout = "layouts.appreg_college";
                                 <select name="department" class="form form-control">
                                     <option value="">Select Department</option>
                                     <option value="Psychology Department">Psychology Department</option>
+                                    <option value="Tourism Department">Tourism Department</option>
                                     <option value="Education Department">Education Department</option>
                                     <option value="Business Department">Business Department</option>
                                 </select>
