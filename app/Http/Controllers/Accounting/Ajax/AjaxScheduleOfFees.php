@@ -728,6 +728,8 @@ class AjaxScheduleOfFees extends Controller {
             return env('PARENT_PARTNERSHIP');
         } elseif ($category == "Acceptance Fee") {
             return env('ACCEPTANCE_FEE');
+        } elseif ($category == "Additional Fee") {
+            return env('ADDITIONAL_FEE');
         }
     }
 
