@@ -310,7 +310,7 @@ class StudentRecordController extends Controller {
             $completion = $request->credit_completion;
             $credit_code = $request->credit_credit_code;
 
-            $updates = \App\CollegeCredit::where('idno', $idno)->get();
+            $updates = \App\CollegeCredit::where('idsno', $idno)->get();
 
             foreach ($updates as $update) {
                 $update->delete();

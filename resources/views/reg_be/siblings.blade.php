@@ -61,6 +61,7 @@
                         <th>Name</th>
                         <th>Level</th>
                         <th>Status</th>
+                        <th>SDF Discount</th>
                         <td align="right"><strong>Remove Student</strong></td>
                     </tr>
                     @foreach($siblings as $sibling)
@@ -78,6 +79,7 @@
                             @elseif($status->status == 4) Withdrawn-{{$status->date_dropped}}
                             @else Not Yet Enrolled @endif
                         </td>
+                        <td>{{$sibling->discount_amount}}</td>
                         <td align="right"><a href="{{url("/remove_sibling", array($sibling->idno))}}">Remove Student</a></td>
                     </tr>
                     @endforeach
