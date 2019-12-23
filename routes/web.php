@@ -287,6 +287,7 @@ Route::get('/ajax/dean/srf/get_subjects','Dean\SRF\Ajax\setup@get_subjects');
 
 //Academic/DEAN/////////////////////////////////////////////////////////////////
 Route::get('/academic/view_info/{idno}','Dean\Record@view_info');
+Route::get('/ajax/academic/update_status','Dean\Ajax\GetStudentList_ajax@update_status');
 
 
 //COLLEGE INSTRUCTOR - MAIN/////////////////////////////////////////////////////

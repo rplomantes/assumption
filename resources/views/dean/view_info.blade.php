@@ -50,7 +50,7 @@ $layout = "layouts.appdean_college";
 @section('maincontent')
 
 
-<form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
+<!--<form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">-->
     {{ csrf_field() }}
     <div class="col-sm-12">
         @if (Session::has('message'))
@@ -58,7 +58,17 @@ $layout = "layouts.appdean_college";
         @endif  
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-yellow">
+            <div class="widget-user-header bg-yellow"><div class="col-md-3 pull-right"">
+            <div class="form form-group">
+                <label>User Status</label>
+                <select class="form form-control" name="user_status" id="user_status" onchange="update_status(this.value)">
+                    <option value="0" @if ($user->status == 0) selected=''@endif>0 - Not Active</option>
+                    <option value="1" @if ($user->status == 1) selected=''@endif>1 - Active</option>
+                    <option value="2" @if ($user->status == 2) selected=''@endif>2 - See Registrar</option>
+                    <option value="3" @if ($user->status == 3) selected=''@endif>3 - See Guidance Office</option>
+                </select>
+            </div>
+        </div>
                 <div class="widget-user-image">
                     @if($file_exist==1)
                         <img src="/images/PICTURES/{{$user->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
@@ -426,7 +436,7 @@ $layout = "layouts.appdean_college";
             </div>
         </div>
     </div>
-</form>
+<!--</form>-->
 
 <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
@@ -454,4 +464,19 @@ $layout = "layouts.appdean_college";
         </div>
 @endsection
 @section('footerscript')
+<script>
+function update_status(status) {
+    array = {};
+    array['idno'] = "{{$user->idno}}";
+    array['status'] = status;
+    $.ajax({
+    type: "GET",
+            url: "/ajax/academic/update_status",
+            data: array,
+            success: function (data) {
+                alert("Status Updated!");
+            }
+
+    });
+}</script>
 @endsection

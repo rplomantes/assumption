@@ -305,7 +305,8 @@ foreach ($discounts as $discount) {
         @endif
         @if($otherfee > 0)
         <tr>
-            <td>Additional Fee</td>
+            <!--<td>Additional Fee</td>-->
+            <td>MSBMW/MESIL T-Shirt</td>
             <td>:</td>
             <td class='bottomline-right'>{{number_format($otherfee,2)}}</td>
         </tr>
@@ -678,7 +679,8 @@ foreach ($discounts as $discount) {
         @endif
         @if($otherfee > 0)
         <tr>
-            <td>Additional Fee</td>
+            <!--<td>Additional Fee</td>-->
+            <td>MSBMW/MESIL T-Shirt</td>
             <td>:</td>
             <td class='bottomline-right'>{{number_format($otherfee,2)}}</td>
         </tr>

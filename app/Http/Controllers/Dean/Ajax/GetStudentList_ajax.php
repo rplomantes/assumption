@@ -24,4 +24,15 @@ class GetStudentList_ajax extends Controller
             return view('dean.ajax.getstudentlist',compact('lists'));
         }
     }
+    
+    function update_status(){
+        if(Request::ajax()){
+            $idno = Input::get('idno');
+            $status = Input::get('status');
+            
+            $update_status = \App\User::where('idno', $idno)->first();
+            $update_status->status = $status;
+            $update_status->save();
+        }
+    }
 }

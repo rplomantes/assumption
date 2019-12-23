@@ -81,6 +81,7 @@ $layout = "layouts.appreg_college";
                     <option value="0" @if ($user->status == 0) selected=''@endif>0 - Not Active</option>
                     <option value="1" @if ($user->status == 1) selected=''@endif>1 - Active</option>
                     <option value="2" @if ($user->status == 2) selected=''@endif>2 - See Registrar</option>
+                    <option value="3" @if ($user->status == 3) selected=''@endif>3 - See Guidance Office</option>
                 </select>
             </div>
         </div>
