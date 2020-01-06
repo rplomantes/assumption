@@ -70,7 +70,9 @@ class AjaxPostCharges extends Controller {
                 }
                 
                 DB::beginTransaction();
-                $posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$dates)->where('is_reversed',0)->whereRaw("YEAR(date_posted) = '$school_year->school_year'")->first();
+                $dateToday = Carbon\Carbon::now();
+                $years2 = sprintf("%02d",date_format($dateToday,'Y'));
+                $posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$dates)->where('is_reversed',0)->whereRaw("YEAR(date_posted) = '$years2'")->first();
                 $posted->is_reversed = 1;
                 $dateposted = $posted->date_posted;
                 $posted->update();

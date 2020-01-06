@@ -30,7 +30,8 @@ class PostCharges extends Controller {
             $dates2 = date_format($dateToday, "Y-$dates-31");
             if ($dates == 0) {
                 $dates = 12;
-                $dates2 = date_format($dateToday, "Y-$dates-31");
+                $years = sprintf("%02d", date_format($dateToday, 'Y') - 1);
+                $dates2 = date_format($dateToday, "$years-$dates-31");
             }
             DB::beginTransaction();
             $indic = 0;
@@ -130,7 +131,8 @@ if($numberOfMonths > 0){
         $dates2 = date_format($dateToday, "Y-$dates1-31");
         if ($dates1 == 0) {
             $dates1 = 12;
-            $dates2 = date_format($dateToday, "Y-$dates1-31");
+            $years = sprintf("%02d", date_format($dateToday, 'Y') - 1);
+            $dates2 = date_format($dateToday, "$years-$dates1-31");
         }
 
         $totalpay = $mainpayment;
