@@ -81,7 +81,9 @@ function checkLedger($idno, $date) {
     $result = 0;
     $due = 0;
     
-    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->whereRaw("YEAR(date_posted) = $school_year->school_year")->where('is_reversed','0')->first();
+    $dateToday = Carbon\Carbon::now();
+    $years2 = sprintf("%02d",date_format($dateToday,'Y'));
+    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->whereRaw("YEAR(date_posted) = $years2")->where('is_reversed','0')->first();
     
 //    $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND is_reversed = 0");
     

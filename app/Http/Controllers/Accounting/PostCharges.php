@@ -117,7 +117,9 @@ if($numberOfMonths > 0){
         $remain = 0;
 
 //    $is_posted = \App\PostedCharges::where('idno',$idno)->where('due_date',$date)->where('is_reversed','0')->first();
-        $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND YEAR(date_posted) = '$school_year->school_year' AND is_reversed = 0");
+        $dateToday = Carbon\Carbon::now();
+        $years2 = sprintf("%02d",date_format($dateToday,'Y'));
+        $is_posted = DB::select("SELECT * FROM posted_charges WHERE idno = '$idno' AND due_date = '$date' AND YEAR(date_posted) = '$years2' AND is_reversed = 0");
 
         foreach ($mainledgers as $payment) {
             $mainpayment = $mainpayment + $payment->payment + $payment->debit_memo;
