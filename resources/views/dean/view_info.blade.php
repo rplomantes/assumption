@@ -66,6 +66,7 @@ $layout = "layouts.appdean_college";
                     <option value="1" @if ($user->status == 1) selected=''@endif>1 - Active</option>
                     <option value="2" @if ($user->status == 2) selected=''@endif>2 - See Registrar</option>
                     <option value="3" @if ($user->status == 3) selected=''@endif>3 - See Guidance Office</option>
+                    <option value="4" @if ($user->status == 4) selected=''@endif>4 - See Scholarship Office</option>
                 </select>
             </div>
         </div>
