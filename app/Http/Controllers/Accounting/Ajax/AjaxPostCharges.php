@@ -39,14 +39,18 @@ class AjaxPostCharges extends Controller {
         if (Request::ajax()) {
          if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             
+        $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
             $dateToday = Carbon\Carbon::now();
             $dates = sprintf("%02d",date_format($dateToday,'m') - 1);
             $dates2 = date_format($dateToday,"Y-'$dates'-31");
             if($dates == 0 ){
                 $dates = 12;
-                $dates2 = date_format($dateToday,"Y-'$dates'-31");
+                $years = sprintf("%02d", date_format($dateToday, 'Y') - 1);
+                $dates2 = date_format($dateToday, "$years-$dates-31");
             }
-            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+//            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+            
+            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance, l.school_year FROM users u, statuses s, (SELECT school_year, idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` where school_year = $school_year->school_year GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = 3 ORDER BY u.lastname,s.program_code,s.level,s.section");
              
 //            $level = Input::get("level");
 //            $plan = Input::get("plan");
@@ -66,7 +70,8 @@ class AjaxPostCharges extends Controller {
                 $dates2 = date_format($dateToday,"Y-'$dates'-31");
                 if($dates == 0 ){
                     $dates = 12;
-                    $dates2 = date_format($dateToday,"Y-'$dates'-31");
+                    $years = sprintf("%02d", date_format($dateToday, 'Y') - 1);
+                    $dates2 = date_format($dateToday, "$years-$dates-31");
                 }
                 
                 DB::beginTransaction();
@@ -81,8 +86,9 @@ class AjaxPostCharges extends Controller {
                 $delLed->delete();
                 DB::commit();
                 
-            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname,s.program_code,s.level,s.section");
-            
+//            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance FROM users u, statuses s, (SELECT idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = '".env('ENROLLED')."' ORDER BY u.lastname,s.program_code,s.level,s.section");
+
+            $unpaid = DB::select("SELECT u.idno,u.lastname,u.middlename,u.firstname,u.extensionname,s.program_code,s.level,s.section, s.type_of_plan,l.balance, l.school_year FROM users u, statuses s, (SELECT school_year, idno, (sum(amount) - (sum(debit_memo) + sum(discount))) - sum(payment) as 'balance' FROM `ledgers` where school_year = $school_year->school_year GROUP BY school_year,idno) l WHERE l.balance != 0.00 and u.idno = s.idno and u.idno = l.idno and s.department NOT LIKE '%Department' AND s.status = 3 ORDER BY u.lastname,s.program_code,s.level,s.section");            
                 return view('accounting.ajax.display_unpaid', compact('unpaid','dates'));
             }
     }
