@@ -311,7 +311,7 @@ class MainPayment extends Controller {
 
         if ($request->previous_balance > 0) {
             $totalpayment = $request->previous_balance;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '>=', '10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '>=', '10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->orderBy('id')->get();
             $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("CASH"));
         }
 
