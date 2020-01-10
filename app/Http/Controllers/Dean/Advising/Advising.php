@@ -53,6 +53,8 @@ class Advising extends Controller {
                             return view('dean.advising.already_assessed', compact('idno'));
                         } else if ($status->status == env('ENROLLED') && $status->school_year == "$enrollment_school_year->school_year" && $status->period == "$enrollment_school_year->period") {
                             return view('dean.advising.enrolled', compact('status', 'idno'));
+                        } else {
+                            return view('dean.advising.already_advised', compact('idno'));
                         }
                     }
                 }

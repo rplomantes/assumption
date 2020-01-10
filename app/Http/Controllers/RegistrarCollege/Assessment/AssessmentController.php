@@ -79,7 +79,7 @@ class AssessmentController extends Controller {
     }
 
     function readvise($idno) {
-        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env('DEAN')) {
 
             $status = \App\Status::where('idno', $idno)->first();
 //            $status->status = 0;
@@ -108,8 +108,12 @@ class AssessmentController extends Controller {
             $status->save();
 
             \App\Http\Controllers\Admin\Logs::log("Re-advise student $idno");
-            
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
             return redirect("/registrar_college/assessment/$idno");
+        }elseif (Auth::user()->accesslevel == env('DEAN')) {
+            return redirect("/dean/advising/$idno");
+        }
+            
             //return view('reg_college.assessment.view_assessment', compact('idno', 'school_year', 'period'));
         }
     }

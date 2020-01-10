@@ -39,12 +39,12 @@ $courses = \App\GradeCollege::where('idno', $idno)->where('school_year', $school
 @section('header')
 <section class="content-header">
     <h1>
-        Courses Advised
+        Student Advised
         <small>A.Y. {{$school_year->school_year}} - {{$school_year->school_year+1}} {{$school_year->period}}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> Home</a></li>
-        <li>Advising</li>
+        <li>Assessment</li>
         <li class="active">{{$idno}}</li>
     </ol>
 </section>
@@ -69,21 +69,59 @@ $user = \App\User::where('idno', $idno)->first();
                 ?>
                     <div class='table-responsive'>
                 @if(count($grade_colleges)>0)
-                <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course Name</th><th>Lec</th><th>Lab</th><th>SRF</th><th>Lab Fee</th></tr></thead><tbody>
+                <table class="table table-hover table-condensed"><thead><tr><th>Code</th><th>Course</th><th>Schedule/Room</th><th>Instructor</th><th>Units</th><th>SRF</th><th>LAB Fee</th></tr></thead><tbody>
                         @foreach($grade_colleges as $grade_college)
                         <?php
                         $units = $units + $grade_college->lec + $grade_college->lab;
+                        $offering_ids = \App\CourseOffering::find($grade_college->course_offering_id);
                         ?>
                         <tr>
                             <td>{{$grade_college->course_code}}</td>
                             <td>{{$grade_college->course_name}}</td>
-                            <td>{{$grade_college->lec}}</td>
-                            <td>{{$grade_college->lab}}</td>
+                                    @if($grade_college->course_offering_id!=NULL)
+                            <td>
+                                <?php
+                                $schedule3s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                ?>   
+                                @foreach ($schedule3s as $schedule3)
+                                {{$schedule3->room}}
+                                @endforeach
+                                <?php
+                                $schedule2s = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_ids->schedule_id)->get(['time_start', 'time_end', 'room']);
+                                ?>
+                                @foreach ($schedule2s as $schedule2)
+                                <?php
+                                $days = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->where('time_start', $schedule2->time_start)->where('time_end', $schedule2->time_end)->where('room', $schedule2->room)->get(['day']);
+                                ?>
+                                <!--                @foreach ($days as $day){{$day->day}}@endforeach {{$schedule2->time}} <br>-->
+                                [@foreach ($days as $day){{$day->day}}@endforeach {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}]<br>
+                                @endforeach
+                            </td>
+                            <td>
+                            <?php
+                            $offering_id = \App\CourseOffering::find($grade_college->course_offering_id);
+                                $schedule_instructor = \App\ScheduleCollege::distinct()->where('schedule_id', $offering_id->schedule_id)->get(['instructor_id']);
+                            
+                                foreach($schedule_instructor as $get){
+                                    if ($get->instructor_id != NULL){
+                                        $instructor = \App\User::where('idno', $get->instructor_id)->first();
+                                        echo "$instructor->firstname $instructor->lastname $instructor->extensionname";
+                                    } else {
+                                    echo "";
+                                    }
+                                }
+                            ?>
+                            </td> 
+                @else
+                <td>TBA</td>
+                <td>TBA</td>
+                @endif
+                            <td>{{$grade_college->lec+$grade_college->lab}}</td>
                             <td>{{$grade_college->srf}}</td>
                             <td>{{$grade_college->lab_fee}}</td>
-                        </tr>
+                       </tr>
                         @endforeach
-                        <tr><td colspan="2"><strong>Total Units</strong></td><td colspan="2" align='center'><strong>{{$units}}</strong></td></tr>
+                        <tr><td colspan="4"><strong>Total Units</strong></td><td><strong>{{$units}}</strong></td></tr>
                     </tbody></table>
                 @else
                 <div class="alert alert-danger">No Course Selected Yet!!</div>
@@ -91,15 +129,6 @@ $user = \App\User::where('idno', $idno)->first();
                     </div>
             </div>
         </div>
-        
-        @if(Auth::user()->accesslevel == env('DEAN'))        
-        <div class='col-sm-6'>
-            <a href='{{url('/')}}'><button class='btn btn-warning col-sm-12'><span class='fa fa-home'></span> RETURN HOME</button></a>
-        </div>
-        <div class='col-sm-6'>
-            <a href='{{url('dean', array('advising','print_advising_slip',$idno))}}' target="_blank"><button class='btn btn-success col-sm-12'><span class='fa fa-print'></span> PRINT ADIVISING SLIP</button></a>
-        </div>
-        @else
         <div class='col-sm-4'>
             <a href='{{url('/')}}'><button class='btn btn-warning col-sm-12'><span class='fa fa-home'></span> RETURN HOME</button></a>
         </div>
@@ -107,10 +136,8 @@ $user = \App\User::where('idno', $idno)->first();
             <a href='{{url('dean', array('advising','print_advising_slip',$idno))}}' target="_blank"><button class='btn btn-success col-sm-12'><span class='fa fa-print'></span> PRINT ADIVISING SLIP</button></a>
         </div>
         <div class='col-sm-4'>
-            <a href='{{url('registrar_college', array('assessment',$idno))}}'><button class='btn btn-primary col-sm-12'> PROCEED TO ASSESSMENT</button></a>
+            <a href='{{url('/registrar_college', array('assessment', 'readvise',$user->idno))}}'><button class='btn btn-danger col-sm-12'><span class='fa fa-refresh'></span> RE-ADVISE</button></a>
         </div>
-        @endif
-        
     </div>
 </div>
 @endsection

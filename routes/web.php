@@ -170,6 +170,8 @@ Route::get('/registrar_college/curriculum_management/view_room_schedule', 'Regis
 Route::get('/ajax/registrar_college/curriculum_management/get_rooms', 'RegistrarCollege\CurriculumManagement\Ajax\AjaxViewRoomSchedule@view_rooms');
 Route::get('/ajax/registrar_college/curriculum_management/generateRoom', 'RegistrarCollege\CurriculumManagement\Ajax\AjaxViewRoomSchedule@generateRoom');
 Route::get('/registrar_college/curriculum_management/print_room_schedule/{school_year}/{period}/{room}', 'RegistrarCollege\CurriculumManagement\ViewRoomSchedule@print_room_schedule');
+//Update list of rooms
+Route::get('/registrar_college/curriculum_management/update_rooms', 'RegistrarCollege\CurriculumManagement\UpdateRooms@index');
 
 //Registrar College Admission///////////////////////////////////////////////////
 //New Student
