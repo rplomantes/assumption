@@ -77,7 +77,7 @@ class AddAccount extends Controller {
                     $addledger->strand = $level->strand;
                     $addledger->level = $level->level;
                     $addledger->school_year = $level->school_year;
-                    $addledger->period = $status->period;
+                    $addledger->period = $level->period;
                 } else if ($status->academic_type == "College") {
                     $addledger->program_code = $level->program_code;
                     $addledger->level = $level->level;
@@ -85,6 +85,18 @@ class AddAccount extends Controller {
                     $addledger->period = $level->period;
                 }
             }
+        }else{
+            
+            
+                if ($status->academic_type == "BED" || $status->academic_type == "SHS") {
+                    $a_school_year = \App\CtrAcademicSchoolYear::where('academic_type', $status->academic_type)->first();
+                    $addledger->school_year = $a_school_year->school_year;
+                    $addledger->period = $a_school_year->period;
+                } else if ($status->academic_type == "College") {
+                    $a_school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first();
+                    $addledger->school_year = $a_school_year->school_year;
+                    $addledger->period = $a_school_year->period;
+                }
         }
         $addledger->category = "Other Miscellaneous";
         $addledger->subsidiary = $request->particular;
