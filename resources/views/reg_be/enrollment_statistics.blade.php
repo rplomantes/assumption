@@ -702,7 +702,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td></td>
              <td></td>
              <td></td>
-             <td><strong>{{$shstotal_2nd = $gr11total1_2nd + $gr11total2_2nd + $gr11total3_2nd + $gr11total4_2nd + $gr11total5_2nd + $gr12total1_2nd + $gr12total2_2nd + $gr12total3_2nd + $gr12total4_2nd + $gr12total5_2nd}}</strong></td> 
+             <td><strong>{{$shstotal_2nd = $gr11total1_2nd + $gr11total2_2nd + $gr11total3_2nd + $gr11total4_2nd + $gr11total5_2nd + $gr11total6_2nd + $gr11total7_2nd + $gr12total1_2nd + $gr12total2_2nd + $gr12total3_2nd + $gr12total4_2nd + $gr12total5_2nd + $gr12total6_2nd + $gr12total7_2nd}}</strong></td> 
             </tr> 
      </table>     
      </div>
