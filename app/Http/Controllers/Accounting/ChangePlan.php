@@ -19,13 +19,15 @@ class ChangePlan extends Controller {
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             $student = \App\User::where('idno', $idno)->first();
             $status = \App\Status::where("idno", $idno)->first();
-            $duedates = \App\LedgerDueDate::where("idno", $idno)->where("school_year", $status->school_year)->get();
             if ($status->academic_type == "College") {
+                $duedates = \App\LedgerDueDate::where("idno", $idno)->where("school_year", $status->school_year)->where('period', $status->period)->get();
                 $duedateplans = \App\CtrDueDate::selectRaw('distinct plan')->where('academic_type', "College")->get();
             } else {
                 if ($status->level == "Grade 11" || $status->level == "Grade 12") {
+                    $duedates = \App\LedgerDueDate::where("idno", $idno)->where("school_year", $status->school_year)->where('period', $status->period)->get();
                     $duedateplans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type', "SHS")->get();
                 } else {
+                $duedates = \App\LedgerDueDate::where("idno", $idno)->where("school_year", $status->school_year)->get();
                     $duedateplans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type', "BED")->get();
                 }
             }

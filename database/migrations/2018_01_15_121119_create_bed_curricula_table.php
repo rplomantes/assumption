@@ -26,6 +26,7 @@ class CreateBedCurriculaTable extends Migration
             $table->string("group_code");
             $table->string("group_name")->nullable();
             $table->string("card_name")->nullable();
+            $table->integer("ecr_type");
             $table->string("units")->nullable();
             $table->integer("points")->nullable();
             $table->integer("weighted")->nullable();

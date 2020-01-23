@@ -261,6 +261,14 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 $query->where('category_switch', 4)
                                 ->orWhere('category_switch', 14);
                             })->get();
+$ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('category', '!=','SRF')->where('school_year', $school_year)->where('period', $period)
+        ->where(function($query) {
+                                $query->where('category_switch', 4)
+                                ->orWhere('category_switch', 5)
+                                ->orWhere('category_switch', 14)
+                                ->orWhere('category_switch', 15);
+                            })->get();
+                            
 /////
         if($school_year=="2018" and $period == "2nd Semester"){
             $payments = \App\Payment::where('idno', $idno)
@@ -628,12 +636,24 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                <td align="right">{{number_format($main->debit_memo,2)}}</td>
                <td align="right"><span class="payment">{{number_format($main->payment,2)}}</span></td>
                <td align="right"><b>{{number_format($balance,2)}}</b></td>
-               
-           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
-               <td><a href="{{url('/accounting', array('edit_ledger', $main->id))}}">Edit</a></td>
-               @endif
                </tr>
            @endforeach
+           
+           @if(Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD"))
+           @foreach($ledger_list_additional as $list)
+           <?php $balance=+$list->amount-$list->discount-$list->debit_memo-$list->payment; ?>
+           <?php $listnet = $list->amount - ($list->discount); ?>
+               <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$list->subsidiary}}</td>
+               <td align="right">{{number_format($list->amount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right">{{number_format($list->discount,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><span class="net">{{number_format($listnet,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+               <td align="right">{{number_format($list->debit_memo,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><span class="payment">{{number_format($list->payment,2)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+               <td align="right"><b>{{number_format($balance,2)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+               <td><a href="{{url('/accounting', array('edit_ledger', $list->id))}}">Edit</a></td>
+               </tr>
+           @endforeach
+           @endif
            
            
            
@@ -798,7 +818,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
          
             
             <!--OVERPAYMENT MEMO-->
-            <h3>OVERPAYMENT MEMO</h3>
+<!--            <h3>OVERPAYMENT MEMO</h3>
             @if(count($overpayments)>0)
         
          <table class="table table-responsive table-condensed"><tr><td>Date</td><td>Overpayment No</td><td align="right">Amount</td><td>Status</td></tr>
@@ -813,7 +833,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
          
          @else
          <h5>No Overpayment Memo For This Account</h5>
-         @endif
+         @endif-->
          
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
@@ -962,7 +982,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         </div>
         @endif
         
-        <label>Overpayment</label>
+<!--        <label>Overpayment</label>
         @if(Auth::user()->accesslevel!=env("CASHIER") && $totaldue >= abs($negative) && abs($negative!=0))<a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right">Apply Overpayment</button></a>@endif
         <table class="table table-striped">
             <tr>
@@ -970,7 +990,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 <td align='right'><strong>Php {{number_format(abs($negative),2)}}</strong></td>
             </tr>
             
-        </table>
+        </table>-->
         
         @if(count($reservations)>0)
         <label>Reservation</label>
@@ -1181,5 +1201,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         document.location="{{url('/cashier',array('viewledger'))}}" + "/" + $("#school_year").val() + "/" + "{{$idno}}";
       });
     });
+</script>
+<script>
+    $('body').addClass('sidebar-collapse');
 </script>
 @endsection
