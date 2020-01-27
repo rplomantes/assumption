@@ -818,7 +818,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
          
             
             <!--OVERPAYMENT MEMO-->
-<!--            <h3>OVERPAYMENT MEMO</h3>
+            <h3>OVERPAYMENT MEMO</h3>
             @if(count($overpayments)>0)
         
          <table class="table table-responsive table-condensed"><tr><td>Date</td><td>Overpayment No</td><td align="right">Amount</td><td>Status</td></tr>
@@ -833,7 +833,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
          
          @else
          <h5>No Overpayment Memo For This Account</h5>
-         @endif-->
+         @endif
          
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
@@ -982,15 +982,17 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
         </div>
         @endif
         
-<!--        <label>Overpayment</label>
-        @if(Auth::user()->accesslevel!=env("CASHIER") && $totaldue >= abs($negative) && abs($negative!=0))<a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right">Apply Overpayment</button></a>@endif
+        <label>Overpayment</label>
+        @if(Auth::user()->accesslevel!=env("CASHIER") && $totaldue >= abs($negative) && abs($negative!=0))<a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right">Apply Overpayment</button></a>
+        @elseif(abs($negative) > 0)
+        <a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right" >Apply to Student Deposit</button></a>
+        @endif
         <table class="table table-striped">
             <tr>
                 <td>Amount</td>
                 <td align='right'><strong>Php {{number_format(abs($negative),2)}}</strong></td>
             </tr>
-            
-        </table>-->
+        </table>
         
         @if(count($reservations)>0)
         <label>Reservation</label>
@@ -1202,7 +1204,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
       });
     });
 </script>
-<script>
+<!--<script>
     $('body').addClass('sidebar-collapse');
-</script>
+</script>-->
 @endsection
