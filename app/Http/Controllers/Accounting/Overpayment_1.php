@@ -45,6 +45,7 @@ class Overpayment_1 extends Controller
                 self::addOverpaymentMemo($idno, $amount_to_fix);
                 self::updateOM();
                 
+                \App\Http\Controllers\Admin\Logs::log("Apply Overpayment for $idno.Ref No. $reference_id.");
                 DB::commit();
                 return redirect(url("/cashier/viewledger/2019/$idno"));
             }
