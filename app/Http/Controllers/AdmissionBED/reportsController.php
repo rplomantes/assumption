@@ -76,6 +76,7 @@ class reportsController extends Controller
                    ->join('users', 'users.idno','=','reservations.idno')
                    ->where('statuses.academic_type', "!=","College")
                    ->where('is_new', '1')
+                   ->whereRaw('length(users.idno) > 7')
                    ->where('date_admission_finish', '!=', NULL)
                    ->orderBy('statuses.level', 'asc')
                    ->orderBy('users.lastname', 'asc')
