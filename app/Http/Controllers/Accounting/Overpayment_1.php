@@ -18,7 +18,7 @@ class Overpayment_1 extends Controller
         $this->middleware("auth");
     }
     
-    public static function process_overpayment($idno){
+    public static function process_overpayment($type,$idno){
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
             $amount_to_fix = 0.00;
             $reference_id = uniqid();
@@ -41,7 +41,7 @@ class Overpayment_1 extends Controller
                 
                 $amount_to_fix = abs($amount_to_fix);
                 $amount_to_remove = abs($amount_to_remove);
-                self::checkBalances($idno, $amount_to_fix,$reference_id);
+                self::checkBalances($idno, $amount_to_fix,$reference_id,$type);
                 self::addOverpaymentMemo($idno, $amount_to_fix);
                 self::updateOM();
                 
@@ -52,13 +52,14 @@ class Overpayment_1 extends Controller
         }
     }
     
-    public static function checkBalances($idno, $amount_to_fix,$reference_id){
+    public static function checkBalances($idno, $amount_to_fix,$reference_id,$type){
         $ledgers = \App\Ledger::where("idno", $idno)
                  ->whereRaw("amount - (payment + debit_memo + discount) > 0 ")
                  ->orderBy("category_switch","DESC")
                  ->get();
         $ba = ""; 
-        if(!$ledgers->isEmpty()){
+//        if(!$ledgers->isEmpty()){
+        if($type == "ld"){
             $totalamount = $amount_to_fix;
             foreach($ledgers as $ledger){
                 $balance = abs($ledger->amount - ($ledger->debit_memo + $ledger->discount + $ledger->payment));
@@ -70,7 +71,7 @@ class Overpayment_1 extends Controller
                     }
                 }
             }
-            self::processAccounting($idno, $reference_id, $amount_to_fix, $ledgers, env("CASH"));
+            self::processAccounting($idno, $reference_id, $amount_to_fix, $ledgers, env("CASH"),$type);
             if($totalamount > 0){
                 self::addStudentDeposit($idno, $totalamount,$reference_id);
             } 
@@ -123,11 +124,12 @@ class Overpayment_1 extends Controller
         return abs($less);
     }
     
-    public static function processAccounting($idno, $reference_id, $totalpayment, $ledgers, $accounting_type) {
+    public static function processAccounting($idno, $reference_id, $totalpayment, $ledgers, $accounting_type,$type) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $date = date('Y-m-d');
         
-        if (!$ledgers->isEmpty()) {
+//        if (!$ledgers->isEmpty()) {
+        if ($type == "ld") {
             foreach ($ledgers as $ledger) {
                 //IF ($totalpayment > 0)
                 if ($totalpayment > 0) {                    

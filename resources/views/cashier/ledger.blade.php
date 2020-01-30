@@ -983,15 +983,23 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
         @endif
         
         <label>Overpayment</label>
-        @if(Auth::user()->accesslevel!=env("CASHIER") && $totaldue >= abs($negative) && abs($negative!=0))<a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right">Apply Overpayment</button></a>
-        @elseif(abs($negative) > 0)
-        <a href="{{url('apply_overpayment', $idno)}}"><button class="btn btn-warning pull-right" >Apply to Student Deposit</button></a>
-        @endif
         <table class="table table-striped">
             <tr>
                 <td>Amount</td>
                 <td align='right'><strong>Php {{number_format(abs($negative),2)}}</strong></td>
             </tr>
+            @if(abs($negative) > 0 || abs($negative) < 0)
+            <tr>
+                <td colspan="2">
+                @if(Auth::user()->accesslevel!=env("CASHIER") && $totaldue >= abs($negative) && abs($negative!=0))
+                <a href="{{url('apply_overpayment/sd', $idno)}}"><button class="btn btn-danger pull-right">Apply to Student Deposit</button></a>
+                <a href="{{url('apply_overpayment/ld', $idno)}}"><button class="btn btn-warning pull-left">Apply to Ledger</button></a>
+                @elseif(abs($negative) > 0)
+                <a href="{{url('apply_overpayment/sd', $idno)}}"><button class="btn btn-warning pull-right" >Move to Student Deposit</button></a>
+                @endif
+                </td>
+            </tr>
+            @endif
         </table>
         
         @if(count($reservations)>0)

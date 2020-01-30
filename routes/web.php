@@ -528,7 +528,8 @@ Route::get('/ajax/registrar_college/graduates/batch_ranking/get_students','Regis
 Route::get('/registrar_college/graduates/print_batch_ranking/{date}','RegistrarCollege\Graduates\Ajax\AjaxBatchRanking@get_students2');
 
 //Apply Overpamyent
-Route::get('/apply_overpayment/{idno}','Accounting\Overpayment_1@process_overpayment');
+//Route::get('/apply_overpayment/{idno}','Accounting\Overpayment_1@process_overpayment');
+Route::get('/apply_overpayment/{type}/{idno}','Accounting\Overpayment_1@process_overpayment');
 
 //WIthdraw college student
 Route::get('/registrar_college/withdraw_enrolled_student/{status}/{date_today}/{idno}','RegistrarCollege\ViewInfo\ViewInfoController@withdraw');
