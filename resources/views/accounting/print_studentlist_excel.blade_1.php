@@ -54,15 +54,32 @@ $grand_total_srf=0;
                     <td align='center'>{{$list->section}}</td>
                     @endif
                     <td align='center'>{{$list->type_of_plan}}</td>
-                    <?php $sub_total_srf = $sub_total_srf + $list->srf_amount; ?>
-                    <?php $grand_total_srf = $grand_total_srf + $list->srf_amount; ?>
+
+            <?php $srf_amount = 0; ?>
+            @if($department == "College Department" || $department == "Senior High School")
+            <?php
+            if($department == "College Department"){
+                $lists_srf = DB::select("SELECT l.assessment FROM users u, (SELECT idno, SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, college_levels c WHERE c.idno = u.idno AND l.assessment !=0.00 AND u.idno = l.idno AND c.school_year = '$school_year' AND c.period = '$period' AND (c.status = '3' or c.status = '4') and c.idno = $list->idno");
+            }else{
+                $lists_srf = DB::select("SELECT l.assessment FROM users u, (SELECT idno, SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, bed_levels c WHERE c.idno = u.idno AND l.assessment !=0.00 AND u.idno = l.idno AND c.school_year = '$school_year' AND c.period = '$period' AND (c.status = '3' or c.status = '4') and c.idno = $list->idno");
+            }
+//            $heads_srf = DB::select("SELECT c.level, SUM(l.assessment) AS 'total', SUM(l.discount) AS 'discount' FROM (SELECT idno, SUM(amount) AS 'assessment', SUM(discount) AS discount FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = '$school_year' AND period = '$period' GROUP BY idno) l, (SELECT DISTINCT level, sort_by FROM ctr_academic_programs) ctr, college_levels c WHERE l.assessment != 0.00 AND c.idno = l.idno AND ctr.level = c.level AND c.school_year = '$school_year' AND c.period = '$period' AND c.status = '3' and c.idno = $list->idno GROUP BY c.level, ctr.sort_by ORDER BY ctr.sort_by");
+            ?>
+                @if(count($lists_srf)>0)
+                    @foreach($lists_srf as $list_srf)
+                    <?php $srf_amount = $list_srf->assessment; ?>
+                    <?php $sub_total_srf = $sub_total_srf + $list_srf->assessment; ?>
+                    <?php $grand_total_srf = $grand_total_srf + $list_srf->assessment; ?>
+                    @endforeach
+                @endif
+            @endif
             
-            <td align='right'>{{number_format($list->assessment+$list->srf_amount,2)}}</td>
+            <td align='right'>{{number_format($list->assessment+$srf_amount,2)}}</td>
                     <td align='right'>{{number_format($list->discount,2)}}</td>
             
             
             @if($department == "College Department" || $department == "Senior High School")
-            <td align='right'>{{number_format($list->srf_amount,2)}}</td>
+            <td align='right'>{{number_format($srf_amount,2)}}</td>
             @else
             <td align='right'>0.00</td>
             @endif
