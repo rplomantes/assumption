@@ -177,7 +177,7 @@ $count = 0;
                     @if (isset($schedule))
                         <?php $instructor_info = \App\User::where('idno', $schedule->instructor_id)->first(); ?>
                         @if (isset($instructor_info))
-                        <td align="center">{{$instructor_info->firstname}} {{$instructor_info->lastname}}</td>
+                        <td align="center">{{$instructor_info->firstname}} {{$instructor_info->lastname}}  {{$instructor_info->extensionname}}</td>
                         @else
                         <td align="center"></td>
                         @endif

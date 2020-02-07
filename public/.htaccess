@@ -19,3 +19,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+<Ifmodule>
+php_value max_execution_time 1024M
+php_value memory_limit 1024M
+</Ifmodule>
