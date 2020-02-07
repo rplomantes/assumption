@@ -26,7 +26,7 @@ class StudentList extends Controller
     
     function print_studentlist_pdf(Request $request){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-            
+            ini_set("max_execution_time",300);
             $dep = "";
             $department = $request->department;
             $school_year = $request->school_year;

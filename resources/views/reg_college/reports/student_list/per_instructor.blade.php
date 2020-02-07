@@ -59,7 +59,7 @@ if (Auth::user()->accesslevel == env('DEAN')) {
                                 <select class="form form-control select2" name="instructor_id" id="instructor_id" onchange="get_course(this.value,school_year.value,period.value)">
                                     <option value="">Select Instructor</option>
                                     @foreach ($instructors as $instructor)
-                                    <option value="{{$instructor->idno}}">{{$instructor->firstname}} {{$instructor->lastname}}</option>
+                                    <option value="{{$instructor->idno}}">{{$instructor->firstname}} {{$instructor->lastname}} {{$instructor->extensionname}}</option>
                                     @endforeach
                                 </select>
                             </div>

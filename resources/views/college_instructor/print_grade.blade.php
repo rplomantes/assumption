@@ -130,7 +130,7 @@
                     <td width="11%">Course:</td>
                     <td width="50%">{{$infos->course_code}}</td>
                     <td width="10%" align="right">Professor:</td>
-                    <td>{{strtoupper($instructor->lastname)}} {{strtoupper($instructor->extensionname)}}, {{strtoupper($instructor->firstname)}} {{strtoupper($instructor->middlename)}}</td>
+                    <td>{{strtoupper($instructor->lastname)}} {{strtoupper($instructor->extensionname)}}, {{strtoupper($instructor->firstname)}} {{strtoupper($instructor->middlename)}} {{strtoupper($instructor->extensionname)}}</td>
                 </tr>
                 <tr>
                     <td>Desc. Title:</td>

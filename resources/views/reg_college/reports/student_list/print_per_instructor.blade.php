@@ -67,7 +67,7 @@ $instructor = \App\User::where('idno', $instructor_id)->first();
         <td width="10%">Course:</td><td style="border-bottom:1px solid black">{{$course_code}} - {{$course_name}}</td>
     </tr>
     <tr>
-        <td>Instructor:</td><td style="border-bottom:1px solid black">{{$instructor->firstname}} {{$instructor->lastname}}</td>
+        <td>Instructor:</td><td style="border-bottom:1px solid black">{{$instructor->firstname}} {{$instructor->lastname}} {{$instructor->extensionname}}</td>
     </tr>
     <tr>
         <td>Schedule:</td>
