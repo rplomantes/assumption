@@ -10,6 +10,16 @@
     </strong>
     <br>
     {{$student_info->street}}<br>
-    {{$student_info->barangay}}, {{$student_info->municipality}}<br>
-    @if(strtoupper($student_info->province) == "N/A")  @else {{$student_info->province}}, @endif {{$student_info->zip}}
+    
+    @if($student_info->barangay != NULL)
+        {{$student_info->barangay}},
+        {{$student_info->municipality}}<br>
+        @if(strtoupper($student_info->province) == "N/A")  @else {{$student_info->province}}, @endif {{$student_info->zip}}
+    @else
+        {{$student_info->municipality}}, 
+        @if(strtoupper($student_info->province) == "N/A")  @else {{$student_info->province}}, @endif {{$student_info->zip}}
+    @endif 
+    
+    
+    
 </div>
