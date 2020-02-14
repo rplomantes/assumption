@@ -705,6 +705,7 @@ class AssessmentController extends Controller {
                 $addledger->amount = $grade->lab_fee;
                 $addledger->discount =  $grade->lab_fee * ($discountsrf / 100);
                 $addledger->discount_code = $discount_code;
+                $addledger->srf_group = $grade->srf_group;
                 $addledger->save();
             }
         }

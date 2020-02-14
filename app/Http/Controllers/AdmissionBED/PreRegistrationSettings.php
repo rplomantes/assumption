@@ -44,4 +44,30 @@ class PreRegistrationSettings extends Controller
             return redirect('/bedadmission/settings/levels');
         }
     }
+
+    function view_waive_payments() {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            
+            $levels = \App\WavePayments::where('academic_type', "!=", "College")->get();
+            
+            return view('admission-bed.settings.waive_payments', compact('levels'));
+        }
+    }
+
+    function update_waive_payments($academic_type) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            
+            $get_levels = \App\WavePayments::where('academic_type',$academic_type)->first();
+            if($get_levels->is_wave == 1){
+                $get_levels->is_wave = 0;
+            }else{
+                $get_levels->is_wave = 1;
+            }
+            $get_levels->update();
+            
+            \App\Http\Controllers\Admin\Logs::log("Change wave payment settings of department $academic_type to $get_levels->is_wave.");
+            
+            return redirect('/bedadmission/settings/waive_payments');
+        }
+    }
 }
