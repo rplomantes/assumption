@@ -344,7 +344,8 @@ $tdcounter=1;
                     </tr>
                 </table>
                 <br>-->
-                @if(($other_totalamount+$late_totalamount)-($other_totaldm+$other_totaldiscount+$other_totalpayment)>0)
+                @if(($other_totalamount+$late_totalamount)-($other_totaldm+$other_totaldiscount+$other_totalpayment+$late_totalpayment+$late_totaldiscount+$late_totaldm)>0)
+                     
                 <table width="100%" border="1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="2" style="background-color: silver"><strong>OTHER FEES/LATE PAYMENTS</strong></td>
