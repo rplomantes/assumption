@@ -103,7 +103,7 @@
                         @endif
                         @if($user_type == "registrar")
                         <div class="form-group">
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label>ID Number</label>
                                 <input class="form form-control" name='idno' placeholder='ID Number*' value="{{old('idno')}}" type="text">
                             </div>
@@ -116,7 +116,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label>Level*</label>
                                 <select class="form form-control select2" name='level'>
                                     <option value="">Select a Level</option>
@@ -126,6 +126,10 @@
                                     <option>4th Year</option>
                                     <option>5th Year</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Curriculum Year</label>
+                                <input class="form form-control" name='curriculum_year' placeholder='ex. 2009*' value="{{old('curriculum_year')}}" type="text">
                             </div>
                         </div>
                         @endif
