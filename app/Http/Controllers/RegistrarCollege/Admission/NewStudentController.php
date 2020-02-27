@@ -47,6 +47,7 @@ class NewStudentController extends Controller {
                 'lastname' => 'required',
                 'municipality' => 'required',
                 'province' => 'required',
+                'curriculum_year' => 'required',
 //                'birthdate' => 'required',
 //                'gender' => 'required',
                 'email' => 'required',
@@ -162,6 +163,7 @@ class NewStudentController extends Controller {
         $add_new_student_info = new \App\StudentInfo;
         $add_new_student_info->idno = $reference_no;
         if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+        $add_new_student_info->curriculum_year = $request->curriculum_year;
         $add_new_student_info->program_code = $program_to_enroll;
         $add_new_student_info->program_name = $this->get_program_name($program_to_enroll);
         }
