@@ -154,6 +154,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 @endforeach
                             </ul>
                         </li>
+                        <li><a href="{{url('/college_instructor/my_schedule')}}"><i class="fa fa-calendar"></i> <span>My Schedule</span></a></li>
                     </ul>
                 </section>
             </aside>

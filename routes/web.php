@@ -580,3 +580,8 @@ Route::post('/admissionhed/edit_testing_schedule_now', 'AdmissionHED\TestingSche
 Route::get('/admissionhed/view_testing_list/{id}', 'AdmissionHED\TestingSchedules@view_list');
 Route::get('/admissionhed/remove_testing_list_student/{id}/{idno}', 'AdmissionHED\TestingSchedules@remove_list');
 Route::get('/ajax/admissionhed/update_schedule','AdmissionHED\Ajax\GetStudentList_ajax@updateSched');
+
+//Schedule of Instructor
+Route::get('/college_instructor/my_schedule','CollegeInstructor\MyScheduleController@index');
+Route::get('/ajax/college_instructor/generateSchedule/','CollegeInstructor\AjaxMyScheduleController@getMySchedule');
+Route::get('/college_instructor/print_my_schedule/{school_year}/{period}','CollegeInstructor\MyScheduleController@print_my_schedule');
