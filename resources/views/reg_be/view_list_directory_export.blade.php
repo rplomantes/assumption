@@ -61,10 +61,12 @@ $i=1;
         <th>Cell No.</th>
         <th>Email</th>
         <th>Father</th>
+        <th>Company</th>
         <th>Tel No.</th>
         <th>Cell No</th>
         <th>Email</th>
         <th>Mother</th>
+        <th>Company</th>
         <th>Tel No.</th>
         <th>Cell No.</th>
         <th>Email</th>
@@ -105,10 +107,12 @@ $i=1;
         <td>{{$get_directory->cell_no}}</td>
         <td>{{$email->email}}</td>
         <td>{{$get_parent->father}}</td>
+        <td>{{$get_parent->f_company_name}}</td>
         <td>{{$get_parent->f_phone}}</td>
         <td>{{$get_parent->f_cell_no}}</td>
         <td>{{$get_parent->f_email}}</td>
         <td>{{$get_parent->mother}}</td>
+        <td>{{$get_parent->m_company_name}}</td>
         <td>{{$get_parent->m_phone}}</td>
         <td>{{$get_parent->m_cell_no}}</td>
         <td>{{$get_parent->m_email}}</td>

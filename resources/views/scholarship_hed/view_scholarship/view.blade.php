@@ -45,7 +45,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 @section('maincontent')
 <section class="content">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -83,14 +83,13 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                     </ul>
                 </div>
             </div>
-            
+        </div>
             @if (Auth::user()->accesslevel==env("SCHOLARSHIP_HED"))
                 @if ($status->status == env('ASSESSED'))
                     <div class="col-sm-12"><a role="button" class="col-md-12 btn btn-danger" href="{{url('/accounting',array('manual_marking',$user->idno))}}" onclick="return confirm('This process cannot be undone. Do you wish to continue?')"><b>Mark student as Enrolled</b></a></div>
                 @endif
             @endif
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
                     @if (count($scholar)>0)
@@ -98,7 +97,7 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                         {{ csrf_field() }}
                         <input type='hidden' value='{{$idno}}' name='idno'>
                         <div class="form-group">
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <label>Scholarship</label>
                                 <select class="form form-control" name="discount_code">
                                     <option value="">None Scholar</option>
@@ -124,12 +123,24 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
                                 <input class="form form-control" type='hidden' name='df' value="{{$scholar->depository_fee}}" type="text">
                             <!--</div>-->
                             <div class="col-sm-2">
-                                <label>Retreat, etc.</label>
+                                <label>Non-Discounted</label>
                                 <input class="form form-control" type='text' name='non_discounted' value="{{$scholar->non_discounted}}" type="text">
                             </div>
                             <div class="col-sm-2">
                                 <label>SRF</label>
                                 <input class="form form-control" type='text' name='srf' value="{{$scholar->srf}}" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Dorm</label>
+                                <input class="form form-control" type='text' name='dorm' value="{{$scholar->dorm}}" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Meal</label>
+                                <input class="form form-control" type='text' name='meal' value="{{$scholar->meal}}" type="text">
+                            </div>
+                            <div class="col-sm-12">
+                                <label>Remarks</label>
+                                <input class="form form-control" type='text' name='remarks' value="{{$scholar->remarks}}" type="text">
                             </div>
                         </div>
                         <div class="form-group">

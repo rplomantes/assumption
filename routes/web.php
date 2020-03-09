@@ -427,8 +427,9 @@ Route::get('/scholarship_college/view_scholar/{idno}', 'ScholarshipCollege\ViewS
 Route::post('/scholarship_college/update_scholar', 'ScholarshipCollege\ViewScholarship@update_now');
 Route::get('/scholarship_college/view_schedule/{idno}', 'ScholarshipCollege\ViewScholarship@view_schedule');
 //Report
-Route::get('/scholarship_college/report/list_of_scholars/{school_year}/{period}', 'ScholarshipCollege\ScholarshipReport@list_of_scholars');
-Route::get('/scholarship_college/report/print_list_of_scholars/{school_year}/{period}', 'ScholarshipCollege\ScholarshipReport@print_list_of_scholars');
+Route::get('/scholarship_college/report/scholarship_report', 'ScholarshipCollege\ScholarshipReport@scholarship_report');
+Route::get('/scholarship_college/report/print_list_of_scholars/{scholarship}/{school_year}/{period}', 'ScholarshipCollege\ScholarshipReport@print_scholarship_report');
+Route::get('/ajax/scholarship_college/report/get_scholarship_report', 'ScholarshipCollege\Ajax\GetStudentList_ajax@get_scholarship_report');
 
 //Accounting Reports SetUp./////////////////////////////////////////////////////
 Route::get('/accounting/set_up_summary','Accounting\SetUpController@set_up_summary');

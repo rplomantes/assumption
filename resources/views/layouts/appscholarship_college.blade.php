@@ -108,10 +108,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
-                            <?php $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first()->school_year; ?>
-                            <?php $period = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first()->period; ?>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('/scholarship_college',array('report', 'list_of_scholars',$school_year,$period))}}"><span>List of Scholars</span></a></li>
+                                <li><a href="{{url('/scholarship_college',array('report', 'scholarship_report'))}}"><span>List of Scholars</span></a></li>
                             </ul>
                         </li>
                     </ul>

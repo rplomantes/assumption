@@ -40,36 +40,65 @@
 
 </style>
 <div>    
-    <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>LIST OF SCHOLARS</b><br><b>{{$period}}, {{$school_year}} - {{$school_year + 1}}</b></div>
+    <div style='float: left; margin-left: 290px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>{{\App\CtrDiscount::where('discount_code', $scholarship)->first()->discount_description}}</b><br><b>{{$period}}, {{$school_year}} - {{$school_year + 1}}</b></div>
 </div>
 <div>
     <?php $control = 1; ?>
     @if(count($scholars)>0)
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 155px;'>
         <tr>
-            <th>#</th>
-            <th>ID Number</th>
-            <th>Name</th>
-            <th>Program Enrolled</th>
-            <th>Level</th>
-            <th>Scholarship</th>
-            <th>Tuition %</th>
-            <th>Others %</th>
+            <th align="center">#</th>
+            <th align="center">ID Number</th>
+            <th align="center">Name</th>
+            <th align="center">Course</th>
+            <th align="center">Level</th>
+            <th align="center">Tuition %</th>
+            <th align="center">Others %</th>
+            <th align="center">SRF %</th>
+            <th align="center">Non Discounted %</th>
+            <th align="center">Meal %</th>
+            <th align="center">Dorm %</th>
+            <th align="center">Remarks</th>
         </tr>
         @foreach($scholars as $scholar)
         <tr>
-            <td>{{$control++}}.</td>
-            <td>{{$scholar->idno}}</td>
+            <td align="center">{{$control++}}.</td>
+            <td align="center">{{$scholar->idno}}</td>
             <td>{{$scholar->getFullNameAttribute()}}</td>
-            <td>{{$scholar->program_code}}</td>
-            <td>{{$scholar->level}}</td>
-            <td>{{$scholar->discount_description}}</td>
-            <td>{{$scholar->tuition_fee}}</td>
-            <td>{{$scholar->other_fee}}</td>
+            <td align="center">{{$scholar->program_code}}</td>
+            <td align="center">{{$scholar->getRomanLevel()}}</td>
+            <td align="center">{{$scholar->tuition_fee}}</td>
+            <td align="center">{{$scholar->other_fee}}</td>
+            <td align="center">{{$scholar->srf}}</td>
+            <td align="center">{{$scholar->non_discounted}}</td>
+            <td align="center">{{$scholar->meal}}</td>
+            <td align="center">{{$scholar->dorm}}</td>
+            <td align="center">{{$scholar->remarks}}</td>
         </tr>
         @endforeach
-        <tbody>
+        <tr>
+            <td colspan="12">Total: {{$control-1}}</td>
+        </tr>
     </table>
     @endif
+    <br>
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>Prepared By:<br><br><br></td>
+                <td>Noted By:<br><br><br></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>               
+                <td>___________________________</td>
+                <td>___________________________</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table> 
 </div>

@@ -232,6 +232,30 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
 
+    ], 'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'DB_USERNAME2',
+            'DB_PASSWORD2',
+            'MAIL_USERNAME',
+            'MAIL_PASSWORD',
+        ],
+
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'DB_USERNAME2',
+            'DB_PASSWORD2',
+            'MAIL_USERNAME',
+            'MAIL_PASSWORD',
+        ],
+
+        '_POST' => [
+            'password',
+        ],
     ],
 
 ];
