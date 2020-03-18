@@ -165,7 +165,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('siblings'))}}"><i class="fa fa-link"></i> <span>Siblings Discount</span></a></li>
           </ul>
         </li>
-            <li><a href="{{url('/bedregistrar',array('request_form'))}}"><i class="fa fa-link"></i> <span>Request Form</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('request_form'))}}"><i class="fa fa-link"></i> <span>Credential Request</span></a></li>
      
         
       </ul>
