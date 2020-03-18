@@ -109,3 +109,24 @@ Route::post('/accounting/print_payment_summary_pdf','Accounting\PaymentSummary@p
 Route::post('/accounting/print_payment_summary_excel','Accounting\PaymentSummary@print_payment_summary_excel');
 Route::get('/accounting/ajax/get_payment_summary','Accounting\Ajax\AjaxPaymentSummary@get_payment_summary');
 
+//Disbursement
+Route::get('/disbursement','Accounting\Disbursement@disbursement_index');
+Route::get('/cancel_disbursement/{reference}','Accounting\Disbursement@cancelDisbursement');
+Route::post('/print/disbursement_note','Accounting\Disbursement@print_summary');
+Route::get('/ajax/get_disbursements_note','Accounting\Ajax\AjaxDisbursement@get_disbursements');
+Route::get('/disbursement/new','Accounting\Disbursement@disbursement_create');
+Route::get('/accounting/ajax/set_entries','Accounting\Ajax\AjaxDisbursement@save_entries');
+Route::get('/accounting/ajax/remove_entries','Accounting\Ajax\AjaxDisbursement@remove_entries');
+Route::post('/process_disbursement','Accounting\Disbursement@process');
+Route::get('/view/disbursement/{reference}','Accounting\Disbursement@viewDisbursement');
+Route::get('/print/check_voucher/{reference}','Accounting\Disbursement@printVoucher');
+Route::get('/print/check_voucher_labels/{reference}','Accounting\Disbursement@printVoucherLabels');
+
+
+//Request Form
+Route::get('/bedregistrar/request_form','BedRegistrar\RequestForm@index');
+Route::get('/get_requestforms','BedRegistrar\RequestForm@AjaxGetForm');
+Route::post('/update_or_form_request','BedRegistrar\RequestForm@updateOR');
+Route::get('/tag_as_claimed/{reference_id}','BedRegistrar\RequestForm@tag_as_claimed');
+
+
