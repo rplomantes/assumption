@@ -16,7 +16,7 @@ class UserMaker
      */
     public function handle($request, Closure $next)
     {
-        if((!Auth::guest()) && Auth::user()->idno == 'admin'){
+        if((!Auth::guest()) && Auth::user()->accesslevel == 100){
          
          return $next($request);
         }

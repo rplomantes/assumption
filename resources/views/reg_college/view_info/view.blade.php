@@ -54,9 +54,11 @@ $layout = "layouts.appreg_college";
     {{ csrf_field() }}
     
 @if(Auth::user()->accesslevel == env('REG_COLLEGE'))
-    <div class="col-md-12 pull-left">
+    <div class="col-md-12">
+        <div class="box">
+        <div class="box-body">
         <?php $status = \App\Status::where('idno', $idno)->first(); ?>
-        <div class="col-md-2 pull-lef">
+        <div class="col-md-2 pull-left">
             <div class="form form-group">
                 @if($status->status == 3)
                 <label><input type="text" class="form form-control" id='date_today' placeholder="YYYY-MM-DD" value="{{date('Y-m-d')}}" name="date_today"></label>
@@ -94,6 +96,8 @@ $layout = "layouts.appreg_college";
                     Reset Password
                 </button>
             </div>
+        </div>
+        </div>
         </div>
     </div>
 @endif

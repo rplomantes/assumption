@@ -84,10 +84,10 @@
                 <td>{{$form_requested->amount_pay}}</td>
                 <td>{{$form_requested->or_number}}</td>
                 <td>{{$form_requested->claim_date}}</td>
-                <td>@if($form_requested->status==0) Pending @elseif($form_requested->status==1) Paid @elseif($form_requested->status==2) Claimed @endif</td>
+                <td>@if($form_requested->status==0) Payment Pending @elseif($form_requested->status==1) Paid @elseif($form_requested->status==2) Claimed @endif</td>
                 <td>
                     @if($form_requested->status==0)
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-view_form" onclick="getForm('{{$form_requested->reference_id}}')">Paid</a>
+                    <!--<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-view_form" onclick="getForm('{{$form_requested->reference_id}}')">Paid</a>-->
                     @elseif($form_requested->status==1)
                     <a href="{{url('tag_as_claimed',$form_requested->reference_id)}}">Claim</a>
                     @else

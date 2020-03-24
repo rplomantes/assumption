@@ -57,7 +57,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 <form action="{{url('/bedregistrar', array('updateinfo', $user->idno))}}" method="post" class="form-horizontal">
     {{ csrf_field() }}
     <div class="col-md-12">
-        
+        <div class="box">
+        <div class="box-body">
          <div class="col-md-3 pull-left">
              <div class="form form-group">
                  @if($status->status == 3)
@@ -110,6 +111,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
               </button>
              </div>
           </div>
+        </div>
+        </div>
     </div>
     <div class="col-sm-12">
         @if (Session::has('message'))
