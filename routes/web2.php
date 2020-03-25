@@ -182,3 +182,7 @@ Route::get('/admissions/reservation_list','Accounting\Reservations@index');
 Route::get('/accounting/manual_marking/{idno}','Cashier\MainPayment@manualMark');
 Route::get('/admission/send_email/{idno}','AdmissionHED\ViewInfoAdmissionHedController@email');
 
+Route::get('/accounting/benefit_scholar','Accounting\BenefitScholar@index');
+Route::get('/accounting_benefit_scholar','Accounting\BenefitScholar@index');
+Route::get('/ajax/accounting_benefit_scholar/getstudentlist', 'Accounting\Ajax\AjaxStudentList@getbenefit_scholar');
+

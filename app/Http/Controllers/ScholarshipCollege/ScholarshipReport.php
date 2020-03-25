@@ -17,14 +17,14 @@ class ScholarshipReport extends Controller {
     }
 
     function scholarship_report() {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $scholarships = \App\CtrDiscount::where('academic_type', "College")->where('is_display', 1)->get();
             return view('scholarship_hed.report.list_of_scholars', compact('scholarships'));
         }
     }
 
     function print_scholarship_report($scholarship, $school_year, $period) {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $scholars = \App\CollegeLevel::where('college_levels.status', env("ENROLLED"))
                             ->join('users', 'users.idno', 'college_levels.idno')
                             ->join('college_scholarships', 'college_scholarships.idno', 'college_levels.idno')

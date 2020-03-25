@@ -224,6 +224,17 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting',array('unused_reservations'))}}"><span>Reservations</span></a></li>
                                 <li><a href="{{url('/accounting',array('examination_permit_hed'))}}"><span>Examination Permit - HED</span></a></li>
                             </ul>
+                        </li>   
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-percent"></i> <span>College Scholarship</span>   
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/accounting', array('benefit_scholar'))}}"><span>Update Benefit Scholars</span></a></li>
+                                <li><a href="{{url('/scholarship_college', array('report', 'scholarship_report'))}}"><span>List of Scholars</span></a></li>
+                            </ul>
                         </li>
                     </ul>
                 </section>

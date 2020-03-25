@@ -17,14 +17,14 @@ class ViewScholarship extends Controller {
     }
 
     function index($idno) {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $scholar = \App\CollegeScholarship::where('idno', $idno)->first();
             return view('scholarship_hed.view_scholarship.view', compact('scholar', 'idno'));
         }
     }
     
     function print_scholarship($idno){
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $info = \App\User::where('idno',$idno)->first();
             $status = \App\Status::where('idno',$idno)->first();
             $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type',"College")->first();
@@ -37,7 +37,7 @@ class ViewScholarship extends Controller {
     }
 
     function update_now(Request $request) {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $scholar = \App\CollegeScholarship::where('idno', $request->idno)->first();
             if ($request->discount_code == "") {
                 $scholar->discount_code = "";
@@ -87,7 +87,7 @@ class ViewScholarship extends Controller {
     }
 
     function view_schedule($idno) {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $status = \App\Status::where('idno', $idno)->first();
             $school_year = $status->school_year;
             $period = $status->period;
