@@ -1005,7 +1005,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
         @if(count($reservations)>0)
         <label>Reservation</label>
         <table class="table table-striped">
-            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>
+            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td><td></td></tr>
             @foreach($reservations as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
                 @if($reservation->reference_id != null)
@@ -1015,16 +1015,25 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
                 <td></td>
                 @endif
                 <td align="right">{{number_format($reservation->amount,2)}}</td>
-                <td>@if($reservation->is_reverse=="1")
+                <td>
+                    @if($reservation->is_reverse=="1")
                     <i class="fa fa-close"></i> Canceled
                     @else
                     @if($reservation->is_consumed=="1")
                     <i class="fa fa-times"></i> Used
+                    @elseif($reservation->is_consumed=="2")
+                    <i class="fa fa-times"></i> Tag as Used
                     @else
                     <i class="fa fa-check"></i> Unused
                     @endif
                     @endif
-                    </td>
+                </td>
+                <td>
+                    @if($reservation->is_reverse=="1" || $reservation->is_consumed=="1"  || $reservation->is_consumed=="2")
+                    @else
+                    <a href="{{url('reservation',array('tag_as_used',$school_year,$reservation->reference_id))}}">Tag as Used</a>
+                    @endif
+                </td>
                 </tr>
             @endforeach
         </table>    
@@ -1040,7 +1049,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
         @if(count($deposits)>0)
         <label>Student Deposit</label>
         <table class="table table-striped">
-            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td></tr>
+            <tr><td>Date</td><td>OR#</td><td>Amount</td><td>Status</td><td></td></tr>
             @foreach($deposits as $reservation)
             <tr><td>{{$reservation->transaction_date}}</td>
                 @if($reservation->reference_id != null)
@@ -1060,10 +1069,18 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
                     @else
                     @if($reservation->is_consumed=="1")
                     <i class="fa fa-times"></i> Used
+                    @elseif($reservation->is_consumed=="2")
+                    <i class="fa fa-times"></i> Tag as Used
                     @else
                     <i class="fa fa-check"></i> Unused
                     @endif
                     @endif
+                    </td>
+                    <td>
+                        @if($reservation->is_reverse=="1" || $reservation->is_consumed=="1"  || $reservation->is_consumed=="2")
+                        @else
+                        <a href="{{url('reservation',array('tag_as_used',$school_year,$reservation->reference_id))}}">Tag as Used</a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

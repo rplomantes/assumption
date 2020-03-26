@@ -166,5 +166,17 @@ class Reservations extends Controller {
             return $pdf->stream("reservations_report.pdf");
         }
     }
+    
+    function tag_as_used($school_year,$reference_id){
+        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {            
+            $reservation = \App\Reservation::where('reference_id', $reference_id)->first();
+            if($reservation->is_consumed == 0){
+                $reservation->is_consumed = 2;
+                $reservation->save();
+            \App\Http\Controllers\Admin\Logs::log("Reservation/Student Deposit: $reference_id tagged as used.");
+            }
+        }
+        return redirect('cashier/viewledger/'.$school_year.'/'. $reservation->idno);
+    }
 
 }

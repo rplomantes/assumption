@@ -186,3 +186,5 @@ Route::get('/accounting/benefit_scholar','Accounting\BenefitScholar@index');
 Route::get('/accounting_benefit_scholar','Accounting\BenefitScholar@index');
 Route::get('/ajax/accounting_benefit_scholar/getstudentlist', 'Accounting\Ajax\AjaxStudentList@getbenefit_scholar');
 
+Route::get('/reservation/tag_as_used/{school_year}/{reference_id}', 'Accounting\Reservations@tag_as_used');
+
