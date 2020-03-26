@@ -188,3 +188,20 @@ Route::get('/ajax/accounting_benefit_scholar/getstudentlist', 'Accounting\Ajax\A
 
 Route::get('/reservation/tag_as_used/{school_year}/{reference_id}', 'Accounting\Reservations@tag_as_used');
 
+Route::get('/journal_entry','Accounting\JournalEntry@jv_index');
+Route::get('ajax/get_journal_voucher_note','Accounting\Ajax\AjaxJournalEntry@get_vouchers');
+Route::post('/print/journalentries_note','Accounting\JournalEntry@print_summary');
+Route::get('/journal_entry/new','Accounting\JournalEntry@jv_create');
+Route::get('/accounting/ajax/journal_set_entries','Accounting\Ajax\AjaxJournalEntry@save_entries');
+Route::get('/accounting/ajax/journal_remove_entries','Accounting\Ajax\AjaxJournalEntry@remove_entries');
+Route::get('/cancel_voucher/{reference}','Accounting\JournalEntry@cancel_jv');
+Route::post('/process_journal_entry','Accounting\JournalEntry@process_jv');
+Route::get('/view/journal_voucher/{reference}','Accounting\JournalEntry@viewJournalVoucher');
+Route::get('/print/journal_voucher/{reference}','Accounting\JournalEntry@printVoucher');
+Route::get('/reverse_voucher/{reference}','Accounting\JournalEntry@reverseVoucher');
+Route::get('/restore_voucher/{reference}','Accounting\JournalEntry@restoreVoucher');
+Route::get('/edit_voucher/{reference}','Accounting\JournalEntry@editJournalEntry');
+Route::post('/update_journal_entry','Accounting\JournalEntry@update');
+Route::get('/cancel_edit_voucher/{reference}','Accounting\JournalEntry@cancelEdit');
+
+

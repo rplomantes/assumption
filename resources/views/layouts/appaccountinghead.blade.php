@@ -118,9 +118,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>
                             </ul>
                         </li>
-<!--                        <li><a href="{{url('/')}}"><i class="fa fa-columns"></i> <span>Disbursement</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
-                        <li class="treeview">
+                        <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
+                        <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
+<!--                        <li class="treeview">
                             <a href="#"><i class="fa fa-book"></i> <span>Book of Accounts</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -130,10 +130,10 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             $date_start = date('Y-m-d');
                             $date_end = date('Y-m-d');
                             ?>
--->                            <ul class="treeview-menu">
+                            <ul class="treeview-menu">
                                 <li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li class="treeview">
                             <a href="#"><i class="fa fa-align-justify"></i> <span>Debit/Credit Summary</span>
                                 <span class="pull-right-container">
@@ -159,7 +159,6 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
                             </ul>
                         </li>
-                        <li><a href="{{url('disbursement')}}"><i class="fa fa-money"></i> <span>Disbursement</a></li>
 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-bookmark"></i> <span>Statement of Account</span>

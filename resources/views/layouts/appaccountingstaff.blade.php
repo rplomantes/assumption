@@ -120,9 +120,9 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </ul>
                         </li>-->
 <!--not hidden-->
-<!--                        <li><a href="{{url('/')}}"><i class="fa fa-columns"></i> <span>Disbursement</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
-                        <li class="treeview">
+                        <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
+                        <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
+<!--                        <li class="treeview">
                             <a href="#"><i class="fa fa-book"></i> <span>Book of Accounts</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -159,7 +159,6 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
                             </ul>
                         </li>
-                        <li><a href="{{url('disbursement')}}"><i class="fa fa-money"></i> <span>Disbursement</a></li>
 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-bookmark"></i> <span>Statement of Account</span>
