@@ -47,7 +47,7 @@
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 145px;'>
         <tr>
             <td class='no-border td' width='4%'>Academic Year:</td>
-            <td class='underline td' width='30%'>&nbsp;&nbsp;&nbsp;{{$school_year}}-{{$school_year+1}}, {{$period}}</td>
+            <td class='underline td' width='30%'>&nbsp;&nbsp;&nbsp;{{$school_year}}-{{$school_year+1}}, {{$period}}@if($term == "midterm"), Midterm @elseif($term == "finals"), Finals @endif</td>
         </tr>
     </table>
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='3px' style='margin-top: 10px;'>
@@ -73,7 +73,15 @@
             <td>{{$grade->lastname}}, {{$grade->firstname}} {{$grade->middlename}}</td>
             <td>{{$grade->course_code}}</td>
             <td>{{$grade->course_name}}</td>
-                <td><strong>{{$grade->finals}}</strong></td>
+                <td><strong>
+                    @if($term == "midterm")
+                        {{$grade->midterm}}
+                    @elseif($term == "finals")
+                        {{$grade->finals}}
+                    @endif
+                    
+                    </strong>
+                </td>
             <td>
 
                 <?php

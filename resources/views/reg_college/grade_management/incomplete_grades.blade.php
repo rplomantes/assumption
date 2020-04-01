@@ -69,7 +69,16 @@ $layout = "layouts.appreg_college";
                     <option value='2nd Semester' @if ($period == "2nd Semester") selected = "" @endif>2nd Semester</option>
                     <option value='Summer' @if ($period == "Summer") selected = "" @endif>Summer</option>
                 </select>    
-            </div>   
+            </div>
+            <div class='col-sm-2'>
+                <label>Midterm/Finals</label>
+                <select class="form form-control select2" name="term" id='term'>
+                    <option value="">Select</option>
+                    <option value='midterm' @if ($term == "midterm") selected = "" @endif>Midterm</option>
+                    <option value='finals' @if ($term == "finals") selected = "" @endif>Finals</option>
+                </select>    
+            </div>
+            
             <div class='col-sm-4'>
                 <label>&nbsp;</label>
                 <button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-success'><span>Change School Year/Period</span></button>
@@ -80,7 +89,7 @@ $layout = "layouts.appreg_college";
         <div class='box-body'>
             <table class="table table-condensed table-bordered">
             @if (count($incomplete_grades)>0)
-            <div class='col-sm-12'><div class='pull-right'><a target='_blank' href="{{url('registrar_college',array('print_grade_incomplete', $school_year,$period))}}"><button class='btn btn-primary'>Print Grade</button></a></div></div>
+            <div class='col-sm-12'><div class='pull-right'><a target='_blank' href="{{url('registrar_college',array('print_grade_incomplete', $school_year,$period,$term))}}"><button class='btn btn-primary'>Print Grade</button></a></div></div>
             <?php $counter = 1; ?>
             <tr>
                 <th>#</th>
@@ -99,7 +108,15 @@ $layout = "layouts.appreg_college";
                 <td>{{$grade->lastname}}, {{$grade->firstname}} {{$grade->middlename}}</td>
                 <td>{{$grade->course_code}}</td>
                 <td>{{$grade->course_name}}</td>
-                <td><strong>{{$grade->finals}}</strong></td>
+                <td><strong>
+                    @if($term == "midterm")
+                        {{$grade->midterm}}
+                    @elseif($term == "finals")
+                        {{$grade->finals}}
+                    @endif
+                    
+                    </strong>
+                </td>
                 <td>
                     
                     <?php
@@ -140,7 +157,7 @@ $layout = "layouts.appreg_college";
 <script>
     $(document).ready(function(){
       $("#view-button").on('click',function(e){
-        document.location="{{url('/registrar_college',array('grade_management'))}}" + "/incomplete_grades/" + $("#school_year").val() + "/" + $("#period").val();
+        document.location="{{url('/registrar_college',array('grade_management'))}}" + "/incomplete_grades/" + $("#school_year").val() + "/" + $("#period").val() + "/" + $("#term").val();
       });
     });
 </script>

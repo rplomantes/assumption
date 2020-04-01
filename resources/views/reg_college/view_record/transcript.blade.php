@@ -602,7 +602,12 @@ $credit = 0;
 $gpa = 0;
 $count = 0;
 ?>
-            <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?><h4>{{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}}</h4>
+            <?php $grades = \App\GradeCollege::where('idno', $idno)->where('school_year', $sy->school_year)->where('period', $pr->period)->get(); ?>
+            <h4>
+                {{$sy->school_year}}-{{$sy->school_year+1}}, {{$pr->period}} 
+                <a href="{{url('registrar_college',array('grade_management','print_report_card',$sy->school_year,$pr->period,$idno))}}" class="pull-right"><button class="btn btn-primary">Print Report Card</button></a>
+            
+            </h4>            
             <table class="table table-striped table-condensed" width="100%">
                 <thead>
                     <tr>

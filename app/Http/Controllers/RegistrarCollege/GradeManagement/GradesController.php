@@ -53,30 +53,30 @@ class GradesController extends Controller {
         }
     }
 
-    function incomplete_grades($school_year, $period) {
+    function incomplete_grades($school_year, $period,$term) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env("DEAN")) {
             $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
-                            ->where(function ($query) {
-                                $query->where('finals', 'INC')
-                                ->orWhere('finals', 'NG');
+                            ->where(function ($query) use ($term) {
+                                $query->where($term, 'INC')
+                                ->orWhere($term, 'NG');
                             })
                             ->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
-            return view('reg_college.grade_management.incomplete_grades', compact('school_year', 'period', 'incomplete_grades'));
+            return view('reg_college.grade_management.incomplete_grades', compact('school_year', 'period', 'incomplete_grades','term'));
         }
     }
 
-    function print_incomplete_grade($school_year, $period) {
+    function print_incomplete_grade($school_year, $period,$term) {
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
-                            ->where(function ($query) {
-                                $query->where('finals', 'INC')
-                                ->orWhere('finals', 'NG');
+                            ->where(function ($query) use ($term) {
+                                $query->where($term, 'INC')
+                                ->orWhere($term, 'NG');
                             })
                             ->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
 
             \App\Http\Controllers\Admin\Logs::log("Print Incomplete Grade of for SY $school_year-$period PDF");
-            $pdf = PDF::loadView('reg_college.grade_management.print_incomplete_grade', compact('school_year', 'period', 'incomplete_grades'));
+            $pdf = PDF::loadView('reg_college.grade_management.print_incomplete_grade', compact('school_year', 'period', 'incomplete_grades','term'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("incomplete_grades.pdf");
         }
