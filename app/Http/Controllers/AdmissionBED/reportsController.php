@@ -74,6 +74,7 @@ class reportsController extends Controller
                    ->where('is_reverse', 0)
                    ->join('statuses', 'statuses.idno', '=', 'reservations.idno')
                    ->join('users', 'users.idno','=','reservations.idno')
+                   ->join('bed_profiles', 'bed_profiles.idno','=','reservations.idno')
                    ->where('statuses.academic_type', "!=","College")
                    ->where('is_new', '1')
                    ->whereRaw('length(users.idno) > 7')

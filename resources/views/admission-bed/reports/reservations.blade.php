@@ -68,6 +68,7 @@ $layout = "layouts.appadmission-shs";
                     <th width="5%">#</th>
                     <th width="10%">ID Number</th>
                     <th>Name</th>
+                    <th>Contact No.</th>
                     <th>Level</th>
                     <th>Strand</th>
                     <th width="20%">Transaction Date</th>
@@ -80,6 +81,7 @@ $layout = "layouts.appadmission-shs";
                     <td>{{$counter}}. <?php $counter++; ?></td>
                     <td>{{$reservation->idno}}</td>
                     <td>{{strtoupper($reservation->lastname)}}, {{$reservation->firstname}} {{$reservation->middlename}}</td>
+                    <td>{{$reservation->cell_no}}; {{$reservation->tel_no}}</td>
                     <td>{{$reservation->level}}</td>
                     <td>{{$reservation->strand}}</td>
                     <td>{{$reservation->transaction_date}}</td>
