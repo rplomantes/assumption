@@ -27,13 +27,13 @@
 <?php $grandtotal = 0;?>
 <body>
     <div class="container-fluid">
-        <center>
-        <div class="col-md-12">
+        <!--<center>-->
+        <div class="col-md-12" align='left'>
                         <b style="font-size:14pt">ASSUMPTION COLLEGE</b><br>
                         <small style="margin-top: 0px;">San Lorenzo Drive, San Lorenzo Village Makati City</small><br/>
             </br>
         </div>
-        </center>
+        <!--</center>-->
         <br>
         <h4 class="display">Summary of Journal Entries<br><small>Date Covered: {{date_format(date_create($finalStartDate),"M d, Y")}} - {{date_format(date_create($finalEndDate),"M d, Y")}}</small></h4>
         <table width="100%" class="tables" cellpadding="2">
@@ -64,14 +64,14 @@
         </table>
     </div>
     <br><br>
-    @if (Auth::user()->accesslevel == '4')
-Prepared by:<br><br>
-<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong><br>
-Accounting Staff - Cashier
-@else (Auth::user()->accesslevel == '5')
-Prepared by:<br><br>
-<strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong><br>
-Accounting Manager
-@endif
+    @if (Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+    Prepared by:<br><br>
+    <strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong><br>
+    Accounting Staff
+    @else (Auth::user()->accesslevel == env('ACCTNG_STAFF'))
+    Prepared by:<br><br>
+    <strong>{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</strong><br>
+    Accounting Head
+    @endif
 <br><small style="font-size:7pt;">{{date("m/d/Y H:m:s")}}</small>
 </body>

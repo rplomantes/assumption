@@ -119,5 +119,33 @@ class AjaxAccoReportsController extends Controller {
             return view('accounting.srf.ajax.getstudentrelatedfees', compact('department','school_year','period', 'levels','groups'));
         }
     }
+    
+    
+    function getTrialBalance(){
+        $date_to = Input::get('date_to');
+        $date_from = Input::get('date_from');
+        $finalStartDate = "$date_from";
+        $finalEndDate = "$date_to";
+        
+        $lists = \App\Accounting::join('chart_of_accounts','accountings.accounting_code','chart_of_accounts.accounting_code')
+                ->selectRaw('accountings.accounting_code, chart_of_accounts.accounting_name, case when (sum(debit) - sum(credit)) > 0 then sum(debit) - sum(credit) end as debit,case when (sum(debit) - sum(credit)) < 0 then sum(debit) - sum(credit) end as credit')
+                ->where('is_reverse',0)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
+                ->groupBy('accountings.accounting_code')->get();
+        return view('accounting.ajax.display_trial_balance', compact('lists', 'finalStartDate','finalEndDate'));
+    }
+    
+    function getGeneralLedger(){
+        $date_to = Input::get('date_to');
+        $date_from = Input::get('date_from');
+        $accounting_code = Input::get('code');
+        $finalStartDate = "$date_from";
+        $finalEndDate = "$date_to";
+        
+        $entries = \App\Accounting::where('accounting_code',$accounting_code)
+                ->where('is_reverse',0)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
+                ->orderBy('transaction_date')->get();
+        $account = \App\ChartOfAccount::where('accounting_code',$accounting_code)->first();
+        return view('accounting.ajax.display_general_ledger', compact('entries','account', 'finalStartDate','finalEndDate'));
+    }
 
 }

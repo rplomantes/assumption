@@ -3,6 +3,10 @@ $file_exist = 0;
 if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
     $file_exist = 1;
 }
+
+$date_start = date('Y-m-d');
+$date_end = date('Y-m-d'); 
+
 ?>
 
 <!DOCTYPE html>
@@ -122,18 +126,18 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
 <!--not hidden-->
                         <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
                         <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
-<!--                        <li class="treeview">
-                            <a href="#"><i class="fa fa-book"></i> <span>Book of Accounts</span>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-book"></i> <span>Accounting Reports</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
-                            <?php $date_start = date('Y-m-d');
-                            $date_end = date('Y-m-d'); ?>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>
+                                <!--<li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>-->
+                                <li><a href="{{url('/trial_balance')}}"><span> Trial Balance</span></a></li>
+                                <li><a href="{{url('/general_ledger')}}"><span> General Ledger</span></a></li>
                             </ul>
-                        </li>-->
+                        </li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-align-justify"></i> <span>Debit/Credit Summary</span>
                                 <span class="pull-right-container">

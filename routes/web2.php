@@ -205,3 +205,12 @@ Route::post('/update_journal_entry','Accounting\JournalEntry@update');
 Route::get('/cancel_edit_voucher/{reference}','Accounting\JournalEntry@cancelEdit');
 
 
+Route::get('/trial_balance','Accounting\TrialBalance@trialBalance');
+Route::get('ajax/get_trial_balance','Accounting\Ajax\AjaxAccoReportsController@getTrialBalance');
+Route::post('/print/trial_balance','Accounting\TrialBalance@printTrialBalance');
+
+Route::get('general_ledger','Accounting\GeneralLedger@generalLedger');
+Route::get('ajax/get_general_ledger','Accounting\Ajax\AjaxAccoReportsController@getGeneralLedger');
+Route::get('general_ledger/{code}/{start}/{end}','Accounting\GeneralLedger@generateLedger');
+Route::get('print/general_ledger/{code}/{start}/{end}','Accounting\GeneralLedger@printGenerateLedger');
+
