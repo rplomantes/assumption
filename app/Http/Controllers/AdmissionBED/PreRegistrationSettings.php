@@ -70,4 +70,25 @@ class PreRegistrationSettings extends Controller
             return redirect('/bedadmission/settings/waive_payments');
         }
     }
+    
+    function view_pre_registration_email() {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            return view('admission-bed.pre_registration_email');
+        }
+    }
+    
+    function view_pre_registration_email_post(Request $request) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if($request->submit == "regular"){
+                $update = \App\CtrPreRegMessages::where('type',$request->submit)->first();
+                $update->message=$request->message_regular;
+                $update->save();
+            }elseif($request->submit == "waive"){
+                $update = \App\CtrPreRegMessages::where('type',$request->submit)->first();
+                $update->message=$request->message_waive;
+                $update->save();
+            }
+            return redirect(url('/bedadmission/settings/pre_registration_email'));
+        }
+    }
 }

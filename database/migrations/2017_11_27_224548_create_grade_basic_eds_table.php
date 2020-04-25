@@ -22,6 +22,7 @@ class CreateGradeBasicEdsTable extends Migration
             $table->string("subject_code");
             $table->string("subject_name");
             $table->string("display_subject_code");
+            $table->string("group_code");
             $table->string("group_name");
             $table->string("units");
             $table->integer("points")->nullable();
@@ -47,7 +48,8 @@ class CreateGradeBasicEdsTable extends Migration
             $table->integer("status")->default(0);
             $table->string("school_year");
             $table->string("period")->nullable();
-            $table->string("encoded_by");
+            $table->string("teacher")->nullable();
+            $table->string("stl")->nullable();
             $table->foreign("idno")->references("idno")
                     ->on("users")->onUpdate('cascade');
             $table->timestamps();

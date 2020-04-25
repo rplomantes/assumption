@@ -169,6 +169,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
           <ul class="treeview-menu">
             <li><a href="{{url('/bedadmission',array('settings','levels'))}}">Open/Close Levels</a></li>
             <li><a href="{{url('/bedadmission',array('settings','waive_payments'))}}">Waive Payments</a></li>
+            <li><a href="{{url('/bedadmission',array('settings','pre_registration_email'))}}">Pre-Registration Email</a></li>
           </ul>
         </li>
      

@@ -43,7 +43,7 @@ class ReassessController extends Controller {
                 $this->remove_discountList($idno, $status->school_year, $status->period, $status->academic_type);
 
                 //post assessment
-                $this->addGrades($request, $status->school_year, $status->period);
+//                $this->addGrades($request, $status->school_year, $status->period);
                 $this->addLedger($request, $status->school_year, $status->period);
                 $this->addOtherCollection($request, $status->school_year, $status->period);
                 $this->addSRF($request, $status->school_year, $status->period);

@@ -470,6 +470,9 @@ Route::get('/bedadmission/settings/levels','AdmissionBED\PreRegistrationSettings
 Route::get('/bedadmission/settings/update_levels/{level}','AdmissionBED\PreRegistrationSettings@update');
 Route::get('/bedadmission/settings/waive_payments','AdmissionBED\PreRegistrationSettings@view_waive_payments');
 Route::get('/bedadmission/settings/update_waive_payments/{academic_type}','AdmissionBED\PreRegistrationSettings@update_waive_payments');
+Route::get('/bedadmission/settings/pre_registration_email','AdmissionBED\PreRegistrationSettings@view_pre_registration_email');
+Route::post('/bedadmission/settings/pre_registration_email/post','AdmissionBED\PreRegistrationSettings@view_pre_registration_email_post');
+
 
 //PRE-REGISTRATION SETTINGS COLLEGE
 Route::get('/admissions/settings/programs','AdmissionHED\PreRegistrationSettings@view');

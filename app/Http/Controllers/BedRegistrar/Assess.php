@@ -68,7 +68,7 @@ class Assess extends Controller {
 
                         $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', $user->academic_type)->first();
                         DB::beginTransaction();
-                        $this->addGrades($request, $schoolyear->school_year, $schoolyear->period);
+//                        $this->addGrades($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addLedger($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addOtherCollection($request, $schoolyear->school_year, $schoolyear->period);
                         $this->addOptionalFee($request);
