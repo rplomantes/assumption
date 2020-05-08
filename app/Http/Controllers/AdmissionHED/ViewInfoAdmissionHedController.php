@@ -212,7 +212,7 @@ class ViewInfoAdmissionHedController extends Controller {
         Mail::send('admin.mail', compact('applicant_details'), function($message) use($applicant_details) {
             $message->to($applicant_details->email, $applicant_details->firstname . " " . $applicant_details->lastname)
                     ->subject('AC Portal Access');
-            $message->from('ac.sis@assumption.edu.ph', "AC Student Information System");
+            $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
         });
     }
     

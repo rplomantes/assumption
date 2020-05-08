@@ -41,7 +41,11 @@ class ForgotPasswordController extends Controller
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
         
-        $checkuser = \App\User::where('idno', $request->idno)->where('accesslevel','>',0)->first();
+        $checkuser = \App\User::where('idno', $request->idno)
+                ->where(function ($query){
+                        $query->where('accesslevel','>',0)
+                              ->where('accesslevel','!=',90);
+                    })->first();
         if(count($checkuser)>0){
         $response = $this->broker()->sendResetLink(
             $request->only('idno')
