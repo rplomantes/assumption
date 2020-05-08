@@ -64,48 +64,7 @@
                                     <td align='left' style='padding: 0 56px 28px 56px;' valign='top'>
                                         <div style='font-family: "lato", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 28px;font-size: 18px; color: #333 !important;'>
                                             <span style="color: #333">
-                                                @if($type == "Regret")
-
-                                                
-                                                Greetings of Peace!<br><br>
-                                                
-                                                We would like to thank you for having considered Assumption College as the 
-                                                school for your daughter. However, it is with regret to inform you that your
-                                                daughter did not successfully meet the initial requirements for Admission of
-                                                Assumption Basic Education Division for SY 2019-2020.<br><br>
-                                                
-                                                Please know that all decisions arrived at by the Committee on Admissions are final.
-                                                The decisions were seen in the light of what is life-giving for your daughter.<br><br>
-                                                
-                                                Although we must regretfully send you an unfavorable response to your daughter's 
-                                                application, we hope that you will be able to find the right learning environment 
-                                                that can best nurture your daughter’s needs.<br><br>
-                                                
-                                                Once again, thank you!<br><br>
-                                                
-                                                
-                                                Sincerely yours,<br>
-                                                Admissions Head
-                                                
-                                                @else
-                                                
-                                                Greetings of Peace!<br><br>
-                                                
-                                                On behalf of Assumption College, San Lorenzo-Basic Education Division, I am pleased to inform you that your daughter has been accepted to the level that she applied for. <br><br>
-                                                
-                                                In order to ensure your daughter’s slot, kindly claim the hardcopy of your daughter’s <strong>ACCEPTANCE LETTER</strong> at the BED Admissions Office at 8:00am to 4:00pm from Monday to Friday. The acceptance letter needs to be presented as you pay for the Reservation Fee.<br><br>
-
-                                                Thank you for choosing Assumption College.<br><br>
-
-                                                Sincerely yours,<br>
-                                                Admissions Head<br><br>
-                                                
-                                                <strong><i>Note:<br>
-                                                Should you wish to have your letter be claimed by a representative, kindly provide a photocopy of your ID and an authorization letter. Thank you!</i></strong>
-                                                
-                                                
-                                                
-                                                @endif
+                                                {!!$message_mail!!}
                                             </span>
                                         </div>
                                     </td>

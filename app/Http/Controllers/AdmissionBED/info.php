@@ -183,8 +183,10 @@ class info extends Controller
     }
     
     function sendEmail($idno, $type){
+        $message_mail = \App\CtrPreRegMessages::where('type', $type)->first()->message;
+        
         $applicant_details = \App\User::where('idno', $idno)->first();
-        Mail::send('admission-bed.mail-result-application',compact('applicant_details','type'), function($message) use($applicant_details) {
+        Mail::send('admission-bed.mail-result-application',compact('applicant_details','type','message_mail'), function($message) use($applicant_details) {
          $message->to($applicant_details->email, $applicant_details->firstname." ".$applicant_details->lastname)
                  ->subject('AC Admission Application Status');
          $message->from(env('MAIL_FROM_ADDRESS'),env('MAIL_FROM_NAME'));

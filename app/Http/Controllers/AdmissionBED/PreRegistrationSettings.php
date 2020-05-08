@@ -91,4 +91,25 @@ class PreRegistrationSettings extends Controller
             return redirect(url('/bedadmission/settings/pre_registration_email'));
         }
     }
+    
+    function view_application_result_email() {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            return view('admission-bed.application_result_email');
+        }
+    }
+    
+    function view_application_result_email_post(Request $request) {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            if($request->submit == "Approved"){
+                $update = \App\CtrPreRegMessages::where('type',$request->submit)->first();
+                $update->message=$request->message_approved;
+                $update->save();
+            }elseif($request->submit == "Regret"){
+                $update = \App\CtrPreRegMessages::where('type',$request->submit)->first();
+                $update->message=$request->message_regret;
+                $update->save();
+            }
+            return redirect(url('/bedadmission/settings/application_result_email'));
+        }
+    }
 }
