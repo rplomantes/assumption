@@ -1010,7 +1010,11 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
             <tr><td>{{$reservation->transaction_date}}</td>
                 @if($reservation->reference_id != null)
                 <?php $orNumber = \App\Payment::where('reference_id', $reservation->reference_id)->first(); ?>
+                @if($orNumber)
                 <td><a href="{{url('cashier', array('viewreceipt',$reservation->reference_id))}}">{{$orNumber->receipt_no}}</a></td>
+                @else
+                <td></td>
+                @endif
                 @else
                 <td></td>
                 @endif
