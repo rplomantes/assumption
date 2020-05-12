@@ -90,6 +90,7 @@ $layout = "layouts.appadmission-shs";
                         <th>Strand</th>
                         <th>Date of Birth</th>
                         <th>Date Approved</th>
+                        <th>View Info</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,6 +105,7 @@ $layout = "layouts.appadmission-shs";
                         <td>{{$p->strand}}</td>
                         <td>{{$dob}}</td>
                         <td>{{$p->date_admission_finish}}</td>
+                        <td><a  href="{{url('/admissionbed',array('info',$p->idno))}}">View Info</a></td>
                         
                     </tr>
                     @endforeach
