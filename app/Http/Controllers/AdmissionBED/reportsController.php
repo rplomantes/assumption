@@ -22,8 +22,9 @@ class reportsController extends Controller
             
             $non_paid = \Illuminate\Support\Facades\DB::connection('mysql2')->select("select * from pre_registrations where is_complete = 0 and created_at >= '$date_start 00:00:00' and  created_at <= '$date_end 23:59:59' and applying_for != 'College'");
             $paid = \Illuminate\Support\Facades\DB::connection('mysql2')->select("select * from pre_registrations where is_complete = 1 and date_completed >= '$date_start' and  date_completed <= '$date_end' and applying_for != 'College'");
+            $waived = \Illuminate\Support\Facades\DB::connection('mysql2')->select("select * from pre_registrations where is_complete = 2 and date_completed >= '$date_start' and  date_completed <= '$date_end' and applying_for != 'College'");
             
-            return view('admission-bed.reports.pre_registered', compact('date_start','date_end', 'non_paid', 'paid'));
+            return view('admission-bed.reports.pre_registered', compact('date_start','date_end', 'non_paid', 'paid','waived'));
         }
     }
 

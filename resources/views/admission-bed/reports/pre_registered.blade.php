@@ -141,6 +141,36 @@ $layout = "layouts.appadmission-shs";
         </div>
     </div> 
 </div>
+<div class="col-md-6">  
+    <div class="box">
+        <div class="box-header">
+            <div class="box-title">Waived Entrance Fee Applicants</div>
+        </div>
+        <div class="box-body">
+            <table id='example3' class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Date of Birth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $number = 1; ?>
+                    @foreach ($waived as $waived_p)
+                    <tr>
+                        <td>{{$number++}}</td>
+                        <td>{{$waived_p->lastname}}, {{$waived_p->firstname}} {{$waived_p->middlename}} {{$waived_p->extensionname}}</td>
+                        <td>{{$waived_p->level}}</td>
+                        <td>{{$waived_p->date_of_birth}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div> 
+</div>
 @endsection
 @section('footerscript') 
 <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap-daterangepicker','daterangepicker.css'))}}">
