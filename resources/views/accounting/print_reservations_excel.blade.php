@@ -9,8 +9,10 @@ $x = 0;
     <tr><td colspan="7"><h5>S.Y. {{$school_year}} - {{$school_year + 1}}, {{$period}}</h5>
 </td></tr>
     </tr>
+    @foreach($heads as $head)
     <?php $x = 0;?>
     <thead>
+        <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
         <tr>
             <th width="5" style='border-bottom: 1px solid black'> </th>
             <th width="10"  style='border-bottom: 1px solid black'>ID No.</th>
@@ -27,6 +29,7 @@ $x = 0;
     </thead>
     <tbody>
             @foreach($lists as $list)
+                @if($list->level == $head->level)
                 <?php $total += $list->amount; $x++; ?>
                 <tr>
                     <td>{{$x}}. </td>
@@ -50,7 +53,10 @@ $x = 0;
                         @endswitch
                     </td>
                 </tr>
+                @endif
             @endforeach
+            <tr><td align="right" @if($department == "College Department") colspan="7" @else colspan="6" @endif>SUB TOTAL</td><td align="right"><strong>{{$head->total}}</strong></td></tr>
+    @endforeach
             <tr>
                 <td style="border-top:1px solid black" @if($department == "College Department") colspan="7" @else colspan="6" @endif><strong>Total</strong></td>
                 <td style="border-top:1px solid black" align='right'><strong>{{$total}}</strong></td><td style="border-top:1px solid black"></td>

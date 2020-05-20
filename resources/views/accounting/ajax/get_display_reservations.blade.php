@@ -11,9 +11,10 @@ As of {{date('F d, Y')}}
 $x = 0;
 ?>
 <table width='100%' cellpadding='0' cellspacing='0'>
+    @foreach($heads as $head)
     <?php $x = 0;?>
     <thead>
-        <tr><td colspan="6"><h4></h4></td></tr>
+        <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
         <tr>
             <th style='border-bottom: 1px solid black'>  </th>
             <th style='border-bottom: 1px solid black'>ID No.</th>
@@ -30,6 +31,7 @@ $x = 0;
     </thead>
     <tbody>
             @foreach($lists as $list)
+                @if($list->level == $head->level)
                 <?php $total += $list->amount; $x++; ?>
                 <tr>
                     <td>{{$x}}  </td>
@@ -57,7 +59,10 @@ $x = 0;
                         @endswitch
                     </td>
                 </tr>
+                @endif
             @endforeach
+            <tr><td align="right" @if($department == "College Department") colspan="7" @else colspan="6" @endif>SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>
+    @endforeach
             <tr>
                 <td style="border-top:1px solid black" @if($department == "College Department") colspan="7" @else colspan="6" @endif><strong>Total</strong></td>
                 <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td><td style="border-top:1px solid black"></td>

@@ -61,7 +61,7 @@
              @if(count($books)>0)
              <h3>Books and other supplies</h3>
              <table class="table table-striped">
-                 <tr><th width="30%">Paticular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Paid</th><th>Claimed</th><th>Remarks</th></tr>
                 @foreach($books as $book)
                 <tr><td>{{$book->subsidiary}}</td><td>{{$book->qty}}</td><td>{{number_format($book->amount,2)}}</td>
                     <td>{{number_format($book->payment+$book->discount+$book->debit_memo,2)}}</td>
@@ -79,11 +79,11 @@
                                   $checked="";
                                   $disabled="disabled='disabled'";   
                               }?>
-                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} {{$disabled}}></td><td>{{$book->date_served}}</td>
+                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} disabled=""></td><td>{{$book->date_served}}</td>
                     
                     <td> <select id="remarks" onchange="change_remarks(this.value,{{$book->id}})">
                             <option value="" >&nbsp;</option>
-                            <option value="Not Yet Served" @if($book->supply_remarks=="Not Yet Served") selected="selected" @endif>Not Yet Served</option>
+                            <option value="Unclaimed" @if($book->supply_remarks=="Unclaimed") selected="selected" @endif>Unclaimed</option>
                         </select></td></tr>
                 @endforeach
              </table>                 
@@ -94,7 +94,7 @@
              @if(count($materials)>0)
              <h3>Required Materials (SET)</h3>
              <table class="table table-striped">
-                 <tr><th width="30%">Paticular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Paid</th><th>Claimed</th><th>Remarks</th></tr>
                 @foreach($materials as $book)
                 <tr><td>{{$book->subsidiary}}
                     @if(count($material_details)>0)
@@ -121,11 +121,11 @@
                                   $checked="";
                                   $disabled="disabled='disabled'";   
                               }?>
-                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} {{$disabled}}></td><td>{{$book->date_served}}</td>
+                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} disabled=""></td><td>{{$book->date_served}}</td>
                     
                     <td> <select id="remarks" onchange="change_remarks(this.value,{{$book->id}})">
                             <option value="" >&nbsp;</option>
-                            <option value="Not Yet Served" @if($book->supply_remarks=="Not Yet Served") selected="selected" @endif>Not Yet Served</option>
+                            <option value="Unclaimed" @if($book->supply_remarks=="Unclaimed") selected="selected" @endif>Unclaimed</option>
                         </select></td></tr>
                 @endforeach
              </table>                 
@@ -135,7 +135,7 @@
              @if(count($other_materials)>0)
              <h3>Optional Materials (SET)</h3>
              <table class="table table-striped">
-                 <tr><th width="30%">Paticular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Paid</th><th>Claimed</th><th>Remarks</th></tr>
                 @foreach($other_materials as $book)
                 <tr><td>{{$book->subsidiary}}
                     @if(count($other_material_details)>0)
@@ -161,11 +161,11 @@
                                   $checked="";
                                   $disabled="disabled='disabled'";   
                               }?>
-                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} {{$disabled}}></td><td>{{$book->date_served}}</td>
+                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} disabled=""></td><td>{{$book->date_served}}</td>
                     
                     <td> <select id="remarks" onchange="change_remarks(this.value,{{$book->id}})">
                             <option value="" >&nbsp;</option>
-                            <option value="Not Yet Served" @if($book->supply_remarks=="Not Yet Served") selected="selected" @endif>Not Yet Served</option>
+                            <option value="Unclaimed" @if($book->supply_remarks=="Unclaimed") selected="selected" @endif>Unclaimed</option>
                         </select></td></tr>
                 @endforeach
              </table>                 
@@ -174,7 +174,7 @@
              @if(count($pe_uniforms)>0)
              <h3>PE Uniform</h3>
              <table class="table table-striped">
-                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Paid</th><th>Claimed</th><th>Remarks</th></tr>
                 @foreach($pe_uniforms as $book)
                 <tr><td>{{$book->subsidiary}}</td><td>{{$book->qty}}</td><td>{{number_format($book->amount,2)}}</td>
                     <td>{{number_format($book->payment+$book->discount+$book->debit_memo,2)}}</td>
@@ -192,11 +192,11 @@
                                   $checked="";
                                   $disabled="disabled='disabled'";   
                               }?>
-                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} {{$disabled}}></td><td>{{$book->date_served}}</td>
+                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} disabled=""></td><td>{{$book->date_served}}</td>
                     
                     <td> <select id="remarks" onchange="change_remarks(this.value,{{$book->id}})">
                             <option value="" >&nbsp;</option>
-                            <option value="Not Yet Served" @if($book->supply_remarks=="Not Yet Served") selected="selected" @endif>Not Yet Served</option>
+                            <option value="Unclaimed" @if($book->supply_remarks=="Unclaimed") selected="selected" @endif>Unclaimed</option>
                         </select></td></tr>
                 @endforeach
              </table> 
@@ -207,7 +207,7 @@
              @if(count($additional_orders)>0)
              <h3>Additional Orders</h3>
              <table class="table table-striped">
-                 <tr><th width="30%">Paticular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Is Served</th><th>Date Served</th><th>Remarks</th></tr>
+                 <tr><th width="30%">Particular</th><th>QTY</th><th>Amount</th><th>Payment</th><th>Paid</th><th>Claimed</th><th>Remarks</th></tr>
                 @foreach($additional_orders as $book)
                 <tr><td>{{$book->subsidiary}}
                     
@@ -227,18 +227,18 @@
                                   $checked="";
                                   $disabled="disabled='disabled'";   
                               }?>
-                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} {{$disabled}}></td><td>{{$book->date_served}}</td>
+                        <input id="qty_book" onclick="is_serve(this.checked,{{$book->id}})" type="checkbox" {{$checked}} disabled=""></td><td>{{$book->date_served}}</td>
                     
                     <td> <select id="remarks" onchange="change_remarks(this.value,{{$book->id}})">
                             <option value="" >&nbsp;</option>
-                            <option value="Not Yet Served" @if($book->supply_remarks=="Not Yet Served") selected="selected" @endif>Not Yet Served</option>
+                            <option value="Unclaimed" @if($book->supply_remarks=="Unclaimed") selected="selected" @endif>Unclaimed</option>
                         </select></td></tr>
                 @endforeach
              </table>                 
              @else
              @endif
              
-             <a href="{{url('/bookstore',array('print_order',$idno))}}" class="btn btn-primary form-control">Print Receiving Form</a>
+             <a href="{{url('/bookstore',array('print_order',$idno))}}" class="btn btn-primary form-control" target="_blank">Print Receiving Form</a>
              </div>
          </div>    
       </div>
@@ -246,9 +246,6 @@
 @endsection
 @section('footerscript')
 <script>
-function is_serve(value,id){
-alert(value)
-}
 
 function change_remarks(value, id){
     var array={};

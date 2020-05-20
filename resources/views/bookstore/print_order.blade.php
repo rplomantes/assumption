@@ -3,6 +3,15 @@ $bookamount=0;
 $materialamount=0;
 $othermaterialamount=0;
 $peamount=0;
+
+function update_served_date($book){
+    if(count($book)>0){
+        if($book->supply_remarks == NULL && $book->date_served == NULL){
+            $book->date_served = date('Y-m-d');
+            $book->save();
+        }
+    }
+}
 ?>
 <html>
     <head>
@@ -52,6 +61,7 @@ $peamount=0;
                 <?php $count=1; $bookamount=0;?>
                 @foreach($books as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
+                <?php update_served_date($book); ?>
                 <tr><td align="right">{{$count++}}.</td><td>{{$book->subsidiary}}</td><td width="5%" align="center">{{$book->qty}}</td><td align="right">{{number_format($book->amount,2)}}</td>
                     <td align="center"> {{$book->supply_remarks}}</td></tr>
                 <?php $bookamount=$bookamount+ $book->amount;?>
@@ -68,6 +78,7 @@ $peamount=0;
                 <?php $count=1; $materialamount=0;?>
                 @foreach($materials as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
+                <?php update_served_date($book); ?>
                 <tr><td align="right" valign="top">{{$count++}}.</td><td>{{$book->subsidiary}}
                     @if(count($material_details)>0)
                     <ul>
@@ -91,6 +102,7 @@ $peamount=0;
                 <?php $count=1; $othermaterialamount=0;?>
                 @foreach($other_materials as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
+                <?php update_served_date($book); ?>
                 <tr><td align="right" valign="top">{{$count++}}.</td><td>{{$book->subsidiary}}
                     @if(count($other_material_details)>0)
                     <ul>
@@ -114,6 +126,7 @@ $peamount=0;
                 <?php $count=1; $peamount=0;?>
                 @foreach($pe_uniforms as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
+                <?php update_served_date($book); ?>
                 <tr><td align="right" valign="top">{{$count++}}.</td><td>{{$book->subsidiary}}
                     
                     </td><td valign="top" width="5%" align="center">{{$book->qty}}</td><td align="right" valign="top">{{number_format($book->amount,2)}}</td>
@@ -132,6 +145,7 @@ $peamount=0;
                 <?php $count=1; $bookamount=0;?>
                 @foreach($additional_orders as $book)
                 @if($book->amount == $book->payment+$book->discount+$book->debit_memo)
+                <?php update_served_date($book); ?>
                 <tr><td align="right">{{$count++}}.</td><td>{{$book->subsidiary}}</td><td width="5%" align="center">{{$book->qty}}</td><td align="right">{{number_format($book->amount,2)}}</td>
                     <td align="center"> {{$book->supply_remarks}}</td></tr>
                 <?php $bookamount=$bookamount+ $book->amount;?>

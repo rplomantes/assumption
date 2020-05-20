@@ -37,7 +37,7 @@ class Reservations extends Controller {
                 }else if($period == "2nd Semester"){
                 $school_year2 = $school_year;
                     $period2 = "1st Semester";
-                    $period2 = "1st Semester";
+                    $period3 = "1st Semester";
                 }else if($period == "Summer"){
                 $school_year2 = $school_year;
                     $period2 = "2nd Semester";
@@ -52,25 +52,30 @@ class Reservations extends Controller {
             
             if ($department == "Senior High School") {
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->orderBy('users.lastname', 'asc')->get();
+                $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
             } else if ($department == "College Department") {
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->orderBy('users.lastname', 'asc')->get();
+                $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
             } else {
                 $dep = $department;
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->orderBy('users.lastname', 'asc')->get();
+                $heads = \App\Reservation::selectRaw("statusses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->groupBy("statuses.level","reservations.amount")->orderBy('statuses.level', 'asc')->get();
             }
             if($school_year == 2018){
                 if ($department == "Senior High School") {
                     $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->orderBy('users.lastname', 'asc')->get();
+                    $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->orderBy('users.lastname', 'asc')->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
                 } else if ($department == "College Department") {
                     $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->orderBy('users.lastname', 'asc')->get();
+                    $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->orderBy('users.lastname', 'asc')->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
                 } else {
                     $dep = $department;
                     $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->orderBy('users.lastname', 'asc')->get();
+                    $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
                 }
             }
-            
              \App\Http\Controllers\Admin\Logs::log("Print Unused Reservations for $school_year $period PDF");
-            $pdf = PDF::loadView('accounting.print_reservations_pdf', compact('department','school_year','period','lists'));
+            $pdf = PDF::loadView('accounting.print_reservations_pdf', compact('department','school_year','period','lists','heads'));
             $pdf->setPaper('letter', 'portrait');
             return $pdf->stream("unused_reservations.pdf");
         }
@@ -92,7 +97,7 @@ class Reservations extends Controller {
                 }else if($period == "2nd Semester"){
                 $school_year2 = $school_year;
                     $period2 = "1st Semester";
-                    $period2 = "1st Semester";
+                    $period3 = "1st Semester";
                 }else if($period == "Summer"){
                 $school_year2 = $school_year;
                     $period2 = "2nd Semester";
@@ -107,20 +112,26 @@ class Reservations extends Controller {
             
             if ($department == "Senior High School") {
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->orderBy('users.lastname', 'asc')->get();
+                $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
             } else if ($department == "College Department") {
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->orderBy('users.lastname', 'asc')->get();
+                $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->whereRaw("(payments.period = '$period2' or payments.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
             } else {
                 $dep = $department;
                 $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->orderBy('users.lastname', 'asc')->get();
+                $heads = \App\Reservation::selectRaw("statusses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->join('payments', 'payments.reference_id','=','reservations.reference_id')->where('payments.school_year', $school_year2)->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->groupBy("statuses.level","reservations.amount")->orderBy('statuses.level', 'asc')->get();
             }
             if($school_year == 2018){
                 if ($department == "Senior High School") {
                     $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->orderBy('users.lastname', 'asc')->get();
+                    $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"SHS")->orderBy('users.lastname', 'asc')->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
                 } else if ($department == "College Department") {
                     $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->orderBy('users.lastname', 'asc')->get();
+                    $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.academic_type',"College")->orderBy('users.lastname', 'asc')->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
                 } else {
                     $dep = $department;
                     $lists = \App\Reservation::where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->orderBy('users.lastname', 'asc')->get();
+                    $heads = \App\Reservation::selectRaw("statuses.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->where('reference_id', "")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->where('statuses.department',$dep)->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
                 }
             }
             
@@ -128,9 +139,9 @@ class Reservations extends Controller {
             
             ob_end_clean();
             Excel::create('Unused Reservations', 
-                function($excel) use ($department,$school_year,$period,$lists) { $excel->setTitle($department);
-                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period, $lists) {
-                    $sheet->loadView('accounting.print_reservations_excel', compact('department','school_year','period','lists'));
+                function($excel) use ($department,$school_year,$period,$lists,$heads) { $excel->setTitle($department);
+                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period, $lists,$heads) {
+                    $sheet->loadView('accounting.print_reservations_excel', compact('department','school_year','period','lists','heads'));
                     });
                 })->download('xlsx');
             

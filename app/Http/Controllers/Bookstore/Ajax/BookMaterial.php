@@ -15,6 +15,9 @@ class BookMaterial extends Controller
         $value = Input::get("value");
         $id = Input::get('id');
         $remark = \App\Ledger::where('id',$id)->first();
+        if($value != NULL){
+            $remark->date_served = null;
+        }
         $remark->supply_remarks = $value;
         $remark->update();
     }
