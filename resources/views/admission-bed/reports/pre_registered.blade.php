@@ -147,7 +147,7 @@ $layout = "layouts.appadmission-shs";
             <div class="box-title">Waived Entrance Fee Applicants</div>
         </div>
         <div class="box-body">
-            <table id='example3' class="table table-condensed">
+            <table id='example2' class="table table-condensed">
                 <thead>
                     <tr>
                         <th>#</th>
