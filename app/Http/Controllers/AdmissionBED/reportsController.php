@@ -40,7 +40,7 @@ class reportsController extends Controller
     function approved($date_start, $date_end) {
         if (Auth::user()->accesslevel == env("ADMISSION_BED") || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
             
-            $for_approval_sched = \App\Status::where('statuses.status', 0)->where('statuses.academic_type', "!=","College")->where('date_admission_finish', '>=', $date_start)->where('date_admission_finish', '<=', $date_end)->join('users', 'users.idno','=','statuses.idno')->orderBy('users.lastname')->get(['users.idno', 'users.firstname','users.lastname','users.middlename','statuses.level','statuses.strand','date_admission_finish']);
+            $for_approval_sched = \App\Status::where('statuses.status', "<=",env('ENROLLED'))->where('statuses.academic_type', "!=","College")->where('date_admission_finish', '>=', $date_start)->where('date_admission_finish', '<=', $date_end)->join('users', 'users.idno','=','statuses.idno')->orderBy('users.lastname')->get(['users.idno', 'users.firstname','users.lastname','users.middlename','statuses.level','statuses.strand','date_admission_finish']);
 
             return view('admission-bed.reports.approved', compact('date_start','date_end', 'for_approval_sched'));
         }
