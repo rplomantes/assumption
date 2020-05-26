@@ -50,7 +50,7 @@ $layout = "layouts.appadmission-shs";
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">For Approval</li>
+        <li class="active">Reservation</li>
     </ol>
 </section>
 @endsection
@@ -69,6 +69,7 @@ $layout = "layouts.appadmission-shs";
                     <th width="10%">ID Number</th>
                     <th>Name</th>
                     <th>Contact No.</th>
+                    <th>Email</th>
                     <th>Level</th>
                     <th>Strand</th>
                     <th width="20%">Transaction Date</th>
@@ -82,6 +83,7 @@ $layout = "layouts.appadmission-shs";
                     <td>{{$reservation->idno}}</td>
                     <td>{{strtoupper($reservation->lastname)}}, {{$reservation->firstname}} {{$reservation->middlename}}</td>
                     <td>{{$reservation->cell_no}}; {{$reservation->tel_no}}</td>
+                    <td>{{$reservation->email}}</td>
                     <td>{{$reservation->level}}</td>
                     <td>{{$reservation->strand}}</td>
                     <td>{{$reservation->transaction_date}}</td>
