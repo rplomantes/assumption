@@ -796,7 +796,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
          
             
             <!--ADDED AS STUDENT DEPOSIT-->
-            <h3>ADDED AS STUDENT DEPOSIT</h3>
+            <h3>ADDED AS SD/RESERVATION</h3>
             @if(count($student_deposits)>0)
         
          <table class="table table-responsive table-condensed"><tr><td>Date</td><td>SD No</td><td>Explanation</td><td>Amount</td><td>Status</td><td>View</td></tr>
@@ -939,7 +939,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
         <a href="{{url('/accounting',array('debit_memo',$user->idno))}}" class="form form-control btn btn-primary">DEBIT MEMO</a>
         </div>
         <div class="form-group">
-        <a href="{{url('/accounting',array('add_to_student_deposit',$user->idno))}}" class="form form-control btn btn-primary">ADD TO STUDENT DEPOSIT</a>
+        <a href="{{url('/accounting',array('add_to_student_deposit',$user->idno))}}" class="form form-control btn btn-primary">ADD TO SD/RESERVATION</a>
         </div>
         <div class="form-group">
         <a href="{{url('/accounting',array('add_to_account',$user->idno))}}" class="form form-control btn btn-primary">OTHER PAYMENT</a>

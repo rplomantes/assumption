@@ -53,7 +53,7 @@ class AddToStudentDeposit extends Controller {
         $adddm->reference_id=$reference_id;
         $adddm->sd_no=$this->getReceipt();
         $adddm->explanation=$request->remark;
-        $adddm->amount=$request->deposit;
+        $adddm->amount=$request->deposit+$request->reservation;
         $adddm->posted_by=Auth::user()->idno;
         $adddm->school_year = \App\Status::where('idno', $request->idno)->first()->school_year;
         $adddm->period = \App\Status::where('idno', $request->idno)->first()->period;
@@ -98,6 +98,23 @@ class AddToStudentDeposit extends Controller {
         $addaccounting->posted_by=Auth::user()->idno;
         $addaccounting->save();
         }
+        if($request->reservation != ""){
+        $addaccounting = new \App\Accounting;
+        $addaccounting->transaction_date=date('Y-m-d');
+        $addaccounting->reference_id=$reference_id;
+        $addaccounting->accounting_type= env("STUDENT_DEPOSIT");
+        $addaccounting->category="Reservation";
+        $addaccounting->subsidiary=$request->idno;
+        $addaccounting->receipt_details="Reservation";
+        $addaccounting->particular="Reservation";
+        $addaccounting->department=$department;
+        $addaccounting->accounting_code=env("RESERVATION_CODE");
+        $addaccounting->accounting_name=env("RESERVATION_NAME");
+        $addaccounting->fiscal_year=$fiscal_year;
+        $addaccounting->credit=$request->reservation;
+        $addaccounting->posted_by=Auth::user()->idno;
+        $addaccounting->save();
+        }
     }
     function postDebit($request, $reference_id){
         $accounting = $request->accounting;
@@ -131,6 +148,15 @@ class AddToStudentDeposit extends Controller {
         $addreservation->transaction_date=date('Y-m-d');
         $addreservation->amount=$request->deposit;
         $addreservation->reservation_type=2;
+        $addreservation->posted_by=Auth::user()->idno;
+        $addreservation->save();
+        }if($request->reservation != ""){
+        $addreservation = new \App\Reservation;
+        $addreservation->idno=$request->idno;
+        $addreservation->reference_id=$reference_id;
+        $addreservation->transaction_date=date('Y-m-d');
+        $addreservation->amount=$request->reservation;
+        $addreservation->reservation_type=1;
         $addreservation->posted_by=Auth::user()->idno;
         $addreservation->save();
         }

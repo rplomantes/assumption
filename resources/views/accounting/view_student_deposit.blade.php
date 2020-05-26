@@ -67,7 +67,7 @@
         <div class="col-md-4 pull-right">
             <div class="orno">Student Deposit No. : {{$student_deposit->sd_no}}</div>
         </div>
-   <div class="col-md-12 orheader">STUDENT DEPOSIT</div>
+   <div class="col-md-12 orheader">STUDENT DEPOSIT/RESERVATION</div>
         <div class="col-md-12">
         <table class="table">
         <tr><th>Name:</th><td><b> {{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</b></td><td align="right">{{date('M d, Y',strtotime($student_deposit->transaction_date))}}</td><tr>

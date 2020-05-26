@@ -62,10 +62,14 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         <div class="col-md-6">
             <div class="top-payment">
                 <div class="form form-group">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <label>Reservation</label>
+                        <input type="text" name="reservation" id="reservation" class="form form-control reservation number" />
+                    </div> 
+                    <div class="col-md-6">
                         <label>Student Deposit</label>
                         <input type="text" name="deposit" id="deposit" class="form form-control reservation number" />
-                    </div> 
+                    </div>
                     <div class="col-md-12">
                         <label>Explanation</label>
                         <input type="text" name="remark" id="explanation" class="form form-control reservation" />
@@ -106,7 +110,7 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                     </div>    
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="submit" id="submit" class="form form-control btn btn-warning" value="Process Add to Student Deposit">
+                    <input type="submit" name="submit" id="submit" class="form form-control btn btn-warning" value="Process">
                 </div>    
             </div>
         </div> 
@@ -151,8 +155,8 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                     alert("Please enter explanation!!!")
                     $("#explanation").focus();
                 } else {
-                    if ($("#deposit").val() == "") {
-                        alert("Please Enter Amount on Student Deposit")
+                    if ($("#deposit").val() == "" && $("#reservation").val() == "") {
+                        alert("Please Enter Amount on Reservation or Student Deposit")
                     } else {
                         $("#payment_pad").fadeIn(300);
                     }
@@ -168,6 +172,18 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
                     $("#deposit").focus();
                 } else {
                     $("#explanation").focus();
+                }
+                e.preventDefault();
+            }
+        })
+
+        $("#reservation").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                if ($("#reservation").val() == "") {
+                    alert("Please put amount to Reservation")
+                    $("#reservation").focus();
+                } else {
+                    $("#deposit").focus();
                 }
                 e.preventDefault();
             }
@@ -247,15 +263,24 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
     function totalOther(e) {
         if (e.keyCode == 13) {
             totalamount = 0;
+            countamount = 0;
             debit_amount = document.getElementsByName('debit_amount[]');
             for (var i = 0; i < debit_amount.length; i++) {
                 totalamount = totalamount + parseFloat(debit_amount[i].value);
             }
-            if (totalamount == $("#deposit").val()) {
+            
+             if($("#reservation").val()!=""){
+                countamount = countamount + eval($("#reservation").val())
+            }
+             if($("#deposit").val()!=""){
+                countamount = countamount + eval($("#deposit").val());
+            }
+            
+            if (totalamount == countamount) {
                 $("#submit").fadeIn(300);
                 $("#submit").focus();
             } else {
-                if (totalamount > $("#deposit").val()) {
+                if (totalamount > countamount) {
                     alert("Amount Entry Invalid");
                 }
                 $("#submit").fadeOut(300);
