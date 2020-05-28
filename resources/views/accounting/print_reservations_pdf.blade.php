@@ -24,7 +24,7 @@ $x = 0;
 ?>
 <table width='100%' cellpadding='0' cellspacing='0'>
     @foreach($heads as $head)
-    <?php $x = 0;?>
+    <?php $x = 0; $prev_idno = "";?>
     <thead>
         <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
         <tr>
@@ -44,9 +44,9 @@ $x = 0;
     <tbody>
             @foreach($lists as $list)
                 @if($list->level == $head->level)
-                <?php $total += $list->amount; $x++; ?>
+                <?php $total += $list->amount; ?>
                 <tr>
-                    <td>{{$x}}. </td>
+                    <td>@if($prev_idno != $list->idno) <?php $x++; ?> {{$x}}. @endif  </td>
                     <td align='left'>{{$list->idno}}</td>
                     <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
                     @if($department == "College Department")
@@ -68,6 +68,7 @@ $x = 0;
                     </td>
                 </tr>
                 @endif
+                <?php $prev_idno = $list->idno; ?>
             @endforeach
             <tr><td align="right" @if($department == "College Department") colspan="7" @else colspan="6" @endif>SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>
     @endforeach
