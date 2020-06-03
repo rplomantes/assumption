@@ -43,15 +43,16 @@ function getAttendances($month,$school_year,$idno,$type){
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-        <td align="center">@if($subject->is_alpha == 0){{$subject->fourth_remarks}}@else{{$subject->fourth_grading_letter}}@endif</td>
-        
-        <td align="center">
-            @if($subject->is_alpha == 0)
-                {{$subject->final_remarks}}({{$subject->final_grade}})
-            @else 
-            @endif
-        </td>
+        <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
+        <td align="center" style="font:10pt">Pass</td>
+        @if($subject->final_grade != "")
+        <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
+        @else
+        <td></td>
+        @endif
+        @if($subject->units>0)
         <?php $total_final_grade += $subject->final_grade; ?>
+        @endif
     </tr>
 
     @endforeach
@@ -62,17 +63,21 @@ function getAttendances($month,$school_year,$idno,$type){
 <br>
 <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
     <tr>
-        <td align="center">ATTENDANCE</td>
-        <td align="center">Aug</td>
-        <td align="center">Sep</td>
-        <td align="center">Oct</td>
-        <td align="center">Nov</td>
-        <td align="center">Dec</td>
-        <td align="center">Jan</td>
-        <td align="center">Feb</td>
-        <td align="center">Mar</td>
-        <td align="center">Apr</td>
-        <td align="center">May</td>
+        <td align="center" rowspan="2">ATTENDANCE</td>
+        <td align="center" rowspan="2">Aug</td>
+        <td align="center" rowspan="2">Sep</td>
+        <td align="center" rowspan="2">Oct</td>
+        <td align="center" rowspan="2">Nov</td>
+        <td align="center" rowspan="2">Dec</td>
+        <td align="center" rowspan="2">Jan</td>
+        <td align="center" rowspan="2">Feb</td>
+        <td align="center" rowspan="2">Mar</td>
+        <td align="center" rowspan="2">Apr</td>
+        <td align="center" rowspan="2">May</td>
+        <td align="center" style="font:7pt">Days of School</td>
+    </tr>
+    <tr>
+        <td align="center">100</td>
     </tr>
     <tr>
         <td align="center">Absences</td>
@@ -86,6 +91,7 @@ function getAttendances($month,$school_year,$idno,$type){
         <td align="center">{{getAttendances('03',$school_year,$idno,'absences')}}</td>
         <td align="center">{{getAttendances('04',$school_year,$idno,'absences')}}</td>
         <td align="center">{{getAttendances('05',$school_year,$idno,'absences')}}</td>
+        <td align="center" style="font:7pt">Days Present</td>
     </tr>
     <tr>
         <td align="center">Tardiness</td>
@@ -99,5 +105,6 @@ function getAttendances($month,$school_year,$idno,$type){
         <td align="center">{{getAttendances('03',$school_year,$idno,'tardiness')}}</td>
         <td align="center">{{getAttendances('04',$school_year,$idno,'tardiness')}}</td>
         <td align="center">{{getAttendances('05',$school_year,$idno,'tardiness')}}</td>
+        <td align="center"></td>
     </tr>
 </table>
