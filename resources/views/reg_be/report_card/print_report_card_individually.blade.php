@@ -21,6 +21,7 @@ function getAttendances($month, $school_year, $idno, $type) {
     }
 }
 
+//get grades for grouping like mapeh and tle
 function getGrades($subject, $idno, $school_year, $period) {
     $getsubjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', $subject->subject_name)->get();
     $final_grade = 0;
@@ -51,6 +52,14 @@ function getGrades($subject, $idno, $school_year, $period) {
     return $final_grade;
 }
 
+
+function getUnits($subject, $idno, $school_year) {
+    $getsubjects = \App\GradeBasicEd::selectRaw('sum(units) as units')->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', $subject->subject_name)->first();
+    
+    return $getsubjects->units;
+}
+
+//get final rating for grouping
 function getFinalRating($grade, $letter_grade_type) {
     $round = round($grade);
     $round2 = round($grade, 2);
@@ -59,6 +68,7 @@ function getFinalRating($grade, $letter_grade_type) {
     return "$letter($round2)";
 }
 
+//get letter grade transmutation
 function getLetterGrade($grade, $letter_grade_type) {
     $round = round($grade);
     $final_letter_grade = \App\CtrTransmuLetter::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->first();
@@ -237,9 +247,7 @@ function getPromotion($level) {
     $grade3 = 0;
     ?>
     @foreach($get_grouping_subjects as $subject)
-    <?php
-    $total_units += $subject->units;
-    ?>
+    <?php $total_units += getUnits($subject,$idno,$school_year); ?>
     <tr>
         <td>{{$subject->subject_name}}</td>
         <td align="center">{{getLetterGrade($grade1=getGrades($subject,$idno,$school_year,'1'),$subject->letter_grade_type)}}</td>
@@ -256,8 +264,8 @@ function getPromotion($level) {
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
         <td align="center">Promoted</td>
         @endif
-        @if($subject->units>0)
-<?php $total_final_grade += 0; ?>
+        @if($total_units>0)
+<?php $total_final_grade += $grade; ?>
         @endif
     </tr>
     @if($subject->subject_name != "Technology and Livelihood Education" && $subject->subject_name != "Edukasyong Pantahanan At Pangkabuhayan")
