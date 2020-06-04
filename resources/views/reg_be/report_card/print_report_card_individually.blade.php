@@ -309,7 +309,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
         <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
-        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt"></td>
 
         @if($subject->final_grade_letter != "")
         <td align="center">{{$subject->final_grade_letter}}</td>
