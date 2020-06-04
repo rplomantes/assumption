@@ -220,7 +220,10 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
         <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
-        <td align="center" style="font:10pt">Pass</td>
+        @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $subject->group_code))<td align="center" style="font:10pt">Pass</td>
+        @else<td align="center" style="font:10pt"></td>
+
+        @endif
 
         @if($subject->final_grade != "")
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
@@ -341,7 +344,7 @@ function getPromotion($level) {
 
 <table border = 1 cellpadding = 2 cellspacing =0 width="30%">
     <tr><td><span style="font-style: italic !important">
-                "Due to the declaration of Enhance Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
+                "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
                 the grades for the second half of the second semester / 4th quarter are Pass or Fail."
             </span></td></tr>
 </table>
