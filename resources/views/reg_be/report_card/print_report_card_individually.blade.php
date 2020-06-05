@@ -225,12 +225,8 @@ function getPromotion($level) {
 
         @endif
 
-        @if($subject->final_grade != "" or $subject->final_remarks != "")
-        @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $subject->group_code))
-        <td align="center">{{$subject->final_remarks}}</td>
-        @else
+        @if($subject->final_grade != "")
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
-        @endif
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
         <td align="center">Promoted</td>
         @endif
