@@ -30,6 +30,10 @@ function getGrades($subject, $idno, $school_year, $period) {
             case "1":
                 if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" ) {
                     $final_grade += $get->first_grading * ($get->units);
+                    if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6"){
+                    $final_grade = $final_grade + ($get->first_grading * (1-$get->units));
+                    return $final_grade;
+                    }
                 } else {
                     $final_grade += 100 * ($get->units);
                 }
@@ -37,6 +41,10 @@ function getGrades($subject, $idno, $school_year, $period) {
             case "2":
                 if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" && $get->subject_code != "COMP9" && $get->subject_code != "COMP10") {
                     $final_grade += $get->second_grading * ($get->units);
+                    if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6"){
+                    $final_grade = $final_grade + ($get->second_grading * (1-$get->units));
+                    return $final_grade;
+                    }
                 } else {
                     $final_grade += 100 * ($get->units);
                 }
@@ -269,7 +277,7 @@ function getPromotion($level) {
         <td align="center" style="font:10pt">Pass</td>
         
         
-<?php $grade = ($grade1 + $grade2 + $grade3 + 100) / 4; ?>
+<?php $grade = ($grade1 + $grade2 + $grade3) / 3; ?>
         
         
         <td align="center">{{getFinalRating($grade, $subject->letter_grade_type)}}</td>
