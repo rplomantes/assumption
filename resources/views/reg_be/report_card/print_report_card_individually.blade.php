@@ -423,17 +423,17 @@ function getPromotion($level) {
         </tr><?php $totalab = 0; ?>
         <tr>
             <td align="center">Absences</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('08',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('09',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('10',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('11',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('12',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('01',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('02',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('03',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('04',$school_year,$idno,'absences')}}</td>
-            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('05',$school_year,$idno,'absences')}}</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$total_absent}}</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('08',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('09',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('10',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('11',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('12',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('01',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('02',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('03',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('04',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center"><?php $total_absent += $totalab=getAttendances('05',$school_year,$idno,'absences')?>@if($totalab == 0)@else {{$totallab}}@endif</td>
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{209-$total_absent}}</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
