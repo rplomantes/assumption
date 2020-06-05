@@ -420,6 +420,7 @@ function getPromotion($level) {
         <tr>
             <td align="center">209</td>
         </tr><?php $total_absent = 0; ?>
+        </tr><?php $totalab = 0; ?>
         <tr>
             <td align="center">Absences</td>
             <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('08',$school_year,$idno,'absences')}}</td>
