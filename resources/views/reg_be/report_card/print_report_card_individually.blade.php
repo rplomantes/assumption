@@ -17,7 +17,7 @@ function getAttendances($month, $school_year, $idno, $type) {
     if ($getAttendances->total > 0) {
         return $getAttendances->total;
     } else {
-        return "";
+        return 0;
     }
 }
 
@@ -433,7 +433,7 @@ function getPromotion($level) {
             <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('03',$school_year,$idno,'absences')}}</td>
             <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('04',$school_year,$idno,'absences')}}</td>
             <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('05',$school_year,$idno,'absences')}}</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{209-$total_absent}}</td>
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$total_absent}}</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
