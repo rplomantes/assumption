@@ -232,6 +232,8 @@ function getPromotion($level) {
         @endif
         @elseif($subject->final_remarks != "")
         <td align="center">{{$subject->final_remarks}}</td>
+        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
+        <td align="center">Promoted</td>
         @else
         <td></td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
