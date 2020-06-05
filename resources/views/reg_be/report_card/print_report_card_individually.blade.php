@@ -30,7 +30,7 @@ function getGrades($subject, $idno, $school_year, $period) {
             case "1":
                 if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" ) {
                     $final_grade += $get->first_grading * ($get->units);
-                    if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6"){
+                    if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6" || $get->group_code=="TLE7" || $get->group_code=="TLE8" || $get->group_code=="TLE9" || $get->group_code=="TLE10"){
                     $final_grade = $final_grade + ($get->first_grading * (1-$get->units));
                     return $final_grade;
                     }
@@ -41,7 +41,7 @@ function getGrades($subject, $idno, $school_year, $period) {
             case "2":
                 if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" && $get->subject_code != "COMP9" && $get->subject_code != "COMP10") {
                     $final_grade += $get->second_grading * ($get->units);
-                    if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6"){
+                    if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6" || $get->group_code=="TLE7" || $get->group_code=="TLE8" || $get->group_code=="TLE9" || $get->group_code=="TLE10"){
                     $final_grade = $final_grade + ($get->second_grading * (1-$get->units));
                     return $final_grade;
                     }
@@ -330,7 +330,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
         <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
-        @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $subject->group_code))<td align="center" style="font:10pt">Pass</td>
+        @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9]", $subject->group_code) && !$subject->group_code == "SA10")<td align="center" style="font:10pt">Pass</td>
         @else<td align="center" style="font:10pt"></td>
 
         @endif
