@@ -39,7 +39,7 @@ function getGrades($subject, $idno, $school_year, $period) {
                 }
                 break;
             case "2":
-                if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" && $get->subject_code != "COMP9" && $get->subject_code != "COMP10") {
+                if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" ) {
                     $final_grade += $get->second_grading * ($get->units);
                     if($get->group_code=="EPP5" || $get->group_code=="EPP4" || $get->group_code=="EPP6" || $get->group_code=="TLE7" || $get->group_code=="TLE8" || $get->group_code=="TLE9" || $get->group_code=="TLE10"){
                     $final_grade = $final_grade + ($get->second_grading * (1-$get->units));
