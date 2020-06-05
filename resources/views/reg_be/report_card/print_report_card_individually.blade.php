@@ -437,16 +437,16 @@ function getPromotion($level) {
         </tr>
         <tr>
             <td align="center">Tardiness</td>
-            <td align="center">{{getAttendances('08',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('09',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('10',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('11',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('12',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('01',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('02',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('03',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('04',$school_year,$idno,'tardiness')}}</td>
-            <td align="center">{{getAttendances('05',$school_year,$idno,'tardiness')}}</td>
+            <td align="center"><?php $tardy=getAttendances('08',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('09',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('10',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('11',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('12',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('01',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('02',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('03',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('04',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
+            <td align="center"><?php $tardy=getAttendances('05',$school_year,$idno,'tardiness')?>@if($tardy!=0) {{$tardy}} @endif</td>
         </tr>
     </table>
 </div>
