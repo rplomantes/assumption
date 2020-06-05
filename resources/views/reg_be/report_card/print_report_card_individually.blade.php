@@ -386,15 +386,15 @@ function getPromotion($level) {
 
     <tr>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td style = "background: darkblue; color: white; font:bold" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,2)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         @else
-        <td style = "background: darkblue; color: white; font:bold" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,2)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         @endif
     </tr>
 </table>
 <br>
 
-<table border = 1 cellpadding = 2 cellspacing =0 width="30%">
+<table border = 1 cellpadding = 2 cellspacing =0 width="50%">
     <tr><td><span style="font-style: italic !important">
                 "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
                 the grades for the second half of the second semester / 4th quarter are Pass or Fail."
@@ -419,20 +419,20 @@ function getPromotion($level) {
         </tr>
         <tr>
             <td align="center">209</td>
-        </tr>
+        </tr><?php $total_absent = 0; ?>
         <tr>
             <td align="center">Absences</td>
-            <td align="center">{{getAttendances('08',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('09',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('10',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('11',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('12',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('01',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('02',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('03',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('04',$school_year,$idno,'absences')}}</td>
-            <td align="center">{{getAttendances('05',$school_year,$idno,'absences')}}</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>199</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('08',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('09',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('10',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('11',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('12',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('01',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('02',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('03',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('04',$school_year,$idno,'absences')}}</td>
+            <td align="center"><?php $total_absent += $totalab; ?>{{$totalab=getAttendances('05',$school_year,$idno,'absences')}}</td>
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{209-$total_absent}}</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
