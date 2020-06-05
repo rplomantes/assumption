@@ -269,7 +269,7 @@ function getPromotion($level) {
     @foreach($get_grouping_subjects as $subject)
     <?php $total_units += getUnits($subject,$idno,$school_year); ?>
     <tr>
-        <td>{{$subject->subject_name}}</td>
+        <td>{{$subject->display_subject_code}}</td>
         <td align="center">{{getLetterGrade($grade1=getGrades($subject,$idno,$school_year,'1'),$subject->letter_grade_type)}}</td>
         <td align="center">{{getLetterGrade($grade2=getGrades($subject,$idno,$school_year,'2'),$subject->letter_grade_type)}}</td>
         <td align="center">{{getLetterGrade($grade3=getGrades($subject,$idno,$school_year,'3'),$subject->letter_grade_type)}}</td>
