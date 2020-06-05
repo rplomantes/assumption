@@ -226,7 +226,7 @@ function getPromotion($level) {
         @endif
 
         @if($subject->final_grade != "")
-        @if($subject->group_code == "SA9")
+        @if($subject->group_code == "SA9" && $subject->group_code == "SA8")
         <td align="center">{{$subject->final_remarks}}</td>
         @else
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
