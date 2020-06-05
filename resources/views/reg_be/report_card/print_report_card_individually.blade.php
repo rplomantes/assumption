@@ -269,7 +269,7 @@ function getPromotion($level) {
     @foreach($get_grouping_subjects as $subject)
     <?php $total_units += getUnits($subject,$idno,$school_year); ?>
     <tr>
-        <td>{{$subject->display_subject_code}}</td>
+        <td>{{$subject->subject_name}}</td>
         <td align="center">{{getLetterGrade($grade1=getGrades($subject,$idno,$school_year,'1'),$subject->letter_grade_type)}}</td>
         <td align="center">{{getLetterGrade($grade2=getGrades($subject,$idno,$school_year,'2'),$subject->letter_grade_type)}}</td>
         <td align="center">{{getLetterGrade($grade3=getGrades($subject,$idno,$school_year,'3'),$subject->letter_grade_type)}}</td>
@@ -293,7 +293,7 @@ function getPromotion($level) {
     @if(count($get_group_split_subjects)>0)
     @foreach($get_group_split_subjects as $splitsubject)
     <tr>
-        <td>{{$splitsubject->subject_name}}</td>
+        <td>{{$splitsubject->display_subject_code}}</td>
         <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->first_remarks}}@else{{$splitsubject->first_grading_letter}}@endif</td>
         <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->second_remarks}}@else{{$splitsubject->second_grading_letter}}@endif</td>
         <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->third_remarks}}@else{{$splitsubject->third_grading_letter}}@endif</td>
