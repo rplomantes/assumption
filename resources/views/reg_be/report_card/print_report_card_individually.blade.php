@@ -30,11 +30,15 @@ function getGrades($subject, $idno, $school_year, $period) {
             case "1":
                 if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" ) {
                     $final_grade += $get->first_grading * ($get->units);
+                } else {
+                    $final_grade += 100 * ($get->units);
                 }
                 break;
             case "2":
                 if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8" && $get->subject_code != "COMP9" && $get->subject_code != "COMP10") {
                     $final_grade += $get->second_grading * ($get->units);
+                } else {
+                    $final_grade += 100 * ($get->units);
                 }
                 break;
             case "3":
