@@ -133,6 +133,6 @@ Route::get('/tag_as_claimed/{reference_id}','BedRegistrar\RequestForm@tag_as_cla
 //BED Report Card
 Route::get('/bedregistrar/report_card','BedRegistrar\ReportCardController@index');
 Route::get('/bedregistrar/ajax/report_card_view_list', 'BedRegistrar\Ajax\GetStudentList@report_card_view_list');
-Route::get('/view_report_card/{idno}/{school_year}','BedRegistrar\ReportCardController@view_report_card');
+Route::get('/view_report_card/{idno}/{school_year}/{period?}','BedRegistrar\ReportCardController@view_report_card');
 
 Route::get('/view_narrative_report/{idno}/{school_year}','BedRegistrar\ReportCardController@narrative_report');

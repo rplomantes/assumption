@@ -110,7 +110,7 @@ if(Auth::user()->accesslevel == env('REG_BE')){
         <div class="periodDisplay">
         <select class="form-control select2" id="period" data-placeholder="Select Period">
                         style="width: 100%;">
-                        <option>Select Period</option>
+                        <option value="">Select Period</option>
                         <option>1st Semester</option>
                         <option>2nd Semester</option>
         </select>
@@ -152,7 +152,8 @@ if(Auth::user()->accesslevel == env('REG_BE')){
                $("#sectionDisplay").html("");
             } else {
                 $(".strandDisplay").fadeOut(300);
-                $(".periodDisplay").fadeOut(300); 
+                $(".periodDisplay").fadeOut(300);
+                $(".period").val(""); 
                 var array={};
                 array['level']=$("#level").val();
                 $.ajax({
@@ -206,15 +207,5 @@ if(Auth::user()->accesslevel == env('REG_BE')){
        
        
     });
-    
-    function print_student_list(value){
-        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
-    }
-    function print_new_student_list(value){
-        window.open("/bedregistrar/print/new_student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
-    }
-    function export_student_list(value){
-        window.open("/bedregistrar/export/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
-    }
 </script>    
 @endsection

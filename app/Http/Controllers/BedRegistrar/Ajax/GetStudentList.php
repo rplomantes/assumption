@@ -439,6 +439,7 @@ class GetStudentList extends Controller {
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
                     }
                 } else {
+                    $period = "";
                     if ($section == "All") {
 
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
