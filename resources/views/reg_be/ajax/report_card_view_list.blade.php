@@ -29,11 +29,12 @@ $y=1;
 <div>Section : {{$section}}</div>
 
 <table border="1" class="table table-responsive table-striped table-bordered">
-    <tr><th>#</th><th>Student ID</th><th>Student Name</th><th></th></tr>
+    <tr><th>#</th><th>Student ID</th><th>Student Name</th><th></th><th></th></tr>
     @if(count($status)>0)
     @foreach($status as $name)
     <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td>
         <td><a href="/view_report_card/{{$name->idno}}/{{$schoolyear}}">View Report Card</a></td>
+        <td><a href="/view_narrative_report/{{$name->idno}}/{{$schoolyear}}">View Narrative Report</a></td>
     </tr>
     @endforeach
     @else
