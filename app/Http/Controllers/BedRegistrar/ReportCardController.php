@@ -29,7 +29,7 @@ class ReportCardController extends Controller {
             
             $user = \App\User::where('idno',$idno)->first();
             $status = \App\BedLevel::where('idno', $idno)->where('school_year', $school_year)->first();
-            $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year',$status->school_year)->where('role', 'advisory')->first();
+            $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year',$status->school_year)->where('role', 'advisory')->where('section',$status->section)->first();
             
             $get_regular_subjects = \App\GradeBasicEd::where('idno',$idno)->where('school_year',$school_year)->where('subject_type',0)->where('is_alpha',0)->orderBy('sort_to','asc')->get();
             $get_regular_alpha_subjects = \App\GradeBasicEd::where('idno',$idno)->where('school_year',$school_year)->where('subject_type',0)->where('is_alpha',1)->orderBy('sort_to','asc')->get();
