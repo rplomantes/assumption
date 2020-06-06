@@ -175,7 +175,7 @@ function getPromotion($level) {
         @if($subject->final_grade != "")
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td align="center">Promoted</td>
+        <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
         @endif
         @else
         <td></td>
@@ -204,7 +204,7 @@ function getPromotion($level) {
         @if($subject->final_grade != "")
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td align="center">Promoted</td>
+        <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
         @endif
         @else
         <td></td>
@@ -243,7 +243,7 @@ function getPromotion($level) {
         @else
         <td align="center">{{$subject->final_remarks}}@if($subject->final_grade != "")({{$subject->final_grade}})@endif</td>
             @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-            <td align="center">Promoted</td>
+            <td align="center">@if($subject->final_grade != "") @if($subject->final_grade >= 74) Promoted @endif @endif </td>
             @endif
         @endif
         @else
@@ -303,7 +303,7 @@ function getPromotion($level) {
         @if($splitsubject->final_grade != "")
         <td align="center">{{$splitsubject->final_remarks}}({{$splitsubject->final_grade}})</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td align="center">Promoted</td>
+        <td align="center">@if($splitsubject->final_grade >= 74) Promoted @endif</td>
         @endif
         @else
         <td></td>
