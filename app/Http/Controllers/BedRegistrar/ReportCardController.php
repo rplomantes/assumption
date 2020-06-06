@@ -46,5 +46,20 @@ class ReportCardController extends Controller {
             return $pdf->stream("report_card_$idno'_'$school_year.pdf");
         }
     }
+    
+    function narrative_report($idno,$school_year) {
+      if (Auth::user()->accesslevel == env('REG_BE')) {
+          
+            $user = \App\User::where('idno',$idno)->first();
+            $status = \App\BedLevel::where('idno', $idno)->where('school_year', $school_year)->first();
+            $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year',$status->school_year)->where('role', 'advisory')->where('section',$status->section)->first();
+            $narrative_report = \App\NarrativeGrade::where('idno',$idno)->where('school_year',$school_year)->where('status',1)->orderBy('id','desc')->first();
+            
+            $pdf = PDF::loadView('reg_be.report_card.view_narrative_report', compact('idno','user','status','adviser','narrative_report','school_year'));
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream("reg_be.report_card.view_narrative_report-$idno");
+        }
+    }
+
 
 }
