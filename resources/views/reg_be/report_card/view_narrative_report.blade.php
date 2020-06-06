@@ -60,8 +60,8 @@ function getPromotion($level) {
     }
 </style>
 <div>    
-    <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small>
+    <div style='float: left; margin-left: 100px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village, Makati City</small>
         <br><br><b>Basic Education Division</b><br>
         Year-End Narrative Report<br>S.Y. {{$school_year}} - {{$school_year + 1}}</div>
 </div>
@@ -99,16 +99,18 @@ function getPromotion($level) {
 
         <tr>
             <td align="center">Homeroom Teacher</td>
-            <td align="center">PreSchool Team Leader</td>
+            <td align="center">Pre School Team Leader</td>
+        </tr>
+    </table>
+    <br>
+    <table width="100%">
+        <tr>
+            <td align="center"><strong><br>Sr. Mary Ignatius G. Vedua, ra</strong></td>
         </tr>
         <tr>
-            <td align="center" colspan="2"><strong><br>Sr. Mary Ignatius G. Vedua, ra</strong></td>
-        </tr>
-        <tr>
-            <td align="center" colspan="2">Principal</td>
+            <td align="center">Principal</td>
         </tr>
     </table>  
-    <br>
     <br>
     <br>
     <div style="font:10pt">
@@ -120,6 +122,6 @@ function getPromotion($level) {
     <br>
     <br>
     <br>
-    <p>Date:<p>Not valid without</p>
+    <p>Date: {{date('F j, Y')}}<p>Not valid without</p>
     <p>School Seal</p>
     </div>
