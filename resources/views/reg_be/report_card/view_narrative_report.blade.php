@@ -84,7 +84,7 @@ function getPromotion($level) {
     </table>
 </div>
 <div style="position:absolute; top:320px; bottom: 0; left:0; right:0;text-align: justify; font:10pt">
-    @if(count($narraive_report)>0)
+    @if(count($narrative_report)>0)
     {!!nl2br($narrative_report->narrative)!!}
     @endif
 </div>
