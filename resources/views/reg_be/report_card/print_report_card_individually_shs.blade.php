@@ -139,7 +139,13 @@ function getPromotion($level) {
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">
+                @if($idno == "1920262")
+                {{$subject->fourth_remarks}}
+                @else
+                    Pass
+                @endif
+                </td>
                 <td align="center" style="font:10pt">Pass</td>
                 <td align="center" style="font:10pt">Pass</td>
 
@@ -157,7 +163,14 @@ function getPromotion($level) {
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif </td>
-                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">
+                    
+                @if($idno == "1920262")
+                {{$subject->fourth_remarks}}
+                @else
+                    Pass
+                @endif
+                </td>
                 <td align="center" style="font:10pt">Pass</td>
                 <td align="center" style="font:10pt">Pass</td>
 
