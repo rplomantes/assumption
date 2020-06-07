@@ -86,7 +86,7 @@ function getPromotion($level) {
             return "Grade 12";
             break;
         case "Grade 12":
-            return "College";
+            return "1st Year College";
             break;
     }
 }
@@ -218,17 +218,12 @@ function getPromotion($level) {
         <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS')}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})</strong></td>
     </tr>
 </table>
-<br>
-
-<table border = 1 cellpadding = 2 cellspacing =0 width="50%">
-    <tr><td><span style="font-style: italic !important">
+<div style="position:absolute; top:640px; bottom:0; left:0; right:0;">
+    <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
+        <tr><td colspan="7" align="center"><span style="font-style: italic !important">
                 "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
                 the grades for the second half of the second semester / 4th quarter are Pass or Fail."
             </span></td></tr>
-</table>
-<br>
-<div style="position:absolute; top:660px; bottom:0; left:0; right:0;">
-    <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
             <td align="center" rowspan="2">Jan</td>
@@ -290,7 +285,6 @@ function getPromotion($level) {
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
     She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
-    <br>
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
