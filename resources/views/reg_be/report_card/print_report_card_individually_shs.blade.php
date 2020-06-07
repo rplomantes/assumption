@@ -21,45 +21,6 @@ function getAttendances($month, $school_year, $idno, $type) {
     }
 }
 
-//get grades for grouping like mapeh and tle
-function getGrades($subject, $idno, $school_year, $period) {
-    $getsubjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', $subject->subject_name)->get();
-    $final_grade = 0;
-    foreach ($getsubjects as $get) {
-        switch ($period) {
-            case "1":
-                if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8") {
-                    $final_grade += $get->first_grading * ($get->units);
-                    if ($get->group_code == "EPP5" || $get->group_code == "EPP4" || $get->group_code == "EPP6" || $get->group_code == "TLE7" || $get->group_code == "TLE8" || $get->group_code == "TLE9" || $get->group_code == "TLE10") {
-                        $final_grade = $final_grade + ($get->first_grading * (1 - $get->units));
-                        return $final_grade;
-                    }
-                } else {
-                    $final_grade += 100 * ($get->units);
-                }
-                break;
-            case "2":
-                if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8") {
-                    $final_grade += $get->second_grading * ($get->units);
-                    if ($get->group_code == "EPP5" || $get->group_code == "EPP4" || $get->group_code == "EPP6" || $get->group_code == "TLE7" || $get->group_code == "TLE8" || $get->group_code == "TLE9" || $get->group_code == "TLE10") {
-                        $final_grade = $final_grade + ($get->second_grading * (1 - $get->units));
-                        return $final_grade;
-                    }
-                } else {
-                    $final_grade += 100 * ($get->units);
-                }
-                break;
-            case "3":
-                $final_grade += $get->third_grading * ($get->units);
-                break;
-            case "4":
-                $final_grade += $get->fourth_grading * ($get->units);
-                break;
-        }
-    }
-    return $final_grade;
-}
-
 function getUnits($subject, $idno, $school_year) {
     $getsubjects = \App\GradeBasicEd::selectRaw('sum(units) as units')->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', $subject->subject_name)->first();
 
@@ -124,7 +85,7 @@ function getPromotion($level) {
         case "Grade 11":
             return "Grade 12";
             break;
-        case "Grade 7":
+        case "Grade 12":
             return "College";
             break;
     }
@@ -166,8 +127,10 @@ function getPromotion($level) {
         <tr>
             <td colspan="5" style="background: darkblue; color: white; font:bold">{{$subject_heads->report_card_grouping}}</td>
         </tr>
-        <?php $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_code', 'not like', "%SA%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>        
-        <?php $get_sa = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_code', 'like', "%SA%")->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
+        <?php $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_code', 'not like', "%SA%")->where('subject_code', 'not like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
+        <?php $get_pe_2nd = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "2nd Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
+        <?php $get_pe_1st = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "1st Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->first(); ?>
+        <?php $get_sa = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'like', "%Student Activit%")->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
         <?php $get_conduct = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('is_alpha',1)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
         
         @if(count($get_subjects)>0)
@@ -182,6 +145,24 @@ function getPromotion($level) {
 
                 @if($subject->units>0)
                 <?php $total_final_grade += $subject->final_grade; ?>
+                @endif
+            </tr>
+            @endforeach
+        @endif
+        
+        @if(count($get_pe_2nd)>0)
+            @foreach($get_pe_2nd as $subject)
+            <?php $pe_average = round(($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3,2); ?>
+            <?php $total_units += $subject->units; ?>
+            <tr>
+                <td>{{$subject->display_subject_code}}</td>
+                <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif </td>
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
+
+                @if($subject->units>0)
+                <?php $total_final_grade += $pe_average; ?>
                 @endif
             </tr>
             @endforeach
