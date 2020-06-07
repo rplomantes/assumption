@@ -122,6 +122,6 @@ function getPromotion($level) {
     <br>
     <br>
     <br>
-    <p>Date: {{date('F j, Y')}}<p>Not valid without</p>
+    <p>Date: June 8, 2020<p>Not valid without</p>
     <p>School Seal</p>
     </div>

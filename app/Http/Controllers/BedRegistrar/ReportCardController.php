@@ -36,7 +36,17 @@ class ReportCardController extends Controller {
             
             
             if ($status->level == "Grade 11" or $status->level == "Grade 12") {
-                return "Not yet available...";
+                $get_first_sem_final_ave = \App\ShsOldAveGrade::where('idno', $idno)->first();
+                $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year', $status->school_year)->where('period', $period)->where('role', 'advisory')->where('section', $status->section)->first();
+
+                
+                $get_subjects_heads = \App\GradeBasicEd::distinct()->where('idno', $idno)->where('school_year', $school_year)->where('period',$period)->orderBy('report_card_grouping', 'desc')->get(['report_card_grouping']);
+//                $get_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('period',$period)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to','asc')->get();
+
+                $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_shs', compact('idno', 'school_year', 'absents', 'user', 'status', 'adviser','get_first_sem_final_ave','get_subjects','get_subjects_heads','period','school_year'));
+                $pdf->setPaper('letter', 'landscape');
+                return $pdf->stream("report_card_$idno'_'$school_year.pdf");
+                
             } else {
                 $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year', $status->school_year)->where('role', 'advisory')->where('section', $status->section)->first();
 
