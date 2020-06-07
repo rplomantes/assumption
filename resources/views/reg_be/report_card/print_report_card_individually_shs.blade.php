@@ -98,7 +98,7 @@ function getPromotion($level) {
     </tr>
     <tr>
         <td>Grade & Section</td><td colspan="2" style="border-bottom: 1px solid black">{{$status->level}} - {{$status->section}}</td>
-        <td align="right">Strand</td><td colspan="2" align="center" style="border-bottom: 1px solid black">{{$status->strand}}</td>
+        <td align="right">Strand</td><td colspan="2" align="center" style="border-bottom: 1px solid black">@if($status->strand == "PA") Arts and Design @else{{$status->strand}}@endif</td>
     </tr>
     <tr>
         <td>Class Adviser</td><td colspan="2" style="border-bottom: 1px solid black">{{$adviser->getFullNameAttribute()}}</td>
@@ -152,7 +152,7 @@ function getPromotion($level) {
         
         @if(count($get_pe_2nd)>0)
             @foreach($get_pe_2nd as $subject)
-            <?php $pe_average = round(($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3,2); ?>
+            <?php $pe_average = ($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3; ?>
             <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
