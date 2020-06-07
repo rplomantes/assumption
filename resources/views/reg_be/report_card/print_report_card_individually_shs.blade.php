@@ -174,7 +174,7 @@ function getPromotion($level) {
             @foreach($get_subjects as $subject)
             <?php $total_units += $subject->units; ?>
             <tr>
-                <td>{{$subject->subject_name}}</td>
+                <td>{{$subject->display_subject_code}}</td>
                 <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
                 <td align="center" style="font:10pt">Pass</td>
                 <td align="center" style="font:10pt">Pass</td>
@@ -192,7 +192,7 @@ function getPromotion($level) {
             @foreach($get_sa as $subject)
             <?php $total_units += $subject->units; ?>
             <tr>
-                <td>{{$subject->subject_name}}</td>
+                <td>{{$subject->display_subject_code}}</td>
                 <td align="center">{{$subject->third_remarks}}</td>
                 <td align="center" style="font:10pt"></td>
                 <td align="center" style="font:10pt">{{$subject->third_remarks}}</td>
@@ -209,7 +209,7 @@ function getPromotion($level) {
             @foreach($get_conduct as $subject)
             <?php $total_units += $subject->units; ?>
             <tr>
-                <td>{{$subject->subject_name}}</td>
+                <td>{{$subject->display_subject_code}}</td>
                 <td align="center">{{$subject->third_grading_letter}}</td>
                 <td align="center" style="font:10pt"></td>
                 <td align="center" style="font:10pt">{{$subject->third_grading_letter}}</td>
