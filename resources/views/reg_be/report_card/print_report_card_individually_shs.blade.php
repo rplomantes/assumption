@@ -158,7 +158,10 @@ function getPromotion($level) {
         
         @if(count($get_pe_2nd)>0)
             @foreach($get_pe_2nd as $subject)
-            <?php $pe_average = ($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3; ?>
+            @if(count($get_pe_1st)>0)
+            @else
+                <?php $pe_average = ($subject->first_grading+$subject->second_grading+$subject->third_grading)/3; ?>
+            @endif
             <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
@@ -221,14 +224,19 @@ function getPromotion($level) {
 
 
     <tr>
-        <td align="right" style = "font:bold" colspan="3">General Average for the First Semester:</td><td align="center" colspan="2"><strong>{{$get_first_sem_final_ave->final_letter_grade}}({{$get_first_sem_final_ave->final_grade}})</strong></td>
+        <td align="right" style = "font:bold" colspan="3">General Average for the First Semester:</td><td align="center" colspan="2"><strong>@if($get_first_sem_final_ave){{$get_first_sem_final_ave->final_letter_grade}}({{$get_first_sem_final_ave->final_grade}})@endif</strong></td>
     </tr>
     <tr>
         <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         <!--<td align="right" style = "font:bold" colspan="3">General Average for the Second Semester:</td><td align="center" colspan="2"><strong>{{round($total_final_grade,3)}}/{{$total_units}}</strong></td>-->
     </tr>
     <tr>
-        <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS')}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})</strong></td>
+        <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td><td align="center" colspan="2"><strong>
+                @if($get_first_sem_final_ave)
+                {{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS')}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})
+            @else
+            {{getLetterGrade(round($total_final_grade/$total_units,3),'SHS')}}({{round($total_final_grade/$total_units,3)}})
+            @endif</strong></td>
     </tr>
 </table>
 <div style="position:absolute; top:640px; bottom:0; left:0; right:0;">
