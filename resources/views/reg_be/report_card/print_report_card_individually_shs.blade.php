@@ -102,7 +102,7 @@ function getPromotion($level) {
     </tr>
     <tr>
         <td>Class Adviser</td><td colspan="2" style="border-bottom: 1px solid black">{{$adviser->getFullNameAttribute()}}</td>
-        <td align="right">School Year</td><td  colspan="2" align="center"style="border-bottom: 1px solid black">{{$status->school_year}}-{{$status->school_year+1}}, {{$status->period}}</td>
+        <td align="right">School Year</td><td  colspan="2" align="center"style="border-bottom: 1px solid black">{{$status->school_year}}-{{$status->school_year+1}}, 2nd Semester</td>
     </tr>
 </table>
 <br>
