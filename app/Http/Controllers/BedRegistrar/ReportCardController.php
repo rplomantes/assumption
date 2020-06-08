@@ -37,7 +37,7 @@ class ReportCardController extends Controller {
             
             if ($status->level == "Grade 11" or $status->level == "Grade 12") {
                 $get_first_sem_final_ave = \App\ShsOldAveGrade::where('idno', $idno)->first();
-                $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year', $status->school_year)->where('period', $period)->where('role', 'advisory')->where('section', $status->section)->first();
+                $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year', $status->school_year)->where('period', $period)->where('strand',$status->strand)->where('role', 'advisory')->where('section', $status->section)->first();
 
                 
                 $get_subjects_heads = \App\GradeBasicEd::distinct()->where('idno', $idno)->where('school_year', $school_year)->where('period',$period)->orderBy('report_card_grouping', 'desc')->get(['report_card_grouping']);
