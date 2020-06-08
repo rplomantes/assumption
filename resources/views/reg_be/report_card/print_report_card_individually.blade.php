@@ -175,7 +175,7 @@ function getPromotion($level) {
         @if($idno == "1718105" || $idno == "1718104" || $idno == "1010478")
             <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
             @if($subject->fourth_remarks=="Fail")
-            <td align="center" style="font:10pt">Pass</td>
+            <td align="center" style="font:10pt"></td>
             @else
                 @if($subject->final_grade != "")
                 <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
