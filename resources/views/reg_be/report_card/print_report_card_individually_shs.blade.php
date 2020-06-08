@@ -159,6 +159,7 @@ function getPromotion($level) {
         @if(count($get_pe_2nd)>0)
             @foreach($get_pe_2nd as $subject)
             @if(count($get_pe_1st)>0)
+                <?php $pe_average = ($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3; ?>
             @else
                 <?php $pe_average = ($subject->first_grading+$subject->second_grading+$subject->third_grading)/3; ?>
             @endif
