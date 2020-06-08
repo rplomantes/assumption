@@ -171,8 +171,13 @@ function getPromotion($level) {
                 
                 @if($idno == "1920262")
                 <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
+                @if($subject->fourth_remarks=="Fail")
                 <td align="center" style="font:10pt"></td>
                 <td align="center" style="font:10pt"></td>
+                @else
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
+                @endif
                 @else
                 <td align="center" style="font:10pt">Pass</td>
                 <td align="center" style="font:10pt">Pass</td>
