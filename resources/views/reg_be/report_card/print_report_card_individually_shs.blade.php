@@ -139,15 +139,16 @@ function getPromotion($level) {
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-                <td align="center" style="font:10pt">
+                
                 @if($idno == "1920262")
-                {{$subject->fourth_remarks}}
+                <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
+                <td align="center" style="font:10pt"></td>
+                <td align="center" style="font:10pt"></td>
                 @else
-                    Pass
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
                 @endif
-                </td>
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
                 <?php $total_final_grade += $subject->final_grade; ?>
@@ -167,16 +168,16 @@ function getPromotion($level) {
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif </td>
-                <td align="center" style="font:10pt">
-                    
+                
                 @if($idno == "1920262")
-                {{$subject->fourth_remarks}}
+                <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
+                <td align="center" style="font:10pt"></td>
+                <td align="center" style="font:10pt"></td>
                 @else
-                    Pass
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
+                <td align="center" style="font:10pt">Pass</td>
                 @endif
-                </td>
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
                 <?php $total_final_grade += $pe_average; ?>
