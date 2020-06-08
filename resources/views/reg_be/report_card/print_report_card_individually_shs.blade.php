@@ -319,13 +319,16 @@ function getPromotion($level) {
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
     She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
     <br>
+    <img style="display: block;max-width:200px;max-height:95px;width: auto;height: auto; " src="{{public_path('/images/SMV-Signature.png')}}">    
     <br>
+    
+</div>
+<div style="position:absolute; top:445px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
     Principal<br><br>
     June 8, 2020<br>
     Date
 </div>
-
 <div style="position:absolute; top:525px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
     <h3>CANCELLATION OF TRANSFER ELIGIBILITY</h3>
     Has been admitted to___________________________________<br>
