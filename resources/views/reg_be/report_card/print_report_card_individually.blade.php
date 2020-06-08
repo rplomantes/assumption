@@ -170,19 +170,42 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
         <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
-        <td align="center" style="font:10pt">Pass</td>
-
-        @if($subject->final_grade != "")
-        <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
-        @endif
+        
+        
+        @if($idno == "1718105" || $idno == "1718104" || $idno == "1010478")
+            <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
+            @if($subject->fourth_remarks=="Fail")
+            <td align="center" style="font:10pt"></td>
+            @else
+                @if($subject->final_grade != "")
+                <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
+                @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
+                <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
+                @endif
+                @else
+                <td></td>
+                @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
+                <td></td>
+                @endif
+                @endif
+            @endif
         @else
-        <td></td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
+            <td align="center" style="font:10pt">Pass</td>
+            
+            @if($subject->final_grade != "")
+            <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
+            @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
+            <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
+            @endif
+            @else
+            <td></td>
+            @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
+            <td></td>
+            @endif
+            @endif
         @endif
-        @endif
+        
+
         @if($subject->units>0)
         <?php $total_final_grade += $subject->final_grade; ?>
         @endif
