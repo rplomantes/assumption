@@ -92,7 +92,7 @@ function getPromotion($level) {
 }
 ?>
 
-<table width="50%">
+<table width="50%" cellpadding="0" cellspacing="0">
     <tr>
         <td>Name</td><td colspan="5" style="border-bottom: 1px solid black">{{$user->getFullNameAttribute()}}</td>
     </tr>
@@ -106,7 +106,7 @@ function getPromotion($level) {
     </tr>
 </table>
 <br>
-<table border = 1 cellpadding = 6 cellspacing =0 width="50%">
+<table border = 1 cellpadding = 4 cellspacing =0 width="50%">
     <tr style = "font:bold">
         <td rowspan="2" align="center" width="60%">SUBJECTS</td>
         <td colspan="2" align="center">QUARTER</td>
