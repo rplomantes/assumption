@@ -92,12 +92,16 @@ function getPromotion($level) {
 }
 ?>
 
+        <div  style="position:absolute; top:125px; bottom:0; left:45px; right:0;">
+            <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
+        </div>
 <table width="50%" cellpadding="0" cellspacing="0">
     <tr>
         <td>Name</td><td colspan="5" style="border-bottom: 1px solid black">{{$user->getFullNameAttribute()}}</td>
     </tr>
     <tr>
-        <td>Grade & Section</td><td colspan="2" style="border-bottom: 1px solid black">{{$status->level}} - {{$status->section}}</td>
+        <td>Grade & Section</td><td colspan="2" style="border-bottom: 1px solid black">{{$status->level}} - 
+            @if($status->strand == "PA")A @elseif($status->strand == "HUMSS")H @elseif($status->strand == "ABM")B @elseif($status->strand == "STEM")S @endif{{$status->section}}</td>
         <td align="right">Strand</td><td colspan="2" align="center" style="border-bottom: 1px solid black">@if($status->strand == "PA") Arts and Design @else{{$status->strand}}@endif</td>
     </tr>
     <tr>
@@ -114,8 +118,8 @@ function getPromotion($level) {
         <td rowspan="2" align="center">REMARKS</td>
     </tr>
     <tr style = "font:bold">
-        <td align="center">3</td>
-        <td align="center">4</td>
+        <td align="center">1</td>
+        <td align="center">2</td>
     </tr>
     <?php
     $total_units = 0;
@@ -325,7 +329,7 @@ function getPromotion($level) {
 </div>
 <div style="position:absolute; top:445px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal<br><br>
+    Principal, Assumption College, Makati City<br><br>
     June 8, 2020<br>
     Date
 </div>
@@ -336,7 +340,7 @@ function getPromotion($level) {
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal<br><br>
+    Principal, Assumption College, Makati City<br><br>
     June 8, 2020<br>
     Date
 </div>

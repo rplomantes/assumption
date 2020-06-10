@@ -128,6 +128,7 @@ Route::get('/bedregistrar/request_form','BedRegistrar\RequestForm@index');
 Route::get('/get_requestforms','BedRegistrar\RequestForm@AjaxGetForm');
 Route::post('/update_or_form_request','BedRegistrar\RequestForm@updateOR');
 Route::get('/tag_as_claimed/{reference_id}','BedRegistrar\RequestForm@tag_as_claimed');
+Route::post('/tag_as_for_claiming','BedRegistrar\RequestForm@tag_as_for_claiming');
 
 
 //BED Report Card

@@ -7,14 +7,14 @@ function get_plan($level, $category) {
         if (count($other_amount) > 0) {
             $amount = $amount->amount + $other_amount->amount;
         } else {
-            $amount = $amount->amount;
+            $amount = $amount['amount'];
         }
     } else {
         $other_amount = \App\ShsOtherCollection::selectRaw('sum(amount) as amount, category')->whereRaw("category = '$category'")->groupBy('category')->first();
         if (count($other_amount) > 0) {
             $amount = $amount->amount + $other_amount->amount;
         } else {
-            if (count($amount) > 0) {
+            if(count($amount)>0){
                 $amount = $amount->amount;
             }
         }
@@ -47,11 +47,11 @@ function get_category_plan($plan,$level,$type) {
             }
         }
         elseif($plan == "Quarterly"){
-            $quarterly_fee = (round($total_tuition*1.02)) / 4;
+            $quarterly_fee = (round($total_tuition*1.02)) / 3;
             $whole = floor($quarterly_fee);
             $decimal = $quarterly_fee - $whole;
             if($type == "UE"){
-                $amount = $quarterly_fee + ($total_total - $total_tuition) + ($decimal*3);
+                $amount = $quarterly_fee + ($total_total - $total_tuition) + ($decimal*2);
             }
             elseif($type == "Total"){
                 $amount = (round($total_tuition*1.02)) + ($total_total - $total_tuition);
@@ -61,11 +61,11 @@ function get_category_plan($plan,$level,$type) {
             }
         }
         elseif($plan == "Monthly"){
-            $monthly_fee = (round($total_tuition*1.03)) / 10;
+            $monthly_fee = (round($total_tuition*1.03)) / 5;
             $whole = floor($monthly_fee);
             $decimal = $monthly_fee - $whole;
             if($type == "UE"){
-                $amount = $monthly_fee + ($total_total - $total_tuition) + ($decimal*9);
+                $amount = $monthly_fee + ($total_total - $total_tuition) + ($decimal*4);
             }
             elseif($type == "Total"){
                 $amount = (round($total_tuition*1.03)) + ($total_total - $total_tuition);
@@ -132,23 +132,27 @@ function get_category_plan_shs($plan,$level,$type) {
         echo number_format($amount,2);
 }
 
-function get_srf($level, $strand) {
-    $srf = \App\CtrBedSrf::where('level', $level)->where('strand', $strand)->first();
-    if (count($srf) > 0) {
+function get_srf($level,$strand){
+    $srf = \App\CtrBedSrf::where('level',$level)->where('strand',$strand)->first();
+    if(count($srf) > 0){
         echo number_format($srf->amount);
-    } else {
+    }
+    else{
         echo "0.00";
     }
 }
 
-function get_total($level) {
-    $srf = \App\CtrBedSrf::selectRaw("sum(amount) as amount")->where('level', $level)->first();
-    if (count($srf) > 0) {
+function get_total($level){
+    $srf = \App\CtrBedSrf::selectRaw("sum(amount) as amount")->where('level',$level)->first();
+    if(count($srf) > 0){
         echo number_format($srf->amount);
-    } else {
+    }
+    else{
         echo "0.00";
     }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -164,7 +168,7 @@ function get_total($level) {
     <body>
 
         <span id="school_name">ASSUMPTION COLLEGE</span><br>
-        <span> School Year : 2019-2020 <br>
+        <span> School Year : 2020-2020, 1st Semester <br>
             @if($department == "Pre School")
             BEPS
             @elseif($department == "Elementary")
@@ -172,14 +176,14 @@ function get_total($level) {
             @elseif($department == "Junior High School")
             BEHS
             @elseif($department == "Senior High School")
-            Period : 2nd Semester<br>
+            Period : 1st Semester<br>
             SHS
             @endif
             <br>
-            Enrollment Form</span>
-        <table cellspacing="0" cellpadding="0" border="1" width="100%">
+            <strong>Schedule of Fees</strong></span>
+<!--        <table cellspacing="0" cellpadding="0" border="1" width="100%">
             <tr><td>Name:<br>&nbsp;</td><td>Grade:<br>&nbsp;</td><td>Plan:<br>&nbsp;</td></tr>
-        </table>  
+        </table>  -->
         &nbsp;
         @if($department == "Pre School")
         <?php
@@ -209,21 +213,21 @@ function get_total($level) {
                 <tr><td>Total</td><td align="right">{{number_format($totalprekinder,2)}}</td><td align="right">{{number_format($totalkinder,2)}}</td></tr>
             </table>    
         </div>    
-
+<br>
         <table border ="1" border="1" cellspacing="0" cellpadding="0" width="100%">
-            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
+            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
             
-            <tr><td colspan="12"><b>Pre Kinder</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Pre-Kinder','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Pre-Kinder','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Pre-Kinder','UE')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Pre-Kinder</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Pre-Kinder','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Pre-Kinder','UE')}}</td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Pre-Kinder','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Pre-Kinder','UE')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','')}}</td><td>{{get_category_plan('Monthly','Pre-Kinder','Total')}}</td></tr>
 
-            <tr><td colspan="12"><b>Kinder</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Kinder','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Kinder','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Kinder','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Kinder','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Kinder','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Kinder','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Kinder','UE')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Kinder</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Kinder','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Kinder','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Kinder','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Kinder','UE')}}</td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Kinder','')}}</td><td></td><td>{{get_category_plan('Quarterly','Kinder','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Kinder','UE')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','')}}</td><td>{{get_category_plan('Monthly','Kinder','Total')}}</td></tr>
         </table>    
         @endif
 
@@ -284,44 +288,44 @@ function get_total($level) {
                 <tr><td>Total</td><td align="right">{{number_format($grade1total,2)}}</td><td align="right">{{number_format($grade2total,2)}}</td><td align="right">{{number_format($grade3total,2)}}</td><td align="right">{{number_format($grade4total,2)}}</td><td align="right">{{number_format($grade5total,2)}}</td><td align="right">{{number_format($grade6total,2)}}</td></tr>
             </table>    
         </div>    
-
-        <table border ="1" border="1" cellspacing="0" cellpadding="0" width="100%">
-            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
-            <tr><td colspan="12"><b>Grade 1</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 1','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 1','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 1','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 1','UE')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','Total')}}</td></tr>
+<br>
+        <table border ="1" cellspacing="0" cellpadding="0" width="100%">
+            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+            <tr><td colspan="7"><b>Grade 1</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 1','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 1','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 1','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 1','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 1','UE')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','')}}</td><td>{{get_category_plan('Monthly','Grade 1','Total')}}</td></tr>
             
-            <tr><td colspan="12"><b>Grade 2</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 2','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 2','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 2','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 2','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 2','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 2','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 2','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 2','UE')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 2</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 2','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 2','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 2','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 2','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 2','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 2','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 2','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 2','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 2','UE')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','')}}</td><td>{{get_category_plan('Monthly','Grade 2','Total')}}</td></tr>
            
-            <tr><td colspan="12"><b>Grade 3</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 3','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 3','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 3','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 3','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 3','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 3','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 3','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 3','UE')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 3</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 3','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 3','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 3','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 3','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 3','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 3','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 3','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 3','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 3','UE')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','')}}</td><td>{{get_category_plan('Monthly','Grade 3','Total')}}</td></tr>
 
-            <tr><td colspan="12"><b>Grade 4</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 4','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 4','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 4','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 4','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 4','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 4','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 4','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 4','UE')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 4</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 4','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 4','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 4','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 4','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 4','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 4','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 4','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 4','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 4','UE')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','')}}</td><td>{{get_category_plan('Monthly','Grade 4','Total')}}</td></tr>
 
-            <tr><td colspan="12"><b>Grade 5</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 5','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 5','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 5','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 5','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 5','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 5','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 5','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 5','UE')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 5</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 5','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 5','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 5','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 5','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 5','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 5','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 5','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 5','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 5','UE')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','')}}</td><td>{{get_category_plan('Monthly','Grade 5','Total')}}</td></tr>
             
-            <tr><td colspan="12"><b>Grade 6</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 6','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 6','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 6','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 6','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 6','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 6','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 6','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 6','UE')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 6</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 6','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 6','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 6','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 6','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 6','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 6','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 6','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 6','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 6','UE')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','')}}</td><td>{{get_category_plan('Monthly','Grade 6','Total')}}</td></tr>
         </table>    
         @endif
 
@@ -369,31 +373,31 @@ function get_total($level) {
             </table>    
         </div>    
 
-        <table border ="1" border="1" cellspacing="0" cellpadding="1" width="100%">
-            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
-            <tr><td colspan="12"><b>Grade 7</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 7','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 7','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 7','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 7','UE')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','Total')}}</td></tr>
+        <table border ="1" cellspacing="0" cellpadding="1" width="100%">
+            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+            <tr><td colspan="7"><b>Grade 7</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 7','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 7','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 7','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 7','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 7','UE')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','')}}</td><td>{{get_category_plan('Monthly','Grade 7','Total')}}</td></tr>
             
-            <tr><td colspan="12"><b>Grade 8</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 8','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 8','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 8','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 8','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 8','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 8','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 8','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 8','UE')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 8</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 8','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 8','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 8','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 8','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 8','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 8','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 8','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 8','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 8','UE')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','')}}</td><td>{{get_category_plan('Monthly','Grade 8','Total')}}</td></tr>
             
-            <tr><td colspan="12"><b>Grade 9</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 9','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 9','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 9','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 9','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 9','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 9','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 9','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 9','UE')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 9</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 9','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 9','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 9','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 9','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 9','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 9','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 9','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 9','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 9','UE')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','')}}</td><td>{{get_category_plan('Monthly','Grade 9','Total')}}</td></tr>
 
-            <tr><td colspan="12"><b>Grade 10</b></td></tr>
-            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 10','Total')}}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 10','Total')}}</td></tr>
-            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 10','UE')}}</td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 10','')}}</td><td></td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 10','Total')}}</td></tr>
-            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 10','UE')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td></td><td>{{get_category_plan('Quarterly','Grade 10','Total')}}</td></tr>
-            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 10','UE')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','Total')}}</td></tr>
+            <tr><td colspan="7"><b>Grade 10</b></td></tr>
+            <tr><td>Annual</td><td>{{get_category_plan('Annual','Grade 10','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 10','Total')}}</td></tr>
+            <tr><td>Semestral</td><td>{{get_category_plan('Semestral','Grade 10','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 10','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 10','Total')}}</td></tr>
+            <tr><td>Quarterly</td><td>{{get_category_plan('Quarterly','Grade 10','UE')}}</td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 10','')}}</td><td></td><td>{{get_category_plan('Quarterly','Grade 10','Total')}}</td></tr>
+            <tr><td>Monthly</td><td>{{get_category_plan('Monthly','Grade 10','UE')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','')}}</td><td>{{get_category_plan('Monthly','Grade 10','Total')}}</td></tr>
 
         </table>
         @endif
@@ -441,10 +445,7 @@ function get_total($level) {
             <tr>
                 <td>Mode of Payment</td>
                 <td>Upon Enrollment</td>
-                <td>Feb</td>
-                <td>Mar</td>
-                <td>Apr</td>
-                <td>May</td>
+                <td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td>
                 <td>Total</td>
             </tr>
             
