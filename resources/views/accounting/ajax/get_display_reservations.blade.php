@@ -34,9 +34,9 @@ $x = 0;
                 @if($list->level == $head->level)
                 <?php $total += $list->amount; ?>
                 <tr>
-                    <td>@if($prev_idno != $list->idno) <?php $x++; ?> {{$x}}.s @endif  </td>
+                    <td>@if($prev_idno != $list->idno) <?php $x++; ?> {{$x}} @endif  </td>
                     <td align='left'>{{$list->idno}}</td>
-                    <td>{{$list->lastname}}, {{$ist->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
+                    <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
                     @if($department == "College Department")
                     <td>{{$list->program_code}}</td>
                     @endif
