@@ -498,7 +498,7 @@ function getPromotion($level) {
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
     Principal<br><br>
-    {{date('M j, Y')}}<br>
+    June 8, 2020<br>
     Date
 </div>
 
