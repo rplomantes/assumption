@@ -168,7 +168,7 @@ function get_total($level){
     <body>
 
         <span id="school_name">ASSUMPTION COLLEGE</span><br>
-        <span> School Year : 2020-2020, 1st Semester <br>
+        <span> School Year : 2020-2021, 1st Semester <br>
             @if($department == "Pre School")
             BEPS
             @elseif($department == "Elementary")
