@@ -544,11 +544,15 @@ Route::get('/registrar_college/withdraw_enrolled_student/{status}/{date_today}/{
 //email blast for hed early enrollment
 Route::get('/email_blast','Admin\EmailBlast@email');
 
-//portal notifications
+//College portal notifications
 Route::get('/registrar_college/portal_notifications','RegistrarCollege\Notifications\NotificationsController@portal_notifications');
 Route::post('/registrar_college/portal_notifications/post','RegistrarCollege\Notifications\NotificationsController@post_notifications');
 Route::get('/registrar_college/notifications/set_status','RegistrarCollege\Notifications\AjaxNotificationsController@set_status');
 
+//BED portal notifications
+Route::get('/bedregistrar/portal_notifications','BedRegistrar\Notifications\NotificationsController@portal_notifications');
+Route::post('/bedregistrar/portal_notifications/post','BedRegistrar\Notifications\NotificationsController@post_notifications');
+Route::get('/bedregistrar/notifications/set_status','BedRegistrar\Notifications\AjaxNotificationsController@set_status');
 //DEBIT SUMMARY
 Route::get('/accounting/debit_summary/{date_from}/{date_to}/{posted_by}','Accounting\DebitCreditSummary@debit_summary');
 Route::get('/accounting/print_debit_summary/{date_from}/{date_to}/{posted_by}','Accounting\DebitCreditSummary@print_debit_summary');

@@ -312,7 +312,7 @@ function getPromotion($level) {
         <tr class="legend"><td>HS</td><td>-</td><td>Highly Satisfactory</td></tr>
         <tr class="legend"><td>S</td><td>-</td><td>Satisfactory</td></tr>
         <tr class="legend"><td>MS</td><td>-</td><td>Moderately Satisfactory</td></tr>
-        <tr class="legend"><td>NI</td><td>-</td><td>Need Improvement</td></tr>
+        <tr class="legend"><td>NI</td><td>-</td><td>Needs Improvement</td></tr>
         <tr class="legend"><td>U</td><td>-</td><td>Unsatisfactory</td></tr>
     </table>
 </div>
