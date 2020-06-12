@@ -121,20 +121,8 @@ class ChangePlan extends Controller {
     }
 
     function addPercentage($plan) {
-        switch ($plan) {
-            case "Plan A":
-                return 0;
-                break;
-            case "Plan B":
-                return 1;
-                break;
-            case "Plan C":
-                return 2;
-                break;
-            case "Plan D":
-                return 3;
-                break;
-        }
+        $interest = \App\CtrBedPlan::where('plan',$plan)->first()->interest;
+        return $interest;
     }
 
     function addDueDates($request, $schoolyear, $period) {
