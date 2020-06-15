@@ -82,7 +82,7 @@ $notifications = \App\Notification::orderBy('created_at', 'desc')->get();
         border-radius: 50%;
     } 
 </style>
-@extends('layouts.appreg_college')
+@extends('layouts.appbedregistrar')
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

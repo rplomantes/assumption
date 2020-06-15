@@ -175,9 +175,16 @@ class ViewInfoAdmissionHedController extends Controller {
     function email($idno) {
         if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
             DB::beginTransaction();
+            $check = \App\EmailBlast::where('idno',$idno)->first();
+            if(count($check)==0){
             $email_blast = new \App\EmailBlast();
             $email_blast->idno = $idno;
             $email_blast->save();
+            }
+            
+            
+            try{
+            $this->sendEmail($idno);
             
             $admission = \App\AdmissionHed::where('idno', $idno)->first();
             $admission->is_first_enrollment = 1;
@@ -187,9 +194,6 @@ class ViewInfoAdmissionHedController extends Controller {
             $blast->is_done = 1;
             $blast->save();
             
-            
-            try{
-            $this->sendEmail($idno);
             Session::flash('message', 'Email sent!');
             }catch (\Exception $e){
             Session::flash('danger', 'Email not sent! Their default password is their username.');
