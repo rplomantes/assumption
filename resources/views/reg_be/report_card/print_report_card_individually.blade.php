@@ -408,7 +408,14 @@ function getPromotion($level) {
     </tr>
 </table>
 <br>
-
+@if($idno == 1920295)
+<table border = 1 cellpadding = 2 cellspacing =0 width="50%">
+    <tr><td><span style="font-style: italic !important">
+                First Quarter: Assumption English School-Singapore
+            </span></td></tr>
+</table>
+<br>
+@endif
 <table border = 1 cellpadding = 2 cellspacing =0 width="50%">
     <tr><td><span style="font-style: italic !important">
                 "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
