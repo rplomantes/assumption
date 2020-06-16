@@ -140,6 +140,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
           </ul>
         </li>
         <li><a href="{{url('/bedregistrar','report_card')}}"><i class="fa fa-link"></i> Report Card</a></li>
+        <li><a href="{{url('/bedregistrar','batch_ranking')}}"><i class="fa fa-link"></i> Batch Ranking</a></li>
         <li><a href="{{url('/bedregistrar','sectioning')}}"><i class="fa fa-link"></i> Sectioning</a></li>
         <?php $date_today = date('Y-m-d'); ?>
         <li><a href="{{url('/bed_registrar', array('reports', 'total_daily_enrollment_statistics', $date_today, $date_today))}}"><i class="fa fa-link"></i> <span>Daily Enrollment Statistics</span></a></li>

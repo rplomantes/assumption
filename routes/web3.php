@@ -137,3 +137,9 @@ Route::get('/bedregistrar/ajax/report_card_view_list', 'BedRegistrar\Ajax\GetStu
 Route::get('/view_report_card/{idno}/{school_year}/{period?}','BedRegistrar\ReportCardController@view_report_card');
 
 Route::get('/view_narrative_report/{idno}/{school_year}','BedRegistrar\ReportCardController@narrative_report');
+
+//Batch Ranking of BED
+Route::get('/bedregistrar/batch_ranking', 'BedRegistrar\BatchRanking@view');
+Route::get('/ajax/bedregistrar/batch_ranking/get_students', 'BedRegistrar\Ajax\AjaxBatchRanking@get_students');
+
+
