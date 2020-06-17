@@ -110,7 +110,8 @@ class Order extends Controller
     }
 
     function processUniform($request, $qty, $size) {
-        $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
+        $status = \App\Status::where('idno',$request->idno)->first();
+        $department = \App\CtrAcademicProgram::where('level', $status->level)->first();
         $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
         if ($size != "") {
             $tshirt = \App\CtrUniformSize::find($size);
@@ -119,7 +120,7 @@ class Order extends Controller
                 $addledger = new \App\Ledger;
                 $addledger->idno = $request->idno;
                // $addledger->department = $department->department;
-                $addledger->level = $request->level;
+                $addledger->level = $status->level;
                 if ($request->level == "Grade 11" || $request->level == "Grade 12") {
                     $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
                     $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'SHS')->first();
@@ -141,15 +142,16 @@ class Order extends Controller
         }
     }
     function processOptional($optional, $request, $material) {
-        $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
+        $status = \App\Status::where('idno',$request->idno)->first();
+        $department = \App\CtrAcademicProgram::where('level', $status->level)->first();
         $schoolyear = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
         foreach ($optional as $key => $value) {
             if ($value > 0) {
                 $item = \App\CtrOptionalFee::find($key);
                 $addledger = new \App\Ledger;
                 $addledger->idno = $request->idno;
-//                $addledger->department = $department->department;
-                $addledger->level = $request->level;
+                $addledger->department = $department->department;
+                $addledger->level = $status->level;
                 $addledger->school_year = $schoolyear->school_year;
                 $addledger->category = $item->category;
                 $addledger->subsidiary = $item->subsidiary;
