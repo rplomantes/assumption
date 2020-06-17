@@ -283,8 +283,13 @@ function getPromotion($level) {
         <!--<td align="center">{{getGrades($subject,$idno,$school_year,'4')}}</td>-->
         <td align="center" style="font:10pt">Pass</td>
         
-        
+
+
+@if($idno == 1920295 or $idno == 1920294)        
+<?php $grade = ($grade2 + $grade3) / 2; ?>
+@else
 <?php $grade = ($grade1 + $grade2 + $grade3) / 3; ?>
+@endif
         
         
         <td align="center">{{getFinalRating($grade, $subject->letter_grade_type)}}</td>
