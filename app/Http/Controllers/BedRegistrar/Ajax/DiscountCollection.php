@@ -66,7 +66,7 @@ class DiscountCollection extends Controller {
                     $add_discount_collection->discount_type = $discount_type;
                     $add_discount_collection->save();
                 } else {
-                    $fee = \App\CtrBedFee::where('subsidiary', "Student Development Fee")->where('level',$level)->first();
+                    $fee = \App\OtherCollection::where('subsidiary', "Student Development Fee")->first();
                     $add_discount_collection = new \App\DiscountCollection();
                     $add_discount_collection->idno = $idno;
                     $add_discount_collection->subsidiary = "Student Development Fee";
@@ -91,7 +91,7 @@ class DiscountCollection extends Controller {
                     $add_discount_collection->discount_type = $discount_type;
                     $add_discount_collection->save();
                 } else {
-                    $fee = \App\CtrBedFee::where('subsidiary', "Student Development Fee")->where('level',$level)->first();
+                    $fee = \App\OtherCollection::where('subsidiary', "Student Development Fee")->first();
                     $add_discount_collection = new \App\DiscountCollection();
                     $add_discount_collection->idno = $idno;
                     $add_discount_collection->subsidiary = "Student Development Fee";
