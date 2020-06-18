@@ -43,7 +43,7 @@ class DiscountCollection extends Controller {
                 }
                 $discount_description = \App\CtrDiscount::where('discount_code',$tf_discount)->first();
                 $add_partial_student_discount = new \App\PartialStudentDiscount();
-                $add_partial_student_discount->discount_description = $discount_description->discount_description;
+                $add_partial_student_discount->discount_description = $discount_description['discount_description'];
                 $add_partial_student_discount->idno = $idno;
                 $add_partial_student_discount->discount = $tf_discount;
                 $add_partial_student_discount->save();
