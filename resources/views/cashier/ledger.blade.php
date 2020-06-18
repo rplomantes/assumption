@@ -261,7 +261,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                                 $query->where('category_switch', 4)
                                 ->orWhere('category_switch', 14);
                             })->get();
-$ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('category', '!=','SRF')->where('school_year', $school_year)->where('period', $period)
+$ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('category', '!=','SRF')->where('category', '!=','Family Council')->where('school_year', $school_year)->where('period', $period)
         ->where(function($query) {
                                 $query->where('category_switch', 4)
                                 ->orWhere('category_switch', 5)
