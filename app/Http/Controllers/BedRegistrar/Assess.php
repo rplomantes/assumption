@@ -1217,7 +1217,16 @@ class Assess extends Controller {
                 $addledger->accounting_name = $this->getAccountingName($add->accounting_code);
                 $addledger->category_switch = $add->category_switch;
                 $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary);
+                
+                
+                ///please fix this
+                if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10" || $request->level == "Grade 11" || $request->level == "Grade 12") {
+                $addledger->amount = $add->amount+250;
+                }else{
                 $addledger->amount = $add->amount;
+                }
+                
+                
                 $addledger->discount = $disc_other;
                 $addledger->discount_code = $add->subsidiary;
                 $addledger->save();
