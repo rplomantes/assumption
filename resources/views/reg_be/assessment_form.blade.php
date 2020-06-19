@@ -69,7 +69,7 @@ $upon = 0;
         @else
          <h2 class="title">ACCOUNT DETAILS</h2>
         @endif
-       <table><tr><td>A.Y.</td><td> : </td><td>{{$status->school_year}} - {{$status->school_year+1}} {{$status->period}}</td></tr>
+       <table><tr><td>A.Y.</td><td> : </td><td>{{$status->school_year}} - {{$status->school_year+1}}, 1st Semester</td></tr>
            <tr><td>Student ID</td><td> : </td><td>{{$idno}}</td></tr>
            <tr><td>Student Name</td><td> : </td><td><div class="name">{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}}</div></td></tr>
            <tr><td>Enrolled to </td><td> : </td><td>{{$status->level}}</td></tr>
@@ -312,7 +312,7 @@ $upon = 0;
         @endforeach
         <p> Late Enrollment Fee: <span class="late_amount">Php {{number_format($total_late,2)}}</span>.</p>
         @endif
-        <p>*Please print this form and present it to the cashier.<br></p>
+        <!--<p>*Please print this form and present it to the cashier.<br></p>-->
         <!--<p><h2><strong>*Please note that tuition and other fees will be adjusted upon approval of the Department of Education.</strong></h2><br>-->
     
     <br>
