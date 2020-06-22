@@ -1050,7 +1050,7 @@ class Assess extends Controller {
                             $addacct->credit = $ledger->discount;
                             $addacct->posted_by = Auth::user()->idno;
                             $addacct->save();
-                            $totalamount = $totalamount + $ledger->discount;
+//                            $totalamount = $totalamount + $ledger->discount;
                         }
                     }
                     if ($totalpayment >= $ledger->amount - $ledger->discount - $ledger->debit_memo - $ledger->payment) {
