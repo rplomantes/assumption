@@ -24,7 +24,7 @@ class ReportCardController extends Controller {
         }
     }
 
-    function view_report_card($idno, $school_year, $period = null) {
+    function view_report_card($idno,$display_type, $school_year, $period = null) {
         if (Auth::user()->accesslevel == env('REG_BE')) {
 
             $user = \App\User::where('idno', $idno)->first();
@@ -43,7 +43,7 @@ class ReportCardController extends Controller {
                 $get_subjects_heads = \App\GradeBasicEd::distinct()->where('idno', $idno)->where('school_year', $school_year)->where('period',$period)->orderBy('report_card_grouping', 'desc')->get(['report_card_grouping']);
 //                $get_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('period',$period)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to','asc')->get();
 
-                $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_shs', compact('idno', 'school_year', 'absents', 'user', 'status', 'adviser','get_first_sem_final_ave','get_subjects','get_subjects_heads','period','school_year'));
+                $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_shs', compact('idno', 'school_year', 'absents', 'user', 'status', 'adviser','get_first_sem_final_ave','get_subjects','get_subjects_heads','period','school_year','display_type'));
                 $pdf->setPaper('letter', 'landscape');
                 return $pdf->stream("report_card_$idno'_'$school_year.pdf");
                 
@@ -60,7 +60,7 @@ class ReportCardController extends Controller {
                 $get_grouping_subjects = \App\GradeBasicEd::SelectRaw('letter_grade_type,report_card_grouping as subject_name')->where('is_display_card',1)->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', "!=", "")->groupBy('report_card_grouping', 'letter_grade_type')->get();
                 $absents = \App\Absent::where('idno', $idno)->where('school_year', $school_year)->get();
 
-                $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects'));
+                $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects','display_type'));
                 $pdf->setPaper('letter', 'landscape');
                 return $pdf->stream("report_card_$idno'_'$school_year.pdf");
             }

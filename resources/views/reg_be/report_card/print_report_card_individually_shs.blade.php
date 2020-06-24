@@ -142,7 +142,17 @@ function getPromotion($level) {
             <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
-                <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
+                <td align="center">
+                    @if($subject->is_alpha == 0)
+                        @if($display_type == 0)
+                        {{$subject->third_remarks}}
+                        @elseif($display_type == 1)
+                        {{$subject->third_remarks}}({{$subject->third_grading}})
+                        @endif
+                    @else
+                    {{$subject->third_grading_letter}}
+                    @endif
+                </td>
                 
                 @if($idno == "1920262")
                 <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
@@ -176,7 +186,16 @@ function getPromotion($level) {
             <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
-                <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif </td>
+                <td align="center">@if($subject->is_alpha == 0)
+                        @if($display_type == 0)
+                        {{$subject->third_remarks}}
+                        @elseif($display_type == 1)
+                        {{$subject->third_remarks}}({{$subject->third_grading}})
+                        @endif
+                    @else
+                    {{$subject->third_grading_letter}}
+                    @endif
+                </td>
                 
                 @if($idno == "1920262")
                 <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
@@ -206,7 +225,15 @@ function getPromotion($level) {
             <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
-                <td align="center">{{$subject->third_remarks}}</td>
+                <td align="center">
+                    <!--{{$subject->third_remarks}}-->
+                        @if($display_type == 0)
+                        {{$subject->third_remarks}}
+                        @elseif($display_type == 1)
+                        {{$subject->third_remarks}}({{$subject->third_grading}})
+                        @endif
+                
+                </td>
                 <td align="center" style="font:10pt"></td>
                 <td align="center" style="font:10pt">{{$subject->third_remarks}}</td>
                 <td align="center" style="font:10pt">Pass</td>

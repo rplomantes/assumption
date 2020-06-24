@@ -33,7 +33,8 @@ $y=1;
     @if(count($status)>0)
     @foreach($status as $name)
     <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td>
-        <td><a target="_blank" href="{{url('view_report_card', array($name->idno,$schoolyear,$period))}}">View Report Card</a></td>
+        <td><a target="_blank" href="{{url('view_report_card', array($name->idno,'0',$schoolyear,$period))}}">View Report Card</a></td>
+        <td><a target="_blank" href="{{url('view_report_card', array($name->idno,'1',$schoolyear,$period))}}">View Report Card /w Numeric</a></td>
         <td><a target="_blank" href="/view_narrative_report/{{$name->idno}}/{{$schoolyear}}">View Narrative Report</a></td>
     </tr>
     @endforeach
