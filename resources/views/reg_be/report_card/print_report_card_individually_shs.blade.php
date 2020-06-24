@@ -129,7 +129,7 @@ function getPromotion($level) {
     @if(count($get_subjects_heads)>0)
     @foreach($get_subjects_heads as $subject_heads)
         <tr>
-            <td colspan="5" style="background: darkblue; color: white; font:bold">{{$subject_heads->report_card_grouping}}</td>
+            <td colspan="5" style="background: darkblue; border:1px solid black; color: white; font:bold">{{$subject_heads->report_card_grouping}}</td>
         </tr>
         <?php $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'not like', "%Student Activit%")->where('subject_code', 'not like', "%PEH%")->where('is_alpha',0)->where('is_display_card',1)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
         <?php $get_pe_2nd = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "2nd Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
