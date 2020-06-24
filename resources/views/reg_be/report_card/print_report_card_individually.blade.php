@@ -131,7 +131,9 @@ function getPromotion($level) {
     }
 }
 ?>
-
+        <div  style="position:absolute; top:125px; bottom:0; left:45px; right:0;">
+            <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
+        </div>
 <table width="50%">
     <tr>
         <td>Name</td><td colspan="3" style="border-bottom: 1px solid black">{{$user->getFullNameAttribute()}}</td>
