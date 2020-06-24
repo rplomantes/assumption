@@ -226,13 +226,7 @@ function getPromotion($level) {
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">
-                    <!--{{$subject->third_remarks}}-->
-                        @if($display_type == 0)
-                        {{$subject->third_remarks}}
-                        @elseif($display_type == 1)
-                        {{$subject->third_remarks}}({{$subject->third_grading}})
-                        @endif
-                
+                    {{$subject->third_remarks}}                
                 </td>
                 <td align="center" style="font:10pt"></td>
                 <td align="center" style="font:10pt">{{$subject->third_remarks}}</td>
