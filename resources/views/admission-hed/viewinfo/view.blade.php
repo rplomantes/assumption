@@ -393,21 +393,21 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                     <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text" value='{{old('specify_condition', $adhedinfo->specify_condition)}}'>
                                 </div>        
                             </div>   
-                            @if(empty($email) && $status->status != env("ENROLLED"))
+                            <!--if(empty($email) && $status->status != env("ENROLLED"))-->
                             @if($adhedinfo->admission_status == 'Regular' || $adhedinfo->admission_status == 'Scholar') 
                             <div class="form-group">
-                                @if($adhedinfo->student_status == 1)
+                                <!--if($adhedinfo->student_status == 1)-->
                                 <div class="col-sm-6">
                                     <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                                 </div>
                                 <div class="col-sm-6">
                                     <a role="button" href="{{url('admission',array('send_email',$idno))}}" class="form form-control btn btn-warning">Send email for AC Portal Access of 1st Year Student</a>
                                 </div>
-                                @else
+<!--                                else
                                 <div class="col-sm-12">
                                     <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                                 </div>
-                                @endif
+                                endif-->
                             </div>
                             @else
                             <div class="form-group">
@@ -416,13 +416,13 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                 </div>
                             </div>
                             @endif
-                            @else
+<!--                            else
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <button class="form form-control btn btn-success" type="submit">UPDATE STUDENT</button>
                                 </div>
                             </div>
-                            @endif
+                            endif-->
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <a role="button" href="{{url('admission',array('print_pre_application_form',$idno))}}" class="form form-control btn btn-primary">PRINT PRE-APPLICATION FORM</a>

@@ -209,6 +209,7 @@ class ViewInfoAdmissionHedController extends Controller {
     function sendEmail($idno) {
         $applicant_details = \App\User::where('idno', $idno)->first();
         $applicant_details->password = bcrypt($idno);
+        $applicant_details->is_first_login = 1;
         $applicant_details->status = 1;
         $applicant_details->save();
         
