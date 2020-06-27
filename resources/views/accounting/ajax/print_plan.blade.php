@@ -23,9 +23,6 @@ function get_plan($level, $category) {
                 $amount = $amount->amount;
             }
         }
-        if($category == "Other Fees"){
-            $amount += 250;
-        }
     }
     return $amount;
 }
@@ -197,7 +194,7 @@ function get_total($level){
             @endif
             <br>
             <strong>Schedule of Fees</strong></span><br>
-        <i>Erratum: The Schedule of Fees for Junior High School and Senior High School posted previously incorrectly stated the Student Development Fee as P500.
+        <i>Erratum: The Schedule of Fees for Junior High School posted previously incorrectly stated the Student Development Fee as P500.
  The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
 <!--        <table cellspacing="0" cellpadding="0" border="1" width="100%">
             <tr><td>Name:<br>&nbsp;</td><td>Grade:<br>&nbsp;</td><td>Plan:<br>&nbsp;</td></tr>
