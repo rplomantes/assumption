@@ -9,6 +9,11 @@ function get_plan($level, $category) {
         } else {
             $amount = $amount['amount'];
         }
+        if($level == "Grade 7" || $level == "Grade 8" || $level == "Grade 9" || $level == "Grade 10"){
+            if($category == "Other Fees"){
+                $amount += 250;
+            }
+        }
     } else {
         $other_amount = \App\ShsOtherCollection::selectRaw('sum(amount) as amount, category')->whereRaw("category = '$category'")->groupBy('category')->first();
         if (count($other_amount) > 0) {
@@ -17,6 +22,9 @@ function get_plan($level, $category) {
             if(count($amount)>0){
                 $amount = $amount->amount;
             }
+        }
+        if($category == "Other Fees"){
+            $amount += 250;
         }
     }
     return $amount;
@@ -188,7 +196,9 @@ function get_total($level){
             SHS
             @endif
             <br>
-            <strong>Schedule of Fees</strong></span>
+            <strong>Schedule of Fees</strong></span><br>
+        <i>Erratum:                                                                                                                                                            The Schedule of Fees for Junior High School posted previously incorrectly stated the Student Development Fee as P500.
+ The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
 <!--        <table cellspacing="0" cellpadding="0" border="1" width="100%">
             <tr><td>Name:<br>&nbsp;</td><td>Grade:<br>&nbsp;</td><td>Plan:<br>&nbsp;</td></tr>
         </table>  -->
@@ -296,7 +306,7 @@ function get_total($level){
                 <tr><td>Total</td><td align="right">{{number_format($grade1total,2)}}</td><td align="right">{{number_format($grade2total,2)}}</td><td align="right">{{number_format($grade3total,2)}}</td><td align="right">{{number_format($grade4total,2)}}</td><td align="right">{{number_format($grade5total,2)}}</td><td align="right">{{number_format($grade6total,2)}}</td></tr>
             </table>    
         </div>    
-<br>
+<!--<br>-->
         <table border ="1" cellspacing="0" cellpadding="0" width="100%">
             <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
             <tr><td colspan="7"><b>Grade 1</b></td></tr>
