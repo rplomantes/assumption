@@ -310,7 +310,7 @@ $grade6total = $grade6tuition+$grade6misc+$grade6others+$grade6dep;
 @endif
 
 @if($department == "Junior High School")
-<i>Erratum:The Schedule of Fees for Junior High School posted previously incorrectly stated the Student Development Fee as P500.
+<i>Erratum:The Other Fees for Junior High School posted previously incorrectly stated the Student Development Fee as P500.
     The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
 <?php
 $grade1total = 0;
