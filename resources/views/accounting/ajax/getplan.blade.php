@@ -380,6 +380,8 @@ $grade4total = $grade4tuition+$grade4misc+$grade4others+$grade4dep;
         </table>
 @endif
 @if($department == "Senior High School")
+<i>Erratum:The Other Fees for Senior High School posted previously incorrectly stated the Student Development Fee as P1000.
+    The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
 <?php
 $grade1total = 0;
 $grade1tuition = get_plan('Grade 11','Tuition Fee');

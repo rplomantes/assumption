@@ -1220,7 +1220,7 @@ class Assess extends Controller {
                 
                 
                 ///please fix this
-                if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10" || $request->level == "Grade 11" || $request->level == "Grade 12") {
+                if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10") {
                     if($add->subsidiary == "Student Development Fee"){
                 $addledger->amount = $add->amount+250;
                     }else{
