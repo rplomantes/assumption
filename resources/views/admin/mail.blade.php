@@ -80,7 +80,7 @@
                                                     send proof of payment with student's name and year to:<br><br>
                                                     
                                                     to: finance@assumption.edu.ph<br>
-                                                    cc: gchavez@assumption.edu.ph and addmissions@assumption.edu.ph<br><br>
+                                                    cc: gchavez@assumption.edu.ph and admissions@assumption.edu.ph<br><br>
                                                     
                                                     Upon confirmation of payment, log-in to your account and print your Official Registration Form.<br><br>
                                                     
