@@ -75,11 +75,18 @@
                                                     Password:&nbsp;<strong>{{$applicant_details->idno}}</strong>
                                                 </small><br><br>
                                                    
-                                                    After you log-in go to "Assessment" and select your payment plan, then print the unofficial registration form. This will be presented to the admissions' office before payment.<br><br>
+                                                    After you log-in, view or print your unofficial registration form and select payment options.  
+                                                    Pay the required amount of fees upon enrollment through BPI, Metrobank, Unionbank or Gcash and 
+                                                    send proof of payment with student's name and year to:<br><br>
                                                     
-                                                    Thank you very much.<br><br>
-
-                                                If you have questions kindly call Admissions' Office at 8817-7773/8810-5083.
+                                                    to: finance@assumption.edu.ph<br>
+                                                    cc: gchavez@assumption.edu.ph and addmissions@assumption.edu.ph<br><br>
+                                                    
+                                                    Upon confirmation of payment, log-in to your account and print your Official Registration Form.<br><br>
+                                                    
+                                                    For questions and clarifications, email Records Office at achedregistrar@assumption.edu.ph or admissions@assumption.edu.ph.<br><br>
+                                                    
+                                                    Thank you very much.
                                             </span>
                                         </div>
                                     </td>
