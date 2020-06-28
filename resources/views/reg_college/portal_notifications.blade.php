@@ -118,8 +118,7 @@ $notifications = \App\CollegeNotifications::orderBy('created_at', 'desc')->get()
 @endsection
 @section('maincontent')
 <!-- search form (Optional) -->
-<div class="col-md-12">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
         <div class="box box-default">
             <div class="box-header with-border">
                 <i class="fa fa-warning"></i>
@@ -144,21 +143,27 @@ $notifications = \App\CollegeNotifications::orderBy('created_at', 'desc')->get()
                         </div>
                     </div>
                     <div class="form-group" style="margin-top:15px;">
+@if($id != null)
+<input type='hidden' name='id' value='{{$id}}'>
+@endif
+                        
+                        <textarea id="editor1" name="notifications_content" rows="5" cols="100">
 
-                        <textarea id="editor1" name="notifications_content" rows="5" cols="59">
-                     
+@if($id != null)
+{!! $notif->notification !!}
+@endif
                         </textarea>
                     </div>
 
                     <div class="form-group" style="margin-top:15px;">
 
-                        <button class="btn btn-primary btn-flat btn-block">Post</button>
+                        <button class="btn btn-primary btn-flat btn-block">Post or Update</button>
                     </div>
                 </form>
             </div>
-
         </div>
-    </div><div class="col-md-6">
+    </div>
+    <div class="col-md-12">
         <div class="box">
             <div class="box-body" id="notifications">
                 @if(count($notifications)>0)
@@ -171,7 +176,8 @@ $notifications = \App\CollegeNotifications::orderBy('created_at', 'desc')->get()
                             <label class="switch pull-right">
                                 <input type="checkbox" onchange="setActive('{{$notify->id}}')" @if($notify->is_active == 1) checked @endif>
                                 <span class="slider round"></span>
-                            </label>    
+                            </label>
+                            <a href='{{url('/registrar_college',array('portal_notifications',$notify->id))}}'><button class='btn btn-primary'>UPDATE</button></a>
                         </span><br>
                         <span class="description">Posted on - {{$notify->created_at}}</span><br>
                         <span class="description">Posted by - {{$notify->idno}}</span>
@@ -188,7 +194,6 @@ $notifications = \App\CollegeNotifications::orderBy('created_at', 'desc')->get()
             </div>
         </div>
     </div>
-</div>
 
 <!-- /.search form -->
 
