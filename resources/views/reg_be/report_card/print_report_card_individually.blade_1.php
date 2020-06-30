@@ -131,7 +131,7 @@ function getPromotion($level) {
     }
 }
 ?>
-        <div  style="position:absolute; top:125px; bottom:0; left:20px; right:0;">
+        <div  style="position:absolute; top:125px; bottom:0; left:45px; right:0;">
             <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
         </div>
 <table width="50%">
@@ -439,7 +439,7 @@ function getPromotion($level) {
             </span></td></tr>
 </table>
 <br>
-<div style="position:absolute; top:630px; bottom:0; left:0; right:0;">
+<div style="position:absolute; top:660px; bottom:0; left:0; right:0;">
     <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
@@ -489,19 +489,19 @@ function getPromotion($level) {
     </table>
 </div>
 <!--LEGEND-->
-<div style="position:absolute; top:0px; bottom:0; left:480px; right:0; font:11pt !important;">
+<div style="position:absolute; top:0px; bottom:0; left:540px; right:0;">
     LEGEND:
     <ul style="list-style: none;">
-        <li><span>A(Advance)</span>...............................................<span>90% and more</span>
-        <li><span>P(Proficient)</span>..............................................<span>85% - 89%</span>
-        <li><span>AP(Advance Proficiency)</span>.........................<span>80% - 84%</span>
-        <li><span>D(Developing)</span>..........................................<span>75% - 79</span>
-        <li><span>B(Beginning)</span>............................................<span>74% and below</span>
+        <li><span>A(Advance)</span>....................................................<span>90% and more</span>
+        <li><span>P(Proficient)</span>...................................................<span>85% - 89%</span>
+        <li><span>AP(Advance Proficiency)</span>..............................<span>80% - 84%</span>
+        <li><span>D(Developing)</span>...............................................<span>75% - 79</span>
+        <li><span>B(Beginning)</span>.................................................<span>74% and below</span>
     </ul>
 </div>
 
-<div style="position:absolute; top:140px; bottom:0; left:580px; right:0;">
-    <table style=" font:11pt !important;">
+<div style="position:absolute; top:140px; bottom:0; left:650px; right:0;">
+    <table>
         <tr class="legend"><td>O</td><td>-</td><td>Outstanding</td></tr>
         <tr class="legend"><td>HS</td><td>-</td><td>Highly Satisfactory</td></tr>
         <tr class="legend"><td>S</td><td>-</td><td>Satisfactory</td></tr>
@@ -511,8 +511,8 @@ function getPromotion($level) {
     </table>
 </div>
 
-<div style="position:absolute; top:305px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
-    <strong>CERTIFICATE OF TRANSFER</strong><br>
+<div style="position:absolute; top:270px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
+    <h3>CERTIFICATE OF TRANSFER</h3>
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
     She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
@@ -525,9 +525,9 @@ function getPromotion($level) {
     Date
 </div>
 
-<div style="position:absolute; top:520px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
-    <strong>CANCELLATION OF TRANSFER ELIGIBILITY</strong><br>
-    Has been admitted to __________________________________<br>
+<div style="position:absolute; top:520px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
+    <h3>CANCELLATION OF TRANSFER ELIGIBILITY</h3>
+    Has been admitted to___________________________________<br>
     ____________________________________________________.
     <br>
     <br>
