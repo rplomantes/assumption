@@ -394,7 +394,7 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                 </div>        
                             </div>   
                             <!--if(empty($email) && $status->status != env("ENROLLED"))-->
-                            @if($adhedinfo->admission_status == 'Regular' || $adhedinfo->admission_status == 'Scholar') 
+                            @if($adhedinfo->admission_status == 'Regular' || $adhedinfo->admission_status == 'Scholar' || $adhedinfo->admission_status == 'Probationary') 
                             <div class="form-group">
                                 <!--if($adhedinfo->student_status == 1)-->
                                 <div class="col-sm-6">
