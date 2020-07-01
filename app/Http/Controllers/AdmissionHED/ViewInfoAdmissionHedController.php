@@ -237,5 +237,11 @@ class ViewInfoAdmissionHedController extends Controller {
             return $pdf->stream("pre_application_form-$idno.pdf"); 
         }
     }
+    
+    function remove_application($idno){
+        $user = \App\User::where('idno',$idno)->first();
+        $user->delete();
+        return "Deleted";
+    }
 
 }

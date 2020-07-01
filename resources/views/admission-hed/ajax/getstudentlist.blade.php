@@ -7,6 +7,7 @@
         <th>Status</th>
         <th>View Full Information</th>
         <th>View Pre-Registration Form/Enrollment Permit</th>
+        <th>Remove Application</th>
 
     </tr>
     @foreach($lists as $list)
@@ -26,6 +27,11 @@
         </td>
         <td><a href="{{url('/registrar_college/view_info', array('idno'=> $list->idno))}}">View Full Information</a></td>
         <td><a href="{{url('/admission_hed/view_info', array('idno'=> $list->idno))}}">View Pre-Registration Form/Enrollment Permit</a></td>
+        <td>
+            @if($status->status == 20 || $status->status == 21)
+            <a href="{{url('/admission_hed/remove_application', array('idno'=> $list->idno))}}">Remove Application</a>
+            @endif
+        </td>
         
     </tr>
     @endif

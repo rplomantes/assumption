@@ -55,6 +55,12 @@ class SiblingsBenefits extends Controller
                     $sibling->delete();
                 }
             }
+            $siblings = \App\PartialStudentDiscount::where('idno', $idno)->get();
+            if(count($siblings)>0){
+                foreach($siblings as $sibling){
+                    $sibling->delete();
+                }
+            }
             
             return redirect(url('bedregistrar/benefits'));
         }

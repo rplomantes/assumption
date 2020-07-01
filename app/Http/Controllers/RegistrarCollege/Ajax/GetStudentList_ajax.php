@@ -14,12 +14,13 @@ class GetStudentList_ajax extends Controller
         if (Request::ajax()) {
             $search = Input::get("search");
             $is_search = Input::get("is_search");
-            $lists = \App\User::where('academic_type', 'College')
+            $lists = \App\User::where('users.academic_type', 'College')
+                    ->join('statuses', 'statuses.idno', 'users.idno')
+                    ->where('statuses.status', '<=', env('WITHDRAWN'))
                     ->where(function ($query) use ($search){
-                        $query->where("lastname","like","%$search%")
-                              ->orWhere("firstname","like","%$search%")
-                              ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"),"like","%$search%")
-                              ->orWhere("idno",$search);
+                        $query->where("users.lastname","like","%$search%")
+                              ->orWhere("users.firstname","like","%$search%")
+                              ->orWhere("users.idno",$search);
                     })->get();
             return view('reg_college.ajax.getstudentlist', compact('lists', 'is_search'));
         }
