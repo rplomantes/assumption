@@ -246,7 +246,7 @@ function getPromotion($level) {
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">{{$subject->third_grading_letter}}</td>
                 <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt">{{$subject->third_grading_letter}}</td>
+                <td align="center" style="font:10pt">{{$subject->final_grade_letter}}</td>
                 <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
