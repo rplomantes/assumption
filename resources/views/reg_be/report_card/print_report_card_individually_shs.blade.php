@@ -280,7 +280,8 @@ function getPromotion($level) {
     <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr><td colspan="7" align="center"><span style="font-style: italic !important">
                 "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
-                the grades for the second half of the second semester / 4th quarter are Pass or Fail and only one Conduct grade for the 1st & 2nd Semesters."
+                the grades for the second half of the second semester / 4th quarter are Pass or Fail
+                and there is only one Conduct grade for the 1st and 2nd Semesters."
             </span></td></tr>
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
