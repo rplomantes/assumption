@@ -241,7 +241,7 @@ class ViewInfoAdmissionHedController extends Controller {
     function remove_application($idno){
         $user = \App\User::where('idno',$idno)->first();
         $user->delete();
-        return "Deleted";
+        return redirect('/');
     }
 
 }
