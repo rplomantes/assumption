@@ -414,7 +414,7 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
     <tr><td>ABM</td><td align="right">{{get_srf('Grade 11','ABM')}}</td><td align="right">{{get_srf('Grade 12','ABM')}}</td></tr>
     <tr><td>HUMMS</td><td align="right">{{get_srf('Grade 11','HUMSS')}}</td><td align="right">{{get_srf('Grade 12','HUMSS')}}</td></tr>
     <tr><td>STEM</td><td align="right">{{get_srf('Grade 11','STEM')}}</td><td align="right">{{get_srf('Grade 12','STEM')}}</td></tr>
-    <tr><td>AD</td><td align="right">{{get_srf('Grade 11','PA')}}</td><td align="right">{{get_srf('Grade 12','PA')}}</td></tr>
+    <tr><td>AD</td><td align="right">{{get_srf('Grade 11','AD')}}</td><td align="right">{{get_srf('Grade 12','AD')}}</td></tr>
     <tr><td>Total SRF</td><td align="right">{{get_total('Grade 11')}}</td><td align="right">{{get_total('Grade 12')}}</td></tr>
 </table>    
 </div>
