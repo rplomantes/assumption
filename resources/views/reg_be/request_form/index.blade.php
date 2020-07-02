@@ -68,11 +68,7 @@
                                 <th>Requested By</th>
                                 <th>Requests</th>
                                 <th>Purpose</th>
-                                <th>Amount</th>
-                                <th>OR Number</th>
                                 <th>Date Claimed</th>
-                                <th>Status</th>
-                                <th>Action</th>
                             </tr>
                             @foreach($forms_request_pending as $form_requested)
                             <tr>
@@ -90,25 +86,7 @@
                                 </td>
                                 <td>{{$form_requested->purpose}}</td>
                                 <td>{{$form_requested->amount_pay}}</td>
-                                <td>{{$form_requested->or_number}}</td>
-                                <td>{{$form_requested->claim_date}}</td>
                                 <td>@if($form_requested->status==0) Payment Pending @elseif($form_requested->status==1) Paid @elseif($form_requested->status==2) For Claiming  on {{$form_requested->claiming_date}} @elseif($form_requested->status==3) Claimed @endif</td>
-                                <td>
-                                    @if($form_requested->status==0)
-                                    <!--<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-view_form" onclick="getForm('{{$form_requested->reference_id}}')">Paid</a>-->
-                                    @elseif($form_requested->status==1)
-                                    <form method="post" action="{{url('tag_as_for_claiming')}}">
-                                        {{csrf_field()}}
-                                        <input type="date" name="date_for_claiming" required="">
-                                        <input type="hidden" name="reference_id" value="{{$form_requested->reference_id}}">
-                                        <button type="submit">For Claiming</button>
-                                    </form>
-                                    @elseif($form_requested->status==2)
-                                    <a href="{{url('tag_as_claimed',$form_requested->reference_id)}}">Claim</a>
-                                    @else
-                                    @endif
-
-                                </td>
                             </tr>
                             @endforeach
                         </table>
@@ -130,7 +108,6 @@
                                 <th>Purpose</th>
                                 <th>Amount</th>
                                 <th>OR Number</th>
-                                <th>Date Claimed</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -151,7 +128,6 @@
                                 <td>{{$form_requested->purpose}}</td>
                                 <td>{{$form_requested->amount_pay}}</td>
                                 <td>{{$form_requested->or_number}}</td>
-                                <td>{{$form_requested->claim_date}}</td>
                                 <td>@if($form_requested->status==0) Payment Pending @elseif($form_requested->status==1) Paid @elseif($form_requested->status==2) For Claiming  on {{$form_requested->claiming_date}} @elseif($form_requested->status==3) Claimed @endif</td>
                                 <td>
                                     @if($form_requested->status==0)
@@ -190,7 +166,6 @@
                                 <th>Purpose</th>
                                 <th>Amount</th>
                                 <th>OR Number</th>
-                                <th>Date Claimed</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -211,7 +186,6 @@
                                 <td>{{$form_requested->purpose}}</td>
                                 <td>{{$form_requested->amount_pay}}</td>
                                 <td>{{$form_requested->or_number}}</td>
-                                <td>{{$form_requested->claim_date}}</td>
                                 <td>@if($form_requested->status==0) Payment Pending @elseif($form_requested->status==1) Paid @elseif($form_requested->status==2) For Claiming  on {{$form_requested->claiming_date}} @elseif($form_requested->status==3) Claimed @endif</td>
                                 <td>
                                     @if($form_requested->status==0)
@@ -252,7 +226,6 @@
                                 <th>OR Number</th>
                                 <th>Date Claimed</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                             @foreach($forms_request_claimed as $form_requested)
                             <tr>
@@ -273,22 +246,6 @@
                                 <td>{{$form_requested->or_number}}</td>
                                 <td>{{$form_requested->claim_date}}</td>
                                 <td>@if($form_requested->status==0) Payment Pending @elseif($form_requested->status==1) Paid @elseif($form_requested->status==2) For Claiming  on {{$form_requested->claiming_date}} @elseif($form_requested->status==3) Claimed @endif</td>
-                                <td>
-                                    @if($form_requested->status==0)
-                                    <!--<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-view_form" onclick="getForm('{{$form_requested->reference_id}}')">Paid</a>-->
-                                    @elseif($form_requested->status==1)
-                                    <form method="post" action="{{url('tag_as_for_claiming')}}">
-                                        {{csrf_field()}}
-                                        <input type="date" name="date_for_claiming" required="">
-                                        <input type="hidden" name="reference_id" value="{{$form_requested->reference_id}}">
-                                        <button type="submit">For Claiming</button>
-                                    </form>
-                                    @elseif($form_requested->status==2)
-                                    <a href="{{url('tag_as_claimed',$form_requested->reference_id)}}">Claim</a>
-                                    @else
-                                    @endif
-
-                                </td>
                             </tr>
                             @endforeach
                         </table>
