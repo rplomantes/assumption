@@ -101,7 +101,7 @@ function getPromotion($level) {
     </tr>
     <tr>
         <td>Grade & Section</td><td colspan="2" style="border-bottom: 1px solid black">{{$status->level}} - 
-            @if($status->strand == "PA")AD 1 @elseif($status->strand == "HUMSS")H {{$status->section}} @elseif($status->strand == "ABM")B {{$status->section}} @elseif($status->strand == "STEM")S {{$status->section}} @endif</td>
+            @if($status->strand == "AD")AD 1 @elseif($status->strand == "HUMSS")H {{$status->section}} @elseif($status->strand == "ABM")B {{$status->section}} @elseif($status->strand == "STEM")S {{$status->section}} @endif</td>
         <td align="right">Strand</td><td colspan="2" align="center" style="border-bottom: 1px solid black">@if($status->strand == "PA") Arts and Design @else{{$status->strand}}@endif</td>
     </tr>
     <tr>
