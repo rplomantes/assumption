@@ -105,6 +105,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                         <li><a href="{{url('/register')}}"><i class="fa fa-users"></i> <span>Register User</span></a></li>
+                        <li><a href="{{url('/admin/settings_paynamics')}}"><i class="fa fa-users"></i> <span>Paynamics</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Payment Plan</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Discount</span></a></li>
                         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Email</span></a></li>

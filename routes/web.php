@@ -594,3 +594,6 @@ Route::get('/ajax/admissionhed/update_schedule','AdmissionHED\Ajax\GetStudentLis
 Route::get('/college_instructor/my_schedule','CollegeInstructor\MyScheduleController@index');
 Route::get('/ajax/college_instructor/generateSchedule/','CollegeInstructor\AjaxMyScheduleController@getMySchedule');
 Route::get('/college_instructor/print_my_schedule/{school_year}/{period}','CollegeInstructor\MyScheduleController@print_my_schedule');
+
+
+Route::get('/admin/settings_paynamics','Admin\PaynamicsController@settings');

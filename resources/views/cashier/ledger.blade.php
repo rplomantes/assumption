@@ -129,9 +129,12 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             
             @if ($status->status == env('ASSESSED') || $status->status == env('ENROLLED'))
             @if($status->academic_type == "BED" || $status->academic_type == "SHS")
-            
             <tr>
                 <td colspan="2"><a href="{{url('/bedregistrar',array('print_assessment',$user->idno))}}" class="btn btn-success form form-control">Print Assessment Form</a></td>
+            </tr>
+            @else
+            <tr>
+                <td colspan="2"><a href="{{url('/registrar_college',array('print_registration_form',$user->idno,$status->school_year,$status->period))}}" class="btn btn-success form form-control">Print Assessment Form</a></td>
             </tr>
             @endif
             @endif
