@@ -148,9 +148,9 @@ function getPromotion($level) {
 <br>
 <table border = 1 cellpadding = 6 cellspacing =0 width="50%">
     <tr style = "background: darkblue; color: white; font:bold">
-        <td rowspan="2" align="center" width="60%" style="border:1px solid darkblue;">LEARNING AREAS</td><td colspan="4" align="center" style="border:1px solid darkblue;">QUARTER</td><td rowspan="2" align="center"  style="border:1px solid darkblue;">FINAL<br>RATING</td>
+        <td rowspan="2" align="center" width="60%" style="border:1px solid black;">LEARNING AREAS</td><td colspan="4" align="center" style="border:1px solid black;">QUARTER</td><td rowspan="2" align="center"  style="border:1px solid black;">FINAL<br>RATING</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td rowspan="2" align="center"  style="border:1px solid darkblue;">REMARKS</td>
+        <td rowspan="2" align="center"  style="border:1px solid black;">REMARKS</td>
         @endif
     </tr>
     <tr style = "background: darkblue; color: white; font:bold">
@@ -408,9 +408,9 @@ function getPromotion($level) {
 
     <tr>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td style = "background: darkblue; color: white; font:bold; border:1px solid darkblue;" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         @else
-        <td style = "background: darkblue; color: white; font:bold; border:1px solid darkblue;" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         @endif
     </tr>
 </table>
