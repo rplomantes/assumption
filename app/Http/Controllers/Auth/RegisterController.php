@@ -45,7 +45,7 @@ use RegistersUsers;
      */
     protected function validator(array $data) {
         return Validator::make($data, [
-                    'idno' => 'required',
+                    'idno' => 'required|unique:users',
                     'firstname' => 'required|string|max:255',
                     'lastname' => 'required|string|max:255',
                     'password' => 'required|string|min:6|confirmed',

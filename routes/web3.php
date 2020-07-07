@@ -143,3 +143,8 @@ Route::get('/bedregistrar/batch_ranking', 'BedRegistrar\BatchRanking@view');
 Route::get('/ajax/bedregistrar/batch_ranking/get_students', 'BedRegistrar\Ajax\AjaxBatchRanking@get_students');
 
 
+Route::get('/bookstore/view_ordered_books','Bookstore\ViewOrderedBooks@student_list');
+Route::get('/bookstore/ajax/view_list', 'Bookstore\Ajax\GetStudentList@view_list');
+
+
+

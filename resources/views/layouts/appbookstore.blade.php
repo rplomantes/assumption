@@ -127,6 +127,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
         <li><a href="{{url('/bookstore/books_pricing')}}"><i class="fa fa-link"></i> <span>Books & Materials Pricing</span></a></li>
+        <li><a href="{{url('/bookstore/view_ordered_books')}}"><i class="fa fa-link"></i> <span>View Ordered Books</span></a></li>
         <!--<li><a href=""><i class="fa fa-link"></i> <span>Set Optional Fee</span></a></li>-->
         <!--<li><a href=""><i class="fa fa-link"></i> Stock Pricing</a></li>-->
       </ul>
