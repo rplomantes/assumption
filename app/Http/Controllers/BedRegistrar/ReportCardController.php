@@ -57,7 +57,7 @@ class ReportCardController extends Controller {
                 $get_sa_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 2)->where('subject_code', 'like', "SA%")->where('is_display_card',1)->orderBy('sort_to', 'asc')->get();
                 //            $get_group_split_subjects = \App\GradeBasicEd::where('idno',$idno)->where('school_year',$school_year)->where('subject_type','>',2)->where(gr)->orderBy('sort_to','asc')->get();
 
-                $get_grouping_subjects = \App\GradeBasicEd::SelectRaw('letter_grade_type,report_card_grouping as subject_name')->where('is_display_card',1)->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', "!=", "")->groupBy('report_card_grouping', 'letter_grade_type')->get();
+                $get_grouping_subjects = \App\GradeBasicEd::SelectRaw('letter_grade_type,report_card_grouping as subject_name')->where('is_display_card',1)->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', "!=", "")->orderBy('sort_to', 'asc')->groupBy('report_card_grouping', 'letter_grade_type')->get();
                 $absents = \App\Absent::where('idno', $idno)->where('school_year', $school_year)->get();
 
                 $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects','display_type'));
