@@ -83,4 +83,5 @@ function view_additional_orders($idno) {
     @endif
 
 </table>    
+    <a href="javascript:void(0)" onclick = "print_list()" class="form btn btn-primary"> Print List</a>
 @endif

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 Use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Request;
+use PDF;
 
 class GetStudentList extends Controller
 {
@@ -77,5 +78,36 @@ class GetStudentList extends Controller
                 return view("bookstore.ajax.view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
             }
         }
+    }
+
+    function print_student_list($level, $strand, $section, $schoolyear, $period) {
+        if ($level == "Grade 11" || $level == "Grade 12") {
+            if ($section == "All") {
+
+                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
+                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+            } else {
+
+                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
+                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+            }
+        } else {
+            if ($section == "All") {
+
+                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
+                                . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+            } else {
+
+                $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
+                                . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+            }
+        }$value="w";
+        $pdf = PDF::loadView("bookstore.view_list", compact("status", "level", "section", 'strand','schoolyear', 'period','value'));
+        $pdf->setPaper(array(0, 0, 612, 936));
+        return $pdf->stream();
     }
 }

@@ -200,8 +200,8 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
        
     });
     
-    function print_student_list(value){
-        window.open("/bedregistrar/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + value)
+    function print_list(){
+        window.open("/bookstore/print/student_list/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val());
     }
 </script>    
 @endsection
