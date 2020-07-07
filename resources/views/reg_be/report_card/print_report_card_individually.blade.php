@@ -148,7 +148,7 @@ function getPromotion($level) {
 <br>
 <table border = 1 cellpadding = 6 cellspacing =0 width="50%">
     <tr style = "background: darkblue; color: white; font:bold">
-        <td rowspan="2" align="center" width="60%" style="background: border:1px solid black;">LEARNING AREAS</td><td colspan="4" align="center">QUARTER</td><td rowspan="2" align="center">FINAL<br>RATING</td>
+        <td rowspan="2" align="center" width="60%" style="border:1px solid black;">LEARNING AREAS</td><td colspan="4" align="center">QUARTER</td><td rowspan="2" align="center">FINAL<br>RATING</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
         <td rowspan="2" align="center">REMARKS</td>
         @endif
