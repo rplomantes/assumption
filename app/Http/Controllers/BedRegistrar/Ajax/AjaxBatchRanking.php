@@ -21,7 +21,6 @@ class AjaxBatchRanking extends Controller {
                 $period = "";
                 $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->get();
             }
-
             $lists = collect();
             foreach ($list as $lists2) {
                 $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2));

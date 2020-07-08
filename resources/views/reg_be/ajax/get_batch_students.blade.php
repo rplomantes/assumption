@@ -30,8 +30,14 @@ $control=1;
             <?php $skip=$skip+1 ?>
             <td>{{$ranking-1}}</td>
         @else
-            <?php $skip=0; ?>
-            <td>{{$ranking++ + $skip}}</td>
+            @if($skip > 0)
+                <td>{{$ranking++ + $skip}}</td>
+                <?php $ranking+= $skip; ?>
+                <?php $skip=0; ?>
+            @else
+                <?php $skip=0; ?>
+                <td>{{$ranking++}}</td>
+            @endif
         @endif
         <td>{{$list['section']}}</td>
         <td>{{$list['strand']}}</td>
