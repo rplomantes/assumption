@@ -66,6 +66,7 @@ class CollectionReport extends Controller {
         }
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
+                    ->where('posted_by',"!=", "Paynamics")
                             ->orderBy('posted_by')->where('credit_card_amount', '>', '0')->get();
         }
 

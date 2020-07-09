@@ -122,6 +122,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="{{url("/cashier",array('non_student_payment'))}}"><i class="fa fa-credit-card"></i> <span> Non Student Payment</span></a></li>
         <li><a href="{{url("/cashier",array('pre_registration_payment'))}}"><i class="fa fa-user-plus"></i> <span> Pre Registration Payment</span></a></li>
+        <li><a href="{{url("/cashier",array('online_payment',date('Y-m-d'),date('Y-m-d')))}}"><i class="fa fa-paypal"></i> <span> Online Payments</span></a></li>
         <li><a href="{{url("/cashier",array('deposit_slip',date('Y-m-d')))}}"><i class="fa fa-paper-plane"></i> <span> Deposit Slip</span></a></li>
 <!--        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" onclick="getReceipt()"><i class="fa fa-columns"></i> <span> Set Receipt Number</span></a></li>-->
         <li class="treeview">
