@@ -600,5 +600,6 @@ Route::get('/admin/settings_paynamics','Admin\PaynamicsController@settings');
 
 //Online Payment in Cashier
 Route::get('/cashier/online_payment/{date_from}/{date_to}','Cashier\OnlinePayment@index');
+Route::get('/cashier/print/online_payment/{date_from}/{date_to}','Cashier\PrintController@print_online_payments');
 Route::post('/issue_or_number','Cashier\OnlinePayment@issue_or_number_now');
 Route::get('/ajax/issue_or_number','Cashier\OnlinePayment@issue_or_number');

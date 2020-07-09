@@ -124,7 +124,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
      </div>    
      </div>  
     <div class="col-md-3 pull-left">
-         <a href="{{url('/cashier',array('print','online_payments',$date_from,$date_to))}}" class="btn btn-primary" target="_blank">Print</a>
+         <a href="{{url('/cashier',array('print','online_payment',$date_from,$date_to))}}" class="btn btn-primary" target="_blank">Print</a>
      </div>   
  </div>   
  

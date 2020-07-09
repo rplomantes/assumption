@@ -119,4 +119,12 @@ class PrintController extends Controller
          }
         
     }
+    function print_online_payments($date_from, $date_to){
+            $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
+                            ->where('posted_by', "Paynamics")->where('credit_card_amount', '>', '0')->get();
+            $pdf=PDF::loadView('cashier.print_online_payments',compact('payments','date_from','date_to'));
+            $pdf->setPaper('letter','portrait');
+            return $pdf->stream(); 
+        
+    }
 }
