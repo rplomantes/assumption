@@ -603,3 +603,6 @@ Route::get('/cashier/online_payment/{date_from}/{date_to}','Cashier\OnlinePaymen
 Route::get('/cashier/print/online_payment/{date_from}/{date_to}','Cashier\PrintController@print_online_payments');
 Route::post('/issue_or_number','Cashier\OnlinePayment@issue_or_number_now');
 Route::get('/ajax/issue_or_number','Cashier\OnlinePayment@issue_or_number');
+
+
+Route::post('/dean/advising/update_advising_remarks','Dean\Advising\Advising@update_advising_remarks');

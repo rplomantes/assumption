@@ -129,6 +129,24 @@ $user = \App\User::where('idno', $idno)->first();
                     </div>
             </div>
         </div>
+            <form method="post" action="{{'/dean/advising/update_advising_remarks'}}">
+                <div class='col-sm-10'>
+                        {{csrf_field()}}
+                    <?php $advised_remarks = \App\AdvisingRemarks::where('idno',$idno)->where('school_year',$school_year->school_year)->where('period',$school_year->period)->first(); ?>
+                    <input type="hidden" name="idno" value='{{$idno}}'>
+                    <input type="hidden" name="school_year" value="{{$school_year->school_year}}">
+                    <input type="hidden" name="period" value="{{$school_year->period}}">
+                    @if(count($advised_remarks)>0)
+                    <input class="form form-control" name="remarks" value="{{$advised_remarks->remarks}}" placeholder="Type remarks here..." required=''>
+                    @else
+                    <input class="form form-control" name="remarks" placeholder="Type remarks here..." required=''>
+                    @endif
+                </div>
+                <div class='col-sm-2'>
+                    <input type="submit" value="Update Remarks" class="btn btn-success">
+                </div>
+            </form>
+        <br><br>
         <div class='col-sm-4'>
             <a href='{{url('/')}}'><button class='btn btn-warning col-sm-12'><span class='fa fa-home'></span> RETURN HOME</button></a>
         </div>

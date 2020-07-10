@@ -173,5 +173,24 @@ class Advising extends Controller {
             return view('dean.advising.view_grades', compact('idno', 'student_info', 'curricula'));
         }
     }
+    
+    function update_advising_remarks(Request $request){
+        if (Auth::user()->accesslevel == env('DEAN')) {
+            $check_remarks = \App\AdvisingRemarks::where('idno',$request->idno)->where('school_year',$request->school_year)->where('period',$request->period)->first();
+            if(count($check_remarks)>0){
+                $check_remarks->remarks=$request->remarks;
+                $check_remarks->save();
+            }else{
+                $new_remarks = new \App\AdvisingRemarks();
+                $new_remarks->idno = $request->idno;
+                $new_remarks->school_year = $request->school_year;
+                $new_remarks->period = $request->period;
+                $new_remarks->remarks = $request->remarks;
+                $new_remarks->remarks_by = Auth::user()->idno;
+                $new_remarks->save();
+            }
+            return redirect()->back();
+        }
+    }
 
 }

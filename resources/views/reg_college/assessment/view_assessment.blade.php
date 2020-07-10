@@ -316,6 +316,14 @@ if (count($previous) > 0) {
                             </tbody>
                         </table>
                     </div>
+                    
+                    <strong>Remarks:</strong><br>
+                    <?php $advised_remarks = \App\AdvisingRemarks::where('idno',$idno)->where('school_year',$school_year)->where('period',$period)->first(); ?>
+                    @if(count($advised_remarks)>0)
+                    {{$advised_remarks->remarks}} <br>-{{$advised_remarks->remarks_by}}
+                    @else
+                    No Remarks...
+                    @endif
                 </div>
             </div>
         </div>
