@@ -1,6 +1,7 @@
 <?php
 //$school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
 //$period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
+$strands = DB::Select("Select distinct strand from ctr_academic_programs where academic_type='BED'");
 ?>
 
 @extends("layouts.appbedregistrar")
@@ -51,9 +52,23 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-4">
+                    <div class="form form-group">
+                    <div class="strandDisplay">
+                    <label>Strand</label>
+                    <select class="form-control select2" id="strand" data-placeholder="Select Strand">       
+                             <option>Select Strand</option>
+                             <option>All</option>
+                             @foreach($strands as $level)
+                              <option>{{$level->strand}}</option>
+                              @endforeach
+                    </select>
+                    </div>    
+                    </div>      
+                 </div>
                 <div class='col-sm-4'>
                     <label>School Year</label>
-                    <select class="form form-control" name="school_year" id='school_year' onchange="display_batch_ranking(this.value,level.value)">
+                    <select class="form form-control" name="school_year" id='school_year' onchange="display_batch_ranking(this.value,level.value,strand.value)">
                         <option value="">Select School Year</option>
                         @foreach($years as $year)
                         <option>{{$year->school_year}}</option>
@@ -76,10 +91,24 @@
 @endsection
 @section('footerscript')
 <script>
-    function display_batch_ranking(year,level){
+    $(document).ready(function(){
+        $(".strandDisplay").fadeOut(300);
+        
+        $("#level").on('change',function(e){
+            if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12" ){
+               $(".strandDisplay").fadeIn(300);
+            } else {
+               $(".strandDisplay").fadeOut(300);
+            }
+        });
+    });
+    
+    
+    function display_batch_ranking(year,level,strand){
         array = {};
         array['school_year'] = year;
         array['level'] = level;
+        array['strand'] = strand;
         $.ajax({
             type: "GET",
             url: "/ajax/bedregistrar/batch_ranking/get_students",

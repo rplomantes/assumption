@@ -14,12 +14,17 @@ class AjaxBatchRanking extends Controller {
         if (Request::ajax()) {
             $school_year = Input::get("school_year");
             $level = Input::get("level");
+            $strand = Input::get("strand");
             if ($level == "Grade 11" or $level == "Grade 12") {
                 $period = "2nd Semester";
-                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('period', $period)->get();
+                if($strand=="All"){                    
+                    $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
+                }else{
+                    $list = \App\BedLevel::where('strand',$strand)->where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
+                }
             } else {
                 $period = "";
-                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->get();
+                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->get();
             }
             $lists = collect();
             foreach ($list as $lists2) {
@@ -142,8 +147,11 @@ class AjaxBatchRanking extends Controller {
                     $total_final_grade += $subject->final_grade;
                 }
             }
+        }if($total_units == 0){
+            return 0;
+        }else{
+            return round($total_final_grade / $total_units, 3);
         }
-        return round($total_final_grade / $total_units, 3);
     }
 
     function get_gpa_shs($idno, $school_year, $period) {
@@ -204,7 +212,11 @@ class AjaxBatchRanking extends Controller {
                 }
             }
         }
-        return round(($get_first_sem_final_ave->final_grade + round($total_final_grade / $total_units, 3)) / 2, 3);
+        if($total_units == 0){
+            return 0;
+        }else{
+            return round(($get_first_sem_final_ave->final_grade + round($total_final_grade / $total_units, 3)) / 2, 3);
+        }
     }
 
     function getGrades($subject, $idno, $school_year, $period) {
