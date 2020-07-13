@@ -270,7 +270,7 @@ class GetStudentList extends Controller {
             $idno = Input::get('idno');
             $level = Input::get('level');
             $section = Input::get('section');
-            if (Auth::user()->accesslevel == env('REG_BE')) {
+            if (Auth::user()->accesslevel == env('REG_BE') || Auth::user()->idno == "Guidance1" || Auth::user()->idno == "mparco") {
                 $status = \App\Status::where('idno', $idno)->where('level', $level)->first();
                 $status->section = $section;
                 $status->update();
