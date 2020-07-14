@@ -238,7 +238,7 @@ class PreRegistration extends Controller {
         $department = \App\CtrAcademicProgram::where('level', $applicant_details->level)->first();
         $addstatus = new \App\Status;
         $addstatus->idno = $applicant_details->idno;
-        $addstatus->section = "";
+        $addstatus->section = null;
         $addstatus->level = $applicant_details->level;
         $addstatus->strand = $applicant_details->strand;
         $addstatus->department = $department->department;
@@ -251,7 +251,7 @@ class PreRegistration extends Controller {
         $addpromotion->idno = $applicant_details->idno;
         $addpromotion->level = $applicant_details->level;
         $addpromotion->strand = $applicant_details->strand;
-        $addpromotion->section = 1;
+        $addpromotion->section = null;
         $addpromotion->save();
     }
     function addParent($request,$reference_id, $applicant_details, $academic_type){

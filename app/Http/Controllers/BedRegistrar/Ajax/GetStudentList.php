@@ -170,14 +170,14 @@ class GetStudentList extends Controller {
                     //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
                                     . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
-                                    . " and bed_levels.level = '$level' and bed_levels.period = '$period' and bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
+                                    . " and bed_levels.level = '$level' and bed_levels.period = '$period' and bed_levels.school_year = '$schoolyear' and (bed_levels.section != '$section' or bed_levels.section is null) and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
                 } else {
                     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
                     $schoolyear = $school_year->school_year;
                     //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
                                     . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
-                                    . " and bed_levels.level = '$level' and  bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section'  order by lastname, firstname, middlename");
+                                    . " and bed_levels.level = '$level' and  bed_levels.school_year = '$schoolyear' and (bed_levels.section != '$section' or bed_levels.section is null)  order by lastname, firstname, middlename");
                 }
             } else if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
                 if ($level == "Grade 11" || $level == "Grade 12") {
@@ -188,14 +188,14 @@ class GetStudentList extends Controller {
                     //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
                                     . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section != '$section' and promotions.strand= '$strand' order by lastname, firstname, middlename");
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and (promotions.section != '$section' or bed_levels.section is null) and promotions.strand= '$strand' order by lastname, firstname, middlename");
                 } else {
                     $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
                     $schoolyear = $school_year->school_year;
                     //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                     $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
                                     . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section != '$section'  order by lastname, firstname, middlename");
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and (promotions.section != '$section' or bed_levels.section is null)  order by lastname, firstname, middlename");
                 }
             }
             return view('reg_be.ajax.studentlevel_list', compact('level', 'strand', 'students', 'school_year'));
@@ -457,6 +457,54 @@ class GetStudentList extends Controller {
                     }
                 }
                 return view("reg_be.ajax.report_card_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
+            }
+        }
+    }
+
+    function grade_summary_view_list() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED')) {
+                $schoolyear = Input::get('school_year');
+                $level = Input::get('level');
+                $section = Input::get('section');
+                $period = Input::get('period');
+
+                $strand = Input::get("strand");
+                if ($level == "Grade 11" || $level == "Grade 12") {
+                    if ($section == "All") {
+
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' by users.lastname, users.firstname, users.middlename");
+                    } else {
+
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
+                                        . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+                        //list of not yet enrolled
+			$students = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
+                                        . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
+                    }
+                } else {
+                    $period = "";
+                    if ($section == "All") {
+
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+                    } else {
+
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
+                                        . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
+                        //list of not yet enrolled
+                        $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
+                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
+                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
+                    }
+                }
+                return view("reg_be.ajax.grade_summary_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
             }
         }
     }

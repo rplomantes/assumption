@@ -139,8 +139,19 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('withdrawn_students'))}}">Withdrawn Students</a></li>
           </ul>
         </li>
-        <li><a href="{{url('/bedregistrar','report_card')}}"><i class="fa fa-link"></i> Report Card</a></li>
-        <li><a href="{{url('/bedregistrar','batch_ranking')}}"><i class="fa fa-link"></i> Batch Ranking</a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Grades</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/bedregistrar','report_card')}}"><i class="fa fa-link"></i> Report Card</a></li>
+            <li><a href="{{url('/bedregistrar','batch_ranking')}}"><i class="fa fa-link"></i> Batch Ranking</a></li>
+            <li><a href="{{url('/bedregistrar','sac_grade_summary')}}"><i class="fa fa-link"></i> SAC Grade Summary</a></li>
+            <li><a href="{{url('/bedregistrar','conduct_grade_summary')}}"><i class="fa fa-link"></i> Conduct Grade Summary</a></li>
+          </ul>
+        </li>
         <li><a href="{{url('/bedregistrar','sectioning')}}"><i class="fa fa-link"></i> Sectioning</a></li>
         <?php $date_today = date('Y-m-d'); ?>
         <li><a href="{{url('/bed_registrar', array('reports', 'total_daily_enrollment_statistics', $date_today, $date_today))}}"><i class="fa fa-link"></i> <span>Daily Enrollment Statistics</span></a></li>

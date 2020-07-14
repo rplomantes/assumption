@@ -6,9 +6,15 @@ function getCount($getlevel,$getsection,$getstrand,$schoolyear, $period){
              ->whereRaw("level='$getlevel' AND section = '$getsection' AND strand = '$getstrand' AND status = '3' AND school_year = '$schoolyear' AND period = '$period'")
              ->groupBy('level','section','strand')->first();
  } else{
-     $count = \App\BedLevel::selectRaw("level,section,count(*) as count")
-             ->whereRaw("level='$getlevel' AND section = '$getsection' AND status = '3' AND school_year = '$schoolyear'")
-             ->groupBy('level','section')->first();
+     if($getsection == 'no'){
+         $count = \App\BedLevel::selectRaw("level,section,count(*) as count")
+                 ->whereRaw("level='$getlevel' AND section is NULL AND status = '3' AND school_year = '$schoolyear'")
+                 ->groupBy('level','section')->first();
+     }else{
+         $count = \App\BedLevel::selectRaw("level,section,count(*) as count")
+                 ->whereRaw("level='$getlevel' AND section = '$getsection' AND status = '3' AND school_year = '$schoolyear'")
+                 ->groupBy('level','section')->first();
+     }
      }
   if(count($count)>0){
          return $count->count;
@@ -103,7 +109,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
      <h3>Pre School</h3>
      <table id="example1" class="table table-responsive table-striped">
          <thead>
-              <tr><th>GRADE LEVEL</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>Total</th></tr>
+              <tr><th>GRADE LEVEL</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>No Section</th><th>Total</th></tr>
          </thead>
           <tr><td>Pre Kinder </td><td>{{getCount('Pre-Kinder','A','',$school_year, "")}}</td>   
              <td>{{getCount('Pre-Kinder','B','',$school_year, "")}}</td>
@@ -111,6 +117,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Pre-Kinder','D','',$school_year, "")}}</td>
              <td>{{getCount('Pre-Kinder','E','',$school_year, "")}}</td>
              <td>{{getCount('Pre-Kinder','F','',$school_year, "")}}</td>
+             <td>{{getCount('Pre-Kinder','G','',$school_year, "")}}</td>
+             <td>{{getCount('Pre-Kinder','H','',$school_year, "")}}</td>
+             <td>{{getCount('Pre-Kinder','I','',$school_year, "")}}</td>
+             <td>{{getCount('Pre-Kinder','J','',$school_year, "")}}</td>
+             <td>{{getCount('Pre-Kinder','no','',$school_year, "")}}</td>
              <td>{{$prekindergrandtotal = $prekindergrandtotal + gettotal('Pre-Kinder','',$school_year, "")}}</td>
              <td></td>
             </tr>
@@ -120,10 +131,20 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Kinder','D','',$school_year, "")}}</td>
              <td>{{getCount('Kinder','E','',$school_year, "")}}</td>
              <td>{{getCount('Kinder','F','',$school_year, "")}}</td>
+             <td>{{getCount('Kinder','G','',$school_year, "")}}</td>
+             <td>{{getCount('Kinder','H','',$school_year, "")}}</td>
+             <td>{{getCount('Kinder','I','',$school_year, "")}}</td>
+             <td>{{getCount('Kinder','J','',$school_year, "")}}</td>
+             <td>{{getCount('Kinder','no','',$school_year, "")}}</td>
              <td>{{$kindergrandtotal = $kindergrandtotal + gettotal('Kinder','',$school_year, "")}}</td>
             </tr>
             <tr>
              <td><strong>Total</strong></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -146,7 +167,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
      <h3>Grade School</h3>    
      <table id="example2" class="table table-responsive table-striped">
          <thead>
-             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>Total</th></tr>
+             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>No Section</th><th>Total</th></tr>
          </thead>
          <tbody>
             <tr>
@@ -157,6 +178,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 1','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 1','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 1','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 1','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 1','8','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 1','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 1','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 1','no','',$school_year, "")}}</td>
              <td>{{$elemtotal1 = $elemtotal1 + gettotal('Grade 1','',$school_year, "")}}</td>
             </tr>
              <tr>
@@ -167,6 +193,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 2','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 2','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 2','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 2','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 2','8','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 2','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 2','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 2','no','',$school_year, "")}}</td>
              <td>{{$elemtotal2 = $elemtotal2 + gettotal('Grade 2','',$school_year, "")}}</td>
             </tr>
              <tr>
@@ -177,6 +208,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 3','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 3','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 3','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 3','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 3','8','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 3','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 3','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 3','no','',$school_year, "")}}</td>
              <td>{{$elemtotal3 = $elemtotal3 + gettotal('Grade 3','',$school_year, "")}}</td>
             </tr>
              <tr>
@@ -187,6 +223,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 4','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 4','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 4','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 4','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 4','8','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 4','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 4','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 4','no','',$school_year, "")}}</td>
              <td>{{$elemtotal4 = $elemtotal4 + gettotal('Grade 4','',$school_year, "")}}</td>
             </tr>
              <tr>
@@ -197,6 +238,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 5','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 5','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 5','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 5','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 5','8','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 5','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 5','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 5','no','',$school_year, "")}}</td>
              <td>{{$elemtotal5 = $elemtotal5 + gettotal('Grade 5','',$school_year, "")}}</td>
             </tr>
              <tr><td>Grade 6 </td><td>{{getCount('Grade 6','1','',$school_year, "")}}</td>
@@ -205,10 +251,20 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 6','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 6','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 6','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 6','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 6','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 6','no','',$school_year, "")}}</td>
              <td>{{$elemtotal6 = $elemtotal6 + gettotal('Grade 6','',$school_year, "")}}</td>
             </tr>
             <tr>
              <td><strong>Total</strong></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -225,7 +281,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
      <h3>Junior High School</h3>    
      <table id="example2" class="table table-responsive table-striped">
          <thead>
-             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>Total</th></tr>
+             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>No Section</th><th>Total</th></tr>
          </thead>
          <tbody>
             <tr>
@@ -235,6 +291,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 7','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 7','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 7','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 7','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 7','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 7','no','',$school_year, "")}}</td>
              <td>{{$elemtotal7 = $elemtotal7 + gettotal('Grade 7','',$school_year, "")}}</td>
             </tr>
              <tr><td>Grade 8 </td><td>{{getCount('Grade 8','1','',$school_year, "")}}</td>
@@ -243,6 +304,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 8','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 8','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 8','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 8','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 8','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 8','no','',$school_year, "")}}</td>
              <td>{{$elemtotal8 = $elemtotal8 + gettotal('Grade 8','',$school_year, "")}}</td>
             </tr>
              <tr><td>Grade 9 </td><td>{{getCount('Grade 9','1','',$school_year, "")}}</td>
@@ -251,6 +317,11 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 9','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 9','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 9','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 9','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 9','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 9','no','',$school_year, "")}}</td>
              <td>{{$elemtotal9 = $elemtotal9 + gettotal('Grade 9','',$school_year, "")}}</td>
             </tr>
              <tr><td>Grade 10 </td><td>{{getCount('Grade 10','1','',$school_year, "")}}</td>
@@ -259,9 +330,19 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 10','4','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','6','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 10','7','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 10','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 10','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 10','10','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 10','no','',$school_year, "")}}</td>
              <td>{{$elemtotal10 = $elemtotal10 + gettotal('Grade 10','',$school_year, "")}}</td>
             </tr>
             <tr>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -279,7 +360,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
         <h3>Senior High School-1st Semester</h3> 
      <table id="example2" class="table table-responsive table-striped">
          <thead>
-             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th></th><th>Total</th></tr>
+             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>No Section</th><th>Total</th></tr>
          </thead>
             <tr>
              <td>Grade 11 ABM</td>
@@ -288,7 +369,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','ABM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','4','ABM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','5','ABM',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','7','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','8','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','9','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','10','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','no','ABM',$school_year, "1st Semester")}}</td>
              <td>{{$gr11total1_1st = $gr11total1_1st + gettotal('Grade 11','ABM',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
@@ -298,7 +384,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','HUMSS',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','4','HUMSS',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','5','HUMSS',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','7','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','8','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','9','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','10','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','no','HUMSS',$school_year, "1st Semester")}}</td>
              <td>{{$gr11total2_1st = $gr11total2_1st + gettotal('Grade 11','HUMSS',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
@@ -308,18 +399,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','STEM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','4','STEM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','5','STEM',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','7','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','8','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','9','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','10','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','no','STEM',$school_year, "1st Semester")}}</td>
              <td>{{$gr11total3_1st = $gr11total3_1st + gettotal('Grade 11','STEM',$school_year, "1st Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 11 GA</td>
-             <td>{{getCount('Grade 11','1','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','2','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','3','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','4','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','5','GA',$school_year, "1st Semester")}}</td>
-             <td></td>
-             <td>{{$gr11total4_1st = $gr11total4_1st + gettotal('Grade 11','GA',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 11 AD</td>
@@ -328,18 +414,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','AD',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','4','AD',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','5','AD',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','7','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','8','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','9','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','10','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','no','AD',$school_year, "1st Semester")}}</td>
              <td>{{$gr11total6_1st = $gr11total6_1st + gettotal('Grade 11','AD',$school_year, "1st Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 11 VA</td>
-             <td>{{getCount('Grade 11','1','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','2','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','3','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','4','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','5','VA',$school_year, "1st Semester")}}</td>
-             <td></td>
-             <td>{{$gr11total7_1st = $gr11total7_1st + gettotal('Grade 11','VA',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 11 NO STRAND</td>
@@ -348,11 +429,21 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','NO STRAND YET',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','4','NO STRAND YET',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 11','5','NO STRAND YET',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','7','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','8','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','9','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','10','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 11','no','NO STRAND YET',$school_year, "1st Semester")}}</td>
              <td>{{$gr11total5_1st = $gr11total5_1st + gettotal('Grade 11','NO STRAND YET',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
              <td><strong>Sub-Total</strong></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -367,7 +458,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','ABM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','4','ABM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','5','ABM',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','7','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','8','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','9','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','10','ABM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','no','ABM',$school_year, "1st Semester")}}</td>
              <td>{{$gr12total1_1st = $gr12total1_1st + gettotal('Grade 12','ABM',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
@@ -377,7 +473,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','HUMSS',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','4','HUMSS',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','5','HUMSS',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','7','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','8','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','9','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','10','HUMSS',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','no','HUMSS',$school_year, "1st Semester")}}</td>
              <td>{{$gr12total2_1st = $gr12total2_1st + gettotal('Grade 12','HUMSS',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
@@ -387,18 +488,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','STEM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','4','STEM',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','5','STEM',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','7','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','8','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','9','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','10','STEM',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','no','STEM',$school_year, "1st Semester")}}</td>
              <td>{{$gr12total3_1st = $gr12total3_1st + gettotal('Grade 12','STEM',$school_year, "1st Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 12 GA</td>
-             <td>{{getCount('Grade 12','1','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','2','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','3','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','4','GA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','5','GA',$school_year, "1st Semester")}}</td>
-             <td></td>
-             <td>{{$gr12total4_1st = $gr12total4_1st + gettotal('Grade 12','GA',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 12 AD</td>
@@ -407,18 +503,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','AD',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','4','AD',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','5','AD',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','7','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','8','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','9','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','10','AD',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','no','AD',$school_year, "1st Semester")}}</td>
              <td>{{$gr12total6_1st = $gr12total6_1st + gettotal('Grade 12','AD',$school_year, "1st Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 12 VA</td>
-             <td>{{getCount('Grade 12','1','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','2','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','3','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','4','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','5','VA',$school_year, "1st Semester")}}</td>
-             <td></td>
-             <td>{{$gr12total7_1st = $gr12total7_1st + gettotal('Grade 12','VA',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 12 NO STRAND</td>
@@ -427,11 +518,21 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','NO STRAND YET',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','4','NO STRAND YET',$school_year, "1st Semester")}}</td>
              <td>{{getCount('Grade 12','5','NO STRAND YET',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','7','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','8','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','9','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','10','NO STRAND YET',$school_year, "1st Semester")}}</td>
+             <td>{{getCount('Grade 12','no','NO STRAND YET',$school_year, "1st Semester")}}</td>
              <td>{{$gr12total5_1st = $gr12total5_1st + gettotal('Grade 12','NO STRAND YET',$school_year, "1st Semester")}}</td>
             </tr>
             <tr>
              <td><strong>Sub-Total</strong></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -448,14 +549,19 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td></td>
              <td></td>
              <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td><strong>{{$shstotal_1st = $gr11total1_1st + $gr11total2_1st + $gr11total3_1st + $gr11total4_1st + $gr11total5_1st + $gr12total1_1st + $gr12total2_1st + $gr12total3_1st + $gr12total4_1st + $gr12total5_1st + $gr11total6_1st + $gr11total7_1st + $gr12total6_1st + $gr12total7_1st}}</strong></td> 
             </tr> 
-     </table>    
+     </table>     
      
         <h3>Senior High School-2nd Semester</h3> 
      <table id="example2" class="table table-responsive table-striped">
          <thead>
-             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th></th><th>Total</th></tr>
+             <tr><th>GRADE LEVEL</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>No Section</th><th>Total</th></tr>
          </thead>
             <tr>
              <td>Grade 11 ABM</td>
@@ -464,7 +570,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','ABM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','4','ABM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','5','ABM',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','7','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','8','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','9','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','10','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','no','ABM',$school_year, "2nd Semester")}}</td>
              <td>{{$gr11total1_2nd = $gr11total1_2nd + gettotal('Grade 11','ABM',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
@@ -474,7 +585,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','HUMSS',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','4','HUMSS',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','5','HUMSS',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','7','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','8','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','9','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','10','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','no','HUMSS',$school_year, "2nd Semester")}}</td>
              <td>{{$gr11total2_2nd = $gr11total2_2nd + gettotal('Grade 11','HUMSS',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
@@ -484,18 +600,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','STEM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','4','STEM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','5','STEM',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','7','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','8','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','9','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','10','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','no','STEM',$school_year, "2nd Semester")}}</td>
              <td>{{$gr11total3_2nd = $gr11total3_2nd + gettotal('Grade 11','STEM',$school_year, "2nd Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 11 GA</td>
-             <td>{{getCount('Grade 11','1','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 11','2','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 11','3','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 11','4','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 11','5','GA',$school_year, "2nd Semester")}}</td>
-             <td></td>
-             <td>{{$gr11total4_2nd = $gr11total4_2nd + gettotal('Grade 11','GA',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 11 AD</td>
@@ -504,18 +615,13 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','AD',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','4','AD',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','5','AD',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','7','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','8','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','9','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','10','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','no','AD',$school_year, "2nd Semester")}}</td>
              <td>{{$gr11total6_2nd = $gr11total6_2nd + gettotal('Grade 11','AD',$school_year, "2nd Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 11 VA</td>
-             <td>{{getCount('Grade 11','1','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','2','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','3','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','4','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 11','5','VA',$school_year, "1st Semester")}}</td>
-             <td></td>
-             <td>{{$gr11total7_2nd = $gr11total7_2nd + gettotal('Grade 11','VA',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 11 NO STRAND</td>
@@ -524,11 +630,21 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 11','3','NO STRAND YET',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','4','NO STRAND YET',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 11','5','NO STRAND YET',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 11','6','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','7','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','8','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','9','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','10','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 11','no','NO STRAND YET',$school_year, "2nd Semester")}}</td>
              <td>{{$gr11total5_2nd = $gr11total5_2nd + gettotal('Grade 11','NO STRAND YET',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
              <td><strong>Sub-Total</strong></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -543,7 +659,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','ABM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','4','ABM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','5','ABM',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','7','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','8','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','9','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','10','ABM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','no','ABM',$school_year, "2nd Semester")}}</td>
              <td>{{$gr12total1_2nd = $gr12total1_2nd + gettotal('Grade 12','ABM',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
@@ -553,7 +674,12 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','HUMSS',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','4','HUMSS',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','5','HUMSS',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','7','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','8','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','9','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','10','HUMSS',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','no','HUMSS',$school_year, "2nd Semester")}}</td>
              <td>{{$gr12total2_2nd = $gr12total2_2nd + gettotal('Grade 12','HUMSS',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
@@ -563,38 +689,28 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','STEM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','4','STEM',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','5','STEM',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','7','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','8','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','9','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','10','STEM',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','no','STEM',$school_year, "2nd Semester")}}</td>
              <td>{{$gr12total3_2nd = $gr12total3_2nd + gettotal('Grade 12','STEM',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
-             <td>Grade 12 GA</td>
-             <td>{{getCount('Grade 12','1','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 12','2','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 12','3','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 12','4','GA',$school_year, "2nd Semester")}}</td>
-             <td>{{getCount('Grade 12','5','GA',$school_year, "2nd Semester")}}</td>
-             <td></td>
-             <td>{{$gr12total4_2nd = $gr12total4_2nd + gettotal('Grade 12','GA',$school_year, "2nd Semester")}}</td>
-            </tr>
-            <tr>
              <td>Grade 12 AD</td>
-             <td>{{getCount('Grade 12','1','AD',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','2','AD',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','3','AD',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','4','AD',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','5','AD',$school_year, "1st Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','1','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','2','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','3','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','4','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','5','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','6','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','7','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','8','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','9','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','10','AD',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','no','AD',$school_year, "2nd Semester")}}</td>
              <td>{{$gr12total6_2nd = $gr12total6_2nd + gettotal('Grade 12','AD',$school_year, "2nd Semester")}}</td>
-            </tr>
-            <tr>
-             <td>Grade 12 VA</td>
-             <td>{{getCount('Grade 12','1','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','2','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','3','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','4','VA',$school_year, "1st Semester")}}</td>
-             <td>{{getCount('Grade 12','5','VA',$school_year, "1st Semester")}}</td>
-             <td></td>
-             <td>{{$gr12total7_2nd = $gr12total7_2nd + gettotal('Grade 12','VA',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
              <td>Grade 12 NO STRAND</td>
@@ -603,11 +719,21 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 12','3','NO STRAND YET',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','4','NO STRAND YET',$school_year, "2nd Semester")}}</td>
              <td>{{getCount('Grade 12','5','NO STRAND YET',$school_year, "2nd Semester")}}</td>
-             <td></td>
+             <td>{{getCount('Grade 12','6','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','7','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','8','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','9','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','10','NO STRAND YET',$school_year, "2nd Semester")}}</td>
+             <td>{{getCount('Grade 12','no','NO STRAND YET',$school_year, "2nd Semester")}}</td>
              <td>{{$gr12total5_2nd = $gr12total5_2nd + gettotal('Grade 12','NO STRAND YET',$school_year, "2nd Semester")}}</td>
             </tr>
             <tr>
              <td><strong>Sub-Total</strong></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -624,9 +750,18 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td></td>
              <td></td>
              <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
              <td><strong>{{$shstotal_2nd = $gr11total1_2nd + $gr11total2_2nd + $gr11total3_2nd + $gr11total4_2nd + $gr11total5_2nd + $gr11total6_2nd + $gr11total7_2nd + $gr12total1_2nd + $gr12total2_2nd + $gr12total3_2nd + $gr12total4_2nd + $gr12total5_2nd + $gr12total6_2nd + $gr12total7_2nd}}</strong></td> 
             </tr> 
      </table>     
+     </div>
+     </div> 
+     <div class="box">    
+     <div class="box-body">
      <table id="example2" class="table table-responsive table-striped">
             <tr>
              <td><div align="left"><strong>WITHDRAWN:</strong></div</td>
@@ -635,14 +770,16 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td></td>
              <td></td>
              <td></td>
-             <td></td>
              <td><strong>{{getWithdrawn($school_year, "")}}</strong></td>          
             </tr>         
      </table>
+     </div>
+     </div>   
+     <div class="box">    
+     <div class="box-body">
      <table id="example2" class="table table-responsive table-striped">
             <tr>
              <td><div align="left"><strong>GRAND TOTAL (1ST SEMESTER):</strong></div</td>
-             <td></td>
              <td></td>
              <td></td>
              <td></td>
@@ -652,7 +789,6 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
             </tr>         
             <tr>
              <td><div align="left"><strong>GRAND TOTAL (2ND SEMESTER):</strong></div</td>
-             <td></td>
              <td></td>
              <td></td>
              <td></td>
