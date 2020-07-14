@@ -52,9 +52,6 @@ $y = 1;
     <tr><td colspan="8">No List For This Level</td></tr>
     @endif
 </table>
-<div class ="form form-group">
-    <a href="javascript:void(0)" onclick = "print_now()" class="form btn btn-primary">Print</a>
-</div>
 @endif
 
 <?php
