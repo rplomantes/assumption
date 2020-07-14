@@ -195,7 +195,7 @@ if(Auth::user()->accesslevel == env('REG_BE')){
               array['period']=$("#period").val();
               $.ajax({
                   type:"GET",
-                  url:"/bedregistrar/ajax/grade_summary_view_list",
+                  url:"/bedregistrar/ajax/grade_summary_sac_view_list",
                   data:array,
                   success:function(data){
                    $("#displaystudent").html(data)
