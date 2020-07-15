@@ -275,8 +275,10 @@ class GetStudentList extends Controller {
                 $status->section = $section;
                 $status->update();
                 $bedlevel = \App\BedLevel::where('idno', $idno)->where('level', $level)->where('school_year', $status->school_year)->where('period', $status->period)->first();
-                $bedlevel->section = $section;
-                $bedlevel->update();
+                if(count($bedlevel)>0){
+                    $bedlevel->section = $section;
+                    $bedlevel->update();
+                }
                 $sections = \App\Promotion::where('idno', $idno)->first();
                 $sections->section = $section;
                 $sections->update();
@@ -284,7 +286,7 @@ class GetStudentList extends Controller {
             } else if (Auth::user()->accesslevel == env('GUIDANCE_BED')) {
                 $sections = \App\Promotion::where('idno', $idno)->first();
                 $sections->section = $section;
-                $sections->update();
+                $sections->save();
             \App\Http\Controllers\Admin\Logs::log("Update promotions section of $idno to $section");
             }
         }
