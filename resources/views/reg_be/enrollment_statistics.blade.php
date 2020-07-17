@@ -345,7 +345,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 6','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','6','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','7','',$school_year, "")}}</td>
-             <td>{{getCount('Grade 6','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 6','8','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','9','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','10','',$school_year, "")}}</td>
              <td>{{getCount('Grade 6','no','',$school_year, "")}}</td>
