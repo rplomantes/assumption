@@ -390,7 +390,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 7','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','6','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','7','',$school_year, "")}}</td>
-             <td>{{getCount('Grade 7','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 7','8','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','9','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','10','',$school_year, "")}}</td>
              <td>{{getCount('Grade 7','no','',$school_year, "")}}</td>
@@ -403,7 +403,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 8','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','6','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','7','',$school_year, "")}}</td>
-             <td>{{getCount('Grade 8','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 8','8','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','9','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','10','',$school_year, "")}}</td>
              <td>{{getCount('Grade 8','no','',$school_year, "")}}</td>
@@ -416,7 +416,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 9','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','6','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','7','',$school_year, "")}}</td>
-             <td>{{getCount('Grade 9','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 9','8','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','9','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','10','',$school_year, "")}}</td>
              <td>{{getCount('Grade 9','no','',$school_year, "")}}</td>
@@ -429,7 +429,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
              <td>{{getCount('Grade 10','5','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','6','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','7','',$school_year, "")}}</td>
-             <td>{{getCount('Grade 10','9','',$school_year, "")}}</td>
+             <td>{{getCount('Grade 10','8','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','9','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','10','',$school_year, "")}}</td>
              <td>{{getCount('Grade 10','no','',$school_year, "")}}</td>
