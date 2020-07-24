@@ -189,12 +189,12 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             }
             if(Auth::user()->accesslevel == env("CASHIER")){
                 $receipt_number = $receipt . $number;
-                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
-                if(count($check_or)>0){
-                return $receipt . $number."-A";
-                }else{
+//                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
+//                if(count($check_or)>0){
+//                return $receipt . $number."-A";
+//                }else{
                 return $receipt . $number;
-                }
+//                }
             }else{
                 return $receipt . $number;
             }
