@@ -159,7 +159,7 @@ $totaldm=$totaldm+$main->debit_memo;
                                         @if ($is_tba == 0)
             {{$schedule3->room}}<br>
                                         @else
-                                        
+                                        TBA<br>
                                         @endif
             
             
@@ -533,7 +533,7 @@ foreach ($discounts as $discount) {
                                         @if ($is_tba == 0)
             {{$schedule3->room}}<br>
                                         @else
-                                        
+                                        TBA<br>
                                         @endif
             
             
