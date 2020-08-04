@@ -133,6 +133,7 @@ $totaldm=$totaldm+$main->debit_memo;
                                         @endif
             <!--{{$schedule2->day}} {{$schedule2->time_start}} - {{$schedule2->time_end}}<br>-->
             @endforeach
+            
         </td>
 <!--        <td id='reg'>
             <?php
@@ -166,11 +167,11 @@ $totaldm=$totaldm+$main->debit_memo;
             @endforeach
         </td>
         @else
-        <td id='reg'></td>
+        <td id='reg'>TBA</td>
         <td id='reg'></td>
         @endif
         @else
-        <td id='reg'></td>
+        <td id='reg'>TBA</td>
         <td id='reg'></td>
         @endif
         <td id='reg'>
@@ -540,11 +541,11 @@ foreach ($discounts as $discount) {
             @endforeach
         </td>
         @else
-        <td id='reg'></td>
+        <td id='reg'>TBA</td>
         <td id='reg'></td>
         @endif
         @else
-        <td id='reg'></td>
+        <td id='reg'>TBA</td>
         <td id='reg'></td>
         @endif
         <td id='reg'>
