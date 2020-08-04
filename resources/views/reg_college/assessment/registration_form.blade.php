@@ -122,14 +122,13 @@ $totaldm=$totaldm+$main->debit_memo;
                                         @if ($is_tba == 0)
             {{$day->day}}
                                         @else
-                                        
                                         @endif
             @endforeach
             <?php $is_tba = \App\ScheduleCollege::where('schedule_id', $offering_ids->schedule_id)->first()->is_tba; ?>
                                         @if ($is_tba == 0)
                                         {{date('g:i A', strtotime($schedule2->time_start))}} - {{date('g:i A', strtotime($schedule2->time_end))}}<br>
                                         @else
-                                        
+                                        TBA<br>
                                         @endif
             <!--{{$schedule2->day}} {{$schedule2->time_start}} - {{$schedule2->time_end}}<br>-->
             @endforeach
