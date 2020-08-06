@@ -291,10 +291,9 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         
         $("#previous_balance").on('keypress',function(e){
             if(e.keyCode==13){
-                
                 if($("#previous_balance").val()==""){
                     $("#previous_balance").val("0.00");
-                }else if($("#previous_balance").val() > "{{$previous_total->balance}}"){
+                }else if(parseFloat($("#previous_balance").val()) > parseFloat("{{$previous_total->balance}}")){
                     alert("Amount Should Not Be Greater Than " + "{{number_format($previous_total->balance,2)}}" )
                     $("#previous_balance").val("{{$previous_total->balance}}");
                 }
