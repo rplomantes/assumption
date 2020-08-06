@@ -339,7 +339,7 @@ foreach ($discounts as $discount) {
         </tr>
         @if ($totaldm>0)
         <tr>
-            <td>Reservation</td>
+            <td>Reservation/DM</td>
             <td>:</td>
             <td class='bottomline-right'>({{number_format($totaldm,2)}})</td>
         </tr>
@@ -713,7 +713,7 @@ foreach ($discounts as $discount) {
         </tr>
         @if ($totaldm>0)
         <tr>
-            <td>Reservation</td>
+            <td>Reservation/DM</td>
             <td>:</td>
             <td class='bottomline-right'>({{number_format($totaldm,2)}})</td>
         </tr>
