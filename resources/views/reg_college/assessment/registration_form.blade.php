@@ -399,7 +399,11 @@ foreach ($discounts as $discount) {
             <center>____________________________<br><strong>{{$user->lastname}}, {{$user->firstname}} {{$user->middlename}} {{$user->extensionname}}</strong></center>
         </td>
         <td width="50%">
+            @if(Auth::user()->accesslevel == env("CASHIER") or Auth::user()->accesslevel == env("ACCTNG_HEAD") or Auth::user()->accesslevel == env("ACCTNG_STAFF"))
+            <center>Processed by:<br><br>____________________________<br><strong></strong></center></td>
+            @else
             <center>Processed by:<br><br>____________________________<br><strong>{{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></center></td>
+            @endif
     </tr>
     <tr>
         <td>
