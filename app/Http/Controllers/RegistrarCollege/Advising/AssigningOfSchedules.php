@@ -41,7 +41,7 @@ class AssigningOfSchedules extends Controller {
                 }
             }
 
-            if ($count < 35) {
+            if ($count < 36) {
 
                 $update_grade_college = \App\GradeCollege::where('id', $course_id)->first();
                 if ($section_id == "dna") {
@@ -53,7 +53,7 @@ class AssigningOfSchedules extends Controller {
 
                 Session::flash('message', "Schedule Updated!");
             } else {
-                Session::flash('danger', "Students enrolled is more than 35 students.");
+                Session::flash('danger', "Students enrolled is more than 36 students.");
             }
 
             \App\Http\Controllers\Admin\Logs::log("Assign schedule to $idno's course_id: $course_id schedule to schedule_id: $schedule_id");
