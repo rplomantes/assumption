@@ -29,7 +29,7 @@
         <td><a href="{{url('/admission_hed/view_info', array('idno'=> $list->idno))}}">View Pre-Registration Form/Enrollment Permit</a></td>
         <td>
             @if($status->status == 20 || $status->status == 21)
-            <a href="{{url('/admission_hed/remove_application', array('idno'=> $list->idno))}}">Remove Application</a>
+            <a href="{{url('/admission_hed/remove_application', array('idno'=> $list->idno))}}" onclick="return confirm('Are you sure you want to delete the application?')">Remove Application</a>
             @endif
         </td>
         

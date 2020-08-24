@@ -69,8 +69,6 @@ $sub_total_srf = 0; ?>
 
             @if($department == "College Department" || $department == "Senior High School")
             <td align='right'>{{number_format($list->srf_amount,2)}}</td>
-            @else
-            <td align='right'>0.00</td>
             @endif
 
 
