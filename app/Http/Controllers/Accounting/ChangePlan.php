@@ -247,7 +247,8 @@ class ChangePlan extends Controller {
         
         $add_payment = 0;
         $add_debit = 0;
-        $oldamount = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('amount','<=', 300)->where('category_switch', env('TUITION_FEE'))->get();
+        $plan_charge = \App\CtrPlanCharge::where('academic_type', "College")->first();
+        $oldamount = \App\Ledger::where('idno', $request->idno)->where('level', $stat->level)->where('school_year', $school_year)->where('period', $period)->where('amount','<=', $plan_charge->amount)->where('category_switch', env('TUITION_FEE'))->get();
         if(count($oldamount)>0){
             foreach($oldamount as $del){
                 $add_payment = $del->payment + $add_payment;
@@ -276,9 +277,10 @@ class ChangePlan extends Controller {
         
         $addamount = 0; 
         $due_dates = \App\CtrDueDate::where('academic_type', "College")->where('plan', $changeplan)->where('level', $stat->level)->get();
+        $plan_charge = \App\CtrPlanCharge::where('academic_type', "College")->first();
         if (count($due_dates) > 0) {
             foreach ($due_dates as $paln) {
-                $addamount = $addamount + 300;
+                $addamount = $addamount + $plan_charge->amount;
 //                $addledger = new \App\ledger;
 //                $addledger->idno = $idno;
 //                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
