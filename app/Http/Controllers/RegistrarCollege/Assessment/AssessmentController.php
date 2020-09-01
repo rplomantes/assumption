@@ -609,9 +609,10 @@ class AssessmentController extends Controller {
         $status = \App\Status::where('idno', $idno)->first();
         $addamount = 0;
         $due_dates = \App\CtrDueDate::where('academic_type', $status->academic_type)->where('plan', $plan)->where('level', $status->level)->get();
+        $plan_charge = \App\CtrPlanCharge::where('academic_type', $status->academic_type)->first();
         if (count($due_dates) > 0) {
             foreach ($due_dates as $paln) {
-                $addamount = $addamount + 300;
+                $addamount = $addamount + $plan_charge->amount;
 //                $addledger = new \App\ledger;
 //                $addledger->idno = $idno;
 //                $addledger->department = \App\CtrAcademicProgram::where('program_code', $program_code)->first()->department;
