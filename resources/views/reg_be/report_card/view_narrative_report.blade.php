@@ -89,7 +89,7 @@ function getPromotion($level) {
     @endif
 </div>
 
-<div style='position:absolute; top:600px; bottom: 0; left:0; right:0;'>
+<div style='position:absolute; top:650px; bottom: 0; left:0; right:0;'>
 
     <table width="100%">     
         <tr>
