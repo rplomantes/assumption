@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/admission_hed/remove_application/{idno}','AdmissionHED\ViewInfoAdmissionHedController@remove_application');
+Route::get('/admission_bed/remove_application/{idno}','AdmissionBED\info@remove_application');
 //admission view student info
 Route::get('/admission_hed/view_info/{idno}','AdmissionHED\ViewInfoAdmissionHedController@view_info');
 Route::post('/admission_hed/update_info','AdmissionHED\ViewInfoAdmissionHedController@update_info');

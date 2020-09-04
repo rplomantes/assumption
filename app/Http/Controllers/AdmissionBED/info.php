@@ -245,4 +245,70 @@ class info extends Controller
          $message->from(env('MAIL_FROM_ADDRESS'),env('MAIL_FROM_NAME'));
         });
     }
+    
+    function remove_application($idno){
+        $this->deleteBED($idno);
+        $user = \App\User::where('idno',$idno)->first();
+        $user->delete();
+        return redirect('/');
+    }
+    
+    function deleteBED($idno){
+        $addparent = \App\BedReceivedHonor::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedApplicantFail::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedRepeat::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedProbation::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedExtraActivity::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedChurchInvolvement::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedUndergoneTherapy::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedLimitations::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedRequirement::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedSiblings::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedOtherAlumni::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedParentInfo::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\BedProfile::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+        $addparent = \App\Status::where('idno', $idno)->first();
+        if (count($addparent) >= 1) {
+            $addparent->delete();
+        }
+    }
 }

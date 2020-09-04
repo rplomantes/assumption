@@ -12,8 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/Accounting/ChangePlan.php</file>
-            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/RegistrarCollege/Assessment/AssessmentController.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/routes/web2.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/Registration.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_be/withdrawn_students.blade.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/Assess.php</file>
+            <file>file:/home/nephila/NetBeansProjects/assumption/resources/views/reg_be/assessed_students.blade.php</file>
         </group>
     </open-files>
 </project-private>
