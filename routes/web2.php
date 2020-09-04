@@ -112,6 +112,7 @@ Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
 
 
 Route::get('/bedregistrar/withdrawn_students','BedRegistrar\Registration@withdrawn_students');
+Route::get('/bedregistrar/assessed_students','BedRegistrar\Registration@assessed_students');
 //update
 Route::get('updatebedlevel','Updater@updateBedLevel');
 Route::get('updateCollege','Updater@updateCollege');
