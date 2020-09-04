@@ -45,7 +45,7 @@ if (Auth::user()->accesslevel == env('REG_BE')) {
 @section('header')
 <section class="content-header">
     <h1>
-        Student List
+        List of Students in Assessed Status
         <small></small>
     </h1>
     <ol class="breadcrumb">
