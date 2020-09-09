@@ -4,7 +4,7 @@
         <th>Remove Application</th></tr>
     @foreach($lists as $list)
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
-    @if($list->accesslevel == '0' && $status->status >= 10)
+    @if($list->accesslevel == '0' && ($status->status >= 10 || $status->status < 3))
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
         <td>
             @if($status->status == 3)Enrolled
