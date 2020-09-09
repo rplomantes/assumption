@@ -4,10 +4,11 @@
         <th>Remove Application</th></tr>
     @foreach($lists as $list)
     <?php $status = \App\Status::where('idno', $list->idno)->first(); ?>
-    @if($list->accesslevel == '0' && ($status->status >= 10 || $status->status < 3))
+    @if($list->accesslevel == '0' && $status->is_new == 1 && ($status->status >= 10 || $status->status < 3))
     <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
         <td>
             @if($status->status == 3)Enrolled
+            @elseif($status->status == 0) Approved
             @elseif($status->status == 2) Assessed
             @elseif($status->status == 4) Withdrawn
             @elseif($status->status == 10) Pre-Registered
