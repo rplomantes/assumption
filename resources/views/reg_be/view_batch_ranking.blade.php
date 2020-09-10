@@ -118,5 +118,8 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
             }
         });
     }
+    function export_batch_ranking(value){
+        window.open("/bedregistrar/export/batch_ranking/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#school_year").val())
+    }
 </script>
 @endsection

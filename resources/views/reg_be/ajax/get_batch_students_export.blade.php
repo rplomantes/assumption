@@ -1,17 +1,8 @@
 <?php
 $control=1;
 ?>
-
-<!--<div class='col-sm-12'>
-    <div class='pull-right'>
-        <a target='_blank' href="{{url('/registrar_college', array('graduates','print_batch_ranking', $school_year))}}"><button class='btn btn-primary'>Print Batch Ranking</button></a>
-    </div>
-</div>-->
- 
-<div class ="form form-group">
-    <a href="javascript:void(0)" onclick = "export_batch_ranking()" class="form btn btn-primary"> Export Batch Ranking</a>
-</div>
 <table class='table table-condensed'>
+    <tr>
     <th></th>
     <th>ID Number</th>
     <th>Name</th>
@@ -19,6 +10,7 @@ $control=1;
     <th>Rank</th>
     <th>Section</th>
     <th>Strand</th>
+    </tr>
     <?php $count = count($lists3); ?>
     <?php $ranking = 1; ?>
     <?php $previous_gpa = 0; ?>

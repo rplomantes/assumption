@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use PDF;
+use Excel;
 
 class AjaxBatchRanking extends Controller {
 
@@ -33,6 +34,39 @@ class AjaxBatchRanking extends Controller {
             $lists3 = $lists->sortByDesc('gpa');
             return view('reg_be.ajax.get_batch_students', compact('lists3', 'school_year'));
         }
+    }
+    function get_students_excel($level,$strand,$school_year) {
+//        if (Request::ajax()) {
+//            $school_year = Input::get("school_year");
+//            $level = Input::get("level");
+//            $strand = Input::get("strand");
+            if ($level == "Grade 11" or $level == "Grade 12") {
+                $period = "2nd Semester";
+                if($strand=="All"){                    
+                    $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
+                }else{
+                    $list = \App\BedLevel::where('strand',$strand)->where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
+                }
+            } else {
+                $period = "";
+                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->get();
+            }
+            $lists = collect();
+            foreach ($list as $lists2) {
+                $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2));
+            }
+            $lists3 = $lists->sortByDesc('gpa');
+            
+            ob_end_clean();
+            Excel::create('batch_ranking-' . $level . '-SY: ' . $school_year, function($excel) use ($lists3, $level, $strand, $school_year) {
+                $excel->setTitle($level . "-SY: " . $school_year);
+
+                $excel->sheet($level . "-" . $school_year, function ($sheet) use ($lists3, $level, $strand, $school_year) {
+                    $sheet->loadView('reg_be.ajax.get_batch_students_export', compact('lists3', 'level', 'strand', 'school_year'));
+                });
+            })->download('xlsx');
+//            return view('reg_be.ajax.get_batch_students', compact('lists3', 'school_year'));
+//        }
     }
 
 //    function get_students2($school_year, $level) {
