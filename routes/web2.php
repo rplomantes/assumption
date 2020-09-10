@@ -217,3 +217,5 @@ Route::get('ajax/get_general_ledger','Accounting\Ajax\AjaxAccoReportsController@
 Route::get('general_ledger/{code}/{start}/{end}','Accounting\GeneralLedger@generateLedger');
 Route::get('print/general_ledger/{code}/{start}/{end}','Accounting\GeneralLedger@printGenerateLedger');
 
+Route::get('/update_student_dev_fee_shs','Updater@updateStudentDevFee');
+

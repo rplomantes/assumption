@@ -301,7 +301,7 @@ class Updater extends Controller {
 
     function update_reverserestore() {
         $or = DB::select("SELECT * FROM `update_or` WHERE `is_reverse` = 0 ");
-        foreach ($or as $o){
+        foreach ($or as $o) {
             $reference_id = $o->reference_id;
             DB::beginTransaction();
             //$this->checkifreservation($reference_id);
@@ -316,18 +316,20 @@ class Updater extends Controller {
         }
         return "Done";
     }
-    function deleteAccounting($reference_id){
+
+    function deleteAccounting($reference_id) {
         $accounting = \App\Accounting::where('reference_id', $reference_id)->get();
-        if(count($accounting)>0){
-            foreach ($accounting as $acc){
+        if (count($accounting) > 0) {
+            foreach ($accounting as $acc) {
                 $acc->delete();
             }
         }
     }
-    function deletePayment($reference_id){
+
+    function deletePayment($reference_id) {
         $accounting = \App\Payment::where('reference_id', $reference_id)->get();
-        if(count($accounting)>0){
-            foreach ($accounting as $acc){
+        if (count($accounting) > 0) {
+            foreach ($accounting as $acc) {
                 $acc->delete();
             }
         }
@@ -473,4 +475,151 @@ class Updater extends Controller {
       $add->school_year="2017";
       $add->save();
       } */
+
+    function updateStudentDevFee() {
+        DB::beginTransaction();
+        $lists = \App\Ledger::where('school_year', 2020)->where('subsidiary', 'Student Development Fee')->where('amount', 1000)->where('department', "Senior High School")->get();
+        foreach ($lists as $list) {
+            $list->amount = 750;
+            $list->update();
+
+            $this->add_change_plan($list);
+//            $this->update_plan($list);
+            $this->change_due_date($list);
+        }
+        DB::Commit();
+        echo "Done";
+    }
+    
+
+    function add_change_plan($request) {
+        $originalplan = \App\Status::where('idno', $request->idno)->first()->type_of_plan;
+        $changeplan = $originalplan;
+        $orginalamount = \App\Ledger::where('idno', $request->idno)->where('category_switch', env("TUITION_FEE"))->first();
+        $tuition = \App\CtrBedFee::where('level', $request->level)->where('category_switch', env("TUITION_FEE"))->first()->amount;
+        $changeamount = $tuition + ($tuition * ($this->addPercentage($originalplan) / 100));
+        $notchangeamount = $tuition;
+        $addchange = new \App\ChangePlan;
+        $addchange->idno = $request->idno;
+        $addchange->change_date = Date('Y-m-d');
+        $addchange->original_plan = $originalplan;
+        $addchange->change_plan = $changeplan;
+        $addchange->original_amount = $orginalamount->amount;
+        $addchange->change_amount = $this->roundOff($changeamount);
+        $addchange->posted_by = 'kanastacio';
+        $addchange->save();
+
+        $discount = \App\CtrDiscount::where('discount_code', $orginalamount->discount_code)->first();
+        if (count($discount) > 0) {
+            $discount_code = $discount->discount_code;
+            $discount_description = $discount->discount_description;
+            $discount_tuition = $discount->tuition_fee;
+        }
+        
+        $orginalamount->amount = $this->roundOff($changeamount);
+        $notorginalamount = $this->roundOff($notchangeamount);
+        
+        if (count($discount) > 0) {
+        $amount = $notorginalamount;
+        $discount_amount = $amount * $discount_tuition / 100;
+        $orginalamount->discount_code = $discount_code;
+        $orginalamount->discount = $discount_amount;
+        }
+        
+        $orginalamount->update();
+    }
+
+    function roundOff($amount) {
+        return round($amount);
+    }
+
+//    function update_plan($request) {
+//        $status = \App\Status::where('idno', $request->idno)->first();
+//        $bedlevel = \App\BedLevel::where('idno', $request->idno)->where('school_year', $status->school_year)->where('period', $status->period)->first();
+//        $status->type_of_plan = $status->plan;
+//        $status->update();
+//        $bedlevel->type_of_plan = $status->plan;
+//        $bedlevel->update();
+//    }
+
+    function change_due_date($request) {
+        $stat = \App\Status::where('idno', $request->idno)->first();
+        $schoolyear = $stat->school_year;
+        $period = $stat->period;
+
+        $deltedue = \App\LedgerDueDate::where('idno', $request->idno)->where('school_year', $schoolyear)->where('period', $period)->delete();
+        $this->addDueDates($request, $schoolyear, $period);
+    }
+
+    function addPercentage($plan) {
+        $interest = \App\CtrBedPlan::where('plan',$plan)->first()->interest;
+        return $interest;
+    }
+
+    function addDueDates($request, $schoolyear, $period) {
+
+        $total_decimal = 0;
+        if ($request->plan == "Annual") {
+            $total = \App\Ledger::selectRaw('idno, sum(amount)-sum(discount) as total')->where('idno', $request->idno)
+                            ->where('category_switch', '<=', env("TUITION_FEE"))->groupBy('idno')->first();
+            $addduedate = new \App\LedgerDueDate;
+            $addduedate->idno = $request->idno;
+            $addduedate->school_year = $schoolyear;
+            if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                $addduedate->period = $period;
+            }
+            $addduedate->due_date = Date('Y-m-d');
+            $addduedate->due_switch = 0;
+            $addduedate->amount = $total->total;
+            $addduedate->save();
+        } else {
+            if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                $duedates = \App\CtrDueDateBed::where('plan', $request->plan)->where('academic_type', 'SHS')->get();
+            } else {
+                $duedates = \App\CtrDueDateBed::where('plan', $request->plan)->where('academic_type', 'BED')->get();
+            }
+            $count = count($duedates) + 1;
+            $duetuition = \App\Ledger::selectRaw('idno, sum(amount)-sum(discount) as total')->where('idno', $request->idno)
+                            ->where('category_switch', env('TUITION_FEE'))->groupBy('idno')->first();
+            $dueamount = $duetuition->total / $count;
+
+            $dueothers = \App\Ledger::selectRaw('idno, sum(amount)-sum(discount) as total')->where('idno', $request->idno)
+                            ->where('category_switch', '<', env("TUITION_FEE"))->groupBy('idno')->first();
+            $addduedate = new \App\LedgerDueDate;
+            $addduedate->idno = $request->idno;
+            $addduedate->school_year = $schoolyear;
+            if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                $addduedate->period = $period;
+            }
+
+            $addduedate->due_date = Date('Y-m-d');
+            $addduedate->due_switch = 0;
+            $addduedate->amount = $dueothers->total;
+            $addduedate->save();
+
+            foreach ($duedates as $duedate) {
+                $addduedate = new \App\LedgerDueDate;
+                $addduedate->idno = $request->idno;
+                $addduedate->school_year = $schoolyear;
+                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                    $addduedate->period = $period;
+                }
+                $addduedate->due_date = $duedate->due_date;
+                $addduedate->due_switch = 1;
+                $plan_amount = floor($dueamount);
+                $addduedate->amount = $plan_amount;
+                $addduedate->save();
+                $total_decimal = $total_decimal + ($dueamount - $plan_amount);
+            }
+
+            $this->update_due_dates($request, $dueamount, $total_decimal, $dueothers->total);
+        }
+    }
+
+    function update_due_dates($request, $dueamount, $total_decimal, $dueothers) {
+        $update = \App\LedgerDueDate::where('idno', $request->idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
+        $update->amount = $dueothers + $dueamount + $total_decimal;
+        $update->save();
+    }
+
 }
