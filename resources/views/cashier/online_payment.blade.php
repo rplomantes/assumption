@@ -48,6 +48,13 @@ if(Auth::user()->accesslevel == env("CASHIER")){
 @section('maincontent')
  <!-- search form (Optional) -->
  <div class="container-fluid">
+    
+        @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif  
+        @if (Session::has('danger'))
+            <div class="alert alert-danger">{{ Session::get('danger') }}</div>
+        @endif
      <div class="form-group">
                 <label>Date range button:</label>
                 <div class="input-group">

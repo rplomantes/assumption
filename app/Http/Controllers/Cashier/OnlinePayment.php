@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cashier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Session;
 
 class OnlinePayment extends Controller {
 
@@ -34,10 +35,16 @@ class OnlinePayment extends Controller {
     
     function issue_or_number_now(Request $request){
         if (Auth::user()->accesslevel == env("CASHIER")) {
+            $check_or_number = \App\Payment::where('receipt_no',$request->or_number)->get();
+            if(count($check_or_number)>0){
+                
+            Session::flash('danger', 'Oops!, OR number already encoded.');
+            }else{
             $update_payment = \App\Payment::where('id',$request->payment_id)->first();
             $update_payment->receipt_no = $request->or_number;
             $update_payment->save();
-            
+            Session::flash('message', 'OR number issued successfully!');
+            }
             return redirect(url('cashier', array('online_payment',$request->date_from,$request->date_to)));
         }
     }
