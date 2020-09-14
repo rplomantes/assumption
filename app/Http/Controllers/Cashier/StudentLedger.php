@@ -234,14 +234,23 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
     function reverserestore($reference_id) {
         if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
             DB::beginTransaction();
-            //$this->checkifreservation($reference_id);
             $this->reverserestore_ledger($reference_id, env("CASH"));
             $this->reverserestore_entries(\App\Payment::where('reference_id', $reference_id)->get(), $reference_id);
             $this->reverserestore_entries(\App\Accounting::where('reference_id', $reference_id)->get(), $reference_id);
             $this->reverserestore_entries(\App\Reservation::where('reference_id', $reference_id)->get(), $reference_id);
             \App\Http\Controllers\Admin\Logs::log("Reverse/Restore receipt with reference no: $reference_id.");
+            
+            $this->checkifreservation($reference_id);
             DB::commit();
             return redirect(url('/cashier', array('viewreceipt', $reference_id)));
+        }
+    }
+    
+    function checkifreservation($reference_id){
+        $checkreservation = \App\Reservation::where('reference_id',$reference_id)->value('levels_reference_id');
+        if($checkreservation != null){
+            $get_dm = \App\DebitMemo::where('levels_reference_id',$checkreservation)->value('reference_id');
+            $this->reverserestore_dm($get_dm);
         }
     }
 
