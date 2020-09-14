@@ -49,6 +49,7 @@ return array(
     'App\\CourseOffering' => $baseDir . '/app/CourseOffering.php',
     'App\\CtrAcademicProgram' => $baseDir . '/app/CtrAcademicProgram.php',
     'App\\CtrAcademicSchoolYear' => $baseDir . '/app/CtrAcademicSchoolYear.php',
+    'App\\CtrAdmissionSchoolYear' => $baseDir . '/app/CtrAdmissionSchoolYear.php',
     'App\\CtrAdvisingSchoolYear' => $baseDir . '/app/CtrAdvisingSchoolYear.php',
     'App\\CtrAlpha' => $baseDir . '/app/CtrAlpha.php',
     'App\\CtrBedCurriculum' => $baseDir . '/app/CtrBedCurriculum.php',

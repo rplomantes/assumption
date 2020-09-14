@@ -477,6 +477,7 @@ class ComposerStaticInitb94a6eeba9f6c8d9ff85776e32d870b2
         'App\\CourseOffering' => __DIR__ . '/../..' . '/app/CourseOffering.php',
         'App\\CtrAcademicProgram' => __DIR__ . '/../..' . '/app/CtrAcademicProgram.php',
         'App\\CtrAcademicSchoolYear' => __DIR__ . '/../..' . '/app/CtrAcademicSchoolYear.php',
+        'App\\CtrAdmissionSchoolYear' => __DIR__ . '/../..' . '/app/CtrAdmissionSchoolYear.php',
         'App\\CtrAdvisingSchoolYear' => __DIR__ . '/../..' . '/app/CtrAdvisingSchoolYear.php',
         'App\\CtrAlpha' => __DIR__ . '/../..' . '/app/CtrAlpha.php',
         'App\\CtrBedCurriculum' => __DIR__ . '/../..' . '/app/CtrBedCurriculum.php',

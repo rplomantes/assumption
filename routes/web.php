@@ -466,6 +466,8 @@ Route::get('/bedadmission/reports/regrets/{date_start}/{date_end}','AdmissionBED
 Route::get('/bedadmission/reports/reservations','AdmissionBED\reportsController@reservations');
 
 //PRE-REGISTRATION SETTINGS BED ADMISSION
+Route::get('/bedadmission/settings/admission_sy','AdmissionBED\PreRegistrationSettings@admission_sy');
+Route::get('/ajax/bedadmission/settings/update_admission_sy','AdmissionBED\Ajax\GetStudentList@update_admission_sy');
 Route::get('/bedadmission/settings/levels','AdmissionBED\PreRegistrationSettings@view');
 Route::get('/bedadmission/settings/update_levels/{level}','AdmissionBED\PreRegistrationSettings@update');
 Route::get('/bedadmission/settings/waive_payments','AdmissionBED\PreRegistrationSettings@view_waive_payments');

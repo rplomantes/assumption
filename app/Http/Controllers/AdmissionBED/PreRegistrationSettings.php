@@ -112,4 +112,13 @@ class PreRegistrationSettings extends Controller
             return redirect(url('/bedadmission/settings/application_result_email'));
         }
     }
+
+    function admission_sy() {
+        if (Auth::user()->accesslevel == env("ADMISSION_BED")) {
+            
+            $groups = \App\CtrAdmissionSchoolYear::all();
+            
+            return view('admission-bed.settings.admission_sy', compact('groups'));
+        }
+    }
 }
