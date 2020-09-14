@@ -45,7 +45,7 @@ $layout = "layouts.appadmission-shs";
 @section('header')
 <section class="content-header">
     <h1>
-        Level Settings
+        Admission School Year Settings
         <small></small>
     </h1>
     <ol class="breadcrumb">
