@@ -55,6 +55,15 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         @if (Session::has('danger'))
             <div class="alert alert-danger">{{ Session::get('danger') }}</div>
         @endif
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
      <div class="form-group">
                 <label>Date range button:</label>
                 <div class="input-group">
