@@ -112,7 +112,7 @@ $date_end = date('Y-m-d');
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                         <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
 <!--hidden-->
-                        <!--                        <li class="treeview">
+                                                <li class="treeview">
                             <a href="#"><i class="fa fa-file-archive-o"></i> <span>Official Receipt</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -120,9 +120,9 @@ $date_end = date('Y-m-d');
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/accounting','search_or')}}"><span> Search OR</span></a></li>
-                                <li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>
+                                <!--<li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>-->
                             </ul>
-                        </li>-->
+                        </li>
 <!--not hidden-->
                         <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
                         <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
