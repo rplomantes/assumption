@@ -152,7 +152,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
             
             </div> 
         @if($payment->reason_reverse!="")
-    <div class="alert alert-info col-md-12">Reason of Reverse/Cancellation:<br><b>{{$payment->reason_reverse}}</b></div> 
+    <div class="alert alert-info col-md-12">Reason of Reverse/Cancellation:<button class="pull-right" data-toggle="modal" data-target="#show_reason">Edit Reason</button></span></b><br><b>{{$payment->reason_reverse}}</b></div> 
     @endif
     </div>
         
@@ -205,6 +205,31 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
             <input type="submit" class="btn btn-primary" value="Update Explanation"></input>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="show_reason">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Update Reason</h4>
+        </div>
+        <form method="post" action="{{url('/update_reason')}}">
+        <div class="modal-body">
+            <div class="form-group">
+                {{csrf_field()}}
+                <input type='hidden' value="{{$payment->reference_id}}" name='reference_id'>
+                <input class='form form-control' type='text' name='reason_reverse' value='{{$payment->reason_reverse}}'>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" value="Update Reason"></input>
         </div>
     </form>
     </div>

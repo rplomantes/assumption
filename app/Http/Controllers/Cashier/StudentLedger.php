@@ -96,7 +96,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             
             $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
             $due_dates_list_amount = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
-            $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_date', '<=', date('Y-m-31'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
+            $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_date', '<=', date('Y-m-t'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
             if($status->academic_type == "SHS" || $status->academic_type == "College"){
             $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $ss)->where('period', $pp)->get();
@@ -321,6 +321,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         $OR->remarks = $request->explanation;
         $OR->save();
         \App\Http\Controllers\Admin\Logs::log("Update OR Explanation from '$old_or' to '$request->explanation' of $request->reference_id.");
+        return redirect("/cashier/viewreceipt/$request->reference_id");
+    }
+
+    function update_reason(Request $request) {
+        $OR = \App\Payment::where('reference_id', $request->reference_id)->first();
+        $old_or = $OR->reason_reverse;
+        $OR->reason_reverse = $request->reason_reverse;
+        $OR->save();
+        \App\Http\Controllers\Admin\Logs::log("Update OR Reason of Reverse/Restore from '$old_or' to '$request->reason_reverse' of $request->reference_id.");
         return redirect("/cashier/viewreceipt/$request->reference_id");
     }
 

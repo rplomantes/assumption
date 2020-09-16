@@ -575,6 +575,8 @@ Route::get('/remove_benefit/{idno}','BedRegistrar\SiblingsBenefits@remove_benefi
 
 //Update explanation of OR
 Route::post('/update_explanation','Cashier\StudentLedger@update_explanation');
+//Update reason_reverse of OR
+Route::post('/update_reason','Cashier\StudentLedger@update_reason');
 
 //Accounting Student List
 Route::get('/accounting/student_list_report/{school_year}','Accounting\StudentList@student_list_report');
