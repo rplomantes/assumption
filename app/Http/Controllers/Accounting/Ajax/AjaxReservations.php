@@ -59,7 +59,7 @@ class AjaxReservations extends Controller {
                 }elseif($dep == "Elementary"){
                     $code_level = "(promotions.level = 'Grade 1' or promotions.level = 'Grade 2' or promotions.level = 'Grade 3' or promotions.level = 'Grade 4' or promotions.level = 'Grade 5' or promotions.level = 'Grade 6')";
                 }elseif($dep == "Junior High School"){
-                    $code_level = "(promotions.level = 'Grade 7' or promotions.level = 'Grade 8' or promotions.level = 'Grade 9 or promotions.level = 'Grade 10')";
+                    $code_level = "(promotions.level = 'Grade 7' or promotions.level = 'Grade 8' or promotions.level = 'Grade 9' or promotions.level = 'Grade 10')";
                 }
                 $lists = \App\Reservation::selectRaw("reservations.transaction_date,users.idno,users.lastname, users.firstname, users.middlename, promotions.level, payments.receipt_no,reservations.reference_id, reservations.amount, reservations.is_consumed")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->join('promotions','promotions.idno','=','users.idno')
                         ->whereRaw($code_level)
