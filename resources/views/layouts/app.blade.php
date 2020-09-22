@@ -10,6 +10,7 @@
 
     <title>Assumption Makati - School Information System</title>
 
+        <link rel="shortcut icon" type="image/jpg" href="{{url('/images','assumption-logo.png')}}">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
