@@ -17,6 +17,13 @@ class GradeSummary extends Controller {
         $this->middleware('auth');
     }
 
+    function index_grade_summary() {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+            $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();
+            return view("reg_be.grade_summary.student_list_grade_summary", compact('students'));
+        }
+    }
+
     function index_sac() {
         if (Auth::user()->accesslevel == env("REG_BE")) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();

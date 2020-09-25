@@ -77,8 +77,8 @@ $layout = "layouts.appadmission-shs";
 @section('maincontent')
 <div class="form-horizontal">
     <form action="{{url('/bedregistrar', array('updateinfo', $user->idno))}}" method="post" class="form-horizontal">
-    @if($status->status == env("FOR_APPROVAL"))
     {{ csrf_field() }}
+    @if($status->status == env("FOR_APPROVAL"))
     <input type="hidden" name="user_status" value="1">
     <div class="col-md-12">
         
@@ -1390,10 +1390,12 @@ $layout = "layouts.appadmission-shs";
                 </div>
             </div>
         </div>
-        @if($status->status == env("FOR_APPROVAL"))
+        @if($status->status == env("FOR_APPROVAL") || $status->status <= env("ENROLLED"))
+        @if($status->status == env("FOR_APPROVAL") || $status->status <= env("ENROLLED"))
         <div class="col-sm-3">
         <input type="submit" value='Save' class='form-control btn btn-primary'>
         </div>
+        @elseif($status->status == env("FOR_APPROVAL"))
         @if(Auth::user()->idno != "acruz")
             @if($is_lock == 0)
             <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
@@ -1413,6 +1415,7 @@ $layout = "layouts.appadmission-shs";
             @endif
         @else
             <div class="col-sm-9 alert alert-danger">Assign Schedule to Approve or Regret Applicant</div>
+        @endif
         @endif
         @endif
         <br/>

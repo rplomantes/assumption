@@ -136,13 +136,17 @@ Route::get('/bedregistrar/report_card','BedRegistrar\ReportCardController@index'
 Route::get('/bedregistrar/ajax/report_card_view_list', 'BedRegistrar\Ajax\GetStudentList@report_card_view_list');
 Route::get('/view_report_card/{idno}/{display_type}/{school_year}/{period?}','BedRegistrar\ReportCardController@view_report_card');
 
+//BED Grade Summary
+Route::get('/bedregistrar/grade_summary','BedRegistrar\GradeSummary@index_grade_summary');
+Route::get('/bedregistrar/ajax/grade_summary_view_list', 'BedRegistrar\Ajax\GetStudentListDirectory@grade_summary_view_list');
+
 //BED SAC Grade Summary
 Route::get('/bedregistrar/sac_grade_summary','BedRegistrar\GradeSummary@index_sac');
-Route::get('/bedregistrar/ajax/grade_summary_sac_view_list', 'BedRegistrar\Ajax\GetStudentList@grade_summary_sac_view_list');
+Route::get('/bedregistrar/ajax/grade_summary_sac_view_list', 'BedRegistrar\Ajax\GetStudentListDirectory@grade_summary_sac_view_list');
 Route::get('/bedregistrar/print/sac_grade_summary/{level}/{strand}/{section}/{school_year}/{period}','BedRegistrar\GradeSummary@print_now_sac');
 //BED Conduct grade summary
 Route::get('/bedregistrar/conduct_grade_summary','BedRegistrar\GradeSummary@index_cond');
-Route::get('/bedregistrar/ajax/grade_summary_cond_view_list', 'BedRegistrar\Ajax\GetStudentList@grade_summary_cond_view_list');
+Route::get('/bedregistrar/ajax/grade_summary_cond_view_list', 'BedRegistrar\Ajax\GetStudentListDirectory@grade_summary_cond_view_list');
 Route::get('/bedregistrar/print/cond_grade_summary/{level}/{strand}/{section}/{school_year}/{period}','BedRegistrar\GradeSummary@print_now_cond');
 
 Route::get('/view_narrative_report/{idno}/{school_year}','BedRegistrar\ReportCardController@narrative_report');

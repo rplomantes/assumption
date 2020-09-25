@@ -150,6 +150,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
           <ul class="treeview-menu">
             <li><a href="{{url('/bedregistrar','report_card')}}"><i class="fa fa-link"></i> Report Card</a></li>
             <li><a href="{{url('/bedregistrar','batch_ranking')}}"><i class="fa fa-link"></i> Batch Ranking</a></li>
+            <li><a href="{{url('/bedregistrar','grade_summary')}}"><i class="fa fa-link"></i> Grade Summary</a></li>
             <li><a href="{{url('/bedregistrar','sac_grade_summary')}}"><i class="fa fa-link"></i> SAC Grade Summary</a></li>
             <li><a href="{{url('/bedregistrar','conduct_grade_summary')}}"><i class="fa fa-link"></i> Conduct Grade Summary</a></li>
           </ul>
