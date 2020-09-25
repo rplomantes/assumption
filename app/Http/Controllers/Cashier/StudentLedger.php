@@ -324,6 +324,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         return redirect("/cashier/viewreceipt/$request->reference_id");
     }
 
+    function update_dm_explanation(Request $request) {
+        $OR = \App\DebitMemo::where('reference_id', $request->reference_id)->first();
+        $old_or = $OR->explanation;
+        $OR->explanation = $request->explanation;
+        $OR->save();
+        \App\Http\Controllers\Admin\Logs::log("Update DM Explanation from '$old_or' to '$request->explanation' of $request->reference_id.");
+        return redirect("/accounting/view_debit_memo/$request->reference_id");
+    }
+
     function update_reason(Request $request) {
         $OR = \App\Payment::where('reference_id', $request->reference_id)->first();
         $old_or = $OR->reason_reverse;
