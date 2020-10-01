@@ -96,7 +96,7 @@
                         {{$units = $course->lab + $course->lec}}
                     </td>    
                     <td align="center">
-                        <?php $no = \App\CourseOffering::where('schedule_id', $course->schedule_id)->leftJoin('grade_colleges', 'grade_colleges.course_offering_id','=','course_offerings.id')->join('statuses', 'statuses.idno', '=', 'grade_colleges.idno')->where('statuses.status', 3)->where('statuses.school_year', $request->school_year)->where('statuses.period',$request->period)->get(['grade_colleges.id']); ?>
+                        <?php $no = \App\CourseOffering::where('schedule_id', $course->schedule_id)->leftJoin('grade_colleges', 'grade_colleges.course_offering_id','=','course_offerings.id')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period',$period)->get(['grade_colleges.id']); ?>
                         {{count($no)}}
                     </td>    
                     <td>{{$get_student}}</td>
