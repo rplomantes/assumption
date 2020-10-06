@@ -579,6 +579,8 @@ Route::get('/remove_benefit/{idno}','BedRegistrar\SiblingsBenefits@remove_benefi
 Route::post('/update_explanation','Cashier\StudentLedger@update_explanation');
 //Update explanation of DM
 Route::post('/update_dm_explanation','Cashier\StudentLedger@update_dm_explanation');
+//Update explanation of Added as SD
+Route::post('/update_sd_explanation','Cashier\StudentLedger@update_sd_explanation');
 //Update reason_reverse of OR
 Route::post('/update_reason','Cashier\StudentLedger@update_reason');
 

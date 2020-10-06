@@ -333,6 +333,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
         return redirect("/accounting/view_debit_memo/$request->reference_id");
     }
 
+    function update_sd_explanation(Request $request) {
+        $OR = \App\AddToStudentDeposit::where('reference_id', $request->reference_id)->first();
+        $old_or = $OR->explanation;
+        $OR->explanation = $request->explanation;
+        $OR->save();
+        \App\Http\Controllers\Admin\Logs::log("Update Added as SD Explanation from '$old_or' to '$request->explanation' of $request->reference_id.");
+        return redirect("/accounting/view_add_to_student_deposit/$request->reference_id");
+    }
+
     function update_reason(Request $request) {
         $OR = \App\Payment::where('reference_id', $request->reference_id)->first();
         $old_or = $OR->reason_reverse;

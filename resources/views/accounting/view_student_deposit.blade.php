@@ -47,7 +47,7 @@
 <?php $sy = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first()->school_year; ?>
 <section class="content-header">
       <h1>
-        DEBIT MEMO
+        STUDENT DEPOSIT
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -93,21 +93,42 @@
        @endforeach
        <tr><td colspan="3"> Total</td><td><b>{{number_format($total_debit,2)}}</b></td><td><b>{{number_format($total_credit,2)}}</b></td></tr>
        </table>
-      <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-        <b>Explanation:</b><br>{{$student_deposit->explanation}}
-        </p>  
+            <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                <b>Explanation:<span class='pull-right'><button data-toggle="modal" data-target="#show_explanation">Edit Explanation</button></span></b><br>{{$student_deposit->explanation}}
+            </p>  
        <p class="" style="margin-top: 10px;">
             Posted by: <b>{{\App\User::where('idno',$student_deposit->posted_by)->first()->firstname}} {{\App\User::where('idno',$student_deposit->posted_by)->first()->lastname}}</b>
-        </p>  
-  <div class="form form-group">
-      <div class="col-md-10">
-          <a href="{{url('/accounting', array(''))}}">
-      </div>    
-  </div>    
+        </p>      
         
  </div> 
    </div>
 </div>   
+
+
+<div class="modal fade" id="show_explanation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Update Explanation</h4>
+            </div>
+            <form method="post" action="{{url('/update_sd_explanation')}}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        {{csrf_field()}}
+                        <input type='hidden' value="{{$student_deposit->reference_id}}" name='reference_id'>
+                        <input class='form form-control' type='text' name='explanation' value='{{$student_deposit->explanation}}'>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="Update Explanation">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @section('footerscript')
 <style>
