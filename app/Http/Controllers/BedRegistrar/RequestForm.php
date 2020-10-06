@@ -16,10 +16,10 @@ class RequestForm extends Controller {
     }
     
     function index() {
-        $forms_request_pending = \App\FormRequest::orderBy('created_at','desc')->where('status',0)->limit(100)->get();
-        $forms_request_paid = \App\FormRequest::orderBy('created_at','desc')->where('status',1)->limit(100)->get();
-        $forms_request_for_claiming = \App\FormRequest::orderBy('created_at','desc')->where('status',2)->limit(100)->get();
-        $forms_request_claimed = \App\FormRequest::orderBy('created_at','desc')->where('status',3)->limit(100)->get();
+        $forms_request_pending = \App\FormRequest::orderBy('created_at','desc')->where('status',0)->get();
+        $forms_request_paid = \App\FormRequest::orderBy('created_at','desc')->where('status',1)->get();
+        $forms_request_for_claiming = \App\FormRequest::orderBy('created_at','desc')->where('status',2)->get();
+        $forms_request_claimed = \App\FormRequest::orderBy('created_at','desc')->where('status',3)->get();
         
         return view('reg_be.request_form.index',compact('forms_request_pending','forms_request_paid','forms_request_for_claiming','forms_request_claimed'));
     }
