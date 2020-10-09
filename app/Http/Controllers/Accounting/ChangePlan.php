@@ -79,6 +79,10 @@ class ChangePlan extends Controller {
         $addchange->save();
 
         $discount = \App\CtrDiscount::where('discount_code', $orginalamount->discount_code)->first();
+        if($discount->discount_type == 2){
+            $discount = \App\BedScholarship::where('idno',$request->idno)->first();
+            $discount->discount_type=2;
+        }
         if (count($discount) > 0) {
             $discount_code = $discount->discount_code;
             $discount_description = $discount->discount_description;

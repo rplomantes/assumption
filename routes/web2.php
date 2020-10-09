@@ -186,8 +186,13 @@ Route::get('/accounting/manual_marking/{idno}','Cashier\MainPayment@manualMark')
 Route::get('/admission/send_email/{idno}','AdmissionHED\ViewInfoAdmissionHedController@email');
 
 Route::get('/accounting/benefit_scholar','Accounting\BenefitScholar@index');
-Route::get('/accounting_benefit_scholar','Accounting\BenefitScholar@index');
 Route::get('/ajax/accounting_benefit_scholar/getstudentlist', 'Accounting\Ajax\AjaxStudentList@getbenefit_scholar');
+
+//BED Benefit scholar
+Route::get('/accounting/bed_benefit_scholar','Accounting\BenefitScholar@bed_index');
+Route::get('/ajax/accounting_bed_benefit_scholar/getstudentlist', 'Accounting\Ajax\AjaxStudentList@getbenefit_bed_scholar');
+Route::get('/accounting/bed_view_scholar/{idno}', 'Accounting\ViewBEDScholarship@index');
+Route::post('/accounting/bed_update_scholar', 'Accounting\ViewBEDScholarship@update_now');
 
 Route::get('/reservation/tag_as_used/{school_year}/{reference_id}', 'Accounting\Reservations@tag_as_used');
 

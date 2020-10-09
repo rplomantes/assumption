@@ -237,6 +237,17 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('/accounting', array('benefit_scholar'))}}"><span>Update Benefit Scholars</span></a></li>
                                 <li><a href="{{url('/scholarship_college', array('report', 'scholarship_report'))}}"><span>List of Scholars</span></a></li>
                             </ul>
+                        </li>      
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-percent"></i> <span>BED Scholarship</span>   
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/accounting', array('bed_benefit_scholar'))}}"><span>Update Scholar Grants</span></a></li>
+                                <li><a href="{{url('/accounting', array('report', 'bed_scholarship_report'))}}"><span>List of Scholar Grants</span></a></li>
+                            </ul>
                         </li>
                     </ul>
                 </section>

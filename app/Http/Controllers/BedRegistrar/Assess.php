@@ -198,6 +198,10 @@ class Assess extends Controller {
         $discount_misc = 0;
         $discount_srf = 0;
         $discount = \App\CtrDiscount::where('discount_code', $request->discount)->first();
+        if($discount->discount_type == 2){
+            $discount = \App\BedScholarship::where('idno',$request->idno)->first();
+            $discount->discount_type=2;
+        }
         if (count($discount) > 0) {
             $discount_code = $discount->discount_code;
             $discount_description = $discount->discount_description;
@@ -1216,7 +1220,6 @@ class Assess extends Controller {
                 $addledger->accounting_code = $add->accounting_code;
                 $addledger->accounting_name = $this->getAccountingName($add->accounting_code);
                 $addledger->category_switch = $add->category_switch;
-                $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary);
                 
                 
                 ///please fix this
@@ -1230,6 +1233,13 @@ class Assess extends Controller {
                 $addledger->amount = $add->amount;
                 }
                 
+                $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary);
+                if($add->subsidiary == "Student Development Fee"){
+                    $check_grant = \App\BedScholarship::where('idno',$request->idno)->value('non_discounted');
+                    if($check_grant > 0){
+                        $disc_other = $check_grant/100*$addledger->amount;
+                    }
+                }
                 
                 $addledger->discount = $disc_other;
                 $addledger->discount_code = $add->subsidiary;

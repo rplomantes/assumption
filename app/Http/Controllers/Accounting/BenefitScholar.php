@@ -21,4 +21,10 @@ class BenefitScholar extends Controller
             return view('accounting.benefit_scholar.index');
         }
     }
+
+    function bed_index() {
+        if (Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+            return view('accounting.benefit_scholar.bed_index');
+        }
+    }
 }

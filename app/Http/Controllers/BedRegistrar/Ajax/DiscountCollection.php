@@ -32,6 +32,12 @@ class DiscountCollection extends Controller {
                     $delete->delete();
                 }
             }
+            $delete_grant = \App\BedScholarship::where('idno', $idno)->get();
+            if (count($delete_grant) > 0) {
+                foreach ($delete_grant as $delete) {
+                    $delete->delete();
+                }
+            }
             
             if ($discount_type == "Benefit Discount") {
                 

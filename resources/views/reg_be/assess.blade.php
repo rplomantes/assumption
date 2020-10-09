@@ -60,7 +60,8 @@ if($enrollment_sy->period == "2nd Semester"){
 }
 $current_level = $promotion->level;
 $plans = \App\CtrDueDateBed::selectRaw('distinct plan')->where('academic_type',$user->academic_type)->get();
-$discounts = \App\CtrDiscount::where('is_display', 1)->where('academic_type','!=','College')->get();
+$discounts = \App\CtrDiscount::where('is_display', 1)->where('discount_type','<',2)->where('academic_type','!=','College')->get();
+$grantdiscounts = \App\CtrDiscount::where('is_display', 1)->where('discount_type',2)->where('academic_type','!=','College')->get();
 $optional_books = \App\CtrOptionalFee::where('level',$current_level)->where('category','Books')->where('amount','>','0')->get();
 $optional_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Materials')->get();
 $optional_other_materials = \App\CtrOptionalFee::where('level',$current_level)->where('category','Other Materials')->get();
@@ -72,6 +73,7 @@ $dengues=  \App\CtrUniformSize::where('particular','AC Dengue Attire')->get();
 $colored=  \App\CtrUniformSize::where('particular','Colored Shirts')->get();
 //$pre_discount = DB::Select("Select * from partial_student_discount where idno = '$user->idno'")->first();
 $pre_discount= \App\PartialStudentDiscount::where('idno',$user->idno)->first();
+$grant_pre_discount= \App\BedScholarship::where('idno',$user->idno)->first();
 $materials =  \App\CtrMaterial::where('level',$current_level)->where('category','Materials')->get();
 $other_materials = \App\CtrMaterial::where('level',$current_level)->where('category','Other Materials')->get();
 $discount = \App\DiscountCollection::where('id',$user->idno)->get();
@@ -309,18 +311,20 @@ if (count($previous) > 0) {
                 <div class="col-md-6">
                     <label>Discount</label>
                     <select name="discount" id="discount" class="form form-control">
-                        <option value="none">None</option>
-                        @if(count($discounts)>0)
+                        @if(count($discounts)>0 || count($grantdiscounts)>0)
                             @foreach($discounts as $discount)
-                                <option value="{{$discount->discount_code}}"
-                                        @if(count($pre_discount)>0)
-                                        @if($discount->discount_code == $pre_discount->discount)
-                                        selected="selected"
-                                        @else
-                                        disabled="disabled"
-                                        @endif
-                                        @endif
-                                        >{{$discount->discount_description}}</option>
+                                @if(count($pre_discount)>0)
+                                    @if($discount->discount_code == $pre_discount->discount)
+                                    <option value="{{$discount->discount_code}}" selected="selected" >{{$discount->discount_description}}</option>
+                                    @endif
+                                @endif
+                            @endforeach
+                            @foreach($grantdiscounts as $grantdiscount)
+                                @if(count($grant_pre_discount)>0)
+                                    @if($grantdiscount->discount_code == $grant_pre_discount->discount_code)
+                                    <option value="{{$grantdiscount->discount_code}}" >{{$grantdiscount->discount_description}}</option>
+                                    @endif
+                                @endif                                        
                             @endforeach
                         @endif
                     </select>    

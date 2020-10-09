@@ -31,7 +31,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @section('header')
 <section class="content-header">
       <h1>
-        College Benefit Scholar
+        BED Scholar Grants
         <small>Search Students</small>
       </h1>
       <ol class="breadcrumb">
@@ -63,7 +63,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
           array['search'] = $("#search").val();
             $.ajax({
                 type:"GET",
-                url:"{{url('/ajax',array('accounting_benefit_scholar','getstudentlist'))}}",
+                url:"{{url('/ajax',array('accounting_bed_benefit_scholar','getstudentlist'))}}",
                 data:array,
                 success:function(data){
                     $("#studentlist").html(data);

@@ -47,8 +47,8 @@ class SiblingsBenefits extends Controller
         }
     }
 
-    function remove_benefits($idno) {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+    public static function remove_benefits($idno) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $siblings = \App\DiscountCollection::where('idno', $idno)->get();
             if(count($siblings)>0){
                 foreach($siblings as $sibling){

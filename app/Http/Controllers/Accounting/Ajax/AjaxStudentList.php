@@ -96,5 +96,18 @@ class AjaxStudentList extends Controller {
             return view('accounting.benefit_scholar.getstudentlist', compact('lists'));
         }
     }
+    function getbenefit_bed_scholar() {
+        if (Request::ajax()) {
+            $search = Input::get("search");
+            $lists = \App\User::where('academic_type', '!=','College')
+                            ->where(function ($query) use ($search) {
+                                $query->where("lastname", "like", "%$search%")
+                                ->orWhere("firstname", "like", "%$search%")
+                                ->orWhere(DB::raw("CONCAT(firstname,' ',lastname)"), "like", "%$search%")
+                                ->orWhere("idno", $search);
+                            })->get();
+            return view('accounting.benefit_scholar.bedgetstudentlist', compact('lists'));
+        }
+    }
 
 }
