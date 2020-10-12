@@ -1391,13 +1391,16 @@ $layout = "layouts.appadmission-shs";
             </div>
         </div>
         @if($status->status == env("FOR_APPROVAL") || $status->status <= env("ENROLLED"))
-        @if($status->status == env("FOR_APPROVAL") || $status->status <= env("ENROLLED"))
+        @if($status->status <= env("ENROLLED"))
         <div class="col-sm-3">
         <input type="submit" value='Save' class='form-control btn btn-primary'>
         </div>
         @elseif($status->status == env("FOR_APPROVAL"))
         @if(Auth::user()->idno != "acruz")
             @if($is_lock == 0)
+            <div class="col-sm-3">
+            <input type="submit" value='Save' class='form-control btn btn-primary'>
+            </div>
             <div class="col-sm-3"><a href="{{url('admissionbeds', array('disapprove_application', $user->idno))}}"><button onclick="if (confirm('Do you really want to REGRET Applicant?'))
                     return true;
                 else
