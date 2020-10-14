@@ -186,7 +186,7 @@ function check($val) {
             </tr>
             </br>
             <tr>
-                <td colspan="4" class="small-label"><small>Mother's Name</small></td>
+                <td colspan="4" class="small-label"><small>Mother's Maiden Name</small></td>
                 <td class="small-label"><small>Nationality</small></td>
                 <td class="small-label"><small></small></td>
                 <td colspan="2" class="small-label"><small>Religion</small></td>

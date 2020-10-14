@@ -394,7 +394,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
 <!--                    <label>Mother</label>-->
                     <div class="form-group">
                         <div class="col-sm-8">
-                            <label>Mother's Name</label>
+                            <label>Mother's Maiden Name</label>
                             <input class="form form-control" name='mother' value="{{old('mother',$info->mother)}}" type="text">
                         </div>
                         <div class="col-sm-2">
