@@ -634,28 +634,41 @@ class Updater extends Controller {
     }
 
     function updateCollegeLedger() {
-        $subsidiary1 = "Placement";
-        $ledgers1 = \App\Ledger::where('subsidiary', $subsidiary1)->where('school_year', 2020)->where('program_code', "!=", null)->get();
+//        $subsidiary1 = "Placement";
+//        $ledgers1 = \App\Ledger::where('subsidiary', $subsidiary1)->where('school_year', 2020)->where('program_code', "!=", null)->get();
 
-        $subsidiary2 = "Accident Insurance";
-        $ledgers2 = \App\Ledger::where('subsidiary', $subsidiary2)->where('school_year', 2020)->where('program_code', "!=", null)->get();
+//        $subsidiary2 = "Accident Insurance";
+//        $ledgers2 = \App\Ledger::where('subsidiary', $subsidiary2)->where('school_year', 2020)->where('program_code', "!=", null)->get();
+
+        $subsidiary3 = "AAA Membership Fee";
+        $ledgers3 = \App\Ledger::where('subsidiary', $subsidiary3)->where('school_year', 2020)->where('program_code', "!=", null)->get();
 
         DB::beginTransaction();
-        foreach ($ledgers1 as $ledger1) {
-            $ledger1->amount = 0;
-            $ledger1->save();
-        }
+//        foreach ($ledgers1 as $ledger1) {
+//            $ledger1->amount = 0;
+//            $ledger1->save();
+//        }
+//
+//        foreach ($ledgers2 as $ledger2) {
+//            $ledger2->amount = 0;
+//            $ledger2->save();
+//        }
 
-        foreach ($ledgers2 as $ledger2) {
-            $ledger2->amount = 0;
-            $ledger2->save();
-        }
-        
-        $students = \App\Status::where('academic_type','College')->where('school_year', 2020)->where('period','1st Semester')->where('type_of_plan',"!=", 'Plan A')->where('status',env('ENROLLED'))->get();
-
-        foreach ($students as $student){
+        foreach ($ledgers3 as $ledger3) {
+            $ledger3->amount = 0;
+            $ledger3->save();
+            
+            
+            $student = \App\Status::where('idno', $ledger3->idno)->first();
             $this->changePlan($student);
         }
+        
+//        $students = \App\Status::where('academic_type','College')->where('school_year', 2020)->where('period','1st Semester')->where('type_of_plan',"!=", 'Plan A')->where('status',env('ENROLLED'))->get();
+//        $students = \App\Status::where('academic_type','College')->where('school_year', 2020)->where('period','1st Semester')->where('status',env('ENROLLED'))->get();
+
+//        foreach ($students as $student){
+//            $this->changePlan($student);
+//        }
         DB::Commit();
         return "DONE";
     }
