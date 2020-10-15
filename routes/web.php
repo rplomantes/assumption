@@ -26,7 +26,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::post('/set_password','HomeController@set_password');
 
-//Route::get('update_college_ledger','Updater@updateCollegeLedger');
+Route::get('update_college_ledger','Updater@updateCollegeLedger');
 
 //REG ASSESSMENT
 Route::get('/registrar_college/assessment2/{idno}/{school_year}/{period}', 'RegistrarCollege\Assessment\AssessmentController@index2');
