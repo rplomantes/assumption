@@ -421,7 +421,6 @@ function getPromotion($level) {
                 First Quarter: Assumption English School-Singapore
             </span></td></tr>
 </table>
-<br>
 @endif
 
 @if($idno == 1920294)
