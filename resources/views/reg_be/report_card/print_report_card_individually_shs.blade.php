@@ -264,7 +264,7 @@ function getPromotion($level) {
         <td align="right" style = "font:bold" colspan="3">General Average for the First Semester:</td><td align="center" colspan="2"><strong>@if($get_first_sem_final_ave){{$get_first_sem_final_ave->final_letter_grade}}({{$get_first_sem_final_ave->final_grade}})@endif</strong></td>
     </tr>
     <tr>
-        <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS",$school_year)}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         <!--<td align="right" style = "font:bold" colspan="3">General Average for the Second Semester:</td><td align="center" colspan="2"><strong>{{round($total_final_grade,3)}}/{{$total_units}}</strong></td>-->
     </tr>
     <tr>
