@@ -37,9 +37,9 @@ function getFinalRating($grade, $letter_grade_type) {
 }
 
 //get letter grade transmutation
-function getLetterGrade($grade, $letter_grade_type) {
+function getLetterGrade($grade, $letter_grade_type,$school_year) {
     $round = round($grade);
-    $final_letter_grade = \App\CtrTransmuLetter::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->first();
+    $final_letter_grade = \App\CtrTransmuLetterArchive::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->where('school_year',$school_year)->first();
     $letter = $final_letter_grade['letter_grade'];
     return "$letter";
 }
@@ -270,9 +270,9 @@ function getPromotion($level) {
     <tr>
         <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td><td align="center" colspan="2"><strong>
                 @if($get_first_sem_final_ave)
-                {{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS')}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})
+                {{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS',$school_year)}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})
             @else
-            {{getLetterGrade(round($total_final_grade/$total_units,3),'SHS')}}({{round($total_final_grade/$total_units,3)}})
+            {{getLetterGrade(round($total_final_grade/$total_units,3),'SHS',$school_year)}}({{round($total_final_grade/$total_units,3)}})
             @endif</strong></td>
     </tr>
 </table>

@@ -37,9 +37,9 @@ function getFinalRating($grade, $letter_grade_type) {
 }
 
 //get letter grade transmutation
-function getLetterGrade($grade, $letter_grade_type) {
+function getLetterGrade($grade, $letter_grade_type,$school_year) {
     $round = round($grade);
-    $final_letter_grade = \App\CtrTransmuLetter::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->first();
+    $final_letter_grade = \App\CtrTransmuLetterArchive::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->where('school_year',$school_year)->first();
     $letter = $final_letter_grade['letter_grade'];
     return "$letter";
 }
