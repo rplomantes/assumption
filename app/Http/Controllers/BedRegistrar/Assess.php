@@ -198,11 +198,12 @@ class Assess extends Controller {
         $discount_misc = 0;
         $discount_srf = 0;
         $discount = \App\CtrDiscount::where('discount_code', $request->discount)->first();
-        if($discount->discount_type == 2){
-            $discount = \App\BedScholarship::where('idno',$request->idno)->first();
-            $discount->discount_type=2;
-        }
         if (count($discount) > 0) {
+            if($discount->discount_type == 2){
+                $discount = \App\BedScholarship::where('idno',$request->idno)->first();
+                $discount->discount_type=2;
+            }
+            
             $discount_code = $discount->discount_code;
             $discount_description = $discount->discount_description;
             $discount_tuition = $discount->tuition_fee;
