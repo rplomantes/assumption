@@ -130,6 +130,10 @@ Route::post('/update_or_form_request','BedRegistrar\RequestForm@updateOR');
 Route::get('/tag_as_claimed/{reference_id}','BedRegistrar\RequestForm@tag_as_claimed');
 Route::post('/tag_as_for_claiming','BedRegistrar\RequestForm@tag_as_for_claiming');
 
+//External Form
+Route::get('/bedregistrar/external_form','BedRegistrar\ExternalForm@index');
+Route::post('/add_external_form','BedRegistrar\ExternalForm@update');
+
 
 //BED Report Card
 Route::get('/bedregistrar/report_card','BedRegistrar\ReportCardController@index');
