@@ -152,6 +152,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/admissions',array('settings','programs'))}}">Program to Offer</a></li>
+            <li><a href="{{url('/admissions',array('settings','pre_registration_email'))}}">Pre-Registration Email</a></li>
+            <!--<li><a href="{{url('/admissions',array('settings','application_result_email'))}}">Application Result Email</a></li>-->
                             </ul>
                         </li>
                 </section>

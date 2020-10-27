@@ -44,4 +44,42 @@ class PreRegistrationSettings extends Controller
             return redirect('/admissions/settings/programs');
         }
     }
+    
+    function view_pre_registration_email() {
+        if (Auth::user()->accesslevel == env("ADMISSION_HED")) {
+            return view('admission-hed.pre_registration_email');
+        }
+    }
+    
+    function view_pre_registration_email_post(Request $request) {
+        if (Auth::user()->accesslevel == env("ADMISSION_HED")) {
+            if($request->submit == "regular"){
+                $update = \App\CtrHedPreRegMessage::where('type',$request->submit)->first();
+                $update->message=$request->message_regular;
+                $update->save();
+            }
+            return redirect(url('/admissions/settings/pre_registration_email'));
+        }
+    }
+    
+    function view_application_result_email() {
+        if (Auth::user()->accesslevel == env("ADMISSION_HED")) {
+            return view('admission-hed.application_result_email');
+        }
+    }
+    
+    function view_application_result_email_post(Request $request) {
+        if (Auth::user()->accesslevel == env("ADMISSION_HED")) {
+            if($request->submit == "Approved"){
+                $update = \App\CtrHedPreRegMessage::where('type',$request->submit)->first();
+                $update->message=$request->message_approved;
+                $update->save();
+            }elseif($request->submit == "Regret"){
+                $update = \App\CtrHedPreRegMessage::where('type',$request->submit)->first();
+                $update->message=$request->message_regret;
+                $update->save();
+            }
+            return redirect(url('/admissions/settings/application_result_email'));
+        }
+    }
 }

@@ -131,7 +131,7 @@ function getPromotion($level) {
     }
 }
 ?>
-        <div  style="position:absolute; top:125px; bottom:0; left:45px; right:0;">
+        <div  style="position:absolute; top:125px; bottom:0; left:20px; right:0;">
             <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
         </div>
 <table width="50%">
@@ -148,9 +148,9 @@ function getPromotion($level) {
 <br>
 <table border = 1 cellpadding = 6 cellspacing =0 width="50%">
     <tr style = "background: darkblue; color: white; font:bold">
-        <td rowspan="2" align="center" width="60%">LEARNING AREAS</td><td colspan="4" align="center">QUARTER</td><td rowspan="2" align="center">FINAL<br>RATING</td>
+        <td rowspan="2" align="center" width="60%" style="border:1px solid black;">LEARNING AREAS</td><td colspan="4" align="center" style="border-top:1px solid black;">QUARTER</td><td rowspan="2" align="center"  style="border:1px solid black;">FINAL<br>RATING</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td rowspan="2" align="center">REMARKS</td>
+        <td rowspan="2" align="center"  style="border:1px solid black;">REMARKS</td>
         @endif
     </tr>
     <tr style = "background: darkblue; color: white; font:bold">
@@ -408,9 +408,9 @@ function getPromotion($level) {
 
     <tr>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td style = "background: darkblue; color: white; font:bold" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         @else
-        <td style = "background: darkblue; color: white; font:bold" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
         @endif
     </tr>
 </table>
@@ -421,7 +421,6 @@ function getPromotion($level) {
                 First Quarter: Assumption English School-Singapore
             </span></td></tr>
 </table>
-<br>
 @endif
 
 @if($idno == 1920294)
@@ -439,7 +438,7 @@ function getPromotion($level) {
             </span></td></tr>
 </table>
 <br>
-<div style="position:absolute; top:660px; bottom:0; left:0; right:0;">
+<div style="position:absolute; top:630px; bottom:0; left:0; right:0;">
     <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
@@ -489,19 +488,19 @@ function getPromotion($level) {
     </table>
 </div>
 <!--LEGEND-->
-<div style="position:absolute; top:0px; bottom:0; left:540px; right:0;">
+<div style="position:absolute; top:0px; bottom:0; left:480px; right:0; font:11pt !important;">
     LEGEND:
     <ul style="list-style: none;">
-        <li><span>A(Advance)</span>....................................................<span>90% and more</span>
-        <li><span>P(Proficient)</span>...................................................<span>85% - 89%</span>
-        <li><span>AP(Advance Proficiency)</span>..............................<span>80% - 84%</span>
-        <li><span>D(Developing)</span>...............................................<span>75% - 79</span>
-        <li><span>B(Beginning)</span>.................................................<span>74% and below</span>
+        <li><span>A(Advance)</span>...............................................<span>90% and more</span>
+        <li><span>P(Proficient)</span>..............................................<span>85% - 89%</span>
+        <li><span>AP(Advance Proficiency)</span>.........................<span>80% - 84%</span>
+        <li><span>D(Developing)</span>..........................................<span>75% - 79</span>
+        <li><span>B(Beginning)</span>............................................<span>74% and below</span>
     </ul>
 </div>
 
-<div style="position:absolute; top:140px; bottom:0; left:650px; right:0;">
-    <table>
+<div style="position:absolute; top:140px; bottom:0; left:580px; right:0;">
+    <table style=" font:11pt !important;">
         <tr class="legend"><td>O</td><td>-</td><td>Outstanding</td></tr>
         <tr class="legend"><td>HS</td><td>-</td><td>Highly Satisfactory</td></tr>
         <tr class="legend"><td>S</td><td>-</td><td>Satisfactory</td></tr>
@@ -511,8 +510,8 @@ function getPromotion($level) {
     </table>
 </div>
 
-<div style="position:absolute; top:270px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
-    <h3>CERTIFICATE OF TRANSFER</h3>
+<div style="position:absolute; top:305px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
+    <strong>CERTIFICATE OF TRANSFER</strong><br>
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
     She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
@@ -525,9 +524,9 @@ function getPromotion($level) {
     Date
 </div>
 
-<div style="position:absolute; top:520px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
-    <h3>CANCELLATION OF TRANSFER ELIGIBILITY</h3>
-    Has been admitted to___________________________________<br>
+<div style="position:absolute; top:520px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
+    <strong>CANCELLATION OF TRANSFER ELIGIBILITY</strong><br>
+    Has been admitted to __________________________________<br>
     ____________________________________________________.
     <br>
     <br>

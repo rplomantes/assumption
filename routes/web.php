@@ -483,6 +483,11 @@ Route::post('/bedadmission/settings/application_result_email/post','AdmissionBED
 Route::get('/admissions/settings/programs','AdmissionHED\PreRegistrationSettings@view');
 Route::get('/admissions/settings/update_programs/{program_code}','AdmissionHED\PreRegistrationSettings@update');
 
+Route::get('/admissions/settings/pre_registration_email','AdmissionHED\PreRegistrationSettings@view_pre_registration_email');
+Route::post('/admissions/settings/pre_registration_email/post','AdmissionHED\PreRegistrationSettings@view_pre_registration_email_post');
+Route::get('/admissions/settings/application_result_email','AdmissionHED\PreRegistrationSettings@view_application_result_email');
+Route::post('/admissions/settings/application_result_email/post','AdmissionHED\PreRegistrationSettings@view_application_result_email_post');
+
 //ACCOUNTING EDIT LEDGER
 Route::get('/accounting/edit_ledger/{idno}','Accounting\EditLedger@index');
 Route::post('/accounting/edit_ledger_now','Accounting\EditLedger@update_ledger');

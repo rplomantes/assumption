@@ -92,7 +92,7 @@ function getPromotion($level) {
 }
 ?>
 
-        <div  style="position:absolute; top:125px; bottom:0; left:45px; right:0;">
+        <div  style="position:absolute; top:125px; bottom:0; left:20px; right:0;">
             <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
         </div>
 <table width="50%" cellpadding="0" cellspacing="0">
@@ -101,7 +101,7 @@ function getPromotion($level) {
     </tr>
     <tr>
         <td>Grade & Section</td><td colspan="2" style="border-bottom: 1px solid black">{{$status->level}} - 
-            @if($status->strand == "PA")A @elseif($status->strand == "HUMSS")H @elseif($status->strand == "ABM")B @elseif($status->strand == "STEM")S @endif{{$status->section}}</td>
+            @if($status->strand == "AD")AD 1 @elseif($status->strand == "HUMSS")H {{$status->section}} @elseif($status->strand == "ABM")B {{$status->section}} @elseif($status->strand == "STEM")S {{$status->section}} @endif</td>
         <td align="right">Strand</td><td colspan="2" align="center" style="border-bottom: 1px solid black">@if($status->strand == "PA") Arts and Design @else{{$status->strand}}@endif</td>
     </tr>
     <tr>
@@ -142,32 +142,34 @@ function getPromotion($level) {
             <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
+<!--1st Quarter-->
                 <td align="center">
                     @if($subject->is_alpha == 0)
                         @if($display_type == 0)
-                        {{$subject->third_remarks}}
+                        {{$subject->first_remarks}}
                         @elseif($display_type == 1)
-                        {{$subject->third_remarks}}({{$subject->third_grading}})
+                        {{$subject->first_remarks}}({{$subject->first_grading}})
                         @endif
                     @else
-                    {{$subject->third_grading_letter}}
+                    {{$subject->first_grading_letter}}
                     @endif
                 </td>
-                
-                @if($idno == "1920262")
-                <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
-                @if($subject->fourth_remarks=="Fail")
-                <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt"></td>
-                @else
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                @endif
-                @else
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                @endif
+<!--2nd Quarter-->
+                <td align="center">
+                    @if($subject->is_alpha == 0)
+                        @if($display_type == 0)
+                        {{$subject->second_remarks}}
+                        @elseif($display_type == 1)
+                        {{$subject->second_remarks}}({{$subject->second_grading}})
+                        @endif
+                    @else
+                    {{$subject->second_grading_letter}}
+                    @endif
+                </td>
+<!--Final Rating-->
+                <td></td>
+<!--Remarks-->
+                <td></td>
 
                 @if($subject->units>0)
                 <?php $total_final_grade += $subject->final_grade; ?>
@@ -179,9 +181,9 @@ function getPromotion($level) {
         @if(count($get_pe_2nd)>0)
             @foreach($get_pe_2nd as $subject)
             @if(count($get_pe_1st)>0)
-                <?php $pe_average = ($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3; ?>
+                <?php $pe_average = ($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading+$subject->fourth_grading)/4; ?>
             @else
-                <?php $pe_average = ($subject->first_grading+$subject->second_grading+$subject->third_grading)/3; ?>
+                <?php $pe_average = ($subject->first_grading+$subject->second_grading+$subject->third_grading+$subject->fourth_grading)/4; ?>
             @endif
             <?php $total_units += $subject->units; ?>
             <tr>
@@ -229,7 +231,7 @@ function getPromotion($level) {
                     {{$subject->third_remarks}}                
                 </td>
                 <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt">{{$subject->third_remarks}}</td>
+                <td align="center" style="font:10pt">{{$subject->final_remarks}}</td>
                 <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
@@ -246,7 +248,7 @@ function getPromotion($level) {
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">{{$subject->third_grading_letter}}</td>
                 <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt">{{$subject->third_grading_letter}}</td>
+                <td align="center" style="font:10pt">{{$subject->final_grade_letter}}</td>
                 <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
@@ -264,23 +266,29 @@ function getPromotion($level) {
         <td align="right" style = "font:bold" colspan="3">General Average for the First Semester:</td><td align="center" colspan="2"><strong>@if($get_first_sem_final_ave){{$get_first_sem_final_ave->final_letter_grade}}({{$get_first_sem_final_ave->final_grade}})@endif</strong></td>
     </tr>
     <tr>
-        <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS",$school_year)}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td>
+        <td align="center" colspan="2">
+            <!--<strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS",$school_year)}}({{round($total_final_grade/$total_units,3)}})</strong>-->
+        </td>
         <!--<td align="right" style = "font:bold" colspan="3">General Average for the Second Semester:</td><td align="center" colspan="2"><strong>{{round($total_final_grade,3)}}/{{$total_units}}</strong></td>-->
     </tr>
     <tr>
-        <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td><td align="center" colspan="2"><strong>
-                @if($get_first_sem_final_ave)
+        <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td>
+        <td align="center" colspan="2"><strong>
+<!--                @if($get_first_sem_final_ave)
                 {{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS',$school_year)}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})
             @else
             {{getLetterGrade(round($total_final_grade/$total_units,3),'SHS',$school_year)}}({{round($total_final_grade/$total_units,3)}})
-            @endif</strong></td>
+            @endif</strong>-->
+        </td>
     </tr>
 </table>
-<div style="position:absolute; top:640px; bottom:0; left:0; right:0;">
+<div style="position:absolute; top:580px; bottom:0; left:0; right:0;">
     <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr><td colspan="7" align="center"><span style="font-style: italic !important">
                 "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
-                the grades for the second half of the second semester / 4th quarter are Pass or Fail."
+                the grades for the second half of the second semester / 4th quarter are Pass or Fail
+                and there is only one Conduct grade <br> for the 1st and 2nd Semesters."
             </span></td></tr>
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
@@ -291,8 +299,9 @@ function getPromotion($level) {
             <td align="center" rowspan="2">May</td>
             <td align="center" style="font:7pt !important;" width="16%">Days of School</td>
         </tr>
+<?php $school_days = \App\CtrSchoolDay::where('academic_type','SHS')->where('school_year',$school_year)->where('period',$period)->value('school_days'); ?>
         <tr>
-            <td align="center">106</td>
+            <td align="center">{{$school_days}}</td>
         </tr><?php $total_absent = 0; ?>
         </tr><?php $totalab = 0; ?>
         <tr>
@@ -302,7 +311,7 @@ function getPromotion($level) {
             <td align="center"><?php $total_absent += $totalab = getAttendances('03', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('04', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('05', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{106-$total_absent}}</td>
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
@@ -315,20 +324,20 @@ function getPromotion($level) {
     </table>
 </div>
 <!--LEGEND-->
-<div style="position:absolute; top:0px; bottom:0; left:540px; right:0;">
+<div style="position:absolute; top:0px; bottom:0; left:480px; right:0; font:11pt !important;">
     LEGEND:
     <ul style="list-style: none;">
-        <li><span>O(Outstanding)</span>.......................................<span>90% and 100%</span>
-        <li><span>VS(Very Satisfactory)</span>............................<span>85% - 89%</span>
-        <li><span>S(Satisfactory)</span>........................................<span>80% - 84%</span>
-        <li><span>FS(Fairly Satisfactory)</span>...........................<span>75% - 79%</span>
-        <li><span>D(Did Not Meet Expectations)</span>...............<span>74% and below</span>
+        <li><span>O(Outstanding)</span>..................................<span>90% and 100%</span>
+        <li><span>VS(Very Satisfactory)</span>.......................<span>85% - 89%</span>
+        <li><span>S(Satisfactory)</span>...................................<span>80% - 84%</span>
+        <li><span>FS(Fairly Satisfactory)</span>......................<span>75% - 79%</span>
+        <li><span>D(Did Not Meet Expectations)</span>.........<span>74% and below</span>
     </ul>
 </div>
 
-<div style="position:absolute; top:140px; bottom:0; left:650px; right:0;">
+<div style="position:absolute; top:140px; bottom:0; left:580px; right:0;">
 <strong>Conduct & Student Activities</strong>
-    <table>
+    <table style=" font:11pt !important;">
         <tr class="legend"><td>O</td><td>-</td><td>Outstanding</td></tr>
         <tr class="legend"><td>HS</td><td>-</td><td>Highly Satisfactory</td></tr>
         <tr class="legend"><td>S</td><td>-</td><td>Satisfactory</td></tr>
@@ -338,8 +347,8 @@ function getPromotion($level) {
     </table>
 </div>
 
-<div style="position:absolute; top:285px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
-    <h3>CERTIFICATE OF TRANSFER</h3>
+<div style="position:absolute; top:305px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
+    <strong>CERTIFICATE OF TRANSFER</strong><br>
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
     She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
@@ -348,15 +357,15 @@ function getPromotion($level) {
     <br>
     
 </div>
-<div style="position:absolute; top:445px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
+<div style="position:absolute; top:420px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
     Principal, Assumption College, Makati City<br><br>
     June 8, 2020<br>
     Date
 </div>
-<div style="position:absolute; top:525px; bottom:0; left:540px; right:0; font:12pt; text-align: justify">
-    <h3>CANCELLATION OF TRANSFER ELIGIBILITY</h3>
-    Has been admitted to___________________________________<br>
+<div style="position:absolute; top:520px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
+    <strong>CANCELLATION OF TRANSFER ELIGIBILITY</strong><br>
+    Has been admitted to __________________________________<br>
     ____________________________________________________.
     <br>
     <br>
