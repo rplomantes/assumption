@@ -280,7 +280,7 @@ $late_less = $late_totaldiscount + $late_totaldm + $late_totalpayment;
             <td><strong>
                     <div style='border: 1px solid black'><div style="margin: .2cm">
                             ADVISORY:<br>
-                            &nbsp;&nbsp;&nbsp;--Surcharge of Php 100.00 every month of late payment.<br><br>
+                            <!--&nbsp;&nbsp;&nbsp;--Surcharge of Php 100.00 every month of late payment.<br><br>-->
                             &nbsp;&nbsp;&nbsp;<strong style="color:red">--Succeeding Statement of Account from here on will only <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;be available in digital form at <i><u>portal.assumption.edu.ph</u></i></strong></div></div><br>
 
 
