@@ -54,6 +54,8 @@
             <li><a href="#tab_2" data-toggle="tab">Paid</a></li>
             <li><a href="#tab_3" data-toggle="tab">For Claiming</a></li>
             <li><a href="#tab_4" data-toggle="tab">Claimed</a></li>
+            <li class="pull-right"><a href="{{url('/bedregistrar',array('request_form','settings'))}}">Settings</a></li>
+            <!--<li class="pull-right"><a href="{{url('/bedregistrar',array('request_form','reports'))}}">Reports</a></li>-->
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
