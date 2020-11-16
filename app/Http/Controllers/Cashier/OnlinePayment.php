@@ -21,37 +21,50 @@ class OnlinePayment extends Controller {
         }
         return view('cashier.online_payment', compact('payments', 'date_from', 'date_to'));
     }
-    
-    function issue_or_number(){
-        if(\Illuminate\Support\Facades\Request::ajax()){
+
+    function issue_or_number() {
+        if (\Illuminate\Support\Facades\Request::ajax()) {
             $payment_id = \Illuminate\Support\Facades\Input::get('payment_id');
             $date_from = \Illuminate\Support\Facades\Input::get('date_from');
             $date_to = \Illuminate\Support\Facades\Input::get('date_to');
-            return view('cashier.ajax.issue_or_number',compact('payment_id','date_from','date_to'));
-            
+            return view('cashier.ajax.issue_or_number', compact('payment_id', 'date_from', 'date_to'));
         }
-        
     }
-    
-    function issue_or_number_now(Request $request){
+
+    function issue_or_number_now(Request $request) {
         if (Auth::user()->accesslevel == env("CASHIER")) {
-            
+
             $validate = $request->validate([
                 'or_number' => 'required|size:10',
             ]);
             if ($validate) {
-                $check_or_number = \App\Payment::where('receipt_no',$request->or_number)->get();
-                if(count($check_or_number)>0){
+                $check_or_number = \App\Payment::where('receipt_no', $request->or_number)->get();
+                if (count($check_or_number) > 0) {
 
-                Session::flash('danger', 'Oops!, OR number already encoded.');
-                }else{
-                $update_payment = \App\Payment::where('id',$request->payment_id)->first();
-                $update_payment->receipt_no = $request->or_number;
-                $update_payment->save();
-                Session::flash('message', 'OR number issued successfully!');
+                    Session::flash('danger', 'Oops!, OR number already encoded.');
+                } else {
+                    $update_payment = \App\Payment::where('id', $request->payment_id)->first();
+                    $update_payment->receipt_no = $request->or_number;
+                    $update_payment->save();
+                    Session::flash('message', 'OR number issued successfully!');
                 }
             }
-            return redirect(url('cashier', array('online_payment',$request->date_from,$request->date_to)));
+            return redirect(url('cashier', array('online_payment', $request->date_from, $request->date_to)));
+        }
+    }
+
+    function paypal_transactions() {
+        if (Auth::user()->accesslevel == env("CASHIER")) {
+            return view('cashier.paypaltransactions');
+        }
+    }
+
+    function getpaypaltransactions() {
+        if (\Illuminate\Support\Facades\Request::ajax()) {
+            $invoice_id = \Illuminate\Support\Facades\Input::get('invoice_id');
+            $getpayment = \App\RequestPayment::where('response_id',$invoice_id)->first();
+            
+            return view('cashier.ajax.paypaltransaction',compact('invoice_id','getpayment'));
         }
     }
 
