@@ -54,7 +54,7 @@ class OnlinePayment extends Controller {
     }
 
     function paypal_transactions() {
-        if (Auth::user()->accesslevel == env("CASHIER")) {
+        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             return view('cashier.paypaltransactions');
         }
     }
