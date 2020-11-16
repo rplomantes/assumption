@@ -164,6 +164,21 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
                             </ul>
                         </li>
+                        
+                        
+                        
+                        
+                        <li class="treeview">
+          <a href="#"><i class="fa fa-paypal"></i> <span> Online Payments</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <!--<li><a href="{{url("/cashier",array('online_payment',date('Y-m-d'),date('Y-m-d')))}}">Online Payments</a></li>-->
+            <li><a href="{{url('/paypal_transactions')}}">Paypal Transactions </a></li>
+          </ul>
+        </li>
 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-bookmark"></i> <span>Statement of Account</span>
