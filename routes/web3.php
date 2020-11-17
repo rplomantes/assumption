@@ -171,3 +171,8 @@ Route::get('/bookstore/print/student_list/{level}/{strand}/{section}/{school_yea
 
 
 
+//Persona Report
+Route::get('/admissions/persona_report','AdmissionHED\Persona@report');
+
+
+
