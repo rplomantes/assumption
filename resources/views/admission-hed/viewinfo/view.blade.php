@@ -376,6 +376,16 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                 </div>    
                             </div>-->
                             <hr>
+                            <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label>Do you have now, or in the past, a condition/s which require or requires you to see a professional?*</label>
+                                        <select class="form form-control" id="see_professional" name='see_professional' type="text">
+                                            <option></option>
+                                            <option value='0' @if($adhedinfo->see_professional == 0) selected='' @endif>None</option>
+                                            <option value='10' @if($adhedinfo->see_professional == 10) selected='' @endif>Yes</option>
+                                        </select>    
+                                    </div>
+                                </div>
                             <div class="form-group">            
                                 <div class="col-sm-12" id="conditionType" name='conditionType' type='text'>
                                     <label>Condition:</label><br>
@@ -392,7 +402,64 @@ if ($adhedinfo->applying_for == "Senior High School") {
                                     <label>Please specify condition and type of professional seen</label>
                                     <input class="form form-control" placeholder="Specify*" name='specify_condition' type="text" value='{{old('specify_condition', $adhedinfo->specify_condition)}}'>
                                 </div>        
-                            </div>   
+                            </div>
+                            <hr>
+                            <label style="background-color: gray">WE WANT TO KNOW MORE ABOUT YOU...</label>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>Interest/Hobbies</label>
+                        <input class="form form-control" name='interest' value="{{old('interest',$about->interest)}}" type="text">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Goals</label>
+                        <input class="form form-control" name='goals' value="{{old('goals',$about->goals)}}" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>Challenges and Key Concerns</label>
+                        <input class="form form-control" name='challenges' value="{{old('challenges',$about->challenges)}}" type="text">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Preferred Communication Channel</label>
+                        <select class="form form-control" name="com_channel">
+                            <option value="">Select Preferred Communication Channel</option>
+                            <option value="Email" @if($about->com_channel=="Email")selected='' @endif>Email</option>
+                            <option value="Viber" @if($about->com_channel=="Viber")selected='' @endif>Viber</option>
+                            <option value="Call"> @if($about->com_channel=="Call")selected='' @endif>Call</option>
+                            <option value="Text"> @if($about->com_channel=="Text")selected='' @endif>Text</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label>Core Values</label><br>
+                        <div class="col-sm-6">
+                        <input type="checkbox" name="awareness" value="1" @if($about->awareness=="1") checked @endif>
+                        <label for="awareness"> Awareness</label><br>
+                        <input type="checkbox" name="commitment" value="1" @if($about->commitment=="1") checked @endif>
+                        <label for="commitment"> Commitment</label><br>
+                        <input type="checkbox" name="kindness" value="1" @if($about->kindness=="1") checked @endif>
+                        <label for="kindness"> Kindness</label><br>
+                        <input type="checkbox" name="simplicity" value="1" @if($about->simplicity=="1") checked @endif>
+                        <label for="simplicity"> Simplicity</label><br>
+                        <input type="checkbox" name="humility" value="1" @if($about->humility=="1") checked @endif>
+                        <label for="humility"> Humility</label>
+                        </div>
+                        <div class="col-sm-6">
+                        <input type="checkbox" name="integrity" value="1" @if($about->integrity=="1") checked @endif>
+                        <label for="integrity"> Integrity</label><br>
+                        <input type="checkbox" name="oneness" value="1" @if($about->oneness=="1") checked @endif>
+                        <label for="oneness"> Oneness</label><br>
+                        <input type="checkbox" name="nature" value="1" @if($about->nature=="1") checked @endif>
+                        <label for="nature"> Nature</label><br>
+                        <label for="other_core"> Others:</label>
+                        <input type="text" class="form form-control" name="other_core" value="{{old('other_core',$about->others)}}" placeholder="Other Core Values">
+                        </div>
+                    </div>
+                </div>
+                            
+                            
                             <!--if(empty($email) && $status->status != env("ENROLLED"))-->
                             @if(($adhedinfo->admission_status == 'Regular' || $adhedinfo->admission_status == 'Scholar' || $adhedinfo->admission_status == 'Probationary') && $adhedinfo->student_status ==1) 
                             <div class="form-group">

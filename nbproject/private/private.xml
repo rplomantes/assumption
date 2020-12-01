@@ -12,8 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/Cashier/StudentLedger.php</file>
-            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/cashier/ledger.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/reg_be/request_form/index.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/routes/web3.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/RequestForm.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/reg_be/request_form/settings.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/reg_be/request_form/getform_details.blade.php</file>
         </group>
     </open-files>
 </project-private>

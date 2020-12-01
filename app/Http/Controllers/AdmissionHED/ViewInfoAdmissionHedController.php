@@ -18,10 +18,16 @@ class ViewInfoAdmissionHedController extends Controller {
     }
     function view_info($idno) {
         if (Auth::user()->accesslevel == env('ADMISSION_HED')) {
-            
+
             $addparent = \App\HedTestingStudent::where('idno', $idno)->first();
             if (count($addparent) == 0) {
                 $addpar = new \App\HedTestingStudent;
+                $addpar->idno = $idno;
+                $addpar->save();
+            }
+            $addparent = \App\CollegeAboutYou::where('idno', $idno)->first();
+            if (count($addparent) == 0) {
+                $addpar = new \App\CollegeAboutYou;
                 $addpar->idno = $idno;
                 $addpar->save();
             }
@@ -33,8 +39,9 @@ class ViewInfoAdmissionHedController extends Controller {
             $email = \App\EmailBlast::where('idno',$idno)->where('is_done',1)->first();
             $status = \App\Status::where('idno',$idno)->first();
             $user = \App\User::where('idno', $idno)->first();
+            $about = \App\CollegeAboutYou::where('idno', $idno)->first();
             $info = \App\StudentInfo::where('idno', $idno)->first();
-            return view('admission-hed.viewinfo.view', compact('email','status','idno', 'users', 'adhedinfo', 'studentinfos', 'admissionreq','user', 'info'));
+            return view('admission-hed.viewinfo.view', compact('email','status','idno', 'users', 'adhedinfo', 'studentinfos', 'admissionreq','user', 'info','about'));
         }
     }
 
@@ -52,6 +59,7 @@ class ViewInfoAdmissionHedController extends Controller {
             DB::beginTransaction();
             $this->updatePersonalInfo($request);
             $this->update_admission_checklist($request);
+            $this->updateCollegeAboutYou($request);
             DB::Commit();
 
             
@@ -83,7 +91,7 @@ class ViewInfoAdmissionHedController extends Controller {
             $updateStatus->status = 21;
             $updateStatus->save();
         }else if($request->student_status == 2){
-            $updatePersonalInfo->status = 0;
+//            $updatePersonalInfo->status = 1;
             $updateStatus= \App\Status::where('idno',$request->idno)->first();
             $updateStatus->status = 20;
             $updateStatus->save();
@@ -102,7 +110,6 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->cell_no = $request->cell_no;
         $updatePersonalInfo->civil_status = $request->civil_status;
         $updatePersonalInfo->nationality = $request->specify_citizenship;
-        $updatePersonalInfo->religion = $request->religion;
         $updatePersonalInfo->last_school_attended = $request->last_school_attended;
         $updatePersonalInfo->last_school_address = $request->last_school_address;
         $updatePersonalInfo->update();
@@ -130,6 +137,7 @@ class ViewInfoAdmissionHedController extends Controller {
         $updatePersonalInfo->emotional = $request->emotional;
         $updatePersonalInfo->social = $request->social;
         $updatePersonalInfo->others = $request->others;
+        $updatePersonalInfo->see_professional = $request->see_professional;
         $updatePersonalInfo->specify_condition = $request->specify_condition;
         $updatePersonalInfo->guardian_name = $request->guardian_name;
         $updatePersonalInfo->guardian_contact = $request->guardian_contact;
@@ -242,6 +250,24 @@ class ViewInfoAdmissionHedController extends Controller {
         $user = \App\User::where('idno',$idno)->first();
         $user->delete();
         return redirect('/');
+    }
+
+    function updateCollegeAboutYou($request) {
+        $update = \App\CollegeAboutYou::where('idno', $request->idno)->first();
+        $update->interest = $request->interest;
+        $update->goals = $request->goals;
+        $update->challenges = $request->challenges;
+        $update->com_channel = $request->com_channel;
+        $update->awareness = isset($request->awareness);
+        $update->commitment = isset($request->commitment);
+        $update->kindness = isset($request->kindness);
+        $update->simplicity = isset($request->simplicity);
+        $update->humility = isset($request->humility);
+        $update->integrity = isset($request->integrity);
+        $update->oneness = isset($request->oneness);
+        $update->nature = isset($request->nature);
+        $update->others = $request->other_core;
+        $update->save();
     }
 
 }

@@ -98,6 +98,15 @@ function check($val) {
         </table>
         <hr>
         <table>
+            <tr>
+                <td class="small-label">Do you have now, or in the past, a condition/s which require or requires you to see a professional?*</td>
+                @if($adhedinfo->see_professional == 10)
+                <td></td>
+                @else
+                <td class="border-right">None</td>
+                @endif
+            </tr>
+            @if($adhedinfo->see_professional == 10)
             <tr>            
                 <td class="small-label">Condition</td>
                 <td class="border-right">
@@ -118,7 +127,9 @@ function check($val) {
             <tr>
                 <td class="small-label">Please specify condition and type of professional seen</td>
                 <td class="border-right">{{$adhedinfo->specify_condition}}</td> 
-            </tr>  
+            </tr>
+            @else
+            @endif
         </table>
         <br>
         <table>
