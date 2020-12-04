@@ -85,7 +85,7 @@ $layout = "layouts.appreg_college";
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Select Course</label>
-                    <select class="form form-control select2" onchange="selectSchedule(this.value)">
+                    <select class="form form-control select2" onchange="selectSchedule(this.value)" id="course_code">
                         <option value="">Select Course</option>
                         @foreach($courses as $course)
                         <option value="{{$course->course_code}}">{{$course->course_code}} - {{$course->course_name}}</option>
@@ -97,7 +97,7 @@ $layout = "layouts.appreg_college";
             </div>
             <div class="col-sm-2" id="search">
                 <label>&nbsp;</label>
-                <button class="btn btn-primary col-sm-12" onclick="displayList(schedule_id.value)">Search</button>
+                <button class="btn btn-primary col-sm-12" onclick="displayList(schedule_id.value,course_code.value)">Search</button>
             </div>
             
             @else
@@ -149,8 +149,9 @@ $layout = "layouts.appreg_college";
 
         });
     }
-    function displayList(schedule_id) {
+    function displayList(schedule_id,course_code) {
         array = {};
+        array['course_code'] = course_code;
         array['schedule_id'] = schedule_id;
         array['school_year'] = "{{$school_year}}";
         array['period'] = "{{$period}}";
@@ -234,9 +235,10 @@ $layout = "layouts.appreg_college";
             }
         });
     }
-    function approveall_finals(schedule_id){
+    function approveall_finals(schedule_id,course_code){
         array = {};
         array['schedule_id'] = schedule_id;
+        array['course_code'] = course_code;
         school_year = "{{$school_year}}";
         period = "{{$period}}";
         $.ajax({
@@ -262,9 +264,10 @@ $layout = "layouts.appreg_college";
             }
         });
     }
-    function approveall_midterm(schedule_id){
+    function approveall_midterm(schedule_id,course_code){
         array = {};
         array['schedule_id'] = schedule_id;
+        array['course_code'] = course_code;
         school_year = "{{$school_year}}";
         period = "{{$period}}";
         $.ajax({
