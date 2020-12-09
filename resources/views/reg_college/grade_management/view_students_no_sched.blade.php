@@ -23,6 +23,7 @@ $checkstatus_finals = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_l
 $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_levels', 'college_levels.idno', '=', 'grade_colleges.idno')->join('users', 'users.idno', '=', 'grade_colleges.idno')->where('college_levels.status', 3)->where('college_levels.school_year', $school_year)->where('college_levels.period', $period)->select('users.idno', 'users.firstname', 'users.lastname', 'grade_colleges.id', 'grade_colleges.midterm', 'grade_colleges.finals', 'grade_colleges.midterm_absences', 'grade_colleges.finals_absences', 'grade_colleges.grade_point', 'grade_colleges.is_lock', 'grade_colleges.midterm_status', 'grade_colleges.finals_status', 'grade_colleges.grade_point_status')->where('grade_colleges.finals_status', 3)->get();
 ?>
 @if (count($students)>0)
+<div class='col-sm-12'><div class='pull-right'><a target='_blank' href="{{url('registrar_college',array('print_grade_list', $school_year,$period,'no_sched',$course_code))}}"><button class='btn btn-primary'>Print Grade</button></a></div></div>
 <form class="form form-horizontal" method="post" action="{{url('college_instructor', array('grades','save_submit'))}}">
     {{csrf_field()}}
     <div class="col-sm-12">
