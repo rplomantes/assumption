@@ -263,6 +263,10 @@ class AjaxViewGrades extends Controller {
                 $update_grades = \App\CollegeCredit::where('id', $grade_id)->where('idno', $idno)->first();
                 $update_grades->finals = $grade;
                 $update_grades->save();
+            }else{
+                $update_grades = \App\GradeCollege::where('id', $grade_id)->where('idno', $idno)->first();
+                $update_grades->finals = $grade;
+                $update_grades->save();
             }
         }
     }
