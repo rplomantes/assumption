@@ -192,7 +192,7 @@ Route::post('/registrar_college/instructor/modify_old_instructor', 'RegistrarCol
 
 
 //Registrar Grade Management
-Route::get('/registrar_college/print_grade_list/{school_year}/{period}/{schedule_id}', 'CollegeInstructor\Grades\GradesController@print_grade');
+Route::get('/registrar_college/print_grade_list/{school_year}/{period}/{schedule_id}/{course_code}', 'CollegeInstructor\Grades\GradesController@print_grade');
 //Close/Open Grade Module
 Route::get('/registrar_college/grade_management/open_close', 'RegistrarCollege\GradeManagement\OpenCloseController@setup');
 Route::post('/registrar_college/grade_management/open_close/submit', 'RegistrarCollege\GradeManagement\OpenCloseController@submit');
@@ -590,7 +590,7 @@ Route::post('/update_sd_explanation','Cashier\StudentLedger@update_sd_explanatio
 Route::post('/update_reason','Cashier\StudentLedger@update_reason');
 
 //Accounting Student List
-Route::get('/accounting/student_list_report/{school_year}','Accounting\StudentList@student_list_report');
+Route::get('/accounting/student_list_report','Accounting\StudentList@student_list_report');
 
 //Accounting NSTP Report
 Route::get('/accounting/nstp_report','Accounting\NstpController@index');
