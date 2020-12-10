@@ -128,7 +128,7 @@
                 <?php 
                 $is_tba = \App\ScheduleCollege::where('course_code',$course_code)->where('school_year',$school_year)->where('period',$period)->first();
                 if(count($is_tba)>0){
-                   $is_tba = $is_tba->is_tba();     
+                   $is_tba = $is_tba->is_tba;     
                 }else{
                    $is_tba = 0;
                 }
