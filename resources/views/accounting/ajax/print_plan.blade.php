@@ -181,7 +181,7 @@ function get_total($level){
     <body>
 
         <span id="school_name">ASSUMPTION COLLEGE</span><br>
-        <span> School Year : 2020-2021, 1st Semester <br>
+        <span> School Year : 2020-2021, 2nd Semester <br>
             @if($department == "Pre School")
             BEPS
             @elseif($department == "Elementary")
@@ -189,7 +189,7 @@ function get_total($level){
             @elseif($department == "Junior High School")
             BEHS
             @elseif($department == "Senior High School")
-            Period : 1st Semester<br>
+            Period : 2nd Semester<br>
             SHS
             @endif
             <br>
@@ -228,7 +228,7 @@ function get_total($level){
         </div>    
 <br>
         <table border ="1" border="1" cellspacing="0" cellpadding="0" width="100%">
-            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
             
             <tr><td colspan="7"><b>Pre-Kinder</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td></tr>
@@ -303,7 +303,7 @@ function get_total($level){
         </div>    
 <!--<br>-->
         <table border ="1" cellspacing="0" cellpadding="0" width="100%">
-            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
             <tr><td colspan="7"><b>Grade 1</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan('Semestral','Grade 1','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','Total')}}</td></tr>
@@ -343,8 +343,6 @@ function get_total($level){
         @endif
 
         @if($department == "Junior High School")
-        <i>Erratum: The Other Fees for Junior High School posted previously incorrectly stated the Student Development Fee as P500.
- The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
         <?php
         $grade1total = 0;
         $grade1tuition = get_plan('Grade 7', 'Tuition Fee');
@@ -389,7 +387,7 @@ function get_total($level){
         </div>    
 
         <table border ="1" cellspacing="0" cellpadding="1" width="100%">
-            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+            <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
             <tr><td colspan="7"><b>Grade 7</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan('Semestral','Grade 7','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','Total')}}</td></tr>
@@ -417,8 +415,6 @@ function get_total($level){
         </table>
         @endif
         @if($department == "Senior High School")
-<i>Erratum:The Other Fees for Senior High School posted previously incorrectly stated the Student Development Fee as P1000.
-    The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
         <?php
         $grade11total = 0;
         $grade11tuition = get_plan('Grade 11', 'Tuition Fee');
@@ -462,7 +458,7 @@ function get_total($level){
             <tr>
                 <td>Mode of Payment</td>
                 <td>Upon Enrollment</td>
-                <td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td>
+                <td>Feb</td><td>Mar</td><td>Apr</td><td>May</td>
                 <td>Total</td>
             </tr>
             
