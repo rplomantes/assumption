@@ -10,10 +10,10 @@ use Barryvdh\DomPDF\Facade;
 class Updater extends Controller {
 
     function updateComputerizedID() {
-        $getAll = \App\Ledger::where('school_year', 2020)->where('idno', 1920254)->where('subsidiary', "Computerized I.D.")->get();
+        $getAll = \App\Ledger::where('school_year', 2020)->where('subsidiary', "Computerized I.D.")->get();
         DB::beginTransaction();
         foreach ($getAll as $record) {
-            $checkRecord = \App\UpdateLedger::where('idno', $record->idno)->where('subsidiary', "Computerized I.D.")->where('is_done', 100)->get();
+            $checkRecord = \App\UpdateLedger::where('idno', $record->idno)->where('subsidiary', "Computerized I.D.")->where('is_done', '>=',100)->get();
             if (count($checkRecord) == 0) {
                 $checkbalance = \App\Ledger::selectRaw('idno,sum(amount) as amount, sum(payment) as payment, sum(discount) as discount, sum(debit_memo) as debit_memo')->where('idno',$record->idno)->first();
                 if (($checkbalance->amount - ($checkbalance->payment+$checkbalance->debit_memo))==0) {
