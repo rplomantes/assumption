@@ -197,7 +197,7 @@ $totalkinder = $kindertuition+$kindermisc+$kinderothers+$kinderdep;
 </div>    
 
 <table border ="1" class="table table-striped">
-    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
     <tr><td colspan="12"><b>Pre-Kinder</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Pre-Kinder','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan('Semestral','Pre-Kinder','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Pre-Kinder','Total')}}</td></tr>
@@ -270,7 +270,7 @@ $grade6total = $grade6tuition+$grade6misc+$grade6others+$grade6dep;
 </div>    
 
 <table border ="1" class="table table-striped">
-    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
     <tr><td colspan="12"><b>Grade 1</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 1','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan('Semestral','Grade 1','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 1','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 1','Total')}}</td></tr>
@@ -310,8 +310,6 @@ $grade6total = $grade6tuition+$grade6misc+$grade6others+$grade6dep;
 @endif
 
 @if($department == "Junior High School")
-<i>Erratum:The Other Fees for Junior High School posted previously incorrectly stated the Student Development Fee as P500.
-    The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
 <?php
 $grade1total = 0;
 $grade1tuition = get_plan('Grade 7','Tuition Fee');
@@ -353,7 +351,7 @@ $grade4total = $grade4tuition+$grade4misc+$grade4others+$grade4dep;
 </div>    
 
 <table border ="1" class="table table-striped">
-    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td><td>Total</td></tr>
+    <tr><td>Mode of Payment</td><td>Upon Enrollment</td><td>Feb</td><td>Mar</td><td>Apr</td><td>May</td><td>Total</td></tr>
     <tr><td colspan="12"><b>Grade 7</b></td></tr>
             <tr><td>Plan A</td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td><td></td><td></td><td></td><td></td><td>{{get_category_plan('Annual','Grade 7','Total')}}</td></tr>
             <tr><td>Plan B</td><td>{{get_category_plan('Semestral','Grade 7','UE')}}</td><td></td><td>{{get_category_plan('Semestral','Grade 7','')}}</td><td></td><td></td><td>{{get_category_plan('Semestral','Grade 7','Total')}}</td></tr>
@@ -380,8 +378,6 @@ $grade4total = $grade4tuition+$grade4misc+$grade4others+$grade4dep;
         </table>
 @endif
 @if($department == "Senior High School")
-<i>Erratum:The Other Fees for Senior High School posted previously incorrectly stated the Student Development Fee as P1000.
-    The correct fee is P750 as it should appear in the Assessment page. We apologize for the error.</i>
 <?php
 $grade1total = 0;
 $grade1tuition = get_plan('Grade 11','Tuition Fee');
@@ -422,7 +418,7 @@ $grade2total = $grade2tuition+$grade2misc+$grade2others+$grade2dep;
     <tr>
         <td>Mode of Payment</td>
         <td>Upon Enrollment</td>
-        <td>Sept</td><td>Oct</td><td>Nov</td><td>Dec</td>
+        <td>Feb</td><td>Mar</td><td>Apr</td><td>May</td>
         <td>Total</td>
     </tr>
         <tr><td colspan="12"><b>Grade 11</b></td></tr>
