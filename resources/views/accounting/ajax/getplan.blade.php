@@ -9,11 +9,6 @@ function get_plan($level, $category) {
         } else {
             $amount = $amount['amount'];
         }
-        if($level == "Grade 7" || $level == "Grade 8" || $level == "Grade 9" || $level == "Grade 10"){
-            if($category == "Other Fees"){
-                $amount += 250;
-            }
-        }
         
     } else {
         $other_amount = \App\ShsOtherCollection::selectRaw('sum(amount) as amount, category')->whereRaw("category = '$category'")->groupBy('category')->first();
