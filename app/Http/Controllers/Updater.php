@@ -13,7 +13,7 @@ class Updater extends Controller {
         //1920249
         //2021200
         DB::beginTransaction();
-        $checkRecord = \App\UpdateLedger::where('idno',2021200)->where('subsidiary', "Computerized I.D.")->where('is_done', 102)->get();
+        $checkRecord = \App\UpdateLedger::where('subsidiary', "Computerized I.D.")->where('is_done', 102)->get();
         foreach ($checkRecord as $record) {
             $getDM = \App\DebitMemo::where('idno',$record->idno)->where('transaction_date', "2020-12-11")->where('explanation',"Computerized I.D. - Refund")->where('posted_by', 999999)->first();
             $getAccounting = \App\Accounting::where('reference_id',$getDM->reference_id)->where('transaction_date', "2020-12-11")->where('posted_by', 999999)->get();
@@ -35,7 +35,7 @@ class Updater extends Controller {
     }
 
     function updateComputerizedID() {
-        $getAll = \App\Ledger::where('school_year', 2020)->where('idno',1920249)->where('subsidiary', "Computerized I.D.")->get();
+        $getAll = \App\Ledger::where('school_year', 2020)->where('subsidiary', "Computerized I.D.")->get();
         DB::beginTransaction();
         foreach ($getAll as $record) {
             $checkRecord = \App\UpdateLedger::where('idno', $record->idno)->where('subsidiary', "Computerized I.D.")->where('is_done', '>=',103)->get();
