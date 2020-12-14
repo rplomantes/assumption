@@ -15,17 +15,17 @@ class Updater extends Controller {
         DB::beginTransaction();
         $checkRecord = \App\UpdateLedger::where('subsidiary', "Computerized I.D.")->where('is_done', 102)->get();
         foreach ($checkRecord as $record) {
-            $getDM = \App\DebitMemo::where('idno',$record->idno)->where('transaction_date', "2020-12-11")->where('explanation',"Computerized I.D. - Refund")->where('posted_by', 999999)->first();
-            $getAccounting = \App\Accounting::where('reference_id',$getDM->reference_id)->where('transaction_date', "2020-12-11")->where('posted_by', 999999)->get();
+            $getDM = \App\DebitMemo::where('idno', $record->idno)->where('transaction_date', "2020-12-11")->where('explanation', "Computerized I.D. - Refund")->where('posted_by', 999999)->first();
+            $getAccounting = \App\Accounting::where('reference_id', $getDM->reference_id)->where('transaction_date', "2020-12-11")->where('posted_by', 999999)->get();
             if (count($getAccounting) == 1) {
                 //Remove accounting
                 $deleteAccounting = \App\Accounting::where('reference_id', $getDM->reference_id)->first();
                 $deleteAccounting->delete();
-                
+
                 //Remove DM
-                $deleteDM = \App\DebitMemo::where('reference_id',$getDM->reference_id)->first();
+                $deleteDM = \App\DebitMemo::where('reference_id', $getDM->reference_id)->first();
                 $deleteDM->delete();
-                
+
                 $record->is_done = 103;
                 $record->save();
             }
@@ -38,20 +38,25 @@ class Updater extends Controller {
         $getAll = \App\Ledger::where('school_year', 2020)->where('subsidiary', "Computerized I.D.")->get();
         DB::beginTransaction();
         foreach ($getAll as $record) {
-            $checkRecord = \App\UpdateLedger::where('idno', $record->idno)->where('subsidiary', "Computerized I.D.")->where('is_done', '>=',103)->get();
+            $checkRecord = \App\UpdateLedger::where('idno', $record->idno)->where('subsidiary', "Computerized I.D.")->where('is_done', 105)->get();
             if (count($checkRecord) == 1) {
                 $checkbalance = \App\Ledger::selectRaw('idno,sum(amount) as amount, sum(payment) as payment, sum(discount) as discount, sum(debit_memo) as debit_memo')->where('idno', $record->idno)->first();
-                if (($checkbalance->amount - ($checkbalance->payment + $checkbalance->debit_memo + $checkbalance->discount)) == 0) {
+                if (($checkbalance->amount - ($checkbalance->payment + $checkbalance->debit_memo + $checkbalance->discount)) <= 0) {
                     //no balance
                     $this->processAddtoSD($record);
-                    $done = 104;
+                    $done = 106;
                 } elseif ($record->discount == 200) {
                     //discounted
                     $done = 101;
                 } else {
-                    //with balance
-                    $this->processDM($record);
-                    $done = 102;
+                    //with balance more than 200
+                    if (($checkbalance->amount - ($checkbalance->payment + $checkbalance->debit_memo + $checkbalance->discount)) > 200) {
+                        $this->processDM($record);
+                        $done = 102;
+                    } else {
+                        $this->processAddtoSD($record);
+                        $done = 106;
+                    }
                 }
                 $addRecord = new \App\UpdateLedger();
                 $addRecord->idno = $record->idno;
