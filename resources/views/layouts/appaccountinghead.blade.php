@@ -232,7 +232,7 @@ $date_end = date('Y-m-d');
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('/accounting', array('student_list_report', $school_year))}}"><span>Download Student List Report</span></a></li>
+                                <li><a href="{{url('/accounting', array('student_list_report'))}}"><span>Download Student List Report</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><span>HED Statistics</span></a></li>
                                 <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><span>BED Statistics</span></a></li>
                                 <li><a href="{{url('/accounting',array('unused_reservations'))}}"><span>Reservations</span></a></li>

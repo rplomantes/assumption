@@ -426,8 +426,8 @@ if ($adhedinfo->applying_for == "Senior High School") {
                             <option value="">Select Preferred Communication Channel</option>
                             <option value="Email" @if($about->com_channel=="Email")selected='' @endif>Email</option>
                             <option value="Viber" @if($about->com_channel=="Viber")selected='' @endif>Viber</option>
-                            <option value="Call"> @if($about->com_channel=="Call")selected='' @endif>Call</option>
-                            <option value="Text"> @if($about->com_channel=="Text")selected='' @endif>Text</option>
+                            <option value="Call" @if($about->com_channel=="Call")selected='' @endif>Call</option>
+                            <option value="Text" @if($about->com_channel=="Text")selected='' @endif>Text</option>
                         </select>
                     </div>
                 </div>

@@ -26,8 +26,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::post('/set_password','HomeController@set_password');
 
-Route::get('update_computerized_id','Updater@updateComputerizedID');
-Route::get('remove_computerized_id','Updater@removeDM');
+//Route::get('update_computerized_id','Updater@updateComputerizedID');
+//Route::get('remove_computerized_id','Updater@removeDM');
 //Route::get('update_college_ledger','Updater@updateCollegeLedger');
 
 //REG ASSESSMENT

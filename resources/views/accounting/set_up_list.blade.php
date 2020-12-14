@@ -85,6 +85,7 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                         <option value="2018">2018-2019</option>
                         <option value="2019">2019-2020</option>
                         <option value="2020">2020-2021</option>
+                        <option value="2020-2021 - 2nd Semester">2020-2021 - 2nd Semester</option>
                         <option value="2021">2021-2022</option>
                     </select>
                 </div>

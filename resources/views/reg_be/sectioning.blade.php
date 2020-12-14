@@ -58,7 +58,7 @@ $strands =  \App\CtrAcademicProgram::selectRaw('distinct strand')->where('academ
       <h1>
           
         {{$title}}
-        <small>S.Y.: {{$school_year->school_year}}-{{$school_year->school_year+1}}</small>
+        <small>S.Y.: {{$school_year->school_year}}</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>

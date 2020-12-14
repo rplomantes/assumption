@@ -18,7 +18,7 @@ class StudentList extends Controller
     
     function student_list(){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-            $school_years = \App\CourseOffering::distinct()->get(['school_year']);
+            $school_years = \App\Status::distinct()->get(['school_year']);
             $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
             return view('accounting.student_list',compact('levels','school_years'));
         }
@@ -168,17 +168,16 @@ class StudentList extends Controller
         }
     }
     
-    function student_list_report($school_year){
+    function student_list_report(){
         if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
-            $period = "1st Semester";
             $levels = array('Pre-Kinder','Kinder','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12','1st Year','2nd Year','3rd Year','4th Year');
 //            return view('accounting.student_list_report',compact('school_year', 'period', 'levels'));
              \App\Http\Controllers\Admin\Logs::log("Download Student List_Report Excel");
             ob_end_clean();
             Excel::create('Student List Report', 
-                function($excel) use ($school_year, $period, $levels) { $excel->setTitle('Student List Report');
-                    $excel->sheet('Student List Report', function ($sheet) use ($school_year, $period, $levels) {
-                    $sheet->loadView('accounting.student_list_report',compact('school_year', 'period', 'levels'));
+                function($excel) use ($levels) { $excel->setTitle('Student List Report');
+                    $excel->sheet('Student List Report', function ($sheet) use ($levels) {
+                    $sheet->loadView('accounting.student_list_report',compact('levels'));
                     });
                 })->download('xlsx');
         }

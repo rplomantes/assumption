@@ -68,13 +68,13 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                  @if($status->academic_type == "BED")
             <tr><td>A.Y. : </td><td align="left">
                     @if($status->status != 11)
-                    {{$status->school_year}}-{{$status->school_year+1}}
+                    {{$status->school_year}}<!---$status->school_year+1-->
                 @endif
                 </td></tr>
                  @else
             <tr><td>A.Y. : </td><td align="left">
                     
-                    @if($status->status != 11){{$status->school_year}}-{{$status->school_year+1}}, {{$status->period}}
+                    @if($status->status != 11){{$status->school_year}}<!---$status->school_year+1-->, {{$status->period}}
                 @endif</td></tr>
                  @endif
                  @endif
@@ -159,6 +159,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 <option value="2018" @if ($school_year == 2018) selected = "" @endif>2018-2019</option>
                 <option value="2019" @if ($school_year == 2019) selected = "" @endif>2019-2020</option>
                 <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
+                <option value="2020-2021 - 2nd Semester" @if ($school_year == '2020-2021 - 2nd Semester') selected = "" @endif>2020-2021 - 2nd Semester</option>
                 <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
                 </select>
             </div>   
@@ -417,7 +418,7 @@ $ledger_list_additional = \App\Ledger::where('idno',$user->idno)->where('categor
         
         
     <div class="accordion-section">
-        <a class="accordion-section-title active" href="#accordion-{{$key}}">A.Y. {{$school_year}}-{{$school_year+1}} {{$period}}</a>
+        <a class="accordion-section-title active" href="#accordion-{{$key}}">A.Y. {{$school_year}}<!---$school_year+1--> {{$period}}</a>
          
         <div id="accordion-{{$key}}" class="accordion-section-content open">
             @if($status->academic_type == 'College' && (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env("ACCTNG_HEAD")))

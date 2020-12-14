@@ -40,7 +40,7 @@ $i=1;
 <center>
 <div><strong>Assumption College</strong></div>
 <div>Basic Education Division</div>
-<div>School Year {{$schoolyear}}-{{$schoolyear+1}}@if($level == "Grade 11" || $level == "Grade 12"), {{$period}}
+<div>School Year {{$schoolyear}}@if($level == "Grade 11" || $level == "Grade 12"), {{$period}}
 @endif
 </div>
 </center><br>

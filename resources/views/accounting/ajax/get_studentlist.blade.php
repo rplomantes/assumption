@@ -3,7 +3,7 @@
 <h4>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h4>
 @endif
 @if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}}</h4>
+<h4>S.Y. {{$school_year}}</h4>
 @endif
 
 @if(count($lists)>0)

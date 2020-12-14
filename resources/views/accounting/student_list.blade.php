@@ -83,7 +83,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     <select class="form form-control" name="school_year" id="school_year">
                         <option>Select School Year</option>
                         @foreach ($school_years as $school_year)
-                        <option value='{{$school_year->school_year}}'>{{$school_year->school_year}}-{{$school_year->school_year+1}}</option>
+                        <option value='{{$school_year->school_year}}'>{{$school_year->school_year}}</option>
                         @endforeach
                     </select>
                 </div>

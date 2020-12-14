@@ -457,11 +457,13 @@ if (count($previous) > 0) {
                         @if($optional->is_required==1)
                         <input name="qty_books[{{$optional->id}}]" value="1" min=1 type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
                         @else
-                        <input name="qty_books[{{$optional->id}}]" value="1" type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
+                        <!--value = 1-->
+                        <input name="qty_books[{{$optional->id}}]" value="0" type="number"  oninput="process_sub1({{$optional->id}},this.value,{{$optional->amount}},this)">
                         @endif
                     </td>
-                <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">{{$default_amount}}
-                    <?php $totalbook=$totalbook+ ($optional->amount * $optional->default_qty);?></div></td>
+                <td align="left"><div class="book_display[]" id="book_display{{$optional->id}}">0.00<!--{{$default_amount}}-->
+                                                  <!--$optional->amount * $optional->default_qty-->
+                    <?php $totalbook=$totalbook+ ($optional->amount * 0);?></div></td>
                 <td></td></tr>
                 @endforeach
                 <tr><td colspan="4">Sub Total</td><td><div id="total_book">{{$totalbook}}</div></td></tr>
@@ -469,7 +471,7 @@ if (count($previous) > 0) {
                 @if(count($optional_materials)>0)
                 @foreach($optional_materials as $optional)
                 <!--<tr><td><input onclick="return false;" name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" checked="checked" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>-->
-                <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" checked="checked" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
+                <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
                     Required {{$optional->subsidiary}} <span class="warning">(SET)</span>
                    @if(count($materials)>0)
@@ -480,8 +482,8 @@ if (count($previous) > 0) {
                    </ul>
                    @endif
                     </td>
-                    
-                <td align="left"><div id="book_display{{$optional->id}}">{{$optional->amount * $optional->default_qty}}</div></td>
+                                                                           <!--$optional->amount * $optional->default_qty-->
+                <td align="left"><div id="book_display{{$optional->id}}">{{$optional->amount * 0}}</div></td>
                 </tr>
                 @endforeach
                 @endif 
@@ -502,6 +504,8 @@ if (count($previous) > 0) {
                     }}
                   
                     }
+                    //remove this after 2020 2nd sem enrollemtn
+                        $default_value="";
                 ?>
                 <tr><td><input name="qty_books[{{$optional->id}}]" value="1"  type="checkbox" {{$default_value}} onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
@@ -515,7 +519,7 @@ if (count($previous) > 0) {
                    @endif
                     </td>
                     
-                <td align="left"><div id="book_display{{$optional->id}}">{{$default_amount}}</div></td>
+                <td align="left"><div id="book_display{{$optional->id}}">0.00<!--{{$default_amount}}--></div></td>
                 </tr>
                 @endforeach
                 @endif

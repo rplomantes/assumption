@@ -38,7 +38,7 @@ function update_served_date($book){
            @endif
         </td>
         <tr><td align="center">
-                <div class="sub_title"> LIST OF REQUIRED BOOKS & MATERIALS FOR SY {{$status->school_year}} - {{$status->school_year+1}} </div>  
+                <div class="sub_title"> LIST OF REQUIRED BOOKS & MATERIALS FOR SY {{$status->school_year}} </div>  
          </td></tr>
         @else
         <tr><td>LIST OF REQUIRED BOOKS & MATERIALS </td></tr>

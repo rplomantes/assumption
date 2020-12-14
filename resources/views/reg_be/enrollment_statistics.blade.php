@@ -180,6 +180,7 @@ function getTotal($getlevel,$getstrand,$schoolyear,$period){
                 <option value="2018" @if ($school_year == 2018) selected = "" @endif>2018-2019</option>
                 <option value="2019" @if ($school_year == 2019) selected = "" @endif>2019-2020</option>
                 <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
+                <option value="2020-2021 - 2nd Semester" @if ($school_year == '2020-2021 - 2nd Semester') selected = "" @endif>2020-2021 - 2nd Semester</option>
                 <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
                 </select>
             </div>

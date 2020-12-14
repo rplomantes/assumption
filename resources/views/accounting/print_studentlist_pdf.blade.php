@@ -18,7 +18,7 @@
     <h5>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h5>
     @endif
     @if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
-    <h5>S.Y. {{$school_year}}-{{$school_year +1}}</h5>
+    <h5>S.Y. {{$school_year}}</h5>
     @endif
 </div>
 

@@ -343,22 +343,22 @@ class Assess extends Controller {
 
     function enrollment_statistics($school_year) {
         $kinder = \App\BedLevel::selectRaw("level,section,count(*)as count")
-                        ->whereRaw("school_year=$school_year AND level='Kinder'")->groupBy('level', 'section');
+                        ->whereRaw("school_year='$school_year' AND level='Kinder'")->groupBy('level', 'section');
 
         $statistics = \App\BedLevel::selectRaw("level, section, count(*) as count")
-                        ->whereRaw("school_year=$school_year AND status='3'")->groupBy('level', 'section')
+                        ->whereRaw("school_year='$school_year' AND status='3'")->groupBy('level', 'section')
                         ->orderBy('level', 'section')->get();
 
         $abm = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
-                ->whereRaw("school_year=$school_year AND strand = 'ABM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->whereRaw("school_year='$school_year' AND strand = 'ABM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
                 ->get();
 
         $humms = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
-                ->whereRaw("school_year=$school_year AND strand = 'HUMMS' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->whereRaw("school_year='$school_year' AND strand = 'HUMMS' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
                 ->get();
 
         $stem = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
-                ->whereRaw("school_year=$school_year AND strand = 'STEM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->whereRaw("school_year='$school_year' AND strand = 'STEM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
                 ->get();
 
         return view('reg_be.enrollment_statistics', compact('statistics', 'abm', 'humms', 'stem', 'school_year', 'kinder'));
@@ -366,29 +366,29 @@ class Assess extends Controller {
 
     function enrollment_statistics_excel($school_year) {
         $kinder = \App\BedLevel::selectRaw("level,section,count(*)as count")
-                        ->whereRaw("school_year=$school_year AND level='Kinder'")->groupBy('level', 'section');
+                        ->whereRaw("school_year='$school_year' AND level='Kinder'")->groupBy('level', 'section');
 
         $statistics = \App\BedLevel::selectRaw("level, section, count(*) as count")
-                        ->whereRaw("school_year=$school_year AND status='3'")->groupBy('level', 'section')
+                        ->whereRaw("school_year='$school_year' AND status='3'")->groupBy('level', 'section')
                         ->orderBy('level', 'section')->get();
 
         $abm = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
-                ->whereRaw("school_year=$school_year AND strand = 'ABM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->whereRaw("school_year='$school_year' AND strand = 'ABM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
                 ->get();
 
         $humms = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
-                ->whereRaw("school_year=$school_year AND strand = 'HUMMS' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->whereRaw("school_year='$school_year' AND strand = 'HUMMS' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
                 ->get();
 
         $stem = \App\BedLevel::selectRaw("sort_by, strand, section, count(*) as count")
-                ->whereRaw("school_year=$school_year AND strand = 'STEM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
+                ->whereRaw("school_year='$school_year' AND strand = 'STEM' AND status='3'")->groupBy('sort_by', 'strand', 'section', 'strand')
                 ->get();
 
         ob_end_clean();
-        Excel::create('Enrollment Statistics'. $school_year, function($excel) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
-            $excel->setTitle("Enrollment Statistics". $school_year);
+        Excel::create('Enrollment for SY '. $school_year, function($excel) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
+            $excel->setTitle("Enrollment". $school_year);
 
-            $excel->sheet("Enrollment Statistics". $school_year, function ($sheet) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
+            $excel->sheet($school_year, function ($sheet) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
                 $sheet->loadView('reg_be.enrollment_statistics_excel', compact('statistics', 'abm', 'humms', 'stem', 'school_year', 'kinder'));
             });
         })->download('xlsx');
@@ -1221,18 +1221,18 @@ class Assess extends Controller {
                 $addledger->accounting_code = $add->accounting_code;
                 $addledger->accounting_name = $this->getAccountingName($add->accounting_code);
                 $addledger->category_switch = $add->category_switch;
-                
-                
-                ///please fix this
-                if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10") {
-                    if($add->subsidiary == "Student Development Fee"){
-                $addledger->amount = $add->amount+250;
-                    }else{
                 $addledger->amount = $add->amount;
-                    }
-                }else{
-                $addledger->amount = $add->amount;
-                }
+                
+//                ///please fix this
+//                if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10") {
+//                    if($add->subsidiary == "Student Development Fee"){
+//                $addledger->amount = $add->amount+250;
+//                    }else{
+//                $addledger->amount = $add->amount;
+//                    }
+//                }else{
+//                $addledger->amount = $add->amount;
+//                }
                 
                 $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary);
                 if($add->subsidiary == "Student Development Fee"){
