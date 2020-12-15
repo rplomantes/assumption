@@ -18,7 +18,7 @@ function get_plan($level, $category) {
                 $amount = $amount->amount;
             }
         }
-    }0800044
+    }
     return $amount;
 }
 
@@ -478,7 +478,7 @@ function get_total($level){
                 ACCOUNT NUMBER : CA#1811-0005-54</b><br> 
             (2)Fax to Assumption College Tel # 817-78-93 your deposit slip after payment for recording and confirmation.<br>
             <!--(3)You may also pay using your credit card or EPS card at the Assumption College Treasurer's Office.<br>-->
-            NOTE:FAMILY COUNCIL FEE TO BE ADDED TO THE ABOVE PAYMENT SCHEDULE.
+            <!--NOTE:FAMILY COUNCIL FEE TO BE ADDED TO THE ABOVE PAYMENT SCHEDULE.-->
 
         </span>    
     </body>
