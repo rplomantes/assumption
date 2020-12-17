@@ -402,6 +402,8 @@ class Assess extends Controller {
                     $check_grant = \App\BedScholarship::where('idno',$request->idno)->value('srf');
                     if($check_grant > 0){
                         $disc_srf = $check_grant/100*$srf->amount;
+                    }else{
+                        $disc_srf = 0;
                     }
                 
                 
