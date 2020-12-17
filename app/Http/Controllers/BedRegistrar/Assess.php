@@ -399,6 +399,12 @@ class Assess extends Controller {
             $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
             $srf = \App\CtrBedSrf::where('level', $request->level)->where('strand', $request->strand)->first();
             if (count($srf) > 0) {
+                    $check_grant = \App\BedScholarship::where('idno',$request->idno)->value('srf');
+                    if($check_grant > 0){
+                        $disc_srf = $check_grant/100*$srf->amount;
+                    }
+                
+                
                 $add = new \App\Ledger;
                 $add->idno = $request->idno;
                 $add->department = $department->department;
@@ -415,6 +421,7 @@ class Assess extends Controller {
                 $add->category_switch = $srf->category_switch;
                 $add->accounting_name = $this->getAccountingName($srf->accounting_code);
                 $add->amount = $srf->amount;
+                $add->discount = $disc_srf;
                 $add->save();
             }
         }
