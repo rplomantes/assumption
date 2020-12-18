@@ -104,7 +104,7 @@ class GradesController extends Controller {
         }
     }
 
-    function print_grade($school_year, $period, $schedule_id,$course_code) {
+    function print_grade($school_year, $period, $schedule_id,$course_code=null) {
         if (Auth::user()->accesslevel == env('INSTRUCTOR') || Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
             if ($schedule_id == "no_sched") {
