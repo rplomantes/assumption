@@ -89,7 +89,6 @@ $totalcreditcard=0; ?>
                     <?php
                     $totalcanceled=$payment->cash_amount+$payment->check_amount + $payment->credit_card_amount +$payment->deposit_amount;
                     ?>
-                    </tr>
   <td><span style='color:red;text-decoration:line-through;'>
   <span style='color:#999'>{{number_format($payment->credit_card_amount,2)}}</span></span></td>
                     <td>Canceled</td>
