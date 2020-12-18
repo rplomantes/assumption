@@ -23,6 +23,10 @@ class CollectionReport extends Controller {
                             ->where('posted_by', Auth::user()->idno)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
                             ->where('posted_by', Auth::user()->idno)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+            $credits_summary = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                            ->where('posted_by', Auth::user()->idno)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+            $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                            ->where('posted_by', Auth::user()->idno)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
         }
 
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
@@ -33,6 +37,10 @@ class CollectionReport extends Controller {
                                 ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
                 $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
                                 ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $credits_summary = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             } else {
                 $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
                                 ->where('posted_by', $posted_by)->get();
@@ -40,9 +48,13 @@ class CollectionReport extends Controller {
                                 ->where('posted_by', $posted_by)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
                 $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
                                 ->where('posted_by', $posted_by)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $credits_summary = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             }
         }
-        return view('cashier.collection_report', compact('payments', 'date_from', 'date_to', 'debits', 'credits','posted_by'));
+        return view('cashier.collection_report', compact('payments', 'date_from', 'date_to', 'debits', 'credits', 'posted_by', 'debits_summary', 'credits_summary'));
     }
 
     function list_of_checks($date_from, $date_to) {
@@ -66,7 +78,7 @@ class CollectionReport extends Controller {
         }
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
-                    ->where('posted_by',"!=", "Paynamics")
+                            ->where('posted_by', "!=", "Paynamics")
                             ->orderBy('posted_by')->where('credit_card_amount', '>', '0')->get();
         }
 
