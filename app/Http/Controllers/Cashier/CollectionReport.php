@@ -40,7 +40,9 @@ class CollectionReport extends Controller {
                 $credits_summary = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
                                 ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
                 $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
-                                ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                                ->where("receipt_details",'Cash')->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits_summary_less = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where("receipt_details",'!=','Cash')->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             } else {
                 $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
                                 ->where('posted_by', $posted_by)->get();
@@ -52,9 +54,11 @@ class CollectionReport extends Controller {
                                 ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
                 $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
                                 ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits_summary_less = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where("receipt_details",'!=','Cash')->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             }
         }
-        return view('cashier.collection_report', compact('payments', 'date_from', 'date_to', 'debits', 'credits', 'posted_by', 'debits_summary', 'credits_summary'));
+        return view('cashier.collection_report', compact('payments', 'date_from', 'date_to', 'debits', 'credits', 'posted_by', 'debits_summary', 'credits_summary','debits_summary_less'));
     }
 
     function list_of_checks($date_from, $date_to) {
