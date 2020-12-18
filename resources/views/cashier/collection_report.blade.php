@@ -236,6 +236,15 @@ if (Auth::user()->accesslevel == env("CASHIER")) {
                         <td></td>
                     </tr>
                     @endforeach
+                    
+                    @foreach($debits_summary_less as $debits_less)
+                    <?php $totaldebit = $totaldebit + $debits_less->debit; ?>
+                    <tr>
+                        <td>{{$debits_less->receipt_details}}</td>
+                        <td align="right">({{number_format($debits_less->debit,2)}})</td>
+                        <td></td>
+                    </tr>
+                    @endforeach
                     @foreach($credits_summary as $credit)
                     <?php $totalcredit = $totalcredit + $credit->credit; ?>
                     <tr>
