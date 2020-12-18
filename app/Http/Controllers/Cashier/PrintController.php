@@ -34,22 +34,16 @@ class PrintController extends Controller
     }
     
     function print_collection_report($date_from,$date_to,$posted_by){
-        if (Auth::user()->accesslevel == env("CASHIER")) {
-            $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
-                            ->where('posted_by', Auth::user()->idno)->get();
-            $credits = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
-                            ->where('posted_by', Auth::user()->idno)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
-            $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
-                            ->where('posted_by', Auth::user()->idno)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
-        }
-
-        if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
-            if ($posted_by == "all") {
+        if ($posted_by == "all") {
                 $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
                                 ->orderBy('posted_by')->get();
                 $credits = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
                                 ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
                 $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
+                                ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $credits_summary = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
                                 ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             } else {
                 $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
@@ -58,9 +52,12 @@ class PrintController extends Controller
                                 ->where('posted_by', $posted_by)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
                 $debits = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))
                                 ->where('posted_by', $posted_by)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $credits_summary = \App\Accounting::selectRaw('sum(credit) as credit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+                $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                                ->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             }
-        }
-         $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to','credits','debits','posted_by'));
+         $pdf=PDF::loadview('cashier.print_collection_report',compact('payments','date_from','date_to','credits','debits','posted_by','credits_summary','debits_summary'));
          $pdf->setPaper('legal','landscape');
          return $pdf->stream();
     }
@@ -71,7 +68,7 @@ class PrintController extends Controller
                     ->where('posted_by',Auth::user()->idno)->where('check_amount','>','0')
                     ->where('is_reverse','0')->get();
             $pdf=PDF::loadView('cashier.print_list_of_checks',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream();        
         }
         if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
@@ -79,7 +76,7 @@ class PrintController extends Controller
                     ->where('check_amount','>','0')
                     ->where('is_reverse','0')->get();
             $pdf=PDF::loadView('cashier.print_list_of_checks',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream();        
         }
         
@@ -89,14 +86,14 @@ class PrintController extends Controller
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('posted_by',Auth::user()->idno)->where('credit_card_amount','>','0')->get();
             $pdf=PDF::loadView('cashier.print_credit_cards',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream(); 
          }
          if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->orderBy('posted_by')->where('credit_card_amount','>','0')->get();
             $pdf=PDF::loadView('cashier.print_credit_cards',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream(); 
          }
         
@@ -107,14 +104,14 @@ class PrintController extends Controller
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->where('posted_by',Auth::user()->idno)->where('deposit_amount','>','0')->get();
             $pdf=PDF::loadView('cashier.print_bank_deposits',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream(); 
          }  
          if(Auth::user()->accesslevel==env("ACCTNG_STAFF") || Auth::user()->accesslevel==env("ACCTNG_HEAD")){
             $payments = \App\Payment::whereBetween('transaction_date',array($date_from,$date_to))
                     ->orderBy('posted_by')->where('deposit_amount','>','0')->get();
             $pdf=PDF::loadView('cashier.print_bank_deposits',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream(); 
          }
         
@@ -123,7 +120,7 @@ class PrintController extends Controller
             $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
                             ->where('posted_by', "Paynamics")->where('credit_card_amount', '>', '0')->get();
             $pdf=PDF::loadView('cashier.print_online_payments',compact('payments','date_from','date_to'));
-            $pdf->setPaper('letter','portrait');
+            $pdf->setPaper('legal','landscape');
             return $pdf->stream(); 
         
     }
