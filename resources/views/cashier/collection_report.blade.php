@@ -53,7 +53,7 @@ if (Auth::user()->accesslevel == env("CASHIER")) {
 </section>
 @endsection
 @section('maincontent')
-<?php $cashier_users = \App\Payment::distinct()->join('users', 'users.idno','=', 'payments.posted_by')->where('users.accesslevel','!=',0)->orderBy('payments.posted_by','asc')->get(['posted_by']); ?>
+<?php $cashier_users = \App\Payment::distinct()->join('users', 'users.idno', '=', 'payments.posted_by')->where('users.accesslevel', '!=', 0)->orderBy('payments.posted_by', 'asc')->get(['posted_by']); ?>
 <!-- search form (Optional) -->
 <div class="container-fluid">
     <div class="form-group">
@@ -153,9 +153,9 @@ if (Auth::user()->accesslevel == env("CASHIER")) {
                         <td class="decimal"><b>{{number_format($total,2)}}</b></td>
                         <td>OK</td>
                         @else
-<?php
-$totalcanceled = $payment->cash_amount + $payment->check_amount + $payment->credit_card_amount + $payment->deposit_amount;
-?>
+                        <?php
+                        $totalcanceled = $payment->cash_amount + $payment->check_amount + $payment->credit_card_amount + $payment->deposit_amount;
+                        ?>
                         <td class="decimal"><span style='color:red;text-decoration:line-through'>
                                 <span style='color:black'>{{number_format($payment->cash_amount,2)}}</span></span></td>
                         <td class="decimal"><span style='color:red;text-decoration:line-through'>
@@ -184,10 +184,10 @@ $totalcanceled = $payment->cash_amount + $payment->check_amount + $payment->cred
                         <td><a href="{{url('/cashier',array('viewreceipt',$payment->reference_id))}}">View</a></td>
                         <td>
                             @foreach($credits_per as $credits_pers)
-<?php $totalcredit_per = $totalcredit_per + $credits_pers->credit; ?>
+                            <?php $totalcredit_per = $totalcredit_per + $credits_pers->credit; ?>
                             @endforeach
                             @foreach($debits_per as $debits_pers)
-<?php $totaldebit_per = $totaldebit_per + $debits_pers->debit; ?>
+                            <?php $totaldebit_per = $totaldebit_per + $debits_pers->debit; ?>
                             @endforeach
                             {{$totaldebit_per-$totalcredit_per}}
                         </td>
@@ -214,9 +214,10 @@ $totalcanceled = $payment->cash_amount + $payment->check_amount + $payment->cred
             </table> 
 
             @if(count($credits)>0)
-<?php $totalcredit = 0;
-$totaldebit = 0;
-?>
+            <?php
+            $totalcredit = 0;
+            $totaldebit = 0;
+            ?>
             <div class="col-sm-6">
                 <span>
                     <br>Summary of Transactions
@@ -227,7 +228,7 @@ $totaldebit = 0;
                         <td>Debit</td>
                         <td>Credit</td>
                     </tr>
-                    @foreach($debits as $debit)
+                    @foreach($debits_summary as $debit)
                     <?php $totaldebit = $totaldebit + $debit->debit; ?>
                     <tr>
                         <td>{{$debit->receipt_details}}</td>
@@ -235,7 +236,7 @@ $totaldebit = 0;
                         <td></td>
                     </tr>
                     @endforeach
-                    @foreach($credits as $credit)
+                    @foreach($credits_summary as $credit)
                     <?php $totalcredit = $totalcredit + $credit->credit; ?>
                     <tr>
                         <td>{{$credit->receipt_details}}</td>
