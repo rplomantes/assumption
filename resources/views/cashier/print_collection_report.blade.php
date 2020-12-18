@@ -179,7 +179,7 @@ $totalcanceled = 0;
                 <td>Debit</td>
                 <td>Credit</td>
             </tr>
-            @foreach($debits as $debit)
+            @foreach($debits_summary as $debit)
             <?php $totaldebit = $totaldebit + $debit->debit; ?>
             <tr>
                 <td>{{$debit->receipt_details}}</td>
@@ -187,7 +187,7 @@ $totalcanceled = 0;
                 <td></td>
             </tr>
             @endforeach
-            @foreach($credits as $credit)
+            @foreach($credits_summary as $credit)
             <?php $totalcredit = $totalcredit + $credit->credit; ?>
             <tr>
                 <td>{{$credit->receipt_details}}</td>
