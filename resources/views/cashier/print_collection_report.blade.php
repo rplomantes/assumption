@@ -67,7 +67,7 @@ $totalcanceled = 0;
         <p>
             <br><br><br><br><br><br>
         </p>
-        <table width="100%" id="example1" border="1" cellspacing="0" cellpadding="2" class="table table-responsive table-striped">
+        <table width="100%" id="example1" border="1" cellspacing="0" cellpadding="2" class="table table-responsive table-striped " style="table-layout: fixed">
             <thead>
                 <tr>
                     <th><?php $counter=1; ?></th>
