@@ -142,7 +142,8 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                             <ul class="treeview-menu">
                                 <li><a href="{{url('/admissions',array('reports','pre_registered',date('Y-m-d'),date('Y-m-d')))}}">Pre-Registered </a></li>
                                 <li><a href="{{url('/admissions',array('reservation_list'))}}"><span>Reservations</span></a></li>
-                                <li><a href="{{url('/admissions',array('persona_report'))}}"><span>Persona Report</span></a></li>
+                                <li><a href="{{url('/admissions',array('persona_statistics_report'))}}"><span>Persona Statistics Report</span></a></li>
+                                <li><a href="{{url('/admissions',array('persona_report',null))}}"><span>Persona Report</span></a></li>
                             </ul>
                         </li>
                         <li class="treeview">

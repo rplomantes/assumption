@@ -1,45 +1,23 @@
 <?php
 
-function getCount($school_year, $type) {
-    $awareness = \App\CollegeAboutYou::selectRaw("sum(awareness) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $commitment = \App\CollegeAboutYou::selectRaw("sum(commitment) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $kindness = \App\CollegeAboutYou::selectRaw("sum(kindness) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $simplicity = \App\CollegeAboutYou::selectRaw("sum(simplicity) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $humility = \App\CollegeAboutYou::selectRaw("sum(humility) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $integrity = \App\CollegeAboutYou::selectRaw("sum(integrity) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $oneness = \App\CollegeAboutYou::selectRaw("sum(oneness) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $nature = \App\CollegeAboutYou::selectRaw("sum(nature) as count")->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->first();
-    $others = \App\CollegeAboutYou::distinct()->join('admission_heds', 'admission_heds.idno', 'college_about_yous.idno')->where('admission_heds.applying_for_sy', $school_year)->get(['college_about_yous.others']);
+function getCoreValues($idno) {
+    $value = ['awareness', 'commitment', 'kindness', 'simplicity', 'humility', 'integrity', 'oneness', 'nature', 'others'];
+    $core_values = "";
+    foreach ($value as $key) {
 
-    switch ($type) {
-        case "awareness":
-            return $awareness;
-            break;
-        case "commitment":
-            return $commitment;
-            break;
-        case "kindness":
-            return $kindness;
-            break;
-        case "simplicity":
-            return $simplicity;
-            break;
-        case "humility":
-            return $humility;
-            break;
-        case "integrity":
-            return $integrity;
-            break;
-        case "oneness":
-            return $oneness;
-            break;
-        case "nature":
-            return $nature;
-            break;
-        case "others":
-            return $others;
-            break;
+        if ($key == "others") {
+            $is_one = \App\CollegeAboutYou::selectRaw("$key")->where('idno', $idno)->value("$key");
+            if ($is_one != null) {
+                $core_values = $core_values . ' Others: ' . "$is_one ";
+            }
+        } else {
+            $is_one = \App\CollegeAboutYou::selectRaw("$key")->where('idno', $idno)->where("$key", 1)->value("$key");
+            if ($is_one == 1) {
+                $core_values = $core_values . '' . "$key ";
+            }
+        }
     }
+    return $core_values;
 }
 ?>
 
@@ -56,46 +34,83 @@ function getCount($school_year, $type) {
 </section>
 @endsection
 @section('maincontent')
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class='form-group'>
+            <div class='col-sm-2'>
+                <label>School Year</label>
+                <select class="form form-control select2" name="school_year" id='school_year'>
+                    <option value="">Select School Year</option>
+                    <option value="2020" @if ($school_year == 2020) selected = "" @endif>2020-2021</option>
+                    <option value="2021" @if ($school_year == 2021) selected = "" @endif>2021-2022</option>
+                    <option value="2022" @if ($school_year == 2022) selected = "" @endif>2022-2023</option>
+                    <option value="2023" @if ($school_year == 2023) selected = "" @endif>2023-2024</option>
+                    <option value="2024" @if ($school_year == 2024) selected = "" @endif>2024-2025</option>
+                    <option value="2025" @if ($school_year == 2025) selected = "" @endif>2025-2026</option>
+                </select>
+            </div>
+            <div class='col-sm-4'>
+                <label>&nbsp;</label>
+                <button formtarget="_blank" type='submit' id='view-button' class='col-sm-12 btn btn-success'><span>Change School Year/Period</span></button>
+            </div>
+        </div> 
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+@if($school_year)
 <div class="col sm-12">
     <div class="box">
-        <div class="box-header"><div class="box-title"></div></div>
+        <div class="box-header"><div class="box-title">Report</div></div>
         <div class="box-body">
             <table class="table">
                 <tr>
-                    <td><strong>Applying School Year</strong></td>
-                    <td align="center"><strong>Awareness</strong></td>
-                    <td align="center"><strong>Commitment</strong></td>
-                    <td align="center"><strong>Kindness</strong></td>
-                    <td align="center"><strong>Simplicity</strong></td>
-                    <td align="center"><strong>Humility</strong></td>
-                    <td align="center"><strong>Integrity</strong></td>
-                    <td align="center"><strong>Oneness</strong></td>
-                    <td align="center"><strong>Nature</strong></td>
-                    <td align="center"><strong>Others</strong></td>
+                    <td><strong>SY:{{$school_year}}-{{$school_year+1}}</strong></td>
+                    <td><strong>Applicant ID</strong></td>
+                    <td><strong>Name</strong></td>
+                    <td><strong>Address</strong></td>
+                    <td><strong>City</strong></td>
+                    <td><strong>Birth Date</strong></td>
+                    <td><strong>Preferred Course</strong></td>
+                    <td><strong>Interest/Hobbies</strong></td>
+                    <td><strong>Core Values</strong></td>
+                    <td><strong>Goals</strong></td>
+                    <td><strong>Challenges/Key Concerns</strong></td>
+                    <td><strong>Preferred Comm Channel</strong></td>
                 </tr>
-                @foreach ($school_years as $school_year)
+                @foreach($applicants as $applicant)
+                <?php $applying_for = \App\AdmissionHed::where('idno', $applicant->idno)->first(); ?>
                 <tr>
-                    <td>{{$school_year->applying_for_sy}}</td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "awareness")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "commitment")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "kindness")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "simplicity")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "humility")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "integrity")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "oneness")->count; ?></td>
-                    <td align="center"><?php echo $counts = getCount($school_year->applying_for_sy, "nature")->count; ?></td>
-                    <td align="center"><?php $others = getCount($school_year->applying_for_sy, "others"); ?>
-                        @foreach ($others as $other)
-                        {{$other->others}}<br>
-                        @endforeach
-                    </td>
+                    <td></td>
+                    <td>{{$applicant->idno}}</td>
+                    <td>{{$applicant->getFullNameAttribute()}}</td>
+                    <td>{{$applicant->street}}</td>
+                    <td>{{$applicant->municipality}}</td>
+                    <td>{{$applicant->birthdate}}</td>
+                    <td>{{$applying_for->program_code}}</td>
+                    <td>{{$applicant->interest}}</td>
+                    <td>{{getCoreValues($applicant->idno)}}</td>
+                    <td>{{$applicant->goals}}</td>
+                    <td>{{$applicant->challenges}}</td>
+                    <td>{{$applicant->com_channel}}</td>
                 </tr>
                 @endforeach
             </table>
         </div>
     </div>
 </div>
+@endif
 
 @endsection
 @section('footerscript')
+<script>
+    $(document).ready(function () {
+        $("#view-button").on('click', function (e) {
+            document.location = "{{url('/admissions',array('persona_report'))}}" + '/' + $("#school_year").val();
+        });
+    });
+</script>
 @endsection
