@@ -72,7 +72,7 @@ if (Auth::user()->accesslevel == env("CASHIER")) {
             <input id="date_to" class="form-control" type="hidden" value="{{$date_to}}">
             <input id="date_from" class="form-control" type="hidden" value="{{$date_from}}">
             <label>Posted by:</label>
-            <select name="posted_by" class='posted_by' id="posted_by">
+            <select name="posted_by" class='posted_by' id="posted_by" disabled=''>
                 <option @if($posted_by == 'all') selected='' @endif value="all">All</option>
                 @foreach($cashier_users as $cashier_user)
                 <option @if($cashier_user->posted_by == $posted_by) selected='' @endif>{{$cashier_user->posted_by}}</option>
