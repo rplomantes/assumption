@@ -27,6 +27,8 @@ class CollectionReport extends Controller {
                             ->where('posted_by', Auth::user()->idno)->where('credit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
             $debits_summary = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
                             ->where('posted_by', Auth::user()->idno)->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
+            $debits_summary_less = \App\Accounting::selectRaw('sum(debit) as debit, receipt_details')->whereBetween('transaction_date', array($date_from, $date_to))->where('is_reverse', 0)
+                            ->where("receipt_details",'!=','Cash')->where('debit', '>', '0')->where('accounting_type', '1')->groupBy('receipt_details')->get();
         }
 
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
