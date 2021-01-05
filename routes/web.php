@@ -179,6 +179,9 @@ Route::get('/registrar_college/curriculum_management/update_rooms', 'RegistrarCo
 Route::get('/registrar_college/curriculum_management/delete_room/{id}', 'RegistrarCollege\CurriculumManagement\UpdateRooms@delete_room');
 Route::post('/registrar_college/curriculum_management/add_room', 'RegistrarCollege\CurriculumManagement\UpdateRooms@add_room');
 
+//Update section limit
+Route::get('/registrar_college/curriculum_management/section_limit', 'RegistrarCollege\CurriculumManagement\UpdateRooms@section_limit');
+Route::post('/registrar_college/curriculum_management/update_section_limit', 'RegistrarCollege\CurriculumManagement\UpdateRooms@update_section_limit');
 //Registrar College Admission///////////////////////////////////////////////////
 //New Student
 Route::get('/registrar_college/admission/new_student','RegistrarCollege\Admission\NewStudentController@index');
