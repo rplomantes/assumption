@@ -166,6 +166,7 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','faculty_loading'))}}"><i class="fa fa-circle-o"></i> <span>Faculty Loading</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','view_room_schedule'))}}"><i class="fa fa-circle-o"></i> <span>View Room Schedules</span></a></li>
                                 <li><a href="{{url('/registrar_college', array('curriculum_management','update_rooms'))}}"><i class="fa fa-circle-o"></i> <span>Update List of Rooms</span></a></li>
+                                <li><a href="{{url('/registrar_college', array('curriculum_management','section_limit'))}}"><i class="fa fa-circle-o"></i> <span>Update Section Limit</span></a></li>
 <!--                                <li><a href="{{url('/registrar_college', array('curriculum_management','edit_schedule'))}}"><i class="fa fa-circle-o"></i> <span>*Edit Schedule</span></a></li>-->
                             </ul>
                         </li>
