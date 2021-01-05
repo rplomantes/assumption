@@ -43,4 +43,24 @@ class UpdateRooms extends Controller
             return redirect('registrar_college/curriculum_management/update_rooms');
         }
     }
+    
+    
+
+    function section_limit() {
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $limit = \App\CtrSectionLimit::first();
+            return view('reg_college.curriculum_management.section_limit',compact('limit'));
+        }
+    }
+    
+    function update_section_limit(Request $request){
+        if (Auth::user()->accesslevel == env('REG_COLLEGE')) {
+            $limit = \App\CtrSectionLimit::first();
+            $limit->limit = $request->limit;
+            $limit->save();
+            
+            Session::flash('message', "Room limit updated!");
+            return redirect('registrar_college/curriculum_management/section_limit');
+        }
+    }
 }
