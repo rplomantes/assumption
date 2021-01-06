@@ -72,7 +72,7 @@ $date_end = date('Y-m-d');
 
                                             <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
                                                onclick="event.preventDefault();
-                                                       document.getElementById('logout-form').submit();">
+                                                   document.getElementById('logout-form').submit();">
                                                 <span><i class="fa fa-sign-out"></i> Logout</span>
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -160,18 +160,18 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
                             </ul>
                         </li>
-                        
+
                         <li class="treeview">
-          <a href="#"><i class="fa fa-paypal"></i> <span> Online Payments</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <!--<li><a href="{{url("/cashier",array('online_payment',date('Y-m-d'),date('Y-m-d')))}}">Online Payments</a></li>-->
-            <li><a href="{{url('/paypal_transactions')}}">Paypal Transactions </a></li>
-          </ul>
-        </li>
+                            <a href="#"><i class="fa fa-paypal"></i> <span> Online Payments</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url("/cashier",array('online_payment',date('Y-m-d'),date('Y-m-d')))}}">Online Payments</a></li>
+                                <li><a href="{{url('/paypal_transactions')}}">Paypal Transactions </a></li>
+                            </ul>
+                        </li>
 
                         <li class="treeview">
                             <a href="#"><i class="fa fa-bookmark"></i> <span>Statement of Account</span>
@@ -293,13 +293,13 @@ $date_end = date('Y-m-d');
         <script src="{{ asset ('bower_components/PACE/pace.min.js')}}"></script>
         <script>
                             $(document).ajaxStart(function () {
-                                Pace.restart()
+                            Pace.restart()
                             })
         </script>
         <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
         <script>
                             $(function () {
-                                $('.select2').select2();
+                            $('.select2').select2();
                             });
         </script>
         <script src="{{asset('bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -313,13 +313,13 @@ $date_end = date('Y-m-d');
                         <h4 class="modal-title">Generated Passcode</h4>
                     </div>
                     <h1>
-                    <div class="modal-body" style="text-align: center">
-                        
-                    </div>
+                        <div class="modal-body" style="text-align: center">
+
+                        </div>
                     </h1>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valid only for 3 minutes.
                     <div class="modal-footer">
-                        
+
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                         <a href="javascript:void(0)" onclick="getPasscode('{{Auth::user()->idno}}')"><button type="button" class="btn btn-success">Generate Another Passcode</button></a>
                     </div>
@@ -328,16 +328,16 @@ $date_end = date('Y-m-d');
         </div>
         <script>
             function getPasscode(idno) {
-                var array = {};
-                array['idno'] = idno;
-                $.ajax({
-                    type: "get",
+            var array = {};
+            array['idno'] = idno;
+            $.ajax({
+            type: "get",
                     url: "/accounting/ajax/get_passcode",
                     data: array,
                     success: function (data) {
-                        $(".modal-body").html(data);
+                    $(".modal-body").html(data);
                     }
-                })
+            })
             }
         </script>
     </body>
