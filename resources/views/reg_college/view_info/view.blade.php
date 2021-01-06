@@ -86,6 +86,11 @@ $layout = "layouts.appreg_college";
                     <option value="3" @if ($user->status == 3) selected=''@endif>3 - See Guidance Office</option>
                     <option value="4" @if ($user->status == 4) selected=''@endif>4 - See Scholarship Office</option>
                     <option value="5" @if ($user->status == 5) selected=''@endif>5 - See OSA</option>
+                    <option value="6" @if ($user->status == 6) selected=''@endif>6 - See Admissions Office</option>
+                    <option value="7" @if ($user->status == 7) selected=''@endif>7 - See Pyschology Dept</option>
+                    <option value="8" @if ($user->status == 8) selected=''@endif>8 - See Communication Dept</option>
+                    <option value="9" @if ($user->status == 9) selected=''@endif>9 - See GenEd Dept</option>
+                    <option value="10" @if ($user->status == 10) selected=''@endif>10 - See Educ Dept</option>
                 </select>
             </div>
         </div>
