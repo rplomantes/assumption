@@ -15,7 +15,7 @@ class OnlinePayment extends Controller {
     }
 
     function index($date_from, $date_to) {
-        if (Auth::user()->accesslevel == env("CASHIER")) {
+        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $payments = \App\Payment::whereBetween('transaction_date', array($date_from, $date_to))
                             ->where('posted_by', "Paynamics")->where('credit_card_amount', '>', '0')->get();
         }
@@ -32,7 +32,7 @@ class OnlinePayment extends Controller {
     }
 
     function issue_or_number_now(Request $request) {
-        if (Auth::user()->accesslevel == env("CASHIER")) {
+        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
 
             $validate = $request->validate([
                 'or_number' => 'required|size:10',
