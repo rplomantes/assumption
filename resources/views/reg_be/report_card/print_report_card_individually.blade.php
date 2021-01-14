@@ -142,7 +142,7 @@ function getPromotion($level) {
         <td>Grade & Section</td><td style="border-bottom: 1px solid black">{{$status->level}} - {{$status->section}}</td><td align="right">School Year</td><td align="center"style="border-bottom: 1px solid black">{{$status->school_year}}-{{$status->school_year+1}}</td>
     </tr>
     <tr>
-        <td>Class Adviser</td><td colspan="3" style="border-bottom: 1px solid black">{{$adviser->getFullNameAttribute()}}</td>
+        <td>Class Adviser</td><td colspan="3" style="border-bottom: 1px solid black">@if($adviser){{$adviser->getFullNameAttribute()}}@endif</td>
     </tr>
 </table>
 <br>
