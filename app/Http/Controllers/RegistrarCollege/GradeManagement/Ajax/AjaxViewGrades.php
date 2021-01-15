@@ -37,7 +37,7 @@ class AjaxViewGrades extends Controller {
             } else {
                 $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
                 $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
-                return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+                return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'course_code','school_year', 'period'));
             }
         }
     }
