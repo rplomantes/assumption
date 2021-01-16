@@ -63,7 +63,7 @@ function getPromotion($level) {
     <div style='float: left; margin-left: 100px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
     <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village, Makati City</small>
         <br><br><b>Basic Education Division</b><br>
-        Year-End Narrative Report<br>S.Y. {{$school_year}} - {{$school_year + 1}}</div>
+        First Evaluation Narrative Report<br>S.Y. {{$school_year}} - {{$school_year + 1}}</div>
 </div>
 
 <div style="position:absolute; top:180px; bottom:0; left:50px; right:0;">
@@ -89,7 +89,8 @@ function getPromotion($level) {
     @endif
 </div>
 
-<div style='position:absolute; top:650px; bottom: 0; left:0; right:0;'>
+<!--<div style='position:absolute; top:650px; bottom: 0; left:0; right:0;'>-->
+<div style='position:absolute; top:800px; bottom: 0; left:0; right:0;'>
 
     <table width="100%">     
         <tr>
@@ -102,7 +103,7 @@ function getPromotion($level) {
             <td align="center">Pre School Team Leader</td>
         </tr>
     </table>
-    <br>
+<!--    <br>
     <table width="100%">
         <tr>
             <td align="center"><strong><br>Sr. Mary Ignatius G. Vedua, ra</strong></td>
@@ -124,4 +125,4 @@ function getPromotion($level) {
     <br>
     <p>Date: June 8, 2020<p>Not valid without</p>
     <p>School Seal</p>
-    </div>
+    </div>-->
