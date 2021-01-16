@@ -223,9 +223,9 @@ function getPromotion($level) {
     @foreach($groups as $group)
     <tr>
         <td id="th2" >{{$group->subject_name}}</td>
-        <td id="th2" align="center">{{$group->qtr2}}</td>
-        <td id="th2" align="center">{{$group->qtr3}}</td>
-        <td id="th2" align="center">{{$group->qtr4}}</td>
+        <td id="th2" align='center'>@if($group->status2==3){{$group->qtr2}}@endif</td>
+        <td id="th2" align='center'>@if($group->status3==3){{$group->qtr3}}@endif</td>
+        <td id="th2" align='center'>@if($group->status4==3){{$group->qtr4}}@endif</td>
     </tr>
     @endforeach
 </table>
