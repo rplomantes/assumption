@@ -158,6 +158,7 @@ Route::get('/bedregistrar/ajax/grade_summary_cond_view_list', 'BedRegistrar\Ajax
 Route::get('/bedregistrar/print/cond_grade_summary/{level}/{strand}/{section}/{school_year}/{period}','BedRegistrar\GradeSummary@print_now_cond');
 
 Route::get('/view_narrative_report/{idno}/{school_year}','BedRegistrar\ReportCardController@narrative_report');
+Route::get('/view_indicator_report/{idno}/{school_year}','BedRegistrar\ReportCardController@indicator_report');
 
 //Batch Ranking of BED
 Route::get('/bedregistrar/batch_ranking', 'BedRegistrar\BatchRanking@view');

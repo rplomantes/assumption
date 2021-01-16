@@ -96,4 +96,18 @@ class ReportCardController extends Controller {
         }
     }
 
+    function indicator_report($idno, $school_year) {
+        if (Auth::user()->accesslevel == env('REG_BE')) {
+
+            $user = \App\User::where('idno', $idno)->first();
+            $status = \App\BedLevel::where('idno', $idno)->where('school_year', $school_year)->first();
+            $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year', $status->school_year)->where('role', 'advisory')->where('section', $status->section)->first();
+            $records = \App\PreschoolEcr::where('idno', $idno)->where('school_year', $school_year)->get();
+
+            $pdf = PDF::loadView('reg_be.report_card.view_indicator_report', compact('idno', 'user', 'status', 'adviser', 'records', 'school_year'));
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream("indicator_report-$idno.pdf");
+        }
+    }
+
 }
