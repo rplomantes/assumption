@@ -109,6 +109,11 @@ Route::post('/accounting/print_payment_summary_pdf','Accounting\PaymentSummary@p
 Route::post('/accounting/print_payment_summary_excel','Accounting\PaymentSummary@print_payment_summary_excel');
 Route::get('/accounting/ajax/get_payment_summary','Accounting\Ajax\AjaxPaymentSummary@get_payment_summary');
 
+//Accounting Payment Plans
+Route::get('/accounting/payment_plans','Accounting\PaymentPlans@index');
+Route::get('/accounting/ajax/get_paymentplans','Accounting\Ajax\AjaxPaymentPlans@getstudents');
+
+
 //Disbursement
 Route::get('/disbursement','Accounting\Disbursement@disbursement_index');
 Route::get('/cancel_disbursement/{reference}','Accounting\Disbursement@cancelDisbursement');
