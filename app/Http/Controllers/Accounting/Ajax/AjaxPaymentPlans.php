@@ -19,7 +19,7 @@ class AjaxPaymentPlans extends Controller {
             $period = Input::get('period');
             $department = Input::get('department');
 
-            return view('accounting.payment_plans.payment_plans_list',compact('school_year','period','department','students'));
+            return view('accounting.payment_plans.payment_plans_list',compact('school_year','period','department'));
         }
     }
 

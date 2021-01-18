@@ -111,6 +111,8 @@ Route::get('/accounting/ajax/get_payment_summary','Accounting\Ajax\AjaxPaymentSu
 
 //Accounting Payment Plans
 Route::get('/accounting/payment_plans','Accounting\PaymentPlans@index');
+Route::post('/accounting/payment_plans_pdf','Accounting\PaymentPlans@payment_plans_pdf');
+Route::post('/accounting/payment_plans_excel','Accounting\PaymentPlans@payment_plans_excel');
 Route::get('/accounting/ajax/get_paymentplans','Accounting\Ajax\AjaxPaymentPlans@getstudents');
 
 

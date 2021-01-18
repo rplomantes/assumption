@@ -26,4 +26,33 @@ class PaymentPlans extends Controller
         }
         
     }
+
+    function payment_plans_excel(Request $request) {
+            $school_year = $request->school_year;
+            $period = $request->period;
+            $department = $request->department;
+
+            ob_end_clean();
+            Excel::create('Payment Plans - ' .$department, 
+                function($excel) use ($department,$school_year,$period) { $excel->setTitle($department);
+                    $excel->sheet($department, function ($sheet) use ($department,$school_year,$period) {
+                    $sheet->loadView('accounting.payment_plans.payment_plans_excel', compact('department','school_year','period'));
+                    });
+                })->download('xlsx');
+            
+//            return view('accounting.payment_plans.payment_plans_excel',compact('school_year','period','department'));
+    }
+
+    function payment_plans_pdf(Request $request) {
+            $school_year = $request->school_year;
+            $period = $request->period;
+            $department = $request->department;
+
+            $pdf = PDF::loadView('accounting.payment_plans.payment_plans_pdf', compact('department','school_year','period'));
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream("payment_plans.pdf");
+            
+//            return view('accounting.payment_plans.payment_plans_pdf',compact('school_year','period','department'));
+    }
+    
 }

@@ -101,14 +101,14 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     <a href='javascript:void(0)' class='btn btn-primary col-sm-12' onclick='generate_report(department.value, school_year.value, period.value)'>Generate Report</button></a>
                 </div>
             </div>
-<!--            <div class="form-group">
+            <div class="form-group">
                 <div class="col-sm-3">
                     <input type="submit" class="btn btn-success form-control" onclick="toPDF()" value="Generate PDF" >
                 </div>
                 <div class="col-sm-3">
                     <input type="submit" class="btn btn-warning form-control" onclick="toEXCEL()" value="Generate EXCEL" >
                 </div>
-            </div>-->
+            </div>
         </form>
     </div>
     <div class='box-body'>
@@ -128,11 +128,11 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     });
     
     function toPDF() {
-        document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_pdf')}}";
+        document.getElementById("myForm").action = "{{url('/accounting/payment_plans_pdf')}}";
     }
 
     function toEXCEL() {
-        document.getElementById("myForm").action = "{{url('/accounting/print_studentlist_excel')}}";
+        document.getElementById("myForm").action = "{{url('/accounting/payment_plans_excel')}}";
     }
 
     function generate_report(department, school_year, period) {
