@@ -44,6 +44,7 @@ class UpdateTransactionDate extends Command {
                 foreach ($gets as $get) {
                     $get->transaction_date = $getdate->transaction_date;
                     $get->update();
+                    $this->info($transaction->reference_id);
                 }
             }
         }
