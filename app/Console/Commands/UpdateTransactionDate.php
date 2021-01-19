@@ -41,7 +41,7 @@ class UpdateTransactionDate extends Command {
         foreach ($gettransactions as $transaction) {
 //            $getdate = DB::select("select * from accountings where reference_id = $transaction->reference_id and transaction_date != null limit 1");
             $getdate = \App\Accounting::where('reference_id', $transaction->reference_id)->where('transaction_date', '!=', null)->first();
-            $gets = DB::select("select * from accountings where reference_id = $transaction->reference_id and transaction_date is null");
+            $gets = DB::select("select * from accountings where reference_id = '$transaction->reference_id' and transaction_date is null");
 //            $gets = \App\Accounting::where('reference_id', $transaction->reference_id)->where('transaction_date', null)->get();
             if ($getdate) {
                 foreach ($gets as $get) {
