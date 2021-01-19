@@ -40,7 +40,7 @@ class UpdateTransactionDate extends Command {
         foreach ($gettransactions as $transaction) {
             $getdate = \App\Accounting::where('reference_id', $transaction->reference_id)->where('transaction_date', '!=', null)->first();
             $gets = \App\Accounting::where('reference_id', $transaction->reference_id)->where('transaction_date', null)->get();
-            if (count($getdate) > 0) {
+            if ($getdate) {
                 foreach ($gets as $get) {
                     $get->transaction_date = $getdate->transaction_date;
                     $get->update();
