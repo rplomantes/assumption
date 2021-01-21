@@ -105,15 +105,15 @@ function getPromotion($level) {
         <td align="right">Strand</td><td colspan="2" align="center" style="border-bottom: 1px solid black">@if($status->strand == "PA") Arts and Design @else{{$status->strand}}@endif</td>
     </tr>
     <tr>
-        <td>Class Adviser</td><td colspan="2" style="border-bottom: 1px solid black">{{$adviser->getFullNameAttribute()}}</td>
-        <td align="right">School Year</td><td  colspan="2" align="center"style="border-bottom: 1px solid black">{{$status->school_year}}-{{$status->school_year+1}}, 2nd Semester</td>
+        <td>Class Adviser</td><td colspan="2" style="border-bottom: 1px solid black">@if($adviser){{$adviser->getFullNameAttribute()}}@endif</td>
+        <td align="right">School Year</td><td  colspan="2" align="center"style="border-bottom: 1px solid black">{{$status->school_year}}-{{$status->school_year+1}}, {{$period}}</td>
     </tr>
 </table>
 <br>
 <table border = 1 cellpadding = 4 cellspacing =0 width="50%">
     <tr style = "font:bold">
         <td rowspan="2" align="center" width="60%">SUBJECTS</td>
-        <td colspan="2" align="center">QUARTER</td>
+        <td colspan="2" align="center">MODULE</td>
         <td rowspan="2" align="center">FINAL<br>RATING</td>
         <td rowspan="2" align="center">REMARKS</td>
     </tr>
