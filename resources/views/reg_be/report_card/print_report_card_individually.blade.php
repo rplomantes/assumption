@@ -445,8 +445,9 @@ function getPromotion($level) {
             <td align="center" rowspan="2">May</td>
             <td align="center" style="font:7pt !important;" width="16%">Days of School</td>
         </tr>
+<?php $school_days = \App\CtrSchoolDay::where('academic_type','BED')->where('school_year',$school_year)->value('school_days'); ?>
         <tr>
-            <td align="center">206</td>
+            <td align="center">{{$school_days}}</td>
         </tr><?php $total_absent = 0; ?>
         </tr><?php $totalab = 0; ?>
         <tr>
@@ -461,7 +462,7 @@ function getPromotion($level) {
             <td align="center"><?php $total_absent += $totalab = getAttendances('03', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('04', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('05', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{206-$total_absent}}</td>
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
