@@ -135,8 +135,7 @@ function getPromotion($level) {
             <td colspan="4" style="background: darkblue; border:1px solid black; color: white; font:bold">{{$subject_heads->report_card_grouping}}</td>
         </tr>
         <?php $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'not like', "%Student Activit%")->where('subject_code', 'not like', "%PEH%")->where('is_alpha',0)->where('is_display_card',1)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
-        <?php $get_pe_2nd = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "2nd Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
-        <?php $get_pe_1st = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "1st Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->first(); ?>
+        <?php $get_pe_1st = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "1st Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
         <?php $get_sa = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'like', "%Student Activit%")->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
         <?php $get_conduct = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('is_alpha',1)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
         
@@ -185,6 +184,51 @@ function getPromotion($level) {
             @endforeach
         @endif
         
+            @if(count($get_pe_1st)>0)
+            @foreach($get_pe_1st as $subject)
+                <?php $pe_average = ($subject->first_grading+$subject->second_grading)/2; ?>
+            <?php $total_units += $subject->units; ?>
+            
+            <tr>
+                <td>{{$subject->display_subject_code}}</td>
+                <!--first grading-->
+                <td align="center">
+                    @if($subject->is_alpha == 0)
+                        @if($display_type == 0)
+                        {{$subject->first_remarks}}
+                        @elseif($display_type == 1)
+                            @if($subject->first_grading != null)
+                            {{$subject->first_remarks}}({{$subject->first_grading}})
+                            @endif
+                        @endif
+                    @else
+                    {{$subject->first_grading_letter}}
+                    @endif
+                </td>
+                
+                <!--second grading-->
+                <td align="center">
+                    @if($subject->is_alpha == 0)
+                        @if($display_type == 0)
+                        {{$subject->second_remarks}}
+                        @elseif($display_type == 1)
+                            @if($subject->second_grading != null)
+                            {{$subject->second_remarks}}({{$subject->second_grading}})
+                            @endif
+                        @endif
+                    @else
+                    {{$subject->second_grading_letter}}
+                    @endif
+                </td>
+                
+                <td align="center" style="font:10pt">Pass</td>
+
+                @if($subject->units>0)
+                <?php $total_final_grade += $pe_average; ?>
+                @endif
+            </tr>
+            @endforeach
+            @endif
         
         @if(count($get_sa)>0)
             @foreach($get_sa as $subject)
