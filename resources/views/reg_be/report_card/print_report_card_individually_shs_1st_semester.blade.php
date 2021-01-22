@@ -192,10 +192,11 @@ function getPromotion($level) {
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">
-                    {{$subject->third_remarks}}                
+                    {{$subject->first_remarks}}
                 </td>
-                <!--<td align="center" style="font:10pt"></td>-->
-                <td align="center" style="font:10pt">{{$subject->final_remarks}}</td>
+                <td align="center">
+                    {{$subject->second_remarks}}                
+                </td>
                 <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
