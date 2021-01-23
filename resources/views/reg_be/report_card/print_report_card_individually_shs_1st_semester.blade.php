@@ -224,7 +224,7 @@ function getPromotion($level) {
                 <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
-                <?php $total_final_grade += $pe_average; ?>
+                <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
                 @endif
             </tr>
             @endforeach
@@ -244,7 +244,7 @@ function getPromotion($level) {
                 <td align="center" style="font:10pt">Pass</td>
 
                 @if($subject->units>0)
-                <?php $total_final_grade += $subject->final_grade; ?>
+                <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
                 @endif
             </tr>
             @endforeach
@@ -304,7 +304,8 @@ function getPromotion($level) {
             <td align="center"><?php $total_absent += $totalab = getAttendances('10', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('11', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('12', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>
+            <!--<td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>-->
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>NA</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
@@ -343,8 +344,8 @@ function getPromotion($level) {
 <div style="position:absolute; top:305px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
     <strong>CERTIFICATE OF TRANSFER</strong><br>
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
-    <!--<strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>-->
-    __________________.<br>
+    <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
+    <!--__________________.<br>-->
     <!--She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.-->
     She is eligible for transfer and should be admitted to _________.
     <br>
@@ -354,8 +355,8 @@ function getPromotion($level) {
 </div>
 <div style="position:absolute; top:420px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal, Assumption College, Makati City<br><br>
-    <i>mm-dd-yyyy</i><br>
+    Principal<br><br>
+    <i>January 25, 2021</i><br>
     Date
 </div>
 <div style="position:absolute; top:520px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
@@ -365,8 +366,8 @@ function getPromotion($level) {
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal, Assumption College, Makati City<br><br>
-    <i>mm-dd-yyyy</i><br>
+    Principal<br><br>
+    <i>January 25, 2021</i><br>
     Date
 </div>
 
