@@ -106,7 +106,7 @@ function getPromotion($level) {
     </tr>
     <tr>
         <td>Class Adviser</td><td colspan="2" style="border-bottom: 1px solid black">@if($adviser){{$adviser->getFullNameAttribute()}}@endif</td>
-        <td align="right">School Year</td><td  colspan="2" align="center"style="border-bottom: 1px solid black">{{$status->school_year}}-{{$status->school_year+1}}, {{$period}}</td>
+        <td align="right">School Year</td><td  colspan="2" align="center"style="border-bottom: 1px solid black">{{$school_year}}-{{$school_year+1}}, {{$period}}</td>
     </tr>
 </table>
 <br>
