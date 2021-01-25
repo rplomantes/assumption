@@ -172,10 +172,12 @@ function getPromotion($level) {
                     {{$subject->second_grading_letter}}
                     @endif
                 </td>
-<!--Final Rating-->
-                <!--<td></td>-->
 <!--Remarks-->
+                @if($subject->first_grading+$subject->second_grading/1 >74)
                 <td align="center">Pass</td>
+                @else
+                <td align="center">Fail</td>
+                @endif
 
                 @if($subject->units>0)
                 <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
@@ -221,7 +223,11 @@ function getPromotion($level) {
                     @endif
                 </td>
                 
-                <td align="center" style="font:10pt">Pass</td>
+                @if($subject->first_grading+$subject->second_grading/1 >74)
+                <td align="center">Pass</td>
+                @else
+                <td align="center">Fail</td>
+                @endif
 
                 @if($subject->units>0)
                 <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
@@ -242,10 +248,6 @@ function getPromotion($level) {
                     {{$subject->second_remarks}}                
                 </td>
                 <td align="center" style="font:10pt">Pass</td>
-
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
-                @endif
             </tr>
             @endforeach
         @endif
