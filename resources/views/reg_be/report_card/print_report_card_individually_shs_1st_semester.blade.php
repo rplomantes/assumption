@@ -175,8 +175,10 @@ function getPromotion($level) {
 <!--Remarks-->
                 @if($subject->first_grading+$subject->second_grading/1 >74)
                 <td align="center">Pass</td>
-                @else
+                @elseif($subject->first_grading+$subject->second_grading/1 >0 and $subject->first_grading+$subject->second_grading/1< 74)
                 <td align="center">Fail</td>
+                @else
+                <td></td>
                 @endif
 
                 @if($subject->units>0)
@@ -225,8 +227,10 @@ function getPromotion($level) {
                 
                 @if($subject->first_grading+$subject->second_grading/1 >74)
                 <td align="center">Pass</td>
-                @else
+                @elseif($subject->first_grading+$subject->second_grading/1 >0 and $subject->first_grading+$subject->second_grading/1< 74)
                 <td align="center">Fail</td>
+                @else
+                <td></td>
                 @endif
 
                 @if($subject->units>0)
