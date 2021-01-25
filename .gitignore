@@ -4,6 +4,7 @@
 /public/images/PICTURES
 /PICTURES
 /storage/*.key
+/vendor
 /.idea
 /.vagrant
 Homestead.json
