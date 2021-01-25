@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
+class ComposerStaticInitdbfdd707bb0563f22a918ea4f05a4d2c
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -482,17 +482,20 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\BedReceivedHonor' => __DIR__ . '/../..' . '/app/BedReceivedHonor.php',
         'App\\BedRepeat' => __DIR__ . '/../..' . '/app/BedRepeat.php',
         'App\\BedRequirement' => __DIR__ . '/../..' . '/app/BedRequirement.php',
+        'App\\BedScholarship' => __DIR__ . '/../..' . '/app/BedScholarship.php',
         'App\\BedSiblings' => __DIR__ . '/../..' . '/app/BedSiblings.php',
         'App\\BedUndergoneTherapy' => __DIR__ . '/../..' . '/app/BedUndergoneTherapy.php',
         'App\\ChangeIdno' => __DIR__ . '/../..' . '/app/ChangeIdno.php',
         'App\\ChangePlan' => __DIR__ . '/../..' . '/app/ChangePlan.php',
         'App\\ChartOfAccount' => __DIR__ . '/../..' . '/app/ChartOfAccount.php',
         'App\\ChedEnrollmentReports' => __DIR__ . '/../..' . '/app/ChedEnrollmentReports.php',
+        'App\\CollegeAboutYou' => __DIR__ . '/../..' . '/app/CollegeAboutYou.php',
         'App\\CollegeCredit' => __DIR__ . '/../..' . '/app/CollegeCredit.php',
         'App\\CollegeGrades2018' => __DIR__ . '/../..' . '/app/CollegeGrades2018.php',
         'App\\CollegeLevel' => __DIR__ . '/../..' . '/app/CollegeLevel.php',
         'App\\CollegeNotifications' => __DIR__ . '/../..' . '/app/CollegeNotifications.php',
         'App\\CollegeScholarship' => __DIR__ . '/../..' . '/app/CollegeScholarship.php',
+        'App\\Console\\Commands\\UpdateTransactionDate' => __DIR__ . '/../..' . '/app/Console/Commands/UpdateTransactionDate.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\CourseOffering' => __DIR__ . '/../..' . '/app/CourseOffering.php',
         'App\\CtrAcademicProgram' => __DIR__ . '/../..' . '/app/CtrAcademicProgram.php',
@@ -527,6 +530,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\CtrForiegnFee' => __DIR__ . '/../..' . '/app/CtrForiegnFee.php',
         'App\\CtrForm' => __DIR__ . '/../..' . '/app/CtrForm.php',
         'App\\CtrGradeSchoolYear' => __DIR__ . '/../..' . '/app/CtrGradeSchoolYear.php',
+        'App\\CtrHedPreRegMessage' => __DIR__ . '/../..' . '/app/CtrHedPreRegMessage.php',
         'App\\CtrMaterial' => __DIR__ . '/../..' . '/app/CtrMaterial.php',
         'App\\CtrNewShsStudentFee' => __DIR__ . '/../..' . '/app/CtrNewShsStudentFee.php',
         'App\\CtrNewStudentFee' => __DIR__ . '/../..' . '/app/CtrNewStudentFee.php',
@@ -534,10 +538,13 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\CtrPlanCharge' => __DIR__ . '/../..' . '/app/CtrPlanCharge.php',
         'App\\CtrPreRegMessages' => __DIR__ . '/../..' . '/app/CtrPreRegMessages.php',
         'App\\CtrRoom' => __DIR__ . '/../..' . '/app/CtrRoom.php',
+        'App\\CtrSchoolDay' => __DIR__ . '/../..' . '/app/CtrSchoolDay.php',
         'App\\CtrSection' => __DIR__ . '/../..' . '/app/CtrSection.php',
+        'App\\CtrSectionLimit' => __DIR__ . '/../..' . '/app/CtrSectionLimit.php',
         'App\\CtrSectioning' => __DIR__ . '/../..' . '/app/CtrSectioning.php',
         'App\\CtrStudentNumber' => __DIR__ . '/../..' . '/app/CtrStudentNumber.php',
         'App\\CtrTransmuLetter' => __DIR__ . '/../..' . '/app/CtrTransmuLetter.php',
+        'App\\CtrTransmuLetterArchive' => __DIR__ . '/../..' . '/app/CtrTransmuLetterArchive.php',
         'App\\CtrUniformSize' => __DIR__ . '/../..' . '/app/CtrUniformSize.php',
         'App\\Curriculum' => __DIR__ . '/../..' . '/app/Curriculum.php',
         'App\\DebitMemo' => __DIR__ . '/../..' . '/app/DebitMemo.php',
@@ -549,6 +556,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\DpaList' => __DIR__ . '/../..' . '/app/DpaList.php',
         'App\\EmailBlast' => __DIR__ . '/../..' . '/app/EmailBlast.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\ExternalForm' => __DIR__ . '/../..' . '/app/ExternalForm.php',
         'App\\FormRequest' => __DIR__ . '/../..' . '/app/FormRequest.php',
         'App\\FreshmenStudentList' => __DIR__ . '/../..' . '/app/FreshmenStudentList.php',
         'App\\GradeBasicEd' => __DIR__ . '/../..' . '/app/GradeBasicEd.php',
@@ -557,6 +565,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\GroupStudent' => __DIR__ . '/../..' . '/app/GroupStudent.php',
         'App\\HedTestingSchedule' => __DIR__ . '/../..' . '/app/HedTestingSchedule.php',
         'App\\HedTestingStudent' => __DIR__ . '/../..' . '/app/HedTestingStudent.php',
+        'App\\HoldGrade' => __DIR__ . '/../..' . '/app/HoldGrade.php',
         'App\\Http\\Controllers\\Accounting\\AddAccount' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/AddAccount.php',
         'App\\Http\\Controllers\\Accounting\\AddToStudentDeposit' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/AddToStudentDeposit.php',
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxAccoReportsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxAccoReportsController.php',
@@ -564,6 +573,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxExamPermit' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxExamPermit.php',
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxGeneratePasscode' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxGeneratePasscode.php',
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxJournalEntry' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxJournalEntry.php',
+        'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxPaymentPlans' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxPaymentPlans.php',
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxPaymentSummary' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxPaymentSummary.php',
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxPostCharges' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxPostCharges.php',
         'App\\Http\\Controllers\\Accounting\\Ajax\\AjaxReservations' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Ajax/AjaxReservations.php',
@@ -589,6 +599,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\Http\\Controllers\\Accounting\\OutstandingBalanceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/OutstandingBalanceController.php',
         'App\\Http\\Controllers\\Accounting\\Overpayment' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Overpayment.php',
         'App\\Http\\Controllers\\Accounting\\Overpayment_1' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Overpayment_1.php',
+        'App\\Http\\Controllers\\Accounting\\PaymentPlans' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/PaymentPlans.php',
         'App\\Http\\Controllers\\Accounting\\PaymentSummary' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/PaymentSummary.php',
         'App\\Http\\Controllers\\Accounting\\PostCharges' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/PostCharges.php',
         'App\\Http\\Controllers\\Accounting\\Reservations' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/Reservations.php',
@@ -601,6 +612,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\Http\\Controllers\\Accounting\\StudentRelatedFeesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/StudentRelatedFeesController.php',
         'App\\Http\\Controllers\\Accounting\\StudentsAccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/StudentsAccountController.php',
         'App\\Http\\Controllers\\Accounting\\TrialBalance' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/TrialBalance.php',
+        'App\\Http\\Controllers\\Accounting\\ViewBEDScholarship' => __DIR__ . '/../..' . '/app/Http/Controllers/Accounting/ViewBEDScholarship.php',
         'App\\Http\\Controllers\\Admin\\Ajax\\AjaxReassessController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Ajax/AjaxReassessController.php',
         'App\\Http\\Controllers\\Admin\\Ajax\\GetStudentList_ajax' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Ajax/GetStudentList_ajax.php',
         'App\\Http\\Controllers\\Admin\\EmailBlast' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/EmailBlast.php',
@@ -618,6 +630,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\Http\\Controllers\\AdmissionBED\\info' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionBED/info.php',
         'App\\Http\\Controllers\\AdmissionBED\\reportsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionBED/reportsController.php',
         'App\\Http\\Controllers\\AdmissionHED\\Ajax\\GetStudentList_ajax' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionHED/Ajax/GetStudentList_ajax.php',
+        'App\\Http\\Controllers\\AdmissionHED\\Persona' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionHED/Persona.php',
         'App\\Http\\Controllers\\AdmissionHED\\PreRegistrationSettings' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionHED/PreRegistrationSettings.php',
         'App\\Http\\Controllers\\AdmissionHED\\TestingSchedules' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionHED/TestingSchedules.php',
         'App\\Http\\Controllers\\AdmissionHED\\ViewInfoAdmissionHedController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdmissionHED/ViewInfoAdmissionHedController.php',
@@ -636,7 +649,9 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\Http\\Controllers\\BedRegistrar\\BatchRanking' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/BatchRanking.php',
         'App\\Http\\Controllers\\BedRegistrar\\DirectoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/DirectoryController.php',
         'App\\Http\\Controllers\\BedRegistrar\\EarlyEnrollment' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/EarlyEnrollment.php',
+        'App\\Http\\Controllers\\BedRegistrar\\ExternalForm' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/ExternalForm.php',
         'App\\Http\\Controllers\\BedRegistrar\\GradeSummary' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/GradeSummary.php',
+        'App\\Http\\Controllers\\BedRegistrar\\HoldStudents' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/HoldStudents.php',
         'App\\Http\\Controllers\\BedRegistrar\\Notifications\\AjaxNotificationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/Notifications/AjaxNotificationsController.php',
         'App\\Http\\Controllers\\BedRegistrar\\Notifications\\NotificationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/Notifications/NotificationsController.php',
         'App\\Http\\Controllers\\BedRegistrar\\PromotionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/BedRegistrar/PromotionsController.php',
@@ -766,10 +781,12 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\OverpaymentMemo' => __DIR__ . '/../..' . '/app/OverpaymentMemo.php',
         'App\\PartialStudentDiscount' => __DIR__ . '/../..' . '/app/PartialStudentDiscount.php',
         'App\\Payment' => __DIR__ . '/../..' . '/app/Payment.php',
+        'App\\PaynamicsResponse' => __DIR__ . '/../..' . '/app/PaynamicsResponse.php',
         'App\\PostedCharges' => __DIR__ . '/../..' . '/app/PostedCharges.php',
         'App\\PreRegistration' => __DIR__ . '/../..' . '/app/PreRegistration.php',
         'App\\PreRegistrationSetting' => __DIR__ . '/../..' . '/app/PreRegistrationSetting.php',
         'App\\PreRegistrationSettingCollege' => __DIR__ . '/../..' . '/app/PreRegistrationSettingCollege.php',
+        'App\\PreschoolEcr' => __DIR__ . '/../..' . '/app/PreschoolEcr.php',
         'App\\Promotion' => __DIR__ . '/../..' . '/app/Promotion.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -778,6 +795,7 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\ReferenceId' => __DIR__ . '/../..' . '/app/ReferenceId.php',
         'App\\RequestList' => __DIR__ . '/../..' . '/app/RequestList.php',
+        'App\\RequestPayment' => __DIR__ . '/../..' . '/app/RequestPayment.php',
         'App\\Reservation' => __DIR__ . '/../..' . '/app/Reservation.php',
         'App\\ScheduleCollege' => __DIR__ . '/../..' . '/app/ScheduleCollege.php',
         'App\\ShsOldAveGrade' => __DIR__ . '/../..' . '/app/ShsOldAveGrade.php',
@@ -4775,11 +4793,11 @@ class ComposerStaticInitbf8040ecc87b9644fae5246c61913189
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbf8040ecc87b9644fae5246c61913189::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbf8040ecc87b9644fae5246c61913189::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitbf8040ecc87b9644fae5246c61913189::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbf8040ecc87b9644fae5246c61913189::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbf8040ecc87b9644fae5246c61913189::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdbfdd707bb0563f22a918ea4f05a4d2c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdbfdd707bb0563f22a918ea4f05a4d2c::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitdbfdd707bb0563f22a918ea4f05a4d2c::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitdbfdd707bb0563f22a918ea4f05a4d2c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitdbfdd707bb0563f22a918ea4f05a4d2c::$classMap;
 
         }, null, ClassLoader::class);
     }
