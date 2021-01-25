@@ -2,7 +2,6 @@
 $promotion = \App\Promotion::where('idno', $user->idno)->first();
 $enrollment_sy = \App\CtrEnrollmentSchoolYear::where('academic_type', $status->academic_type)->first();
 $current_level="";
-
 $levels = \App\CtrAcademicProgram::selectRaw("distinct level, sort_by")->where('academic_type',"BED")->orderBy('sort_by')->get();
 $strands =\App\CtrAcademicProgram::selectRaw("distinct strand")->where('academic_code','SHS')->get();
 switch ($status->level){
