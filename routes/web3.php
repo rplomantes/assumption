@@ -183,5 +183,17 @@ Route::get('/bookstore/print/student_list/{level}/{strand}/{section}/{school_yea
 Route::get('/admissions/persona_statistics_report','AdmissionHED\Persona@statisticsReport');
 Route::get('/admissions/persona_report/{school_year?}','AdmissionHED\Persona@report');
 
+//Supplier
+Route::get("/accounting/supplier","Accounting\SupplierController@index");
+Route::get("/accounting/supplier/delete/{id}","Accounting\SupplierController@delete");
+Route::post("/accounting/supplier/create","Accounting\SupplierController@save");
+Route::post("/accounting/supplier/update","Accounting\SupplierController@update");
 
+//Search Payee on Disbursement
+Route::get("/ajax/accounting/disbursement/search_payee","Accounting\Ajax\AjaxDisbursement@search_payee");
 
+//Print Check Disbursement
+Route::get("/accounting/disbursement/print_check_disbursement/{reference_id}","Accounting\Disbursement@print_check_disbursement");
+
+//Edit Disbursement
+Route::post("/accounting/edit_disbursement","Accounting\Disbursement@edit_disbursement");

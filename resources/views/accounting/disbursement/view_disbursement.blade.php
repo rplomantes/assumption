@@ -80,16 +80,19 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     </tr>
                 </table>
             </form>
-            <div class="form-group">
+            <div class="form-group row">
                  <div class="col-md-6">
                      <a role="button" class="form-control btn-warning btn" href="{{url('/disbursement')}}"><span class="fa fa-arrow-circle-left"></span> <b>Back</b></a>
                 </div>
                 <div class="col-md-6">
                     <a role="button" class="form-control btn-success btn" href="{{url('/print/check_voucher_labels',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check Voucher</b></a>
                 </div>
-                <!--                <div class="col-md-6">
-                                    <button type="submit" class="form-control btn-success btn"><b>Process Disbursement</b></button>
-                                </div>-->
+                                
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <a role="button" class="form-control btn-success btn" href="{{url('/accounting/disbursement/print_check_disbursement',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check</b></a>
+                </div>
             </div>
         </div>
     </div>

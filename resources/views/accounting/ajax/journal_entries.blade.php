@@ -35,6 +35,7 @@
         <tr @if($debit == $credit) style="color:green" @else style="color:red" @endif>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
+            <td>&nbsp;</td>
             <td><b>TOTAL</b></td>
             <td><b>{{number_format($debit,2)}}</b></td>
             <td><b>{{number_format($credit,2)}}</b></td>

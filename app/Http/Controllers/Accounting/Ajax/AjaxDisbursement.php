@@ -18,7 +18,8 @@ class AjaxDisbursement extends Controller
             $reference = Input::get('reference');
             $code = Input::get('code');
             $particular = Input::get('particular');
-            $type = Input::get('type');
+            $debit = Input::get('debit');
+            $credit = Input::get('credit');
             $amount = str_replace(",","",Input::get('amount'));
             
             $fiscal_year = \App\CtrFiscalYear::first();
@@ -37,13 +38,14 @@ class AjaxDisbursement extends Controller
             $saveEntry->entry_type = env('DISBURSEMENT');
             $saveEntry->fiscal_year = $fiscal_year->fiscal_year;
             $saveEntry->receipt_type = "D";
-            if($type == "Debit"){
-                $saveEntry->debit = $amount;
+            if($debit > 0){
+                $saveEntry->debit = $debit;
                 $saveEntry->credit = 0;
             }
-            else{
+            
+            if($credit > 0){
                 $saveEntry->debit = 0;
-                $saveEntry->credit = $amount;
+                $saveEntry->credit = $credit;
             }
             $saveEntry->particular = $particular;
             $saveEntry->isreverse = 1;
@@ -101,6 +103,15 @@ class AjaxDisbursement extends Controller
             $dateEnd = "$date_from";
             $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->orderBy('transaction_date','asc')->get();
             return view('accounting.disbursement.ajaxdisplay', compact('lists'));
+        }
+    }
+    
+    function search_payee(){
+        if (Request::ajax()) {
+            $search = Input::get("search");
+            
+            $suppliers = \App\CtrSupplier::where("supplier_name","like","%$search%")->get();
+            return view("accounting.ajax.display_payees", compact("suppliers"));
         }
     }
     

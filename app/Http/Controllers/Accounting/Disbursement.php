@@ -131,7 +131,12 @@ class Disbursement extends Controller {
     function viewDisbursement($reference) {
         $accountings = \App\Accounting::where('reference_id', $reference)->get();
         $disbursement = \App\Disbursement::where('reference_id', $reference)->first();
-        return view('accounting.disbursement.view_disbursement', compact('reference', 'disbursement', 'accountings'));
+        if(Auth::user()->accesslevel == env("ACCTNG_HEAD")){
+            return view('accounting.disbursement.editable_disbursement', compact('reference', 'disbursement', 'accountings'));
+        }else{
+            return view('accounting.disbursement.view_disbursement', compact('reference', 'disbursement', 'accountings'));
+        }
+        
     }
 
     function printVoucher($reference) {
@@ -140,6 +145,14 @@ class Disbursement extends Controller {
         $pdf = PDF::loadView('accounting.disbursement.print_voucher', compact('reference', 'disbursement', 'accountings'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream("summary_promissory_note.pdf");
+    }
+    
+    function print_check_disbursement($reference_id){
+        $accountings = \App\Accounting::where('reference_id', $reference_id)->get();
+        $disbursement = \App\Disbursement::where('reference_id', $reference_id)->first();
+        $pdf = PDF::loadView('accounting.disbursement.print_check',compact('reference_id','disbursement','accountings'));
+        $pdf->setPaper('letter','portrait');
+        return $pdf->stream("disbursement.pdf");
     }
 
     function printVoucherLabels($reference) {
@@ -200,6 +213,77 @@ class Disbursement extends Controller {
         $pdf = PDF::loadView('accounting.disbursement.print_summary_cash', compact('lists', 'finalStartDate', 'finalEndDate'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream("disbursement_summary.pdf");
+    }
+    
+    function edit_disbursement(Request $request){
+        
+        $checkvoucherno = \App\Disbursement::where("voucher_no", $request->voucher_no)->first();
+        if($checkvoucherno){
+            if($checkvoucherno->reference_id != $request->reference_id){
+                return back()->withErrors("There's an existing voucher no used on disbursement");
+            }
+        }
+        
+        $accountings = \App\Accounting::where("reference_id", $request->reference_id)->get();
+        if(!$accountings->isEmpty()){
+            foreach($accountings as $accounting){
+                $accounting->delete();
+            }
+        }
+        
+        $updatedisbursement = \App\Disbursement::where("reference_id", $request->reference_id)->first();
+        
+        if(count($request->accounting_codes) > 0){
+            foreach($request->accounting_codes as $key=>$accounting_code){
+                if(array_key_exists($key, $request->accounting_codes)){
+                    $account = \App\ChartOfAccount::where("accounting_code", $accounting_code)->first();
+                    
+                    $saveEntry = new \App\Accounting;
+                    $saveEntry->transaction_date = $updatedisbursement->transaction_id;
+                    $saveEntry->reference_id = $request->reference_id;
+                    $saveEntry->category = $this->getAccountingName($accounting_code);
+                    $saveEntry->subsidiary = $request->particulars[$key];;
+                    $saveEntry->receipt_details = $this->getAccountingName($accounting_code);
+                    $saveEntry->accounting_code = $accounting_code;
+                    $saveEntry->accounting_name = $this->getAccountingName($accounting_code);
+                    $saveEntry->accounting_type = env('DISBURSEMENT');
+                    $saveEntry->fiscal_year = \App\CtrFiscalYear::value("fiscal_year");
+                    $saveEntry->debit = $request->debit[$key];
+                    $saveEntry->credit = $request->credit[$key];
+                    $saveEntry->particular = $request->particulars[$key];;
+                    $saveEntry->posted_by = $updatedisbursement->processed_by;
+                    $saveEntry->save();
+                }
+            }
+        }
+        
+        $actual_amount = array_sum($request->debit) - array_sum($request->credit);
+        
+        $updatedisbursement->bank = $request->bank;
+        $updatedisbursement->amount = $actual_amount > 0 ? $actual_amount : 0;
+        $updatedisbursement->voucher_no = $request->voucher_no;
+        $updatedisbursement->payee_name = $request->payee;
+        $updatedisbursement->check_no = $request->check_number;
+        $updatedisbursement->remarks = $request->remarks;
+        $updatedisbursement->update();
+        
+        
+        $saveEntry = new \App\Accounting;
+        $saveEntry->transaction_date = $updatedisbursement->transaction_id;
+        $saveEntry->reference_id = $request->reference_id;
+        $saveEntry->category = $this->getAccountingName($request->account_name);
+        $saveEntry->subsidiary = $request->remarks;
+        $saveEntry->receipt_details = $this->getAccountingName($request->account_name);
+        $saveEntry->accounting_name = $this->getAccountingName($request->account_name);
+        $saveEntry->accounting_code = $request->account_name;
+        $saveEntry->accounting_type = env('DISBURSEMENT');
+        $saveEntry->fiscal_year = \App\CtrFiscalYear::value("fiscal_year");
+        $saveEntry->credit = $actual_amount > 0 ? $actual_amount : 0;
+        $saveEntry->particular = $request->payee;
+        $saveEntry->posted_by = $updatedisbursement->processed_by;
+        $saveEntry->save();
+        
+        return back()->withSuccess("You have updated the voucher");
     }
 
 }

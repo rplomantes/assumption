@@ -42,17 +42,13 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <input type="text" class="form form-control" width="100%" id='particular' name='particular'>
                     </div>
                     <div class="col-md-2">
-                        <label>Debit/Credit</label>
-                        <select class="form form-control select2" width="100%" id='type' name='type'>
-                            <option value="">Choose One</option>
-                            <option value="Debit">Debit</option>
-                            <option value="Credit">Credit</option>
-                        </select>
+                        <label>Debit</label>
+                        <input type="number" value="0" onkeypress="addentry(event)" id="debit" class="form-control">
                     </div>
                     
                     <div class="col-md-2">
-                        <label>Amount</label>
-                        <input type="text" class="form-control" id="amount" name="amount" onkeypress="addEntry()" style="text-align:right">
+                        <label>Credit</label>
+                        <input type="number" value="0" onkeypress="addentry(event)" id="credit" class="form-control">
                     </div>
                 </div>
                 <div id="entries_table">
@@ -95,6 +91,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                                 <td><b>TOTAL</b></td>
                                 <td><b>{{number_format($debit,2)}}</b></td>
                                 <td><b>{{number_format($credit,2)}}</b></td>
+                                <td>&nbsp;</td>
                             </tr>
                         </tbody>
                     </table>
@@ -132,17 +129,16 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $("#amount").maskMoney();
         });
 
-        $("#amount").keypress(function (e) {
-            var ev = e.keyCode || event.which
-            if (ev == 13) {
+        function addentry(e){
+            if(e.keyCode == 13){
                 var array = {};
                 array['is_update'] = 1;
                 array['voucher_no'] = $("#voucher_no").val();
                 array['reference'] = $("#reference").val();
                 array['code'] = $("#accounting_name").val();
-                array['type'] = $("#type").val();
+                array['debit'] = $("#debit").val();
+                array['credit'] = $("#credit").val();
                 array['particular'] = $("#particular").val();
-                array['amount'] = $("#amount").val();
                 $.ajax({
                     type: 'GET',
                     url: '/accounting/ajax/journal_set_entries',
@@ -158,7 +154,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                 e.preventDefault();
                 return false;
             }
-        });
+        }
         
         function removeEntry(id){
             var array = {};

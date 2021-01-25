@@ -27,6 +27,10 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <input type="text" id="payee" name="payee" class="form-control">
                     </div>
                 </div>
+               
+               <div id="display_payee">
+               </div>
+               
                 <div class="form-group">
                     <div class="col-md-3">
                         <label>Accounting Name</label>
@@ -36,23 +40,20 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <label>Particular</label>
-                        <input type="text" class="form form-control" width="100%" id='particular' name='particular'>
+                        <input type="text" class="form form-control" width="100%" id='particular' name='particular[]'>
                     </div>
                     <div class="col-md-2">
-                        <label>Debit/Credit</label>
-                        <select class="form form-control select2" width="100%" id='type' name='type'>
-                            <option value="">Choose One</option>
-                            <option value="Debit">Debit</option>
-                            <option value="Credit">Credit</option>
-                        </select>
+                        <label>Debit</label>
+                        <input type="number" name="debit[]" onkeypress="addentry(event)" id="debit" value="0" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Credit</label>
+                        <input type="number" name="credit[]" onkeypress="addentry(event)" id="credit" value="0" class="form-control">
                     </div>
                     
-                    <div class="col-md-3">
-                        <label>Amount</label>
-                        <input type="text" class="form-control" id="amount" name="amount" style="text-align:right">
-                    </div>
+                    
                 </div>
                 <div id="entries_table">
                     
@@ -68,31 +69,37 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 
         $('.select2').select2();
 
+   function addentry(e){
+       if(e.keyCode == 13){
+           var array = {};
+            array['voucher_no'] = $("#voucher_no").val();
+            array['category'] = $("#category").val();
+            array['reference'] = $("#reference").val();
+            array['code'] = $("#accounting_name").val();
+            array['debit'] = $("#debit").val();
+            array['credit'] = $("#credit").val();
+            array['particular'] = $("#particular").val();
+            $.ajax({
+                type: 'GET',
+                url: '/accounting/ajax/set_entries',
+                data: array,
+                success: function (data) {
+                    $('#entries_table').html(data);
+                    $('#particular').val("");
+                    $('#debit').val(0);
+                    $('#credit').val(0);
+                    $('#account_name').select2();
+                }
+            });
+       }
+   }
+
    $(document).ready(function(){
         $("#amount").keypress(function(e){
            var theEvent = e || window.event;
            var key = theEvent.keyCode || theEvent.which;
            if(key==13){
-                var array = {};
-                array['voucher_no'] = $("#voucher_no").val();
-                array['category'] = $("#category").val();
-                array['reference'] = $("#reference").val();
-                array['code'] = $("#accounting_name").val();
-                array['type'] = $("#type").val();
-                array['particular'] = $("#particular").val();
-                array['amount'] = $("#amount").val();
-                $.ajax({
-                    type: 'GET',
-                    url: '/accounting/ajax/set_entries',
-                    data: array,
-                    success: function (data) {
-                        $('#entries_table').html(data);
-                        $('#particular').val("");
-                        $('#amount').val("");
-                        $('#account_name').select2();
-                    }
-                });
-
+                
                 e.preventDefault();
                 return false;
             }
@@ -115,5 +122,26 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     }
                 });
         }
+        
+    $("#payee").on("keyup", function(e){
+        var search = $(this).val();
+        var array = {};
+        array["search"] = search;
+        $.ajax({
+            type: "GET",
+            url: "/ajax/accounting/disbursement/search_payee",
+            data: array,
+            success: function(data){
+                $("#display_payee").html(data).fadeIn();
+            }
+        })
+    })    
+    
+    function selectpayee(supplier){
+        var object = JSON.parse(supplier);
+        
+        $("#display_payee").hide();
+        $("#payee").val(object.supplier_name);
+    }
 </script>
 @endsection

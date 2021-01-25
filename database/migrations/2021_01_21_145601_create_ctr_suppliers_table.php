@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHoldGradesTable extends Migration
+class CreateCtrSuppliersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateHoldGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('hold_grades', function (Blueprint $table) {
+        Schema::create('ctr_suppliers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('idno');
-            $table->foreign('idno')->references('idno')
-                    ->on('users')->onUpdate('cascade');
+            $table->string("supplier_name");
+            $table->string("address");
+            $table->string("tin");
+            $table->string("due_date");
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateHoldGradesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hold_grades');
+        Schema::dropIfExists('ctr_suppliers');
     }
 }

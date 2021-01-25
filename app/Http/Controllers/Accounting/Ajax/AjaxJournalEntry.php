@@ -33,7 +33,8 @@ class AjaxJournalEntry extends Controller
             $reference = Input::get('reference');
             $code = Input::get('code');
             $particular = Input::get('particular');
-            $type = Input::get('type');
+            $debit = Input::get('debit');
+            $credit = Input::get('credit');
             $is_update = Input::get('is_update');
             $amount = str_replace(",","",Input::get('amount'));
             
@@ -50,13 +51,13 @@ class AjaxJournalEntry extends Controller
             $saveEntry->entry_type = 5;
             $saveEntry->fiscal_year = $fiscal_year->fiscal_year;
             $saveEntry->receipt_type = "JV";
-            if($type == "Debit"){
-                $saveEntry->debit = $amount;
+            if($debit > 0){
+                $saveEntry->debit = $debit;
                 $saveEntry->credit = 0;
             }
-            else{
+            if($credit > 0){
                 $saveEntry->debit = 0;
-                $saveEntry->credit = $amount;
+                $saveEntry->credit = $credit;
             }
             $saveEntry->isreverse = 1;
             $saveEntry->posted_by = Auth::user()->idno;
