@@ -45,6 +45,7 @@ $date_from = \Carbon\Carbon::today()->toDateString();
                     <a class='btn btn-warning' id='view'><span class="fa fa-eye"></span><b> View Summary</b></a>
                     <button type="submit" class="btn btn-primary"><span class="fa fa-print"></span><b> Print Summary</b></button>
                     <a type="button" class="btn btn-success" href="{{url("/disbursement/new")}}"><span class="fa fa-plus"></span><b> Create New</b></a>
+                    <a type="button" class="btn btn-success" href="{{url("/accounting/supplier")}}"><span class="fa fa-gear"></span><b> Supplier Setting</b></a>
                 </div>
             </form>
         </div>

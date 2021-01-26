@@ -262,6 +262,7 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('/accounting', array('report', 'bed_scholarship_report'))}}"><span>List of Scholar Grants</span></a></li>
                             </ul>
                         </li>
+                        <li><a href="{{url('/accounting/supplier')}}"><span><i class="fa fa-gears"></i> Set-up Suppliers</span></a></li>
                     </ul>
                 </section>
             </aside>
