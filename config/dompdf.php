@@ -238,6 +238,7 @@ return array(
          * Use the more-than-experimental HTML5 Lib parser
          */
         "enable_html5_parser" => true,
+        "isRemoteEnabled" => true,
     ),
 
 
