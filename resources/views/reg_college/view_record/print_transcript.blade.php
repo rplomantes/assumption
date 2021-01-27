@@ -3,12 +3,7 @@ $credit = 0;
 $gpa = 0;
 $count = 0;
 ?>
-<?php
-$file_exist = 0;
-if (file_exists(url("/images/PICTURES/" . $user->idno . ".jpg"))) {
-    $file_exist = 1;
-}
-?>
+
 <style>
     body {
         font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
@@ -104,9 +99,7 @@ if (file_exists(url("/images/PICTURES/" . $user->idno . ".jpg"))) {
             <td valign='top' width='24%'>STUDENT NUMBER:</td>
             <td>{{$user->idno}}</td>
             <td width='10%' valign='top' align='center' rowspan="16">
-                @if($file_exist == 1)
-                <img src="{{url('/images/PICTURES/'.$user->idno.'.jpg')}}" alt='{{url('/images/PICTURES/'.$user->idno.'.jpg')}}'>
-                @endif
+                <img src="{{url('/images/PICTURES/'.$user->idno.'.jpg')}}" alt=' '>
             </td>
         </tr>
         <tr>
