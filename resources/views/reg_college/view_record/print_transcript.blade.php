@@ -57,6 +57,8 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
     }
 </style>
 <body>
+    
+                <img src="{{'http:s//ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}" alt='{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}'>
     <script type="text/php">
         if ( isset($pdf) ) {
         $x = 515;
@@ -105,7 +107,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <td>{{$user->idno}}</td>
             <td width='10%' valign='top' align='center' rowspan="16">
                 @if($file_exist == 1)
-                <img src="{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}" alt=' '>
+                <img src="{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}" alt='{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}'>
                 @endif
             </td>
         </tr>
