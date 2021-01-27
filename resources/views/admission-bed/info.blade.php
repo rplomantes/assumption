@@ -278,7 +278,7 @@ $layout = "layouts.appadmission-shs";
                     <option @if($info->applied_for_strand == "STEM") selected="" @endif>STEM</option>
                     <option @if($info->applied_for_strand == "HUMSS") selected="" @endif>HUMSS</option>
                     <option @if($info->applied_for_strand == "ABM") selected="" @endif>ABM</option>
-                    <option @if($info->applied_for_strand == "PA") selected="" @endif>PA</option>
+                    <option @if($info->applied_for_strand == "AD") selected="" @endif>AD</option>
                 </select>
             </div>
         </div>
