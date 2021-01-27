@@ -65,6 +65,7 @@ class StudentRecordController extends Controller {
         \App\Http\Controllers\Admin\Logs::log("Print transcript of student: $idno");
 
         $pdf = PDF::loadView('reg_college.view_record.print_transcript', compact('idno', 'user', 'info', 'level'));
+        $pdf->setOptions(['isRemoteEnabled' => true]);
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream("transcript_" . $idno . ".pdf");
     }
