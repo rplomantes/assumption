@@ -105,7 +105,7 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
             <td>{{$user->idno}}</td>
             <td width='10%' valign='top' align='center' rowspan="16">
                 @if($file_exist == 1)
-                <img src="{{url('/images/PICTURES/'.$user->idno.'.jpg')}}" alt=' '>
+                <img src="{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}" alt=' '>
                 @endif
             </td>
         </tr>
