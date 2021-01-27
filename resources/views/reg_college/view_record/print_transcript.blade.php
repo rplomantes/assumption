@@ -5,7 +5,7 @@ $count = 0;
 ?>
 <?php
 $file_exist = 0;
-if (file_exists('http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg')) {
+if (file_exists(url("/images/PICTURES/" . $user->idno . ".jpg"))) {
     $file_exist = 1;
 }
 ?>
@@ -105,7 +105,7 @@ if (file_exists('http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.
             <td>{{$user->idno}}</td>
             <td width='10%' valign='top' align='center' rowspan="16">
                 @if($file_exist == 1)
-                <img src="{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}" alt='{{'http://ac-apps.assumption.edu.ph/images/PICTURES/'.$user->idno.'.jpg'}}'>
+                <img src="{{url('/images/PICTURES/'.$user->idno.'.jpg')}}" alt='{{url('/images/PICTURES/'.$user->idno.'.jpg')}}'>
                 @endif
             </td>
         </tr>
