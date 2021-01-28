@@ -34,7 +34,7 @@
 @endsection
 @section('maincontent')
 <label>Manual Posting of Paynamics Responses</label>
-<form method="POST" action='https://portal.assumption.edu.ph/paynamics'>
+<form method="POST" action="{{url('/paynamics')}}">
     <input name='paymentresponse' required="">
     <input type="submit" value="Send Reponse">
 </form>
