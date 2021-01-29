@@ -229,8 +229,8 @@ Route::get('/registrar_college/grade_management/statistics_of_grades/{school_yea
 Route::get('/registrar_college/print_statistics_of_grades/{school_year}/{period}', 'RegistrarCollege\GradeManagement\GradesController@print_statistics_of_grade');
 
 //Incomplete Grades
-Route::get('/registrar_college/grade_management/incomplete_grades/{school_year}/{period}/{term}', 'RegistrarCollege\GradeManagement\GradesController@incomplete_grades');
-Route::get('/registrar_college/print_grade_incomplete/{school_year}/{period}/{term}', 'RegistrarCollege\GradeManagement\GradesController@print_incomplete_grade');
+Route::get('/registrar_college/grade_management/{type}/{school_year}/{period}/{term}', 'RegistrarCollege\GradeManagement\GradesController@incomplete_grades');
+Route::get('/registrar_college/print_grade_incomplete/{type}/{school_year}/{period}/{term}', 'RegistrarCollege\GradeManagement\GradesController@print_incomplete_grade');
 
 //Registrar College Reports/////////////////////////////////////////////////////
 //Student List
