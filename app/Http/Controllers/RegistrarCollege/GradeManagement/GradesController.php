@@ -53,30 +53,46 @@ class GradesController extends Controller {
         }
     }
 
-    function incomplete_grades($school_year, $period,$term) {
+    function incomplete_grades($type, $school_year, $period, $term) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env("DEAN")) {
-            $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
-                            ->where(function ($query) use ($term) {
-                                $query->where($term, 'INC')
-                                ->orWhere($term, 'NG');
-                            })
-                            ->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
-            return view('reg_college.grade_management.incomplete_grades', compact('school_year', 'period', 'incomplete_grades','term'));
+
+            if ($type == "inc_ng") {
+                $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
+                                ->where(function ($query) use ($term) {
+                                    $query->where($term, 'INC')
+                                    ->orWhere($term, 'NG');
+                                })->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
+            } else if ($type == "blank") {
+                $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
+                                ->where(function ($query) use ($term) {
+                                    $query->where($term, NULL)
+                                    ->orWhere($term, '');
+                                })->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
+            }
+
+            return view('reg_college.grade_management.incomplete_grades', compact('school_year', 'period', 'incomplete_grades', 'term', 'type'));
         }
     }
 
-    function print_incomplete_grade($school_year, $period,$term) {
+    function print_incomplete_grade($type,$school_year, $period, $term) {
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
-            $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
-                            ->where(function ($query) use ($term) {
-                                $query->where($term, 'INC')
-                                ->orWhere($term, 'NG');
-                            })
-                            ->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
+            if ($type == "inc_ng") {
+                $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
+                                ->where(function ($query) use ($term) {
+                                    $query->where($term, 'INC')
+                                    ->orWhere($term, 'NG');
+                                })->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
+            } else if ($type == "blank") {
+                $incomplete_grades = \App\GradeCollege::where('school_year', $school_year)->where('period', $period)
+                                ->where(function ($query) use ($term) {
+                                    $query->where($term, NULL)
+                                    ->orWhere($term, '');
+                                })->where('completion', NULL)->join('users', 'users.idno', '=', 'grade_colleges.idno')->orderBy('course_name', 'asc', 'lastname', 'asc')->get();
+            }
 
             \App\Http\Controllers\Admin\Logs::log("Print Incomplete Grade of for SY $school_year-$period PDF");
-            $pdf = PDF::loadView('reg_college.grade_management.print_incomplete_grade', compact('school_year', 'period', 'incomplete_grades','term'));
+            $pdf = PDF::loadView('reg_college.grade_management.print_incomplete_grade', compact('school_year', 'period', 'incomplete_grades', 'term','type'));
             $pdf->setPaper(array(0, 0, 612.00, 792.0));
             return $pdf->stream("incomplete_grades.pdf");
         }
@@ -84,7 +100,7 @@ class GradesController extends Controller {
 
     function statistics_of_grades($school_year, $period) {
         if (Auth::user()->accesslevel == env('REG_COLLEGE') || Auth::user()->accesslevel == env("DEAN")) {
-            $subjects = \App\GradeCollege::distinct()->where('school_year', $school_year)->where('period', $period)->orderBy('course_name', 'asc')->get(array('course_code','course_name'));
+            $subjects = \App\GradeCollege::distinct()->where('school_year', $school_year)->where('period', $period)->orderBy('course_name', 'asc')->get(array('course_code', 'course_name'));
             return view('reg_college.grade_management.statistics_of_grades', compact('school_year', 'period', 'subjects'));
         }
     }
@@ -92,7 +108,7 @@ class GradesController extends Controller {
     function print_statistics_of_grade($school_year, $period) {
         if (Auth::user()->accesslevel == env('DEAN') || Auth::user()->accesslevel == env('REG_COLLEGE')) {
 
-            $subjects = \App\GradeCollege::distinct()->where('school_year', $school_year)->where('period', $period)->orderBy('course_name', 'asc')->get(array('course_code','course_name'));
+            $subjects = \App\GradeCollege::distinct()->where('school_year', $school_year)->where('period', $period)->orderBy('course_name', 'asc')->get(array('course_code', 'course_name'));
 
             \App\Http\Controllers\Admin\Logs::log("Print Statistics of Grades of for SY $school_year-$period PDF");
             $pdf = PDF::loadView('reg_college.grade_management.print_statistics_of_grades', compact('school_year', 'period', 'subjects'));
