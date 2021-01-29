@@ -78,6 +78,14 @@ $layout = "layouts.appreg_college";
                     <option value='finals' @if ($term == "finals") selected = "" @endif>Finals</option>
                 </select>    
             </div>
+            <div class='col-sm-2'>
+                <label>Search For:</label>
+                <select class="form form-control select2" name="type" id='type'>
+                    <option value="">Select</option>
+                    <option value='inc_ng' @if ($type == "inc_ng") selected = "" @endif>INC/NG</option>
+                    <option value='blank' @if ($type == "blank") selected = "" @endif>Blank Grades</option>
+                </select>    
+            </div>
             
             <div class='col-sm-4'>
                 <label>&nbsp;</label>
@@ -89,7 +97,7 @@ $layout = "layouts.appreg_college";
         <div class='box-body'>
             <table class="table table-condensed table-bordered">
             @if (count($incomplete_grades)>0)
-            <div class='col-sm-12'><div class='pull-right'><a target='_blank' href="{{url('registrar_college',array('print_grade_incomplete', $school_year,$period,$term))}}"><button class='btn btn-primary'>Print Grade</button></a></div></div>
+            <div class='col-sm-12'><div class='pull-right'><a target='_blank' href="{{url('registrar_college',array('print_grade_incomplete',$type, $school_year,$period,$term))}}"><button class='btn btn-primary'>Print Grade</button></a></div></div>
             <?php $counter = 1; ?>
             <tr>
                 <th>#</th>
@@ -102,6 +110,11 @@ $layout = "layouts.appreg_college";
                 <th>Instructor</th>
             </tr>
             @foreach($incomplete_grades as $grade)
+            
+                    <?php
+                $offering_id = \App\CourseOffering::find($grade->course_offering_id);
+                ?>
+            @if($offering_id)
             <tr>
                 <td>{{$counter++}}.</td>
                 <td>{{$grade->idno}}</td>
@@ -119,9 +132,6 @@ $layout = "layouts.appreg_college";
                 </td>
                 <td>
                     
-                    <?php
-                $offering_id = \App\CourseOffering::find($grade->course_offering_id);
-                ?>
                     {{$offering_id->section_name}}
                 </td>
                 <td>
@@ -140,6 +150,7 @@ $layout = "layouts.appreg_college";
                 ?>
                 </td>
             </tr>
+            @endif
             @endforeach
             
             @else
@@ -157,7 +168,7 @@ $layout = "layouts.appreg_college";
 <script>
     $(document).ready(function(){
       $("#view-button").on('click',function(e){
-        document.location="{{url('/registrar_college',array('grade_management'))}}" + "/incomplete_grades/" + $("#school_year").val() + "/" + $("#period").val() + "/" + $("#term").val();
+        document.location="{{url('/registrar_college',array('grade_management'))}}" + '/' + $("#type").val() + "/" + $("#school_year").val() + "/" + $("#period").val() + "/" + $("#term").val();
       });
     });
 </script>
