@@ -41,7 +41,14 @@
 </style>
 <div>    
     <div style='float: left; margin-left: 150px;'><img src="{{public_path('/images/assumption-logo.png')}}"></div>
-    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>INCOMPLETE GRADES</b></div>
+    <div style='float: left; margin-top:12px; margin-left: 10px' align='center'><span id="schoolname">Assumption College</span> <br><small> San Lorenzo Drive, San Lorenzo Village<br> Makati City</small><br><br><b>
+        @if($type == "inc_ng")    
+            INCOMPLETE GRADES
+        @else
+            NO GRADES
+        @endif
+        
+        </b></div>
 </div>
 <div>
     <table class='table' border="1" width="100%" cellspacing='0' cellpadding='0' style='margin-top: 145px;'>
@@ -66,7 +73,11 @@
         </tr>
         <thead>
         @foreach($incomplete_grades as $grade)
-        <tbody>
+        <tbody>  
+            <?php
+                $offering_id = \App\CourseOffering::find($grade->course_offering_id);
+                ?>
+            @if($offering_id)
         <tr>
             <td>{{$counter++}}.</td>
             <td>{{$grade->idno}}</td>
@@ -105,6 +116,7 @@
                 ?>
             </td>
         </tr>
+        @endif
         </tbody>
         @endforeach
 
