@@ -90,7 +90,7 @@ class StudentList extends Controller
     function getSRF($lists, $department,$school_year,$period) {
         foreach ($lists as $list) {
             if ($department == "College Department") {
-                $lists_srf = DB::select("SELECT SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = $school_year AND period = '$period' and idno = $list->idno");
+                $lists_srf = DB::select("SELECT SUM(amount) AS assessment FROM ledgers WHERE category_switch IN (4,14) AND category = 'SRF' AND school_year = $school_year AND period = '$period' and idno = '$list->idno'");
                 if (count($lists_srf) > 0) {
                     foreach ($lists_srf as $list_srf) {
                         $srf_amount = $list_srf->assessment;
