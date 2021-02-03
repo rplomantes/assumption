@@ -104,6 +104,7 @@ class AssessmentController extends Controller {
                 }
             }
             $status->level = $assignlevel;
+            $status->status = 0;
             $status->is_advised = 0;
             $status->save();
 
