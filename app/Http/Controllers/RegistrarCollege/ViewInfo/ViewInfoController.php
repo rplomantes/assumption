@@ -313,7 +313,7 @@ class ViewInfoController extends Controller {
     }
 
     function reset_password(Request $request) {
-        if (Auth::user()->accesslevel == env("REG_COLLEGE")) {
+        if (Auth::user()->accesslevel == env("REG_COLLEGE") or Auth::user()->accesslevel == env("ADMISSION_HED")) {
             $user = \App\User::where('idno', $request->idno)->first();
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
