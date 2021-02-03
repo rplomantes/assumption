@@ -53,7 +53,7 @@ $layout = "layouts.appreg_college";
 <form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">
     {{ csrf_field() }}
     
-@if(Auth::user()->accesslevel == env('REG_COLLEGE'))
+@if(Auth::user()->accesslevel == env('REG_COLLEGE') or Auth::user()->accesslevel == env('ADMISSION_HED'))
     <div class="col-md-12">
         <div class="box">
         <div class="box-body">
