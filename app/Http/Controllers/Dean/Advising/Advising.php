@@ -48,9 +48,8 @@ class Advising extends Controller {
                         return view('dean.advising.advise', compact('status', 'idno'));
                     } else if ($status->is_advised == 1) {
 
-                        if ($status->status == env('ASSESSED')) {
-                            return view('dean.advising.already_assessed', compact('idno'));
-//                            return redirect(url('dean', array('advising', 'confirm_advised', $idno, $status->program_code, $status->level, $student_info->curriculum_year, $status->period)));
+                        if ($status->status <= env('ADVISING') ) {
+                            return view('dean.advising.confirmed_advised', compact('idno'));
                         } else if ($status->status == env('ASSESSED')) {
                             return view('dean.advising.already_assessed', compact('idno'));
                         } else if ($status->status == env('ENROLLED') && $status->school_year == "$enrollment_school_year->school_year" && $status->period == "$enrollment_school_year->period") {
