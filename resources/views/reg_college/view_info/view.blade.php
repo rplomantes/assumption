@@ -58,6 +58,8 @@ $layout = "layouts.appreg_college";
         <div class="box">
         <div class="box-body">
         <?php $status = \App\Status::where('idno', $idno)->first(); ?>
+            
+@if(Auth::user()->accesslevel == env('REG_COLLEGE'))
         <div class="col-md-2 pull-left">
             <div class="form form-group">
                 @if($status->status == 3)
@@ -95,6 +97,7 @@ $layout = "layouts.appreg_college";
                 </select>
             </div>
         </div>
+@endif
         <div class="col-md-2 pull-right">
             <div class="form form-group">
                 <label><br><br></label>
