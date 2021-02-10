@@ -26,6 +26,14 @@ if($tuition_fee_total->balance>0)
 
 $total_max = $other+$miscellaneous+$depository+$srf+$tuition+$optional;
 $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
+
+$previousarray = array();
+if(!$previous_total->isEmpty()){
+    foreach($previous_total as $previous){
+        $previousarray[$previous->school_year] = $previous->balance;
+    }
+}
+$previousarray = json_encode($previousarray);
 ?>
 <?php 
     if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
@@ -97,23 +105,29 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         <div id="detailed_form">   
             <div class="form form-group">    
                 <div class="crcform">
-                    @if(count($previous_total)>0)
-                    @if($previous_total->balance > 0)
+                    @if(!$previous_total->isEmpty())
                     <div class="form form-group">
                     <div class="col-md-6">
-                        <span class="label_collected">Previous Balance :</span>
+                        <span class="label_collected">Previous Fees :</span>
                     </div> 
-                     <div class="col-md-6">
-                         <!--<input type="hidden" id="previous_balance" name="previous_balance" value="{{$previous_total->balance}}">-->
-                        <input type="text" class="form form-control number" name="previous_balance" id="previous_balance" value="{{$previous_total->balance}}" >
-                     </div>
-                     </div>   
+                    <div class="col-md-6">
+                        <input type="text" class="form form-control number" name="previous_balance" id="previous_balance" value="{{$previous_total->sum("balance")}}" >
+                    </div> 
+                    </div>
+                    
+                    <div class="col-md-12">
+                        
+                        <table class="table table-bordered fees">
+                            <tr><td width="33%" align="right">School Year</td><td width="33%" align="right">Balance</td><td align="right">Amount</td></tr>
+                            @foreach($previous_total as $previous_fee)
+                            <tr><td align="right">{{$previous_fee->school_year}}</td><td align="right">{{number_format($previous_fee->balance,2)}}</td><td><input onkeypress="do_previous(event,{{$previous_fee->balance}},this.value,this)" type="text" name="previous_sy[{{$previous_fee->school_year}}]" id="previous{{$previous_fee->school_year}}" class="form form-control number previous"></tr>
+                            @endforeach
+                        </table>        
+                    </div>
                     @else
-                        <input type="hidden" id="previous_balance" name="previous_balance" value="0.00">
+                    <input type="hidden" id="previous_balance" name="previous_balance" value="0.00">
                     @endif
-                    @else
-                        <input type="hidden" id="previous_balance" name="previous_balance" value="0.00">
-                    @endif
+                    
                     <div class="form form-group">
                     <div class="col-md-6">
                         <span class="label_collected">Main Account :</span>
@@ -291,12 +305,30 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         
         $("#previous_balance").on('keypress',function(e){
             if(e.keyCode==13){
+                
+                var desiredpreviousfee = $(this).val();
+                
                 if($("#previous_balance").val()==""){
                     $("#previous_balance").val("0.00");
-                }else if(parseFloat($("#previous_balance").val()) > parseFloat("{{$previous_total->balance}}")){
-                    alert("Amount Should Not Be Greater Than " + "{{number_format($previous_total->balance,2)}}" )
-                    $("#previous_balance").val("{{$previous_total->balance}}");
                 }
+                
+                var previousarray = "{{$previousarray}}";
+                previousarray = JSON.parse(previousarray.replace(/&quot;/g,'"'));
+
+                for (var key in previousarray) {
+                    if (previousarray.hasOwnProperty(key)) {
+                        
+                        if(desiredpreviousfee >= previousarray[key]){
+                            $("#previous"+key).val(parseFloat(previousarray[key],2));
+                            desiredpreviousfee = desiredpreviousfee - previousarray[key];
+                        }else{
+                            $("#previous"+key).val(parseFloat(desiredpreviousfee,2));
+                            desiredpreviousfee = 0;
+                        }
+
+                    }
+                }
+                
                 $("#main_due").focus();
                 e.preventDefault();
             }
@@ -554,6 +586,26 @@ $accountings = \App\ChartOfAccount::orderBy('accounting_code')->get();
         if (theEvent.preventDefault) theEvent.preventDefault();
         }});
     }
+    
+    function do_previous(event,amount,value,obj){
+       if(event.keyCode==13 || event.keyCode==9){
+           if(parseFloat(value)>parseFloat(amount)){
+               alert("Invalid amount")
+               obj.value=amount;
+           }else{
+                totalprevious = 0.00;
+                $('input[type="text"].previous').each(function () {
+                    totalprevious += parseFloat($(this).val(),2);
+                });
+               
+               $("#previous_balance").val(parseFloat(totalprevious,2))
+               computeToBePaid();
+           }
+           
+           
+           event.preventDefault();
+       }
+   }
 </script>    
 @endsection
 
