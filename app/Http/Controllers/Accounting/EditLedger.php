@@ -330,14 +330,6 @@ class EditLedger extends Controller {
         $update->save();
     }
 
-    public static function log($action) {
-        $log = new \App\Log();
-        $log->action = "$action";
-        $log->idno = Auth::user()->idno;
-        $log->datetime = date("Y-m-d H:i:s");
-        $log->save();
-    }
-
     function getdiscountrate($type, $discount_code, $idno) {
         if ($type == 'tf') {
             return \App\CollegeScholarship::where('idno', $idno)->where('discount_code', $discount_code)->first()->tuition_fee;

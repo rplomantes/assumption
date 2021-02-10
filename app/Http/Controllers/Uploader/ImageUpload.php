@@ -35,7 +35,7 @@ class ImageUpload extends Controller {
         $destinationPath = public_path('images/PICTURES/');
 
         $image->move($destinationPath, $request->idno.".jpg");
-
+        \App\Http\Controllers\Admin\Logs::log("Image Uploaded for $request->idno"); 
         return back()->with('success', 'Image Upload successful');
     }
 

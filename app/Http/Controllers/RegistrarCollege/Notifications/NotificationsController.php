@@ -32,6 +32,7 @@ class NotificationsController extends Controller
             $add_announcement->notification = $request->notifications_content;
             $add_announcement->idno=Auth::user()->idno;
             $add_announcement->save();
+            \App\Http\Controllers\Admin\Logs::log("Notification Posted!");
             Session::flash('announcement','Notification Posted!');
             }else{
             $add_announcement = \App\CollegeNotifications::where('id',$request->id)->first();
@@ -39,6 +40,7 @@ class NotificationsController extends Controller
             $add_announcement->notification = $request->notifications_content;
             $add_announcement->idno=Auth::user()->idno;
             $add_announcement->save();
+            \App\Http\Controllers\Admin\Logs::log("Notification Updated for $request->id");
             Session::flash('announcement','Notification Updated!');
             }
             return redirect(url('/registrar_college/portal_notifications'));

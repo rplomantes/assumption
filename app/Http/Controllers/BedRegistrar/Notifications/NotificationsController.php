@@ -29,6 +29,7 @@ class NotificationsController extends Controller
             $add_announcement->notification = $request->notifications_content;
             $add_announcement->idno=Auth::user()->idno;
             $add_announcement->save();
+            \App\Http\Controllers\Admin\Logs::log("Post a notification");
             Session::flash('announcement','Notification Posted!');
             return redirect(url('/bedregistrar/portal_notifications'));
         }

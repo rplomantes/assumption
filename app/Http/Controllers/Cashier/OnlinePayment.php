@@ -46,6 +46,7 @@ class OnlinePayment extends Controller {
                     $update_payment = \App\Payment::where('id', $request->payment_id)->first();
                     $update_payment->receipt_no = $request->or_number;
                     $update_payment->save();
+                    \App\Http\Controllers\Admin\Logs::log("Issue OR number $request->or_number and $request->payment_id");
                     Session::flash('message', 'OR number issued successfully!');
                 }
             }

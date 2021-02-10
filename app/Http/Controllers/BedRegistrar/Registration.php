@@ -89,7 +89,7 @@ class Registration extends Controller {
             }
             $bedlevel->save();
 
-            \App\Http\Controllers\Accounting\SetReceiptController::log("$mes student $idno $add");
+            \App\Http\Controllers\Admin\Logs::log("$mes student $idno $add");
             return redirect(url('/bedregistrar', array('info', $idno)));
         }
     }
@@ -270,7 +270,7 @@ class Registration extends Controller {
             $user->password = bcrypt($request->password);
             $user->is_first_login = 1;
             $user->update();
-            \App\Http\Controllers\Accounting\SetReceiptController::log("Reset password of $request->idno.");
+            \App\Http\Controllers\Admin\Logs::log("Reset password of $request->idno.");
             if(Auth::user()->accesslevel == env("REG_BE")){
             return redirect(url('/bedregistrar', array('info', $request->idno)));
             }elseif(Auth::user()->accesslevel == env("ADMISSION_BED")){
@@ -470,14 +470,6 @@ class Registration extends Controller {
         $updateUser->email = $request->email;
         $updateUser->status = $request->user_status;
         $updateUser->save();
-    }
-
-    function log($action) {
-        $log = new \App\Log();
-        $log->action = "$action";
-        $log->idno = Auth::user()->idno;
-        $log->datetime = date("Y-m-d H:i:s");
-        $log->save();
     }
 
     function view_dpa() {

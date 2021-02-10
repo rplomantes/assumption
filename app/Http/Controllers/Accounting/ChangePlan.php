@@ -47,14 +47,14 @@ class ChangePlan extends Controller {
                 $this->college_add_change_plan($request);
                 $this->college_update_plan($request);
                 $this->college_change_due_date($request);
-                $this->log("Change plan of ". $request->idno." to ". $request->plan);
+                \App\Http\Controllers\Admin\Logs::log("Change plan of ". $request->idno." to ". $request->plan);
                 DB::Commit();
             } else {
                 DB::beginTransaction();
                 $this->add_change_plan($request);
                 $this->update_plan($request);
                 $this->change_due_date($request);
-                $this->log("Change plan of ". $request->idno." to ". $request->plan);
+                \App\Http\Controllers\Admin\Logs::log("Change plan of ". $request->idno." to ". $request->plan);
                 DB::Commit();
             }
             return redirect(url('/cashier', array('viewledger',$stat->school_year, $request->idno)));
@@ -399,14 +399,6 @@ class ChangePlan extends Controller {
         $update = \App\LedgerDueDate::where('idno', $idno)->where('due_switch', 0)->where('due_date', Date('Y-m-d'))->first();
         $update->amount = $downpaymentamount + $total_decimal;
         $update->save();
-    }
-    
-    public static function log($action){
-        $log = new \App\Log();
-        $log->action = "$action";
-        $log->idno = Auth::user()->idno;
-        $log->datetime = date("Y-m-d H:i:s");
-        $log->save();
     }
     
     function getdiscountrate($type, $discount_code, $idno) {

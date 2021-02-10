@@ -26,6 +26,8 @@ class Logs extends Controller {
         $log->action = "$action";
         $log->idno = Auth::user()->idno;
         $log->datetime = date("Y-m-d H:i:s");
+        $log->local_ip = $_SERVER['REMOTE_ADDR'];
+        $log->public_ip = $_SERVER['REMOTE_ADDR'];
         $log->save();
     }
 

@@ -44,7 +44,7 @@ class ViewInfoController extends Controller {
             $bedlevel->status = $v;
             $bedlevel->save();
 
-            \App\Http\Controllers\Accounting\SetReceiptController::log("$mes student $idno.");
+            \App\Http\Controllers\Admin\Logs::log("$mes student $idno.");
             return redirect(url('/registrar_college', array('view_info', $idno)));
         }
     }

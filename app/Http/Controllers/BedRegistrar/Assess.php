@@ -692,7 +692,7 @@ class Assess extends Controller {
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->remove_discountList($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
-                \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year.");
+                \App\Http\Controllers\Admin\Logs::log("Re-assess $idno for S.Y. $schoolyear->school_year.");
                 DB::commit();
             }
         }
@@ -709,7 +709,7 @@ class Assess extends Controller {
                 DB::beginTransaction();
                 $this->back_to_assess_status($idno);
                 $this->back_to_assess_bed_levels($idno,$schoolyear);
-                \App\Http\Controllers\Accounting\SetReceiptController::log("Back to assess $idno for S.Y. $schoolyear->school_year.");
+                \App\Http\Controllers\Admin\Logs::log("Back to assess $idno for S.Y. $schoolyear->school_year.");
                 DB::commit();
             }
         }
@@ -755,7 +755,7 @@ class Assess extends Controller {
                 $this->removeGrades($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->returnStatus($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
                 $this->remove_discountList($idno, $schoolyear->school_year, $schoolyear->period, $user->academic_type);
-                \App\Http\Controllers\Accounting\SetReceiptController::log("Re-assess $idno for S.Y. $schoolyear->school_year and reversed reservations.");
+                \App\Http\Controllers\Admin\Logs::log("Re-assess $idno for S.Y. $schoolyear->school_year and reversed reservations.");
                 DB::commit();
             }
         }
@@ -1300,7 +1300,7 @@ class Assess extends Controller {
             $this->changeStatusStrand($request);
             $this->updateLedgerStrand($request);
             $this->change_due_date($request);
-            $this->log("Change strand of " . $request->idno . " to " . $request->strand);
+            \App\Http\Controllers\Admin\Logs::log("Change strand of " . $request->idno . " to " . $request->strand);
             DB::commit();
         }
         return redirect(url('/bedregistrar/assess/' . $request->idno));
@@ -1348,12 +1348,14 @@ class Assess extends Controller {
         $this->addDueDates($request, $schoolyear, $period);
     }
 
-    public static function log($action) {
-        $log = new \App\Log();
-        $log->action = "$action";
-        $log->idno = Auth::user()->idno;
-        $log->datetime = date("Y-m-d H:i:s");
-        $log->save();
-    }
+//    public static function log($action) {
+//        $log = new \App\Log();
+//        $log->action = "$action";
+//        $log->idno = Auth::user()->idno;
+//        $log->datetime = date("Y-m-d H:i:s");
+//        $log->local_ip = $_SERVER['REMOTE_ADDR'];
+//        $log->public_ip = $_SERVER['REMOTE_ADDR'];
+//        $log->save();
+//    }
 
 }

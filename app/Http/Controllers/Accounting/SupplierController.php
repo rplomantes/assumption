@@ -30,6 +30,7 @@ class SupplierController extends Controller
         $addsupplier->due_date = $request->due_date;
         $addsupplier->tin = $request->tin;
         $addsupplier->save();
+        \App\Http\Controllers\Admin\Logs::log("Add Supplier for $request->supplier_name");
         
         return back()->withSuccess("Supplier Saved!");
     }

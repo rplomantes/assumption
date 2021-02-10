@@ -52,6 +52,9 @@ use AuthenticatesUsers;
         $this->validateLogin($request);
 
         if (Auth::attempt(['idno' => $request->input('idno'), 'password' => $request->input('password'), 'status' => 1])) {
+            
+            \App\Http\Controllers\Admin\Logs::log("Access account.");
+            
             return redirect()->intended('/');
         } else if (Auth::attempt(['idno' => $request->input('idno'), 'password' => $request->input('password'), 'status' => 0])) {
             Auth::logout();

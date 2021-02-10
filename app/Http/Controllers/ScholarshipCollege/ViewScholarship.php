@@ -69,7 +69,7 @@ class ViewScholarship extends Controller {
             }
             $scholar->save();
             $this->updateAdmissionHED($request);
-            \App\Http\Controllers\Accounting\SetReceiptController::log("Update scholarship of" . $request->idno);
+            \App\Http\Controllers\Admin\Logs::log("Update scholarship of" . $request->idno);
             return redirect(url('/scholarship_college/view_scholar/' . $request->idno));
         }
     }
