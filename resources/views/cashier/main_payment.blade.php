@@ -407,7 +407,7 @@ $previousarray = json_encode($previousarray);
         
         $("#previous_balance").on('keypress',function(e){
             if(e.keyCode==13){
-                var desiredpreviousfee = parseFloat($(this).val());
+                var desiredpreviousfee = $(this).val();
                 
                 if($("#previous_balance").val()==""){
                     $("#previous_balance").val("0.00");
