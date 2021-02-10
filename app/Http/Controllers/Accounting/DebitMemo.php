@@ -47,9 +47,15 @@ class DebitMemo extends Controller {
                     ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
                     ->first();
             //Previous Balances
+//            $previous_total = \App\Ledger::where('idno', $idno)->where('category_switch', '>=', '10')
+//                    ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
+//                    ->first();
             $previous_total = \App\Ledger::where('idno', $idno)->where('category_switch', '>=', '10')
-                    ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance")
-                    ->first();
+                        ->selectRaw("sum(amount) - sum(discount)-sum(debit_memo)-sum(payment) as balance, school_year")
+                        ->whereRaw(" amount-discount-debit_memo-payment > 0 ")
+                        ->groupBy("school_year")
+                        ->get();
+            
             //Other Fee
             $other_misc = \App\Ledger::where('idno', $idno)->whereRaw('amount-discount-debit_memo-payment > 0 And category_switch=7')->get();
 
@@ -169,16 +175,26 @@ class DebitMemo extends Controller {
             MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
         }
 
-        if ($request->previous_balance > 0) {
-            $totalpayment = $request->previous_balance;
-            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '>=', '10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
-            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
-        }
+//        if ($request->previous_balance > 0) {
+//            $totalpayment = $request->previous_balance;
+//            $ledgers = \App\Ledger::where('idno', $request->idno)->where("category_switch", '>=', '10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('category_switch')->get();
+//            MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+//        }
 
         if (count($request->other_misc) > 0) {
             foreach ($request->other_misc as $key => $totalpayment) {
                 $ledgers = \App\Ledger::where('id', $key)->get();
                 MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+            }
+        }
+        
+        if(count($request->previous_sy) > 0){
+            foreach ($request->previous_sy as $sy => $totalpayment) {
+                if($request->previous_sy[$sy] > 0){
+                    $totalpayment = $request->previous_balance;
+                    $ledgers = \App\Ledger::where("school_year", $sy)->where('idno', $request->idno)->where("category_switch", '>=', '10')->whereRaw('amount-discount-debit_memo-payment>0')->orderBy('id')->orderBy('category_switch')->get();
+                    MainPayment::processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
+                }
             }
         }
     }
