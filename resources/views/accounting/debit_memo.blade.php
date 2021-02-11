@@ -328,8 +328,11 @@ $previousarray = json_encode($previousarray);
 
                     }
                 }
-                
-                $("#main_due").focus();
+                if($("#previous_balance").val()>0){
+            $("#previous_balance").focus();
+        }else{
+            $("#main_due").focus();
+        }
                 e.preventDefault();
             }
         });
