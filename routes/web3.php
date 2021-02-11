@@ -196,4 +196,4 @@ Route::get("/ajax/accounting/disbursement/search_payee","Accounting\Ajax\AjaxDis
 Route::get("/accounting/disbursement/print_check_disbursement/{reference_id}","Accounting\Disbursement@print_check_disbursement");
 
 //Edit Disbursement
-Route::post("/accounting/edit_disbursement","Accounting\Disbursement@edit_disbursement");
+Route::post("/accounting/edit_disbursemwqwqwent","Accounting\Disbursement@edit_disbursement");
