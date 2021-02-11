@@ -402,7 +402,11 @@ $previousarray = json_encode($previousarray);
         $("#submit_button").fadeOut(300);
         $("#donereg").fadeOut(300);
         $("#payment_pad").fadeOut(300);
-        $("#main_due").focus();
+        if($("#previous_balance").val()>0){
+            $("#previous_balance").focus();
+        }else{
+            $("#main_due").focus();
+        }
         computeSubaccount();
         
         $("#previous_balance").on('keypress',function(e){
