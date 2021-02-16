@@ -237,6 +237,7 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('/registrar_college', array('reports', 'enrollment_statistics', $school_year, $period))}}"><span>HED Statistics</span></a></li>
                                 <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$bed_school_year->school_year))}}"><span>BED Statistics</span></a></li>
                                 <li><a href="{{url('/accounting',array('unused_reservations'))}}"><span>Reservations</span></a></li>
+                                <li><a href="{{url('/accounting',array('unused_deposits'))}}"><span>Student Deposits</span></a></li>
                                 <li><a href="{{url('/accounting',array('examination_permit_hed'))}}"><span>Examination Permit - HED</span></a></li>
                             </ul>
                         </li>       

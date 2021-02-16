@@ -1,11 +1,23 @@
-<h4>{{$department}}</h4>
-@if($department == "College Department" or $department == "Senior High School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}} - {{$period}}</h4>
+<style>
+    
+        body {
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 8pt;
+        }
+</style>
+
+<strong>Assumption College</strong><br>
+{{$department}}<br>
+@if($department == "College Department" or $department == "Senior High School")
+{{$school_year}}-{{$school_year+1}}, {{$period}}
 @endif
 @if($department == "Junior High School" or $department == "Elementary" or $department == "Pre School") 
-<h4>S.Y. {{$school_year}}-{{$school_year +1}}</h4>
+{{$school_year}}-{{$school_year+1}}
 @endif
+<h3>Student Deposits</h3>
+
 As of {{date('F d, Y')}}
+
 @if(count($lists)>0)
 <?php $total = 0;
 $x = 0;
@@ -34,18 +46,14 @@ $x = 0;
                 @if($list->level == $head->level)
                 <?php $total += $list->amount; ?>
                 <tr>
-                    <td>@if($prev_idno != $list->idno) <?php $x++; ?> {{$x}} @endif  </td>
+                    <td>@if($prev_idno != $list->idno) <?php $x++; ?> {{$x}}. @endif  </td>
                     <td align='left'>{{$list->idno}}</td>
                     <td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}} {{$list->extensionname}}</td>
                     @if($department == "College Department")
-                    <td>{{$list->program_code}}</td>
+                    <td>{{$list->program_code}} </td>
                     @endif
                     <td>{{$list->level}}</td>
-                    @if(Auth::user()->accesslevel == env("ADMISSION_HED"))
                     <td>{{$list->receipt_no}}</td>
-                    @else
-                    <td><a href="{{url('cashier', array('viewreceipt',$list->reference_id))}}">{{$list->receipt_no}}</a></td>
-                    @endif
                     <td>{{$list->transaction_date}}</td>
                     <td align='right'>{{number_format($list->amount,2)}}</td>
                     <td align='right'>
@@ -55,9 +63,6 @@ $x = 0;
                         @break
                         @case(0)
                         Unused
-                        @break
-                        @case(2)
-                        Tag as Used
                         @break
                         @endswitch
                     </td>
