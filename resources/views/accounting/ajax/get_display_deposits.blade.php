@@ -26,6 +26,7 @@ $x = 0;
             <th style='border-bottom: 1px solid black'>OR Number</th>
             <th style='border-bottom: 1px solid black'>Date</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Amount</th>
+            <th style='border-bottom: 1px solid black; text-align: center'>Remarks</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Status</th>
         </tr>
     </thead>
@@ -48,6 +49,7 @@ $x = 0;
                     @endif
                     <td>{{$list->transaction_date}}</td>
                     <td align='right'>{{number_format($list->amount,2)}}</td>
+                    <td align='center'>{{$list->getRemarks()}}</td>
                     <td align='right'>
                         @switch($list->is_consumed)
                         @case(1)
