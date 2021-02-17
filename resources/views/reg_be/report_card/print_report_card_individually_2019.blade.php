@@ -455,7 +455,7 @@ function getPromotion($level) {
             <td align="center" style="font:7pt !important;" width="16%">Days of School</td>
         </tr>
         
-<?php $school_days = \App\CtrSchoolDay::where('academic_type','SHS')->where('school_year',$school_year)->where('period',$period)->value('school_days'); ?>
+<?php $school_days = \App\CtrSchoolDay::where('academic_type','BED')->where('school_year',$school_year)->value('school_days'); ?>
         <tr>
             <td align="center">{{$school_days}}</td>
         </tr><?php $total_absent = 0; ?>
