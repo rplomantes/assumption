@@ -15,4 +15,23 @@ class Reservation extends Model
             return "";
         }
     }
+    public function getStatus(){
+        $status = \App\Status::where('idno',  $this->idno)->first();
+        if(count($status)>0){
+            switch ($status->status){
+                case "0":
+                    return "Not Yet Enrolled";
+                    break;
+                case "2":
+                    return "Assessed";
+                    break;
+                case "3":
+                    return "Enrolled";
+                    break;
+                    
+            }
+        }else{
+            return "";
+        }
+    }
 }
