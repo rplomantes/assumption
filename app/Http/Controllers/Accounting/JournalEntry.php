@@ -42,11 +42,22 @@ class JournalEntry extends Controller
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $id = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->id;
             $number = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->jv_voucher;
+
+            $monthnow = date("m");
+            
+            if(!\App\JournalEntry::where("processed_by", Auth::user()->idno)->whereYear("transaction_date", date("Y"))->whereMonth("transaction_date", date("m"))->first()){
+                $number = 0;
+                
+                $updatenumber = \App\ReferenceId::where('idno', Auth::user()->idno)->first();
+                $updatenumber->jv_voucher = 0;
+                $updatenumber->update();
+            }
+            
             $receipt = "";
-            for ($i = strlen($number); $i <= 6; $i++) {
+            for ($i = strlen($number); $i <= 4; $i++) {
                 $receipt = $receipt . "0";
             }
-            return $id . $receipt . $number;
+            return $monthnow."-".$id . $receipt . $number;
         }
     }
     

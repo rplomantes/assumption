@@ -126,7 +126,7 @@ class MainPayment extends Controller {
         if ($request->main_due > "0") {
             $status = \App\Status::where('idno', $request->idno)->first();
             if ($status->status == env("ASSESSED")) {
-                $this->addUnrealizedEntry($request, $reference_id);
+//                $this->addUnrealizedEntry($request, $reference_id);
                 $idno = $this->changeStatus($request->idno);
                 $this->addLevels($idno);
                 //$this->notifyStudent($request, $reference_id);

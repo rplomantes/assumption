@@ -249,7 +249,7 @@ class DebitMemo extends Controller {
         if ($request->main_due > "0") {
             $status = \App\Status::where('idno', $request->idno)->first();
             if ($status->status == env("ASSESSED")) {
-                MainPayment::addUnrealizedEntry($request, $reference_id);
+//                MainPayment::addUnrealizedEntry($request, $reference_id);
                 MainPayment::changeStatus($request->idno);
                 //$this->notifyStudent($request, $reference_id);
             }
