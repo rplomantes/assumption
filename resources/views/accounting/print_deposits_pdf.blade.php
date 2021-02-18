@@ -53,6 +53,7 @@ $x = 0;
                     @if($department == "College Department")
                     <td>{{$list->program_code}} </td>
                     @endif
+                    <td>{{$list->getStatus()}}</td>
                     <td>{{$list->level}}</td>
                     <td>{{$list->receipt_no}}</td>
                     <td>{{$list->transaction_date}}</td>
@@ -72,10 +73,10 @@ $x = 0;
                 @endif
                 <?php $prev_idno = $list->idno; ?>
             @endforeach
-            <tr><td align="right" @if($department == "College Department") colspan="7" @else colspan="6" @endif>SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>
+            <tr><td align="right" @if($department == "College Department") colspan="8" @else colspan="7" @endif>SUB TOTAL</td><td align="right"><strong>{{number_format($head->total,2)}}</strong></td></tr>
     @endforeach
             <tr>
-                <td style="border-top:1px solid black" @if($department == "College Department") colspan="7" @else colspan="6" @endif><strong>Total</strong></td>
+                <td style="border-top:1px solid black" @if($department == "College Department") colspan="8" @else colspan="7" @endif><strong>Total</strong></td>
                 <td style="border-top:1px solid black" align='right'><strong>{{number_format($total,2)}}</strong></td><td style="border-top:1px solid black"></td>
             </tr>
     </tbody>
