@@ -48,7 +48,7 @@ class AjaxJournalEntry extends Controller
             $saveEntry->subsidiary = $particular;
             $saveEntry->description = $particular;
             $saveEntry->accounting_code = $code;
-            $saveEntry->entry_type = 5;
+            $saveEntry->entry_type = env('JOURNAL');
             $saveEntry->fiscal_year = $fiscal_year->fiscal_year;
             $saveEntry->receipt_type = "JV";
             if($debit > 0){

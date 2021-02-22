@@ -208,7 +208,7 @@ class JournalEntry extends Controller
         $saveEntry->subsidiary = $entry->description;
         $saveEntry->description = $entry->description;
         $saveEntry->accounting_code = $entry->accounting_code;
-        $saveEntry->entry_type = 5;
+        $saveEntry->entry_type = env('JOURNAL');
         $saveEntry->fiscal_year = $entry->fiscal_year;
         $saveEntry->receipt_type = "JV";
         $saveEntry->debit = $entry->debit;

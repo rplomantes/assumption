@@ -158,31 +158,62 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         
     </div>    
     <div class="col-md-6">
-        <div class="box-body">
-        <label>Accounting Entry Details</label>
-        @if(count($accountings)>0)
-        <?php $totaldebit=0; $totalcredit=0;?>
-            <table class="table table-striped table-responsive">
-                <tr><th>Entry Date</th><th>Acctg Code</td><th>Accounting Name</th><th>Particular</th><th align="center">Debit</th><th align="center">Credit</th><th>Status</td></tr>
-                @foreach($accountings as $accounting)
-                <?php $totalcredit=$totalcredit+$accounting->credit;
-                      $totaldebit=$totaldebit+$accounting->debit;  
-                ?>
-                <tr><td>{{$accounting->transaction_date}}</td>
-                    <td>{{$accounting->accounting_code}}</td>
-                    <td>{{$accounting->accounting_name}}</td>
-                    <td>{{$accounting->subsidiary}}</td>
-                    <td align="right">{{number_format($accounting->debit,2)}}</td>
-                    <td align="right">{{number_format($accounting->credit,2)}}</td>
-                    <td>@if($accounting->is_reverse==0)OK @else Canceled @endif</td>
-                    </tr>
-                @endforeach
-                <tr><td colspan="4">Total</td><td align="right">{{number_format($totaldebit,2)}}</td>
-                    <td>{{number_format($totalcredit,2)}}</td><td></td></tr>
-            </table> 
-        @endif
+        <div class="box box-primary box-solid">
+            <div class="box-header">
+                <h5 class="box-title">Receipt Details</h5>
+            </div>
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:70%">Particular</th>
+                                <th style="text-align: right;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(!$accountings->isEmpty())
+                            @foreach($accountings->where("credit",">",0) as $accounting)
+                            <tr>
+                                <td>{{$accounting->subsidiary}}</td>
+                                <td style="text-align: right;">
+                                    @if($accounting->credit > 0)
+                                    {{number_format($accounting->credit,2)}}
+                                    @else
+                                    0
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                            
+                            <?php $totalless = 0;?>
+                            @if(count($receipt_less)>0)
+                                <tr>
+                                    <td><b>Subtotal:</b></td>
+                                    <td style="text-align: right; color:red;">{{number_format($accountings->where("credit",">",0)->sum("credit"),2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><b>Less:<b></td>
+                                </tr>
+                                @foreach($receipt_less as $less)
+                                <tr>
+                                    <td>{{$less->receipt_details}}</td>
+                                    <td style="text-align: right;">({{number_format($less->debit,2)}})</td>
+                                </tr>
+                                <?php $totalless += $less->debit; ?>
+                                @endforeach
+                            @endif
+                            <?php $total = $accountings->where("credit",">",0)->sum("credit")-$totalless; ?>
+                            <tr>
+                                <td><b>Total:</b></td>
+                                <td style="text-align: right; color:red;">{{number_format($total,2)}}</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-          
     </div>    
 </div>
 
