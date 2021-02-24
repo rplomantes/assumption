@@ -75,17 +75,17 @@ class GetStudentListDirectory extends Controller {
             $level = Input::get('level');
             $section = Input::get('section');
             if ($level == "Grade 11" || $level == "Grade 12") {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
-            $schoolyear = $school_year->school_year;
-            $period = $school_year->period;
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                $schoolyear = $school_year->school_year;
+                $period = $school_year->period;
                 $strand = Input::get('strand');
                 //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                 $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
                                 . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
                                 . " and bed_levels.level = '$level' and bed_levels.period = '$period' and bed_levels.school_year = '$schoolyear' and bed_levels.section != '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
             } else {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
-            $schoolyear = $school_year->school_year;
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                $schoolyear = $school_year->school_year;
                 //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','!=',$section)->get();
                 $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
                                 . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
@@ -100,11 +100,11 @@ class GetStudentListDirectory extends Controller {
             $strand = "";
             $level = Input::get('level');
             if ($level == "Grade 11" || $level == "Grade 12") {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
                 $strand = Input::get('strand');
                 $sections = \App\CtrSectioning::where('level', $level)->where('strand', $strand)->get();
             } else {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
                 $sections = \App\CtrSectioning::where('level', $level)->get();
             }
             return view('reg_be.ajax.sectioncontrol', compact('level', 'strand', 'sections'));
@@ -117,17 +117,17 @@ class GetStudentListDirectory extends Controller {
             $level = Input::get('level');
             $section = Input::get('section');
             if ($level == "Grade 11" || $level == "Grade 12") {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
-            $schoolyear = $school_year->school_year;
-            $period = $school_year->period;
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'SHS')->first();
+                $schoolyear = $school_year->school_year;
+                $period = $school_year->period;
                 $strand = Input::get('strand');
                 //$students =  \App\BedLevel::where('level',$level)->where('strand',$strand)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
                 $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
                                 . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
                                 . " and bed_levels.level = '$level' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.section = '$section' and bed_levels.strand= '$strand' order by lastname, firstname, middlename");
             } else {
-            $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
-            $schoolyear = $school_year->school_year;
+                $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'BED')->first();
+                $schoolyear = $school_year->school_year;
                 //$students =  \App\BedLevel::where('level',$level)->where('school_year',$school_year->school_year)->where('section','=',$section)->get();
                 $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  bed_levels.idno as idno, "
                                 . " bed_levels.level as level, bed_levels.strand as strand, bed_levels.section as section from users, bed_levels where users.idno = bed_levels.idno "
@@ -181,11 +181,11 @@ class GetStudentListDirectory extends Controller {
             }
         }
         ob_end_clean();
-        Excel::create('Student Directory-'.$level.'-'.$section, function($excel) use ($status, $level, $section, $strand, $schoolyear, $period) {
-            $excel->setTitle($level."-".$section);
+        Excel::create('Student Directory-' . $level . '-' . $section, function($excel) use ($status, $level, $section, $strand, $schoolyear, $period) {
+            $excel->setTitle($level . "-" . $section);
 
-            $excel->sheet($level."-".$section, function ($sheet) use ($status, $level, $section, $strand, $schoolyear, $period) {
-                $sheet->loadView('reg_be.view_list_directory_export', compact('status', 'level', 'section', 'strand','schoolyear', 'period'));
+            $excel->sheet($level . "-" . $section, function ($sheet) use ($status, $level, $section, $strand, $schoolyear, $period) {
+                $sheet->loadView('reg_be.view_list_directory_export', compact('status', 'level', 'section', 'strand', 'schoolyear', 'period'));
             });
         })->download('xlsx');
     }
@@ -211,7 +211,7 @@ class GetStudentListDirectory extends Controller {
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
                         //list of not yet enrolled
-			$students = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                        $students = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
                     }
@@ -229,11 +229,11 @@ class GetStudentListDirectory extends Controller {
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
                         //list of not yet enrolled
                         $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
-                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
+                                        . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
+                                        . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
                     }
                 }
-                return view("reg_be.ajax.grade_summary_sac_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
+                return view("reg_be.ajax.grade_summary_sac_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period', 'students'));
             }
         }
     }
@@ -259,7 +259,7 @@ class GetStudentListDirectory extends Controller {
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
                         //list of not yet enrolled
-			$students = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
+                        $students = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' order by users.lastname, users.firstname, users.middlename");
                     }
@@ -277,11 +277,11 @@ class GetStudentListDirectory extends Controller {
                                         . " and bed_levels.section = '$section' and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
                         //list of not yet enrolled
                         $students = DB::Select("Select users.lastname as lastname, users.firstname as firstname, users.middlename as middlename,  statuses.idno as idno, "
-                                    . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
-                                    . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
+                                        . " promotions.level as level, promotions.strand as strand, promotions.section as section from users, statuses, promotions where promotions.idno = users.idno and users.idno = statuses.idno "
+                                        . " and promotions.level = '$level' and statuses.status <= 3 and promotions.section = '$section' order by lastname, firstname, middlename");
                     }
                 }
-                return view("reg_be.ajax.grade_summary_cond_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
+                return view("reg_be.ajax.grade_summary_cond_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period', 'students'));
             }
         }
     }
@@ -301,6 +301,7 @@ class GetStudentListDirectory extends Controller {
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' by users.lastname, users.firstname, users.middlename");
                     } else {
+                        
                     }
                 } else {
                     $period = "";
@@ -309,10 +310,11 @@ class GetStudentListDirectory extends Controller {
                                         . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
                     } else {
+                        
                     }
                 }
                 return "asdf";
-                return view("reg_be.ajax.grade_summary_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period','students'));
+                return view("reg_be.ajax.grade_summary_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period', 'students'));
             }
         }
     }
@@ -327,4 +329,36 @@ class GetStudentListDirectory extends Controller {
             }
         }
     }
+
+    function view_not_yet_enrolled() {
+        if (Request::ajax()) {
+            if (Auth::user()->accesslevel == env("REG_BE")) {
+                $school_year = Input::get('school_year');
+                $period = Input::get('period');
+                $department = Input::get('department');
+
+                if ($department == "Senior High School") {
+                    $status = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 0)->where('academic_type', 'SHS')->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();
+                } else {
+                    $status = \App\Status::where('school_year', $school_year)->where('status', 0)->where('academic_type', 'BED')->orderBy('level','asc')->orderBy('section','asc')->get();
+                }
+                return view("reg_be.ajax.view_not_yet_enrolled", compact("status", 'department'));
+            }
+        }
+    }
+
+    function print_not_yet_enrolled($department, $school_year, $period) {
+        if (Auth::user()->accesslevel == env("REG_BE")) {
+
+            if ($department == "Senior High School") {
+                $status = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 0)->where('academic_type', 'SHS')->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();
+            } else {
+                $status = \App\Status::where('school_year', $school_year)->where('status', 0)->where('academic_type', 'BED')->orderBy('level','asc')->orderBy('section','asc')->get();
+            }
+            $pdf = PDF::loadView("reg_be.view_not_yet_enrolled", compact("status", 'schoolyear', 'period', 'department'));
+            $pdf->setPaper(array(0, 0, 612, 936));
+            return $pdf->stream();
+        }
+    }
+
 }
