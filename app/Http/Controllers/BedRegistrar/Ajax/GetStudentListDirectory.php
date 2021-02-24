@@ -338,9 +338,9 @@ class GetStudentListDirectory extends Controller {
                 $department = Input::get('department');
 
                 if ($department == "Senior High School") {
-                    $status = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 0)->where('academic_type', 'SHS')->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();
+                    $status = \App\BedLevel::where('status',3)->where('school_year', $school_year)->where('period', $period)->where('department', $department)->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();
                 } else {
-                    $status = \App\Status::where('school_year', $school_year)->where('status', 0)->where('academic_type', 'BED')->orderBy('level','asc')->orderBy('section','asc')->get();
+                    $status = \App\BedLevel::where('status',3)->where('school_year', $school_year)->where('department', $department)->orderBy('level','asc')->orderBy('section','asc')->get();
                 }
                 return view("reg_be.ajax.view_not_yet_enrolled", compact("status", 'department'));
             }
@@ -351,9 +351,9 @@ class GetStudentListDirectory extends Controller {
         if (Auth::user()->accesslevel == env("REG_BE")) {
 
             if ($department == "Senior High School") {
-                $status = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 0)->where('academic_type', 'SHS')->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();
+                $status = \App\BedLevel::where('status',3)->where('school_year', $school_year)->where('period', $period)->where('department', $department)->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();
             } else {
-                $status = \App\Status::where('school_year', $school_year)->where('status', 0)->where('academic_type', 'BED')->orderBy('level','asc')->orderBy('section','asc')->get();
+                $status = \App\BedLevel::where('status',3)->where('school_year', $school_year)->where('department', $department)->orderBy('level','asc')->orderBy('section','asc')->get();
             }
             $pdf = PDF::loadView("reg_be.view_not_yet_enrolled", compact("status", 'schoolyear', 'period', 'department'));
             $pdf->setPaper(array(0, 0, 612, 936));
