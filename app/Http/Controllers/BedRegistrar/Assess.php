@@ -1009,6 +1009,7 @@ class Assess extends Controller {
                         $change->is_consumed = '1';
                         $change->consume_sy = $school_year;
                         $lessreservation = $change->amount - $totalamount; 
+                        if($totalamount > 0){
                         $change->amount = $totalamount;
                         $change->update();
                        
@@ -1021,6 +1022,7 @@ class Assess extends Controller {
                         $addreservation->reservation_type=$change->reservation_type;
                         $addreservation->posted_by= $change->posted_by;
                         $addreservation->save();
+                        }
                     }else{
                         $change->levels_reference_id = $levels_reference_id;
                         $change->is_consumed = '1';
