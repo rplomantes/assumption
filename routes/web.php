@@ -336,13 +336,13 @@ Route::get('/ajax/admission-hed/getstudentlist', 'AdmissionHED\Ajax\GetStudentLi
 
 //BED Admission///////////////////////////////////////////////////
 Route::get('/admissionbed/resend_access/{idno}', 'AdmissionBED\info@resend_access');
-Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList@index');
+Route::get('/admissionbed/ajax/getstudentlist', 'AdmissionBED\Ajax\GetStudentList2@index');
 Route::get('/admissionbed/info/{idno}', 'AdmissionBED\info@info');
-Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList@updateSched');
-Route::get('/ajax/admissionbed/update_interview','AdmissionBED\Ajax\GetStudentList@updateSchedInterview');
-Route::get('/ajax/admissionbed/update_group','AdmissionBED\Ajax\GetStudentList@updateSchedGroup');
-Route::get('/ajax/admissionbed/update_individual','AdmissionBED\Ajax\GetStudentList@updateSchedIndividual');
-Route::get('/ajax/admissionbed/change_applied_for','AdmissionBED\Ajax\GetStudentList@change_applied_for');
+Route::get('/ajax/admissionbed/update_schedule','AdmissionBED\Ajax\GetStudentList2@updateSched');
+Route::get('/ajax/admissionbed/update_interview','AdmissionBED\Ajax\GetStudentList2@updateSchedInterview');
+Route::get('/ajax/admissionbed/update_group','AdmissionBED\Ajax\GetStudentList2@updateSchedGroup');
+Route::get('/ajax/admissionbed/update_individual','AdmissionBED\Ajax\GetStudentList2@updateSchedIndividual');
+Route::get('/ajax/admissionbed/change_applied_for','AdmissionBED\Ajax\GetStudentList2@change_applied_for');
 Route::get('/admissionbed/approve_application/{idno}','AdmissionBED\info@approve_application');
 Route::get('/admissionbeds/disapprove_application/{idno}','AdmissionBED\info@disapprove_application');
 Route::get('/admissionbed/change_status_application/{idno}','AdmissionBED\info@change_status_application');
@@ -482,7 +482,7 @@ Route::get('/bedadmission/reports/reservations','AdmissionBED\reportsController@
 
 //PRE-REGISTRATION SETTINGS BED ADMISSION
 Route::get('/bedadmission/settings/admission_sy','AdmissionBED\PreRegistrationSettings@admission_sy');
-Route::get('/ajax/bedadmission/settings/update_admission_sy','AdmissionBED\Ajax\GetStudentList@update_admission_sy');
+Route::get('/ajax/bedadmission/settings/update_admission_sy','AdmissionBED\Ajax\GetStudentList2@update_admission_sy');
 Route::get('/bedadmission/settings/levels','AdmissionBED\PreRegistrationSettings@view');
 Route::get('/bedadmission/settings/update_levels/{level}','AdmissionBED\PreRegistrationSettings@update');
 Route::get('/bedadmission/settings/waive_payments','AdmissionBED\PreRegistrationSettings@view_waive_payments');
@@ -588,8 +588,8 @@ Route::get('/print_schedule/{idno}','RegistrarCollege\Advising\AssigningOfSchedu
 //Benefits/siblings
 Route::get('/bedregistrar/siblings','BedRegistrar\SiblingsBenefits@siblings');
 Route::get('/bedregistrar/benefits','BedRegistrar\SiblingsBenefits@benefits');
-Route::get('/bedregistrar/ajax/getstudentlist_siblings','BedRegistrar\Ajax\GetStudentList@getSiblings');
-Route::get('/bedregistrar/ajax/getstudentlist_benefits','BedRegistrar\Ajax\GetStudentList@getBenefits');
+Route::get('/bedregistrar/ajax/getstudentlist_siblings','BedRegistrar\Ajax\GetStudentList2@getSiblings');
+Route::get('/bedregistrar/ajax/getstudentlist_benefits','BedRegistrar\Ajax\GetStudentList2@getBenefits');
 Route::get('/remove_sibling/{idno}','BedRegistrar\SiblingsBenefits@remove_siblings');
 Route::get('/remove_benefit/{idno}','BedRegistrar\SiblingsBenefits@remove_benefits');
 

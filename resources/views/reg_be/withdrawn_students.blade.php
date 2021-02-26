@@ -67,6 +67,7 @@ if(Auth::user()->accesslevel == env('REG_BE')){
         <label>Department</label>
         <select class="form-control select2" id="department" data-placeholder="Select Department">
                   <option>Select Department</option> 
+                  <option>All Departments</option> 
                   <option>Elementary</option> 
                   <option>Senior High School</option>
         </select>
@@ -157,7 +158,7 @@ if(Auth::user()->accesslevel == env('REG_BE')){
               array['period']=$("#period").val();
               $.ajax({
                   type:"GET",
-                  url:"/bedregistrar/ajax/view_withdrawn",
+                  url:"/bedregistrar/ajax/view_withdrawns",
                   data:array,
                   success:function(data){
                    $("#displaystudent").html(data)
@@ -172,6 +173,10 @@ if(Auth::user()->accesslevel == env('REG_BE')){
     
     function print_student_list(value){
         window.open("/bedregistrar/print/withdrawn_list/" +$("#department").val() + "/" + $("#school_year").val() + "/" + $("#period").val())
+    }
+    
+    function export_student_list(value){
+        window.open("/bedregistrar/export/withdrawn_list/" +$("#department").val() + "/" + $("#school_year").val() + "/" + $("#period").val())
     }
 </script>    
 @endsection
