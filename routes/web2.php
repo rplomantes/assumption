@@ -7,22 +7,22 @@ Route::get('/admission_hed/view_info/{idno}','AdmissionHED\ViewInfoAdmissionHedC
 Route::post('/admission_hed/update_info','AdmissionHED\ViewInfoAdmissionHedController@update_info');
 Route::get('/admission/print_pre_application_form/{idno}','AdmissionHED\ViewInfoAdmissionHedController@print_pre_application_form');
 //ajax route
-Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList@view_list');
-Route::get('/bedregistrar/ajax/view_withdrawn', 'BedRegistrar\Ajax\GetStudentList@view_withdrawn');
+Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList2@view_list');
+Route::get('/bedregistrar/ajax/view_withdrawns', 'BedRegistrar\Ajax\GetStudentList2@view_withdrawn');
 Route::get('/bedregistrar/ajax/view_not_yet_enrolled', 'BedRegistrar\Ajax\GetStudentListDirectory@view_not_yet_enrolled');
-Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
-Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
-Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
+Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList2@index');
+Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList2@getreceipt');
+Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList2@setreceipt');
 Route::get('/accounting/ajax/getotherpayment','Accounting\Ajax\GetOtherPayment@getotherpayment');
-Route::get('/bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList@index');
+Route::get('/bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList2@index');
 Route::get('/bedregistrar/ajax/book_materials/{current_level}','BedRegistrar\Ajax\BookMaterials@index');
 Route::get('/bedregistrar/ajax/peuniforms/{current_level}','BedRegistrar\Ajax\BookMaterials@peuniforms');
 Route::get('/bedregistrar/ajax/getUniformAmount','BedRegistrar\Ajax\BookMaterials@getUniformAmount');
-Route::get('/bedregistrar/ajax/getsection','BedRegistrar\Ajax\GetStudentList@getsection');
-Route::get('/bedregistrar/ajax/studentlevel','BedRegistrar\Ajax\GetStudentList@studentlevel');
-Route::get('/bedregistrar/ajax/sectioncontrol','BedRegistrar\Ajax\GetStudentList@sectioncontrol');
-Route::get('/bedregistrar/ajax/sectionlist','BedRegistrar\Ajax\GetStudentList@pop_section_list');
-Route::get('/bedregistrar/ajax/change_section','BedRegistrar\Ajax\GetStudentList@change_section');
+Route::get('/bedregistrar/ajax/getsection','BedRegistrar\Ajax\GetStudentList2@getsection');
+Route::get('/bedregistrar/ajax/studentlevel','BedRegistrar\Ajax\GetStudentList2@studentlevel');
+Route::get('/bedregistrar/ajax/sectioncontrol','BedRegistrar\Ajax\GetStudentList2@sectioncontrol');
+Route::get('/bedregistrar/ajax/sectionlist','BedRegistrar\Ajax\GetStudentList2@pop_section_list');
+Route::get('/bedregistrar/ajax/change_section','BedRegistrar\Ajax\GetStudentList2@change_section');
 Route::get('/registrarcollege/ajax/getprogram', 'RegistrarCollege\Admission\Ajax\getcourseController@getCourse');
 Route::get('/accounting/ajax/getplan','Accounting\Ajax\GetPlan@plan');
 Route::get('/accounting/ajax/print_getplan/{department}','Accounting\Ajax\GetPlan@print_plan');
@@ -106,11 +106,12 @@ Route::get('/bedregistrar/back_to_assess/{idno}','BedRegistrar\Assess@back_to_as
 Route::post('/bedregistrar/resetpassword','BedRegistrar\Registration@reset_password');
 Route::get('/bedregistrar/student_list','BedRegistrar\Registration@student_list');
 Route::post('/bedregistrar/updateinfo/{idno}','BedRegistrar\Registration@updateinfo');
-Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList@print_student_list');
-Route::get('/bedregistrar/print/withdrawn_list/{department}/{school_year}/{period}','BedRegistrar\Ajax\GetStudentList@print_withdrawn_list');
+Route::get('/bedregistrar/print/student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList2@print_student_list');
+Route::get('/bedregistrar/print/withdrawn_list/{department}/{school_year}/{period}','BedRegistrar\Ajax\GetStudentList2@print_withdrawn_list');
 Route::get('/bedregistrar/print/students_not_yet_enrolled/{department}/{school_year}/{period}','BedRegistrar\Ajax\GetStudentListDirectory@print_not_yet_enrolled');
-Route::get('/bedregistrar/export/student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList@export_student_list');
-Route::get('/bedregistrar/export_student_now','BedRegistrar\Ajax\GetStudentList@print_to_excel');
+Route::get('/bedregistrar/export/withdrawn_list/{department}/{school_year}/{period}','BedRegistrar\Ajax\GetStudentList2@export_withdrawn_list');
+Route::get('/bedregistrar/export/student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList2@export_student_list');
+Route::get('/bedregistrar/export_student_now','BedRegistrar\Ajax\GetStudentList2@print_to_excel');
 Route::get('/bedregistrar/sectioning','BedRegistrar\Registration@sectioning');
 
 
@@ -126,7 +127,7 @@ Route::get('updateLedgerSenior','Updater@updateLedgerSenior');
 
 //bookstore ajax
 
-Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList@index');
+Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList2@index');
 
 //bookstore
 Route::get('/bookstore/view_order/{idno}','Bookstore\Order@view_order');

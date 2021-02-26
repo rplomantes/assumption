@@ -73,7 +73,7 @@ Route::post('/registrar_college/curriculum_management/ajax/print_show_offerings_
 Route::post('/registrar_college/instructor/resetpassword','RegistrarCollege\Instructor\ViewInstructorsController@reset_password');
 
 //Print new student (bed admission)
-Route::get('/bedregistrar/print/new_student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList@print_new_student_list');
+Route::get('/bedregistrar/print/new_student_list/{level}/{strand}/{section}/{school_year}/{period}/{value}','BedRegistrar\Ajax\GetStudentList2@print_new_student_list');
 
 //Total daily enrollment statisticss
 Route::get('/bed_registrar/reports/total_daily_enrollment_statistics/{date_start}/{date_end}', 'BedRegistrar\TotalDailyEnrollment@index');
@@ -148,7 +148,7 @@ Route::post('/add_external_form','BedRegistrar\ExternalForm@update');
 
 //BED Report Card
 Route::get('/bedregistrar/report_card','BedRegistrar\ReportCardController@index');
-Route::get('/bedregistrar/ajax/report_card_view_list', 'BedRegistrar\Ajax\GetStudentList@report_card_view_list');
+Route::get('/bedregistrar/ajax/report_card_view_list', 'BedRegistrar\Ajax\GetStudentList2@report_card_view_list');
 Route::get('/view_report_card/{idno}/{display_type}/{school_year}/{period?}','BedRegistrar\ReportCardController@view_report_card');
 
 //BED Grade Summary
@@ -174,8 +174,8 @@ Route::get('/bedregistrar/export/batch_ranking/{level}/{strand}/{school_year}','
 
 
 Route::get('/bookstore/view_ordered_books','Bookstore\ViewOrderedBooks@student_list');
-Route::get('/bookstore/ajax/view_list', 'Bookstore\Ajax\GetStudentList@view_list');
-Route::get('/bookstore/print/student_list/{level}/{strand}/{section}/{school_year}/{period}','Bookstore\Ajax\GetStudentList@print_student_list');
+Route::get('/bookstore/ajax/view_list', 'Bookstore\Ajax\GetStudentList2@view_list');
+Route::get('/bookstore/print/student_list/{level}/{strand}/{section}/{school_year}/{period}','Bookstore\Ajax\GetStudentList2@print_student_list');
 
 
 

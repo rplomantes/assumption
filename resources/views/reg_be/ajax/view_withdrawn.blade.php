@@ -20,4 +20,5 @@ $i=1;
 </table> 
 <div class ="form form-group">
     <a href="javascript:void(0)" onclick = "print_student_list()" class="form btn btn-primary"> Print Student List</a>
-</div> 
+    <a href="javascript:void(0)" onclick = "export_student_list()" class="form btn btn-success"> Export Student List</a>
+</div>

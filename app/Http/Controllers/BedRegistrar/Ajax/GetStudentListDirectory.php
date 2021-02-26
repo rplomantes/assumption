@@ -10,7 +10,7 @@ use Request;
 use PDF;
 use Excel;
 
-class GetStudentListDirectory extends Controller {
+class GetDirectoryStudentList extends Controller {
 
     //
     public function __construct() {

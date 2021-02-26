@@ -10,7 +10,7 @@ use Request;
 use PDF;
 use Excel;
 
-class GetStudentList extends Controller {
+class GetStudentList2 extends Controller {
 
     //
     public function __construct() {
@@ -366,7 +366,11 @@ class GetStudentList extends Controller {
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level = 'Grade 11' or bed_levels.level = 'Grade 12')"
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
-                } else {
+                } else if($department == "All Departments") {
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno"
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
+                }else{
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level != 'Grade 11' and bed_levels.level != 'Grade 12')"
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
@@ -382,7 +386,11 @@ class GetStudentList extends Controller {
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level = 'Grade 11' or bed_levels.level = 'Grade 12')"
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
-                } else {
+                } else if($department == "All Departments") {
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno"
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
+                }else{
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
                                         . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level != 'Grade 11' and bed_levels.level != 'Grade 12')"
                                         . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
@@ -390,6 +398,34 @@ class GetStudentList extends Controller {
         $pdf = PDF::loadView("reg_be.view_withdrawn", compact("status", 'schoolyear', 'period', 'department'));
         $pdf->setPaper(array(0, 0, 612, 936));
         return $pdf->stream();
+            }
+    }
+    function export_withdrawn_list($department, $schoolyear, $period) {
+            if (Auth::user()->accesslevel == env("REG_BE")) {
+                
+                if ($department == "Senior High School") {
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level = 'Grade 11' or bed_levels.level = 'Grade 12')"
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
+                } else if($department == "All Departments") {
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno"
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
+                }else{
+                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
+                                        . "bed_levels, users where bed_levels.idno=users.idno and (bed_levels.level != 'Grade 11' and bed_levels.level != 'Grade 12')"
+                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = ". env("WITHDRAWN") ." order by users.lastname, users.firstname, users.middlename");
+                }
+//        $pdf = PDF::loadView("reg_be.view_withdrawn", compact("status", 'schoolyear', 'period', 'department'));
+        
+        ob_end_clean();
+        Excel::create('Withdrawn Student List', function($excel) use ($status, $schoolyear, $period, $department) {
+            $excel->setTitle("Withdrawn Student List");
+
+            $excel->sheet("Withdrawn Student List", function ($sheet) use ($status, $schoolyear, $period, $department) {
+                $sheet->loadView('reg_be.view_withdrawn_export', compact("status", 'schoolyear', 'period', 'department'));
+            });
+        })->download('xlsx');
             }
     }
 
