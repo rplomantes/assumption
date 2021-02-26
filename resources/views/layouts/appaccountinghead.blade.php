@@ -109,6 +109,7 @@ $date_end = date('Y-m-d');
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+                        <li><a href="{{url('/accounting/chart_of_accounts')}}"><i class="fa fa-table"></i> <span>Chart of Accounts</span></a></li>
                         <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-file-archive-o"></i> <span>Official Receipt</span>

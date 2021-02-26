@@ -197,3 +197,11 @@ Route::get("/accounting/disbursement/print_check_disbursement/{reference_id}","A
 
 //Edit Disbursement
 Route::post("/accounting/edit_disbursement","Accounting\Disbursement@edit_disbursement");
+
+//chart of accounts
+Route::get("/accounting/chart_of_accounts","Accounting\ChartofAccount@index");
+Route::post("/accounting/chart_of_accounts/new_account","Accounting\ChartofAccount@new_account");
+Route::get("/accounting/print_chart_of_accounts","Accounting\ChartofAccount@print_lists");
+Route::get("/accounting/chart_of_accounts/delete_account/{id}","Accounting\ChartofAccount@delete_account");
+Route::get("/accounting/chart_of_accounts/update_account/{id}","Accounting\ChartofAccount@update_account");
+Route::post("/accounting/chart_of_accounts/update_account","Accounting\ChartofAccount@update_account_post");
