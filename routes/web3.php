@@ -174,8 +174,8 @@ Route::get('/bedregistrar/export/batch_ranking/{level}/{strand}/{school_year}','
 
 
 Route::get('/bookstore/view_ordered_books','Bookstore\ViewOrderedBooks@student_list');
-Route::get('/bookstore/ajax/view_list', 'Bookstore\Ajax\GetStudentList2@view_list');
-Route::get('/bookstore/print/student_list/{level}/{strand}/{section}/{school_year}/{period}','Bookstore\Ajax\GetStudentList2@print_student_list');
+Route::get('/bookstore/ajax/view_list', 'Bookstore\Ajax\GetStudentList@view_list');
+Route::get('/bookstore/print/student_list/{level}/{strand}/{section}/{school_year}/{period}','Bookstore\Ajax\GetStudentList@print_student_list');
 
 
 
