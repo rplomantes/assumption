@@ -10,9 +10,9 @@ Route::get('/admission/print_pre_application_form/{idno}','AdmissionHED\ViewInfo
 Route::get('/bedregistrar/ajax/view_list', 'BedRegistrar\Ajax\GetStudentList2@view_list');
 Route::get('/bedregistrar/ajax/view_withdrawns', 'BedRegistrar\Ajax\GetStudentList2@view_withdrawn');
 Route::get('/bedregistrar/ajax/view_not_yet_enrolled', 'BedRegistrar\Ajax\GetStudentListDirectory@view_not_yet_enrolled');
-Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList2@index');
-Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList2@getreceipt');
-Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList2@setreceipt');
+Route::get('/cashier/ajax/getstudentlist', 'Cashier\Ajax\GetStudentList@index');
+Route::get('/cashier/ajax/getreceipt','Cashier\Ajax\GetStudentList@getreceipt');
+Route::get('/cashier/ajax/setreceipt','Cashier\Ajax\GetStudentList@setreceipt');
 Route::get('/accounting/ajax/getotherpayment','Accounting\Ajax\GetOtherPayment@getotherpayment');
 Route::get('/bedregistrar/ajax/getstudentlist','BedRegistrar\Ajax\GetStudentList2@index');
 Route::get('/bedregistrar/ajax/book_materials/{current_level}','BedRegistrar\Ajax\BookMaterials@index');
@@ -127,7 +127,7 @@ Route::get('updateLedgerSenior','Updater@updateLedgerSenior');
 
 //bookstore ajax
 
-Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList2@index');
+Route::get('bookstore/ajax/getstudentlist','Bookstore\Ajax\GetStudentList@index');
 
 //bookstore
 Route::get('/bookstore/view_order/{idno}','Bookstore\Order@view_order');
