@@ -93,6 +93,9 @@ function getPromotion($level,$period=null) {
                     return "5th Year";
             }
             break;
+        case "":
+            return "New Student";
+            break;
     }
 }
 ?>
