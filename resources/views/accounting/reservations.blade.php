@@ -93,8 +93,8 @@ else if (Auth::user()->accesslevel == env("ADMISSION_HED")){
                         <option value=2018>2018-2019</option>
                         <option value=2019>2019-2020</option>
                         <option value=2020>2020-2021</option>
+                        <option value="2020-2021 - 2nd Semester">2020-2021 - 2nd Semester</option>
                         <option value=2021>2021-2022</option>
-                        <option value="2021-2022 - 2nd Semester">2021-2022 - 2nd Semester</option>
                         <option value=2022>2022-2023</option>
                     </select>
                 </div>

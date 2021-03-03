@@ -38,7 +38,11 @@ class AjaxReservations extends Controller {
                     $period3 = $period;
                 }
             }else{
-                $school_year2 = $school_year - 1;
+                if($school_year == "2021"){
+                    $school_year2 = "'2020-2021 - 2nd Semester'";
+                }else{
+                    $school_year2 = $school_year - 1;
+                }
             }
             
             if ($department == "Senior High School") {
