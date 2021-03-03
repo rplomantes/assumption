@@ -9,12 +9,70 @@ As of {{date('F d, Y')}}
 @if(count($lists)>0)
 <?php $total = 0;
 $x = 0;
+
+function getPromotion($level,$period=null) {
+    switch ($level) {
+        case "Pre-Kinder":
+            return "Kinder";
+            break;
+        case "Pre Kinder":
+            return "Kinder";
+            break;
+        case "Kinder":
+            return "Grade 1";
+            break;
+        case "Grade 1":
+            return "Grade 2";
+            break;
+        case "Grade 2":
+            return "Grade 3";
+            break;
+        case "Grade 3":
+            return "Grade 4";
+            break;
+        case "Grade 4":
+            return "Grade 5";
+            break;
+        case "Grade 5":
+            return "Grade 6";
+            break;
+        case "Grade 6":
+            return "Grade 7";
+            break;
+        case "Grade 7":
+            return "Grade 8";
+            break;
+        case "Grade 8":
+            return "Grade 9";
+            break;
+        case "Grade 9":
+            return "Grade 10";
+            break;
+        case "Grade 10":
+            return "Grade 11";
+            break;
+        case "Grade 11":
+            if($period == "2nd Semester"){
+                    return "Grade 12";
+            }else{
+                    return "Grade 11";
+            }
+            break;
+        case "Grade 12":
+            if($period == "2nd Semester"){
+                    return "College";
+            }else{
+                    return "Grade 12";
+            }
+            break;
+    }
+}
 ?>
 <table width='100%' cellpadding='0' cellspacing='0'>
     @foreach($heads as $head)
     <?php $x = 0; $prev_idno = "";?>
     <thead>
-        <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
+        <tr><td colspan="6"><h4>Incoming: {{getPromotion($head->level,$period)}}</h4></td></tr>
         <tr>
             <th style='border-bottom: 1px solid black'>  </th>
             <th style='border-bottom: 1px solid black'>ID No.</th>
