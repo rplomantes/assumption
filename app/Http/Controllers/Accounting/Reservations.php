@@ -47,7 +47,11 @@ class Reservations extends Controller {
                     $period3 = $period2;
                 }
             }else{
-                $school_year2 = $school_year - 1;
+                if($school_year == "2021"){
+                    $school_year2 = "'2020-2021 - 2nd Semester'";
+                }else{
+                    $school_year2 = $school_year - 1;
+                }
             }
             
             if ($department == "Senior High School") {
@@ -123,7 +127,11 @@ class Reservations extends Controller {
                     $period3 = $period2;
                 }
             }else{
-                $school_year2 = $school_year - 1;
+                if($school_year == "2021"){
+                    $school_year2 = "'2020-2021 - 2nd Semester'";
+                }else{
+                    $school_year2 = $school_year - 1;
+                }
             }
             
             if ($department == "Senior High School") {
