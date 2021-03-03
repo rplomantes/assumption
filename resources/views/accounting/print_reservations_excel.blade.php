@@ -45,16 +45,44 @@ function getPromotion($level,$period=null) {
             break;
         case "Grade 11":
             if($period == "2nd Semester"){
-                    return "Grade 12";
-            }else{
                     return "Grade 11";
+            }else{
+                    return "Grade 12";
             }
             break;
         case "Grade 12":
             if($period == "2nd Semester"){
-                    return "College";
-            }else{
                     return "Grade 12";
+            }else{
+                    return "College";
+            }
+            break;
+        case "1st Year":
+            if($period == "2nd Semester"){
+                    return "1st Year";
+            }else{
+                    return "2nd Year";
+            }
+            break;
+        case "2nd Year":
+            if($period == "2nd Semester"){
+                    return "2nd Year";
+            }else{
+                    return "3rd Year";
+            }
+            break;
+        case "3rd Year":
+            if($period == "2nd Semester"){
+                    return "3rd Year";
+            }else{
+                    return "4th Year";
+            }
+            break;
+        case "4th Year":
+            if($period == "2nd Semester"){
+                    return "4th Year";
+            }else{
+                    return "5th Year";
             }
             break;
     }
