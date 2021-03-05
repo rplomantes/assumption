@@ -101,7 +101,8 @@ function getPromotion($level,$period=null) {
     @foreach($heads as $head)
     <?php $x = 0; $prev_idno = "";?>
     <thead>
-        <tr><td colspan="6"><h4>Incoming: {{getPromotion($head->level,$period)}}</h4></td></tr>
+        <!--<tr><td colspan="6"><h4>Incoming: {{getPromotion($head->level,$period)}}</h4></td></tr>-->
+        <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
         <tr>
             <th width="5" style='border-bottom: 1px solid black'> </th>
             <th width="10"  style='border-bottom: 1px solid black'>ID No.</th>
@@ -109,7 +110,7 @@ function getPromotion($level,$period=null) {
             @if($department == "College Department")
             <th width="20" style='border-bottom: 1px solid black'>Course</th>
             @endif
-            <th width="10"  style='border-bottom: 1px solid black'>Level</th>
+            <!--<th width="10"  style='border-bottom: 1px solid black'>Level</th>-->
             <th width="15" style='border-bottom: 1px solid black'>OR Number</th>
             <th width="15" style='border-bottom: 1px solid black'>Date</th>
             <th width="15" style='border-bottom: 1px solid black; text-align: right'>Amount</th>

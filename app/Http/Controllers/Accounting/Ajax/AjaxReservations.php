@@ -40,17 +40,19 @@ class AjaxReservations extends Controller {
             }else{
                 if($school_year == "2021"){
                     $school_year2 = "'2020-2021 - 2nd Semester'";
+                }else if($school_year == "2020-2021 - 2nd Semester"){
+                    return "Not yet available...";
                 }else{
                     $school_year2 = $school_year - 1;
                 }
             }
             
             if ($department == "Senior High School") {
-                    $code_level = "(payments.level = 'Grade 11' or payments.level = 'Grade 12')";
-                $lists = \App\Reservation::selectRaw("reservations.transaction_date,users.idno,users.lastname, users.firstname, users.middlename, payments.level, payments.receipt_no,reservations.reference_id, reservations.amount, reservations.is_consumed")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->whereRaw("(payments.period = '$period2' or payments.period = '$period3' or add_to_student_deposits.period = '$period2' or add_to_student_deposits.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')
+                    $code_level = "(promotions.level = 'Grade 11' or promotions.level = 'Grade 12')";
+                $lists = \App\Reservation::selectRaw("reservations.transaction_date,users.idno,users.lastname, users.firstname, users.middlename, promotions.level, payments.receipt_no,reservations.reference_id, reservations.amount, reservations.is_consumed")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->whereRaw("(payments.period = '$period2' or payments.period = '$period3' or add_to_student_deposits.period = '$period2' or add_to_student_deposits.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->join('promotions','promotions.idno','=', 'reservations.idno')
                         ->whereRaw($code_level)
                         ->orderBy('users.lastname', 'asc')->get();
-                $heads = \App\Reservation::selectRaw("payments.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->whereRaw("(payments.period = '$period2' or payments.period = '$period3' or add_to_student_deposits.period = '$period2' or add_to_student_deposits.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')
+                $heads = \App\Reservation::selectRaw("promotions.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->whereRaw("(payments.period = '$period2' or payments.period = '$period3' or add_to_student_deposits.period = '$period2' or add_to_student_deposits.period = '$period3')")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->join('promotions','promotions.idno','=', 'reservations.idno')
                         ->whereRaw($code_level)
                         ->groupBy("statuses.level")->orderBy('statuses.level', 'asc')->get();
             } else if ($department == "College Department") {
@@ -59,18 +61,18 @@ class AjaxReservations extends Controller {
             } else {
                 $dep = $department;
                 if($dep == "Pre School"){
-                    $code_level = "(payments.level = 'Pre-Kinder' or payments.level = 'Kinder')";
+                    $code_level = "(promotions.level = 'Pre-Kinder' or promotions.level = 'Kinder')";
                 }elseif($dep == "Elementary"){
-                    $code_level = "(payments.level = 'Grade 1' or payments.level = 'Grade 2' or payments.level = 'Grade 3' or payments.level = 'Grade 4' or payments.level = 'Grade 5' or payments.level = 'Grade 6')";
+                    $code_level = "(promotions.level = 'Grade 1' or promotions.level = 'Grade 2' or promotions.level = 'Grade 3' or promotions.level = 'Grade 4' or promotions.level = 'Grade 5' or promotions.level = 'Grade 6')";
                 }elseif($dep == "Junior High School"){
-                    $code_level = "(payments.level = 'Grade 7' or payments.level = 'Grade 8' or payments.level = 'Grade 9' or payments.level = 'Grade 10')";
+                    $code_level = "(promotions.level = 'Grade 7' or promotions.level = 'Grade 8' or promotions.level = 'Grade 9' or promotions.level = 'Grade 10')";
                 }
-                $lists = \App\Reservation::selectRaw("reservations.transaction_date,users.idno,users.lastname, users.firstname, users.middlename, payments.level, payments.receipt_no,reservations.reference_id, reservations.amount, reservations.is_consumed")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')
+                $lists = \App\Reservation::selectRaw("reservations.transaction_date,users.idno,users.lastname, users.firstname, users.middlename, promotions.level, payments.receipt_no,reservations.reference_id, reservations.amount, reservations.is_consumed")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->join('promotions','promotions.idno','=', 'reservations.idno')
                         ->whereRaw($code_level)
                         ->orderBy('users.lastname', 'asc')->orderBy('statuses.level', 'asc')->get();
-                $heads = \App\Reservation::selectRaw("payments.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')
+                $heads = \App\Reservation::selectRaw("promotions.level, sum(reservations.amount) as total")->where('reservation_type', 1)->where('reservations.is_reverse', 0)->leftJoin('add_to_student_deposits', 'add_to_student_deposits.reference_id','=','reservations.reference_id')->leftJoin('payments', 'payments.reference_id','=','reservations.reference_id')->whereRaw("(payments.school_year = $school_year2 or add_to_student_deposits.school_year = $school_year2 )")->join('users', 'users.idno','=', 'reservations.idno')->join('statuses','statuses.idno','=','reservations.idno')->join('promotions','promotions.idno','=', 'reservations.idno')
                         ->whereRaw($code_level)
-                        ->groupBy("payments.level")->orderBy('payments.level', 'asc')->get();
+                        ->groupBy("promotions.level")->orderBy('promotions.level', 'asc')->get();
             }
             if($school_year == 2018){
                 if ($department == "Senior High School") {
