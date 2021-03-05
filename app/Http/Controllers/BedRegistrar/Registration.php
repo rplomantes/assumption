@@ -295,7 +295,7 @@ class Registration extends Controller {
 
     function assessed_students() {
         if (Auth::user()->accesslevel == env("REG_BE")) {
-            $students = \App\Status::where('academic_type', "BED")->where('status', env("ASSESSED"))->orderBy('level')->orderBy('strand')->get();
+            $students = \App\Status::whereRaw("(academic_type = 'BED' or academic_type = 'SHS')")->where('status', env("ASSESSED"))->orderBy('level')->orderBy('strand')->get();
             return view("reg_be.assessed_students", compact('students'));
         }
     }
