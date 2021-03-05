@@ -103,7 +103,8 @@ function getPromotion($level,$period=null) {
     @foreach($heads as $head)
     <?php $x = 0; $prev_idno = "";?>
     <thead>
-        <tr><td colspan="6"><h4>Incoming: {{getPromotion($head->level,$period)}}</h4></td></tr>
+        <!--<tr><td colspan="6"><h4>Incoming: {{getPromotion($head->level,$period)}}</h4></td></tr>-->
+        <tr><td colspan="6"><h4>{{$head->level}}</h4></td></tr>
         <tr>
             <th style='border-bottom: 1px solid black'>  </th>
             <th style='border-bottom: 1px solid black'>ID No.</th>
@@ -111,7 +112,7 @@ function getPromotion($level,$period=null) {
             @if($department == "College Department")
             <th style='border-bottom: 1px solid black'>Course</th>
             @endif
-            <th style='border-bottom: 1px solid black'>Level</th>
+            <!--<th style='border-bottom: 1px solid black'>Level</th>-->
             <th style='border-bottom: 1px solid black'>OR Number</th>
             <th style='border-bottom: 1px solid black'>Date</th>
             <th style='border-bottom: 1px solid black; text-align: right'>Amount</th>
@@ -129,7 +130,7 @@ function getPromotion($level,$period=null) {
                     @if($department == "College Department")
                     <td>{{$list->program_code}}</td>
                     @endif
-                    <td>{{$list->level}}</td>
+                    <!--<td>{{$list->current_level}}</td>-->
                     @if(Auth::user()->accesslevel == env("ADMISSION_HED"))
                     <td>{{$list->receipt_no}}</td>
                     @else
