@@ -205,3 +205,17 @@ Route::get("/accounting/print_chart_of_accounts","Accounting\ChartofAccount@prin
 Route::get("/accounting/chart_of_accounts/delete_account/{id}","Accounting\ChartofAccount@delete_account");
 Route::get("/accounting/chart_of_accounts/update_account/{id}","Accounting\ChartofAccount@update_account");
 Route::post("/accounting/chart_of_accounts/update_account","Accounting\ChartofAccount@update_account_post");
+
+//Petty Cash
+Route::get('/pettycash','Accounting\PettyCash@pettycash_index');
+Route::get('/cancel_pettycash/{reference}','Accounting\PettyCash@cancelPettyCash');
+Route::post('/print/pettycash','Accounting\PettyCash@print_summary');
+Route::get('/pettycash/ajax/get_disbursements_note','Accounting\Ajax\AjaxPettyCash@get_disbursements');
+Route::get('/pettycash/new','Accounting\PettyCash@pettycash_create');
+Route::get('/accounting/pettycash/ajax/set_entries','Accounting\Ajax\AjaxPettyCash@save_entries');
+Route::get('/accounting/pettycash/ajax/remove_entries','Accounting\Ajax\AjaxPettyCash@remove_entries');
+Route::post('/process_pettycash','Accounting\PettyCash@process');
+Route::get('/view/pettycash/{reference}','Accounting\PettyCash@viewPettyCash');
+Route::get('/print/check_voucher/{reference}','Accounting\Disbursement@printVoucher');
+Route::get('/print/petty_cash_voucher/{reference}','Accounting\PettyCash@printVoucherLabels');
+Route::post("/accounting/pettycash/edit_disbursement","Accounting\PettyCash@edit_disbursement");

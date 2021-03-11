@@ -9,7 +9,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
 @section('maincontent')
 <div class="container-fluid">
     <div class="row">
-        <h3 class="display">Check Disbursement</h3>
+        <h3 class="display">Petty Cash</h3>
         <div class="col-md-6">
             <strong> VOUCHER NO:   </strong>
             <span style="font-size:20pt;font-weight:bold;color:red">&nbsp;{{$voucher_no}}</span>
@@ -17,7 +17,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     </div>               
     <div class="row">
         <div class="col-md-12" style="background-color:white;padding:10px;">
-            <form class="form form-horizontal" action="{{ url('/process_disbursement') }}" method="POST">
+            <form class="form form-horizontal" action="{{ url('/process_pettycash') }}" method="POST">
                 {{csrf_field()}}
                <input type="hidden" name="reference" id="reference" value="{{uniqid()}}"/> 
                <input type="hidden" name="voucher_no" id="voucher_no" value="{{$voucher_no}}"/> 
@@ -77,7 +77,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             array['particular'] = $("#particular").val();
             $.ajax({
                 type: 'GET',
-                url: '/accounting/ajax/set_entries',
+                url: '/accounting/pettycash/ajax/set_entries',
                 data: array,
                 success: function (data) {
                     $('#entries_table').html(data);
@@ -109,7 +109,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             array['id'] = id;
                 $.ajax({
                     type: 'GET',
-                    url: '/accounting/ajax/remove_entries',
+                    url: '/accounting/pettycash/ajax/remove_entries',
                     data: array,
                     success: function (data) {
                         $('#entries_table').html(data);

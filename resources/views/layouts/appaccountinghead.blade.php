@@ -123,6 +123,7 @@ $date_end = date('Y-m-d');
                             </ul>
                         </li>
                         <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
+                        <li><a href="{{url('pettycash')}}"><i class="fa fa-columns"></i> <span>Petty Cash</a></li>
                         <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-book"></i> <span>Accounting Reports</span>

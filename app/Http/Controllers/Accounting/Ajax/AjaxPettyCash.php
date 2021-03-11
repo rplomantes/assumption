@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
-class AjaxDisbursement extends Controller
+class AjaxPettyCash extends Controller
 {
     function save_entries() {
         if (Request::ajax()) {
-            $voucher_type = 0;
+            $voucher_type = 1;
             $voucher_no = Input::get('voucher_no');
             $reference = Input::get('reference');
             $code = Input::get('code');
@@ -77,7 +77,9 @@ class AjaxDisbursement extends Controller
     function display_entries($reference,$category){
         $accountings = \App\DisbursementData::where('reference_id',$reference)->get();
         $accounting_entry = \App\ChartOfAccount::get();
-        return view('accounting.ajax.disbursement_entries',compact('reference','accountings','accounting_entry'));
+        
+        return view('accounting.ajax.petty_cash_entries',compact('reference','accountings','accounting_entry'));
+        
     }
     
     function remove_entries(){
@@ -96,7 +98,7 @@ class AjaxDisbursement extends Controller
             $date_from = Input::get('date_from');
             $startDate = "$date_to";
             $dateEnd = "$date_from";
-            $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->where("type",0)->orderBy('transaction_date','asc')->get();
+            $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->where("type",1)->orderBy('transaction_date','asc')->get();
             return view('accounting.disbursement.ajaxdisplay', compact('lists'));
         }
     }
@@ -109,7 +111,4 @@ class AjaxDisbursement extends Controller
             return view("accounting.ajax.display_payees", compact("suppliers"));
         }
     }
-    
-    
-        
 }
