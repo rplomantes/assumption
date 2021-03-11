@@ -62,7 +62,7 @@
                         <select class='form form-control select2' id='paid_by' name='paid_by'>
                             <option>Select Applicant</option>
                             @foreach($applicants as $applicant)
-                            <option value='{{$applicant->idno}}'>{{$applicant->idno}}-{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</option>
+                            <option value='{{$applicant->idno}}'>{{$applicant->level}}-{{$applicant->idno}}-{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</option>
                             @endforeach
                         </select>
                      </div>   
