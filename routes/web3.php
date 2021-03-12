@@ -219,3 +219,18 @@ Route::get('/view/pettycash/{reference}','Accounting\PettyCash@viewPettyCash');
 Route::get('/print/check_voucher/{reference}','Accounting\Disbursement@printVoucher');
 Route::get('/print/petty_cash_voucher/{reference}','Accounting\PettyCash@printVoucherLabels');
 Route::post("/accounting/pettycash/edit_disbursement","Accounting\PettyCash@edit_disbursement");
+
+//Cash Receipt
+Route::get("/accounting/cashreceipt/{date_from}/{date_to}","Accounting\CashReceipt@index");
+Route::get("/accounting/excel_cashreceipt/{date_from}/{date_to}/{page}","Accounting\CashReceipt@generateExcel");
+Route::get("/accounting/print_cashreceipt/{date_from}/{date_to}/{page}","Accounting\CashReceipt@generatePDF");
+
+//Cash Disbursement Book
+Route::get("/accounting/cash_disbursement_book/{date_from}/{date_to}","Accounting\CashDisbursementBook@index");
+Route::get("/accounting/excel_cash_disbursement_book/{date_from}/{date_to}/{page}","Accounting\CashDisbursementBook@generateExcel");
+Route::get("/accounting/print_cash_disbursement_book/{date_from}/{date_to}/{page}","Accounting\CashDisbursementBook@generatePDF");
+
+//Journal Book
+Route::get("/accounting/journal_book/{date_from}/{date_to}","Accounting\JournalBook@index");
+Route::get("/accounting/excel_journal_book/{date_from}/{date_to}/{page}","Accounting\JournalBook@generateExcel");
+Route::get("/accounting/print_journal_book/{date_from}/{date_to}/{page}","Accounting\JournalBook@generatePDF");

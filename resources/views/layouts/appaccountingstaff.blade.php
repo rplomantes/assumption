@@ -135,7 +135,9 @@ $date_end = date('Y-m-d');
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <!--<li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>-->
+                                <li><a href="{{url('/accounting', array('cashreceipt',date("Y-m-d"), date("Y-m-d")))}}"><span> Cash Receipt</span></a></li>
+                                <li><a href="{{url('/accounting', array('cash_disbursement_book',date("Y-m-d"), date("Y-m-d")))}}"><span> Cash Disbursement Book</span></a></li>
+                                <li><a href="{{url('/accounting', array('journal_book',date("Y-m-d"), date("Y-m-d")))}}"><span> General Journal Book</span></a></li>
                                 <li><a href="{{url('/trial_balance')}}"><span> Trial Balance</span></a></li>
                                 <li><a href="{{url('/general_ledger')}}"><span> General Ledger</span></a></li>
                             </ul>
