@@ -267,6 +267,7 @@ $date_end = date('Y-m-d');
                             </ul>
                         </li>
                         <li><a href="{{url('/accounting/supplier')}}"><span><i class="fa fa-gears"></i> Set-up Suppliers</span></a></li>
+                        <li><a href="{{url('/accounting/setup/due_dates')}}"><span><i class="fa fa-gears"></i> Set-up Due Dates</span></a></li>
                     </ul>
                 </section>
             </aside>

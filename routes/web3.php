@@ -234,3 +234,9 @@ Route::get("/accounting/print_cash_disbursement_book/{date_from}/{date_to}/{page
 Route::get("/accounting/journal_book/{date_from}/{date_to}","Accounting\JournalBook@index");
 Route::get("/accounting/excel_journal_book/{date_from}/{date_to}/{page}","Accounting\JournalBook@generateExcel");
 Route::get("/accounting/print_journal_book/{date_from}/{date_to}/{page}","Accounting\JournalBook@generatePDF");
+
+//Setup Due Dates
+Route::get("/accounting/setup/due_dates","Accounting\SetupDueDate@due_date");
+Route::get("/accounting/setup/view_due_date/{academic_type}","Accounting\SetupDueDate@index_due_date");
+Route::get("/accounting/setup/due_date/{academic_type}/{plan}","Accounting\SetupDueDate@view_due_date");
+Route::post("/accounting/setup/update_due_date","Accounting\SetupDueDate@update_due_date");
