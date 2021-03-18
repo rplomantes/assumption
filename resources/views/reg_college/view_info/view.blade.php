@@ -716,7 +716,7 @@ $layout = "layouts.appreg_college";
                             <label>Are you pregnant now?</label>
                             <select class="form form-control" name='pregnant_now' value="{{old('pregnant_now')}}" type="text">
                                 <option value="3" @if ($pregnant->pregnant_now == 3) selected='' @endif></option>
-                                <option value="0" @if ($pregnant->pregnant_now == 2) selected='' @endif>No</option>
+                                <option value="0" @if ($pregnant->pregnant_now == 0) selected='' @endif>No</option>
                                 <option value="1" @if ($pregnant->pregnant_now == 1) selected='' @endif >Yes</option>
                             </select>
                         </div>
