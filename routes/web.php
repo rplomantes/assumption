@@ -643,4 +643,7 @@ Route::get('/add_hold_grade/{idno}','BedRegistrar\HoldStudents@add');
 Route::get('/remove_hold_grade/{idno}','BedRegistrar\HoldStudents@delete');
 Route::get('/bedregistrar/ajax/getstudentlist_holdgrades','BedRegistrar\Ajax\GetStudentListDirectory@getHoldGrades');
 
+//displaying of grades in student portal bed
+Route::get('/bedregistrar/grade_portal_display_settings','BedRegistrar\GradeDisplayController@view');
+Route::get('/bedregistrar/grade_portal_display_settings/update_levels/{level}','BedRegistrar\GradeDisplayController@updateStatus');
 
