@@ -24,9 +24,11 @@ class GradeDisplayController extends Controller
         if($update->is_display == 0){
             $update->is_display = 1;
             $update->save();
+            \App\Http\Controllers\Admin\Logs::log("Enable viewing of View Grades in $level");
         }elseif($update->is_display == 1){
             $update->is_display = 0;
             $update->save();
+            \App\Http\Controllers\Admin\Logs::log("Disable viewing of View Grades in $level");
         }
         
         $view_grades = \App\CtrBedDisplayGrade::all();
