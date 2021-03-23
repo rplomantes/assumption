@@ -38,8 +38,8 @@ class Disbursement extends Controller {
     function print_summary(Request $request) {
         $date_to = $request->date_to;
         $date_from = $request->date_from;
-        $startDate = "$date_to";
-        $dateEnd = "$date_from";
+        $startDate = "$date_from";
+        $dateEnd = "$date_to";
         $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->where("type",0)->orderBy('transaction_date', 'asc')->get();
         $pdf = PDF::loadView('accounting.disbursement.print_summary', compact('lists', 'startDate', 'dateEnd', 'type'));
         $pdf->setPaper('letter', 'portrait');

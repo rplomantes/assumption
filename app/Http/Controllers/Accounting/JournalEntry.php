@@ -15,15 +15,15 @@ class JournalEntry extends Controller
     }
 
     function jv_index() {
-        $lists = \App\JournalEntry::where('id','!=',null)->limit(0);
+        $lists = \App\JournalEntry::where('id','!=',null)->get();
         return view('accounting.journal_entry.index', compact('lists'));
     }
     
     function print_summary(Request $request) {
             $date_to = $request->date_to;
             $date_from = $request->date_from;
-            $finalStartDate = "$date_to";
-            $finalEndDate = "$date_from";
+            $finalStartDate = "$date_from";
+            $finalEndDate = "$date_to";
             $lists = \App\JournalEntry::whereBetween('transaction_date', [$finalStartDate, $finalEndDate])->orderBy('transaction_date','asc')->get();
         
         $pdf = PDF::loadView('accounting.journal_entry.print_summary', compact('lists', 'finalStartDate', 'finalEndDate'));

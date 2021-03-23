@@ -20,8 +20,8 @@ class AjaxJournalEntry extends Controller
         if (Request::ajax()) {
             $date_to = Input::get('date_to');
             $date_from = Input::get('date_from');
-            $startDate = "$date_to";
-            $dateEnd = "$date_from";
+            $startDate = "$date_from";
+            $dateEnd = "$date_to";
             $lists = \App\JournalEntry::whereBetween('transaction_date', [$startDate, $dateEnd])->orderBy('transaction_date','asc')->get();
             return view('accounting.journal_entry.ajaxdisplay', compact('lists'));
         }

@@ -988,7 +988,7 @@ class Assess extends Controller {
             $ledgers = \App\Ledger::where('idno', $request->idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
             $request->date = date('Y-m-d');
-            MainPayment::addUnrealizedEntry($request, $reference_id);
+//            MainPayment::addUnrealizedEntry($request, $reference_id);
             $totalamount = $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
             $firsttotalamount = $totalamount;
 

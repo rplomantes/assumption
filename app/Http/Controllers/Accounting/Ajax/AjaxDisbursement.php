@@ -94,8 +94,8 @@ class AjaxDisbursement extends Controller
         if (Request::ajax()) {
             $date_to = Input::get('date_to');
             $date_from = Input::get('date_from');
-            $startDate = "$date_to";
-            $dateEnd = "$date_from";
+            $startDate = "$date_from";
+            $dateEnd = "$date_to";
             $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->where("type",0)->orderBy('transaction_date','asc')->get();
             return view('accounting.disbursement.ajaxdisplay', compact('lists'));
         }

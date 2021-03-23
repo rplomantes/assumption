@@ -831,7 +831,7 @@ class AssessmentController extends Controller {
             $reference_id = uniqid();
             $ledgers = \App\Ledger::where('idno', $idno)->whereRaw('amount-debit_memo-discount-payment > 0')->where('category_switch', '<=', env("TUITION_FEE"))->get();
 
-            MainPayment::addUnrealizedEntry($request, $reference_id);
+//            MainPayment::addUnrealizedEntry($request, $reference_id);
             $totalamount = $this->processAccounting($request, $reference_id, $totalpayment, $ledgers, env("DEBIT_MEMO"));
             $firsttotalamount = $totalamount;
 
