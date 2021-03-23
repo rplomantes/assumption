@@ -20,8 +20,8 @@ class AjaxJournalEntry extends Controller
         if (Request::ajax()) {
             $date_to = Input::get('date_to');
             $date_from = Input::get('date_from');
-            $startDate = "$date_to";
-            $dateEnd = "$date_from";
+            $startDate = "$date_from";
+            $dateEnd = "$date_to";
             $lists = \App\JournalEntry::whereBetween('transaction_date', [$startDate, $dateEnd])->orderBy('transaction_date','asc')->get();
             return view('accounting.journal_entry.ajaxdisplay', compact('lists'));
         }
@@ -48,7 +48,7 @@ class AjaxJournalEntry extends Controller
             $saveEntry->subsidiary = $particular;
             $saveEntry->description = $particular;
             $saveEntry->accounting_code = $code;
-            $saveEntry->entry_type = 5;
+            $saveEntry->entry_type = env('JOURNAL');
             $saveEntry->fiscal_year = $fiscal_year->fiscal_year;
             $saveEntry->receipt_type = "JV";
             if($debit > 0){

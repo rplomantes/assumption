@@ -9,24 +9,24 @@ use Carbon\Carbon;
 use DB;
 use PDF;
 
-class Disbursement extends Controller {
-
-    function disbursement_index() {
-        $lists = \App\Disbursement::where('type', 0)->get();
-        return view('accounting.disbursement.index', compact('lists'));
+class PettyCash extends Controller
+{
+    function pettycash_index() {
+        $lists = \App\Disbursement::where('type', 1)->get();
+        return view('accounting.pettycash.index', compact('lists'));
     }
 
-    function disbursement_create() {
+    function pettycash_create() {
         $ref_id = uniqid();
         $accounting_entry = \App\ChartOfAccount::get();
         $user = \App\ReferenceId::where('idno', Auth::user()->idno)->first();
         $voucher_no = $this->getReceipt();
-        return view('accounting.disbursement.check_disbursement', compact('ref_id', 'payees', 'accounting_entry', 'user','voucher_no'));
+        return view('accounting.pettycash.check_disbursement', compact('ref_id', 'payees', 'accounting_entry', 'user','voucher_no'));
     }
     function getReceipt() {
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $id = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->id;
-            $number = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->voucher_no;
+            $number = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->petty_cash;
             $receipt = "";
             for ($i = strlen($number); $i <= 6; $i++) {
                 $receipt = $receipt . "0";
@@ -38,10 +38,10 @@ class Disbursement extends Controller {
     function print_summary(Request $request) {
         $date_to = $request->date_to;
         $date_from = $request->date_from;
-        $startDate = "$date_from";
-        $dateEnd = "$date_to";
-        $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->where("type",0)->orderBy('transaction_date', 'asc')->get();
-        $pdf = PDF::loadView('accounting.disbursement.print_summary', compact('lists', 'startDate', 'dateEnd', 'type'));
+        $startDate = "$date_to";
+        $dateEnd = "$date_from";
+        $lists = \App\Disbursement::whereBetween('transaction_date', [$startDate, $dateEnd])->where("type",1)->orderBy('transaction_date', 'asc')->get();
+        $pdf = PDF::loadView('accounting.pettycash.print_summary', compact('lists', 'startDate', 'dateEnd', 'type'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream("disbursement_summary.pdf");
     }
@@ -54,11 +54,9 @@ class Disbursement extends Controller {
         $this->saveEntry($request, $fiscal_year);
         $this->updateReference(Auth::user()->idno, $request->voucher_no);
         DB::commit();
-        if ($request->category == 0) {
-            return redirect(url('/view/disbursement', $request->reference));
-        } else {
-            return redirect(url('/view/petty_cash', $request->reference));
-        }
+        
+        return redirect(url('/view/petty_cash', $request->reference));
+        
     }
 
     function saveDisbursement($request, $fiscal_year) {
@@ -66,7 +64,7 @@ class Disbursement extends Controller {
         $saveDisbursement->transaction_date = Carbon::now();
         $saveDisbursement->reference_id = $request->reference;
         $saveDisbursement->voucher_no = $request->voucher_no;
-        $saveDisbursement->type = 0;
+        $saveDisbursement->type = 1;
         $saveDisbursement->payee_name = $request->payee;
         $saveDisbursement->amount = str_replace(",", "", $request->check_amount);
         $saveDisbursement->bank = $request->bank;
@@ -124,13 +122,14 @@ class Disbursement extends Controller {
 
     function updateReference($idno, $voucher_no) {
         $user = \App\ReferenceId::where('idno', $idno)->first();
-        $user->voucher_no = $user->voucher_no + 1;
+        $user->petty_cash = $user->petty_cash + 1;
         $user->save();
     }
 
     function viewDisbursement($reference) {
         $accountings = \App\Accounting::where('reference_id', $reference)->get();
         $disbursement = \App\Disbursement::where('reference_id', $reference)->first();
+        
         if(Auth::user()->accesslevel == env("ACCTNG_HEAD")){
             return view('accounting.disbursement.editable_disbursement', compact('reference', 'disbursement', 'accountings'));
         }else{
@@ -159,15 +158,15 @@ class Disbursement extends Controller {
         $accountings = \App\Accounting::where('reference_id', $reference)->get();
         $disbursement = \App\Disbursement::where('reference_id', $reference)->first();
 //        return view('accounting.disbursement.print_disbursement',compact('reference','disbursement','accountings'));
-        $pdf = PDF::loadView('accounting.disbursement.print_disbursement', compact('reference', 'disbursement', 'accountings'));
+        $pdf = PDF::loadView('accounting.pettycash.print_disbursement', compact('reference', 'disbursement', 'accountings'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream("summary_promissory_note.pdf");
     }
 
-    function cancelDisbursement($reference) {
+    function cancelPettyCash($reference) {
         $data = \App\DisbursementData::where('reference_id', $reference)->delete();
         $record = \App\Disbursement::where('reference_id', $reference)->delete();
-        return redirect(url('/disbursement'));
+        return redirect(url('/pettycash'));
     }
 
     function petty_cash_index() {
@@ -186,7 +185,12 @@ class Disbursement extends Controller {
     function viewPettyCash($reference) {
         $accountings = \App\Accounting::where('reference_id', $reference)->get();
         $disbursement = \App\Disbursement::where('reference_id', $reference)->first();
-        return view('accounting.disbursement.view_pettycash', compact('reference', 'disbursement', 'accountings'));
+        if(Auth::user()->accesslevel == env("ACCTNG_HEAD")){
+            
+            return view('accounting.pettycash.editable_disbursement', compact('reference', 'disbursement', 'accountings'));
+        }else{
+            return view('accounting.pettycash.view_disbursement', compact('reference', 'disbursement', 'accountings'));
+        }
     }
 
     function printPettyCashVoucher($reference) {
@@ -250,7 +254,7 @@ class Disbursement extends Controller {
                     $saveEntry->fiscal_year = \App\CtrFiscalYear::value("fiscal_year");
                     $saveEntry->debit = $request->debit[$key];
                     $saveEntry->credit = $request->credit[$key];
-                    $saveEntry->particular = $request->particulars[$key];;
+                    $saveEntry->particular = "";
                     $saveEntry->posted_by = $updatedisbursement->processed_by;
                     $saveEntry->save();
                 }
@@ -287,5 +291,4 @@ class Disbursement extends Controller {
         
         return back()->withSuccess("You have updated the voucher");
     }
-
 }

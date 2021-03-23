@@ -109,6 +109,7 @@ $date_end = date('Y-m-d');
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+                        <li><a href="{{url('/accounting/chart_of_accounts')}}"><i class="fa fa-table"></i> <span>Chart of Accounts</span></a></li>
                         <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-file-archive-o"></i> <span>Official Receipt</span>
@@ -122,6 +123,7 @@ $date_end = date('Y-m-d');
                             </ul>
                         </li>
                         <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
+                        <li><a href="{{url('pettycash')}}"><i class="fa fa-columns"></i> <span>Petty Cash</a></li>
                         <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-book"></i> <span>Accounting Reports</span>
@@ -130,7 +132,9 @@ $date_end = date('Y-m-d');
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <!--<li><a href="{{url('/accounting', array('cash_receipt',$date_start, $date_end))}}"><span> Cash Receipt</span></a></li>-->
+                                <li><a href="{{url('/accounting', array('cashreceipt',date("Y-m-d"), date("Y-m-d")))}}"><span> Cash Receipt</span></a></li>
+                                <li><a href="{{url('/accounting', array('cash_disbursement_book',date("Y-m-d"), date("Y-m-d")))}}"><span> Cash Disbursement Book</span></a></li>
+                                <li><a href="{{url('/accounting', array('journal_book',date("Y-m-d"), date("Y-m-d")))}}"><span> General Journal Book</span></a></li>
                                 <li><a href="{{url('/trial_balance')}}"><span> Trial Balance</span></a></li>
                                 <li><a href="{{url('/general_ledger')}}"><span> General Ledger</span></a></li>
                             </ul>
@@ -264,6 +268,7 @@ $date_end = date('Y-m-d');
                             </ul>
                         </li>
                         <li><a href="{{url('/accounting/supplier')}}"><span><i class="fa fa-gears"></i> Set-up Suppliers</span></a></li>
+                        <li><a href="{{url('/accounting/setup/due_dates')}}"><span><i class="fa fa-gears"></i> Set-up Due Dates</span></a></li>
                     </ul>
                 </section>
             </aside>

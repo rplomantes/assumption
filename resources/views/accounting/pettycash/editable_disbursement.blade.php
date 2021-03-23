@@ -24,7 +24,7 @@ $accounting_entry = \App\ChartOfAccount::get();
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12" style="background-color:white;padding:10px;">
-            <form class="form form-horizontal" method="post" action="{{url("/accounting/edit_disbursement")}}">
+            <form class="form form-horizontal" method="post" action="{{url("/accounting/pettycash/edit_disbursement")}}">
                 {{csrf_field()}}
                 <input type="hidden" name="reference_id" value="{{$reference}}">
                 <center>
@@ -95,7 +95,7 @@ $accounting_entry = \App\ChartOfAccount::get();
                         <th colspan="2">&nbsp;</th>
                         <th colspan="2" style="text-align:center">Amount</th>
                         <tr>
-                            <th style="width:70%">Account No. - Account Title</th>
+                            <th style="width:25%">Account No. - Account Title</th>
                             <th>Debit</th>
                             <th>Credit</th>
                             <th></th>
@@ -104,7 +104,7 @@ $accounting_entry = \App\ChartOfAccount::get();
                         <tbody>
                             @foreach($accountings as $accounting)
                             <tr id="row{{$loop->iteration}}">
-                                <td>
+                                <td style="width:70%">
                                     <select name="accounting_codes[]" class="form-control select2" style="width:100%">
                                         @foreach($accounting_entry as $accounting_entries)
                                         <option @if($accounting->accounting_code == $accounting_entries->accounting_code) selected @endif value="{{$accounting_entries->accounting_code}}">{{$accounting_entries->accounting_name}}</option>
@@ -140,17 +140,12 @@ $accounting_entry = \App\ChartOfAccount::get();
                 </div>
                <div class="form-group row">
                     <div class="col-md-6">
-                        <a role="button" class="form-control btn-warning btn" href="{{url('/disbursement')}}"><span class="fa fa-arrow-circle-left"></span> <b>Back</b></a>
+                        <a role="button" class="form-control btn-warning btn" href="{{url('/pettycash')}}"><span class="fa fa-arrow-circle-left"></span> <b>Back</b></a>
                    </div>
                    <div class="col-md-6">
-                       <a role="button" class="form-control btn-success btn" href="{{url('/print/check_voucher_labels',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check Voucher</b></a>
+                       <a role="button" class="form-control btn-success btn" href="{{url('/print/petty_cash_voucher',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check Voucher</b></a>
                    </div>
 
-               </div>
-               <div class="form-group row">
-                   <div class="col-md-6">
-                       <a role="button" class="form-control btn-success btn" href="{{url('/accounting/disbursement/print_check_disbursement',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check</b></a>
-                   </div>
                </div>
             </form>
         </div>

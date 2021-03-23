@@ -15,15 +15,15 @@ class JournalEntry extends Controller
     }
 
     function jv_index() {
-        $lists = \App\JournalEntry::where('id','!=',null)->limit(0);
+        $lists = \App\JournalEntry::where('id','!=',null)->get();
         return view('accounting.journal_entry.index', compact('lists'));
     }
     
     function print_summary(Request $request) {
             $date_to = $request->date_to;
             $date_from = $request->date_from;
-            $finalStartDate = "$date_to";
-            $finalEndDate = "$date_from";
+            $finalStartDate = "$date_from";
+            $finalEndDate = "$date_to";
             $lists = \App\JournalEntry::whereBetween('transaction_date', [$finalStartDate, $finalEndDate])->orderBy('transaction_date','asc')->get();
         
         $pdf = PDF::loadView('accounting.journal_entry.print_summary', compact('lists', 'finalStartDate', 'finalEndDate'));
@@ -42,11 +42,22 @@ class JournalEntry extends Controller
         if (Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $id = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->id;
             $number = \App\ReferenceId::where('idno', Auth::user()->idno)->first()->jv_voucher;
+
+            $monthnow = date("m");
+            
+            if(!\App\JournalEntry::where("processed_by", Auth::user()->idno)->whereYear("transaction_date", date("Y"))->whereMonth("transaction_date", date("m"))->first()){
+                $number = 0;
+                
+                $updatenumber = \App\ReferenceId::where('idno', Auth::user()->idno)->first();
+                $updatenumber->jv_voucher = 0;
+                $updatenumber->update();
+            }
+            
             $receipt = "";
-            for ($i = strlen($number); $i <= 6; $i++) {
+            for ($i = strlen($number); $i <= 4; $i++) {
                 $receipt = $receipt . "0";
             }
-            return $id . $receipt . $number;
+            return $monthnow."-".$id . $receipt . $number;
         }
     }
     
@@ -197,7 +208,7 @@ class JournalEntry extends Controller
         $saveEntry->subsidiary = $entry->description;
         $saveEntry->description = $entry->description;
         $saveEntry->accounting_code = $entry->accounting_code;
-        $saveEntry->entry_type = 5;
+        $saveEntry->entry_type = env('JOURNAL');
         $saveEntry->fiscal_year = $entry->fiscal_year;
         $saveEntry->receipt_type = "JV";
         $saveEntry->debit = $entry->debit;
