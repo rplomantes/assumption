@@ -59,7 +59,7 @@
 <div class="col-md-12">    
     <div class="accordion">
         <div class="accordion-section">
-            <a class="accordion-section-title active" href="#accordion-{{$sy->school_year}}">{{$sy->school_year}}-{{$sy->school_year+1}}</a>
+            <a class="accordion-section-title active" href="#accordion-{{$sy->school_year}}">{{$sy->school_year}}</a>
 
             <div id="accordion-{{$sy->school_year}}" class="accordion-section-content open">
                 <?php $ledger_period = \App\Ledger::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->where('period',"!=",'Yearly')->get(['period']); ?>
@@ -113,7 +113,7 @@
                     $totalpayment = 0;
                     $totalbalance = 0;
                     ?>
-                    {{$sy->school_year}}-{{$sy->school_year+1}}
+                    {{$sy->school_year}}
                     <?php $ledgers = \App\Ledger::distinct()->where('idno', $idno)->where('school_year', $sy->school_year)->get(); ?>
                     <table class="table table-bordered table-condensed">
                         <tr>

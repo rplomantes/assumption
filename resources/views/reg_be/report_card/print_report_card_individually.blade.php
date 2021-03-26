@@ -170,7 +170,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-        <td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>
+        <td align="center">@if($subject->is_alpha == 0){{$subject->fourth_remarks}}@else{{$subject->fourth_grading_letter}}@endif</td>
 
         @if($subject->final_grade != "")
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
@@ -220,6 +220,18 @@ function getPromotion($level) {
     @endforeach
     @endif
 
+    @if(count($group_split_subjects)>0)
+    @foreach($group_split_subjects as $group_code)
+    
+    <?php
+    $get_split_subjects = \App\GradeBasicEd::selectRaw("max(final_grade) as final_grade, max(final_remarks) as final_remarks, max(display_subject_code) as display_subject_code,max(is_alpha) as is_alpha, max(first_grading_letter) as first_grading_letter,max(second_grading_letter) as second_grading_letter,max(third_grading_letter) as third_grading_letter,max(fourth_grading_letter) as fourth_grading_letter")
+            ->where('idno', $idno)->where('school_year', $school_year)
+            ->where('subject_type', 2)
+            ->where('group_code', $group_code->group_code)
+            ->where('is_display_card', 1)
+            ->get();
+    ?>
+    
     @if(count($get_split_subjects)>0)
     @foreach($get_split_subjects as $subject)
     <?php $total_units += $subject->units; ?>
@@ -230,8 +242,8 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
         @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $subject->group_code))
         <td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>
-        @else<td align="center" style="font:10pt"></td>
-
+        @else
+        <td align="center" style="font:10pt"></td>
         @endif
 
         @if($subject->final_grade != "" || $subject->final_remarks != "")
@@ -258,6 +270,8 @@ function getPromotion($level) {
         <?php $total_final_grade += $subject->final_grade; ?>
         @endif
     </tr>
+    @endforeach
+    @endif
     @endforeach
     @endif
 
