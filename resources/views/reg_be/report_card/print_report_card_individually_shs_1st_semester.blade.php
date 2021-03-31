@@ -351,12 +351,10 @@ function getPromotion($level) {
     <strong>CERTIFICATE OF TRANSFER</strong><br>
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
-    <!--__________________.<br>-->
-    <!--She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.-->
     She is eligible for transfer and should be admitted to _________.
+    <br><br>
+    <img style="display: block;max-width:200px;max-height:95px;width: auto;height: auto; " src="{{public_path('/images/SMV-Signature.png')}}">    
     <br>
-<!--    <img style="display: block;max-width:200px;max-height:95px;width: auto;height: auto; " src="{{public_path('/images/SMV-Signature.png')}}">    
-    <br>-->
     
 </div>
 <div style="position:absolute; top:420px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
