@@ -196,6 +196,7 @@ $date_end = date('Y-m-d');
                             </a>
                             <ul class="treeview-menu">
 
+                        <li><a href="{{url('/accounting/setup/due_dates')}}"><span>Set-up Due Dates</span></a></li>
                                 <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
                                 <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
                                 <li><a href="{{url('accounting',array('schedule_of_fees_college'))}}"><span>Update Fees(College)</span></a></li>
@@ -267,8 +268,7 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('/accounting', array('report', 'bed_scholarship_report'))}}"><span>List of Scholar Grants</span></a></li>
                             </ul>
                         </li>
-                        <li><a href="{{url('/accounting/supplier')}}"><span><i class="fa fa-gears"></i> Set-up Suppliers</span></a></li>
-                        <li><a href="{{url('/accounting/setup/due_dates')}}"><span><i class="fa fa-gears"></i> Set-up Due Dates</span></a></li>
+                        <!--<li><a href="{{url('/accounting/supplier')}}"><span><i class="fa fa-gears"></i> Set-up Suppliers</span></a></li>-->
                     </ul>
                 </section>
             </aside>
