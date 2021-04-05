@@ -12,7 +12,7 @@ use PDF;
 class Disbursement extends Controller {
 
     function disbursement_index() {
-        $lists = \App\Disbursement::where('type', 0)->get();
+        $lists = \App\Disbursement::where('type', 0)->limit(0)->get();
         return view('accounting.disbursement.index', compact('lists'));
     }
 

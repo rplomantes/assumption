@@ -15,7 +15,7 @@ class JournalEntry extends Controller
     }
 
     function jv_index() {
-        $lists = \App\JournalEntry::where('id','!=',null)->get();
+        $lists = \App\JournalEntry::where('id','!=',null)->limit(0);
         return view('accounting.journal_entry.index', compact('lists'));
     }
     
