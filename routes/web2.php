@@ -37,6 +37,7 @@ Route::get('/cashier/viewledger/{school_year}/{idno}', 'Cashier\StudentLedger@vi
 Route::get('/cashier/reservation/{idno}', 'Cashier\StudentReservation@reservation');
 Route::post('/cashier/reservation', 'Cashier\StudentReservation@postreservation');
 
+Route::get('/view_previous_next_receipt/{action}/{reference_id}', 'Cashier\StudentLedger@view_previous_next_receipt');
 Route::get('/cashier/viewreceipt/{reference_id}', 'Cashier\StudentLedger@viewreceipt');
 Route::get('/cashier/other_payment/{idno}', 'Cashier\OtherPayment@other_payment');
 Route::post('/cashier/other_payment', 'Cashier\OtherPayment@post_other_payment');

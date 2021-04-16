@@ -214,7 +214,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+        <div class="col-md-12 official_receipt">
+            <a href='{{url('/view_previous_next_receipt',array("previous",$payment->reference_id))}}'><button class='btn btn-success'>Previous</button></a>
+            <a href='{{url('/view_previous_next_receipt',array("next",$payment->reference_id))}}'><button class='btn btn-success pull-right'>Next</button></a>
+        </div>    
 </div>
 
 <div class="modal fade" id="show_explanation">

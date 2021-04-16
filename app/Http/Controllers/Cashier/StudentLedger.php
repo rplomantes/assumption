@@ -15,17 +15,17 @@ class StudentLedger extends Controller {
         $this->middleware('auth');
     }
 
-    function view($school_year,$idno) {
+    function view($school_year, $idno) {
         $academic_type = \App\Status::where('idno', $idno)->first()->academic_type;
-        if($academic_type == "College"){
+        if ($academic_type == "College") {
             $periods = array('1st Semester', '2nd Semester', 'Summer');
-        }else if($academic_type == "SHS"){
-            $periods = array("Yearly",'1st Semester', '2nd Semester');
-        }else{
+        } else if ($academic_type == "SHS") {
+            $periods = array("Yearly", '1st Semester', '2nd Semester');
+        } else {
             $periods = array("Yearly");
         }
-        
-        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("") || Auth::user()->accesslevel==env("ACCTNG_HEAD")) {
+
+        if (Auth::user()->accesslevel == env("CASHIER") || Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("") || Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
             $due_others = 0.00;
             $due_previous = 0.00;
             $totalmainpayment = 0.00;
@@ -63,15 +63,15 @@ class StudentLedger extends Controller {
     sum(debit_memo) as debit_memo, sum(payment) as payment')->where('idno', $idno)->where('category_switch', 3)->groupBy('category', 'category_switch')->orderBy('category_switch')->get();
 
 //for accounting displaying particulars
-$ledger_list_tuition = \App\Ledger::where('idno',$user->idno)->where('category_switch', 6)->first();
-$ledger_list_misc = \App\Ledger::where('idno',$user->idno)->where('category_switch', 1)->get();
-$ledger_list_other = \App\Ledger::where('idno',$user->idno)->where('category_switch', 2)->get();
-$ledger_list_depo = \App\Ledger::where('idno',$user->idno)->where('category_switch', 3)->get();
-$ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')->where('category_switch', env("SRF_FEE"))->get();
+            $ledger_list_tuition = \App\Ledger::where('idno', $user->idno)->where('category_switch', 6)->first();
+            $ledger_list_misc = \App\Ledger::where('idno', $user->idno)->where('category_switch', 1)->get();
+            $ledger_list_other = \App\Ledger::where('idno', $user->idno)->where('category_switch', 2)->get();
+            $ledger_list_depo = \App\Ledger::where('idno', $user->idno)->where('category_switch', 3)->get();
+            $ledger_list = \App\Ledger::where('idno', $user->idno)->where('category', 'SRF')->where('category_switch', env("SRF_FEE"))->get();
 /////
 
             $ledger_return = \App\Ledger::groupBy(array('category', 'category_switch'))->where('idno', $idno)->where('category_switch', '7')->where('is_returned_check', 1)
-                ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
+                            ->selectRaw('category, sum(amount) as amount, sum(discount) as discount, sum(debit_memo)as debit_memo, sum(payment) as payment')->orderBy('category_switch')->get();
 
             if (count($ledger_main) > 0) {
                 foreach ($ledger_main as $payment) {
@@ -86,26 +86,26 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                 }
             }
 
-            if($status->status == env("ENROLLED") || $status->status == env("ASSESSED") || $status->status == env("WITHDRAWN")){
+            if ($status->status == env("ENROLLED") || $status->status == env("ASSESSED") || $status->status == env("WITHDRAWN")) {
                 $ss = $status->school_year;
                 $pp = $status->period;
-            }else{
+            } else {
                 $ss = 0000;
                 $pp = 0000;
             }
-            
+
             $downpayment = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_switch', '0')->selectRaw('sum(amount) as amount')->first();
             $due_dates_list_amount = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
             $duetoday = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->where('due_date', '<=', date('Y-m-t'))->where('due_switch', '1')->selectRaw('sum(amount) as amount')->first();
 
-            if($status->academic_type == "SHS" || $status->academic_type == "College"){
-            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $ss)->where('period', $pp)->get();
-            }else{
-            $due_dates = \App\LedgerDueDate::where('idno',$idno)->where('school_year', $ss)->get();
+            if ($status->academic_type == "SHS" || $status->academic_type == "College") {
+                $due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->where('period', $pp)->get();
+            } else {
+                $due_dates = \App\LedgerDueDate::where('idno', $idno)->where('school_year', $ss)->get();
             }
-            
+
             $ledger_others = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->get();
-            $ledger_others_noreturn = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('is_returned_check',0)->get();
+            $ledger_others_noreturn = \App\Ledger::where('idno', $idno)->where('category_switch', env("OTHER_MISC"))->where('is_returned_check', 0)->get();
             //$ledger_optional = \App\Ledger::where('idno',$idno)->where('category_switch',env("OPTIONAL_FEE"))->get();
 
             if (count($ledger_others_noreturn) > 0) {
@@ -113,8 +113,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                     $due_others = $due_others + $ledger_other->amount - $ledger_other->discount - $ledger_other->debit_memo - $ledger_other->payment;
                 }
                 if ($due_others < 0) {
-                $negative = $negative + $due_others;
-                $due_others = 0;
+                    $negative = $negative + $due_others;
+                    $due_others = 0;
                 }
             }
 
@@ -126,8 +126,8 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
                     $due_previous = $due_previous + $prev->amount - $prev->discount - $prev->debit_memo - $prev->payment;
                 }
                 if ($due_previous < 0) {
-                $negative = $negative + $due_previous;
-                $due_previous = 0;
+                    $negative = $negative + $due_previous;
+                    $due_previous = 0;
                 }
             }
             $totalmaindue = $downpayment->amount + $duetoday->amount - $totalmainpayment;
@@ -160,12 +160,23 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $debit_memos = \App\DebitMemo::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
             $student_deposits = \App\AddToStudentDeposit::where('idno', $idno)->where('school_year', $school_year)->orderBy('transaction_date')->get();
 
-            
+
             $is_early_enrollment = \App\CtrEarlyEnrollmentPaymentSwitch::first()->is_process_main_payment;
-            
-            return view("cashier.ledger", compact('idno','school_year','periods','levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf','totalpay','ledger_list_tuition','ledger_list_misc','ledger_list_other','ledger_list_depo','ledger_list', 'negative','is_early_enrollment','totalmonthdue'));
+
+            return view("cashier.ledger", compact('idno', 'school_year', 'periods', 'levels', 'user', 'ledger_main', 'ledger', 'ledger_main_tuition', 'ledger_main_misc', 'ledger_main_other', 'ledger_main_depo', 'ledger_others', 'ledger_optional', 'previous', 'status', 'payments', "debit_memos", 'due_dates', 'totalmainpayment', 'totaldue', 'student_deposits', 'reservations', 'deposits', 'ledger_srf', 'totalpay', 'ledger_list_tuition', 'ledger_list_misc', 'ledger_list_other', 'ledger_list_depo', 'ledger_list', 'negative', 'is_early_enrollment', 'totalmonthdue'));
             //return $levels;
         }
+    }
+
+    function view_previous_next_receipt($action, $reference_id) {
+        $id = \App\Payment::where('reference_id', $reference_id)->first()->id;
+        if ($action == "previous") {
+            $id = \App\Payment::where('id', '<', $id)->max('id');
+        } elseif ($action == "next") {
+            $id = \App\Payment::where('id', '>', $id)->min('id');
+        }
+        $reference_id = \App\Payment::where('id', $id)->first()->reference_id;
+        return redirect("cashier/viewreceipt/$reference_id");
     }
 
     function viewreceipt($reference_id) {
@@ -187,7 +198,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             for ($i = strlen($number); $i <= 9; $i++) {
                 $receipt = $receipt . "0";
             }
-            if(Auth::user()->accesslevel == env("CASHIER")){
+            if (Auth::user()->accesslevel == env("CASHIER")) {
                 $receipt_number = $receipt . $number;
 //                $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
 //                if(count($check_or)>0){
@@ -195,7 +206,7 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
 //                }else{
                 return $receipt . $number;
 //                }
-            }else{
+            } else {
                 return $receipt . $number;
             }
         }
@@ -209,15 +220,15 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             for ($i = strlen($number); $i <= 9; $i++) {
                 $receipt = $receipt . "0";
             }
-            if(Auth::user()->idno == "igarcia" || Auth::user()->idno == "belle"){
+            if (Auth::user()->idno == "igarcia" || Auth::user()->idno == "belle") {
                 $receipt_number = $receipt . $number;
                 $check_or = \App\Payment::where('receipt_no', $receipt_number)->get();
-                if(count($check_or)>0){
-                return $receipt . $number."-A";
-                }else{
-                return $receipt . $number;
+                if (count($check_or) > 0) {
+                    return $receipt . $number . "-A";
+                } else {
+                    return $receipt . $number;
                 }
-            }else{
+            } else {
                 return $receipt . $number;
             }
         }
@@ -239,17 +250,17 @@ $ledger_list = \App\Ledger::where('idno',$user->idno)->where('category', 'SRF')-
             $this->reverserestore_entries(\App\Accounting::where('reference_id', $reference_id)->get(), $reference_id);
             $this->reverserestore_entries(\App\Reservation::where('reference_id', $reference_id)->get(), $reference_id);
             \App\Http\Controllers\Admin\Logs::log("Reverse/Restore receipt with reference no: $reference_id.");
-            
+
             $this->checkifreservation($reference_id);
             DB::commit();
             return redirect(url('/cashier', array('viewreceipt', $reference_id)));
         }
     }
-    
-    function checkifreservation($reference_id){
-        $checkreservation = \App\Reservation::where('reference_id',$reference_id)->value('levels_reference_id');
-        if($checkreservation != null){
-            $get_dm = \App\DebitMemo::where('levels_reference_id',$checkreservation)->value('reference_id');
+
+    function checkifreservation($reference_id) {
+        $checkreservation = \App\Reservation::where('reference_id', $reference_id)->value('levels_reference_id');
+        if ($checkreservation != null) {
+            $get_dm = \App\DebitMemo::where('levels_reference_id', $checkreservation)->value('reference_id');
             $this->reverserestore_dm($get_dm);
         }
     }
