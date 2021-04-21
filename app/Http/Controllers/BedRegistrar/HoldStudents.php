@@ -30,8 +30,10 @@ class HoldStudents extends Controller {
             if(!$check){
                 $add = new \App\HoldGrade();
                 $add->idno = $idno;
+                $add->hold_by = Auth::user()->idno;
                 $add->save();
             }
+            \App\Http\Controllers\Admin\Logs::log("Hold $idno in viewing grades.");
             
             return redirect('/bedregistrar/hold_students');
         }
@@ -44,6 +46,7 @@ class HoldStudents extends Controller {
             if($check){
                 $check->delete();
             }
+            \App\Http\Controllers\Admin\Logs::log("Remove $idno in holding of viewing grades.");
             
             return redirect('/bedregistrar/hold_students');
         }
