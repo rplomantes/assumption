@@ -646,3 +646,9 @@ Route::get('/bedregistrar/ajax/getstudentlist_holdgrades','BedRegistrar\Ajax\Get
 //displaying of grades in student portal bed
 Route::get('/bedregistrar/grade_portal_display_settings','BedRegistrar\GradeDisplayController@view');
 Route::get('/bedregistrar/grade_portal_display_settings/update_levels/{level}','BedRegistrar\GradeDisplayController@updateStatus');
+
+//Report Card Sequencing
+Route::get('/bedregistrar/report_card_sequencing','BedRegistrar\ReportCardSequencing@index');
+Route::post('/bedregistrar/report_card_sequencing/update','BedRegistrar\ReportCardSequencing@update');
+Route::get('/bedregistrar/ajax/report_card_sequencing/view_subjects','BedRegistrar\ReportCardSequencing@getSubjects');
+
