@@ -127,7 +127,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-        <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$school_year->school_year))}}"><i class="fa fa-link"></i> <span>Enrollment Statistics</span></a></li>
+        <!--<li><a href="{{url('/bedregistrar',array('enrollment_statistics',$school_year->school_year))}}"><i class="fa fa-link"></i> <span>Enrollment Statistics</span></a></li>-->
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Student List</span>
             <span class="pull-right-container">
