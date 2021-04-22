@@ -82,7 +82,7 @@ class Disbursement extends Controller {
         $saveEntry->transaction_date = Carbon::now();
         $saveEntry->reference_id = $request->reference;
         $saveEntry->category = $this->getAccountingName($request->account_name);
-        $saveEntry->subsidiary = $request->description;
+        $saveEntry->subsidiary = "Check Amount";
         $saveEntry->receipt_details = $this->getAccountingName($request->account_name);
         $saveEntry->accounting_name = $this->getAccountingName($request->account_name);
         $saveEntry->accounting_code = $request->account_name;
@@ -129,11 +129,13 @@ class Disbursement extends Controller {
     }
 
     function viewDisbursement($reference) {
-        $accountings = \App\Accounting::where('reference_id', $reference)->get();
+        $accountings = \App\Accounting::where('reference_id', $reference)->where('subsidiary','!=',"Check Amount")->get();
+        $check_amount = \App\Accounting::where('reference_id', $reference)->where('subsidiary',"Check Amount")->first();
         $disbursement = \App\Disbursement::where('reference_id', $reference)->first();
         if(Auth::user()->accesslevel == env("ACCTNG_HEAD")){
-            return view('accounting.disbursement.editable_disbursement', compact('reference', 'disbursement', 'accountings'));
+            return view('accounting.disbursement.editable_disbursement', compact('reference', 'disbursement', 'accountings','check_amount'));
         }else{
+            $accountings = \App\Accounting::where('reference_id', $reference)->get();
             return view('accounting.disbursement.view_disbursement', compact('reference', 'disbursement', 'accountings'));
         }
         
@@ -216,7 +218,6 @@ class Disbursement extends Controller {
     }
     
     function edit_disbursement(Request $request){
-        
         $checkvoucherno = \App\Disbursement::where("voucher_no", $request->voucher_no)->first();
         if($checkvoucherno){
             if($checkvoucherno->reference_id != $request->reference_id){
@@ -236,13 +237,12 @@ class Disbursement extends Controller {
         if(count($request->accounting_codes) > 0){
             foreach($request->accounting_codes as $key=>$accounting_code){
                 if(array_key_exists($key, $request->accounting_codes)){
-                    $account = \App\ChartOfAccount::where("accounting_code", $accounting_code)->first();
                     
                     $saveEntry = new \App\Accounting;
-                    $saveEntry->transaction_date = $updatedisbursement->transaction_id;
+                    $saveEntry->transaction_date = $updatedisbursement->transaction_date;
                     $saveEntry->reference_id = $request->reference_id;
                     $saveEntry->category = $this->getAccountingName($accounting_code);
-                    $saveEntry->subsidiary = $request->particulars[$key];;
+                    $saveEntry->subsidiary = "";
                     $saveEntry->receipt_details = $this->getAccountingName($accounting_code);
                     $saveEntry->accounting_code = $accounting_code;
                     $saveEntry->accounting_name = $this->getAccountingName($accounting_code);
@@ -250,7 +250,7 @@ class Disbursement extends Controller {
                     $saveEntry->fiscal_year = \App\CtrFiscalYear::value("fiscal_year");
                     $saveEntry->debit = $request->debit[$key];
                     $saveEntry->credit = $request->credit[$key];
-                    $saveEntry->particular = $request->particulars[$key];;
+                    $saveEntry->particular = $request->particulars[$key];
                     $saveEntry->posted_by = $updatedisbursement->processed_by;
                     $saveEntry->save();
                 }
@@ -269,10 +269,10 @@ class Disbursement extends Controller {
         
         if($actual_amount > 0){
             $saveEntry = new \App\Accounting;
-            $saveEntry->transaction_date = $updatedisbursement->transaction_id;
+            $saveEntry->transaction_date = $updatedisbursement->transaction_date;
             $saveEntry->reference_id = $request->reference_id;
             $saveEntry->category = $this->getAccountingName($request->account_name);
-            $saveEntry->subsidiary = $request->remarks;
+            $saveEntry->subsidiary = "Check Amount";
             $saveEntry->receipt_details = $this->getAccountingName($request->account_name);
             $saveEntry->accounting_name = $this->getAccountingName($request->account_name);
             $saveEntry->accounting_code = $request->account_name;

@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-3">
         <label>Bank</label>
-        <input type="text" class="form form-control" width="100%" id='bank' name='bank'>
+        <input type="text" class="form form-control" width="100%" id='bank' name='bank' required=''>
     </div>
     <div class="col-md-3">
         <label>Check Number</label>
@@ -62,7 +62,7 @@
 <div class="form-group">
     <div class="col-md-8">
         <label>Remarks</label>
-        <textarea class="form form-control" id='description' name='description' row="3"></textarea>
+        <textarea class="form form-control" id='description' name='description' row="3" required=''></textarea>
     </div>
     <div class="col-md-4">
         <label>&nbsp;</label>    

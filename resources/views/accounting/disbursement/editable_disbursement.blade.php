@@ -34,7 +34,7 @@ $accounting_entry = \App\ChartOfAccount::get();
                         </br>
                     </div>
                 </center>
-                
+
                 <table width="100%" class="table table-bordered table-responsive table-striped">
                     <tr>
                         <td class="title-head" colspan="4">CHECK VOUCHER</td>
@@ -42,12 +42,12 @@ $accounting_entry = \App\ChartOfAccount::get();
                     <tr>
                         <td width="70%" rowspan="2">PAY TO:<br>
                             <input type="text" name="payee" id="payee" class="form-control" value="{{$disbursement->payee_name}}">
-                            <center><div style="margin-top:15px;" class="container-fluid" id="display_payee"></div></center>
-                        </td>
-                        <td width="30%">
-                            C.V. No.: 
-                            <input type="text" name="voucher_no" class="form-control" value="{{str_pad($disbursement->voucher_no,5,"0",STR_PAD_LEFT)}}">
-                        </td>
+                    <center><div style="margin-top:15px;" class="container-fluid" id="display_payee"></div></center>
+                    </td>
+                    <td width="30%">
+                        C.V. No.: 
+                        <input type="text" name="voucher_no" class="form-control" value="{{str_pad($disbursement->voucher_no,5,"0",STR_PAD_LEFT)}}">
+                    </td>
                     </tr>
                     <tr>
                         <td>Date: {{date_format(date_create($disbursement->transaction_date),"F d, Y")}}</td>
@@ -58,79 +58,92 @@ $accounting_entry = \App\ChartOfAccount::get();
                         </td> 
                     </tr>
                 </table>
-                
-               @if($errors->count())
-               <div class="col-sm-12">
-               <div class="form-group">
-                   <div class="alert alert-danger">
-                       <ul>
-                           @foreach($errors->all() as $error)
-                           <li>{{$error}}</li>
-                           @endforeach
-                       </ul>
-                   </div>
-               </div>
-               </div>
-               @endif
-               
-               @if(Session::has("success"))
-               <div class="col-sm-12">
-               <div class="form-group">
-                   <div class="alert alert-success">
-                       {{Session::get("success")}}
-                   </div>
-               </div>
-               </div>
-               @endif
-               
-               <div class="row" style="margin-bottom:15px;">
-                   <div class="col-sm-4">
-                       <button id="addrow" class="btn btn-block btn-flat btn-primary"><i class='fa fa-plus-circle'></i> Add Row</button>
-                   </div>
-               </div>
 
-                <div id="entries_table">
-                    <table id="table_accounting" class="table table-bordered table-responsive table-striped">
-                        <thead>
-                        <th colspan="2">&nbsp;</th>
-                        <th colspan="2" style="text-align:center">Amount</th>
-                        <tr>
-                            <th style="width:70%">Account No. - Account Title</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($accountings as $accounting)
-                            <tr id="row{{$loop->iteration}}">
-                                <td>
-                                    <select name="accounting_codes[]" class="form-control select2" style="width:100%">
-                                        @foreach($accounting_entry as $accounting_entries)
-                                        <option @if($accounting->accounting_code == $accounting_entries->accounting_code) selected @endif value="{{$accounting_entries->accounting_code}}">{{$accounting_entries->accounting_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td><input name="debit[]" type="number" class="form-control" value="{{$accounting->debit}}"></td>
-                                <td><input name="credit[]" type="number" class="form-control" value="{{$accounting->credit}}"></td>
-                                <td><a id='{{$loop->iteration}}' onclick='removerow(this)' class="btn btn-danger btn-sm"><i class="fa fa-close"></i></a></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                @if($errors->count())
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                @endif
+
+                @if(Session::has("success"))
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div class="alert alert-success">
+                            {{Session::get("success")}}
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <?php $i = 0; ?>
+                <div  id="dynamic_field">
+                    @if(count($accountings)>0)
+                    <div class="form form-group">
+                        <div class="col-md-7">
+                            <label>Account No. - Account Title</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Debit</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Credit</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label>Add/Remove</label>
+                        </div>
+                    </div>
+                    @foreach($accountings as $accounting)
+                    <div id='row{{$i}}' class="form form-group">                                
+                        <div class="col-md-7">
+                            <select name="accounting_codes[]" class="form-control select2" style="width:100%">
+                                @foreach($accounting_entry as $accounting_entries)
+                                <option @if($accounting->accounting_code == $accounting_entries->accounting_code) selected @endif value="{{$accounting_entries->accounting_code}}">{{$accounting_entries->accounting_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2"><input name="debit[]" id='debit{{$i}}' type="number" class="form-control" value="{{$accounting->debit}}"></div>
+                        <div class="col-md-2"><input name="credit[]" id='credit{{$i}}' type="number" class="form-control" value="{{$accounting->credit}}"></div>
+                        <div class="col-md-1">
+                            @if($i == 0)
+                            <button type="button" name="add" id="add" class="btn btn-success"> + </button>
+                            @else
+                            <button type='button' name="remove" id="{{$i}}" class="btn btn-danger btn_remove btn_remove_row">X</button>
+                            @endif
+                        </div>
+                    </div>
+
+                    <?php $i = $i + 1; ?>
+                    @endforeach
+                    @endif
+                </div>
+
                 <table width="100%" class="table table-bordered table-responsive table-striped">
                     <tr>
                         <td><b>ACCOUNT NAME:</b>
-                        <select name="account_name" class="form-control select2" style="width:100%">
-                            @foreach($accounting_entry as $accounting_entries)
-                            <option  value="{{$accounting_entries->accounting_code}}">{{$accounting_entries->accounting_name}}</option>
-                            @endforeach
-                        </select>
+                            <select name="account_name" class="form-control select2" style="width:100%">
+                                @foreach($accounting_entry as $accounting_entries)
+                                <option  value="{{$accounting_entries->accounting_code}}" @if($accounting_entries->accounting_code==$check_amount->accounting_code) selected @endif  >{{$accounting_entries->accounting_name}}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td><b>CHECK NUMBER:</b> <input name="check_number" type="text" value="{{$disbursement->check_no}}" class="form-control"></td>
                         <td><b>BANK:</b><input name="bank" type="text" value="{{$disbursement->bank}}" class="form-control"></td>
-                        <td><b>CHECK AMOUNT:</b><input readonly name="check_amount" type="text" value="{{number_format($disbursement->amount,2)}}" class="form-control"></td>
+                        <td>
+                            <div class='col-sm-12'><b>CHECK AMOUNT:</b></div>
+                            <div class='col-sm-8'>
+                                <input readonly name="check_amount" id='check_amount' type="text" value="{{number_format($disbursement->amount,2)}}" class="form-control">
+                            </div>
+                            <div class='col-sm-4'>
+                                <input type='button' id='updateAmount' class='btn btn-danger' value='Update Amount'>
+                            </div>
+                        </td>
                     </tr>
                 </table>
                 <div class="col-sm-12">
@@ -138,20 +151,20 @@ $accounting_entry = \App\ChartOfAccount::get();
                         <button onclick="return confirm('Do you wish to Continue?')" class="btn btn-flat btn-block btn-warning">Update Entries</button>
                     </div>
                 </div>
-               <div class="form-group row">
+                <div class="form-group row">
                     <div class="col-md-6">
                         <a role="button" class="form-control btn-warning btn" href="{{url('/disbursement')}}"><span class="fa fa-arrow-circle-left"></span> <b>Back</b></a>
-                   </div>
-                   <div class="col-md-6">
-                       <a role="button" class="form-control btn-success btn" href="{{url('/print/check_voucher_labels',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check Voucher</b></a>
-                   </div>
+                    </div>
+                    <div class="col-md-6">
+                        <a role="button" class="form-control btn-success btn" href="{{url('/print/check_voucher_labels',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check Voucher</b></a>
+                    </div>
 
-               </div>
-               <div class="form-group row">
-                   <div class="col-md-6">
-                       <a role="button" class="form-control btn-success btn" href="{{url('/accounting/disbursement/print_check_disbursement',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check</b></a>
-                   </div>
-               </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <a role="button" class="form-control btn-success btn" href="{{url('/accounting/disbursement/print_check_disbursement',$disbursement->reference_id)}}" target="_blank"><span class="fa fa-print"></span> <b>Print Check</b></a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -160,100 +173,54 @@ $accounting_entry = \App\ChartOfAccount::get();
 <script src="{{asset('js/select2.min.js')}}"></script>
 <script>
 
-   
+
 </script>
 @stop
 
 @section('footerscript')
 <script>
-    
-    
-$('.select2').select2();
-$(document).ready(function () {
-//    $("#amount").maskMoney();
-});
 
-$("#amount").keypress(function (e) {
-    var ev = e.keyCode || event.which
-    if (ev == 13) {
-        var array = {};
-        array['reference'] = $("#reference").val();
-        array['code'] = $("#accounting_name").val();
-        array['type'] = $("#type").val();
-        array['particular'] = $("#particular").val();
-        array['amount'] = $("#amount").val();
-        $.ajax({
-            type: 'GET',
-            url: '/accounting/ajax/set_entries',
-            data: array,
-            success: function (data) {
-                $('#entries_table').html(data);
-                $('#particular').val("");
-                $('#amount').val("");
-                $('#account_name').select2();
-                $("#amount").maskMoney();
-                $("#check_amount").maskMoney();
-            }
-        });
+    var j = "{{$i-1}}";
 
-        e.preventDefault();
-        return false;
-    }
-});
+    $('.select2').select2();
 
-function removeEntry(id) {
-    var array = {};
-    array['reference'] = $("#reference").val();
-    array['id'] = id;
-    $.ajax({
-        type: 'GET',
-        url: '/accounting/ajax/remove_entries',
-        data: array,
-        success: function (data) {
-            $('#entries_table').html(data);
-            $('#particular').val("");
-            $('#amount').val("");
-        }
+    $('#add').click(function () {
+
+        j++;
+        $('#dynamic_field').append("<div id='row" + j + "' class='form form-group'>\n\
+           <div class='col-md-7'><select name='accounting_codes[]' class='form-control select2' style='width:100%'>@foreach($accounting_entry as $accounting_entries)<option value='{{$accounting_entries->accounting_code}}'>{{$accounting_entries->accounting_name}}</option>@endforeach</select></div>\n\
+           <div class='col-md-2'><input name='debit[]' type='number' class='form-control' value='0.00'></td></div>\n\
+           <div class='col-md-2'><input name='credit[]' type='number' class='form-control' value='0.00'></td></div>\n\
+           <div class='col-md-1'><a href='javascript:void()' name='remove'  id=" + j + " class='btn btn-danger btn_remove btn_remove_row'>X</a></div></div>");
+        computeCheckAmount();
     });
-}
 
-      $("#payee").on("keyup", function(e){
-        var search = $(this).val();
-        var array = {};
-        array["search"] = search;
-        $.ajax({
-            type: "GET",
-            url: "/ajax/accounting/disbursement/search_payee",
-            data: array,
-            success: function(data){
-                $("#display_payee").html(data).fadeIn();
-            }
-        })
-    })    
-    
-    function selectpayee(supplier){
-        var object = JSON.parse(supplier);
+    $('#dynamic_field').on('click', '.btn_remove_row', function () {
+        var button_id = $(this).attr("id");
+        $("#row" + button_id + "").remove();
+        j--;
+        computeCheckAmount();
+    });
+
+
+    $("#updateAmount").on("click", function (e) {
+        debit = document.getElementsByName('debit[]');
+        credit = document.getElementsByName('credit[]');
+        totalDebit = 0;
+        totalCredit = 0;
         
-        $("#display_payee").hide();
-        $("#payee").val(object.supplier_name);
-    }
-    
-    $("#addrow").on("click", function(e){
-        var length = $('#table_accounting tbody').length + 1;
-        
-        $('#table_accounting tbody').append("<tr id='row"+length+"'>\n\
-        <td><select name='accounting_codes[]' class='form-control select2' style='width:100%'>@foreach($accounting_entry as $accounting_entries)<option value='{{$accounting_entries->accounting_code}}'>{{$accounting_entries->accounting_name}}</option>@endforeach</select></td>\n\
-        <td><input name='particulars[]' type='text' value='{{$accounting->particular}}' class='form-control'></td>\n\
-        <td><input name='debit[]' type='number' class='form-control' value='{{$accounting->debit}}'></td>\n\
-        <td><input name='credit[]' type='number' class='form-control' value='{{$accounting->credit}}'></td>\n\
-        <td><a id='"+length+"' onclick='removerow(this)' class='btn btn-danger btn-sm'><i class='fa fa-close'></i></a></td></tr>");
+        for (var i = 0; i < debit.length; i++) {
+            var a = debit[i];
+            totalDebit += parseFloat(a.value);
+        }
             
-        $(".select2").select2();    
-        e.preventDefault();
+        for (var j = 0; j < credit.length; j++) {
+            var b = credit[j];
+            totalCredit += parseFloat(b.value);
+        }
+        
+        total = parseFloat(totalDebit) - parseFloat(totalCredit);
+        $("#check_amount").val(total.toFixed(2));
     })
-    
-    function removerow(object){
-        $("#row"+object.id).remove();
-    }
 </script>
 @stop
