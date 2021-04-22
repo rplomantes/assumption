@@ -7,6 +7,9 @@
         <tr><td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}}</td>
             <td>
                 @switch ($list->accesslevel)
+                @case (1)
+                    College Instructor
+                @break
                 @case (10)
                     Dean
                 @break
@@ -49,7 +52,7 @@
                 @case (61)
                     Admission BED
                 @break
-                @case (61)
+                @case (62)
                     Admission SHS
                 @break
                 @case (70)
