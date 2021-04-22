@@ -36,7 +36,7 @@ class GetStudentList2 extends Controller {
 
     function view_list() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED')) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED') || Auth::user()->accesslevel == env("EDUTECH")) {
                 $schoolyear = Input::get('school_year');
                 $level = Input::get('level');
                 $section = Input::get('section');
@@ -357,7 +357,7 @@ class GetStudentList2 extends Controller {
 
     function view_withdrawn() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("REG_BE")) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
                 $schoolyear = Input::get('school_year');
                 $period = Input::get('period');
                 $department = Input::get('department');
@@ -380,7 +380,7 @@ class GetStudentList2 extends Controller {
         }
     }
     function print_withdrawn_list($department, $schoolyear, $period) {
-            if (Auth::user()->accesslevel == env("REG_BE")) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
                 
                 if ($department == "Senior High School") {
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "
@@ -401,7 +401,7 @@ class GetStudentList2 extends Controller {
             }
     }
     function export_withdrawn_list($department, $schoolyear, $period) {
-            if (Auth::user()->accesslevel == env("REG_BE")) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
                 
                 if ($department == "Senior High School") {
                         $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section, bed_levels.level  from "

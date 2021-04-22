@@ -8,6 +8,8 @@
         $layout = "layouts.appaccountinghead";    
     }else if (Auth::user()->accesslevel==env("GUIDANCE_BED")){
         $layout = "layouts.appguidance_bed";    
+    }else if (Auth::user()->accesslevel==env("EDUTECH")){
+        $layout = "layouts.appedutech";    
     }
 ?>
 <?php

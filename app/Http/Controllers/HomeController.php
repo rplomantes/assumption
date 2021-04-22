@@ -52,6 +52,12 @@ class HomeController extends Controller {
             case 21:
                 return view('reg_be.index', compact('school_year'));
                 break;
+            case 22:
+                return view('osa.index', compact('school_year'));
+                break;
+            case 23:
+                return view('edutech.index', compact('school_year'));
+                break;
             case 30:
                 return view('accounting.index');
                 break;

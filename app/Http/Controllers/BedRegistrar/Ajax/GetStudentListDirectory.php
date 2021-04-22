@@ -332,7 +332,7 @@ class GetStudentListDirectory extends Controller {
 
     function view_not_yet_enrolled() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("REG_BE")) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
                 $school_year = Input::get('school_year');
                 $period = Input::get('period');
                 $department = Input::get('department');
@@ -348,7 +348,7 @@ class GetStudentListDirectory extends Controller {
     }
 
     function print_not_yet_enrolled($department, $school_year, $period) {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
 
             if ($department == "Senior High School") {
                 $status = \App\Status::where('school_year', $school_year)->where('period', $period)->where('status', 0)->where('academic_type', 'SHS')->orderBy('level','asc')->orderBy('strand','asc')->orderBy('section','asc')->get();

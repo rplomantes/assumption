@@ -1,7 +1,9 @@
 <?php
-if (Auth::user()->accesslevel == env('REG_BE')) {
+if(Auth::user()->accesslevel == env('REG_BE')){
     $layout = "layouts.appbedregistrar";
-} else {
+}else if (Auth::user()->accesslevel==env("EDUTECH")){
+    $layout = "layouts.appedutech";    
+}else{
     $layout = "layouts.appadmission-bed";
 }
 ?>

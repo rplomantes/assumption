@@ -1,4 +1,12 @@
-@extends('layouts.appbedregistrar')
+<?php
+    if(Auth::user()->accesslevel == env('OSA')){
+    $layout = "layouts.apposa";
+    } else {
+    $layout = "layouts.appbedregistrar";
+    }
+?>
+
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->

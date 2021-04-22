@@ -280,28 +280,28 @@ class Registration extends Controller {
     }
 
     function student_list() {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED') || Auth::user()->accesslevel == env("ADMISSION_SHS")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED') || Auth::user()->accesslevel == env("ADMISSION_SHS") || Auth::user()->accesslevel == env("EDUTECH")) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();
             return view("reg_be.student_list", compact('students'));
         }
     }
 
     function withdrawn_students() {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("WITHDRAWN"))->get();
             return view("reg_be.withdrawn_students", compact('students'));
         }
     }
 
     function assessed_students() {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
             $students = \App\Status::whereRaw("(academic_type = 'BED' or academic_type = 'SHS')")->where('status', env("ASSESSED"))->orderBy('level')->orderBy('strand')->get();
             return view("reg_be.assessed_students", compact('students'));
         }
     }
 
     function not_yet_enrolled() {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("EDUTECH")) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ASSESSED"))->orderBy('level')->orderBy('strand')->get();
             return view("reg_be.not_yet_enrolled", compact('students'));
         }
