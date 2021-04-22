@@ -25,7 +25,7 @@
                 @case (22)
                     OSA
                 @break
-                @case (21)
+                @case (23)
                     EduTech
                 @break
                 @case (30)
