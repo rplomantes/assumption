@@ -141,7 +141,6 @@ function getPromotion($level) {
         
         @if(count($get_subjects)>0)
             @foreach($get_subjects as $subject)
-            <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
 <!--1st Quarter-->
@@ -180,19 +179,12 @@ function getPromotion($level) {
                 @else
                 <td></td>
                 @endif
-
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
-                @endif
             </tr>
             @endforeach
         @endif
         
             @if(count($get_pe_1st)>0)
             @foreach($get_pe_1st as $subject)
-                <?php $pe_average = ($subject->first_grading+$subject->second_grading)/2; ?>
-            <?php $total_units += $subject->units; ?>
-            
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <!--first grading-->
@@ -232,17 +224,12 @@ function getPromotion($level) {
                 @else
                 <td></td>
                 @endif
-
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->first_grading+$subject->second_grading; ?>
-                @endif
             </tr>
             @endforeach
             @endif
         
         @if(count($get_sa)>0)
             @foreach($get_sa as $subject)
-            <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">
@@ -258,17 +245,12 @@ function getPromotion($level) {
         
         @if(count($get_conduct)>0)
             @foreach($get_conduct as $subject)
-            <?php $total_units += $subject->units; ?>
             <tr>
                 <td>{{$subject->display_subject_code}}</td>
                 <td align="center">{{$subject->first_grading_letter}}</td>
                 <td align="center" style="font:10pt"></td>
                 <td align="center" style="font:10pt">{{$subject->final_grade_letter}}</td>
                 <td align="center" style="font:10pt">Pass</td>
-
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->final_grade; ?>
-                @endif
             </tr>
             @endforeach
         @endif
@@ -279,7 +261,7 @@ function getPromotion($level) {
 
     <tr>
         <td align="right" style = "font:bold" colspan="3">General Average for the First Semester:</td>
-        <td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS",$school_year)}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td align="center"><strong>@if($get_first_sem_final_ave){{$get_first_sem_final_ave->final_letter_grade}}({{$get_first_sem_final_ave->final_grade}})@endif</strong></td>
     </tr>
 </table>
 <div style="position:absolute; top:620px; bottom:0; left:0; right:0;">

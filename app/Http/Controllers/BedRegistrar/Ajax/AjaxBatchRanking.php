@@ -16,78 +16,46 @@ class AjaxBatchRanking extends Controller {
             $school_year = Input::get("school_year");
             $level = Input::get("level");
             $strand = Input::get("strand");
-            if ($level == "Grade 11" or $level == "Grade 12") {
-                $period = "2nd Semester";
-                if($strand=="All"){                    
-                    $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
-                }else{
-                    $list = \App\BedLevel::where('strand',$strand)->where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
-                }
-            } else {
-                $period = "";
-                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->get();
-            }
-            $lists = collect();
-            foreach ($list as $lists2) {
-                $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2));
-            }
-            $lists3 = $lists->sortByDesc('gpa');
+
+            $lists3 = $this->getStudentCompute($school_year, $level, $strand);
+
             return view('reg_be.ajax.get_batch_students', compact('lists3', 'school_year'));
         }
     }
-    function get_students_excel($level,$strand,$school_year) {
-//        if (Request::ajax()) {
-//            $school_year = Input::get("school_year");
-//            $level = Input::get("level");
-//            $strand = Input::get("strand");
-            if ($level == "Grade 11" or $level == "Grade 12") {
-                $period = "2nd Semester";
-                if($strand=="All"){                    
-                    $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
-                }else{
-                    $list = \App\BedLevel::where('strand',$strand)->where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
-                }
-            } else {
-                $period = "";
-                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->get();
-            }
-            $lists = collect();
-            foreach ($list as $lists2) {
-                $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2));
-            }
-            $lists3 = $lists->sortByDesc('gpa');
-            
-            ob_end_clean();
-            Excel::create('batch_ranking-' . $level . '-SY: ' . $school_year, function($excel) use ($lists3, $level, $strand, $school_year) {
-                $excel->setTitle($level . "-SY: " . $school_year);
 
-                $excel->sheet($level . "-" . $school_year, function ($sheet) use ($lists3, $level, $strand, $school_year) {
-                    $sheet->loadView('reg_be.ajax.get_batch_students_export', compact('lists3', 'level', 'strand', 'school_year'));
-                });
-            })->download('xlsx');
-//            return view('reg_be.ajax.get_batch_students', compact('lists3', 'school_year'));
-//        }
+    function get_students_excel($level, $strand, $school_year) {
+
+        $lists3 = $this->getStudentCompute($school_year, $level, $strand);
+
+        ob_end_clean();
+        Excel::create('batch_ranking-' . $level . '-SY: ' . $school_year, function($excel) use ($lists3, $level, $strand, $school_year) {
+            $excel->setTitle($level . "-SY: " . $school_year);
+
+            $excel->sheet($level . "-" . $school_year, function ($sheet) use ($lists3, $level, $strand, $school_year) {
+                $sheet->loadView('reg_be.ajax.get_batch_students_export', compact('lists3', 'level', 'strand', 'school_year'));
+            });
+        })->download('xlsx');
     }
+    
+    function getStudentCompute($school_year, $level, $strand) {
 
-//    function get_students2($school_year, $level) {
-//
-//        if ($level == "Grade 11" or $level == "Grade 12") {
-//            $period = "2nd Semester";
-//            $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('period', $period)->get();
-//        } else {
-//            $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->get();
-//        }
-//
-//        $lists = collect();
-//        foreach ($list as $lists2) {
-//            $lists->push($this->getLists($lists2->idno));
-//        }
-//        $lists3 = $lists->sortBy('gpa');
-//
-//        $pdf = PDF::loadView('reg_college.graduates.print_batch_students', compact('lists3', 'date_of_grad'));
-//        $pdf->setPaper('letter', 'portrait');
-//        return $pdf->stream("batch_ranking.pdf");
-//    }
+        if ($level == "Grade 11" or $level == "Grade 12") {
+            $period = "2nd Semester";
+            if ($strand == "All") {
+                $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
+            } else {
+                $list = \App\BedLevel::where('strand', $strand)->where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
+            }
+        } else {
+            $period = "";
+            $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->get();
+        }
+        $lists = collect();
+        foreach ($list as $lists2) {
+            $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2));
+        }
+        return $lists3 = $lists->sortByDesc('gpa');
+    }
 
     function getLists($idno, $school_year, $period, $level, $lists2) {
         $user = \App\User::where('idno', $idno)->first();
@@ -105,6 +73,18 @@ class AjaxBatchRanking extends Controller {
         }
 
         return $array2;
+    }
+
+    function get_gpa_shs($idno, $school_year, $period) {
+        if ($school_year == "2019") {
+            $get_first_sem_final_ave = \App\ShsOldAveGrade::where('idno', $idno)->first();
+            $get_second_sem_final_ave = \App\Http\Controllers\BedRegistrar\ReportCardController::getSHS2ndAve($idno, $school_year);
+        } else {
+            $get_first_sem_final_ave = \App\Http\Controllers\BedRegistrar\ReportCardController::getSHS1stAve($idno, $school_year);
+            $get_second_sem_final_ave = \App\Http\Controllers\BedRegistrar\ReportCardController::getSHS2ndAve($idno, $school_year);
+        }
+
+        return round(($get_first_sem_final_ave->final_grade + $get_second_sem_final_ave->final_grade) / 2, 3);
     }
 
     function get_gpa_bed($idno, $school_year, $period) {
@@ -181,75 +161,10 @@ class AjaxBatchRanking extends Controller {
                     $total_final_grade += $subject->final_grade;
                 }
             }
-        }if($total_units == 0){
+        }if ($total_units == 0) {
             return 0;
-        }else{
+        } else {
             return round($total_final_grade / $total_units, 3);
-        }
-    }
-
-    function get_gpa_shs($idno, $school_year, $period) {
-        $get_first_sem_final_ave = \App\ShsOldAveGrade::where('idno', $idno)->first();
-        $get_subjects_heads = \App\GradeBasicEd::distinct()->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->orderBy('report_card_grouping', 'desc')->get(['report_card_grouping']);
-
-        $total_units = 0;
-        $total_final_grade = 0;
-        if (count($get_subjects_heads) > 0) {
-            foreach ($get_subjects_heads as $subject_heads) {
-                $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'not like', "%Student Activit%")->where('subject_code', 'not like', "%PEH%")->where('is_alpha', 0)->where('is_display_card', 1)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get();
-                $get_pe_2nd = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "2nd Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha', 0)->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
-                $get_pe_1st = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "1st Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha', 0)->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->first();
-                $get_sa = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'like', "%Student Activit%")->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
-                $get_conduct = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('is_alpha', 1)->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
-
-                if (count($get_subjects) > 0) {
-                    foreach ($get_subjects as $subject) {
-                        $total_units += $subject->units;
-                        if ($subject->units > 0) {
-                            $total_final_grade += $subject->final_grade;
-                        }
-                    }
-                }
-
-                if (count($get_pe_2nd) > 0) {
-                    foreach ($get_pe_2nd as $subject) {
-                        if (count($get_pe_1st) > 0) {
-                            $pe_average = ($subject->third_grading + $get_pe_1st->first_grading + $get_pe_1st->second_grading) / 3;
-                        } else {
-                            $pe_average = ($subject->first_grading + $subject->second_grading + $subject->third_grading) / 3;
-                        }
-                        $total_units += $subject->units;
-                        if ($subject->units > 0) {
-                            $total_final_grade += $pe_average;
-                        }
-                    }
-                }
-
-
-                if (count($get_sa) > 0) {
-                    foreach ($get_sa as $subject) {
-                        $total_units += $subject->units;
-                        if ($subject->units > 0) {
-                            $total_final_grade += $subject->final_grade;
-                        }
-                    }
-                }
-
-                if (count($get_conduct) > 0) {
-                    foreach ($get_conduct as $subject) {
-                        $total_units += $subject->units;
-
-                        if ($subject->units > 0) {
-                            $total_final_grade += $subject->final_grade;
-                        }
-                    }
-                }
-            }
-        }
-        if($total_units == 0){
-            return 0;
-        }else{
-            return round(($get_first_sem_final_ave->final_grade + round($total_final_grade / $total_units, 3)) / 2, 3);
         }
     }
 

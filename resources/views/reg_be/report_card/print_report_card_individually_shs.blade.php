@@ -37,9 +37,9 @@ function getFinalRating($grade, $letter_grade_type) {
 }
 
 //get letter grade transmutation
-function getLetterGrade($grade, $letter_grade_type,$school_year) {
+function getLetterGrade($grade, $letter_grade_type, $school_year) {
     $round = round($grade);
-    $final_letter_grade = \App\CtrTransmuLetterArchive::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->where('school_year',$school_year)->first();
+    $final_letter_grade = \App\CtrTransmuLetterArchive::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->where('school_year', $school_year)->first();
     $letter = $final_letter_grade['letter_grade'];
     return "$letter";
 }
@@ -92,9 +92,9 @@ function getPromotion($level) {
 }
 ?>
 
-        <div  style="position:absolute; top:125px; bottom:0; left:20px; right:0;">
-            <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
-        </div>
+<div  style="position:absolute; top:125px; bottom:0; left:20px; right:0;">
+    <img style="opacity: 0.2" width="400px" src="{{public_path('/images/assumption-logo.png')}}">
+</div>
 <table width="50%" cellpadding="0" cellspacing="0">
     <tr>
         <td>Name</td><td colspan="5" style="border-bottom: 1px solid black">{{$user->getFullNameAttribute()}}</td>
@@ -128,134 +128,109 @@ function getPromotion($level) {
 
     @if(count($get_subjects_heads)>0)
     @foreach($get_subjects_heads as $subject_heads)
-        <tr>
-            <td colspan="5" style="background: darkblue; border:1px solid black; color: white; font:bold">{{$subject_heads->report_card_grouping}}</td>
-        </tr>
-        <?php $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'not like', "%Student Activit%")->where('subject_code', 'not like', "%PEH%")->where('is_alpha',0)->where('is_display_card',1)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
-        <?php $get_pe_2nd = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "2nd Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
-        <?php $get_pe_1st = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "1st Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha',0)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->first(); ?>
-        <?php $get_sa = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'like', "%Student Activit%")->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
-        <?php $get_conduct = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('is_alpha',1)->orderBy('report_card_grouping', 'desc')->where('is_display_card',1)->orderBy('sort_to', 'asc')->get(); ?>
-        
-        @if(count($get_subjects)>0)
-            @foreach($get_subjects as $subject)
-            <?php $total_units += $subject->units; ?>
-            <tr>
-                <td>{{$subject->display_subject_code}}</td>
-                <td align="center">
-                    @if($subject->is_alpha == 0)
-                        @if($display_type == 0)
-                        {{$subject->third_remarks}}
-                        @elseif($display_type == 1)
-                        {{$subject->third_remarks}}({{$subject->third_grading}})
-                        @endif
-                    @else
-                    {{$subject->third_grading_letter}}
-                    @endif
-                </td>
-                
-                @if($idno == "1920262")
-                <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
-                @if($subject->fourth_remarks=="Fail")
-                <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt"></td>
-                @else
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                @endif
-                @else
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                @endif
+    <tr>
+        <td colspan="5" style="background: darkblue; border:1px solid black; color: white; font:bold">{{$subject_heads->report_card_grouping}}</td>
+    </tr>
+    <?php $get_subjects = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'not like', "%Student Activit%")->where('subject_code', 'not like', "%PEH%")->where('is_alpha', 0)->where('is_display_card', 1)->orderBy('report_card_grouping', 'desc')->orderBy('sort_to', 'asc')->get(); ?>
+    <?php $get_pe_2nd = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "2nd Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha', 0)->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get(); ?>
+    <?php $get_pe_1st = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', "1st Semester")->where('subject_code', 'like', "%PEH%")->where('is_alpha', 0)->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->first(); ?>
+    <?php $get_sa = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('subject_name', 'like', "%Student Activit%")->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get(); ?>
+    <?php $get_conduct = \App\GradeBasicEd::where('report_card_grouping', $subject_heads->report_card_grouping)->where('idno', $idno)->where('school_year', $school_year)->where('period', $period)->where('is_alpha', 1)->orderBy('report_card_grouping', 'desc')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get(); ?>
 
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->final_grade; ?>
-                @endif
-            </tr>
-            @endforeach
-        @endif
-        
-        @if(count($get_pe_2nd)>0)
-            @foreach($get_pe_2nd as $subject)
-            @if(count($get_pe_1st)>0)
-                <?php $pe_average = ($subject->third_grading+$get_pe_1st->first_grading+$get_pe_1st->second_grading)/3; ?>
-            @else
-                <?php $pe_average = ($subject->first_grading+$subject->second_grading+$subject->third_grading)/3; ?>
+    @if(count($get_subjects)>0)
+    @foreach($get_subjects as $subject)
+    <tr>
+        <td>{{$subject->display_subject_code}}</td>
+        <td align="center">
+            @if($subject->is_alpha == 0)
+            @if($display_type == 0)
+            {{$subject->third_remarks}}
+            @elseif($display_type == 1)
+            {{$subject->third_remarks}}({{$subject->third_grading}})
             @endif
-            <?php $total_units += $subject->units; ?>
-            <tr>
-                <td>{{$subject->display_subject_code}}</td>
-                <td align="center">@if($subject->is_alpha == 0)
-                        @if($display_type == 0)
-                        {{$subject->third_remarks}}
-                        @elseif($display_type == 1)
-                        {{$subject->third_remarks}}({{$subject->third_grading}})
-                        @endif
-                    @else
-                    {{$subject->third_grading_letter}}
-                    @endif
-                </td>
-                
-                @if($idno == "1920262")
-                <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
-                @if($subject->fourth_remarks=="Fail")
-                <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt"></td>
-                @else
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                @endif
-                @else
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                <td align="center" style="font:10pt">Pass</td>
-                @endif
+            @else
+            {{$subject->third_grading_letter}}
+            @endif
+        </td>
 
-                @if($subject->units>0)
-                <?php $total_final_grade += $pe_average; ?>
-                @endif
-            </tr>
-            @endforeach
+        @if($idno == "1920262")
+        <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
+        @if($subject->fourth_remarks=="Fail")
+        <td align="center" style="font:10pt"></td>
+        <td align="center" style="font:10pt"></td>
+        @else
+        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt">Pass</td>
         @endif
-        
-        
-        @if(count($get_sa)>0)
-            @foreach($get_sa as $subject)
-            <?php $total_units += $subject->units; ?>
-            <tr>
-                <td>{{$subject->display_subject_code}}</td>
-                <td align="center">
-                    {{$subject->third_remarks}}                
-                </td>
-                <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt">{{$subject->final_remarks}}</td>
-                <td align="center" style="font:10pt">Pass</td>
+        @else
+        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt">Pass</td>
+        @endif
+    </tr>
+    @endforeach
+    @endif
 
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->final_grade; ?>
-                @endif
-            </tr>
-            @endforeach
-        @endif
-        
-        @if(count($get_conduct)>0)
-            @foreach($get_conduct as $subject)
-            <?php $total_units += $subject->units; ?>
-            <tr>
-                <td>{{$subject->display_subject_code}}</td>
-                <td align="center">{{$subject->third_grading_letter}}</td>
-                <td align="center" style="font:10pt"></td>
-                <td align="center" style="font:10pt">{{$subject->final_grade_letter}}</td>
-                <td align="center" style="font:10pt">Pass</td>
+    @if(count($get_pe_2nd)>0)
+    @foreach($get_pe_2nd as $subject)
+    <tr>
+        <td>{{$subject->display_subject_code}}</td>
+        <td align="center">@if($subject->is_alpha == 0)
+            @if($display_type == 0)
+            {{$subject->third_remarks}}
+            @elseif($display_type == 1)
+            {{$subject->third_remarks}}({{$subject->third_grading}})
+            @endif
+            @else
+            {{$subject->third_grading_letter}}
+            @endif
+        </td>
 
-                @if($subject->units>0)
-                <?php $total_final_grade += $subject->final_grade; ?>
-                @endif
-            </tr>
-            @endforeach
+        @if($idno == "1920262")
+        <td align="center" style="font:10pt">{{$subject->fourth_remarks}}</td>
+        @if($subject->fourth_remarks=="Fail")
+        <td align="center" style="font:10pt"></td>
+        <td align="center" style="font:10pt"></td>
+        @else
+        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt">Pass</td>
         @endif
-        
+        @else
+        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt">Pass</td>
+        <td align="center" style="font:10pt">Pass</td>
+        @endif
+    </tr>
+    @endforeach
+    @endif
+
+
+    @if(count($get_sa)>0)
+    @foreach($get_sa as $subject)
+    <tr>
+        <td>{{$subject->display_subject_code}}</td>
+        <td align="center">
+            {{$subject->third_remarks}}                
+        </td>
+        <td align="center" style="font:10pt"></td>
+        <td align="center" style="font:10pt">{{$subject->final_remarks}}</td>
+        <td align="center" style="font:10pt">Pass</td>
+    </tr>
+    @endforeach
+    @endif
+
+    @if(count($get_conduct)>0)
+    @foreach($get_conduct as $subject)
+    <tr>
+        <td>{{$subject->display_subject_code}}</td>
+        <td align="center">{{$subject->third_grading_letter}}</td>
+        <td align="center" style="font:10pt"></td>
+        <td align="center" style="font:10pt">{{$subject->final_grade_letter}}</td>
+        <td align="center" style="font:10pt">Pass</td>
+    </tr>
+    @endforeach
+    @endif
+
     @endforeach
     @endif
 
@@ -264,25 +239,24 @@ function getPromotion($level) {
         <td align="right" style = "font:bold" colspan="3">General Average for the First Semester:</td><td align="center" colspan="2"><strong>@if($get_first_sem_final_ave){{$get_first_sem_final_ave->final_letter_grade}}({{$get_first_sem_final_ave->final_grade}})@endif</strong></td>
     </tr>
     <tr>
-        <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"SHS",$school_year)}}({{round($total_final_grade/$total_units,3)}})</strong></td>
-        <!--<td align="right" style = "font:bold" colspan="3">General Average for the Second Semester:</td><td align="center" colspan="2"><strong>{{round($total_final_grade,3)}}/{{$total_units}}</strong></td>-->
+        <td align="right" style = "font:bold" colspan="3">Second Semester MidTerm Grade Average:</td><td align="center" colspan="2"><strong>@if($get_second_sem_final_ave){{$get_second_sem_final_ave->final_letter_grade}}({{$get_second_sem_final_ave->final_grade}})@endif</strong></td>
     </tr>
     <tr>
         <td align="right" style = "font:bold" colspan="3">General Average for the Whole School Year:</td><td align="center" colspan="2"><strong>
                 @if($get_first_sem_final_ave)
-                {{getLetterGrade(round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3),'SHS',$school_year)}}({{round(($get_first_sem_final_ave->final_grade+round($total_final_grade/$total_units,3))/2,3)}})
-            @else
-            {{getLetterGrade(round($total_final_grade/$total_units,3),'SHS',$school_year)}}({{round($total_final_grade/$total_units,3)}})
-            @endif</strong></td>
+                {{getLetterGrade(round(($get_first_sem_final_ave->final_grade+$get_second_sem_final_ave->final_grade)/2,3),'SHS',$school_year)}}({{round(($get_first_sem_final_ave->final_grade+$get_second_sem_final_ave->final_grade)/2,3)}})
+                @else
+                {{getLetterGrade(round($get_second_sem_final_ave->final_grade,3),'SHS',$school_year)}}({{round($get_second_sem_final_ave->final_grade,3)}})
+                @endif</strong></td>
     </tr>
 </table>
 <div style="position:absolute; top:580px; bottom:0; left:0; right:0;">
     <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr><td colspan="7" align="center"><span style="font-style: italic !important">
-                "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
-                the grades for the second half of the second semester / 4th quarter are Pass or Fail
-                and there is only one Conduct grade <br> for the 1st and 2nd Semesters."
-            </span></td></tr>
+                    "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
+                    the grades for the second half of the second semester / 4th quarter are Pass or Fail
+                    and there is only one Conduct grade <br> for the 1st and 2nd Semesters."
+                </span></td></tr>
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
             <td align="center" rowspan="2">Jan</td>
@@ -291,7 +265,7 @@ function getPromotion($level) {
             <td align="center" rowspan="2">Apr</td>
             <td align="center" rowspan="2">May</td>
             <td align="center" style="font:7pt !important;" width="16%">Days of School</td>            
-<?php $school_days = \App\CtrSchoolDay::where('academic_type','SHS')->where('school_year',$school_year)->where('period',$period)->value('school_days'); ?>
+            <?php $school_days = \App\CtrSchoolDay::where('academic_type', 'SHS')->where('school_year', $school_year)->where('period', $period)->value('school_days'); ?>
         </tr>
         <tr>
             <td align="center">{{$school_days}}</td>
@@ -329,7 +303,7 @@ function getPromotion($level) {
 </div>
 
 <div style="position:absolute; top:140px; bottom:0; left:580px; right:0;">
-<strong>Conduct & Student Activities</strong>
+    <strong>Conduct & Student Activities</strong>
     <table style=" font:11pt !important;">
         <tr class="legend"><td>O</td><td>-</td><td>Outstanding</td></tr>
         <tr class="legend"><td>HS</td><td>-</td><td>Highly Satisfactory</td></tr>
@@ -348,7 +322,7 @@ function getPromotion($level) {
     <br>
     <img style="display: block;max-width:200px;max-height:95px;width: auto;height: auto; " src="{{public_path('/images/SMV-Signature.png')}}">    
     <br>
-    
+
 </div>
 <div style="position:absolute; top:420px; bottom:0; left:480px; right:0; font:11pt; text-align: justify">
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
