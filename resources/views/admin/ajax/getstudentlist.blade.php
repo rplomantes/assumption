@@ -22,6 +22,12 @@
                 @case (21)
                     Registrar BED
                 @break
+                @case (22)
+                    OSA
+                @break
+                @case (21)
+                    EduTech
+                @break
                 @case (30)
                     Accounting Head
                 @break
