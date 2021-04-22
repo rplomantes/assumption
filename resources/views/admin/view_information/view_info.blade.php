@@ -99,6 +99,8 @@
                         <option value="12" @if ($user->accesslevel == 12) selected='' @endif>MSBMW</option>
                         <option value="20" @if ($user->accesslevel == 20) selected='' @endif>Registrar College</option>
                         <option value="21" @if ($user->accesslevel == 21) selected='' @endif>Registrar Basic Education</option>
+                        <option value="21" @if ($user->accesslevel == 22) selected='' @endif>Office of Student Affairs</option>
+                        <option value="21" @if ($user->accesslevel == 23) selected='' @endif>EduTech</option>
                         <option value="30" @if ($user->accesslevel == 30) selected='' @endif>Accounting Head</option>
                         <option value="31" @if ($user->accesslevel == 31) selected='' @endif>Accounting Staff</option>
                         <option value="40" @if ($user->accesslevel == 40) selected='' @endif>Cashier</option>
