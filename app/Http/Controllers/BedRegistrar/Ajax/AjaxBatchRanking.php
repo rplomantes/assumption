@@ -88,84 +88,23 @@ class AjaxBatchRanking extends Controller {
     }
 
     function get_gpa_bed($idno, $school_year, $period) {
-
+        
         $get_regular_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->where('is_alpha', 0)->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
-        $get_regular_alpha_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->where('is_alpha', 1)->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
+        $get_regular_alpha_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->whereRaw('is_alpha between 1 and 2 ')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
         $get_group_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 1)->orderBy('sort_to', 'asc')->where('is_display_card', 1)->get();
         $get_split_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 2)->where('subject_code', 'not like', "SA%")->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
+        $group_split_subjects = \App\GradeBasicEd::distinct()->where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 2)->where('subject_code', 'not like', "SA%")->where('is_display_card', 1)->get(['group_code']);
         $get_sa_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 2)->where('subject_code', 'like', "SA%")->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
 
-        $get_grouping_subjects = \App\GradeBasicEd::SelectRaw('letter_grade_type,report_card_grouping as subject_name')->where('is_display_card', 1)->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', "!=", "")->groupBy('report_card_grouping', 'letter_grade_type')->get();
-
-        $total_units = 0;
-        $total_final_grade = 0;
-        if (count($get_regular_subjects) > 0) {
-            foreach ($get_regular_subjects as $subject) {
-                $total_units += $subject->units;
-                if ($subject->units > 0) {
-                    $total_final_grade += $subject->final_grade;
-                }
-            }
-        }
-
-        if (count($get_group_subjects) > 0) {
-            foreach ($get_group_subjects as $subject) {
-                $total_units += $subject->units;
-                if ($subject->units > 0) {
-                    $total_final_grade += $subject->final_grade;
-                }
-            }
-        }
-
-        if (count($get_split_subjects) > 0) {
-            foreach ($get_split_subjects as $subject) {
-                $total_units += $subject->units;
-                if ($subject->units > 0) {
-                    $total_final_grade += $subject->final_grade;
-                }
-            }
-        }
-
-        if (count($get_grouping_subjects) > 0) {
-            $grade1 = 0;
-            $grade2 = 0;
-            $grade3 = 0;
-            foreach ($get_grouping_subjects as $subject) {
-                $total_units += $this->getUnits($subject, $idno, $school_year);
-                $grade1 = $this->getGrades($subject, $idno, $school_year, '1');
-                $grade2 = $this->getGrades($subject, $idno, $school_year, '2');
-                $grade3 = $this->getGrades($subject, $idno, $school_year, '3');
-                $grade = ($grade1 + $grade2 + $grade3) / 3;
-                if ($total_units > 0) {
-                    $total_final_grade += $grade;
-                }
-            }
-        }
-
-
-
-        if (count($get_sa_subjects) > 0) {
-            foreach ($get_sa_subjects as $subject) {
-                $total_units += $subject->units;
-                if ($subject->units > 0) {
-                    $total_final_grade += $subject->final_grade;
-                }
-            }
-        }
-
-
-        if (count($get_regular_alpha_subjects) > 0) {
-            foreach ($get_regular_alpha_subjects as $subject) {
-                $total_units += $subject->units;
-                if ($subject->units > 0) {
-                    $total_final_grade += $subject->final_grade;
-                }
-            }
-        }if ($total_units == 0) {
-            return 0;
+        $get_grouping_subjects = \App\GradeBasicEd::SelectRaw('letter_grade_type,report_card_grouping as subject_name')->where('is_display_card', 1)->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', "!=", "")->groupBy('report_card_grouping', 'letter_grade_type')->orderBy('subject_name', 'DESC')->get();
+        
+        if ($school_year == "2019") {
+            $get_gpa = \App\Http\Controllers\BedRegistrar\ReportCardController::getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects);
         } else {
-            return round($total_final_grade / $total_units, 3);
+            $get_gpa = \App\Http\Controllers\BedRegistrar\ReportCardController::getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects);
         }
+        
+        return round($get_gpa->final_ave, 3);
     }
 
     function getGrades($subject, $idno, $school_year, $period) {

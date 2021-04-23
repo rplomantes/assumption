@@ -24,6 +24,7 @@ class ReportCardController extends Controller {
         }
     }
 
+//FOR PK
     function narrative_report($idno, $school_year) {
         if (Auth::user()->accesslevel == env('REG_BE')) {
 
@@ -38,6 +39,7 @@ class ReportCardController extends Controller {
         }
     }
 
+//FOR PK
     function indicator_report($idno, $school_year) {
         if (Auth::user()->accesslevel == env('REG_BE')) {
 
@@ -85,13 +87,143 @@ class ReportCardController extends Controller {
         $absents = \App\Absent::where('idno', $idno)->where('school_year', $school_year)->get();
 
         if ($school_year == 2019) {
-            $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_2019', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects', 'display_type'));
+            $get_final_grade = $this->getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects);
+            $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_2019', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects', 'display_type','get_final_grade'));
         } else {
             $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects', 'display_type', 'group_split_subjects'));
         }
 
         $pdf->setPaper(array(0, 0, 720, 576));
         return $pdf->stream("report_card_$idno'_'$school_year.pdf");
+    }
+
+    public static function getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects) {
+        $total_units = 0;
+        $total_final_grade = 0;
+
+        if (count($get_regular_subjects) > 0) {
+            foreach ($get_regular_subjects as $subject) {
+                $total_units += $subject->units;
+
+
+                if ($subject->units > 0) {
+                    $total_final_grade += $subject->final_grade;
+                }
+            }
+        }
+
+        if (count($get_group_subjects) > 0) {
+            foreach ($get_group_subjects as $subject) {
+                $total_units += $subject->units;
+                if ($subject->units > 0) {
+                    $total_final_grade += $subject->final_grade;
+                }
+            }
+        }
+
+        if (count($get_split_subjects) > 0) {
+            foreach ($get_split_subjects as $subject) {
+                $total_units += $subject->units;
+                if ($subject->units > 0) {
+                    $total_final_grade += $subject->final_grade;
+                }
+            }
+        }
+
+        if (count($get_grouping_subjects)) {
+            $grade1 = 0;
+            $grade2 = 0;
+            $grade3 = 0;
+            foreach ($get_grouping_subjects as $subject) {
+                $grade1 = self::getGrades($subject, $idno, $school_year, '1');
+                $grade2 = self::getGrades($subject, $idno, $school_year, '2');
+                $grade3 = self::getGrades($subject, $idno, $school_year, '3');
+
+                $total_units += self::getUnits($subject, $idno, $school_year);
+
+                //special computation
+                if ($idno == 1920295 or $idno == 1920294) {
+                    $grade = ($grade2 + $grade3) / 2;
+                } else {
+                    $grade = ($grade1 + $grade2 + $grade3) / 3;
+                }
+
+                if ($total_units > 0) {
+                    $total_final_grade += $grade;
+                }
+            }
+        }
+
+        if (count($get_sa_subjects) > 0) {
+            foreach ($get_sa_subjects as $subject) {
+                $total_units += $subject->units;
+
+                if ($subject->units > 0) {
+                    $total_final_grade += $subject->final_grade;
+                }
+            }
+        }
+
+        if (count($get_regular_alpha_subjects) > 0) {
+            foreach ($get_regular_alpha_subjects as $subject) {
+                $total_units += $subject->units;
+                if ($subject->units > 0) {
+                    $total_final_grade += $subject->final_grade;
+                }
+            }
+        }
+
+        $get_ave = new \App\GradeBasicEd;
+        if ($total_units == 0) {
+        } else {
+            $get_ave->final_ave = $total_final_grade/$total_units;
+            $get_ave->final_letter_grade = self::getLetterGrade($get_ave->final_ave, 'Regular', $school_year);
+        }
+        return $get_ave;
+    }
+
+    public static function getUnits($subject, $idno, $school_year) {
+        $getsubjects = \App\GradeBasicEd::selectRaw('sum(units) as units')->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', $subject->subject_name)->first();
+
+        return $getsubjects->units;
+    }
+
+    public static function getGrades($subject, $idno, $school_year, $period) {
+        $getsubjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', $subject->subject_name)->get();
+        $final_grade = 0;
+        foreach ($getsubjects as $get) {
+            switch ($period) {
+                case "1":
+                    if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8") {
+                        $final_grade += $get->first_grading * ($get->units);
+                        if ($get->group_code == "EPP5" || $get->group_code == "EPP4" || $get->group_code == "EPP6" || $get->group_code == "TLE7" || $get->group_code == "TLE8" || $get->group_code == "TLE9" || $get->group_code == "TLE10") {
+                            $final_grade = $final_grade + ($get->first_grading * (1 - $get->units));
+                            return $final_grade;
+                        }
+                    } else {
+                        $final_grade += 100 * ($get->units);
+                    }
+                    break;
+                case "2":
+                    if ($get->subject_code != "COMP1" && $get->subject_code != "COMP2" && $get->subject_code != "COMP3" && $get->subject_code != "COMP4" && $get->subject_code != "COMP5" && $get->subject_code != "COMP6" && $get->subject_code != "COMP7" && $get->subject_code != "COMP8") {
+                        $final_grade += $get->second_grading * ($get->units);
+                        if ($get->group_code == "EPP5" || $get->group_code == "EPP4" || $get->group_code == "EPP6" || $get->group_code == "TLE7" || $get->group_code == "TLE8" || $get->group_code == "TLE9" || $get->group_code == "TLE10") {
+                            $final_grade = $final_grade + ($get->second_grading * (1 - $get->units));
+                            return $final_grade;
+                        }
+                    } else {
+                        $final_grade += 100 * ($get->units);
+                    }
+                    break;
+                case "3":
+                    $final_grade += $get->third_grading * ($get->units);
+                    break;
+                case "4":
+                    $final_grade += $get->fourth_grading * ($get->units);
+                    break;
+            }
+        }
+        return $final_grade;
     }
 
     function processSHS($idno, $status, $school_year, $period, $display_type, $user) {
@@ -109,11 +241,11 @@ class ReportCardController extends Controller {
                 $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_shs', compact('idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_first_sem_final_ave', 'get_second_sem_final_ave', 'get_subjects', 'get_subjects_heads', 'period', 'school_year', 'display_type'));
             }
         } else {
-            if($school_year==2019){
+            if ($school_year == 2019) {
                 return "No record found...";
             }
             $get_first_sem_final_ave = $this->getSHS1stAve($idno, $school_year);
-            $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_shs_1st_semester', compact('idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_subjects', 'get_subjects_heads', 'period', 'school_year', 'display_type','get_first_sem_final_ave'));
+            $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_shs_1st_semester', compact('idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_subjects', 'get_subjects_heads', 'period', 'school_year', 'display_type', 'get_first_sem_final_ave'));
         }
 
         $pdf->setPaper(array(0, 0, 720, 576));
@@ -176,10 +308,10 @@ class ReportCardController extends Controller {
         $get_first_sem_final_ave = new \App\ShsOldAveGrade;
         if ($total_units == 0) {
             $get_first_sem_final_ave->final_grade = 0;
-            $get_first_sem_final_ave->final_letter_grade = "not yet done";
+            $get_first_sem_final_ave->final_letter_grade = self::getLetterGrade($get_first_sem_final_ave->final_grade, 'SHS', $school_year);
         } else {
             $get_first_sem_final_ave->final_grade = round($total_final_grade / $total_units, 3);
-            $get_first_sem_final_ave->final_letter_grade = "not yet done";
+            $get_first_sem_final_ave->final_letter_grade = self::getLetterGrade($get_first_sem_final_ave->final_grade, 'SHS', $school_year);
         }
         return $get_first_sem_final_ave;
     }
@@ -247,12 +379,24 @@ class ReportCardController extends Controller {
         $get_second_sem_final_ave = new \App\ShsOldAveGrade;
         if ($total_units == 0) {
             $get_second_sem_final_ave->final_grade = 0;
-            $get_second_sem_final_ave->final_letter_grade = "not yet done";
+            $get_second_sem_final_ave->final_letter_grade = $this->getLetterGrade($get_second_sem_final_ave->final_grade, 'SHS', $school_year);
         } else {
             $get_second_sem_final_ave->final_grade = round($total_final_grade / $total_units, 3);
-            $get_second_sem_final_ave->final_letter_grade = "not yet done";
+            $get_second_sem_final_ave->final_letter_grade = self::getLetterGrade($get_second_sem_final_ave->final_grade, 'SHS', $school_year);
         }
         return $get_second_sem_final_ave;
+    }
+
+    public static function getLetterGrade($grade, $letter_grade_type, $school_year) {
+        $round = round($grade);
+        
+        if($letter_grade_type == "SHS"){
+        $final_letter_grade = \App\CtrTransmuLetterArchive::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->where('school_year', $school_year)->first();
+        }else{
+        $final_letter_grade = \App\CtrTransmuLetter::where('grade', $round)->where('letter_grade_type', $letter_grade_type)->first();
+        }
+        $letter = $final_letter_grade['letter_grade'];
+        return "$letter";
     }
 
 }

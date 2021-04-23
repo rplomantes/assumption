@@ -165,7 +165,6 @@ function getPromotion($level) {
     ?>
     @if(count($get_regular_subjects)>0)
     @foreach($get_regular_subjects as $subject)
-    <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
@@ -190,18 +189,12 @@ function getPromotion($level) {
             <td></td>
             @endif
             @endif
-        
-
-        @if($subject->units>0)
-        <?php $total_final_grade += $subject->final_grade; ?>
-        @endif
     </tr>
     @endforeach
     @endif
 
     @if(count($get_group_subjects)>0)
     @foreach($get_group_subjects as $subject)
-    <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
@@ -221,16 +214,12 @@ function getPromotion($level) {
         <td></td>
         @endif
         @endif
-        @if($subject->units>0)
-        <?php $total_final_grade += $subject->final_grade; ?>
-        @endif
     </tr>
     @endforeach
     @endif
 
     @if(count($get_split_subjects)>0)
     @foreach($get_split_subjects as $subject)
-    <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
@@ -260,10 +249,6 @@ function getPromotion($level) {
             @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
             <td></td>
             @endif
-        @endif
-        
-        @if($subject->units>0)
-        <?php $total_final_grade += $subject->final_grade; ?>
         @endif
     </tr>
     @endforeach
@@ -297,9 +282,6 @@ function getPromotion($level) {
         <td align="center">{{getFinalRating($grade, $subject->letter_grade_type)}}</td>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
         <td align="center">Promoted</td>
-        @endif
-        @if($total_units>0)
-<?php $total_final_grade += $grade; ?>
         @endif
     </tr>
     @if($subject->subject_name != "Technology and Livelihood Education" && $subject->subject_name != "Edukasyong Pantahanan At Pangkabuhayan")
@@ -337,7 +319,6 @@ function getPromotion($level) {
 
     @if(count($get_sa_subjects)>0)
     @foreach($get_sa_subjects as $subject)
-    <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
@@ -368,10 +349,6 @@ function getPromotion($level) {
             <td></td>
             @endif
         @endif
-        
-        @if($subject->units>0)
-        <?php $total_final_grade += $subject->final_grade; ?>
-        @endif
     </tr>
     @endforeach
     @endif
@@ -379,7 +356,6 @@ function getPromotion($level) {
 
     @if(count($get_regular_alpha_subjects)>0)
     @foreach($get_regular_alpha_subjects as $subject)
-<?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
@@ -399,18 +375,15 @@ function getPromotion($level) {
         <td></td>
         @endif
         @endif
-        @if($subject->units>0)
-<?php $total_final_grade += $subject->final_grade; ?>
-        @endif
     </tr>
     @endforeach
     @endif
 
     <tr>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center" colspan="2"><strong>{{$get_final_grade->final_letter_grade}}({{round($get_final_grade->final_ave,3)}})</strong></td>
         @else
-        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}({{round($total_final_grade/$total_units,3)}})</strong></td>
+        <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td><td align="center"><strong>{{$get_final_grade->final_letter_grade}}({{round($get_final_grade->final_ave,3)}})</strong></td>
         @endif
     </tr>
 </table>
