@@ -59,7 +59,35 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
                             <td>{{$student->idno}}</td>
                             <td>{{$student->lastname}}, {{$student->firstname}} {{$student->middlename}} @if($student->is_audit==1)(Audit-Special Learning Needs) @elseif($student->is_audit==2) (Audit-Special Interest) @elseif($student->is_audit==3) (Exchange Student) @endif</td>
                             <td><input class='grade' type="text" value="{{$student->midterm_absences}}" size=3 readonly=""></td>
-                            <td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=3 readonly=""></td>
+                            <td>
+                                @if($student->midterm_status<=2)
+                                <select class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, '{{$student->idno}}')">
+                                    @else
+                                <select disabled="" class="grade" name="midterm[{{$student->id}}]" id="midterm" onchange="change_midterm(this.value, {{$student->id}}, '{{$student->idno}}')">
+                                    @endif
+                                    <option></option>
+                                    <option @if ($student->midterm == "PASSED") selected='' @endif>PASSED</option>
+                                    <option @if ($student->midterm == 1.00) selected='' @endif>1.00</option>
+                                    <option @if ($student->midterm == 1.20) selected='' @endif>1.20</option>
+                                    <option @if ($student->midterm == 1.50) selected='' @endif>1.50</option>
+                                    <option @if ($student->midterm == 1.70) selected='' @endif>1.70</option>
+                                    <option @if ($student->midterm == 2.00) selected='' @endif>2.00</option>
+                                    <option @if ($student->midterm == 2.20) selected='' @endif>2.20</option>
+                                    <option @if ($student->midterm == 2.50) selected='' @endif>2.50</option>
+                                    <option @if ($student->midterm == 2.70) selected='' @endif>2.70</option>
+                                    <option @if ($student->midterm == 3.00) selected='' @endif>3.00</option>
+                                    <option @if ($student->midterm == 3.50) selected='' @endif>3.50</option>
+                                    <option @if ($student->midterm == 4.00) selected='' @endif>4.00</option>
+                                    <option @if ($student->midterm == "FA") selected='' @endif>FA</option>
+                                    <option @if ($student->midterm == "INC") selected='' @endif>INC</option>
+                                    <option @if ($student->midterm == "NA") selected='' @endif>NA</option>
+                                    <option @if ($student->midterm == "NG") selected='' @endif>NG</option>
+                                    <option @if ($student->midterm == "UD") selected='' @endif>UD</option>
+                                    <option @if ($student->midterm == "W") selected='' @endif>W</option>
+                                    <option @if ($student->midterm == "AUDIT") selected='' @endif>AUDIT</option>
+                                </select>
+                            </td>
+                            <!--<td><input class='grade' type="text" name="midterm[{{$student->id}}]" id="midterm" value="{{$student->midterm}}" size=3 readonly=""></td>-->
                             @if(auth::user()->accesslevel == env('DEAN'))
                             <td>
                                 @if($student->midterm_status == 0)
@@ -87,7 +115,35 @@ $checkstatus_finals3 = \App\GradeCollege::whereRaw('('.$raw.')')->join('college_
                             </td>
                             @endif
                             <td><input class='grade' type="text" value="{{$student->finals_absences}}" size=3 readonly=""></td>
-                            <td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=3 readonly=""></td>
+                            <td>
+                                @if($student->finals_status<=2)
+                                <select class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, '{{$student->idno}}')">
+                                    @else
+                                    <select disabled="" class="grade" name="finals[{{$student->id}}]" id="finals" onchange="change_finals(this.value, {{$student->id}}, '{{$student->idno}}')">
+                                        @endif
+                                        <option></option>
+                                        <option @if ($student->finals == "PASSED") selected='' @endif>PASSED</option>
+                                        <option @if ($student->finals == 1.00) selected='' @endif>1.00</option>
+                                        <option @if ($student->finals == 1.20) selected='' @endif>1.20</option>
+                                        <option @if ($student->finals == 1.50) selected='' @endif>1.50</option>
+                                        <option @if ($student->finals == 1.70) selected='' @endif>1.70</option>
+                                        <option @if ($student->finals == 2.00) selected='' @endif>2.00</option>
+                                        <option @if ($student->finals == 2.20) selected='' @endif>2.20</option>
+                                        <option @if ($student->finals == 2.50) selected='' @endif>2.50</option>
+                                        <option @if ($student->finals == 2.70) selected='' @endif>2.70</option>
+                                        <option @if ($student->finals == 3.00) selected='' @endif>3.00</option>
+                                        <option @if ($student->finals == 3.50) selected='' @endif>3.50</option>
+                                        <option @if ($student->finals == 4.00) selected='' @endif>4.00</option>
+                                        <option @if ($student->finals == "FA") selected='' @endif>FA</option>
+                                        <option @if ($student->finals == "INC") selected='' @endif>INC</option>
+                                        <option @if ($student->finals == "NA") selected='' @endif>NA</option>
+                                        <option @if ($student->finals == "NG") selected='' @endif>NG</option>
+                                        <option @if ($student->finals == "UD") selected='' @endif>UD</option>
+                                        <option @if ($student->finals == "W") selected='' @endif>W</option>
+                                        <option @if ($student->finals == "AUDIT") selected='' @endif>AUDIT</option>
+                                    </select>
+                            </td>
+                            <!--<td><input class='grade' type="text" name="finals[{{$student->id}}]" id="finals" value="{{$student->finals}}" size=3 readonly=""></td>-->
                             @if(auth::user()->accesslevel == env('DEAN'))
                             <td>
                                 @if($student->finals_status == 0)
