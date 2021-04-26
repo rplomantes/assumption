@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use DB;
+use Auth;
 
 class AjaxViewGrades extends Controller {
 
@@ -242,6 +243,7 @@ class AjaxViewGrades extends Controller {
                 $update_grades->midterm = $grade;
                 $update_grades->save();
             }
+            \App\Http\Controllers\Admin\Logs::log("Update Midterm Grade(grade id: $grade_id) of $idno by ". Auth::user()->idno);
         }
     }
 
@@ -268,6 +270,7 @@ class AjaxViewGrades extends Controller {
                 $update_grades->finals = $grade;
                 $update_grades->save();
             }
+            \App\Http\Controllers\Admin\Logs::log("Update Final Grade(grade id: $grade_id) of $idno by ". Auth::user()->idno);
         }
     }
 
