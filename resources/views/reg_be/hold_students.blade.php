@@ -52,6 +52,7 @@
         <div class="box">
             <div class="box-header">
                 <div class="box-title">List of Students that are on hold of viewing Grades</div>
+                <a href="{{url('/bedregistrar/hold_students/export')}}"><button class="btn btn-success pull-right">Export</button></a>
             </div>
             <div class="box-body">
                 <table class="table table-condensed">

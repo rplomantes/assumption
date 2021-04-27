@@ -639,6 +639,7 @@ Route::get('/ajax/getpaypaltransactions','Cashier\OnlinePayment@getpaypaltransac
 Route::post('/dean/advising/update_advising_remarks','Dean\Advising\Advising@update_advising_remarks');
 
 Route::get('/bedregistrar/hold_students','BedRegistrar\HoldStudents@view');
+Route::get('/bedregistrar/hold_students/export','BedRegistrar\HoldStudents@export');
 Route::get('/add_hold_grade/{idno}','BedRegistrar\HoldStudents@add');
 Route::get('/remove_hold_grade/{idno}','BedRegistrar\HoldStudents@delete');
 Route::get('/bedregistrar/ajax/getstudentlist_holdgrades','BedRegistrar\Ajax\GetStudentListDirectory@getHoldGrades');
