@@ -53,8 +53,7 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <div class="form form-group">
-                    <div class="strandDisplay">
+                    <div class="form strandDisplay">
                     <label>Strand</label>
                     <select class="form-control select2" id="strand" data-placeholder="Select Strand">       
                              <option>Select Strand</option>
@@ -63,16 +62,25 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
                               <option>{{$level->strand}}</option>
                               @endforeach
                     </select>
-                    </div>    
                     </div>      
                  </div>
+            </div>
+            <div class='form-group'>
                 <div class='col-sm-4'>
                     <label>School Year</label>
-                    <select class="form form-control" name="school_year" id='school_year' onchange="display_batch_ranking(this.value,level.value,strand.value)">
+                    <select class="form form-control" name="school_year" id='school_year' onchange="display_batch_ranking(this.value,level.value,strand.value,selectedPeriod.value)">
                         <option value="">Select School Year</option>
                         @foreach($years as $year)
                         <option>{{$year->school_year}}</option>
                         @endforeach
+                    </select>
+                </div>
+                <div class='col-sm-4 periodDisplay'>
+                    <label>Period</label>
+                    <select class="form form-control" name="selectedPeriod" id='selectedPeriod' onchange="display_batch_ranking(school_year.value,level.value,strand.value,this.value)">
+                        <option value="Whole Year">Whole Year</option>
+                        <option value="1st Semester">1st Semester</option>
+                        <option value="2nd Semester">2nd Semester</option>
                     </select>
                 </div>
             </div>
@@ -93,22 +101,26 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
 <script>
     $(document).ready(function(){
         $(".strandDisplay").fadeOut(300);
+        $(".periodDisplay").fadeOut(300);
         
         $("#level").on('change',function(e){
             if($("#level").val()=="Grade 11" || $("#level").val()=="Grade 12" ){
                $(".strandDisplay").fadeIn(300);
+               $(".periodDisplay").fadeIn(300);
             } else {
                $(".strandDisplay").fadeOut(300);
+               $(".periodDisplay").fadeOut(300);
             }
         });
     });
     
     
-    function display_batch_ranking(year,level,strand){
+    function display_batch_ranking(year,level,strand,period){
         array = {};
         array['school_year'] = year;
         array['level'] = level;
         array['strand'] = strand;
+        array['period'] = period;
         $.ajax({
             type: "GET",
             url: "/ajax/bedregistrar/batch_ranking/get_students",
@@ -119,7 +131,7 @@ $strands = DB::Select("Select distinct strand from ctr_academic_programs where a
         });
     }
     function export_batch_ranking(value){
-        window.open("/bedregistrar/export/batch_ranking/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#school_year").val())
+        window.open("/bedregistrar/export/batch_ranking/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#school_year").val() + "/" + $("#selectedPeriod").val())
     }
 </script>
 @endsection

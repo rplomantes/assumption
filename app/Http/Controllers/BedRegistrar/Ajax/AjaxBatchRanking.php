@@ -16,48 +16,60 @@ class AjaxBatchRanking extends Controller {
             $school_year = Input::get("school_year");
             $level = Input::get("level");
             $strand = Input::get("strand");
+            $selectedPeriod = Input::get("period");
 
-            $lists3 = $this->getStudentCompute($school_year, $level, $strand);
+            $lists3 = $this->getStudentCompute($school_year, $level, $strand, $selectedPeriod);
 
             return view('reg_be.ajax.get_batch_students', compact('lists3', 'school_year'));
         }
     }
 
-    function get_students_excel($level, $strand, $school_year) {
+    function get_students_excel($level, $strand, $school_year,$selectedPeriod) {
 
-        $lists3 = $this->getStudentCompute($school_year, $level, $strand);
+        $lists3 = $this->getStudentCompute($school_year, $level, $strand,$selectedPeriod);
+        
+        if($level == "Grade 11" || $level == "Grade 12"){
+            $desc = $school_year . '-' . $selectedPeriod;
+        }else{
+            $desc = $school_year;
+        }
 
         ob_end_clean();
-        Excel::create('batch_ranking-' . $level . '-SY: ' . $school_year, function($excel) use ($lists3, $level, $strand, $school_year) {
-            $excel->setTitle($level . "-SY: " . $school_year);
+        Excel::create('batch_ranking-' . $level . '-SY: ' . $desc, function($excel) use ($lists3, $level, $strand, $school_year,$desc) {
+            $excel->setTitle($level . "-SY: " . $desc);
 
-            $excel->sheet($level . "-" . $school_year, function ($sheet) use ($lists3, $level, $strand, $school_year) {
+            $excel->sheet($level . "-" . $desc, function ($sheet) use ($lists3, $level, $strand, $school_year) {
                 $sheet->loadView('reg_be.ajax.get_batch_students_export', compact('lists3', 'level', 'strand', 'school_year'));
             });
         })->download('xlsx');
     }
-    
-    function getStudentCompute($school_year, $level, $strand) {
 
+    function getStudentCompute($school_year, $level, $strand, $selectedPeriod) {
         if ($level == "Grade 11" or $level == "Grade 12") {
-            $period = "2nd Semester";
+            if ($selectedPeriod == "1st Semester") {
+                $period = "1st Semester";
+            }else{
+                $period = "2nd Semester";
+            }
+            
             if ($strand == "All") {
                 $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
             } else {
                 $list = \App\BedLevel::where('strand', $strand)->where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->where('period', $period)->get();
             }
+            
         } else {
             $period = "";
             $list = \App\BedLevel::where('level', $level)->where('school_year', $school_year)->where('status', env('ENROLLED'))->get();
         }
         $lists = collect();
         foreach ($list as $lists2) {
-            $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2));
+            $lists->push($this->getLists($lists2->idno, $school_year, $period, $level, $lists2,$selectedPeriod));
         }
         return $lists3 = $lists->sortByDesc('gpa');
     }
 
-    function getLists($idno, $school_year, $period, $level, $lists2) {
+    function getLists($idno, $school_year, $period, $level, $lists2,$selectedPeriod) {
         $user = \App\User::where('idno', $idno)->first();
         $array2 = array();
         $array2['idno'] = $idno;
@@ -67,7 +79,7 @@ class AjaxBatchRanking extends Controller {
         $array2['section'] = $lists2->section;
         $array2['strand'] = $lists2->strand;
         if ($level == "Grade 11" or $level == "Grade 12") {
-            $array2['gpa'] = $this->get_gpa_shs($idno, $school_year, $period);
+            $array2['gpa'] = $this->get_gpa_shs($idno, $school_year, $period,$selectedPeriod);
         } else {
             $array2['gpa'] = $this->get_gpa_bed($idno, $school_year, $period);
         }
@@ -75,7 +87,7 @@ class AjaxBatchRanking extends Controller {
         return $array2;
     }
 
-    function get_gpa_shs($idno, $school_year, $period) {
+    function get_gpa_shs($idno, $school_year, $period, $selectedPeriod) {
         if ($school_year == "2019") {
             $get_first_sem_final_ave = \App\ShsOldAveGrade::where('idno', $idno)->first();
             $get_second_sem_final_ave = \App\Http\Controllers\BedRegistrar\ReportCardController::getSHS2ndAve($idno, $school_year);
@@ -83,12 +95,17 @@ class AjaxBatchRanking extends Controller {
             $get_first_sem_final_ave = \App\Http\Controllers\BedRegistrar\ReportCardController::getSHS1stAve($idno, $school_year);
             $get_second_sem_final_ave = \App\Http\Controllers\BedRegistrar\ReportCardController::getSHS2ndAve($idno, $school_year);
         }
-
-        return round(($get_first_sem_final_ave->final_grade + $get_second_sem_final_ave->final_grade) / 2, 3);
+        if($selectedPeriod == "Whole Year"){
+            return round(($get_first_sem_final_ave->final_grade + $get_second_sem_final_ave->final_grade) / 2, 3);
+        }elseif($selectedPeriod == "1st Semester"){
+            return round($get_first_sem_final_ave->final_grade, 3);
+        }elseif($selectedPeriod == "2nd Semester"){
+            return round($get_second_sem_final_ave->final_grade, 3);
+        }
     }
 
     function get_gpa_bed($idno, $school_year, $period) {
-        
+
         $get_regular_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->where('is_alpha', 0)->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
         $get_regular_alpha_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->whereRaw('is_alpha between 1 and 2 ')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
         $get_group_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 1)->orderBy('sort_to', 'asc')->where('is_display_card', 1)->get();
@@ -97,13 +114,13 @@ class AjaxBatchRanking extends Controller {
         $get_sa_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 2)->where('subject_code', 'like', "SA%")->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
 
         $get_grouping_subjects = \App\GradeBasicEd::SelectRaw('letter_grade_type,report_card_grouping as subject_name')->where('is_display_card', 1)->where('idno', $idno)->where('school_year', $school_year)->where('report_card_grouping', "!=", "")->groupBy('report_card_grouping', 'letter_grade_type')->orderBy('subject_name', 'DESC')->get();
-        
+
         if ($school_year == "2019") {
             $get_gpa = \App\Http\Controllers\BedRegistrar\ReportCardController::getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects);
         } else {
             $get_gpa = \App\Http\Controllers\BedRegistrar\ReportCardController::getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects);
         }
-        
+
         return round($get_gpa->final_ave, 3);
     }
 

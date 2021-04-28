@@ -170,7 +170,7 @@ Route::get('/view_indicator_report/{idno}/{school_year}','BedRegistrar\ReportCar
 //Batch Ranking of BED
 Route::get('/bedregistrar/batch_ranking', 'BedRegistrar\BatchRanking@view');
 Route::get('/ajax/bedregistrar/batch_ranking/get_students', 'BedRegistrar\Ajax\AjaxBatchRanking@get_students');
-Route::get('/bedregistrar/export/batch_ranking/{level}/{strand}/{school_year}','BedRegistrar\Ajax\AjaxBatchRanking@get_students_excel');
+Route::get('/bedregistrar/export/batch_ranking/{level}/{strand}/{school_year}/{selectedPeriod}','BedRegistrar\Ajax\AjaxBatchRanking@get_students_excel');
 
 
 Route::get('/bookstore/view_ordered_books','Bookstore\ViewOrderedBooks@student_list');
