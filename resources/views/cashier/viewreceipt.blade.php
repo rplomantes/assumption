@@ -58,6 +58,10 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         @if (Session::has('danger'))
             <div class="alert alert-danger">{{ Session::get('danger') }}</div>
         @endif
+        <div class="col-md-12 official_receipt">
+            <a href='{{url('/view_previous_next_receipt',array("previous",$payment->reference_id))}}'><button class='btn btn-success'>Previous</button></a>
+            <a href='{{url('/view_previous_next_receipt',array("next",$payment->reference_id))}}'><button class='btn btn-success pull-right'>Next</button></a>
+        </div>
     <div class="col-md-6 official_receipt">
         
         <div class="col-md-2 image img-responsive"> <img width="86"src="{{url('/images','assumption-logo.png')}}" ></div>

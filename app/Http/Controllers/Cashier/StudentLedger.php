@@ -169,13 +169,13 @@ class StudentLedger extends Controller {
     }
 
     function view_previous_next_receipt($action, $reference_id) {
-        $id = \App\Payment::where('reference_id', $reference_id)->first()->id;
+        $id = \App\Payment::where('reference_id', $reference_id)->first()->receipt_no;
         if ($action == "previous") {
-            $id = \App\Payment::where('id', '<', $id)->max('id');
+            $id = \App\Payment::where('receipt_no', '<', $id)->max('receipt_no');
         } elseif ($action == "next") {
-            $id = \App\Payment::where('id', '>', $id)->min('id');
+            $id = \App\Payment::where('receipt_no', '>', $id)->min('receipt_no');
         }
-        $reference_id = \App\Payment::where('id', $id)->first()->reference_id;
+        $reference_id = \App\Payment::where('receipt_no', $id)->first()->reference_id;
         return redirect("cashier/viewreceipt/$reference_id");
     }
 
