@@ -75,6 +75,8 @@ class ReportCardController extends Controller {
     function processBED($idno, $status, $school_year, $period, $display_type, $user) {
 
         $adviser = \App\AcademicRole::where('level', $status->level)->where('school_year', $status->school_year)->where('role', 'advisory')->where('section', $status->section)->first();
+        
+        $get_all_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
 
         $get_regular_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->where('is_alpha', 0)->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
         $get_regular_alpha_subjects = \App\GradeBasicEd::where('idno', $idno)->where('school_year', $school_year)->where('subject_type', 0)->whereRaw('is_alpha between 1 and 2 ')->where('is_display_card', 1)->orderBy('sort_to', 'asc')->get();
@@ -90,7 +92,7 @@ class ReportCardController extends Controller {
             $get_final_grade = $this->getBedAve($idno, $school_year, $get_grouping_subjects, $get_sa_subjects, $group_split_subjects, $get_split_subjects, $get_group_subjects, $get_regular_subjects, $get_regular_alpha_subjects);
             $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually_2019', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects', 'display_type','get_final_grade'));
         } else {
-            $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects', 'display_type', 'group_split_subjects'));
+            $pdf = PDF::loadView('reg_be.report_card.print_report_card_individually', compact('get_regular_subjects', 'get_regular_alpha_subjects', 'get_group_subjects', 'get_split_subjects', 'get_group_split_subjects', 'idno', 'school_year', 'absents', 'user', 'status', 'adviser', 'get_grouping_subjects', 'get_sa_subjects', 'display_type', 'group_split_subjects','get_all_subjects'));
         }
 
         $pdf->setPaper(array(0, 0, 720, 576));

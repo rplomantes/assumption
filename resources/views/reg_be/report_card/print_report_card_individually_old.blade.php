@@ -162,12 +162,8 @@ function getPromotion($level) {
     $total_units = 0;
     $total_final_grade = 0;
     ?>
-    @if(count($get_all_subjects)>0)
-    @foreach($get_all_subjects as $get_all_subject)
-    
-    
-    
-    @foreach($get_all_subjects->where('subject_code', $get_all_subject->subject_code)->where('subject_type', 0)->where('is_alpha', 0) as $subject)
+    @if(count($get_regular_subjects)>0)
+    @foreach($get_regular_subjects as $subject)
     <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
@@ -194,11 +190,10 @@ function getPromotion($level) {
         @endif
     </tr>
     @endforeach
-    
-    
-    
+    @endif
 
-    @foreach($get_all_subjects->where('subject_code', $get_all_subject->subject_code)->where('subject_type', 1) as $subject)
+    @if(count($get_group_subjects)>0)
+    @foreach($get_group_subjects as $subject)
     <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
@@ -223,17 +218,16 @@ function getPromotion($level) {
         @endif
     </tr>
     @endforeach
+    @endif
+
+    @if(count($group_split_subjects)>0)
+    @foreach($group_split_subjects as $group_code)
     
-    
-    
-    
-    @foreach($get_all_subjects->where('group_code', $get_all_subject->group_code)->where('subject_type', 2) as $group_code)
-    @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $group_code->subject_code))
     <?php
     $get_split_subjects = \App\GradeBasicEd::selectRaw("max(final_grade) as final_grade, max(final_remarks) as final_remarks, max(display_subject_code) as display_subject_code,max(is_alpha) as is_alpha, max(first_grading_letter) as first_grading_letter,max(second_grading_letter) as second_grading_letter,max(third_grading_letter) as third_grading_letter,max(fourth_grading_letter) as fourth_grading_letter")
             ->where('idno', $idno)->where('school_year', $school_year)
             ->where('subject_type', 2)
-            ->where('group_code', $get_all_subject->group_code)
+            ->where('group_code', $group_code->group_code)
             ->where('is_display_card', 1)
             ->get();
     ?>
@@ -278,20 +272,16 @@ function getPromotion($level) {
     </tr>
     @endforeach
     @endif
-    @endif
     @endforeach
+    @endif
 
-    
-    
-    
+    @if(count($get_grouping_subjects))
     <?php
     $grade1 = 0;
     $grade2 = 0;
     $grade3 = 0;
     ?>
-    @if($get_all_subject->report_card_grouping != null)
-    @foreach($get_grouping_subjects->where('subject_name',$get_all_subject->report_card_grouping) as $subject)
-    @if(count($subject)>0)
+    @foreach($get_grouping_subjects as $subject)
     <?php $total_units += getUnits($subject, $idno, $school_year); ?>
     <tr>
         <td>{{$subject->subject_name}}</td>
@@ -339,14 +329,13 @@ function getPromotion($level) {
     @endif
     @endif
 
-    @endif
     @endforeach
     @endif
 
 
 
-    @foreach($get_all_subjects->where('group_code', $get_all_subject->group_code)->where('subject_type', 2) as $group_code)
-    @if(fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $group_code->subject_code))
+    @if(count($get_sa_subjects)>0)
+    @foreach($get_sa_subjects as $subject)
     <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
@@ -383,10 +372,12 @@ function getPromotion($level) {
         <?php $total_final_grade += $subject->final_grade; ?>
         @endif
     </tr>
-    @endif
     @endforeach
+    @endif
 
-    @foreach($get_all_subjects->where('subject_code', $get_all_subject->subject_code)->where('subject_type', 0)->where('is_alpha','!=',0) as $subject)
+
+    @if(count($get_regular_alpha_subjects)>0)
+    @foreach($get_regular_alpha_subjects as $subject)
     <?php $total_units += $subject->units; ?>
     <tr>
         <td>{{$subject->display_subject_code}}</td>
@@ -412,9 +403,8 @@ function getPromotion($level) {
         @endif
     </tr>
     @endforeach
-
-    @endforeach
     @endif
+
     <tr>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
         <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td>
