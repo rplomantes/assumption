@@ -110,9 +110,8 @@ $date_end = date('Y-m-d');
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                         <li><a href="{{url('/accounting/chart_of_accounts')}}"><i class="fa fa-table"></i> <span>Chart of Accounts</span></a></li>
-                        <li><a href="{{url('/accounting','set_other_payment')}}"><i class="fa fa-money"></i> <span>Set Other Payment</span></a></li>
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-file-archive-o"></i> <span>Official Receipt</span>
+                            <a href="#"><i class="fa fa-book"></i> <span>Official Receipt</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -122,9 +121,9 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('/accounting','set_or')}}"><span> Set OR Number</span></a></li>
                             </ul>
                         </li>
-                        <li><a href="{{url('disbursement')}}"><i class="fa fa-columns"></i> <span>Disbursement</a></li>
-                        <li><a href="{{url('pettycash')}}"><i class="fa fa-columns"></i> <span>Petty Cash</a></li>
-                        <li><a href="{{url('journal_entry')}}"><i class="fa fa-pencil"></i> <span>Journal Entry</span></a></li>
+                        <li><a href="{{url('disbursement')}}"><i class="fa fa-book"></i> <span>Disbursement</a></li>
+                        <!--<li><a href="{{url('pettycash')}}"><i class="fa fa-book"></i> <span>Petty Cash</a></li>-->
+                        <li><a href="{{url('journal_entry')}}"><i class="fa fa-book"></i> <span>Journal Entry</span></a></li>
                         <li class="treeview">
                             <a href="#"><i class="fa fa-book"></i> <span>Accounting Reports</span>
                                 <span class="pull-right-container">
@@ -140,7 +139,7 @@ $date_end = date('Y-m-d');
                             </ul>
                         </li>
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-book"></i> <span>Accntng Reports Settings</span>
+                            <a href="#"><i class="fa fa-cog"></i> <span>Accntng Reports Settings</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -164,7 +163,7 @@ $date_end = date('Y-m-d');
                         </li>
 
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-file-excel-o"></i> <span>Collection Report</span>
+                            <a href="#"><i class="fa fa-money"></i> <span>Collection Report</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -176,9 +175,20 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('cashier',array('bank_deposits',date('Y-m-d'),date('Y-m-d')))}}">Bank Deposit </a></li>
                             </ul>
                         </li>
-
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-paypal"></i> <span> Online Payments</span>
+                            <a href="#"><i class="fa fa-money"></i> <span>Other Payments</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/accounting',array('bulk_other_payment'))}}"> <span>Bulk Other Payment</span></a></li>
+                                <li><a href="{{url('/accounting','set_other_payment')}}"> <span>Set Other Payment</span></a></li>
+                                <li><a href="{{url('accounting',array('post_charges'))}}"><span>Post Charges</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-money"></i> <span> Online Payments</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -190,6 +200,21 @@ $date_end = date('Y-m-d');
                         </li>
 
                         <li class="treeview">
+                            <a href="#"><i class="fa fa-bookmark"></i> <span>Schedule Of Fees</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+
+                                <li><a href="{{url('/accounting/setup/due_dates')}}"><span>Set-up Due Dates</span></a></li>
+                                <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
+                                <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
+                                <li><a href="{{url('accounting',array('schedule_of_fees_college'))}}"><span>Update Fees(College)</span></a></li>
+                                <li><a href="{{url('accounting',array('schedule_of_fees_bed_shs'))}}"><span>Update Fees(BED,SHS)</span></a></li>
+                            </ul>
+                        </li> 
+                        <li class="treeview">
                             <a href="#"><i class="fa fa-bookmark"></i> <span>Statement of Account</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
@@ -200,23 +225,7 @@ $date_end = date('Y-m-d');
                                 <li><a href="{{url('accounting')}}">HED</a></li>
                             </ul>
                         </li>
-                        <li class="treeview">
-                            <a href="#"><i class="fa fa-list-alt"></i> <span>Schedule Of Fees</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-
-                        <li><a href="{{url('/accounting/setup/due_dates')}}"><span>Set-up Due Dates</span></a></li>
-                                <li><a href="{{url('accounting',array('schedule_of_fees',))}}"><span>Per Level</span></a></li>
-                                <li><a href="{{url('accounting',array('schedule_of_plan',))}}"><span>Per Plan</span></a></li> 
-                                <li><a href="{{url('accounting',array('schedule_of_fees_college'))}}"><span>Update Fees(College)</span></a></li>
-                                <li><a href="{{url('accounting',array('schedule_of_fees_bed_shs'))}}"><span>Update Fees(BED,SHS)</span></a></li>
-                            </ul>
-                        </li> 
-                        <li><a href="{{url('accounting',array('post_charges'))}}"><i class="fa fa-check-square"></i> <span>Post Charges</span></a></li>
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" onclick="getPasscode('{{Auth::user()->idno}}')"><i class="fa fa-code"></i> <span>Generate Passcode</span></a></li>
+                        <!--<li><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" onclick="getPasscode('{{Auth::user()->idno}}')"><i class="fa fa-code"></i> <span>Generate Passcode</span></a></li>-->
                         <?php
                         $school_year = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->school_year;
                         $period = \App\CtrAcademicSchoolYear::where('academic_type', 'College')->first()->period;
@@ -312,15 +321,15 @@ $date_end = date('Y-m-d');
         <script src="{{ asset ('dist/js/adminlte.min.js')}}"></script>
         <script src="{{ asset ('bower_components/PACE/pace.min.js')}}"></script>
         <script>
-                            $(document).ajaxStart(function () {
-                            Pace.restart()
-                            })
+                                                   $(document).ajaxStart(function () {
+                                                   Pace.restart()
+                                                   })
         </script>
         <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
         <script>
-                            $(function () {
-                            $('.select2').select2();
-                            });
+                                                   $(function () {
+                                                   $('.select2').select2();
+                                                   });
         </script>
         <script src="{{asset('bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
         @yield('footerscript')

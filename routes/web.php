@@ -653,3 +653,10 @@ Route::get('/bedregistrar/report_card_sequencing','BedRegistrar\ReportCardSequen
 Route::post('/bedregistrar/report_card_sequencing/update','BedRegistrar\ReportCardSequencing@update');
 Route::get('/bedregistrar/ajax/report_card_sequencing/view_subjects','BedRegistrar\ReportCardSequencing@getSubjects');
 
+//Bulk Other Payment
+Route::get('/accounting/bulk_other_payment','Accounting\BulkOtherPayment@index');
+Route::get('/accounting/bulk_other_payment/get_list','Accounting\BulkOtherPayment@get_list');
+Route::get('/accounting/bulk_other_payment/add_student','Accounting\BulkOtherPayment@add_student');
+Route::get('/accounting/bulk_other_payment/remove_student','Accounting\BulkOtherPayment@remove_student');
+Route::post('/accounting/bulk_other_payment/process','Accounting\BulkOtherPayment@process');
+
