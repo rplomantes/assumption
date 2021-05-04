@@ -153,7 +153,8 @@ Route::get('/view_report_card/{idno}/{display_type}/{school_year}/{period?}','Be
 
 //BED Grade Summary
 Route::get('/bedregistrar/grade_summary','BedRegistrar\GradeSummary@index_grade_summary');
-Route::get('/bedregistrar/ajax/grade_summary_view_list', 'BedRegistrar\Ajax\GetStudentListDirectory@grade_summary_view_list');
+Route::get('/bedregistrar/ajax/grade_summary_view_list', 'BedRegistrar\Ajax\GradeSummaryAjax@grade_summary_view_list');
+Route::get('/bedregistrar/grade_summary/quarter_summary/export/{level}/{strand}/{section}/{school_year}/{quarter}/{period?}', 'BedRegistrar\GradeSummary@export_quarter_summary');
 
 //BED SAC Grade Summary
 Route::get('/bedregistrar/sac_grade_summary','BedRegistrar\GradeSummary@index_sac');
@@ -240,3 +241,10 @@ Route::get("/accounting/setup/due_dates","Accounting\SetupDueDate@due_date");
 Route::get("/accounting/setup/view_due_date/{academic_type}","Accounting\SetupDueDate@index_due_date");
 Route::get("/accounting/setup/due_date/{academic_type}/{plan}","Accounting\SetupDueDate@view_due_date");
 Route::post("/accounting/setup/update_due_date","Accounting\SetupDueDate@update_due_date");
+
+//Accounting Report Settings
+Route::get("/accounting/settings/cashreceipt","Accounting\CashReceiptSettings@index");
+Route::get("/accounting/settings/cashreceipt/get_details","Accounting\CashReceiptSettings@getDetails");
+Route::get("/accounting/settings/cashreceipt/update","Accounting\CashReceiptSettings@update");
+Route::get("/accounting/settings/cashreceipt/add","Accounting\CashReceiptSettings@add");
+Route::get("/accounting/settings/cashreceipt/delete/{id}","Accounting\CashReceiptSettings@delete");
