@@ -8,6 +8,8 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
     $layout = "layouts.appaccountingstaff";
 } else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
     $layout = "layouts.appaccountinghead";
+} else if (Auth::user()->accesslevel == env("REG_BE")) {
+    $layout = "layouts.appbedregistrar";
 }
 ?>
 @extends($layout)
@@ -75,7 +77,9 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                         <option>Elementary</option>
                         <option>Junior High School</option>
                         <option>Senior High School</option>
+                        @if(Auth::user()->accesslevel != env('REG_BE'))
                         <option>College Department</option>
+                        @endif
                     </select>
                 </div>
                 <div class="col-sm-3" id="school_year_control">

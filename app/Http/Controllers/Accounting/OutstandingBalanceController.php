@@ -18,14 +18,14 @@ class OutstandingBalanceController extends Controller
     }
     
     function outstanding_balance(){
-        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD') || Auth::user()->accesslevel == env('REG_BE')) {
             $levels = \App\CtrAcademicProgram::distinct()->where('academic_type','!=','College')->orderBy('sort_by', 'asc')->get(['level','sort_by']);
             return view('accounting.outstanding_balance',compact('levels'));
         }
     }
     
     function print_outstanding_balancePDF(Request $request){
-        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD') || Auth::user()->accesslevel == env('REG_BE')) {
             
             $dep = "";
             $department = $request->department;
@@ -59,7 +59,7 @@ class OutstandingBalanceController extends Controller
     }
     
     function print_outstanding_balanceEXCEL(Request $request){
-        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
+        if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD') || Auth::user()->accesslevel == env('REG_BE')) {
             $dep = "";
             $date = date("F d, Y");
             

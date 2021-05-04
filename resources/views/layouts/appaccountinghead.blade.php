@@ -140,6 +140,18 @@ $date_end = date('Y-m-d');
                             </ul>
                         </li>
                         <li class="treeview">
+                            <a href="#"><i class="fa fa-book"></i> <span>Accntng Reports Settings</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/accounting', array('settings','cashreceipt'))}}"><span> Cash Receipt</span></a></li>
+                                <li><a href="{{url('/accounting', array('settings','cash_disbursement_book'))}}"><span> Cash Disbursement Book</span></a></li>
+                                <li><a href="{{url('/accounting', array('settings','journal_book'))}}"><span> General Journal Book</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
                             <a href="#"><i class="fa fa-align-justify"></i> <span>Debit/Credit Summary</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>

@@ -184,7 +184,7 @@ class StudentLedger extends Controller {
         $status = \App\Status::where('idno', $payment->idno)->first();
         $accountings = \App\Accounting::where('reference_id', $reference_id)->where('accounting_type', '1')->get();
         $receipt_details = DB::Select("Select receipt_details, sum(credit) as credit from accountings where reference_id = "
-                        . "'$reference_id' and credit > '0' and accounting_type = '1' group by receipt_details, reference_id");
+                        . "'$reference_id' and credit > '0' and accounting_type = '1' group by reference_id");
         $receipt_less = DB::Select("Select receipt_details, sum(debit) as debit from accountings where reference_id = "
                         . "'$reference_id' and receipt_details != 'Cash' and debit > '0' and accounting_type='1'  group by receipt_details, reference_id");
         return view('cashier.viewreceipt', compact('payment', 'status', 'accountings', 'receipt_details', 'receipt_less'));

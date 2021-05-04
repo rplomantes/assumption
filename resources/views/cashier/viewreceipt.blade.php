@@ -58,10 +58,11 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         @if (Session::has('danger'))
             <div class="alert alert-danger">{{ Session::get('danger') }}</div>
         @endif
-        <div class="col-md-12 official_receipt">
+        <div class="col-md-6">
             <a href='{{url('/view_previous_next_receipt',array("previous",$payment->reference_id))}}'><button class='btn btn-success'>Previous</button></a>
             <a href='{{url('/view_previous_next_receipt',array("next",$payment->reference_id))}}'><button class='btn btn-success pull-right'>Next</button></a>
         </div>
+        <hr>
     <div class="col-md-6 official_receipt">
         
         <div class="col-md-2 image img-responsive"> <img width="86"src="{{url('/images','assumption-logo.png')}}" ></div>
@@ -93,7 +94,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
         @if(count($receipt_details)>0)
             @foreach($receipt_details as $receipt_detail)
             <?php $totalreceipt=$totalreceipt+$receipt_detail->credit;?>
-            <tr><td>{{$receipt_detail->receipt_details}}</td>
+            <tr><td>Student Fees</td>
                 <td align="right">{{number_format($receipt_detail->credit,2)}}</td></tr>
             @endforeach
         @endif
@@ -161,7 +162,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     </div>
         
     </div>    
-    <div class="col-md-6">
+<!--    <div class="col-md-6">
         <div class="box box-primary box-solid">
             <div class="box-header">
                 <h5 class="box-title">Receipt Details</h5>
@@ -218,11 +219,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 </div>
             </div>
         </div>
-    </div>
-        <div class="col-md-12 official_receipt">
-            <a href='{{url('/view_previous_next_receipt',array("previous",$payment->reference_id))}}'><button class='btn btn-success'>Previous</button></a>
-            <a href='{{url('/view_previous_next_receipt',array("next",$payment->reference_id))}}'><button class='btn btn-success pull-right'>Next</button></a>
-        </div>    
+    </div>-->   
 </div>
 
 <div class="modal fade" id="show_explanation">

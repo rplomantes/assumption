@@ -53,7 +53,7 @@
             @foreach($receipt_details as $receipt_detail)
             <?php $totalreceipt = $totalreceipt + $receipt_detail->credit; ?>
             <tr>
-                <td>{{$receipt_detail->receipt_details}}</td>
+                <td>Student Fees</td>
                 <td align="right">{{number_format($receipt_detail->credit,2)}}</td>
             </tr>
             @endforeach
