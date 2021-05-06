@@ -162,7 +162,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
     </div>
         
     </div>    
-<!--    <div class="col-md-6">
+    <div class="col-md-6">
         <div class="box box-primary box-solid">
             <div class="box-header">
                 <h5 class="box-title">Receipt Details</h5>
@@ -219,7 +219,7 @@ if(Auth::user()->accesslevel == env("CASHIER")){
                 </div>
             </div>
         </div>
-    </div>-->   
+    </div>   
 </div>
 
 <div class="modal fade" id="show_explanation">
