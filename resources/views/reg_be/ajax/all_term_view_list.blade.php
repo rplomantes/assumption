@@ -66,7 +66,11 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
+                        @if($is_ee == 1 && $grade->first_grading_letter == "EE")
                         {{$grade->first_grading_letter}}
+                        @elseif($is_ee == 0)
+                        {{$grade->first_grading_letter}}
+                        @endif
                         @else
                         {{$grade->first_remarks}} @if($grade->first_grading>0)({{round($grade->first_grading)}})@endif
                         @endif
@@ -82,7 +86,11 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
+                        @if($is_ee == 1 && $grade->second_grading_letter == "EE")
                         {{$grade->second_grading_letter}}
+                        @elseif($is_ee == 0)
+                        {{$grade->second_grading_letter}}
+                        @endif
                         @else
                         {{$grade->second_remarks}} @if($grade->second_grading>0)({{round($grade->second_grading)}})@endif
                         @endif
@@ -98,7 +106,11 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
+                        @if($is_ee == 1 && $grade->third_grading_letter == "EE")
                         {{$grade->third_grading_letter}}
+                        @elseif($is_ee == 0)
+                        {{$grade->third_grading_letter}}
+                        @endif
                         @else
                         {{$grade->third_remarks}} @if($grade->third_grading>0)({{round($grade->third_grading)}})@endif
                         @endif
@@ -114,7 +126,11 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
+                        @if($is_ee == 1 && $grade->fourth_grading_letter == "EE")
                         {{$grade->fourth_grading_letter}}
+                        @elseif($is_ee == 0)
+                        {{$grade->fourth_grading_letter}}
+                        @endif
                         @else
                         {{$grade->fourth_remarks}} @if($grade->fourth_grading>0)({{round($grade->fourth_grading)}})@endif
                         @endif

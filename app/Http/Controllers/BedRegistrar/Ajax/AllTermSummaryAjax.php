@@ -22,11 +22,12 @@ class AllTermSummaryAjax extends Controller
                 $section = Input::get('section');
                 $period = Input::get('period');
                 $strand = Input::get("strand");
+                $is_ee = Input::get('is_ee');
 
                 $lists = self::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'lists');
                 $subject_heads = self::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'subject_heads');
 
-                return view("reg_be.ajax.all_term_view_list", compact('school_year', 'level', 'section', 'period', 'strand', 'lists', 'subject_heads'));
+                return view("reg_be.ajax.all_term_view_list", compact('school_year', 'level', 'section', 'period', 'strand', 'lists', 'subject_heads','is_ee'));
             }
         }
     }
