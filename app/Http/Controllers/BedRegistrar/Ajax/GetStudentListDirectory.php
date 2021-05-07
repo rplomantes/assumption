@@ -286,39 +286,6 @@ class GetStudentListDirectory extends Controller {
         }
     }
 
-    function grade_summary_view_list() {
-        if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED')) {
-                $schoolyear = Input::get('school_year');
-                $level = Input::get('level');
-                $section = Input::get('section');
-                $period = Input::get('period');
-
-                $strand = Input::get("strand");
-                if ($level == "Grade 11" || $level == "Grade 12") {
-                    if ($section == "All") {
-                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
-                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level' and bed_levels.strand = '$strand' "
-                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.period = '$period' by users.lastname, users.firstname, users.middlename");
-                    } else {
-                        
-                    }
-                } else {
-                    $period = "";
-                    if ($section == "All") {
-                        $status = DB::Select("Select bed_levels.idno, users.lastname, users.firstname, users.middlename, bed_levels.section  from "
-                                        . "bed_levels, users where bed_levels.idno=users.idno and bed_levels.level = '$level'  "
-                                        . " and bed_levels.school_year = '$schoolyear' and bed_levels.status = 3 order by users.lastname, users.firstname, users.middlename");
-                    } else {
-                        
-                    }
-                }
-                return "asdf";
-                return view("reg_be.ajax.grade_summary_view_list", compact("status", "level", "section", 'strand', 'schoolyear', 'period', 'students'));
-            }
-        }
-    }
-
     function getHoldGrades() {
         if (Request::ajax()) {
             if (Auth::user()->accesslevel == env("REG_BE")) {

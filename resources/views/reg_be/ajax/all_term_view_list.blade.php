@@ -13,7 +13,7 @@ function getAdviser($school_year,$period,$level,$strand,$section){
     }
 }
 ?>
-<a href="javascript:void(0)" onclick = "export_quarter_summary()" class="form btn btn-success pull-right"> Export Quarter Summary</a>
+<a href="javascript:void(0)" onclick = "export_all_term_summary()" class="form btn btn-success pull-right"> Export All Term Summary</a>
 <table class="table table-striped table-condensed table-bordered" style='font-size: 10pt'>
     <tr>
         <td style='font-weight: bold;' colspan='2'>Class Adviser</td><td>{{getAdviser($school_year,$period,$level,$strand,$section)}}</td>
@@ -27,12 +27,13 @@ function getAdviser($school_year,$period,$level,$strand,$section){
         <td style='font-weight: bold;' colspan='2'>School Year</td><td>{{$school_year}} - {{$school_year+1}}</td>
     </tr>
     <tr>
-        <td style='font-weight: bold;' colspan='2'>Quarter</td><td>{{$quarter}}</td>
+        <td style='font-weight: bold;' colspan='2'>Quarter</td><td>All Term</td>
     </tr>
     <tr>
         <th>#</th>
         <th>ID Number</th>
         <th>Name</th>
+        <th>Term</th>
         @foreach($subject_heads as $subject_head)
         <th>{{$subject_head->group_code}}</th>
         @endforeach
@@ -43,6 +44,16 @@ function getAdviser($school_year,$period,$level,$strand,$section){
         <td>{{$ctr++}}</td>
         <td>{{$list->idno}}</td>
         <td>{{$list->lastname}}, {{$list->firstname}}</td>
+        <?php $terms = ['1stQtr','2ndQtr','3rdQtr','4thQtr']; ?>
+        @foreach($terms as $key => $quarter)
+        @if(!$loop->first)
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        @endif
+            <td>{{$quarter}}</td>
         @foreach($subject_heads as $subject_head)
         <td>
             @if($quarter == "1stQtr")
@@ -113,6 +124,7 @@ function getAdviser($school_year,$period,$level,$strand,$section){
         </td>
         @endforeach
         <!--<td style='background-color: whitesmoke'></td>-->
+        @endforeach
         @endforeach
     </tr>
 </table>

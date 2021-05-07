@@ -140,6 +140,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('withdrawn_students'))}}">Withdrawn Students</a></li>
             <li><a href="{{url('/bedregistrar',array('assessed_students'))}}">Assessed Students</a></li>
             <li><a href="{{url('/bedregistrar',array('not_yet_enrolled'))}}">Students Not Yet Enrolled</a></li>
+            <li><a href="{{url('/accounting',array('outstanding_balances'))}}"><span>Outstanding Balances</span></a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -151,7 +152,13 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
           <ul class="treeview-menu">
             <li><a href="{{url('/bedregistrar','report_card')}}"><i class="fa fa-link"></i> Report Card</a></li>
             <li><a href="{{url('/bedregistrar','batch_ranking')}}"><i class="fa fa-link"></i> Batch Ranking</a></li>
-            <li><a href="{{url('/bedregistrar','grade_summary')}}"><i class="fa fa-link"></i> Grade Summary</a></li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> Grade Summary<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{url('/bedregistrar','grade_summary')}}"><i class="fa fa-link"></i> Quarter Summary</a></li>
+                    <li><a href="{{url('/bedregistrar', array('all_term_summary'))}}"><i class="fa fa-link"></i> All-Term Summary</a></li>
+                </ul>
+            </li>
             <li><a href="{{url('/bedregistrar','sac_grade_summary')}}"><i class="fa fa-link"></i> SAC Grade Summary</a></li>
             <li><a href="{{url('/bedregistrar','conduct_grade_summary')}}"><i class="fa fa-link"></i> Conduct Grade Summary</a></li>
             <li><a href="{{url('/bedregistrar','hold_students')}}"><i class="fa fa-link"></i> Hold Students</a></li>

@@ -50,12 +50,12 @@ if(Auth::user()->accesslevel == env('REG_BE')){
 @section('header')
 <section class="content-header">
       <h1>
-        Quarterly Grade Summary
+        All Term Summary
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{url("/")}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Grade Summary</li>
+        <li class="active">All Term Summary</li>
       </ol>
 </section>
 @endsection
@@ -115,19 +115,6 @@ if(Auth::user()->accesslevel == env('REG_BE')){
                         <option>2nd Semester</option>
         </select>
         </div>
-        </div>      
-     </div> 
-     <div class="col-md-2">
-        <div class="form form-group">
-        <label>Quarter</label>
-        <select class="form-control select2" id="quarter" data-placeholder="Select Quarter">
-                        style="width: 100%;">
-                        <option value="">Select Quarter</option>
-                        <option>1stQtr</option>
-                        <option>2ndQtr</option>
-                        <option>3rdQtr</option>
-                        <option>4thQtr</option>
-        </select>
         </div>      
      </div> 
      
@@ -205,10 +192,9 @@ if(Auth::user()->accesslevel == env('REG_BE')){
               array['strand'] = $("#strand").val();
               array['school_year']=$("#school_year").val();
               array['period']=$("#period").val();
-              array['quarter']=$("#quarter").val();
               $.ajax({
                   type:"GET",
-                  url:"/bedregistrar/ajax/grade_summary_view_list",
+                  url:"/bedregistrar/ajax/all_term_view_list",
                   data:array,
                   success:function(data){
                    $("#displaystudent").html(data)
@@ -222,8 +208,8 @@ if(Auth::user()->accesslevel == env('REG_BE')){
     
     });
     
-    function export_quarter_summary(){
-        window.open("/bedregistrar/grade_summary/quarter_summary/export/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#quarter").val() + "/" + $("#period").val())
+    function export_all_term_summary(){
+        window.open("/bedregistrar/grade_summary/all_term_summary/export/" +$("#level").val() + "/" + $("#strand").val() + "/" + $("#section").val() + "/" + $("#school_year").val() + "/" + $("#period").val())
     }
 </script>    
 @endsection
