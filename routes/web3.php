@@ -194,6 +194,7 @@ Route::get("/accounting/supplier","Accounting\SupplierController@index");
 Route::get("/accounting/supplier/delete/{id}","Accounting\SupplierController@delete");
 Route::post("/accounting/supplier/create","Accounting\SupplierController@save");
 Route::post("/accounting/supplier/update","Accounting\SupplierController@update");
+Route::get("/accounting/supplier/edit","Accounting\SupplierController@edit");
 
 //Search Payee on Disbursement
 Route::get("/ajax/accounting/disbursement/search_payee","Accounting\Ajax\AjaxDisbursement@search_payee");

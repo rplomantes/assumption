@@ -91,7 +91,7 @@
                                 <th>Supplier</th>
                                 <th>Address</th>
                                 <th>TIN</th>
-                                <th>Due Date</th>
+                                <th>Tax Code</th>
                                 <th width="20%">Actions</th>
                             </tr>
                         </thead>
@@ -102,9 +102,9 @@
                                 <td>{{$supplier->supplier_name}}</td>
                                 <td>{{$supplier->address}}</td>
                                 <td>{{$supplier->tin}}</td>
-                                <td>{{date("M d, Y", strtotime($supplier->due_date))}}</td>
+                                <td>{{$supplier->tax_code}}</td>
                                 <td>
-                                    <a onclick="editform('{{$supplier}}')" class="btn btn-flat btn-warning"><i class="fa fa-edit"></i> Update</a>
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit"  onclick="edit_form('{{$supplier->id}}')" class="btn btn-flat btn-warning"><i class="fa fa-edit"></i> Update</a>
                                     <a onclick="return confirm('Do you wish to Continue?')" href="{{url("/accounting/supplier/delete", array($supplier->id))}}" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> Delete</a>
                                 </td>
                             </tr>
@@ -116,9 +116,22 @@
         </div>
     </div>
 </div>
-
+<div class="modal-div"></div>
 @include("accounting.suppliers.create")
-@include("accounting.suppliers.edit")
+
+<div class="modal fade" id="modal-edit">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Update Supplier</h4>
+        </div>
+        <div class="modal-body" id="model-body-edit">
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 @section('footerscript')
@@ -127,16 +140,18 @@
 <script>
 $("#datatable").DataTable({});    
 
-function editform(supplier){
-    var object = JSON.parse(supplier);
-    
-    $("#supplier_id").val(object.id);
-    $("#edit_supplier_name").val(object.supplier_name);
-    $("#edit_address").val(object.address);
-    $("#edit_tin").val(object.tin);
-    $("#edit_due_date").val(object.due_date);
-    
-    $("#modal-edit").modal("show");
-}
-</script>    
+function edit_form(id) {
+    array = {}
+    array['id'] = id;
+    $.ajax({
+        type: "GET",
+        url: "/accounting/supplier/edit",
+        data: array,
+        success: function (data) {
+            $(".modal-body").html(data);
+        }
+
+    });
+} 
+</script>
 @endsection

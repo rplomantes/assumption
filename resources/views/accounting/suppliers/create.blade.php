@@ -24,8 +24,12 @@
                     <input name="address" required type="text" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>Due Date</label>
-                    <input name="due_date" required type="date" class="form-control">
+                    <label>Tax Code</label>
+                    <select class="form-control" name="tax_code">
+                        @foreach($tax_codes as $tax_code)
+                        <option>{{$tax_code->tax_code}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <button onclick="return confirm('Do you with to Continue?')" type="submit" class="btn btn-flat btn-success btn-block"><i class="fa fa-check-circle-o"></i> Save Changes</button>
