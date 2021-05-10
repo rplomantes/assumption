@@ -89,7 +89,7 @@ function getPromotion($level) {
     @endif
 </div>
 
-<!--<div style='position:absolute; top:650px; bottom: 0; left:0; right:0;'>-->
+@if($school_year != 2019)
 <div style='position:absolute; top:800px; bottom: 0; left:0; right:0;'>
 
     <table width="100%">     
@@ -103,7 +103,21 @@ function getPromotion($level) {
             <td align="center">Pre School Team Leader</td>
         </tr>
     </table>
-<!--    <br>
+@else
+<div style='position:absolute; top:650px; bottom: 0; left:0; right:0;'>
+
+    <table width="100%">     
+        <tr>
+            <td align="center" width="50%">@if($adviser){{$adviser->getFullNameAttribute()}} @endif</td>
+            <td align="center">Añonuevo, Sheryll V.</td>
+        </tr>
+
+        <tr>
+            <td align="center">Homeroom Teacher</td>
+            <td align="center">Pre School Team Leader</td>
+        </tr>
+    </table>
+    <br>
     <table width="100%">
         <tr>
             <td align="center"><strong><br>Sr. Mary Ignatius G. Vedua, ra</strong></td>
@@ -125,4 +139,5 @@ function getPromotion($level) {
     <br>
     <p>Date: June 8, 2020<p>Not valid without</p>
     <p>School Seal</p>
-    </div>-->
+    </div>
+@endif
