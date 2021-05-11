@@ -75,10 +75,27 @@ class AllTermSummaryAjax extends Controller {
             $third = $grade->third_grading_letter;
             $fourth = $grade->fourth_grading_letter;
 
-            if ($first == null ) {
-            }elseif($first != "EE"){
+            
+//            if ($first == null ) {
+//            }elseif($first != "EE"){
+//                return false;
+//            }elseif($first ==""){}
+            
+            if ($second == null ) {
+            }elseif($second != "EE"){
                 return false;
-            }elseif($first ==""){}
+            }elseif($second ==""){}
+            
+            if ($third == null ) {
+            }elseif($third != "EE"){
+                return false;
+            }elseif($third ==""){}
+            
+            if ($fourth == null ) {
+            }elseif($fourth != "EE"){
+                return false;
+            }elseif($fourth ==""){}
+            
         }
         return true;
         
