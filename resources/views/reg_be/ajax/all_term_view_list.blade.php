@@ -66,9 +66,9 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
-                        @if($is_ee == 1 && $grade->first_grading_letter == "EE")
+                        @if($is_ee == 2 && $grade->first_grading_letter == "EE")
                         {{$grade->first_grading_letter}}
-                        @elseif($is_ee == 0)
+                        @elseif($is_ee <= 1)
                         {{$grade->first_grading_letter}}
                         @endif
                         @else
@@ -86,9 +86,9 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
-                        @if($is_ee == 1 && $grade->second_grading_letter == "EE")
+                        @if($is_ee == 2 && $grade->second_grading_letter == "EE")
                         {{$grade->second_grading_letter}}
-                        @elseif($is_ee == 0)
+                        @elseif($is_ee <= 1)
                         {{$grade->second_grading_letter}}
                         @endif
                         @else
@@ -106,9 +106,9 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
-                        @if($is_ee == 1 && $grade->third_grading_letter == "EE")
+                        @if($is_ee == 2 && $grade->third_grading_letter == "EE")
                         {{$grade->third_grading_letter}}
-                        @elseif($is_ee == 0)
+                        @elseif($is_ee <= 1)
                         {{$grade->third_grading_letter}}
                         @endif
                         @else
@@ -126,9 +126,9 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                             @endif
                     @else
                         @if($grade->is_alpha > 0)
-                        @if($is_ee == 1 && $grade->fourth_grading_letter == "EE")
+                        @if($is_ee == 2 && $grade->fourth_grading_letter == "EE")
                         {{$grade->fourth_grading_letter}}
-                        @elseif($is_ee == 0)
+                        @elseif($is_ee <= 1)
                         {{$grade->fourth_grading_letter}}
                         @endif
                         @else

@@ -120,7 +120,8 @@ if(Auth::user()->accesslevel == env('REG_BE')){
         <label>Get EE Grades Only</label>
         <select class="form-control" id="is_ee_only">
                         <option value=0>No</option>
-                        <option value=1>Yes</option>
+                        <option value=2>Yes</option>
+                        <option value=1>Students w/ EE grades for all subjects</option>
         </select>
         </div>
      </div> 

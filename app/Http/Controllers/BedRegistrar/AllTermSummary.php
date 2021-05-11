@@ -23,8 +23,8 @@ class AllTermSummary extends Controller
     }
 
     function export_all_term_summary($level, $strand, $section, $school_year, $is_ee,$period = null) {
-        $lists = \App\Http\Controllers\BedRegistrar\Ajax\AllTermSummaryAjax::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'lists');
-        $subject_heads = \App\Http\Controllers\BedRegistrar\Ajax\AllTermSummaryAjax::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'subject_heads');
+        $lists = \App\Http\Controllers\BedRegistrar\Ajax\AllTermSummaryAjax::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'lists',$is_ee);
+        $subject_heads = \App\Http\Controllers\BedRegistrar\Ajax\AllTermSummaryAjax::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'subject_heads',$is_ee);
         
         ob_end_clean();
         Excel::create('All Term Summary', function($excel) use ($level, $strand, $section, $school_year,$period, $lists, $subject_heads,$is_ee) {

@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Auth;
 
-class AllTermSummaryAjax extends Controller
-{
+class AllTermSummaryAjax extends Controller {
+
     //
     public function __construct() {
         $this->middleware('auth');
@@ -24,15 +24,15 @@ class AllTermSummaryAjax extends Controller
                 $strand = Input::get("strand");
                 $is_ee = Input::get('is_ee');
 
-                $lists = self::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'lists');
-                $subject_heads = self::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'subject_heads');
+                $lists = self::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'lists',$is_ee);
+                $subject_heads = self::getListSubjectHeads($school_year, $level, $section, $period, $strand, 'subject_heads',$is_ee);
 
-                return view("reg_be.ajax.all_term_view_list", compact('school_year', 'level', 'section', 'period', 'strand', 'lists', 'subject_heads','is_ee'));
+                return view("reg_be.ajax.all_term_view_list", compact('school_year', 'level', 'section', 'period', 'strand', 'lists', 'subject_heads', 'is_ee'));
             }
         }
     }
 
-    public static function getListSubjectHeads($school_year, $level, $section, $period, $strand, $display) {
+    public static function getListSubjectHeads($school_year, $level, $section, $period, $strand, $display,$is_ee) {
         if ($level == "Grade 11" || $level == "Grade 12") {
             $lists = \App\BedLevel::where('school_year', $school_year)->where('period', $period)->where('strand', $strand)->where('level', $level)->where('section', $section)->where('status', env('ENROLLED'))->get();
             $subject_heads = \App\GradeBasicEd::distinct()->where('school_year', $school_year)->where('period', $period)->where('strand', $strand)->where('level', $level)->get(['group_code']);
@@ -44,7 +44,7 @@ class AllTermSummaryAjax extends Controller
         }
 
         if (!$lists->isEmpty()) {
-            foreach ($lists as $list) {
+            foreach ($lists as $key => $list) {
                 $list->firstname = \App\User::where('idno', $list->idno)->first()->firstname;
                 $list->lastname = \App\User::where('idno', $list->idno)->first()->lastname;
                 $grades = \App\GradeBasicEd::distinct()->where('school_year', $school_year)->where('level', $level)->where('idno', $list->idno)->get();
@@ -54,6 +54,11 @@ class AllTermSummaryAjax extends Controller
                 } else {
                     $list->grades = null;
                 }
+                if($is_ee == 1){
+                    if (!self::checkEEgrades($grades)) {
+                        unset($lists[$key]);
+                    }
+                }
             }
         }
         if ($display == "lists") {
@@ -62,4 +67,21 @@ class AllTermSummaryAjax extends Controller
             return $subject_heads;
         }
     }
+
+    static function checkEEgrades($grades) {
+        foreach ($grades as $grade) {
+            $first = $grade->first_grading_letter;
+            $second = $grade->second_grading_letter;
+            $third = $grade->third_grading_letter;
+            $fourth = $grade->fourth_grading_letter;
+
+            if ($first == null ) {
+            }elseif($first != "EE"){
+                return false;
+            }elseif($first ==""){}
+        }
+        return true;
+        
+    }
+
 }
