@@ -40,7 +40,7 @@ class AllTermSummaryAjax extends Controller {
             dd('not yet started...');
         } else {
             $lists = \App\BedLevel::where('school_year', $school_year)->where('level', $level)->where('section', $section)->where('status', env('ENROLLED'))->get();
-            $subject_heads = \App\GradeBasicEd::distinct()->where('school_year', $school_year)->where('level', $level)->get(['group_code']);
+            $subject_heads = \App\GradeBasicEd::distinct()->where('school_year', $school_year)->where('level', $level)->orderBy('sort_to')->get(['group_code']);
         }
 
         if (!$lists->isEmpty()) {
