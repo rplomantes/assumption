@@ -25,6 +25,9 @@ switch ($accesslevel) {
     case 23:
         $layout="layouts.appedutech";
         break;
+    case 24:
+        $layout="layouts.appbedacademicdirector";
+        break;
     case 30:
         $layout="layouts.appaccountingstaff";
         break;

@@ -16,7 +16,7 @@ class AllTermSummaryAjax extends Controller {
 
     function all_term_view_list() {
         if (Request::ajax()) {
-            if (Auth::user()->accesslevel == env("REG_BE")) {
+            if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("BED_ACADEMIC_DIRECTOR")) {
                 $school_year = Input::get('school_year');
                 $level = Input::get('level');
                 $section = Input::get('section');

@@ -5,10 +5,18 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
 ?>
 <?php 
 if(Auth::user()->accesslevel == env('REG_BE')){
-    $layout = "layouts.appbedregistrar";
-}else{
-    $layout = "layouts.appadmission-bed";
-}
+        $layout = "layouts.appbedregistrar";
+    }else if (Auth::user()->accesslevel==env("ACCTNG_STAFF")){
+        $layout = "layouts.appaccountingstaff";    
+    }else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+        $layout = "layouts.appaccountinghead";    
+    }else if (Auth::user()->accesslevel==env("GUIDANCE_BED")){
+        $layout = "layouts.appguidance_bed";    
+    }else if (Auth::user()->accesslevel==env("EDUTECH")){
+        $layout = "layouts.appedutech";    
+    }else if (Auth::user()->accesslevel==env("BED_ACADEMIC_DIRECTOR")){
+        $layout = "layouts.appbedacademicdirector";    
+    }
 ?>
 @extends($layout)
 @section('messagemenu')

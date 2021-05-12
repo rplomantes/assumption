@@ -58,6 +58,9 @@ class HomeController extends Controller {
             case 23:
                 return view('edutech.index', compact('school_year'));
                 break;
+            case 24:
+                return view('bed_academic_director.index', compact('school_year'));
+                break;
             case 30:
                 return view('accounting.index');
                 break;

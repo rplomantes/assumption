@@ -19,7 +19,7 @@ class GradeSummary extends Controller {
     }
 
     function index_grade_summary() {
-        if (Auth::user()->accesslevel == env("REG_BE")) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env("BED_ACADEMIC_DIRECTOR")) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();
             return view("reg_be.grade_summary.student_list_grade_summary", compact('students'));
         }

@@ -31,6 +31,9 @@
                 @case (23)
                     EduTech
                 @break
+                @case (24)
+                    BED Academic Director
+                @break
                 @case (30)
                     Accounting Head
                 @break
