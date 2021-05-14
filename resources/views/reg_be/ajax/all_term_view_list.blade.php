@@ -71,7 +71,11 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                         @elseif($is_ee == 3 && $grade->first_grading_letter == "NI")
                         <strong style="color: red">{{$grade->first_grading_letter}}</strong>
                         @elseif($is_ee <= 1)
+                        @if($grade->first_grading_letter == "NI")
+                        <strong style="color:red">{{$grade->first_grading_letter}}</strong>
+                        @else
                         {{$grade->first_grading_letter}}
+                        @endif
                         @endif
                         @else
                         {{$grade->first_remarks}} @if($grade->first_grading>0)({{round($grade->first_grading)}})@endif
