@@ -91,11 +91,17 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                                 {{$grade->second_grading_letter}}
                             @endif
                     @else
-                        @if($grade->is_alpha > 0)
+                       @if($grade->is_alpha > 0)
                         @if($is_ee == 2 && $grade->second_grading_letter == "EE")
                         {{$grade->second_grading_letter}}
+                        @elseif($is_ee == 3 && $grade->second_grading_letter == "NI")
+                        <strong style="color: red">{{$grade->second_grading_letter}}</strong>
                         @elseif($is_ee <= 1)
+                        @if($grade->second_grading_letter == "NI")
+                        <strong style="color:red">{{$grade->second_grading_letter}}</strong>
+                        @else
                         {{$grade->second_grading_letter}}
+                        @endif
                         @endif
                         @else
                         {{$grade->second_remarks}} @if($grade->second_grading>0)({{round($grade->second_grading)}})@endif
@@ -111,11 +117,17 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                                 {{$grade->third_grading_letter}}
                             @endif
                     @else
-                        @if($grade->is_alpha > 0)
+                       @if($grade->is_alpha > 0)
                         @if($is_ee == 2 && $grade->third_grading_letter == "EE")
                         {{$grade->third_grading_letter}}
+                        @elseif($is_ee == 3 && $grade->third_grading_letter == "NI")
+                        <strong style="color: red">{{$grade->third_grading_letter}}</strong>
                         @elseif($is_ee <= 1)
+                        @if($grade->third_grading_letter == "NI")
+                        <strong style="color:red">{{$grade->third_grading_letter}}</strong>
+                        @else
                         {{$grade->third_grading_letter}}
+                        @endif
                         @endif
                         @else
                         {{$grade->third_remarks}} @if($grade->third_grading>0)({{round($grade->third_grading)}})@endif
@@ -131,11 +143,17 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                                 {{$grade->fourth_grading_letter}}
                             @endif
                     @else
-                        @if($grade->is_alpha > 0)
+                       @if($grade->is_alpha > 0)
                         @if($is_ee == 2 && $grade->fourth_grading_letter == "EE")
                         {{$grade->fourth_grading_letter}}
+                        @elseif($is_ee == 3 && $grade->fourth_grading_letter == "NI")
+                        <strong style="color: red">{{$grade->fourth_grading_letter}}</strong>
                         @elseif($is_ee <= 1)
+                        @if($grade->fourth_grading_letter == "NI")
+                        <strong style="color:red">{{$grade->fourth_grading_letter}}</strong>
+                        @else
                         {{$grade->fourth_grading_letter}}
+                        @endif
                         @endif
                         @else
                         {{$grade->fourth_remarks}} @if($grade->fourth_grading>0)({{round($grade->fourth_grading)}})@endif
