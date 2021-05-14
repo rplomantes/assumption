@@ -12,10 +12,20 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/set_password.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/reg_be/grade_summary/student_list_all_term.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/GradeSummary.php</file>
             <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/Ajax/AllTermSummaryAjax.php</file>
-            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/college_instructor/print_grade.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/.env</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/reg_be/grade_summary/student_list_grade_summary.blade.php</file>
             <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/AllTermSummary.php</file>
-            <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/CollegeInstructor/Grades/GradesController.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/layouts/appbedacademicdirector.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/auth/register.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/admin/view_information/view_info.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/bed_academic_director/index.blade.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/BedRegistrar/Ajax/GradeSummaryAjax.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/app/Http/Controllers/HomeController.php</file>
+            <file>file:/home/sean/NetBeansProjects/assumption/resources/views/admin/ajax/getstudentlist.blade.php</file>
         </group>
     </open-files>
 </project-private>

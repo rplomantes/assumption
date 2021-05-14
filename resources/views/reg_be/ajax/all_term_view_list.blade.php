@@ -68,6 +68,8 @@ function getAdviser($school_year,$period,$level,$strand,$section){
                         @if($grade->is_alpha > 0)
                         @if($is_ee == 2 && $grade->first_grading_letter == "EE")
                         {{$grade->first_grading_letter}}
+                        @elseif($is_ee == 3 && $grade->first_grading_letter == "NI")
+                        <strong style="color: red">{{$grade->first_grading_letter}}</strong>
                         @elseif($is_ee <= 1)
                         {{$grade->first_grading_letter}}
                         @endif
