@@ -82,6 +82,7 @@ class AjaxViewGrades extends Controller {
             $grade_id = Input::get("grade_id");
             $schedule_id = Input::get("schedule_id");
             $courses_id = \App\CourseOffering::where('schedule_id', $schedule_id)->get();
+            $course_code = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_code;
             $course_name = \App\CourseOffering::where('schedule_id', $schedule_id)->first()->course_name;
             $instructor_idno = \App\ScheduleCollege::where('schedule_id', $schedule_id)->first()->instructor_id;
 
@@ -97,7 +98,7 @@ class AjaxViewGrades extends Controller {
             }
             $update_grades->save();
 
-            return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+            return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period','course_code'));
         }
     }
 
@@ -126,7 +127,7 @@ class AjaxViewGrades extends Controller {
                     \App\Http\Controllers\Admin\Logs::log("Approve and Finalized midterm grades for schedule id $schedule_id.");
                     DB::commit();
                 }
-                return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+                return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period','course_code'));
             }
         }
     }
@@ -177,7 +178,7 @@ class AjaxViewGrades extends Controller {
                 \App\Http\Controllers\Admin\Logs::log("Approve and Finalized all finals grades for schedule id $schedule_id.");
                 DB::commit();
             }
-            return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period'));
+            return view('reg_college.grade_management.view_students', compact('courses_id', 'schedule_id', 'course_name', 'school_year', 'period','course_code'));
             }
         }
     }
