@@ -203,7 +203,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-        <td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>
+        <td align="center">@if($subject->is_alpha == 0){{$subject->fourth_remarks}}@else{{$subject->fourth_grading_letter}}@endif</td>
 
         @if($subject->final_grade != "")
         <td align="center">{{$subject->final_remarks}}({{$subject->final_grade}})</td>
@@ -256,7 +256,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
         @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $subject->group_code))
-        <td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>
+        <td align="center">@if($subject->is_alpha == 0){{$subject->fourth_remarks}}@else{{$subject->fourth_grading_letter}}@endif</td>
         @else
         <td align="center" style="font:10pt"></td>
         @endif
@@ -332,7 +332,7 @@ function getPromotion($level) {
         <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->first_remarks}}@else{{$splitsubject->first_grading_letter}}@endif</td>
         <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->second_remarks}}@else{{$splitsubject->second_grading_letter}}@endif</td>
         <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->third_remarks}}@else{{$splitsubject->third_grading_letter}}@endif</td>
-        <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
+        <td align="center">@if($splitsubject->is_alpha == 0){{$splitsubject->fourth_remarks}}@else{{$splitsubject->fourth_grading_letter}}@endif</td>
         <td align="center" style="font:10pt">Pass</td>
 
         @if($splitsubject->final_grade != "")
@@ -362,7 +362,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-        <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
+        <td align="center">@if($subject->is_alpha == 0){{$subject->fourth_remarks}}@else{{$subject->fourth_grading_letter}}@endif</td>
         @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9]", $subject->group_code) && !$subject->group_code == "SA10")<td align="center" style="font:10pt">Pass</td>
         @else<td align="center" style="font:10pt"></td>
 
@@ -399,7 +399,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->is_alpha == 0){{$subject->first_remarks}}@else{{$subject->first_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->second_remarks}}@else{{$subject->second_grading_letter}}@endif</td>
         <td align="center">@if($subject->is_alpha == 0){{$subject->third_remarks}}@else{{$subject->third_grading_letter}}@endif</td>
-        <!--<td align="center">@if($subject->is_alpha == 0){{round($subject->fourth_grading,2)}}@else{{$subject->fourth_grading_letter}}@endif</td>-->
+        <td align="center">@if($subject->is_alpha == 0){{$subject->fourth_remarks}}@else{{$subject->fourth_grading_letter}}@endif</td>
         <td align="center" style="font:10pt"></td>
 
         @if($subject->final_grade_letter != "")
