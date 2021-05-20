@@ -293,7 +293,7 @@ function getPromotion($level) {
             <td align="center"><?php $total_absent += $totalab = getAttendances('11', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('12', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <!--<td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>-->
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>NA</td>
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>N/A</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>

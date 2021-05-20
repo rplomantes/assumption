@@ -7,6 +7,8 @@
     }
 </style>
 <?php
+$previous_group = "";
+$skip = 0;
 
 function getAttendances($month, $school_year, $idno, $type) {
     if ($type == 'absences') {
@@ -147,12 +149,11 @@ function getPromotion($level) {
 <br>
 <table border = 1 cellpadding = 6 cellspacing =0 width="50%">
     <tr style = "background: darkblue; color: white; font:bold">
-        <td rowspan="2" align="center" width="60%" style="border:1px solid black;">LEARNING AREAS</td><td colspan="4" align="center" style="border-top:1px solid black;">QUARTER</td><td rowspan="2" align="center"  style="border:1px solid black;">FINAL<br>RATING</td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
+        <td rowspan="2" align="center" width="60%" style="border:1px solid black;">LEARNING AREAS</td><td colspan="4" align="center" style="border-top:1px solid black;">QUARTER</td>
+        <!--<td rowspan="2" align="center"  style="border:1px solid black;">FINAL<br>RATING</td>-->
         <td rowspan="2" align="center"  style="border:1px solid black;">REMARKS</td>
-        @endif
     </tr>
-    <tr style = "background: darkblue; color: white; font:bold">
+    <tr style = "background: darkblue; color: white; font:bold;">
         <td align="center">1</td>
         <td align="center">2</td>
         <td align="center">3</td>
@@ -182,10 +183,7 @@ function getPromotion($level) {
         <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
         @endif
         @else
-        <td></td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
-        @endif
+        <td align="center">Pass</td>
         @endif
 
 
@@ -213,9 +211,9 @@ function getPromotion($level) {
         <td align="center">@if($subject->final_grade >= 74)Promoted @endif</td>
         @endif
         @else
-        <td></td>
+        <!--<td></td>-->
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
+        <td align="center">Pass</td>
         @endif
         @endif
         @if($subject->units>0)
@@ -226,8 +224,19 @@ function getPromotion($level) {
     
     
     
-    
+    <?php
+    if($get_all_subject->subject_type == 2){
+        $current_group = $get_all_subject->group_code;
+        if($current_group == $previous_group){
+            $skip = 1;
+        }else{
+            $skip = 0;
+        }
+    }
+    ?>
+    @if($skip == 0)
     @foreach($get_all_subjects->where('group_code', $get_all_subject->group_code)->where('subject_type', 2) as $group_code)
+    @if($loop->first)
     @if(!fnmatch("SA[1,2,3,4,5,6,7,8,9,10]", $group_code->subject_code))
     <?php
     $get_split_subjects = \App\GradeBasicEd::selectRaw("max(final_grade) as final_grade, max(final_remarks) as final_remarks, max(display_subject_code) as display_subject_code,max(is_alpha) as is_alpha, max(first_grading_letter) as first_grading_letter,max(second_grading_letter) as second_grading_letter,max(third_grading_letter) as third_grading_letter,max(fourth_grading_letter) as fourth_grading_letter")
@@ -266,10 +275,7 @@ function getPromotion($level) {
         @endif
         @endif
         @else
-        <td></td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
-        @endif
+        <td align="center">Pass</td>
         @endif
 
         @if($subject->units>0)
@@ -279,8 +285,14 @@ function getPromotion($level) {
     @endforeach
     @endif
     @endif
+    @endif
     @endforeach
-
+    @endif
+    <?php
+    if($get_all_subject->subject_type == 2){
+        $previous_group = $get_all_subject->group_code;
+    }
+    ?>
     
     
     
@@ -329,10 +341,7 @@ function getPromotion($level) {
         <td align="center">@if($splitsubject->final_grade >= 74) Promoted @endif</td>
         @endif
         @else
-        <td></td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
-        @endif
+        <td align="center">Pass</td>
         @endif
     </tr>
     @endforeach
@@ -373,10 +382,7 @@ function getPromotion($level) {
         @endif
         @endif
         @else
-        <td></td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
-        @endif
+        <td align="center">Pass</td>
         @endif
 
         @if($subject->units>0)
@@ -402,10 +408,7 @@ function getPromotion($level) {
         <td align="center">Promoted</td>
         @endif
         @else
-        <td></td>
-        @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
-        <td></td>
-        @endif
+        <td align="center">Pass</td>
         @endif
         @if($subject->units>0)
         <?php $total_final_grade += $subject->final_grade; ?>
@@ -415,10 +418,10 @@ function getPromotion($level) {
 
     @endforeach
     @endif
-    <tr>
+<!--    <tr>
         @if($status->level == "Grade 7" || $status->level == "Grade 8" || $status->level == "Grade 9" || $status->level == "Grade 10")
         <td style = "background: darkblue; color: white; font:bold; border:1px solid black;" colspan="5">GENERAL AVERAGE</td>
-        <td align="center" colspan="2">
+        <td align="center">
             <strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}  @if(round($total_final_grade/$total_units,3)>0){{(round($total_final_grade/$total_units,3))}} @endif</strong>
         </td>
         @else
@@ -427,33 +430,10 @@ function getPromotion($level) {
             <strong>{{getLetterGrade(round($total_final_grade/$total_units,2),"Regular")}}  @if(round($total_final_grade/$total_units,3)>0){{(round($total_final_grade/$total_units,3))}} @endif</strong>
         </td>
         @endif
-    </tr>
+    </tr>-->
 </table>
 <br>
-@if($idno == 1920295)
-<table border = 1 cellpadding = 2 cellspacing =0 width="50%">
-    <tr><td><span style="font-style: italic !important">
-                First Quarter: Assumption English School-Singapore
-            </span></td></tr>
-</table>
-@endif
-
-@if($idno == 1920294)
-<table border = 1 cellpadding = 2 cellspacing =0 width="50%">
-    <tr><td><span style="font-style: italic !important">
-                First Quarter: St. Theresa's College-Quezon City
-            </span></td></tr>
-</table>
-<br>
-@endif
-<!--<table border = 1 cellpadding = 2 cellspacing =0 width="50%">
-    <tr><td><span style="font-style: italic !important">
-                "Due to the declaration of Enhanced Community Quarantine(ECQ) because of the COVID-19 Pandemic, 
-                the grades for the second half of the second semester / 4th quarter are Pass or Fail."
-            </span></td></tr>
-</table>-->
-<br>
-<div style="position:absolute; top:630px; bottom:0; left:0; right:0;">
+<div style="position:absolute; top:510px; bottom:0; left:0; right:0;">
     <table border = 1 cellpadding = 1 cellspacing =0 width="50%">
         <tr>
             <td align="center" rowspan="2">ATTENDANCE</td>
@@ -469,7 +449,8 @@ function getPromotion($level) {
             <td align="center" rowspan="2">May</td>
             <td align="center" style="font:7pt !important;" width="16%">Days of School</td>
         </tr>
-<?php $school_days = \App\CtrSchoolDay::where('academic_type','BED')->where('school_year',$school_year)->value('school_days'); ?>
+<?php $school_days = \App\CtrSchoolDay::where('academic_type','BED')->where('school_year',$school_year)->value('school_days');
+?>
         <tr>
             <td align="center">{{$school_days}}</td>
         </tr><?php $total_absent = 0; ?>
@@ -486,7 +467,8 @@ function getPromotion($level) {
             <td align="center"><?php $total_absent += $totalab = getAttendances('03', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('04', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td align="center"><?php $total_absent += $totalab = getAttendances('05', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
-            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>
+            <!--<td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>{{$school_days-$total_absent}}</td>-->
+            <td align="center" valign="top" rowspan="2"><span style="font:7pt !important;">Days Present</span><br>N/A</td>
         </tr>
         <tr>
             <td align="center">Tardiness</td>
@@ -538,15 +520,15 @@ function getPromotion($level) {
     
     
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
-    _______________.<br>
-    She is eligible for transfer and should be admitted to _________.
+    <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
+    She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
     
     <br>
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
     Principal<br><br>
-    <i>mm-dd-yyyy</i><br>
+    <i>June 10, 2021</i><br>
     Date
 </div>
 
@@ -557,8 +539,6 @@ function getPromotion($level) {
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal<br><br>
-    <i>mm-dd-yyyy</i><br>
-    Date
+    Principal
 </div>
 
