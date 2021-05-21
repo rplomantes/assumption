@@ -538,6 +538,7 @@ function getPromotion($level) {
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal
+    Principal<br><br>
+    Date
 </div>
 
