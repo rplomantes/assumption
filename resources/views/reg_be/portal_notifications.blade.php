@@ -4,7 +4,7 @@ switch($department){
         $depname = "BED Records";
         break;
     case "finance":
-        $depname = "BED Finance";
+        $depname = "Treasurer's Office";
         break;
 }
 $notifications = \App\Notification::where('department', $depname)->orderBy('created_at', 'desc')->get();
@@ -156,7 +156,7 @@ if(Auth::user()->accesslevel == env('REG_BE')){
                             <label>Department</label>
                             <select name="department" class="form-control">
                                  @if($depname == "BED Records")<option> BED Records</option>@endif
-                                 @if($depname == "BED Finance")<option> BED Finance</option>@endif
+                                 @if($depname == "Treasurer's Office")<option> Treasurer's Office</option>@endif
                             </select>
                         </div>
                     </div>
