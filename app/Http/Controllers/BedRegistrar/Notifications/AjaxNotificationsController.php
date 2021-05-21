@@ -28,7 +28,7 @@ class AjaxNotificationsController extends Controller
                 $notification->is_active = 1;
                 $notification->save();
             }
-            $notifications = \App\Notification::orderBy('created_at', 'desc')->get();
+            $notifications = \App\Notification::where('department',$notification->department)->orderBy('created_at', 'desc')->get();
             return view('reg_be.list_notifications',compact('notifications'));
         }
     }

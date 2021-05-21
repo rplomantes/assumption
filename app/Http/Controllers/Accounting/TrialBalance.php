@@ -24,7 +24,7 @@ class TrialBalance extends Controller
         
         $lists = \App\Accounting::join('chart_of_accounts','accountings.accounting_code','chart_of_accounts.accounting_code')
                 ->selectRaw('accountings.accounting_code, chart_of_accounts.accounting_name, case when (sum(debit) - sum(credit)) > 0 then sum(debit) - sum(credit) end as debit,case when (sum(debit) - sum(credit)) < 0 then sum(debit) - sum(credit) end as credit')
-                ->where('is_reverse',0)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
+                ->where('is_reverse',0)->where('accounting_type','>', 10)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
                 ->groupBy('accountings.accounting_code')->get();
             $pdf = PDF::loadView('accounting.trial_balance.print_trial_balance', compact('lists', 'date','finalStartDate','finalEndDate','sort'));
             $pdf->setPaper('letter','portrait');

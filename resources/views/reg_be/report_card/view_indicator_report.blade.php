@@ -124,7 +124,7 @@ function getPromotion($level) {
         font-family: sans-serif;
         margin-top: 5px;
         width: 100%;
-        font-size: 6pt;
+        font-size: 7pt;
         text-align: center;
     }
     #column {
@@ -147,7 +147,7 @@ function getPromotion($level) {
     #table1, .tr, #td1 {
         border-collapse: collapse;
         font-family: sans-serif;
-        font-size: 6pt;
+        font-size: 9pt;
         border-left: black solid 1px;
         border-right: black solid 1px;
     }
@@ -268,7 +268,8 @@ function getPromotion($level) {
             <td><?php $total_absent += $totalab = getAttendances('03', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td><?php $total_absent += $totalab = getAttendances('04', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
             <td><?php $total_absent += $totalab = getAttendances('05', $school_year, $idno, 'absences') ?>@if($totalab == 0)@else {{$totalab}}@endif</td>
-            <td valign="top" rowspan="2"><strong>Days Present</strong><br>{{$school_days-$total_absent}}</td>
+            <!--<td valign="top" rowspan="2"><strong>Days Present</strong><br>{{$school_days-$total_absent}}</td>-->
+            <td valign="top" rowspan="2"><strong>Days Present</strong><br>N/A</td>
         </tr>
         <tr>
             <td>Tardiness</td>
@@ -295,6 +296,7 @@ function getPromotion($level) {
         </tr>
     </table>
 </div>
+<br>
 <br>
 <br>
 <br>

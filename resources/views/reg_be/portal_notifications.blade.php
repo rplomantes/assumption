@@ -1,5 +1,13 @@
 <?php
-$notifications = \App\Notification::orderBy('created_at', 'desc')->get();
+switch($department){
+    case "records":
+        $depname = "BED Records";
+        break;
+    case "finance":
+        $depname = "BED Finance";
+        break;
+}
+$notifications = \App\Notification::where('department', $depname)->orderBy('created_at', 'desc')->get();
 ?>
 <style>
     .post
@@ -82,7 +90,14 @@ $notifications = \App\Notification::orderBy('created_at', 'desc')->get();
         border-radius: 50%;
     } 
 </style>
-@extends('layouts.appbedregistrar')
+<?php 
+if(Auth::user()->accesslevel == env('REG_BE')){
+    $layout = "layouts.appbedregistrar";
+}else if (Auth::user()->accesslevel==env("ACCTNG_HEAD")){
+    $layout = "layouts.appaccountinghead";    
+}
+?>
+@extends($layout)
 @section('messagemenu')
 <li class="dropdown messages-menu">
     <!-- Menu toggle button -->
@@ -133,13 +148,15 @@ $notifications = \App\Notification::orderBy('created_at', 'desc')->get();
                     {{Session::get('announcement')}}
                 </div>
                 @endif
-                <form action='{{url('/bedregistrar/portal_notifications/post')}}' method='post'>
+                <form action='{{url('/bed_portal_notifications/post')}}' method='post'>
                     {{csrf_field()}}
+                    <input type="hidden" name="depname" value="{{$department}}">
                     <div class="row">
                         <div class="col-sm-6">
                             <label>Department</label>
                             <select name="department" class="form-control">
-                                <option>BED Records</option>
+                                 @if($depname == "BED Records")<option> BED Records</option>@endif
+                                 @if($depname == "BED Finance")<option> BED Finance</option>@endif
                             </select>
                         </div>
                     </div>
@@ -206,7 +223,7 @@ function setActive(id){
         array['id'] = id;
         $.ajax({
             type: "GET",
-            url: "/bedregistrar/notifications/set_status",
+            url: "/bed_notifications/set_status",
             data: array,
             success: function (data) {
                 $("#notifications").html(data)

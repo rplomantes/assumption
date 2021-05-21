@@ -19,7 +19,7 @@ class GeneralLedger extends Controller
     
     function generateLedger($accounting_code,$finalStartDate,$finalEndDate){
         $entries = \App\Accounting::where('accounting_code',$accounting_code)
-                ->where('is_reverse',0)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
+                ->where('is_reverse',0)->where('accounting_type','>', 10)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
                 ->orderBy('transaction_date')->get();
         $account = \App\ChartOfAccount::where('accounting_code',$accounting_code)->first();
         return view('accounting.general_ledger.generate_ledger',compact('account','entries','finalStartDate','finalEndDate'));
@@ -27,7 +27,7 @@ class GeneralLedger extends Controller
     
     function printGenerateLedger($accounting_code,$finalStartDate,$finalEndDate){
         $entries = \App\Accounting::where('accounting_code',$accounting_code)
-                ->where('is_reverse',0)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
+                ->where('is_reverse',0)->where('accounting_type','>', 10)->whereBetween('transaction_date', [$finalStartDate, $finalEndDate])
                 ->orderBy('transaction_date')->get();
         $account = \App\ChartOfAccount::where('accounting_code',$accounting_code)->first();
         

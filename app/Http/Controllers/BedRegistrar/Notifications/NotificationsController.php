@@ -15,15 +15,14 @@ class NotificationsController extends Controller
         $this->middleware('auth');
     }
 
-    function portal_notifications(){
-        if(Auth::user()->accesslevel == env('REG_BE')){
-            return view('reg_be.portal_notifications');
+    function portal_notifications($department){
+        if(Auth::user()->accesslevel == env('REG_BE') || Auth::user()->accesslevel == env('ACCTNG_HEAD')){
+            return view('reg_be.portal_notifications',compact('department'));
         }
     }
     
     function post_notifications(Request $request){
 //        return $request;
-        if(Auth::user()->accesslevel == env('REG_BE')){
             $add_announcement = new \App\Notification;
             $add_announcement->department = $request->department;
             $add_announcement->notification = $request->notifications_content;
@@ -31,7 +30,6 @@ class NotificationsController extends Controller
             $add_announcement->save();
             \App\Http\Controllers\Admin\Logs::log("Post a notification");
             Session::flash('announcement','Notification Posted!');
-            return redirect(url('/bedregistrar/portal_notifications'));
-        }
+            return redirect(url("/bed_portal_notifications/$request->depname"));
     }
 }
