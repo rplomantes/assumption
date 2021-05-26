@@ -307,17 +307,12 @@ function getPromotion($level) {
         The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
         <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
         She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
-
-
-        The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
-        _________________.<br>
-        She is eligible for transfer and should be admitted to _____________________.
         <br>
         <br>
         <br>
         <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
         Principal<br><br>
-        <i>dd/mm/yyyy</i>
+        <i>May 28, 2021</i>
         <br>
         Date
     </div>
@@ -329,8 +324,7 @@ function getPromotion($level) {
         <br>
         <br>
         <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-        Principal<br><br>
-        <i>dd/mm/yyyy</i>
+        Principal<br>
         <br>
         Date
     </div>
