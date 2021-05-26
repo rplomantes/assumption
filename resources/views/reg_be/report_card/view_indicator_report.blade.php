@@ -114,11 +114,12 @@ function getPromotion($level) {
     #legend, .tr, .th, .td{
         font-family: Sans-serif;
         margin-top: 5px;
-        margin-left: -45px;
-        width:100%;
+        margin-left: 100px;
+        width:60%;
         font-size: 8pt;
         text-align: center;
         font-weight:bold;
+        border: black solid 1px;
     }
     #attendance, .tr, .td{
         font-family: sans-serif;
@@ -321,6 +322,8 @@ function getPromotion($level) {
     <div id="cancel">
         <strong>CANCELLATION OF TRANSFER ELIGIBILITY</strong><br>
         Has been admitted to _____________________________________________.
+        <br>
+        <br>
         <br>
         <br>
         <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>

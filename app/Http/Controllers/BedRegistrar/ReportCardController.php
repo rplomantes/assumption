@@ -49,7 +49,7 @@ class ReportCardController extends Controller {
             $records = \App\PreschoolEcr::where('idno', $idno)->where('school_year', $school_year)->get();
 
             $pdf = PDF::loadView('reg_be.report_card.view_indicator_report', compact('idno', 'user', 'status', 'adviser', 'records', 'school_year'));
-            $pdf->setPaper(array(0, 0, 612, 1152));
+            $pdf->setPaper(array(0, 0, 612, 1260));
             return $pdf->stream("indicator_report-$idno.pdf");
         }
     }
