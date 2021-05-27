@@ -1,3 +1,15 @@
+<?php
+function getBalance($idno){
+    $totalAmount = \App\Ledger::where('idno',$idno)->sum('amount');
+    $totalPayment = \App\Ledger::where('idno',$idno)->sum('payment');
+    $totalDebit = \App\Ledger::where('idno',$idno)->sum('debit_memo');
+    $totalDiscount = \App\Ledger::where('idno',$idno)->sum('discount');
+    $totalECS = \App\Ledger::where('idno',$idno)->sum('esc');
+    
+    return $totalAmount-($totalPayment+$totalDebit+$totalDiscount+$totalECS);
+}
+?>
+
 @extends('layouts.appbedregistrar')
 @section('messagemenu')
 <li class="dropdown messages-menu">
@@ -62,6 +74,7 @@
                         <th>Name</th>
                         <th>Level</th>
                         <th>Section</th>
+                        <th>Balance</th>
                         <th>Status</th>
                         <td align="right"><strong>Remove Student</strong></td>
                     </tr>
@@ -72,6 +85,7 @@
                         <td>{{$hold->lastname}}, {{$hold->firstname}} {{$hold->middlename}}</td>
                         <td>{{$hold->level}}</td>
                         <td>{{$hold->section}}</td>
+                        <td>{{number_format(getBalance($hold->idno),2)}}</td>
                         <td>
                             @if($hold->status == 3)Enrolled
                             @elseif($hold->status == 2) Assessed
