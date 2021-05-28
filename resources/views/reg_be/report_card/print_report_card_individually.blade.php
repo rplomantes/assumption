@@ -520,7 +520,11 @@ function getPromotion($level) {
     
     The bearer <strong>{{$user->getFullNameAttribute()}}</strong> was our student for school year 
     <strong>{{$status->school_year}}-{{$status->school_year+1}}</strong>.<br>
+    @if($status->idno == "2021101" or $status->idno == "1010451" or $status->idno == "1010478")
+    She is eligible for transfer and should be admitted to <strong>{{$status->level}}</strong>.
+    @else
     She is eligible for transfer and should be admitted to <strong>{{getPromotion($status->level)}}</strong>.
+    @endif
     
     <br>
     <br>
