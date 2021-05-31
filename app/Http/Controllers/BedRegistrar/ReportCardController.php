@@ -338,18 +338,24 @@ class ReportCardController extends Controller {
                     foreach ($get_subjects as $subject) {
                         $total_units += $subject->units;
                         if ($subject->units > 0) {
-                            $total_final_grade += $subject->final_grade;
+                            if($subject->third_grading != null){
+                                $total_final_grade += $subject->third_grading;
+                            }elseif($subject->fourth_grading != null){
+                                $total_final_grade += $subject->fourth_grading;
+                            }else{
+                                $total_final_grade += $subject->final_grade;
+                            }
                         }
                     }
                 }
 
                 if (count($get_pe_2nd) > 0) {
                     foreach ($get_pe_2nd as $subject) {
-                        if (count($get_pe_1st) > 0) {
-                            $pe_average = ($subject->third_grading + $get_pe_1st->first_grading + $get_pe_1st->second_grading) / 3;
-                        } else {
-                            $pe_average = ($subject->first_grading + $subject->second_grading + $subject->third_grading) / 3;
-                        }
+                        //for sy 2020-2021 2nd Semester
+                        $pe_average = $subject->third_grading;
+                        //with 3rd and 4th
+//                        $pe_average = ($subject->third_grading + $get_pe_1st->first_grading) / 3;
+                        
                         $total_units += $subject->units;
                         if ($subject->units > 0) {
                             $total_final_grade += $pe_average;
@@ -362,7 +368,13 @@ class ReportCardController extends Controller {
                     foreach ($get_sa as $subject) {
                         $total_units += $subject->units;
                         if ($subject->units > 0) {
-                            $total_final_grade += $subject->final_grade;
+                            if($subject->third_grading != null){
+                                $total_final_grade += $subject->third_grading;
+                            }elseif($subject->fourth_grading != null){
+                                $total_final_grade += $subject->fourth_grading;
+                            }else{
+                                $total_final_grade += $subject->final_grade;
+                            }
                         }
                     }
                 }
@@ -372,7 +384,13 @@ class ReportCardController extends Controller {
                         $total_units += $subject->units;
 
                         if ($subject->units > 0) {
-                            $total_final_grade += $subject->final_grade;
+                            if($subject->third_grading != null){
+                                $total_final_grade += $subject->third_grading;
+                            }elseif($subject->fourth_gradings != null){
+                                $total_final_grade += $subject->fourth_grading;
+                            }else{
+                                $total_final_grade += $subject->final_grade;
+                            }
                         }
                     }
                 }
