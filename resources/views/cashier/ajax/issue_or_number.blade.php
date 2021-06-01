@@ -13,6 +13,8 @@
         <div class="modal-body" style="text-align: center">
             <label>Issue OR Number</label>
             <input type="text" placeholder = "0000******" name="or_number" required="">
+            <label>Explanation</label>
+            <input type="text" placeholder = "" name="explanation" required="">
         </div>
     </h1>
     <div class="modal-footer">
