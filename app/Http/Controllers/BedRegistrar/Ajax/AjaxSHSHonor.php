@@ -17,7 +17,7 @@ class AjaxSHSHonor extends Controller {
 
             $lists3 = $this->getStudentCompute($school_year, $level);
 
-            return view('reg_be.ajax.get_shs_honor', compact('lists3', 'school_year'));
+            return view('reg_be.ajax.get_shs_honor', compact('lists3', 'school_year','level'));
         }
     }
 

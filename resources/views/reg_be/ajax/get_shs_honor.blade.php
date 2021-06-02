@@ -5,6 +5,18 @@ $control = 1;
 <div class ="form form-group">
     <a href="javascript:void(0)" onclick = "export_shs_honor()" class="form btn btn-primary"> Export SHS Honor</a>
 </div>
+<div class='col-sm-4'>
+<table class='table table-condensed'>
+    <tr>
+        <td>Level</td>
+        <td>{{$level}}</td>
+    </tr>
+    <tr>
+        <td>School Year</td>
+        <td>{{$school_year}}</td>
+    </tr>
+</table>
+</div>
 <table class='table table-condensed'>
     <tr>
         <td></td>
