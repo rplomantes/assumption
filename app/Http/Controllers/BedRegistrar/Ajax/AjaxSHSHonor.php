@@ -26,7 +26,7 @@ class AjaxSHSHonor extends Controller {
         $lists3 = $this->getStudentCompute($school_year, $level);
 
         ob_end_clean();
-        Excel::create('shs_ranking', function($excel) use ($lists3, $level, $school_year) {
+        Excel::create('shs_honor', function($excel) use ($lists3, $level, $school_year) {
             $excel->setTitle($level.'-'.$school_year);
 
             $excel->sheet($level, function ($sheet) use ($lists3, $level,$school_year) {
