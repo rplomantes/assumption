@@ -281,6 +281,8 @@ class ReportCardController extends Controller {
                 if (count($get_pe_1st) > 0) {
                     $pe_average = ($get_pe_1st->first_grading + $get_pe_1st->second_grading) / 2;
                     $total_units += $subject->units;
+                }else{
+                    $pe_average = 0;
                 }
                 if ($subject->units > 0) {
                     $total_final_grade += $pe_average;

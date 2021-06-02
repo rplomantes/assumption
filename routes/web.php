@@ -76,6 +76,11 @@ Route::get('/registrar_college/advising/sectioning/{course_code}', 'RegistrarCol
 //Ajax Advising Statistics
 Route::get('/ajax/registrar_college/advising/getstudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getstudentlist');
 Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
+Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
+Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
+Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
+Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
+Route::get('/ajax/registrar_college/advising/get_advising_statistics', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@get_advising_statistics');
 Route::get('/ajax/registrar_college/advising/addtosection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@addtosection');
 Route::get('/ajax/registrar_college/advising/getsection', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getsection');
 Route::get('/ajax/registrar_college/advising/getschedulestudentlist', 'RegistrarCollege\Advising\Ajax\AjaxAdvisingStatistics@getschedulestudentlist');
@@ -659,4 +664,9 @@ Route::get('/accounting/bulk_other_payment/get_list','Accounting\BulkOtherPaymen
 Route::get('/accounting/bulk_other_payment/add_student','Accounting\BulkOtherPayment@add_student');
 Route::get('/accounting/bulk_other_payment/remove_student','Accounting\BulkOtherPayment@remove_student');
 Route::post('/accounting/bulk_other_payment/process','Accounting\BulkOtherPayment@process');
+
+//SHS Honors
+Route::get('/bedregistrar/shs_honor','BedRegistrar\SHSHonor@index');
+Route::get('/ajax/bedregistrar/shs_honor/get_students','BedRegistrar\Ajax\AjaxSHSHonor@get_students');
+Route::get('/bedregistrar/export/shs_honor/{level}/{school_year}','BedRegistrar\Ajax\AjaxSHSHonor@export');
 

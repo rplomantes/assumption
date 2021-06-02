@@ -37,8 +37,8 @@ $y = 1;
     <tr><td>{{$i++}}</td><td>{{$name->idno}}</td><td>{{get_name($name->idno)}}</td>
         <td align="center">{{getGrades('2ndQTR',$name->idno,$schoolyear,$period,$level,'letter')}}</td>
         <td align="center">{{$first=getGrades('2ndQTR',$name->idno,$schoolyear,$period,$level,'number')}}</td>
-        <td align="center">{{getGrades('3rdQTR',$name->idno,$schoolyear,$period,$level,'letter')}}</td>
-        <td align="center">{{$second=getGrades('3rdQTR',$name->idno,$schoolyear,$period,$level,'number')}}</td>
+        <td align="center">{{getGrades('4thQTR',$name->idno,$schoolyear,$period,$level,'letter')}}</td>
+        <td align="center">{{$second=getGrades('4thQTR',$name->idno,$schoolyear,$period,$level,'number')}}</td>
         <td align="center">{{getTransmu(($first+$second)/2)}}</td>
         <td align="center">{{round(($first+$second)/2,2)}}</td>
     </tr>
@@ -53,7 +53,8 @@ $y = 1;
 @endif
 
 <?php
-
+//if you update this please update also the ff:
+//AjaxSHSHonor.php
 function getGrades($qtr, $idno, $schoolyear, $period, $level, $type) {
     if ($qtr == "2ndQTR") {
         $per = "1st Semester";
@@ -96,9 +97,9 @@ function getGrades($qtr, $idno, $schoolyear, $period, $level, $type) {
         }
     } else {
         if ($type == 'number') {
-            return $get_grades['third_grading'];
+            return $get_grades['fourth_grading'];
         } else {
-            return getTransmu($get_grades['third_grading']);
+            return getTransmu($get_grades['fourth_grading']);
         }
     }
 }
