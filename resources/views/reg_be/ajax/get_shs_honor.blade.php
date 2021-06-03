@@ -25,6 +25,8 @@ $control = 1;
         <td align='center' colspan="4">Academic Standing</td>
         <td align='center' colspan="4">Student Activities</td>
         <td align='center' rowspan="2">Total Average</td>
+        <td align='center' rowspan="2">Section</td>
+        <td align='center' rowspan="2">Strand</td>
     <tr>
     <tr>
         <td></td>
@@ -53,6 +55,8 @@ $control = 1;
         <td align='center'>{{number_format($list['saWhole'],2)}}</td>
         <td align='center'>{{number_format($list['saWholeAve'],2)}}</td>
         <td align='center'>{{number_format($list['totalAve'],3)}}</td>
+        <td>{{$list['section']}}</td>
+        <td>{{$list['strand']}}</td>
     </tr>
     @endforeach
 </table>
