@@ -321,7 +321,7 @@ function getPromotion($level) {
 </div>
 
 <div style="position:absolute; top:130px; bottom:0; left:580px; right:0;">
-    <strong>Conduct & Student Activities</strong>
+    <strong>Student Activities</strong>
     <table style=" font:11pt !important;">
         <tr class="legend"><td>O</td><td>-</td><td>Outstanding</td></tr>
         <tr class="legend"><td>HS</td><td>-</td><td>Highly Satisfactory</td></tr>
@@ -348,7 +348,7 @@ function getPromotion($level) {
     @if($status->level == "Grade 11")
     June 8, 2021<br>
     @elseif($status->level == "Grade 12")
-    June 4, 2021<br>
+    June 3, 2021<br>
     @endif
     Date
 </div>
@@ -359,6 +359,7 @@ function getPromotion($level) {
     <br>
     <br>
     <strong>Sr. Mary Ignatius G. Vedua, r.a.</strong><br>
-    Principal
+    Principal<br><br>
+    Date
 </div>
 

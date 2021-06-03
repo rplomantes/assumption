@@ -34,7 +34,7 @@ class AjaxSHSHonor extends Controller {
             });
         })->download('xlsx');
     }
-
+    
     function getStudentCompute($school_year, $level) {
         if ($level == "Grade 11" or $level == "Grade 12") {
             $period = "2nd Semester";
@@ -47,7 +47,7 @@ class AjaxSHSHonor extends Controller {
         }
         return $lists->sortByDesc('totalAve');
     }
-
+    
     function getLists($idno, $school_year, $period, $level, $lists2) {
         $user = \App\User::where('idno', $idno)->first();
         $array2 = array();
