@@ -25,6 +25,7 @@ $control = 1;
         <td align='center' colspan="4">Academic Standing</td>
         <td align='center' colspan="4">Student Activities</td>
         <td align='center' rowspan="2">Total Average</td>
+        <td align='center' rowspan="2">Rank</td>
         <td align='center' rowspan="2">Section</td>
         <td align='center' rowspan="2">Strand</td>
     <tr>
@@ -41,6 +42,10 @@ $control = 1;
         <td align='center'>Ave</td>
         <td align='center'>0.3</td>
     </tr>
+    <?php $count = count($lists3); ?>
+    <?php $ranking = 1; ?>
+    <?php $previous_gpa = 0; ?>
+    <?php $skip = 0; ?>
     @foreach($lists3 as $list)
     <tr>
         <td>{{$control++}}.</td>
@@ -55,6 +60,19 @@ $control = 1;
         <td align='center'>{{number_format($list['saWhole'],2)}}</td>
         <td align='center'>{{number_format($list['saWholeAve'],2)}}</td>
         <td align='center'>{{number_format($list['totalAve'],3)}}</td>
+        @if($previous_gpa == $list['totalAve'])
+            <?php $skip=$skip+1 ?>
+            <td>{{$ranking-1}}</td>
+        @else
+            @if($skip > 0)
+                <td>{{$ranking++ + $skip}}</td>
+                <?php $ranking+= $skip; ?>
+                <?php $skip=0; ?>
+            @else
+                <?php $skip=0; ?>
+                <td>{{$ranking++}}</td>
+            @endif
+        @endif
         <td>{{$list['section']}}</td>
         <td>{{$list['strand']}}</td>
     </tr>

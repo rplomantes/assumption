@@ -320,7 +320,7 @@ function getPromotion($level) {
     </ul>
 </div>
 
-<div style="position:absolute; top:140px; bottom:0; left:580px; right:0;">
+<div style="position:absolute; top:130px; bottom:0; left:580px; right:0;">
     <strong>Conduct & Student Activities</strong>
     <table style=" font:11pt !important;">
         <tr class="legend"><td>O</td><td>-</td><td>Outstanding</td></tr>
