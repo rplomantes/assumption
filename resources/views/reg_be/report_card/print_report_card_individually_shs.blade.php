@@ -312,10 +312,10 @@ function getPromotion($level) {
 <div style="position:absolute; top:0px; bottom:0; left:480px; right:0; font:11pt !important;">
     LEGEND:
     <ul style="list-style: none;">
-        <li><span>O(Outstanding)</span>..................................<span>90% and 100%</span>
-        <li><span>VS(Very Satisfactory)</span>.......................<span>85% - 89%</span>
-        <li><span>S(Satisfactory)</span>...................................<span>80% - 84%</span>
-        <li><span>FS(Fairly Satisfactory)</span>......................<span>75% - 79%</span>
+        <!--<li><span>O(Outstanding)</span>..................................<span>90% and 100%</span>-->
+        <li><span>VS(Very Satisfactory)</span>.......................<span>90% - 100%</span>
+        <li><span>S(Satisfactory)</span>...................................<span>80% - 89%</span>
+        <li><span>NI(Need Improvements)</span>...................<span>75% - 79%</span>
         <li><span>D(Did Not Meet Expectations)</span>.........<span>74% and below</span>
     </ul>
 </div>
