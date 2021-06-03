@@ -354,7 +354,7 @@ class ReportCardController extends Controller {
                 if (count($get_pe_2nd) > 0) {
                     foreach ($get_pe_2nd as $subject) {
                         //for sy 2020-2021 2nd Semester
-                        $pe_average = $subject->third_grading;
+                        $pe_average = $subject->third_grading + $subject->fourth_grading;
                         //with 3rd and 4th
 //                        $pe_average = ($subject->third_grading + $get_pe_1st->first_grading) / 3;
                         
