@@ -639,6 +639,10 @@ Route::get('/ajax/issue_or_number','Cashier\OnlinePayment@issue_or_number');
 //Paypal transactions
 Route::get('/paypal_transactions/','Cashier\OnlinePayment@paypal_transactions');
 Route::get('/ajax/getpaypaltransactions','Cashier\OnlinePayment@getpaypaltransactions');
+//Online transactions
+Route::get('/online_transactions/{date_from}/{date_to}','Cashier\OnlineTransactions@index');
+Route::get('/search_online_transaction_history','Cashier\OnlineTransactions@search_transaction_history');
+Route::get('/online_transaction_history/{request_id}','Cashier\OnlineTransactions@transaction_history');
 
 
 Route::post('/dean/advising/update_advising_remarks','Dean\Advising\Advising@update_advising_remarks');

@@ -195,6 +195,7 @@ $date_end = date('Y-m-d');
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url("/cashier",array('online_payment',date('Y-m-d'),date('Y-m-d')))}}">Online Payments</a></li>
+                                <li><a href="{{url("/online_transactions",array(date('Y-m-d'),date('Y-m-d')))}}">Online Transactions</a></li>
                                 <li><a href="{{url('/paypal_transactions')}}">Paypal Transactions </a></li>
                             </ul>
                         </li>
