@@ -1244,6 +1244,8 @@ class Assess extends Controller {
                         $disc_other = $check_grant / 100 * $addledger->amount;
                     }
                 }
+                
+                //family council is not included in scholar grant
 //                if ($add->subsidiary == "Family Council") {
 //                    $check_grant = \App\BedScholarship::where('idno', $request->idno)->value('non_discounted');
 //                    if ($check_grant > 0) {
