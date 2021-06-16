@@ -1244,12 +1244,12 @@ class Assess extends Controller {
                         $disc_other = $check_grant / 100 * $addledger->amount;
                     }
                 }
-                if ($add->subsidiary == "Family Council") {
-                    $check_grant = \App\BedScholarship::where('idno', $request->idno)->value('non_discounted');
-                    if ($check_grant > 0) {
-                        $disc_other = $check_grant / 100 * $addledger->amount;
-                    }
-                }
+//                if ($add->subsidiary == "Family Council") {
+//                    $check_grant = \App\BedScholarship::where('idno', $request->idno)->value('non_discounted');
+//                    if ($check_grant > 0) {
+//                        $disc_other = $check_grant / 100 * $addledger->amount;
+//                    }
+//                }
 
                 $addledger->discount = $disc_other;
                 $addledger->discount_code = $add->subsidiary;
