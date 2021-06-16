@@ -214,6 +214,8 @@ class ReassessController extends Controller {
     function addOtherCollection($request, $schoolyear, $period) {
         if ($request->level == "Grade 11" || $request->level == "Grade 12") {
             $adds = \App\ShsOtherCollection::get();
+        }else if($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10"){
+            $adds = \App\JhsOtherCollection::get();
         } else {
             $adds = \App\OtherCollection::get();
         }

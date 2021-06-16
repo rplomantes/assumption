@@ -49,7 +49,11 @@ class ScheduleOfFees extends Controller
                 $other_fees = \App\CtrBedFee::where('level', $request->level)->where('category_switch', 2)->get();
                 $depository_fees = \App\CtrBedFee::where('level', $request->level)->where('category_switch', 3)->get();
                 $tuition_fee = \App\CtrBedFee::where('level', $request->level)->where('category_switch', 6)->first();
+                if($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10"){
+                $other_collections = \App\JhsOtherCollection::get();
+                }else{
                 $other_collections = \App\OtherCollection::get();
+                }
                 $amount = $tuition_fee->amount;
                 $program_code = "";
             }

@@ -352,11 +352,11 @@ if (count($previous) > 0) {
                   <div id="collapseTwo" class="panel-collapse collapse in">
                       <div class="box-body">
                           <strong><i><u>NOTE:</u></i></strong><br>
-                          <strong>Benefit Discount:</strong> <br>&nbsp;&nbsp;&nbsp;-100% Student Development Fee (500 for PK-G6, 750 for G7-G12)<br>
+                          <strong>Benefit Discount:</strong> <br>&nbsp;&nbsp;&nbsp;-100% Student Development Fee<br>
                           *If with sibling
                           <br>&nbsp;&nbsp;&nbsp;-Php 100.00 Family Council Discount
                           <br><br>
-                         <strong>Sibling Discount:</strong> <br>&nbsp;&nbsp;&nbsp;-50% Student Development Fee (250 for BED, 375 for SHS),
+                         <strong>Sibling Discount:</strong> <br>&nbsp;&nbsp;&nbsp;-50% Student Development Fee,
                           <br>&nbsp;&nbsp;&nbsp;-Php 100.00 Family Council Discount<br><br>
                           
          <div class="form form-group">

@@ -69,7 +69,7 @@ if (Auth::user()->accesslevel == env("CASHIER")) {
                         <td>Response Code</td>
                         <td>Response Message</td>
                         <td>Response Advise</td>
-                        <td>Processor ID(Use for Paypal)</td>
+                        <td>Response ID(Use for Paypal as Invoice ID)</td>
                         <td>Amount</td>
                     </tr>
                 </thead>
@@ -82,7 +82,7 @@ if (Auth::user()->accesslevel == env("CASHIER")) {
                         <td>{{$transaction_history->response_code}}</td>
                         <td>{{$transaction_history->response_message}}</td>
                         <td>{{$transaction_history->response_advise}}</td>
-                        <td>{{$transaction_history->processor_response_id}}</td>
+                        <td>{{$transaction_history->response_id}}</td>
                         <td align='right'>{{number_format($transaction->amount,2)}}</td>
                     </tr>
                     @endforeach

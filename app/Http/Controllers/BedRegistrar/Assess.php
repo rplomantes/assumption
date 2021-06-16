@@ -199,11 +199,11 @@ class Assess extends Controller {
         $discount_srf = 0;
         $discount = \App\CtrDiscount::where('discount_code', $request->discount)->first();
         if (count($discount) > 0) {
-            if($discount->discount_type == 2){
-                $discount = \App\BedScholarship::where('idno',$request->idno)->first();
-                $discount->discount_type=2;
+            if ($discount->discount_type == 2) {
+                $discount = \App\BedScholarship::where('idno', $request->idno)->first();
+                $discount->discount_type = 2;
             }
-            
+
             $discount_code = $discount->discount_code;
             $discount_description = $discount->discount_description;
             $discount_tuition = $discount->tuition_fee;
@@ -385,8 +385,8 @@ class Assess extends Controller {
                 ->get();
 
         ob_end_clean();
-        Excel::create('Enrollment for SY '. $school_year, function($excel) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
-            $excel->setTitle("Enrollment". $school_year);
+        Excel::create('Enrollment for SY ' . $school_year, function($excel) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
+            $excel->setTitle("Enrollment" . $school_year);
 
             $excel->sheet($school_year, function ($sheet) use ($statistics, $abm, $humms, $stem, $school_year, $kinder) {
                 $sheet->loadView('reg_be.enrollment_statistics_excel', compact('statistics', 'abm', 'humms', 'stem', 'school_year', 'kinder'));
@@ -399,14 +399,14 @@ class Assess extends Controller {
             $department = \App\CtrAcademicProgram::where('level', $request->level)->first();
             $srf = \App\CtrBedSrf::where('level', $request->level)->where('strand', $request->strand)->first();
             if (count($srf) > 0) {
-                    $check_grant = \App\BedScholarship::where('idno',$request->idno)->value('srf');
-                    if($check_grant > 0){
-                        $disc_srf = $check_grant/100*$srf->amount;
-                    }else{
-                        $disc_srf = 0;
-                    }
-                
-                
+                $check_grant = \App\BedScholarship::where('idno', $request->idno)->value('srf');
+                if ($check_grant > 0) {
+                    $disc_srf = $check_grant / 100 * $srf->amount;
+                } else {
+                    $disc_srf = 0;
+                }
+
+
                 $add = new \App\Ledger;
                 $add->idno = $request->idno;
                 $add->department = $department->department;
@@ -450,7 +450,7 @@ class Assess extends Controller {
     }
 
     function addPercentage($plan) {
-        $interest = \App\CtrBedPlan::where('plan',$plan)->first()->interest;
+        $interest = \App\CtrBedPlan::where('plan', $plan)->first()->interest;
         return $interest;
     }
 
@@ -708,7 +708,7 @@ class Assess extends Controller {
             if ($status->status == env("ENROLLED")) {
                 DB::beginTransaction();
                 $this->back_to_assess_status($idno);
-                $this->back_to_assess_bed_levels($idno,$schoolyear);
+                $this->back_to_assess_bed_levels($idno, $schoolyear);
                 \App\Http\Controllers\Admin\Logs::log("Back to assess $idno for S.Y. $schoolyear->school_year.");
                 DB::commit();
             }
@@ -716,18 +716,20 @@ class Assess extends Controller {
 
         return redirect(url('/bedregistrar', array('assess', $idno)));
     }
-    function back_to_assess_status($idno){
-        $status = \App\Status::where('idno',$idno)->first();
+
+    function back_to_assess_status($idno) {
+        $status = \App\Status::where('idno', $idno)->first();
         $status->status = 2;
         $status->save();
     }
-    function back_to_assess_bed_levels($idno,$schoolyear){
-        if($schoolyear->period == "Yearly"){
-            $period=NULL;
-        }else{
+
+    function back_to_assess_bed_levels($idno, $schoolyear) {
+        if ($schoolyear->period == "Yearly") {
+            $period = NULL;
+        } else {
             $period = $schoolyear->period;
         }
-        $status = \App\BedLevel::where('idno',$idno)->where('school_year',$schoolyear->school_year)->where('period', $period)->first();
+        $status = \App\BedLevel::where('idno', $idno)->where('school_year', $schoolyear->school_year)->where('period', $period)->first();
         $status->delete();
     }
 
@@ -767,15 +769,15 @@ class Assess extends Controller {
         $reverses = \App\Reservation::where('idno', $idno)->where('levels_reference_id', $levels_reference_id)->get();
         foreach ($reverses as $reverse) {
             $old_reservations_amount = \App\Reservation::where('idno', $idno)->where('levels_reference_id', NULL)->where('reference_id', $reverse->reference_id)->first();
-            if(count($old_reservations_amount)>0){
-            $reverse->amount = $reverse->amount + $old_reservations_amount->amount;
+            if (count($old_reservations_amount) > 0) {
+                $reverse->amount = $reverse->amount + $old_reservations_amount->amount;
             }
             $reverse->levels_reference_id = NULL;
             $reverse->is_consumed = 0;
             $reverse->consume_sy = "";
             $reverse->save();
-            if(count($old_reservations_amount)>0){
-            $old_reservations_amount->delete();
+            if (count($old_reservations_amount) > 0) {
+                $old_reservations_amount->delete();
             }
         }
     }
@@ -995,35 +997,35 @@ class Assess extends Controller {
 //            $changestatus = \App\Status::where('idno', $request->idno)->first();
 //            $changestatus->status = env("ENROLLED");
 //            $changestatus->update();
-            
+
             $changereservation = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 0)->where('is_reverse', 0)->get();
             if (count($changereservation) > 0) {
                 foreach ($changereservation as $change) {
-                    if($change->amount == $totalamount){
+                    if ($change->amount == $totalamount) {
                         $change->levels_reference_id = $levels_reference_id;
                         $change->is_consumed = '1';
                         $change->consume_sy = $school_year;
                         $change->update();
-                    }else if($change->amount >= $totalamount){
+                    } else if ($change->amount >= $totalamount) {
                         $change->levels_reference_id = $levels_reference_id;
                         $change->is_consumed = '1';
                         $change->consume_sy = $school_year;
-                        $lessreservation = $change->amount - $totalamount; 
-                        if($totalamount > 0){
-                        $change->amount = $totalamount;
-                        $change->update();
-                       
-                        //add remaining reservations
-                        $addreservation = new \App\Reservation;
-                        $addreservation->idno=$change->idno;
-                        $addreservation->reference_id=$change->reference_id;
-                        $addreservation->transaction_date=$change->transaction_date;
-                        $addreservation->amount=$lessreservation;
-                        $addreservation->reservation_type=$change->reservation_type;
-                        $addreservation->posted_by= $change->posted_by;
-                        $addreservation->save();
+                        $lessreservation = $change->amount - $totalamount;
+                        if ($totalamount > 0) {
+                            $change->amount = $totalamount;
+                            $change->update();
+
+                            //add remaining reservations
+                            $addreservation = new \App\Reservation;
+                            $addreservation->idno = $change->idno;
+                            $addreservation->reference_id = $change->reference_id;
+                            $addreservation->transaction_date = $change->transaction_date;
+                            $addreservation->amount = $lessreservation;
+                            $addreservation->reservation_type = $change->reservation_type;
+                            $addreservation->posted_by = $change->posted_by;
+                            $addreservation->save();
                         }
-                    }else{
+                    } else {
                         $change->levels_reference_id = $levels_reference_id;
                         $change->is_consumed = '1';
                         $change->consume_sy = $school_year;
@@ -1032,12 +1034,11 @@ class Assess extends Controller {
                     $totalamount = $totalamount - $change->amount;
                 }
             }
-        $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period,$firsttotalamount);
+            $this->postDebit($request, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period, $firsttotalamount);
         }
         $change = \App\Status::where('idno', $request->idno)->first();
         $change->levels_reference_id = $levels_reference_id;
         $change->update();
-        
     }
 
     function processAccounting($request, $reference_id, $totalpayment, $ledgers, $accounting_type) {
@@ -1129,7 +1130,7 @@ class Assess extends Controller {
         return $totalamount;
     }
 
-    function postDebit($request, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period,$totalamount) {
+    function postDebit($request, $reference_id, $totalpayment, $levels_reference_id, $school_year, $period, $totalamount) {
         $fiscal_year = \App\CtrFiscalYear::first()->fiscal_year;
         $reservations = \App\Reservation::where('idno', $request->idno)->where('is_consumed', 1)->where('is_reverse', 0)->where('levels_reference_id', $levels_reference_id)->get();
         $dept = \App\CtrAcademicProgram::where('level', $request->level)->first();
@@ -1167,11 +1168,11 @@ class Assess extends Controller {
                 $ledger->is_consumed = 1;
                 $totalReserved = $totalReserved + $ledger->amount;
             }
-            $this->postDebitMemo($request, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period,$totalamount);
+            $this->postDebitMemo($request, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period, $totalamount);
         }
     }
 
-    function postDebitMemo($request, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period,$totalamount) {
+    function postDebitMemo($request, $reference_id, $totalReserved, $levels_reference_id, $school_year, $period, $totalamount) {
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'BED')->first();
         $debit_memo = new \App\DebitMemo;
         $debit_memo->idno = $request->idno;
@@ -1185,10 +1186,10 @@ class Assess extends Controller {
         $debit_memo->posted_by = Auth::user()->idno;
         $status = \App\Status::where('idno', $request->idno)->first();
         $debit_memo->school_year = $status->school_year;
-        if($status->level == "Grade 11" || $status->level == "Grade 12"){
+        if ($status->level == "Grade 11" || $status->level == "Grade 12") {
             $debit_memo->period = $status->period;
-        }else{
-            $debit_memo->period = "";   
+        } else {
+            $debit_memo->period = "";
         }
         $debit_memo->save();
     }
@@ -1211,6 +1212,8 @@ class Assess extends Controller {
     function addOtherCollection($request, $schoolyear, $period) {
         if ($request->level == "Grade 11" || $request->level == "Grade 12") {
             $adds = \App\ShsOtherCollection::get();
+        } else if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10") {
+            $adds = \App\JhsOtherCollection::get();
         } else {
             $adds = \App\OtherCollection::get();
         }
@@ -1233,26 +1236,21 @@ class Assess extends Controller {
                 $addledger->accounting_name = $this->getAccountingName($add->accounting_code);
                 $addledger->category_switch = $add->category_switch;
                 $addledger->amount = $add->amount;
-                
-//                ///please fix this
-//                if ($request->level == "Grade 7" || $request->level == "Grade 8" || $request->level == "Grade 9" || $request->level == "Grade 10") {
-//                    if($add->subsidiary == "Student Development Fee"){
-//                $addledger->amount = $add->amount+250;
-//                    }else{
-//                $addledger->amount = $add->amount;
-//                    }
-//                }else{
-//                $addledger->amount = $add->amount;
-//                }
-                
-                $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary);
-                if($add->subsidiary == "Student Development Fee"){
-                    $check_grant = \App\BedScholarship::where('idno',$request->idno)->value('non_discounted');
-                    if($check_grant > 0){
-                        $disc_other = $check_grant/100*$addledger->amount;
+
+                $disc_other = $this->getOtherDiscount($request->idno, $add->subsidiary,$add->amount);
+                if ($add->subsidiary == "Student Development Fee") {
+                    $check_grant = \App\BedScholarship::where('idno', $request->idno)->value('non_discounted');
+                    if ($check_grant > 0) {
+                        $disc_other = $check_grant / 100 * $addledger->amount;
                     }
                 }
-                
+                if ($add->subsidiary == "Family Council") {
+                    $check_grant = \App\BedScholarship::where('idno', $request->idno)->value('non_discounted');
+                    if ($check_grant > 0) {
+                        $disc_other = $check_grant / 100 * $addledger->amount;
+                    }
+                }
+
                 $addledger->discount = $disc_other;
                 $addledger->discount_code = $add->subsidiary;
                 $addledger->save();
@@ -1276,10 +1274,18 @@ class Assess extends Controller {
         }
     }
 
-    function getOtherDiscount($idno, $subsidiary) {
+    function getOtherDiscount($idno, $subsidiary,$amount) {
         $disc = \App\DiscountCollection::where('idno', $idno)->where('subsidiary', $subsidiary)->first();
         if (count($disc) > 0) {
-            return $disc->discount_amount;
+            if ($subsidiary == "Student Development Fee") {
+                if($disc->discount_type == "Benefit Discount"){
+                return $amount;
+                }else if($disc->discount_type == "Sibling Discount"){
+                return $amount/2;
+                }
+            } else {
+                return $disc->discount_amount;
+            }
         } else {
             return 0;
         }
@@ -1318,7 +1324,7 @@ class Assess extends Controller {
         $changeBedLevels = \App\BedLevel::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->first();
         $changeBedLevels->strand = $request->strand;
         $changeBedLevels->save();
-        
+
         $changePromotions = \App\Promotion::where('idno', $request->idno)->first();
         $changePromotions->strand = $request->strand;
         $changePromotions->save();
@@ -1359,5 +1365,4 @@ class Assess extends Controller {
 //        $log->public_ip = $_SERVER['REMOTE_ADDR'];
 //        $log->save();
 //    }
-
 }

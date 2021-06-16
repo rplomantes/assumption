@@ -78,6 +78,9 @@ class AjaxScheduleOfFees extends Controller {
                     } elseif ($type == 11) {
                         $title = "Other Collections (BED)";
                         $fees = \App\OtherCollection::orderBy('category','asc')->get();
+                    } elseif ($type == 12) {
+                        $title = "Other Collections (JHS)";
+                        $fees = \App\JhsOtherCollection::orderBy('category','asc')->get();
                     } elseif ($type == 10) {
                         $title = "Other Collections (SHS)";
                         $fees = \App\ShsOtherCollection::orderBy('category','asc')->get();
@@ -195,6 +198,9 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 11) {
                     $data = \App\OtherCollection::where('id', $id)->first();
+                }
+                if ($type == 12) {
+                    $data = \App\JhsOtherCollection::where('id', $id)->first();
                 }
                 if ($type == 10) {
                     $data = \App\ShsOtherCollection::where('id', $id)->first();
@@ -382,6 +388,16 @@ class AjaxScheduleOfFees extends Controller {
                     $data->amount = $amount;
                     $data->save();
                 }
+                if ($type == 12) {
+                    $data = \App\JhsOtherCollection::where('id', $id)->first();
+                    $data->accounting_code = $account;
+                    $data->category_switch = $switch;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
                 if ($type == 10) {
                     $data = \App\ShsOtherCollection::where('id', $id)->first();
                     $data->accounting_code = $account;
@@ -471,6 +487,10 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 11) {
                     $data = \App\OtherCollection::where('id', $id)->first();
+                    $data->delete();
+                }
+                if ($type == 12) {
+                    $data = \App\JhsOtherCollection::where('id', $id)->first();
                     $data->delete();
                 }
                 if ($type == 10) {
@@ -685,6 +705,16 @@ class AjaxScheduleOfFees extends Controller {
                 }
                 if ($type == 11) {
                     $data = new \App\OtherCollection;
+                    $data->category_switch = $switch;
+                    $data->accounting_code = $account;
+                    $data->category = $category;
+                    $data->subsidiary = $subsidiary;
+                    $data->receipt_details = $category;
+                    $data->amount = $amount;
+                    $data->save();
+                }
+                if ($type == 12) {
+                    $data = new \App\JhsOtherCollection;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
                     $data->category = $category;

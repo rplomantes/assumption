@@ -71,9 +71,6 @@ $total_misc = 0;
             @endforeach
             @foreach ($other_collections as $other_collection)
             @if($other_collection->category == "Other Fees")
-            @if($level == "Grade 7" || $level == "Grade 8" || $level == "Grade 9" || $level == "Grade 10")
-                <?php $other_collection->amount += 250 ;?>
-            @endif
             <?php $total_other = $total_other + $other_collection->amount; ?>
             <tr>
                 <td><div class='tab'>{{$other_collection->subsidiary}}</div></td>

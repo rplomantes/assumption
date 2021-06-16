@@ -72,6 +72,7 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
                     <option value="7">Late Payment Fees</option>
                     <option value="8">Foreign Fees</option>
                     <option value="11">Other Collections (BED)</option>
+                    <option value="12">Other Collections (JHS)</option>
                     <option value="10">Other Collections (SHS)</option>
                 </select>
             </div>
