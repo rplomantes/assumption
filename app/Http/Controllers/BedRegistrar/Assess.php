@@ -312,28 +312,32 @@ class Assess extends Controller {
             $is_foreign = \App\User::where('idno', $request->idno)->first();
             if (count($is_foreign) > 0) {
                 if ($is_foreign->is_foreign == '1') {
-                    $reg_amount = \App\CtrForiegnFee::where('subsidiary', "Registration")->first()->amount;
-                    $checkforeign = \App\Ledger::where('idno', $request->idno)->where('school_year', $schoolyear)->where('subsidiary', 'Registration')->where('amount', $reg_amount)->get();
+                    $reg_amount = \App\CtrForiegnFee::where('subsidiary', "Registration")->first();
+                    if(count($reg_amount)>0){
+                        $checkforeign = \App\Ledger::where('idno', $request->idno)->where('school_year', $schoolyear)->where('subsidiary', 'Registration')->where('amount', $reg_amount->amount)->get();
+                    }
                     if (!isset($checkforeign) == 0) {
                         $addfee = \App\CtrForiegnFee::get();
-                        foreach ($addfee as $fee) {
-                            $addledger = new \App\Ledger;
-                            $addledger->idno = $request->idno;
-                            $addledger->department = $department->department;
-                            $addledger->level = $request->level;
-                            if ($request->level == "Grade 11" || $request->level == "Grade 12") {
-                                $addledger->strand = $request->strand;
-                                $addledger->period = $period;
+                        if(count($addfee)>0){
+                            foreach ($addfee as $fee) {
+                                $addledger = new \App\Ledger;
+                                $addledger->idno = $request->idno;
+                                $addledger->department = $department->department;
+                                $addledger->level = $request->level;
+                                if ($request->level == "Grade 11" || $request->level == "Grade 12") {
+                                    $addledger->strand = $request->strand;
+                                    $addledger->period = $period;
+                                }
+                                $addledger->school_year = $schoolyear;
+                                $addledger->category = $fee->category;
+                                $addledger->subsidiary = $fee->subsidiary;
+                                $addledger->receipt_details = $fee->receipt_details;
+                                $addledger->accounting_code = $fee->accounting_code;
+                                $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
+                                $addledger->category_switch = $fee->category_switch;
+                                $addledger->amount = $fee->amount;
+                                $addledger->save();
                             }
-                            $addledger->school_year = $schoolyear;
-                            $addledger->category = $fee->category;
-                            $addledger->subsidiary = $fee->subsidiary;
-                            $addledger->receipt_details = $fee->receipt_details;
-                            $addledger->accounting_code = $fee->accounting_code;
-                            $addledger->accounting_name = $this->getAccountingName($fee->accounting_code);
-                            $addledger->category_switch = $fee->category_switch;
-                            $addledger->amount = $fee->amount;
-                            $addledger->save();
                         }
                     }
                 }
