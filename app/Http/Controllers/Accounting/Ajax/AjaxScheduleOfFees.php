@@ -114,24 +114,23 @@ class AjaxScheduleOfFees extends Controller {
         if (Request::ajax()) {
             if (Auth::user()->accesslevel == env('ACCTNG_STAFF') || Auth::user()->accesslevel == env('ACCTNG_HEAD')) {
                 $type = Input::get("fee_type");
-                $program = Input::get("program_code");
                 $period = Input::get("period");
                 $level = Input::get("level");
                 if ($type == 1) {
                     $title = "Other Fees";
-                    $fees = \App\CtrCollegeOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
+                    $fees = \App\CtrCollegeOtherFee::where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 2) {
                     $title = "Non Discounted Other Fees";
-                    $fees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
+                    $fees = \App\CtrCollegeNonDiscountedOtherFee::where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 3) {
                     $title = "Other Fees (New Student)";
-                    $fees = \App\CtrCollegeNewOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
+                    $fees = \App\CtrCollegeNewOtherFee::where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 4) {
                     $title = "Non Discounted Other Fees (New Student)";
-                    $fees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $program)->where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
+                    $fees = \App\CtrCollegeNewNonDiscountOtherFee::where('level', $level)->where('period', $period)->orderBy('category','asc')->get();
                 } elseif ($type == 9) {
                     $title = "Tuition Fee";
-                    $fees = \App\CtrCollegeTuitionFee::where('program_code', $program)->where('level', $level)->where('period', $period)->get();
+                    $fees = \App\CtrCollegeTuitionFee::where('level', $level)->where('period', $period)->get();
                 }
                 return view('accounting.ajax.display_fees', compact('fees', 'type','title'));
             }
@@ -528,14 +527,12 @@ class AjaxScheduleOfFees extends Controller {
                 $category = Input::get("category");
                 $subsidiary = Input::get("subsidiary");
                 $amount = Input::get("amount");
-                $program = Input::get("program_code");
                 $period = Input::get("period");
                 $level = Input::get("level");
                 $switch = $this->getSwitch($category);
                 if ($type == 1) {
                     $data = new \App\CtrCollegeOtherFee;
                     $data->level = $level;
-                    $data->program_code = $program;
                     $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
@@ -548,7 +545,6 @@ class AjaxScheduleOfFees extends Controller {
                 if ($type == 2) {
                     $data = new \App\CtrCollegeNonDiscountedOtherFee;
                     $data->level = $level;
-                    $data->program_code = $program;
                     $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
@@ -561,7 +557,6 @@ class AjaxScheduleOfFees extends Controller {
                 if ($type == 3) {
                     $data = new \App\CtrCollegeNewOtherFee;
                     $data->level = $level;
-                    $data->program_code = $program;
                     $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;
@@ -574,7 +569,6 @@ class AjaxScheduleOfFees extends Controller {
                 if ($type == 4) {
                     $data = new \App\CtrCollegeNewNonDiscountOtherFee;
                     $data->level = $level;
-                    $data->program_code = $program;
                     $data->period = $period;
                     $data->category_switch = $switch;
                     $data->accounting_code = $account;

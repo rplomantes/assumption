@@ -16,15 +16,7 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                     @endforeach
                 </select>
             </div>
-            <div class="col-sm-6" id="program_control">
-                <label>Select Program</label>
-                <Select name="program_code" id="program_code" class="form form-control" onchange="getFees()">
-                    <option value="">Select Program</option>    
-                    @foreach($programs as $program)
-                    <option value="{{$program->program_code}}">{{$program->program_name}}</option>
-                    @endforeach
-                </select> 
-            </div>
+            
             <div class="col-sm-3" id="period_control">
                 <label>Period</label>
                 <select name="period" class="form form-control" id="period" onchange="getFees()">

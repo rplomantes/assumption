@@ -51,7 +51,7 @@ class AddingDroppingController extends Controller {
         $status = \App\Status::where('idno', $idno)->first();
         $user = \App\User::where('idno', $idno)->first();
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', "College")->first();
-        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
+        $tfr = \App\CtrCollegeTuitionFee::where('period', $school_year->period)->where('level', $status->level)->first();
         $tuitionrate = $tfr->per_unit;
         DB::beginTransaction();
         $is_practicum_only = $this->checkPracticumOnly($idno, $school_year->school_year, $school_year->period);
@@ -127,7 +127,7 @@ class AddingDroppingController extends Controller {
         $tuitionfee = 0;
         $tobediscount = 0;
         $discounttf = 0;
-        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
+        $tfr = \App\CtrCollegeTuitionFee::where('period', $school_year->period)->where('level', $status->level)->first();
         $tuitionrate = $tfr->per_unit;
         $checktuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('category_switch', 6)->first();
         $adds = \App\AddingDropping::distinct()->where('idno', $idno)->where('is_done', 0)->where('action', 'ADD')->get();
@@ -183,7 +183,7 @@ class AddingDroppingController extends Controller {
     }
     
     function getOtherFee($idno, $school_year, $period, $level, $program_code) {
-        $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->where('subsidiary','!=','Registration')->get();
+        $otherfees = \App\CtrCollegeOtherFee::where('level', $level)->where('period', $period)->where('subsidiary','!=','Registration')->get();
         if (count($otherfees) > 0) {
             foreach ($otherfees as $otherfee) {
                 $addledger = new \App\ledger;
@@ -257,7 +257,7 @@ class AddingDroppingController extends Controller {
         $tuitionfee = 0;
         $tobediscount = 0;
         $discounttf = 0;
-        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $status->program_code)->where('period', $school_year->period)->where('level', $status->level)->first();
+        $tfr = \App\CtrCollegeTuitionFee::where('period', $school_year->period)->where('level', $status->level)->first();
         $tuitionrate = $tfr->per_unit;
         $checktuition = \App\Ledger::where('idno', $idno)->where('school_year', $school_year->school_year)->where('period', $school_year->period)->where('category_switch', 6)->first();
         $adds = \App\AddingDropping::distinct()->where('idno', $idno)->where('is_done', 0)->where('action', 'DROP')->get();

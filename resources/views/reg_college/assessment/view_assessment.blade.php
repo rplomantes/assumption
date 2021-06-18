@@ -333,9 +333,9 @@ if (count($previous) > 0) {
         <?php
             $is_new = \App\Status::where('idno', $idno)->first()->is_new;
             if($is_new == 0){
-            $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+            $otherfees = \App\CtrCollegeOtherFee::where('level', $status->level)->where('period', $period)->get();
             }else{
-            $otherfees = \App\CtrCollegeNewOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+            $otherfees = \App\CtrCollegeNewOtherFee::where('level', $status->level)->where('period', $period)->get();
             }
             
                 $is_foreign = \App\User::where('idno', $idno)->first();
@@ -353,9 +353,9 @@ if (count($previous) > 0) {
                     }
             $is_new = \App\Status::where('idno', $idno)->first()->is_new;
             if($is_new == 0){
-            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('level', $status->level)->where('period', $period)->get();
             }else{
-            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('level', $status->level)->where('period', $period)->get();
             }
         ?>
     @else
@@ -373,7 +373,7 @@ if (count($previous) > 0) {
 
             if (count($check_practicum) == 1) {
                     $otherfees = \App\CtrCollegePracticumFee::get();
-                    $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+                    $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('level', $status->level)->where('period', $period)->get();
                     $is_foreign = \App\User::where('idno', $idno)->first();
                     if (count($is_foreign) > 0) {
                         if ($is_foreign->is_foreign == '1') {
@@ -383,14 +383,14 @@ if (count($previous) > 0) {
             } else {
                 $is_new = \App\Status::where('idno', $idno)->first()->is_new;
                 if($is_new == 0){
-                $otherfees = \App\CtrCollegeOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+                $otherfees = \App\CtrCollegeOtherFee::where('level', $status->level)->where('period', $period)->get();
                 }else{
-                $otherfees = \App\CtrCollegeNewOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+                $otherfees = \App\CtrCollegeNewOtherFee::where('level', $status->level)->where('period', $period)->get();
                 }
                 if($is_new == 0){
-                $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+                $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('level', $status->level)->where('period', $period)->get();
                 }else{
-                $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $status->program_code)->where('level', $status->level)->where('period', $period)->get();
+                $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('level', $status->level)->where('period', $period)->get();
                 }
                 $is_foreign = \App\User::where('idno', $idno)->first();
                     if (count($is_foreign) > 0) {

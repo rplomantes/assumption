@@ -131,7 +131,6 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array = {};
         array['fee_type'] = $("#fee_type").val();
         array['level'] = $("#level").val();
-        array['program_code'] = $("#program_code").val();
         array['period'] = $("#period").val();
         $.ajax({
             type: "GET",
@@ -263,7 +262,6 @@ if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
         array['category'] = $("#category").val();
         array['subsidiary'] = $("#subsidiary").val();
         array['level'] = $("#level").val();
-        array['program_code'] = $("#program_code").val();
         array['period'] = $("#period").val();
         $.ajax({
             type: "GET",

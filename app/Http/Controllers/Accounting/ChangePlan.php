@@ -204,7 +204,7 @@ class ChangePlan extends Controller {
         $stat = \App\Status::where('idno', $request->idno)->first();
         $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->school_year;
         $period = \App\CtrEnrollmentSchoolYear::where('academic_type', 'College')->first()->period;
-        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $stat->program_code)->where('period', $period)->where('level', $stat->level)->first();
+        $tfr = \App\CtrCollegeTuitionFee::where('period', $period)->where('level', $stat->level)->first();
         $tuitionrate = $tfr->per_unit;
         $tobediscount = 0;
         

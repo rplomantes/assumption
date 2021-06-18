@@ -169,7 +169,9 @@ class AssessmentController extends Controller {
             }
         }
         //get tuition fee rate///
-        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $program_code)->where('period', $period)->where('level', $level)->first();
+//        $tfr = \App\CtrCollegeTuitionFee::where('program_code', $program_code)->where('period', $period)->where('level', $level)->first();
+        //remove program code
+        $tfr = \App\CtrCollegeTuitionFee::where('period', $period)->where('level', $level)->first();
         $tuitionrate = $tfr->per_unit;
 
         //poppulate other fee with discount////
@@ -414,7 +416,9 @@ class AssessmentController extends Controller {
     function getOtherFee($idno, $school_year, $period, $level, $program_code, $discountof, $discount_code,$request, $discountnondiscounted) {
         $is_new = \App\Status::where('idno', $idno)->first()->is_new;
         if($is_new == 0){
-            $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+//            $otherfees = \App\CtrCollegeOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            //remove program
+            $otherfees = \App\CtrCollegeOtherFee::where('level', $level)->where('period', $period)->get();
             if (count($otherfees) > 0) {
                 foreach ($otherfees as $otherfee) {
                     if(isset($request->other[$otherfee->id])){
@@ -439,7 +443,9 @@ class AssessmentController extends Controller {
                 }
             }
         }else{
-            $otherfees = \App\CtrCollegeNewOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+//            $otherfees = \App\CtrCollegeNewOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            //remove program
+            $otherfees = \App\CtrCollegeNewOtherFee::where('level', $level)->where('period', $period)->get();
             if (count($otherfees) > 0) {
                 foreach ($otherfees as $otherfee) {
                     if(isset($request->other[$otherfee->id])){
@@ -521,7 +527,9 @@ class AssessmentController extends Controller {
 
         //non discounted other fees
         if($is_new == 0){
-            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+//            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            //remove program
+            $nondiscountotherfees = \App\CtrCollegeNonDiscountedOtherFee::where('level', $level)->where('period', $period)->get();
             if (count($nondiscountotherfees) > 0) {
                 foreach ($nondiscountotherfees as $otherfee) {
                     if(isset($request->nodiscountother[$otherfee->id])){
@@ -546,7 +554,9 @@ class AssessmentController extends Controller {
                 }
             }
         }else{
-            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+//            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('program_code', $program_code)->where('level', $level)->where('period', $period)->get();
+            //remove program
+            $nondiscountotherfees = \App\CtrCollegeNewNonDiscountOtherFee::where('level', $level)->where('period', $period)->get();
             if (count($nondiscountotherfees) > 0) {
                 foreach ($nondiscountotherfees as $otherfee) {
                     if(isset($request->nodiscountother[$otherfee->id])){
