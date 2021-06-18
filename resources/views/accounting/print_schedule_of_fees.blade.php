@@ -19,7 +19,9 @@ $total_misc = 0;
         <b>ASSUMPTION COLLEGE INC.<br>
             SCHEDULE OF FEES</b>
         <hr><br>
-        {{$program_code}}<br>
+        @if($level == "1st Year" || $level == "2nd Year" || $level == "3rd Year" || $level == "4th Year" || $level == "5th Year")
+        {{$period}}<br>
+        @endif
         {{$level}}<br><br>
         <table width="60%">
             <tr>

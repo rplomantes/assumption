@@ -85,7 +85,7 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                         @endforeach
                     </select> 
                 </div>
-                <div class="col-sm-3" id="program_control">
+<!--                <div class="col-sm-3" id="program_control">
                     <label>Select Program</label>
                     <Select name="program_code" id="program_code" class="form form-control">
                         <option value="">Select Program</option>    
@@ -93,7 +93,7 @@ $programs = \App\CtrAcademicProgram::selectRaw("distinct program_name, program_c
                         <option value="{{$program->program_code}}">{{$program->program_name}}</option>
                         @endforeach
                     </select> 
-                </div>
+                </div>-->
                 <div class="col-sm-3" id="period_control">
                     <label>Period</label>
                     <select name="period" class="form form-control" id="period">
