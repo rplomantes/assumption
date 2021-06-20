@@ -79,7 +79,13 @@
                             @elseif($status->status == 4) Withdrawn-{{$status->date_dropped}}
                             @else Not Yet Enrolled @endif
                         </td>
-                        <td>{{$sibling->discount_amount}}</td>
+                        <td>
+                            @if($sibling->discount_type == "Benefit Discount")
+                            100%
+                            @else
+                            50%
+                            @endif
+                        </td>
                         <td align="right"><a href="{{url("/remove_sibling", array($sibling->idno))}}">Remove Student</a></td>
                     </tr>
                     @endforeach
