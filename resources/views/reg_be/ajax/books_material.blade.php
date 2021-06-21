@@ -31,7 +31,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                 @endif
                 @if(count($optional_materials)>0)
                 @foreach($optional_materials as $optional)
-                <tr><td><input name="qty_books[{{$optional->id}}]" onclick="return false;" value="1" type="checkbox" checked="checked"></td>
+                <tr><td><input name="qty_books[{{$optional->id}}]" value="1" type="checkbox" checked="checked"  onclick="process_sub1({{$optional->id}},this.checked,{{$optional->amount}},this)"></td>
                 <td colspan="3">
                     Required {{$optional->subsidiary}} <span class="warning">(SET)</span>
                     @if(count($materials)>0)
@@ -43,7 +43,7 @@ $other_materials = \App\CtrMaterial::where('level',$current_level)->where('categ
                    @endif
                     </td>
                     
-                <td align="left"><div id="total_book2">{{$optional->amount}}</div></td>
+                <td align="left"><div id="book_display{{$optional->id}}">{{$optional->amount}}</div></td>
                 </tr>
                 @endforeach
                 @endif 
