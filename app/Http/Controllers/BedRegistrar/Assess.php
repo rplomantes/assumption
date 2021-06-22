@@ -1344,8 +1344,13 @@ class Assess extends Controller {
         $ledger = \App\Ledger::where('idno', $request->idno)->where('school_year', $school_year)->where('period', $period)->where('category', 'SRF')->first();
         if (count($ledger) > 0) {
             $srf = \App\CtrBedSrf::where('level', $level)->where('strand', $request->strand)->first();
-            $ledger->amount = $srf->amount;
-            $ledger->save();
+            if(count($srf)>0){
+                $ledger->amount = $srf->amount;
+                $ledger->save();
+            }else{
+                $ledger->amount = 0;
+                $ledger->save();
+            }
         } else {
             $this->addSRF($request, $school_year, $period);
         }
