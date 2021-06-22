@@ -254,61 +254,107 @@ class info extends Controller
     }
     
     function deleteBED($idno){
-        $addparent = \App\BedReceivedHonor::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedReceivedHonor::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedApplicantFail::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedApplicantFail::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedRepeat::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedRepeat::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedProbation::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedProbation::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedExtraActivity::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedExtraActivity::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedChurchInvolvement::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedChurchInvolvement::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedUndergoneTherapy::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedUndergoneTherapy::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedLimitations::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedLimitations::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedRequirement::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedRequirement::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedSiblings::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedSiblings::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedOtherAlumni::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedOtherAlumni::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedParentInfo::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedParentInfo::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\BedProfile::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\BedProfile::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
-        $addparent = \App\Status::where('idno', $idno)->first();
-        if (count($addparent) >= 1) {
-            $addparent->delete();
+        $removedatas = \App\Status::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
+        }
+        $removedatas = \App\GroupStudent::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
+        }
+        $removedatas = \App\IndividualStudents::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
+        }
+        $removedatas = \App\InterviewStudent::where('idno', $idno)->get();
+        if (count($removedatas) >= 1) {
+            foreach($removedatas as $removedata){
+            $removedata->delete();
+            }
         }
     }
 }
