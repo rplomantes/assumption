@@ -90,7 +90,7 @@ function getPromotion($level) {
 </div>
 
 @if($school_year != 2019)
-<div style='position:absolute; top:800px; bottom: 0; left:0; right:0;'>
+<div style='position:absolute; top:500px; bottom: 0; left:0; right:0;'>
 
     <table width="100%">     
         <tr>
