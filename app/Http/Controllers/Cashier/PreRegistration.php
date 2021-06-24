@@ -229,6 +229,7 @@ class PreRegistration extends Controller {
         $addprofile->barangay = $applicant_details->barangay;
         $addprofile->municipality = $applicant_details->municipality;
         $addprofile->province = $applicant_details->province;
+        $addprofile->region = $applicant_details->region;
         $addprofile->zip = $applicant_details->zip;
         $addprofile->tel_no = $applicant_details->tel_no;
         $addprofile->cell_no = $applicant_details->cell_no;

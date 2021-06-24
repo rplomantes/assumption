@@ -674,3 +674,10 @@ Route::get('/bedregistrar/shs_honor','BedRegistrar\SHSHonor@index');
 Route::get('/ajax/bedregistrar/shs_honor/get_students','BedRegistrar\Ajax\AjaxSHSHonor@get_students');
 Route::get('/bedregistrar/export/shs_honor/{level}/{school_year}','BedRegistrar\Ajax\AjaxSHSHonor@export');
 
+
+
+Route::get('/ajax/get_province','AdmissionBED\Ajax\GetStudentList@getProvince');
+Route::get('/ajax/get_municipality','AdmissionBED\Ajax\GetStudentList@getMunicipality');
+Route::get('/ajax/get_brgy','AdmissionBED\Ajax\GetStudentList@getBarangay');
+
+

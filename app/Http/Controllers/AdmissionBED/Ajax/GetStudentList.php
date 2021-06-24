@@ -235,5 +235,67 @@ class GetStudentList extends Controller {
             }
         }
     }
+    
+    
+    
+    
+
+    function getProvince() {
+        if (Request::ajax()) {
+            $region = Input::get('region');
+            $data = "<option value=''>Please select..</option>";
+            $region_detail = \App\CtrRegion::where('region', $region)->first();
+            $provinces = \App\CtrProvince::where('region_code', $region_detail->region_code)->get();
+
+            if (!$provinces->isEmpty()) {
+                foreach ($provinces as $province) {
+                    $data .= "<option value='" . $province->province . "'>" . $province->province . "</option>";
+                }
+            }
+
+            return $data;
+        }
+    }
+
+    function getMunicipality() {
+        if (Request::ajax()) {
+            $region = Input::get('region');
+            $province = Input::get('province');
+            $region_detail = \App\CtrRegion::where('region', $region)->first();
+            $data = "<option value=''>Please select..</option>";
+
+            if ($province == "") {
+                $municipalities = \App\CtrMunicipality::where('region_code', $region_detail->region_code)->get();
+            } else {
+                $province_detail = \App\CtrProvince::where('province', $province)->first();
+                $municipalities = \App\CtrMunicipality::where('province_code', $province_detail->province_code)->where('region_code', $region_detail->region_code)->get();
+            }
+
+            if (!$municipalities->isEmpty()) {
+                foreach ($municipalities as $city) {
+                    $data .= "<option value='" . $city->municipality . "'>" . $city->municipality . "</option>";
+                }
+            }
+
+            return $data;
+        }
+    }
+
+    function getBarangay() {
+        if (Request::ajax()) {
+            $municipality = Input::get('municipality');
+            $data = "<option value=''>Please select..</option>";
+            $municipality_detail = \App\CtrMunicipality::where('municipality', $municipality)->first();
+            $brgys = \App\CtrBrgy::where('municipality_code', $municipality_detail->municipality_code)->get();
+
+            if (!$brgys->isEmpty()) {
+                foreach ($brgys as $brgy) {
+                    $data .= "<option value='" . $brgy->brgy . "'>" . $brgy->brgy . "</option>";
+                }
+            }
+
+            return $data;
+        }
+    }
 
 }

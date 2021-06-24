@@ -448,6 +448,7 @@ class Registration extends Controller {
         $updateInfo->municipality = $request->municipality;
         $updateInfo->province = $request->province;
         $updateInfo->zip = $request->zip;
+        $updateInfo->region = $request->region;
         $updateInfo->tel_no = $request->tel_no;
         $updateInfo->cell_no = $request->cell_no;
         $updateInfo->date_of_birth = $request->date_of_birth;
