@@ -33,7 +33,7 @@ class ScheduleOfFees extends Controller
                 $other_fees = \App\CtrCollegeOtherFee::where('level', $request->level)->where('period', $request->period)->where('category_switch', 2)->get();
                 $depository_fees = \App\CtrCollegeOtherFee::where('level', $request->level)->where('period', $request->period)->where('category_switch', 3)->get();
                 $tuition_fee = \App\CtrCollegeTuitionFee::where('level', $request->level)->where('period', $request->period)->first();
-                $other_collections = \App\CtrCollegeNonDiscountedOtherFee::get();
+                $other_collections = \App\CtrCollegeNonDiscountedOtherFee::where('level', $request->level)->where('period', $request->period)->get();
                 $amount = $tuition_fee->per_unit;
             }else if($request->level == "Grade 11" || $request->level == "Grade 12"){
                 $miscellaneous_fees = \App\CtrBedFee::where('level', $request->level)->where('category_switch', 1)->get();
