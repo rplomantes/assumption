@@ -28,7 +28,7 @@
         @if($is_search != 1)
         <td>{{$list->idno}}</td>
         <td>{{$status->getFullNameAttribute()}}</td>
-        <td>@if($list->two_factor_expires_at < date('Y-m-d H:i:s')){{$list->two_factor_code}}(Expired) @else {{$list->two_factor_code}} @endif</td>
+        <td>@if($list->two_factor_expires_at < date('Y-m-d H:i:s') && $list->two_factor_expires_at != null){{$list->two_factor_code}}(Expired) @else {{$list->two_factor_code}} @endif</td>
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
