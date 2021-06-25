@@ -5,6 +5,7 @@
         @if($is_search != 1)
         <th>Student ID</th>
         <th>Student Name</th>
+        <th>Two Factor Code</th>
         <th>Status</th>
         <th>Level/Program</th>
         <th>View Info</th>
@@ -27,6 +28,7 @@
         @if($is_search != 1)
         <td>{{$list->idno}}</td>
         <td>{{$status->getFullNameAttribute()}}</td>
+        <td>{{$list->two_factor_code}}</td>
         <td>
             @if($status->status == 3)Enrolled
             @elseif($status->status == 2) Assessed
