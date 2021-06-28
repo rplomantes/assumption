@@ -465,7 +465,9 @@ $previousarray = json_encode($previousarray);
                 if($("#explanation").val() == ""){
                     alert("Please Fillup Details");
                 }else{
-                    if($("#main_due").val() == parseFloat($("#miscellaneous").val()) + parseFloat($("#other_fee").val())+ parseFloat($("#depository").val()) + parseFloat($("#optional").val()) + parseFloat($("#srf").val())+ parseFloat($("#tuition").val())){
+                    var total = parseFloat($("#miscellaneous").val()) + parseFloat($("#other_fee").val())+ parseFloat($("#depository").val()) + parseFloat($("#optional").val()) + parseFloat($("#srf").val())+ parseFloat($("#tuition").val())
+                    
+                    if($("#main_due").val() == total.toFixed(2)){
                     computeToBePaid()
                     $("#previous_balance").attr('readonly', true);
                     $("#main_due").attr('readonly', true);
