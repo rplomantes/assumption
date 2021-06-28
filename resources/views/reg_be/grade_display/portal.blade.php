@@ -75,4 +75,30 @@
         </div>
     </div> 
 </div>
+<div class="col-md-6">  
+    <div class="box">
+        <div class="box-header">
+            <div class="box-title">School Year and Period</div>
+        </div>
+        <div class="box-body">
+            <i>Note: This settings is for the displaying of Grades in the Student Portal for both Report Card and View Grades.</i>
+            <table class="table table-condensed">
+                <form method='post' action='{{url('/update_report_card_sy_display')}}'>
+                    {{csrf_field()}}
+                <tr>
+                    <td>School Year</td>
+                    <td><input type='text' class='form-control' name='school_year' value='{{$period_setting->school_year}}'></td>
+                </tr>
+                <tr>
+                    <td>Period</td>
+                    <td><input type='text' class='form-control' name='period' value='{{$period_setting->period}}'></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type='submit' value='Update Period' class='btn btn-success col-sm-12'></td>
+                </tr>
+                </form>
+            </table>
+        </div>
+    </div> 
+</div>
 @endsection

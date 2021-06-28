@@ -628,8 +628,11 @@ Route::get('/college_instructor/my_schedule','CollegeInstructor\MyScheduleContro
 Route::get('/ajax/college_instructor/generateSchedule/','CollegeInstructor\AjaxMyScheduleController@getMySchedule');
 Route::get('/college_instructor/print_my_schedule/{school_year}/{period}','CollegeInstructor\MyScheduleController@print_my_schedule');
 
+//Paynamics Settings admin
+Route::get('/admin/paynamics_manual_posting','Admin\PaynamicsController@manual_posting');
+Route::get('/admin/paynamics_credentials','Admin\PaynamicsController@credential_index');
+Route::post('/admin/update_paygate_details','Admin\PaynamicsController@credential_update');
 
-Route::get('/admin/settings_paynamics','Admin\PaynamicsController@settings');
 
 //Online Payment in Cashier
 Route::get('/cashier/online_payment/{date_from}/{date_to}','Cashier\OnlinePayment@index');
@@ -656,6 +659,7 @@ Route::get('/bedregistrar/ajax/getstudentlist_holdgrades','BedRegistrar\Ajax\Get
 //displaying of grades in student portal bed
 Route::get('/bedregistrar/grade_portal_display_settings','BedRegistrar\GradeDisplayController@view');
 Route::get('/bedregistrar/grade_portal_display_settings/update_levels/{level}','BedRegistrar\GradeDisplayController@updateStatus');
+Route::post('/update_report_card_sy_display','BedRegistrar\GradeDisplayController@updatePeriod');
 
 //Report Card Sequencing
 Route::get('/bedregistrar/report_card_sequencing','BedRegistrar\ReportCardSequencing@index');

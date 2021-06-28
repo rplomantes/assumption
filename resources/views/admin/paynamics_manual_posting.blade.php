@@ -24,11 +24,11 @@
 @section('header')
 <section class="content-header">
     <h1>
-        Dashboard
+        Paynamics Manual Posting
         <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li class="active"><a href="/"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active"><a href="/"><i class="fa fa-home"></i> Paynamics Manual Posting</a></li>
     </ol>
 </section>
 @endsection

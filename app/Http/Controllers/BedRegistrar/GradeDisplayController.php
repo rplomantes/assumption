@@ -15,7 +15,8 @@ class GradeDisplayController extends Controller
     
     function view(){
         $view_grades = \App\CtrBedDisplayGrade::all();
-        return view('reg_be.grade_display.portal',compact('view_grades'));
+        $period_setting = \App\CtrReportCardSyDisplay::first();
+        return view('reg_be.grade_display.portal',compact('view_grades','period_setting'));
     }
     
     function updateStatus($level){
@@ -33,5 +34,15 @@ class GradeDisplayController extends Controller
         
         $view_grades = \App\CtrBedDisplayGrade::all();
         return view('reg_be.grade_display.portal',compact('view_grades'));
+    }
+    
+    function updatePeriod(Request $request){
+        $period_setting = \App\CtrReportCardSyDisplay::first();
+        $period_setting->school_year = $request->school_year;
+        $period_setting->period = $request->period;
+        $period_setting->save();
+        \App\Http\Controllers\Admin\Logs::log("Update CtrReporCardSyDisplay school_year: $request->school_year; period: $request->period.");
+        
+        return redirect('bedregistrar/grade_portal_display_settings');
     }
 }

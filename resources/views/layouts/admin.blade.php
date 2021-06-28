@@ -106,23 +106,56 @@ if (file_exists(public_path("images/" . Auth::user()->idno . ".jpg"))) {
                         <li class="header">MENU</li>
                         <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                         <li><a href="{{url('/register')}}"><i class="fa fa-users"></i> <span>Register User</span></a></li>
-                        <li><a href="{{url('/admin/settings_paynamics')}}"><i class="fa fa-users"></i> <span>Paynamics</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Payment Plan</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Discount</span></a></li>
-                        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Set Email</span></a></li>
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-link"></i> <span>Cut-Off</span>
+                            <a href="#"><i class="fa fa-link"></i> <span>Paynamics</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"><i class="fa fa-link"></i> <span>Batch Promotion</span></a></li>
-                                <li><a href="{{url('/bedregistrar',array('individual_promotions'))}}"><i class="fa fa-link"></i> <span>Individual Promotion</span></a></li>
+                                <li><a href="{{url('/admin/paynamics_credentials')}}"><i class="fa fa-users"></i> <span>Paynamics Credentials</span></a></li>
+                                <li><a href="{{url('/admin/paynamics_manual_posting')}}"><i class="fa fa-users"></i> <span>Manual Posting</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>Enrollment Cut-Off</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/admin',array('enrollment_cut_off','BED'))}}"><i class="fa fa-link"></i> <span>BED</span></a></li>
+                                <li><a href="{{url('/admin',array('enrollment_cut_off','SHS'))}}"><i class="fa fa-link"></i> <span>SHS</span></a></li>
+                                <li><a href="{{url('/admin',array('enrollment_cut_off','College'))}}"><i class="fa fa-link"></i> <span>College</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>Enrollment Dates</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/admin',array('enrollment_date','BED'))}}"><i class="fa fa-link"></i> <span>BED</span></a></li>
+                                <li><a href="{{url('/admin',array('enrollment_date','SHS'))}}"><i class="fa fa-link"></i> <span>SHS</span></a></li>
+                                <li><a href="{{url('/admin',array('enrollment_date','College'))}}"><i class="fa fa-link"></i> <span>College</span></a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>School Years</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"><i class="fa fa-link"></i> <span>BED</span></a></li>
+                                <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"><i class="fa fa-link"></i> <span>SHS</span></a></li>
+                                <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"><i class="fa fa-link"></i> <span>College</span></a></li>
                             </ul>
                         </li>
                         <li><a href="{{url('/admin/logs')}}"><i class="fa fa-link"></i> <span>Logs</span></a></li>
-                        <li><a href="{{url('/admin/re_assess')}}"><i class="fa fa-link"></i> <span>Re-assess BED Early Enrollments</span></a></li>
+                        <!--<li><a href="{{url('/admin/re_assess')}}"><i class="fa fa-link"></i> <span>Re-assess BED Early Enrollments</span></a></li>-->
                 </section>
             </aside>
             <div class="content-wrapper">
