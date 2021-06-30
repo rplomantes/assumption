@@ -685,3 +685,7 @@ Route::get('/ajax/get_municipality','AdmissionBED\Ajax\GetStudentList@getMunicip
 Route::get('/ajax/get_brgy','AdmissionBED\Ajax\GetStudentList@getBarangay');
 
 
+//Online payment portal instruction
+Route::get('online_payment_portal_instructions','Admin\PaynamicsController@portal_instruction');
+Route::post('online_payment_portal_instructions/update','Admin\PaynamicsController@update_portal_instruction');
+

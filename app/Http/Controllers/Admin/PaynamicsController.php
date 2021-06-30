@@ -29,4 +29,18 @@ class PaynamicsController extends Controller
         
         return redirect('admin/paynamics_credentials');
     }
+    
+    function portal_instruction(){
+        $message = \App\OnlinePaymentNote::first()->message;
+        return view('admin.online_payment_instruction',compact('message'));
+    }
+    
+    function update_portal_instruction(Request $request){
+        $message = \App\OnlinePaymentNote::first();
+        $message->message = $request->message;
+        $message->save();
+        \App\Http\Controllers\Admin\Logs::log("Update online payment portal instructions");
+        
+        return redirect('online_payment_portal_instructions');
+    }
 }
