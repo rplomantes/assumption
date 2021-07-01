@@ -94,6 +94,9 @@ class HomeController extends Controller {
             case 80:
                 return view('scholarship_hed.index');
                 break;
+            case 81:
+                return view('scholarship_bed.index');
+                break;
             case 90:
                 Auth::logout();
                 return view('auth.login')->withErrors("Access Denied - Not Authorized");

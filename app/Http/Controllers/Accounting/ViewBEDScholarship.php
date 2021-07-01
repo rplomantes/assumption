@@ -18,7 +18,7 @@ class ViewBEDScholarship extends Controller {
     }
 
     function index($idno) {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_BED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             $scholar = \App\BedScholarship::where('idno', $idno)->first();
             if(!isset($scholar)){
                 $new_scholar = new \App\BedScholarship;
@@ -44,7 +44,7 @@ class ViewBEDScholarship extends Controller {
 //    }
 
     function update_now(Request $request) {
-        if (Auth::user()->accesslevel == env("SCHOLARSHIP_HED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("SCHOLARSHIP_BED") || Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
             DB::beginTransaction();
             SiblingsBenefits::remove_benefits($request->idno);
             $scholar = \App\BedScholarship::where('idno', $request->idno)->first();

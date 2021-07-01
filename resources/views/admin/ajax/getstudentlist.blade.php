@@ -67,6 +67,9 @@
                 @case (80)
                     Scholarship HED
                 @break
+                @case (81)
+                    Scholarship BED
+                @break
                 @case (90)
                     BED Academic
                 @break

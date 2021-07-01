@@ -11,10 +11,12 @@ if (file_exists(public_path("images/" . $user->idno . ".jpg"))) {
 }
 ?>
 <?php
-if(Auth::user()->accesslevel == env('ACCTNG_HEAD')){
-$layout = "layouts.appaccountinghead";
-} else if(Auth::user()->accesslevel == env('ACCTNG_HEAD')){
-$layout = "layouts.appaccountingstaff";
+if (Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+    $layout = "layouts.appaccountingstaff";
+} else if (Auth::user()->accesslevel == env("ACCTNG_HEAD")) {
+    $layout = "layouts.appaccountinghead";
+} else if (Auth::user()->accesslevel == env("SCHOLARSHIP_BED")) {
+    $layout = "layouts.appscholarship_bed";
 }
 ?>
 

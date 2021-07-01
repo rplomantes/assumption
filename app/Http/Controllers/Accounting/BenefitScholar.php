@@ -17,13 +17,13 @@ class BenefitScholar extends Controller
     }
 
     function index() {
-        if (Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("SCHOLARSHIP_BED")) {
             return view('accounting.benefit_scholar.index');
         }
     }
 
     function bed_index() {
-        if (Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF")) {
+        if (Auth::user()->accesslevel == env("ACCTNG_HEAD") || Auth::user()->accesslevel == env("ACCTNG_STAFF") || Auth::user()->accesslevel == env("SCHOLARSHIP_BED")) {
             return view('accounting.benefit_scholar.bed_index');
         }
     }
