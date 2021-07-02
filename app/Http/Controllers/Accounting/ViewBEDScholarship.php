@@ -73,7 +73,7 @@ class ViewBEDScholarship extends Controller {
                 $scholar->remarks = $request->remarks;
             }
             $scholar->save();
-            \App\Http\Controllers\Accounting\SetReceiptController::log("Update scholarship of" . $request->idno);
+            \App\Http\Controllers\Accounting\SetReceiptController::log("Update scholarship of " . $request->idno . "TF:$request->tf, OF:$request->of, NonD:$request->non_discounted, SRF: $request->srf");
             DB::commit();
             return redirect(url('/accounting/bed_view_scholar/' . $request->idno));
         }
