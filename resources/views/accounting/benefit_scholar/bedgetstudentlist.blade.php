@@ -4,7 +4,7 @@
         <tr><th>Student ID</th><th>Student Name</th><th>Status</th><th>Scholarship</th><th>Update Scholarship</th></tr>
         @foreach($lists as $list)
         <?php $status = \App\Status::where('idno',$list->idno)->first(); ?>
-        <?php $scholar = \App\CollegeScholarship::where('idno',$list->idno)->first(); ?>
+        <?php $scholar = \App\BedScholarship::where('idno',$list->idno)->first(); ?>
         @if($list->accesslevel == '0' && $status->status != 21)
         <tr>
             <td>{{$list->idno}}</td><td>{{$list->lastname}}, {{$list->firstname}} {{$list->middlename}}</td>

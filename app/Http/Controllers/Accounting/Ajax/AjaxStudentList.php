@@ -112,4 +112,19 @@ class AjaxStudentList extends Controller {
         }
     }
 
+    function get_scholarship_report() {
+        if (Request::ajax()) {
+            $scholarship = Input::get("scholarship");
+            $school_year = Input::get("school_year");
+            $scholars = \App\BedLevel::where('bed_levels.status', env("ENROLLED"))
+                            ->join('users', 'users.idno', 'bed_levels.idno')
+                            ->join('bed_scholarships', 'bed_scholarships.idno', 'bed_levels.idno')
+                            ->where('school_year', $school_year)
+                            ->where('discount_code', "$scholarship")
+                            ->orderBy('users.lastname', 'asc')->get();
+
+            return view('accounting.benefit_scholar.ajax_list_of_scholars', compact('scholars', 'school_year','scholarship'));
+        }
+    }
+
 }
