@@ -230,11 +230,11 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>Contact Numbers</label>
-                            <input class="form form-control" name='tel_no' placeholder='Telephone Number' value="{{old('tel_no',$info->tel_no)}}" type="text">
+                            <input class="form form-control" name='tel_no' id='tel_no' placeholder='Telephone: (02)____-____' value="{{old('tel_no',$info->tel_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
-                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cel_no',$info->cell_no)}}" type="text">
+                            <input class="form form-control" name='cell_no' id="cell_no" placeholder='Cellphone: (0917)___-____' value="{{old('cel_no',$info->cell_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Email</label>
@@ -1330,7 +1330,10 @@ if (file_exists(public_path("images/PICTURES/" . $user->idno . ".jpg"))) {
         </div>
 @endsection
 @section('footerscript')
-<script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
+    <script>
+$('#tel_no').mask('(00)0000-0000');
+$('#cell_no').mask('(0000)000-0000');
     var a="{{$a-1}}";
     var b="{{$b-1}}";
     var c="{{$c-1}}";

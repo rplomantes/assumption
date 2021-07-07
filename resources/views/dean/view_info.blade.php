@@ -50,7 +50,7 @@ $layout = "layouts.appdean_college";
 @section('maincontent')
 
 
-<!--<form action="{{url('registrar_college', array('save_info', $idno))}}" method="post" class="form-horizontal">-->
+<div class="form-horizontal">
     {{ csrf_field() }}
     <div class="col-sm-12">
         @if (Session::has('message'))
@@ -167,7 +167,7 @@ $layout = "layouts.appdean_college";
                         </div>
                         <div class="col-sm-4">
                             <label>&nbsp;</label>
-                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cel_no',$info->cel_no)}}" type="text">
+                            <input class="form form-control" name='cell_no' placeholder='Cellphone Number' value="{{old('cel_no',$info->cell_no)}}" type="text">
                         </div>
                         <div class="col-sm-4">
                             <label>Email</label>
@@ -444,7 +444,7 @@ $layout = "layouts.appdean_college";
             </div>
         </div>
     </div>
-<!--</form>-->
+</div>
 
 <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
