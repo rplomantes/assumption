@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade;
 use App\Http\Controllers\Cashier\StudentLedger;
 use App\Http\Controllers\Cashier\StudentReservation;
+use Mail;
 
 class MainPayment extends Controller {
 
@@ -212,12 +212,26 @@ class MainPayment extends Controller {
             $no = MainPayment::getIdno($idno);
             $user->idno = $no;
             $user->save();
+            self::emailIdno($no);
         } else {
             $status = \App\Status::where('idno', $idno)->first();
             $status->is_new = 0;
             $status->update();
         }
         return $no;
+    }
+    
+    public static function emailIdno($no){
+        try {
+            $user = \App\User::where('idno',$no)->first();
+                $data = array('name' => $user->firstname . " " . $user->lastname, 'email' => $user->email);
+                Mail::send('email.new_idno', compact('user'), function($message) use($user) {
+                    $message->to($user->email, $user->firstname . " " . $user->lastname)
+                            ->subject('AC Online Enrollment');
+                    $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                });
+            } catch (\Exception $e) {
+            }
     }
 
     public static function getIdno($idno) {

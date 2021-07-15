@@ -47,15 +47,19 @@ class ForgotPasswordController extends Controller
                               ->where('accesslevel','!=',90);
                     })->first();
         if(count($checkuser)>0){
-        $response = $this->broker()->sendResetLink(
-            $request->only('idno')
-        );
+            if($checkuser->email != NULL){
+                $response = $this->broker()->sendResetLink(
+                    $request->only('idno')
+                );
+            }else{
+                return $this->sendResetLinkFailedResponse($request, "ID Number has no email registered. Please call your system adminstrator.");
+            }
 
         return $response == Password::RESET_LINK_SENT
                     ? $this->sendResetLinkResponse($response)
                     : $this->sendResetLinkFailedResponse($request, $response);
         }else{
-            return $this->sendResetLinkFailedResponse($request, "");
+            return $this->sendResetLinkFailedResponse($request, "User ID. does not exist or the account has not yet been activated.");
         }
     }
 
@@ -92,7 +96,7 @@ class ForgotPasswordController extends Controller
     {
         return back()
                 ->withInput($request->only('idno'))
-                ->withErrors(['idno' => trans("User ID. does not exist or the account has not yet been activated.")]);
+                ->withErrors(['idno' => trans("$response")]);
     }
 
     /**
