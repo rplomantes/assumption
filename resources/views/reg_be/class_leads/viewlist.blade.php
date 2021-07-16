@@ -61,7 +61,7 @@
             @endif
             <div class = "alert alert-info">
                 <ul>
-                    <li>Default Password will be the ID Number</li>
+                    <li>Default Password will be the User ID</li>
                 </ul>
             </div>
             <div class="col-md-12">
