@@ -59,7 +59,11 @@
                 </ul>
             </div>
             @endif
-
+            <div class = "alert alert-info">
+                <ul>
+                    <li>Default Password will be the ID Number</li>
+                </ul>
+            </div>
             <div class="col-md-12">
                 <div class="form form-group">
                     <input type="text" name="idno" id="idno" class="form-control" placeholder="User ID">
