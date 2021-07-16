@@ -1,16 +1,18 @@
-<?php
-$levels = DB::Select("SELECT distinct level, sort_by from ctr_academic_programs where academic_type='BED' order by sort_by");
-$strands = DB::Select("Select distinct strand from ctr_academic_programs where academic_type='BED'");
-$school_years = DB::Select("Select distinct school_year from bed_levels");
-?>
 <?php 
 if(Auth::user()->accesslevel == env('REG_BE')){
     $layout = "layouts.appbedregistrar";
 }else if (Auth::user()->accesslevel==env("EDUTECH")){
     $layout = "layouts.appedutech";    
+}else if (Auth::user()->accesslevel==env("BED_CL")){
+    $layout = "layouts.appbedclasslead";
+    $cl_levels = \App\ClassLeadLevel::where('idno',Auth::user()->idno)->get(['level']);
 }else{
     $layout = "layouts.appadmission-bed";
 }
+
+$levels = DB::Select("SELECT distinct level, sort_by from ctr_academic_programs where academic_type='BED' order by sort_by");
+$strands = DB::Select("Select distinct strand from ctr_academic_programs where academic_type='BED'");
+$school_years = DB::Select("Select distinct school_year from bed_levels");
 ?>
 @extends($layout)
 @section('messagemenu')
@@ -68,10 +70,16 @@ if(Auth::user()->accesslevel == env('REG_BE')){
          <div class="form form-group">
         <label>Level</label>
         <select class="form-control select2" id="level" data-placeholder="Select Level">
-                  <option>Select Level</option>      
-                  @foreach($levels as $level)
-                  <option>{{$level->level}}</option>
-                  @endforeach
+                  <option>Select Level</option> 
+                  @if(Auth::user()->accesslevel == env('BED_CL'))
+                      @foreach($cl_levels as $cl_level)
+                      <option>{{$cl_level->level}}</option>
+                      @endforeach
+                  @else
+                      @foreach($levels as $level)
+                      <option>{{$level->level}}</option>
+                      @endforeach
+                  @endif
         </select>
         </div>      
      </div>  

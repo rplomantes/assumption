@@ -5,6 +5,7 @@ if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
 }
 $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first();
 ?>
+<?php $date_today = date('Y-m-d'); ?>
 
 <!DOCTYPE html>
 <html>
@@ -127,8 +128,18 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-        <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$school_year->school_year))}}"><i class="fa fa-link"></i> <span>Enrollment Statistics</span></a></li>
-        <li><a href="{{url('/bedregistrar','registration')}}"><i class="fa fa-link"></i> Registration</a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Enrollment Statistics</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+                <li><a href="{{url('/bedregistrar',array('enrollment_statistics',$school_year->school_year))}}">Enrollment Statistics</a></li>
+                <li><a href="{{url('/bed_registrar', array('reports', 'total_daily_enrollment_statistics', $date_today, $date_today))}}">Daily Enrollment Statistics</a></li>
+          </ul>
+        </li>
+        <!--<li><a href="{{url('/bedregistrar','registration')}}"><i class="fa fa-link"></i> Registration</a></li>-->
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Student List</span>
             <span class="pull-right-container">
@@ -140,7 +151,8 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
             <li><a href="{{url('/bedregistrar',array('withdrawn_students'))}}">Withdrawn Students</a></li>
             <li><a href="{{url('/bedregistrar',array('assessed_students'))}}">Assessed Students</a></li>
             <li><a href="{{url('/bedregistrar',array('not_yet_enrolled'))}}">Students Not Yet Enrolled</a></li>
-            <li><a href="{{url('/accounting',array('outstanding_balances'))}}"><span>Outstanding Balances</span></a></li>
+            <li><a href="{{url('/accounting',array('outstanding_balances'))}}">Outstanding Balances</a></li>
+            <li><a href="{{url('/bedregistrar',array('directory'))}}">Directory</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -150,27 +162,24 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/bedregistrar','report_card')}}"><i class="fa fa-link"></i> Report Card</a></li>
-            <li><a href="{{url('/bedregistrar','batch_ranking')}}"><i class="fa fa-link"></i> Batch Ranking</a></li>
+            <li><a href="{{url('/bedregistrar','report_card')}}"></i> Report Card</a></li>
+            <li><a href="{{url('/bedregistrar','batch_ranking')}}"></i> Batch Ranking</a></li>
             <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> Grade Summary<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <a href="#"></i> Grade Summary<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{url('/bedregistrar','grade_summary')}}"><i class="fa fa-link"></i> Quarter Summary</a></li>
-                    <li><a href="{{url('/bedregistrar', array('all_term_summary'))}}"><i class="fa fa-link"></i> All-Term Summary</a></li>
+                    <li><a href="{{url('/bedregistrar','grade_summary')}}"></i> Quarter Summary</a></li>
+                    <li><a href="{{url('/bedregistrar', array('all_term_summary'))}}"></i> All-Term Summary</a></li>
                 </ul>
             </li>
-            <li><a href="{{url('/bedregistrar','sac_grade_summary')}}"><i class="fa fa-link"></i> SAC Grade Summary</a></li>
-            <li><a href="{{url('/bedregistrar','conduct_grade_summary')}}"><i class="fa fa-link"></i> Conduct Grade Summary</a></li>
-            <li><a href="{{url('/bedregistrar','shs_honor')}}"><i class="fa fa-link"></i> SHS Honor</a></li>
-            <li><a href="{{url('/bedregistrar','hold_students')}}"><i class="fa fa-link"></i> Hold Students</a></li>
-            <li><a href="{{url('/bedregistrar','grade_portal_display_settings')}}"><i class="fa fa-link"></i> Portal Display Settings</a></li>
-            <li><a href="{{url('/bedregistrar','report_card_sequencing')}}"><i class="fa fa-link"></i> Report Card Sequencing</a></li>
+            <li><a href="{{url('/bedregistrar','sac_grade_summary')}}"></i> SAC Grade Summary</a></li>
+            <li><a href="{{url('/bedregistrar','conduct_grade_summary')}}"></i> Conduct Grade Summary</a></li>
+            <li><a href="{{url('/bedregistrar','shs_honor')}}"></i> SHS Honor</a></li>
+            <li><a href="{{url('/bedregistrar','hold_students')}}"></i> Hold Students</a></li>
+            <li><a href="{{url('/bedregistrar','grade_portal_display_settings')}}"></i> Portal Display Settings</a></li>
+            <li><a href="{{url('/bedregistrar','report_card_sequencing')}}"></i> Report Card Sequencing</a></li>
           </ul>
         </li>
         <li><a href="{{url('/bedregistrar','sectioning')}}"><i class="fa fa-link"></i> Sectioning</a></li>
-        <?php $date_today = date('Y-m-d'); ?>
-        <li><a href="{{url('/bed_registrar', array('reports', 'total_daily_enrollment_statistics', $date_today, $date_today))}}"><i class="fa fa-link"></i> <span>Daily Enrollment Statistics</span></a></li>
-        <li><a href="{{url('/bedregistrar',array('directory'))}}"><i class="fa fa-link"></i> <span>Directory</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Promotions</span>
             <span class="pull-right-container">
@@ -178,8 +187,8 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"><i class="fa fa-link"></i> <span>Batch Promotion</span></a></li>
-            <li><a href="{{url('/bedregistrar',array('individual_promotions'))}}"><i class="fa fa-link"></i> <span>Individual Promotion</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('batch_promotions'))}}"></i> <span>Batch Promotion</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('individual_promotions'))}}"></i> <span>Individual Promotion</span></a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -189,8 +198,18 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/bedregistrar',array('benefits'))}}"><i class="fa fa-link"></i> <span>Benefits Scholar</span></a></li>
-            <li><a href="{{url('/bedregistrar',array('siblings'))}}"><i class="fa fa-link"></i> <span>Siblings Discount</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('benefits'))}}"></i> <span>Benefits Scholar</span></a></li>
+            <li><a href="{{url('/bedregistrar',array('siblings'))}}"></i> <span>Siblings Discount</span></a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Class Leads</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/bedregistrar',array('class_leads'))}}"></i> <span>Class Leaders</span></a></li>
           </ul>
         </li>
             <li><a href="{{url('/bedregistrar',array('request_form'))}}"><i class="fa fa-link"></i> <span>Credential Request</span></a></li>

@@ -122,6 +122,7 @@
                             <option value="22">OSA</option>
                             <option value="23">EduTech</option>
                             <option value="24">BED Academic Director</option>
+                            <option value="25">BED Class Lead</option>
                             <option value="30">Accounting Head</option>
                             <option value="31">Accounting Staff</option>
                             <option value="40">Cashier</option>

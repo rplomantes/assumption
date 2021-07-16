@@ -1,4 +1,4 @@
-@extends('layouts.appbedacademicdirector')
+@extends('layouts.appbedclasslead')
 @section('messagemenu')
  <li class="dropdown messages-menu">
             <!-- Menu toggle button -->

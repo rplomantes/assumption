@@ -689,3 +689,8 @@ Route::get('/ajax/get_brgy','AdmissionBED\Ajax\GetStudentList@getBarangay');
 Route::get('online_payment_portal_instructions','Admin\PaynamicsController@portal_instruction');
 Route::post('online_payment_portal_instructions/update','Admin\PaynamicsController@update_portal_instruction');
 
+//Class Leads
+Route::get('bedregistrar/class_leads','BedRegistrar\ClassLeadsController@index');
+Route::get('update_class_leads','BedRegistrar\Ajax\AjaxClassLeads@update_class_leads');
+Route::get('modify_class_leads_level','BedRegistrar\Ajax\AjaxClassLeads@modify_levels');
+Route::post('update_class_leads_level','BedRegistrar\ClassLeadsController@update_levels');

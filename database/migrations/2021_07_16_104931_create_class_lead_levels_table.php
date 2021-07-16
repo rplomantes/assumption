@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCtrReportCardSyDisplaysTable extends Migration
+class CreateClassLeadLevelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreateCtrReportCardSyDisplaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('ctr_report_card_sy_displays', function (Blueprint $table) {
+        Schema::create('class_lead_levels', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('school_year');
-            $table->string('period');
+            $table->string('idno');
+            $table->string('level');
             $table->timestamps();
+            
+            $table->foreign('idno')
+                    ->references('idno')->on('users')
+                    ->onUpdate('cascade');
         });
     }
 
@@ -28,6 +32,6 @@ class CreateCtrReportCardSyDisplaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ctr_report_card_sy_displays');
+        Schema::dropIfExists('class_lead_levels');
     }
 }

@@ -3,7 +3,6 @@ $file_exist=0;
 if(file_exists(public_path("images/".Auth::user()->idno.".jpg"))){
     $file_exist=1;
 }
-$school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first();
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +10,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Assumption College - Academic Director</title>
+  <title>Assumption College</title>
         <link rel="shortcut icon" type="image/jpg" href="{{url('/images','assumption-logo.png')}}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{{url('/bower_components',array('bootstrap','dist','css','bootstrap.min.css'))}}">
@@ -21,8 +20,6 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
   <link rel="stylesheet" href="{{url("dist",array("css","skins","skin-blue.min.css"))}}">
   <link rel="stylesheet" href="{{url("/bower_components", array("datatables.net-bs","css","dataTables.bootstrap.min.css"))}}">
   <link rel="stylesheet" href="{{url('/dist',array('css','skins','_all-skins.min.css'))}}">
-  <link rel="stylesheet" href="{{url('/dist',array('css','AdminLTE.min.css'))}}">
-  <link rel="stylesheet" href="{{url('/bower_components',array('select2','dist','css','select2.min.css'))}}">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -30,8 +27,9 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
 <div class="wrapper">
   <header class="main-header">
     <a href="{{url('/')}}" class="logo">
-      <span class="logo-mini"><b>D</b>IR</span>
-      <span class="logo-lg"><b>BED-A</b>CADEMIC DIR</span>
+      <span class="logo-mini"><b>A</b>C</span>
+      <span class="logo-lg"><b>AC</b>SIS</span>
+      <input type="hidden" id="idno" value="{{Auth::user()->idno}}">
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -41,55 +39,47 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
         <ul class="nav navbar-nav">
          
          @yield('messagemenu')
-          
-          
-          
-          <!-- User Account Menu -->
           <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
-                        @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
-                        @endif
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-               @if($file_exist==1)
-              <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
-                        @else
-                        <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
-                        @endif
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    @if($file_exist==1)
+                                    <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="user-image" alt="User Image">
+                                    @else
+                                    <img class="user-image" width="25" height="25" alt="User Image" src="/images/default.png">
+                                    @endif
+                                    <span class="hidden-xs">{{Auth::user()->lastname}}, {{Auth::user()->firstname}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        @if($file_exist==1)
+                                        <img src="/images/{{Auth::user()->idno}}.jpg"  width="25" height="25" class="img-circle" alt="User Image">
+                                        @else
+                                        <img class="img-circle" width="25" height="25" alt="User Image" src="/images/default.png">
+                                        @endif
 
-                <p>
-                  {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
-                  <small>Accounting</small>
-                </p>
-              </li>
-              
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                    
-                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
-                       onclick="event.preventDefault();
-                       document.getElementById('logout-form').submit();">
-                       <span><i class="fa fa-sign-out"></i> Logout</span>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                   </form>
-                </div>
-              </li>
-            </ul>
-          </li>
+                                        <p>
+                                            {{Auth::user()->lastname}}, {{Auth::user()->firstname}}
+                                            <small>Cashier</small>
+                                        </p>
+                                    </li>
+
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+
+                                            <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
+                                               onclick="event.preventDefault();
+                                                       document.getElementById('logout-form').submit();">
+                                                <span><i class="fa fa-sign-out"></i> Logout</span>
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="javascript:void(0)" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -126,23 +116,7 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Grades</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> Grade Summary<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{url('/bedregistrar','grade_summary')}}"><i class="fa fa-link"></i> Quarter Summary</a></li>
-                    <li><a href="{{url('/bedregistrar', array('all_term_summary'))}}"><i class="fa fa-link"></i> All-Term Summary</a></li>
-                </ul>
-            </li>
-          </ul>
-        </li>
+        <li><a href="{{url('/')}}"><i class="fa fa-home"></i> <span>Home</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -216,7 +190,75 @@ $school_year = \App\CtrEnrollmentSchoolYear::where('academic_type','BED')->first
 <!-- AdminLTE App -->
 <script src="{{url("/dist",array("js","adminlte.min.js"))}}"></script>
 @yield('footerscript')
+<div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Set Receipt</h4>
+              </div>
+              <div class="modal-body">
+                  <input type="text" class="form-control number" id="set_receipt_no" onkeypress="numberkey(event)">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setReceipt()">Save changes</button>
+              </div>
+            </div>
+  </div>
+   <style>
+    .example-modal .modal {
+      position: relative;
+      top: auto;
+      bottom: auto;
+      right: auto;
+      left: auto;
+      display: block;
+      z-index: 1;
+    }
 
+    .example-modal .modal {
+      background: transparent !important;
+    }
+  </style>  
+  <script>
+  function getReceipt(){
+      // alert($("#idno").val())
+      var array={};
+      array['idno']= $("#idno").val();
+      $.ajax({
+          type:"get",
+          url:"/cashier/ajax/getreceipt",
+          data:array,
+          success:function(data){
+              $("#set_receipt_no").val(data);
+          }
+      })
+  }
+  function setReceipt(){
+      var array={};
+      array['idno']= $("#idno").val();
+      array['new_no']=$("#set_receipt_no").val();
+      $.ajax({
+          type:"get",
+          url:"/cashier/ajax/setreceipt",
+          data:array,
+          success:function(data){
+              if(data){
+              alert("Successfully Changed!!")
+          }
+          }
+      })
+  }
+  
+  function numberkey(e){
+      var theEvent = e || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        if ((key < 48 || key > 57) && !(key == 8 || key == 9 || key == 13 || key == 37 || key == 39 || key == 46) ){ 
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+  }}
+  </script>
 </body>
 </html>
-

@@ -6,6 +6,9 @@ $school_years = DB::Select("Select distinct school_year from bed_levels");
 <?php 
 if(Auth::user()->accesslevel == env('REG_BE')){
     $layout = "layouts.appbedregistrar";
+}else if (Auth::user()->accesslevel==env("BED_CL")){
+    $layout = "layouts.appbedclasslead";
+    $cl_levels = \App\ClassLeadLevel::where('idno',Auth::user()->idno)->get(['level']);
 }else{
     $layout = "layouts.appadmission-bed";
 }
@@ -67,9 +70,15 @@ if(Auth::user()->accesslevel == env('REG_BE')){
         <label>Level</label>
         <select class="form-control select2" id="level" data-placeholder="Select Level">
                   <option>Select Level</option>      
-                  @foreach($levels as $level)
-                  <option>{{$level->level}}</option>
-                  @endforeach
+                  @if(Auth::user()->accesslevel == env('BED_CL'))
+                      @foreach($cl_levels as $cl_level)
+                      <option>{{$cl_level->level}}</option>
+                      @endforeach
+                  @else
+                      @foreach($levels as $level)
+                      <option>{{$level->level}}</option>
+                      @endforeach
+                  @endif
         </select>
         </div>      
      </div>  

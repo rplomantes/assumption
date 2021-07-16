@@ -21,7 +21,7 @@ class DirectoryController extends Controller
     
 
     function student_list() {
-        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED')) {
+        if (Auth::user()->accesslevel == env("REG_BE") || Auth::user()->accesslevel == env('ADMISSION_BED') || Auth::user()->accesslevel == env('BED_CL')) {
             $students = \App\Status::where('academic_type', "BED")->where('status', env("ENROLLED"))->get();
             return view("reg_be.directory", compact('students'));
         }
